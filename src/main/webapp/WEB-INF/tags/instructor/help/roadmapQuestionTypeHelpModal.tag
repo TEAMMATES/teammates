@@ -11,16 +11,15 @@
           <span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title" id="fbEssay">
+        <a href="/instructorHelp.jsp#fbQuestionTypes"
+           target="_blank" rel="noopener noreferrer"
+           class="question-type-help-modal-glyphicon"
+           data-toggle="tooltip" data-placement="top"
+           title="Click to open the help page in a new tab">
+          <i class="glyphicon glyphicon-info-sign"></i>
+        </a>
+        <h4 class="modal-title question-type-help-modal-title" id="fbEssay">
           Available Question Types
-
-          <a href="/instructorHelp.jsp#fbQuestionTypes"
-             target="_blank" rel="noopener noreferrer"
-             class="question-type-help-modal-glyphicon"
-             data-toggle="tooltip" data-placement="top"
-             title="Click to open the help page in a new tab">
-            <i class="glyphicon glyphicon-info-sign"></i>
-          </a>
         </h4>
 
       </div>

@@ -11,16 +11,15 @@
           <span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
         </button>
-        <h4 class="modal-title" id="fbMcq">
+        <a href="javascript:;"
+           data-modal-link = "questionTypeHelpModal_roadmap"
+           class="button_questionTypeHelpModal question-type-help-modal-glyphicon"
+           data-toggle="tooltip" data-placement="top"
+           title="Click to go back to Available Question Types">
+          <i class="glyphicon glyphicon-circle-arrow-left"></i>
+        </a>
+        <h4 class="modal-title question-type-help-modal-title" id="fbMcq">
           Multiple-choice (single answer) question
-
-          <a href="javascript:;"
-             data-modal-link = "questionTypeHelpModal_roadmap"
-             class="button_questionTypeHelpModal question-type-help-modal-glyphicon"
-             data-toggle="tooltip" data-placement="top"
-             title="Click to go back to Available Question Types">
-            <i class="glyphicon glyphicon-circle-arrow-left"></i>
-          </a>
         </h4>
       </div>
       <div class="modal-body question-type-help-modal-body" id="questionTypeHelpModalBody_mcq">

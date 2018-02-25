@@ -1274,7 +1274,12 @@ Default to alert color for visibility titles used within an alert context.
 }
 
 .question-type-help-modal-glyphicon {
-    margin-left: 30px;
+    font-size: 20px;
+}
+
+.question-type-help-modal-title {
+    display: inline;
+    margin-left: 20px;
 }
 
 /* /////////////////////////////////////////////////////////
