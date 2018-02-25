@@ -63,6 +63,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(session.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
+        InstructorAttributes instructorToNotify = instructorsLogic.getInstructorForGoogleId(session.getCourseId(),
+                "idOfInstructor1OfCourse1");
 
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
 
@@ -82,7 +84,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session reminders");
 
-        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors, instructors);
+        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors, instructorToNotify);
         assertEquals(15, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
