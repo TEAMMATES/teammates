@@ -4,14 +4,14 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
 <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px<c:if test="${not actions.allowedToEdit}"> disabled</c:if>"
-    href="${actions.editLink}"
+    href="${actions.allowedToEdit ? actions.editLink : 'javascript:;'}"
     title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
     data-toggle="tooltip"
     data-placement="top">
   Edit
 </a>
 <a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
-    href="${actions.deleteLink}"
+    href="${actions.allowedToDelete ? actions.deleteLink : 'javascript:;'}"
     title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
     data-toggle="tooltip"
     data-placement="top"
@@ -39,7 +39,7 @@
     data-placement="top"
     style="display: inline-block; padding-right: 5px;">
   <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px<c:if test="${not actions.allowedToSubmit}"> disabled</c:if>"
-      href="${actions.submitLink}">
+      href="${actions.allowedToSubmit ? actions.submitLink : 'javascript:;'}">
     Submit
   </a>
 </div>
@@ -75,7 +75,7 @@
     style="display: inline-block; padding-right: 5px;">
   <div class="btn-group margin-bottom-7px">
     <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test<c:if test="${not actions.allowedToRemind || actions.privateSession}"> disabled</c:if>"
-        href="${actions.remindLink}"
+        href="${actions.allowedToRemind && not actions.privateSession ? actions.remindLink : 'javascript:;'}"
         data-fsname="${actions.fsName}">
       Remind
     </a>

@@ -20,7 +20,7 @@
     </div>
     <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test<c:if test="${not course.instructorAllowedToModify}"> disabled</c:if>"
         id="enroll-${index}"
-        href="${course.instructorCourseEnrollLink}"
+        href="${course.instructorAllowedToModify ? course.instructorCourseEnrollLink : 'javascript:;'}"
         title="<%= Const.Tooltips.COURSE_ENROLL %>"
         data-toggle="tooltip"
         data-placement="top">

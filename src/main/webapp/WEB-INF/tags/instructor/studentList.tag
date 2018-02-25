@@ -105,6 +105,7 @@
                       <c:choose>
                         <c:when test="${not viewButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                          href="javascript:;"
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
@@ -121,6 +122,7 @@
                       <c:choose>
                         <c:when test="${not editButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                          href="javascript:;"
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
@@ -138,6 +140,7 @@
                         <c:choose>
                           <c:when test="${not remindButtonEnabled}">
                             title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                            href="javascript:;"
                           </c:when>
                           <c:otherwise>
                             title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
@@ -155,6 +158,7 @@
                       <c:choose>
                         <c:when test="${not deleteButtonEnabled}">
                           title="<%= Const.Tooltips.ACTION_NOT_ALLOWED %>"
+                          href="javascript:;"
                         </c:when>
                         <c:otherwise>
                           title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"

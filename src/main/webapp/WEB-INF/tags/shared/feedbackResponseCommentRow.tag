@@ -43,7 +43,7 @@
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
         <form class="responseCommentDeleteForm pull-right">
-          <a href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>"
+          <a href="${frc.editDeleteEnabled ? <%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %> : 'javascript:;'}"
               type="button"
               id="commentdelete-${divId}"
               class="btn btn-default btn-xs icon-button<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
