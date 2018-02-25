@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackEdit - Question Type Help Modal For Essay" pageEncoding="UTF-8" %>
+<%@ tag description="instructorFeedbackEdit - Question Type Help Modal Roadmap" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/help" prefix="instructorHelp" %>
 
@@ -18,7 +18,7 @@
            title="Click to open the help page in a new tab">
           <i class="glyphicon glyphicon-info-sign"></i>
         </a>
-        <h4 class="modal-title question-type-help-modal-title" id="fbEssay">
+        <h4 class="modal-title question-type-help-modal-title" id="fbQuestionTypes">
           Available Question Types
         </h4>
 
