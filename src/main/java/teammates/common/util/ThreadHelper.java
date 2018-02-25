@@ -34,8 +34,10 @@ public final class ThreadHelper {
 
     public static String getCurrentThreadStack() {
         StringWriter sw = new StringWriter();
-        new Throwable("").printStackTrace(new PrintWriter(sw));
-        return "\n" + sw.toString();
+        try (PrintWriter pw = new PrintWriter(sw)) {
+            new Throwable("").printStackTrace(pw);
+            return "\n" + sw.toString();
+        }
     }
 
 }
