@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="org.joda.time.DateTimeZone" %>
 <%@ page import="teammates.common.util.FrontEndLibrary" %>
+<%@ page import="java.time.ZoneId" %>
+<%@ page import="java.time.Instant" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,11 +10,11 @@
   <body>
     <table>
       <tr>
-        <td id="jodatime">
+        <td id="javatime">
           <%
-          long date = new Date().getTime();
-          for (String timeZone: DateTimeZone.getAvailableIDs()) {
-            int offset = DateTimeZone.forID(timeZone).getOffset(date) / 60 / 1000; %>
+          Instant now = Instant.now();
+          for (String timeZone: ZoneId.getAvailableZoneIds()) {
+            int offset = ZoneId.of(timeZone).getRules().getOffset(now).getTotalSeconds() / 60; %>
             <%= timeZone %> <%= offset %><br>
           <% } %>
         </td>
