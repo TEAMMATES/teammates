@@ -671,7 +671,7 @@ function deleteQuestion(questionNum) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
         $(`#form_editquestion-${questionNum}`).submit();
     };
-    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null, null, null, StatusType.DANGER);
+    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback, null, null, null, BootstrapContextualColors.DANGER);
     return false;
 }
 
