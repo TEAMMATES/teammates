@@ -1,4 +1,4 @@
-<%@ tag description="instructorHelpSessions and instructorFeedbackEdit - Essay Question Body" pageEncoding="UTF-8" %>
+<%@ tag description="instructorHelpSessions and instructorFeedbackEdit - MCQ Question Body" pageEncoding="UTF-8" %>
 
 Multiple-choice (single answer) questions allows you to specify several options, and lets students select one of them as the answer.
 <br> Other than specifying several options by yourself, TEAMMATES also supports
@@ -241,7 +241,7 @@ Multiple-choice (single answer) questions allows you to specify several options,
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype-2" name="givertype">
+                <select class="form-control participantSelect" id="givertype-2" name="questionhelp-givertype">
 
                   <option selected="" value="SELF">
                     Feedback session creator (i.e., me)
@@ -263,47 +263,47 @@ Multiple-choice (single answer) questions allows you to specify several options,
               </div>
             </div>
             <div data-original-title="Who the feedback is about" class="col-sm-12 col-lg-6 padding-0 margin-bottom-7px" data-toggle="tooltip" data-placement="top" title="">
-              <label class="col-sm-4 col-lg-5 control-label">
-                Who the feedback is about:
-              </label>
-              <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
+            <label class="col-sm-4 col-lg-5 control-label">
+              Who the feedback is about:
+            </label>
+            <div class="col-sm-8 col-lg-7">
+              <select class="form-control participantSelect" id="recipienttype-2" name="questionhelp-recipienttype">
 
-                  <option value="SELF">
-                    Giver (Self feedback)
-                  </option>
+                <option value="SELF">
+                  Giver (Self feedback)
+                </option>
 
-                  <option value="STUDENTS">
-                    Other students in the course
-                  </option>
+                <option value="STUDENTS">
+                  Other students in the course
+                </option>
 
-                  <option value="INSTRUCTORS">
-                    Instructors in the course
-                  </option>
+                <option value="INSTRUCTORS">
+                  Instructors in the course
+                </option>
 
-                  <option value="TEAMS">
-                    Other teams in the course
-                  </option>
+                <option value="TEAMS">
+                  Other teams in the course
+                </option>
 
-                  <option value="OWN_TEAM">
-                    Giver's team
-                  </option>
+                <option value="OWN_TEAM">
+                  Giver's team
+                </option>
 
-                  <option style="display: block;" value="OWN_TEAM_MEMBERS">
-                    Giver's team members
-                  </option>
+                <option style="display: block;" value="OWN_TEAM_MEMBERS">
+                  Giver's team members
+                </option>
 
-                  <option style="display: block;" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
-                    Giver's team members and Giver
-                  </option>
+                <option style="display: block;" value="OWN_TEAM_MEMBERS_INCLUDING_SELF">
+                  Giver's team members and Giver
+                </option>
 
-                  <option selected="" value="NONE">
-                    Nobody specific (For general class feedback)
-                  </option>
+                <option selected="" value="NONE">
+                  Nobody specific (For general class feedback)
+                </option>
 
-                </select>
-              </div>
+              </select>
             </div>
+          </div>
             <div style="display: none;" class="col-sm-12 row numberOfEntitiesElements">
               <label class="control-label col-sm-4 small">
                 The maximum number of <span class="number-of-entities-inner-text">students</span> each respondent should give feedback to:
@@ -666,7 +666,7 @@ Example with generated options:
                 Who will give the feedback:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="givertype-2" name="givertype">
+                <select class="form-control participantSelect" id="givertype-2" name="questionhelp-givertype">
 
                   <option selected="" value="SELF">
                     Feedback session creator (i.e., me)
@@ -692,7 +692,7 @@ Example with generated options:
                 Who the feedback is about:
               </label>
               <div class="col-sm-8 col-lg-7">
-                <select class="form-control participantSelect" id="recipienttype-2" name="recipienttype">
+                <select class="form-control participantSelect" id="recipienttype-2" name="questionhelp-recipienttype">
 
                   <option value="SELF">
                     Giver (Self feedback)

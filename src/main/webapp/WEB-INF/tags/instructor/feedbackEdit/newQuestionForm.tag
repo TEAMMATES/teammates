@@ -147,3 +147,4 @@
 
 <instructorHelp:roadmapQuestionTypeHelpModal />
 <instructorHelp:essayQuestionTypeHelpModal />
+<instructorHelp:mcqQuestionTypeHelpModal />

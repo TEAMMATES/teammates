@@ -8,7 +8,9 @@ TEAMMATES currently provides the following question types. Click to see details 
     </a>
   </li>
   <li>
-    <a href="#fbMcq">Multiple-choice (single answer) question</a>
+    <a href="javascript:;" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_mcq">
+      Multiple-choice (single answer) question
+    </a>
   </li>
   <li>
     <a href="#fbMsq">Multiple-choice (multiple answers) question</a>
