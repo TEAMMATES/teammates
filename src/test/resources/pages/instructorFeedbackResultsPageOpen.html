@@ -3042,7 +3042,7 @@
                 <td class="word-wrap-break middlealign">
                 </td>
                 <td class="word-wrap-break middlealign">
-                  Team 1.1&lt;/td&gt;&lt;/div&gt;'"
+                  Team 1&lt;/td&gt;&lt;/div&gt;'"
                 </td>
                 <td class="word-wrap-break middlealign">
                 </td>
@@ -3053,6 +3053,13 @@
                   Response from team 1 (by alice) to team 2.
                 </td>
                 <td>
+                 <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
+                    <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
+                    <input name="fsname" type="hidden" value="First Session">
+                    <input name="moderatedquestionid" type="hidden" value="${question.id}">
+                    <input name="moderatedperson" type="hidden" value="Team 1</td></div>'&quot;">
+                  </form>
                   <button class="btn btn-default btn-xs comment-button" data-giverindex="1" data-qnindex="0" data-recipientindex="2" data-target="#commentModal-2-1-0" data-toggle="modal" style="margin-top:0.5em;" type="button">
                     Add Comment
                   </button>
@@ -3074,7 +3081,7 @@
                                 <div class="form-group form-inline">
                                   <div class="form-group text-muted">
                                     <p>
-                                      Giver: Team 1.1&lt;/td&gt;&lt;/div&gt;'"
+                                      Giver: Team 1&lt;/td&gt;&lt;/div&gt;'"
                                       <br>
                                       Recipient: Team 2
                                     </p>
@@ -3158,7 +3165,7 @@
                                 <input name="questionid" type="hidden" value="${question.id}">
                                 <input name="isOnQuestionsPage" type="hidden" value="true">
                                 <input name="fsindex" type="hidden" value="2">
-                                <input name="responseid" type="hidden" value="${question.id}%Team 1.1</td></div>'&quot;%Team 2">
+                                <input name="responseid" type="hidden" value="${question.id}%Team 1</td></div>'&quot;%Team 2">
                                 <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                 <input name="fsname" type="hidden" value="First Session">
                                 <input name="user" type="hidden" value="CFResultsUiT.instr">
