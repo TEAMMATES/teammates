@@ -14,7 +14,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  */
 public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
-    private static final int QUESTION_INDEX_ONE = 1;
+    private static final int NEW_QUESTION_INDEX = -1;
 
     private InstructorFeedbackEditPage feedbackEditPage;
 
@@ -65,7 +65,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: Check UI after cancelling and add new MSQ question again");
 
-        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-QUESTION_INDEX_ONE);
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX);
         assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
@@ -77,7 +77,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect--1"));
 
-        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-QUESTION_INDEX_ONE); //Make the generate options checkbox unchecked
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX); //Make the generate options checkbox unchecked
 
     }
 
@@ -182,10 +182,10 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MSQ: edit question success");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillQuestionTextBox("edited msq qn text", QUESTION_INDEX_ONE);
-        feedbackEditPage.fillQuestionDescription("more details", QUESTION_INDEX_ONE);
+        feedbackEditPage.fillQuestionTextBox("edited msq qn text", 1);
+        feedbackEditPage.fillQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
-        feedbackEditPage.clickRemoveMsqOptionLink(0, QUESTION_INDEX_ONE);
+        feedbackEditPage.clickRemoveMsqOptionLink(0, 1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
@@ -269,7 +269,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq generated options");
-        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-QUESTION_INDEX_ONE);
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX);
         checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(-1);
 
         feedbackEditPage.clickAddQuestionButton();
@@ -279,7 +279,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         // MSQ question with options generated from students
         feedbackEditPage.clickEditQuestionButton(2);
         checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(2);
-        feedbackEditPage.clickDeleteQuestionLink(QUESTION_INDEX_ONE);
+        feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
     }
@@ -429,13 +429,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: qn delete then cancel");
 
-        feedbackEditPage.clickDeleteQuestionLink(QUESTION_INDEX_ONE);
+        feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("MSQ: qn delete then accept");
 
-        feedbackEditPage.clickDeleteQuestionLink(QUESTION_INDEX_ONE);
+        feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
