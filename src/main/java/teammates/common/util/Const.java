@@ -858,11 +858,9 @@ public final class Const {
 
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
-        public static final String SUBMISSION_COURSELIST = "courses";
         public static final String SUBMISSION_FEEDBACK = "feedback";
-        public static final String SUBMISSION_FEEDBACKLIST = "feedbacks";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
-        public static final String SUBMISSION_RESEND_USER = "userToResend";
+        public static final String SUBMISSION_RESEND_LINK_USER = "userToResend";
 
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 
@@ -1009,6 +1007,7 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+        public static final String STUDENT_FEEDBACK_LINK_RESEND_PAGE = "/page/studentFeedbackResultLinkResendPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
@@ -1365,6 +1364,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_REMINDERSSENT =
                 "Reminder e-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
+        public static final String FEEDBACK_SESSION_LINK_RESENT =
+                "Recent feedback session links has been sent out to the student who requested for a resent. "
+                + "Please allow up to 1 hour for the notification email to be sent out.";
         public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
                 "The feedback session is not open for submissions. "
                 + "You cannot send reminders for a session that is not open.";
