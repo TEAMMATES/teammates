@@ -172,7 +172,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertFalse(account.isInstructor);
 
         assertNull("student profile should be null", copy.studentProfile);
-
         assertNull("google id should be null", copy.googleId);
         assertNull("name should be null", copy.name);
         assertNull("institute should be null", copy.institute);
