@@ -537,17 +537,8 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    if ($(`#generateOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
-        $(`#mcqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
-    } else {
-        $(`#mcqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
-    }
+    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
+    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
