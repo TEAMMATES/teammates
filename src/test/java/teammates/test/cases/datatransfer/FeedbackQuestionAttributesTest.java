@@ -3,6 +3,7 @@ package teammates.test.cases.datatransfer;
 import static teammates.common.util.Const.EOL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -344,6 +345,23 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+    }
+
+    @Test
+    public void testEqualsShowGiverNameTo() {
+        FeedbackQuestionAttributes first = new FeedbackQuestionAttributes();
+        FeedbackQuestionAttributes snd = new FeedbackQuestionAttributes();
+
+        List<FeedbackParticipantType> instructors = Arrays.asList(FeedbackParticipantType.INSTRUCTORS);
+        List<FeedbackParticipantType> students = Arrays.asList(FeedbackParticipantType.STUDENTS);
+
+        first.showGiverNameTo = instructors;
+        snd.showGiverNameTo = students;
+
+        boolean a = first.equals(snd);
+        // first.showGiverNameTo is not equal to snd.showGiverNameTo
+        assertFalse(a);
+
     }
 
 }
