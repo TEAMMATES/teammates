@@ -260,7 +260,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorList) {
-            fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId, instructor.email));
+            fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId));
         }
 
         return fsList;
@@ -268,7 +268,7 @@ public final class FeedbackSessionsLogic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionListForInstructor(
             InstructorAttributes instructor) {
-        return getFeedbackSessionsListForCourse(instructor.courseId, instructor.email);
+        return getFeedbackSessionsListForCourse(instructor.courseId);
     }
 
     /**
@@ -2052,10 +2052,8 @@ public final class FeedbackSessionsLogic {
         return fsDetails;
     }
 
-    //The parameter instructorEmail is unnecessary right now, as private sessions are being removed.
-    // Remove it after everything is in place.
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
-            String courseId, String instructorEmail) { //NOPMD
+            String courseId) {
 
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
