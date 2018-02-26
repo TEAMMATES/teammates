@@ -2,6 +2,7 @@ package teammates.logic.api;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -381,6 +382,53 @@ public class EmailGenerator {
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_UNPUBLISHED.getSubject());
+    }
+
+    public EmailWrapper generateFeedbackSessionResentEmail(String userEmail, double zone) {
+        Date startTime = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        Date endTime = calendar.getTime();
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        String feedbackAction = FEEDBACK_ACTION_SUBMIT;
+        String subject = EmailType.FEEDBACK_TO_RESEND.getSubject();
+        String emailBody = "";
+
+        List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime, zone);
+        for (FeedbackSessionAttributes session : sessions) {
+            CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+            String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+
+            String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                    .withCourseId(course.getId())
+                    .withSessionName(session.getFeedbackSessionName())
+                    .withStudentEmail(userEmail)
+                    .toAbsoluteString();
+
+            String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                    .withCourseId(course.getId())
+                    .withSessionName(session.getFeedbackSessionName())
+                    .withStudentEmail(userEmail)
+                    .toAbsoluteString();
+
+            emailBody += "<br>" + Templates.populateTemplate(template,
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                    "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                    "${instructorFragment}", "",
+                    "${sessionInstructions}", session.getInstructionsString(),
+                    "${submitUrl}", submitUrl,
+                    "${reportUrl}", reportUrl,
+                    "${feedbackAction}", feedbackAction,
+                    "${additionalContactInformation}", additionalContactInformation);
+        }
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
+        email.setSubject(subject);
+        email.setContent(emailBody);
+
+        return email;
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBases(

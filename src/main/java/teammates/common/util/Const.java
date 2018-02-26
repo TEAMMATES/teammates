@@ -858,8 +858,11 @@ public final class Const {
 
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
+        public static final String SUBMISSION_COURSELIST = "courses";
         public static final String SUBMISSION_FEEDBACK = "feedback";
+        public static final String SUBMISSION_FEEDBACKLIST = "feedbacks";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
+        public static final String SUBMISSION_RESEND_USER = "userToResend";
 
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 
@@ -1089,6 +1092,11 @@ public final class Const {
                 "feedback-session-unpublished-email-queue";
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionUnpublishedEmail";
+
+        public static final String FEEDBACK_SESSION_RESEND_PARTICULAR_USER_EMAIL_QUEUE_NAME =
+                "feedback-session-resend-particular-user-email-queue";
+        public static final String FEEDBACK_SESSION_RESEND_PARTICULAR_USER_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionResendParticularUserEmail";
 
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
