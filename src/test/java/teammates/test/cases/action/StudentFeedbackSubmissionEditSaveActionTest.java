@@ -695,7 +695,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Unsuccessful case: const sum: over maximum points");
-        String MAX_VALUE_QN_1 = "90";
+        String maxValueQn1 = "90";
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -713,7 +713,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertTrue(r.isError);
-        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS + ": " + MAX_VALUE_QN_1, r.getStatusMessage());
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS + ": " + maxValueQn1, r.getStatusMessage());
 
         assertEquals(
                 getPageResultDestination(
@@ -725,7 +725,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 r.getDestinationWithParams());
 
         ______TS("Unsuccessful case: const sum: under minimum points");
-        String MIN_VALUE_QN_1 = "20";
+        String minValueQn1 = "20";
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -743,7 +743,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertTrue(r.isError);
-        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS + ": " + MIN_VALUE_QN_1, r.getStatusMessage());
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS + ": " + minValueQn1, r.getStatusMessage());
 
         assertEquals(
                 getPageResultDestination(
