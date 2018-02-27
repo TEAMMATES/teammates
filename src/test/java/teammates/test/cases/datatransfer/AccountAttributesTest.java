@@ -145,13 +145,13 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testBuilderWithDefaultValues() {
         AccountAttributes observedAccountAttributes = AccountAttributes.builder().build();
 
-        assertEquals(null, observedAccountAttributes.createdAt);
-        assertEquals(null, observedAccountAttributes.getEmail());
-        assertEquals(null, observedAccountAttributes.getGoogleId());
-        assertEquals(null, observedAccountAttributes.getInstitute());
+        assertNull(observedAccountAttributes.createdAt);
+        assertNull(observedAccountAttributes.getEmail());
+        assertNull(observedAccountAttributes.getGoogleId());
+        assertNull(observedAccountAttributes.getInstitute());
         assertFalse(observedAccountAttributes.isInstructor());
-        assertEquals(null, observedAccountAttributes.getName());
-        assertEquals(null, observedAccountAttributes.studentProfile);
+        assertNull(observedAccountAttributes.getName());
+        assertNull(observedAccountAttributes.studentProfile);
     }
 
     @Test
