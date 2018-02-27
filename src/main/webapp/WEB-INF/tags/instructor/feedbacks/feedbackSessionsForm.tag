@@ -143,6 +143,25 @@
           </div>
         </div>
         <br class="hidden-xs">
+        <div class="row" id="instructionsRow">
+          <div class="col-sm-12"
+              title="<%= Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS %>"
+              data-toggle="tooltip"
+              data-placement="top">
+            <div class="form-group">
+              <h5 class="col-sm-2 margin-top-0">
+                <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>">
+                  Instructions
+                </label>
+              </h5>
+              <div class="col-sm-10">
+                <div id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>" class="panel panel-default panel-body">
+                  ${fsForm.instructions}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <c:choose>
           <c:when test="${!fsForm.courseIdEditable}">
             <div class="row">
@@ -174,26 +193,6 @@
             <br class="hidden-xs">
           </c:when>
         </c:choose>
-
-        <div class="row" id="instructionsRow">
-          <div class="col-sm-12"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_INSTRUCTIONS %>"
-              data-toggle="tooltip"
-              data-placement="top">
-            <div class="form-group">
-              <h5 class="col-sm-2 margin-top-0">
-                <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>">
-                  Instructions
-                </label>
-              </h5>
-              <div class="col-sm-10">
-                <div id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>" class="panel panel-default panel-body">
-                  ${fsForm.instructions}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div class="panel panel-primary" id="timeFramePanel">
