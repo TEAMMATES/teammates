@@ -1,5 +1,4 @@
 <%@ tag description="instructorHelpSessions and instructorFeedbackEdit - Essay Question Body" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 Essay questions are open ended questions that allow students to give text feedback for a question.
 <br> To setup a question of this type, simply provide the question text, feedback path(giver/recipient) and visibility options.

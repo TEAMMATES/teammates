@@ -150,3 +150,4 @@
 <instructorHelp:mcqQuestionTypeHelpModal />
 <instructorHelp:numericalScaleQuestionTypeHelpModal />
 <instructorHelp:constSumOptionQuestionTypeHelpModal />
+<instructorHelp:constSumRecipientQuestionTypeHelpModal />

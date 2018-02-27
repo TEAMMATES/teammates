@@ -3,12 +3,12 @@
 TEAMMATES currently provides the following question types. Click to see details for each question type.
 <ul>
   <li>
-    <a href="javascript:;" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_essay">
+    <a href="#fbEssay" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_essay">
       Essay question
     </a>
   </li>
   <li>
-    <a href="javascript:;" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_mcq">
+    <a href="#fbMcq" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_mcq">
       Multiple-choice (single answer) question
     </a>
   </li>
@@ -16,17 +16,19 @@ TEAMMATES currently provides the following question types. Click to see details 
     <a href="#fbMsq">Multiple-choice (multiple answers) question</a>
   </li>
   <li>
-    <a href="javascript:;" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_numscale">
+    <a href="#fbNumscale" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_numscale">
       Numerical-scale question
     </a>
   </li>
   <li>
-    <a href="javascript:;" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_constSumOptions">
+    <a href="#fbConstSumOptions" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_constSumOptions">
       Distribute points (among options) question
     </a>
   </li>
   <li>
-    <a href="#fbConstSumRecipients">Distribute points (among recipients) question</a>
+    <a href="#fbConstSumRecipients" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_constSumRecipients">
+      Distribute points (among recipients) question
+    </a>
   </li>
   <li>
     <a href="#fbContrib">Team contribution question</a>

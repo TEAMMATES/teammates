@@ -1067,7 +1067,8 @@ function prepareDescription(form) {
 }
 
 function prepareQuetionTypeHelpModal() {
-    $('.button_questionTypeHelpModal').click(function () {
+    $('.button_questionTypeHelpModal').click(function (e) {
+        e.preventDefault();
         const modalId = $(this).data('modalLink');
         const modalToBeOpened = $(`#${modalId}`);
         $('.question-type-help-modal').not(modalToBeOpened).modal('hide');
