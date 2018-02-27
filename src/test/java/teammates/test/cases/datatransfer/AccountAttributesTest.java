@@ -12,6 +12,8 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
 
+import java.util.Date;
+
 /**
  * SUT: {@link AccountAttributes}.
  */
@@ -131,6 +133,66 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertNull(a.getStudentProfile());
         assertNull(attr.studentProfile);
 
+    }
+
+    @Test
+    public void testBuilderWithDefaultValues() {
+        AccountAttributes observedAccountAttributes = AccountAttributes.builder().build();
+
+        assertEquals(null, observedAccountAttributes.createdAt);
+        assertEquals(null, observedAccountAttributes.getEmail());
+        assertEquals(null, observedAccountAttributes.getGoogleId());
+        assertEquals(null, observedAccountAttributes.getInstitute());
+        assertEquals(false, observedAccountAttributes.isInstructor());
+        assertEquals(null, observedAccountAttributes.getName());
+        assertEquals(null, observedAccountAttributes.studentProfile);
+    }
+
+    @Test
+    public void testBuilderWithPopulatedFieldValues() {
+        String expectedGoogleId = "dummyGoogleId";
+        String expectedEmail = "dummyEmail";
+        String expectedName = "dummyName";
+        String expectedInstitute = "dummyInstitute";
+        boolean expectedIsInstructor = true; //since false case is covered in default test
+        Date expectedCreatedAt = new Date(98765);
+
+        AccountAttributes observedAccountAttributes = AccountAttributes.builder()
+                .withGoogleId(expectedGoogleId)
+                .withEmail(expectedEmail)
+                .withName(expectedName)
+                .withInstitute(expectedInstitute)
+                .withIsInstructor(expectedIsInstructor)
+                .withCreatedAt(expectedCreatedAt)
+                .withDefaultStudentProfileAttributes(expectedGoogleId)
+                .build();
+
+        assertEquals(expectedGoogleId, observedAccountAttributes.getGoogleId());
+        assertEquals(expectedEmail, observedAccountAttributes.getEmail());
+        assertEquals(expectedCreatedAt, observedAccountAttributes.createdAt);
+        assertEquals(expectedInstitute, observedAccountAttributes.getInstitute());
+        assertEquals(expectedIsInstructor, observedAccountAttributes.isInstructor());
+        assertEquals(expectedName, observedAccountAttributes.getName());
+        assertEquals(expectedGoogleId, observedAccountAttributes.studentProfile.googleId);
+    }
+
+    @Test
+    public void testBuilderWithUnsanitisedFieldValues() {
+        AccountAttributes observedAccountAttributes = AccountAttributes.builder()
+                .withGoogleId("googleId@gmail.com")
+                .withName("  random  name with   extra spaces    ")
+                .withEmail("         email   ")
+                .withInstitute("    random  institute name      with extra    spaces  ")
+                .withStudentProfileAttributes(StudentProfileAttributes.builder()
+                        .withGoogleId("googleId@gmail.com")
+                        .build())
+                .build();
+
+        assertEquals("googleId", observedAccountAttributes.getGoogleId());
+        assertEquals("random name with extra spaces", observedAccountAttributes.getName());
+        assertEquals("email", observedAccountAttributes.getEmail());
+        assertEquals("random institute name with extra spaces", observedAccountAttributes.getInstitute());
+        assertEquals("googleId", observedAccountAttributes.studentProfile.googleId);
     }
 
     private AccountAttributes createInvalidAccountAttributesObject() {
