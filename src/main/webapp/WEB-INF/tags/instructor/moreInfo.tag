@@ -29,6 +29,7 @@
         <span data-toggle="modal" data-target="#studentProfileMoreInfo"
             class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
         <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
+        <h5><strong>More Info:</strong></h5>
         <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : fn:escapeXml(student.moreInfo)}</p>
       </div>
     </div>
