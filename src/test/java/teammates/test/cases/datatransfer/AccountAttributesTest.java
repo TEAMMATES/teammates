@@ -202,7 +202,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf() {
-        Account genericAccount = new Account("id", "Joe", true, "joe@gmail.com", "Teammates Institute");
+        Account genericAccount = new Account("id", "Joe", true, "joe@example.com", "Teammates Institute");
 
         AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
 
@@ -211,6 +211,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(genericAccount.isInstructor(), observedAccountAttributes.isInstructor());
         assertEquals(genericAccount.getEmail(), observedAccountAttributes.getEmail());
         assertEquals(genericAccount.getInstitute(), observedAccountAttributes.getInstitute());
+        assertEquals(genericAccount.getCreatedAt(), observedAccountAttributes.createdAt);
+        assertEquals(genericAccount.getStudentProfile(), observedAccountAttributes.studentProfile);
     }
 
     private AccountAttributes createInvalidAccountAttributesObject() {
