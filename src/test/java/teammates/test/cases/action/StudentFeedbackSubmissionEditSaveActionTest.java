@@ -694,6 +694,66 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
+        ______TS("Unsuccessful case: const sum: over maximum points");
+        String MAX_VALUE_QN_1 = "90";
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "91",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "9",
+        };
+
+        a = getAction(submissionParams);
+        r = getRedirectResult(a);
+
+        assertTrue(r.isError);
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS + ": " + MAX_VALUE_QN_1, r.getStatusMessage());
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session"),
+                r.getDestinationWithParams());
+
+        ______TS("Unsuccessful case: const sum: under minimum points");
+        String MIN_VALUE_QN_1 = "20";
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "81",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "19",
+        };
+
+        a = getAction(submissionParams);
+        r = getRedirectResult(a);
+
+        assertTrue(r.isError);
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS + ": " + MIN_VALUE_QN_1, r.getStatusMessage());
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session"),
+                r.getDestinationWithParams());
+
         ______TS("Successful case: const sum: question skipped");
 
         submissionParams = new String[] {

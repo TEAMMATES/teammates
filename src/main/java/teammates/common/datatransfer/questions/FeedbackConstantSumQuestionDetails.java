@@ -811,7 +811,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 }
 
                 if (requireMax && i > maxPoints) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE + ": " + maxPoints);
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS + ": " + maxPoints);
                     return errors;
                 }
             }
