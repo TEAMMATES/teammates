@@ -189,8 +189,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withName("  random  name with   extra spaces    ")
                 .withEmail("         email   ")
                 .withInstitute("    random  institute name      with extra    spaces  ")
-                .withStudentProfileAttributes(StudentProfileAttributes.builder()
-                        .withGoogleId("googleId@gmail.com")
+                .withStudentProfileAttributes(StudentProfileAttributes.builder("googleId@gmail.com")
                         .build())
                 .build();
 
