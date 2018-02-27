@@ -31,7 +31,9 @@ TEAMMATES currently provides the following question types. Click to see details 
     </a>
   </li>
   <li>
-    <a href="#fbContrib">Team contribution question</a>
+    <a href="#fbContrib" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_teamContrib">
+      Team contribution question
+    </a>
   </li>
   <li>
     <a href="#fbRubric">Rubric question</a>

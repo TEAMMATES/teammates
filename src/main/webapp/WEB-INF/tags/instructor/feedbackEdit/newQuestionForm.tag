@@ -151,3 +151,4 @@
 <instructorHelp:numericalScaleQuestionTypeHelpModal />
 <instructorHelp:constSumOptionQuestionTypeHelpModal />
 <instructorHelp:constSumRecipientQuestionTypeHelpModal />
+<instructorHelp:teamContribQuestionTypeHelpModal />
