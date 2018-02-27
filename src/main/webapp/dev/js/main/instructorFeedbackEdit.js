@@ -43,6 +43,7 @@ import {
     addConstSumOption,
     hideConstSumOptionTable,
     removeConstSumOption,
+    showConstSumOptionTable,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -81,6 +82,7 @@ import {
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
     removeRankOption,
+    showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
 } from '../common/questionRank';
@@ -535,17 +537,8 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    if ($(`#generateOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
-        $(`#mcqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
-    } else {
-        $(`#mcqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
-    }
+    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
+    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
@@ -728,6 +721,7 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
+        showConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
         $('#constSumForm').show();
@@ -764,6 +758,7 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#rankOption_Recipient-${NEW_QUESTION}`).hide();
+        showRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
 
         $('#rankOptionsForm').show();

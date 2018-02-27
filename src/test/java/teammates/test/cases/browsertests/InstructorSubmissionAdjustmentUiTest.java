@@ -53,7 +53,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
                 .withSection("None")
                 .build();
 
-        String enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
+        String enrollString = "Section | Team | Name | Email | Comment" + System.lineSeparator()
                             + newStudent.toEnrollmentString();
 
         enrollPage.enroll(enrollString);
@@ -75,7 +75,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         String newTeam = "Team 1.2";
         student.team = newTeam;
 
-        enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
+        enrollString = "Section | Team | Name | Email | Comment" + System.lineSeparator()
                      + student.toEnrollmentString();
         enrollPage.enroll(enrollString);
 
