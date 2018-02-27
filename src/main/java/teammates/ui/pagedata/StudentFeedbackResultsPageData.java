@@ -22,6 +22,9 @@ import teammates.ui.template.FeedbackResultsResponseTable;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 
 public class StudentFeedbackResultsPageData extends PageData {
+
+    private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
+
     private FeedbackSessionResultsBundle bundle;
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
@@ -173,25 +176,21 @@ public class StudentFeedbackResultsPageData extends PageData {
             /* Change display name to 'You' or 'Your team' or 'Anonymous student' if necessary */
             boolean isUserGiver = student.email.equals(response.giver);
             boolean isUserPartOfGiverTeam = student.team.equals(giverName);
-            boolean isGiverAnonymous = giverName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT);
             if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
                 displayedGiverName = "Your Team (" + giverName + ")";
             } else if (isUserGiver) {
                 displayedGiverName = "You";
-            } else if (isGiverAnonymous) {
-                displayedGiverName = FeedbackSessionResultsBundle.getAnonDisplayedName(question.giverType);
             } else {
-                displayedGiverName = giverName;
+                displayedGiverName = getDisplayableIdentifier(giverName);
             }
 
-            boolean isRecipientAnonymous = response.recipient.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT);
             boolean isUserRecipient = student.email.equals(response.recipient);
-            if (isRecipientAnonymous) {
-                recipientName = FeedbackSessionResultsBundle.getAnonDisplayedName(question.recipientType);
-            } else if (isUserGiver && !isUserRecipient) {
+            if (isUserGiver && !isUserRecipient) {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
                 recipientName = bundle.getNameForEmail(response.recipient);
+            } else {
+                recipientName = getDisplayableIdentifier(recipientName);
             }
 
             String answer = response.getResponseDetails().getAnswerHtmlStudentView(questionDetails);
@@ -240,5 +239,15 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
         }
         return responsesForRecipient;
+    }
+
+    /**
+     * Remove the identifier from anonymous participant name or email, if any.
+     * @param identifier  The given name or email
+     * @return The name or email without any anonymous identifier
+     */
+    private String getDisplayableIdentifier(String identifier) {
+        return identifier.replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
+                        + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
     }
 }

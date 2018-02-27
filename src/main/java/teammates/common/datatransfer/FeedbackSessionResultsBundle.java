@@ -1,3 +1,4 @@
+
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
@@ -428,12 +429,6 @@ public class FeedbackSessionResultsBundle {
 
     private static String getHashOfName(String name) {
         return Long.toString(Math.abs((long) name.hashCode()));
-    }
-
-    public static String getAnonDisplayedName(FeedbackParticipantType type) {
-        String participantType = type.toSingularFormString();
-        return String.format(
-                Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " %s", participantType);
     }
 
     private String getNameFromRoster(String participantIdentifier, boolean isFullName) {
