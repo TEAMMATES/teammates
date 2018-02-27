@@ -1,5 +1,7 @@
 package teammates.test.cases.datatransfer;
 
+import java.util.Date;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -10,8 +12,6 @@ import teammates.common.util.StringHelper;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
-
-import java.util.Date;
 
 /**
  * SUT: {@link AccountAttributes}.
@@ -149,7 +149,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(null, observedAccountAttributes.getEmail());
         assertEquals(null, observedAccountAttributes.getGoogleId());
         assertEquals(null, observedAccountAttributes.getInstitute());
-        assertEquals(false, observedAccountAttributes.isInstructor());
+        assertFalse(observedAccountAttributes.isInstructor());
         assertEquals(null, observedAccountAttributes.getName());
         assertEquals(null, observedAccountAttributes.studentProfile);
     }
