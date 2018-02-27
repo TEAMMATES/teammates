@@ -314,6 +314,15 @@ public class AdminSessionsPageAction extends Action {
         return numOfTotal;
     }
 
+    /**
+     * Refactor method to reduce complexity of function checkAllParameters
+     * @param string to check
+     * @return true if String is != null && !string.trim().isEmpty()
+     */
+    private boolean checkValid(String string){
+        return string != null && !string.trim().isEmpty();
+    }
+
     private boolean checkAllParameters(String condition) {
 
         String startDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
@@ -331,12 +340,8 @@ public class AdminSessionsPageAction extends Action {
 
         } else if (condition.contentEquals("notNull")) {
 
-            return startDate != null && endDate != null && startHour != null
-                   && endHour != null && startMin != null && endMin != null && timeZone != null
-                   && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
-                   && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
-                   && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty();
-
+            return checkValid(startDate) && checkValid(endDate) && checkValid(startHour) && checkValid(endHour)
+                    && checkValid(startMin) && checkValid(endMin) && checkValid(timeZone);
         } else {
             return false;
         }
