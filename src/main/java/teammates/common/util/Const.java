@@ -1376,12 +1376,12 @@ public final class Const {
         public static final String FEEDBACK_SESSION_PUBLISHED =
                 "The feedback session has been published. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
-        public static final String FEEDBACK_SESSION_NOTPUBLISHED =
+        public static final String FEEDBACK_SESSION_RESEND_LINKS_NOT_PUBLISHED =
                 "The feedback session is not published. "
                 + "You cannot send publication reminders for a session that is not published.";
-        public static final String FEEDBACK_SESSION_PUBLISHEDEMAILEMPTYRECIPIENT =
+        public static final String FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT =
                 "You have not selected any student to email.";
-        public static final String FEEDBACK_SESSION_PUBLISHEDEMAILSSENT =
+        public static final String FEEDBACK_SESSION_RESEND_LINKS_EMAIL_SENT =
                 "E-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";

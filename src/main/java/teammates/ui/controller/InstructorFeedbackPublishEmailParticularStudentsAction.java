@@ -26,14 +26,14 @@ public class InstructorFeedbackPublishEmailParticularStudentsAction extends Acti
 
         if (!feedbackSession.isPublished()) {
             statusToUser.add(new StatusMessage(
-                    Const.StatusMessages.FEEDBACK_SESSION_NOTPUBLISHED, StatusMessageColor.DANGER));
+                    Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_NOT_PUBLISHED, StatusMessageColor.DANGER));
             statusToAdmin = "Reminder email could not be sent out as the feedback session is not published.";
             return createRedirectResult(nextUrl);
         }
 
         String[] usersToEmail = getRequestParamValues(Const.ParamsNames.SEND_PUBLISHED_EMAIL);
         if (usersToEmail == null || usersToEmail.length == 0) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHEDEMAILEMPTYRECIPIENT,
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT,
                                                StatusMessageColor.DANGER));
             return createRedirectResult(nextUrl);
         }
@@ -41,7 +41,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsAction extends Acti
         taskQueuer.scheduleFeedbackSessionPublishedEmailParticularUsersEmail(courseId, feedbackSessionName, usersToEmail);
 
         statusToUser.add(new StatusMessage(
-                Const.StatusMessages.FEEDBACK_SESSION_PUBLISHEDEMAILSSENT, StatusMessageColor.SUCCESS));
+                Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMAIL_SENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to the selected user(s): ";
         for (String user : usersToEmail) {
             statusToAdmin += "<br>" + user;
