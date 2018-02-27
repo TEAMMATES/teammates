@@ -2181,31 +2181,6 @@ public final class FeedbackSessionsLogic {
         return true;
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod")
-    private boolean isFeedbackSessionFullyCompletedByInstructor(
-            String feedbackSessionName,
-            String courseId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
-        }
-
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
-                        courseId,
-                        userEmail);
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (!fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)) {
-                // If any question is not completely answered, session is not
-                // completed
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * Checks whether the feedback session is viewable to the specified user.
      */
