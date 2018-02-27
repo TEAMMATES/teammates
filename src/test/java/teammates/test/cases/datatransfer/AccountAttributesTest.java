@@ -200,6 +200,19 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals("googleId", observedAccountAttributes.studentProfile.googleId);
     }
 
+    @Test
+    public void testValueOf() {
+        Account genericAccount = new Account("id", "Joe", true, "joe@gmail.com", "Teammates Institute");
+
+        AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
+
+        assertEquals(genericAccount.getGoogleId(), observedAccountAttributes.getGoogleId());
+        assertEquals(genericAccount.getName(), observedAccountAttributes.getName());
+        assertEquals(genericAccount.isInstructor(), observedAccountAttributes.isInstructor());
+        assertEquals(genericAccount.getEmail(), observedAccountAttributes.getEmail());
+        assertEquals(genericAccount.getInstitute(), observedAccountAttributes.getInstitute());
+    }
+
     private AccountAttributes createInvalidAccountAttributesObject() {
 
         String googleId = "invalid google id";
