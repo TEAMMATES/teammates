@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <div class="panel-body">
+    <div class="visibility-checkbox-delegate panel-body">
       <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
         <div class="form-group" style="padding: 15px;">
           <h5 class="col-sm-2">

@@ -572,7 +572,7 @@ public final class StudentsLogic {
      */
     public List<StudentAttributes> createStudents(String lines, String courseId) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<>();
-        String[] linesArray = lines.split(Const.EOL);
+        String[] linesArray = lines.split(System.lineSeparator());
         List<StudentAttributes> studentList = new ArrayList<>();
 
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);

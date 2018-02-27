@@ -1,7 +1,5 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.util.Const.EOL;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -9,6 +7,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.storage.api.ProfilesDb;
 import teammates.storage.entity.Account;
 import teammates.test.driver.StringHelperExtension;
 
@@ -44,15 +43,15 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String expectedError =
                 getPopulatedEmptyStringErrorMessage(
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + EOL
+                    FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
                       FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "invalid google id",
                       FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + EOL
+                      FieldValidator.GOOGLE_ID_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
                       FieldValidator.EMAIL_ERROR_MESSAGE, "invalid@email@com",
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                      FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                      FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
                       FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
                       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -73,19 +72,26 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount = new Account(account.googleId, account.name, account.isInstructor,
-                account.email, account.institute, StudentProfileAttributes.builder().build().toEntity());
+        Account expectedAccount = new Account(account.googleId, account.name,
+                account.isInstructor, account.email, account.institute,
+                account.studentProfile.toEntity());
 
-        Account actualAccount = AccountAttributes.valueOf(expectedAccount).toEntity();
+        Account actualAccount = account.toEntity();
 
         assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
         assertEquals(expectedAccount.getName(), actualAccount.getName());
         assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         assertEquals(expectedAccount.getInstitute(), actualAccount.getInstitute());
         assertEquals(expectedAccount.isInstructor(), actualAccount.isInstructor());
+
+        ProfilesDb profilesDb = new ProfilesDb();
+        profilesDb.saveEntity(account.studentProfile.toEntity());
+
         String expectedProfile = StudentProfileAttributes.valueOf(expectedAccount.getStudentProfile()).toString();
         String actualProfile = StudentProfileAttributes.valueOf(actualAccount.getStudentProfile()).toString();
         assertEquals(expectedProfile, actualProfile);
+
+        profilesDb.deleteEntity(account.studentProfile);
     }
 
     @Test
@@ -202,7 +208,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         boolean isInstructor = false;
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
-        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(googleId).build();
 
         return AccountAttributes.builder()
                 .withGoogleId(googleId)
@@ -248,8 +254,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withInstitute("\\/")
                 .withEmail("&<email>&")
                 .withIsInstructor(true)
-                .withStudentProfileAttributes(StudentProfileAttributes.builder()
-                    .withGoogleId("googleId@gmail.com")
+                .withStudentProfileAttributes(StudentProfileAttributes.builder("googleId@gmail.com")
                     .withShortName(shortName)
                     .withEmail(personalEmail)
                     .withInstitute(profileInstitute)

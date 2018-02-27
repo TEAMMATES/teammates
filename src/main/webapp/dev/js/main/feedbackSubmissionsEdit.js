@@ -5,7 +5,7 @@ import {
 } from '../common/bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -661,13 +661,13 @@ function validateMsqQuestions() {
 
             if (numOfSelectedChoices < minSelectableChoices) {
                 setStatusMessage(`Minimum selectable choices for question ${qNum} is ${minSelectableChoices}.`,
-                        StatusType.DANGER);
+                        BootstrapContextualColors.DANGER);
                 return false;
             }
 
             if (numOfSelectedChoices > maxSelectableChoices) {
                 setStatusMessage(`Maximum selectable choices for question ${qNum} is ${maxSelectableChoices}.`,
-                        StatusType.DANGER);
+                        BootstrapContextualColors.DANGER);
                 return false;
             }
 
@@ -702,7 +702,7 @@ function validateConstSumQuestions() {
         statusMessage += '. ';
         statusMessage += 'To skip a distribution question, leave the boxes blank.';
 
-        setStatusMessage(statusMessage, StatusType.DANGER);
+        setStatusMessage(statusMessage, BootstrapContextualColors.DANGER);
         return false;
     }
 
@@ -833,7 +833,7 @@ function validateAllAnswersHaveRecipient() {
     }
 
     if (!isAllAnswersToMissingRecipientEmpty) {
-        setStatusMessage(`${statusMessage}.`, StatusType.DANGER);
+        setStatusMessage(`${statusMessage}.`, BootstrapContextualColors.DANGER);
     }
 
     return isAllAnswersToMissingRecipientEmpty;
@@ -1062,7 +1062,7 @@ function validateRankQuestions() {
         statusMessage += '. ';
         statusMessage += 'To skip a rank question, leave all the boxes blank.';
 
-        setStatusMessage(statusMessage, StatusType.DANGER);
+        setStatusMessage(statusMessage, BootstrapContextualColors.DANGER);
         return false;
     }
 
@@ -1098,19 +1098,19 @@ function getSuccessMessage() {
 
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
-        showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, StatusType.WARNING);
+        showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, BootstrapContextualColors.WARNING);
     }
 }
 
 function showModalWarningIfSessionClosingSoon() {
     if (isSessionClosingSoon()) {
-        showModalAlert(SESSION_CLOSING_HEADER, SESSION_CLOSING_MESSAGE, null, StatusType.WARNING);
+        showModalAlert(SESSION_CLOSING_HEADER, SESSION_CLOSING_MESSAGE, null, BootstrapContextualColors.WARNING);
     }
 }
 
 function showModalSuccessIfResponsesSubmitted() {
     if (hasSuccessMessage()) {
-        showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED, null, StatusType.SUCCESS);
+        showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED, null, BootstrapContextualColors.SUCCESS);
     }
 }
 /**
