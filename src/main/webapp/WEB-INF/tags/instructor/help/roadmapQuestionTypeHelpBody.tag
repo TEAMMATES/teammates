@@ -46,7 +46,9 @@ TEAMMATES currently provides the following question types. Click to see details 
     </a>
   </li>
   <li>
-    <a href="#fbRankRecipients">Rank Recipients question</a>
+    <a href="#fbRankRecipients" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_rankRecipients">
+      Rank Recipients question
+    </a>
   </li>
 </ul>
 
