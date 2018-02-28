@@ -609,10 +609,4 @@ public final class TimeHelper {
         }
     }
 
-    public static TimeZone getTimeZoneFromDoubleOffset(double sessionTimeZone) {
-        int hours = (int) sessionTimeZone;
-        int minutes = (int) ((Math.abs(sessionTimeZone) - Math.floor(Math.abs(sessionTimeZone))) * 60);
-        return TimeZone.getTimeZone(String.format("GMT%+03d:%02d", hours, minutes));
-    }
-
 }
