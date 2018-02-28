@@ -258,6 +258,7 @@ public class PageData {
 
     public String getStudentProfilePictureDeleteLink() {
         String link = Const.ActionURIs.STUDENT_PROFILE_PICTURE_DELETE;
+        link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
         return link;
     }

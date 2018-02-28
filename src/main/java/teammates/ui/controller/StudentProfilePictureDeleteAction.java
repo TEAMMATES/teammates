@@ -19,7 +19,7 @@ public class StudentProfilePictureDeleteAction extends Action {
             nextUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE;
         }
         logic.deleteStudentProfilePicture(account.googleId);
-        statusToUser.add(new StatusMessage(Const.StatusMessages.PROFILE_PICTURE_DELETED, StatusMessageColor.SUCCESS));
+        statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_DELETED, StatusMessageColor.SUCCESS));
 
         return createRedirectResult(nextUrl);
     }

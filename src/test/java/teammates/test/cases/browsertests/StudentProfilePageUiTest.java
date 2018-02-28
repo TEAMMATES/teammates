@@ -73,6 +73,20 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void testJsFunctions() {
+        ______TS("Test disabling and enabling of delete button");
+        //enabled when photo is uploaded
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
+        profilePage.uploadPicture();
+        profilePage.verifyDeleteButtonState(true);
+
+        //disabled when photo is not uploaded
+        profilePage.deletePicture();
+        profilePage.verifyDeleteButtonState(false);
+
+        //Upload picture again for next tests
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
+        profilePage.uploadPicture();
+
         ______TS("Test disabling and enabling of upload button");
         // initial disabled state
         profilePage.verifyUploadButtonState(false);
@@ -245,6 +259,20 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
         verifyPictureIsPresent(prevPictureKey);
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
+                "female", "this is enough!$%&*</>");
+
+
+        ______TS("Typical case: delete picture");
+        ;
+        profilePage.deletePicture();
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_DELETED);
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
+                "female", "this is enough!$%&*</>");
+
+        String emptyPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
+        assertEquals("", emptyPictureKey);
+
 
         ______TS("Typical case: update picture (too tall)");
 
@@ -257,6 +285,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(currentPictureKey);
+
     }
 
     private void testAjaxPictureUrl() {

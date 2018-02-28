@@ -54,6 +54,9 @@ public class StudentProfilePage extends AppPage {
     @FindBy(id = "profileEditPictureSubmit")
     private WebElement editPictureSubmit;
 
+    @FindBy(id = "deletePhoto")
+    private WebElement deletePicture;
+
     @FindBy(id = "profilePicEditRotateLeft")
     private WebElement editPictureRotateLeft;
 
@@ -205,6 +208,11 @@ public class StudentProfilePage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void deletePicture() {
+        click(deletePicture);
+        waitForPageToLoad();
+    }
+
     public void editProfilePhoto() {
         click(editPictureZoomIn);
         click(editPictureZoomOut);
@@ -236,6 +244,10 @@ public class StudentProfilePage extends AppPage {
     public void verifyUploadButtonState(boolean expectedState) {
         assertEquals(expectedState, uploadPictureSubmit.isEnabled());
 
+    }
+
+    public void verifyDeleteButtonState(boolean expectedState) {
+        assertEquals(expectedState, deletePicture.isEnabled());
     }
 
     public void waitForUploadEditModalVisible() {
