@@ -203,11 +203,11 @@ public final class TimeHelper {
 
     /**
      * Returns the date object with specified offset in number of days from now.
-     * @deprecated Use {@code TimeHelper#getInstantOffsetFromNow} instead.
+     * @deprecated Use {@code TimeHelper#getInstantDateOffsetFromNow} instead.
      */
     @Deprecated
     public static Date getDateOffsetFromNow(long offsetInDays) {
-        return Date.from(getInstantOffsetFromNow(offsetInDays));
+        return Date.from(getInstantDaysOffsetFromNow(offsetInDays));
     }
 
     /**
@@ -215,7 +215,7 @@ public final class TimeHelper {
      * @param offsetInDays number of days offset by (integer).
      * @return java.time.Instant offset by offsetInDays days.
      */
-    public static Instant getInstantOffsetFromNow(long offsetInDays) {
+    public static Instant getInstantDaysOffsetFromNow(long offsetInDays) {
         return Instant.now().plus(Duration.ofDays(offsetInDays));
     }
 
