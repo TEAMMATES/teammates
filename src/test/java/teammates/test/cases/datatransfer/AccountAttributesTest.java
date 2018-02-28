@@ -140,7 +140,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void getCopy_typicalData_createDeepCopy() {
+    public void getCopy_typicalData_createsDeepCopy() {
         AccountAttributes account = createValidAccountAttributesObject();
 
         AccountAttributes copy = account.getCopy();
@@ -156,7 +156,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void getCopy_allFieldsNull_createDeepCopy() {
+    public void getCopy_allFieldsNull_createsDeepCopy() {
         AccountAttributes account = AccountAttributes.builder()
                 .withGoogleId(null)
                 .withName(null)
