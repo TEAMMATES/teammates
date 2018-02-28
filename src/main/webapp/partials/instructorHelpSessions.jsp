@@ -2076,9 +2076,7 @@
         <div class="col-sm-12">
             <b id="fbMsq">Multiple-choice (multiple answers) question</b>
           <br>
-          Multiple-choice (multiple answers) question are similar to the single answer version, except that students are able to select multiple options as their response.
-          <br> The setup and result statistics is similar to the single answer version. See
-          <a href="#fbMcq">above</a> for details.
+          <instructorHelp:msqQuestionTypeHelpBody />
         </div>
       </div>
       <br>

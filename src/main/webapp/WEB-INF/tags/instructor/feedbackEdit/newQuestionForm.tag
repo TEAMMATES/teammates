@@ -148,6 +148,7 @@
 <instructorHelp:roadmapQuestionTypeHelpModal />
 <instructorHelp:essayQuestionTypeHelpModal />
 <instructorHelp:mcqQuestionTypeHelpModal />
+<instructorHelp:msqQuestionTypeHelpModal />
 <instructorHelp:numericalScaleQuestionTypeHelpModal />
 <instructorHelp:constSumOptionQuestionTypeHelpModal />
 <instructorHelp:constSumRecipientQuestionTypeHelpModal />
