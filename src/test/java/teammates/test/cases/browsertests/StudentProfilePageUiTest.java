@@ -262,9 +262,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 "female", "this is enough!$%&*</>");
 
-
         ______TS("Typical case: delete picture");
-        ;
+
         profilePage.deletePicture();
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_DELETED);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
@@ -272,7 +271,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         String emptyPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         assertEquals("", emptyPictureKey);
-
 
         ______TS("Typical case: update picture (too tall)");
 
