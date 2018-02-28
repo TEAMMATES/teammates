@@ -569,7 +569,7 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-green');
         }
 
-        if (!allNotNumbers && forceSomeUnevenDistribution && allSame) {
+        if (!allNotNumbers && forceSomeUnevenDistribution && allSame && numOptions !== 1) {
             message += ' Different amount of points should be given to some options.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
