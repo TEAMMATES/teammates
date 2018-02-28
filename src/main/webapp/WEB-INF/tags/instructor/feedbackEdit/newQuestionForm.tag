@@ -152,3 +152,6 @@
 <instructorHelp:constSumOptionQuestionTypeHelpModal />
 <instructorHelp:constSumRecipientQuestionTypeHelpModal />
 <instructorHelp:teamContribQuestionTypeHelpModal />
+<instructorHelp:rubricQuestionTypeHelpModal />
+<instructorHelp:rankOptionsQuestionTypeHelpModal />
+

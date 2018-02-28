@@ -36,10 +36,14 @@ TEAMMATES currently provides the following question types. Click to see details 
     </a>
   </li>
   <li>
-    <a href="#fbRubric">Rubric question</a>
+    <a href="#fbRubric" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_rubric">
+      Rubric question
+    </a>
   </li>
   <li>
-    <a href="#fbRankOptions">Rank Options question</a>
+    <a href="#fbRankOptions" class="button_questionTypeHelpModal" data-modal-link = "questionTypeHelpModal_rankOptions">
+      Rank Options question
+    </a>
   </li>
   <li>
     <a href="#fbRankRecipients">Rank Recipients question</a>
