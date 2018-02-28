@@ -84,21 +84,6 @@
       "email": "instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>"
     },
-    "instructor1ofTestinginstructorvisibilty" : {
-      "googleid": "idofinst1oftestingvisibilty",
-      "name": "instructor 1",
-      "isinstructor": true,
-      "email": "inst1@gmail.tmt",
-      "institute": "Teammates Test Institue 1"
-    },
-    "instructor2ofTestinginstructorvisibilty" : {
-    "googleid": "idofinst2oftestingvisibilty",
-      "name": "instructor 2",
-      "isinstructor": true,
-      "email": "inst2@gmail.tmt",
-      "institute": "Teammates Test Institue 1"
-    
-    },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
@@ -186,11 +171,6 @@
       "id": "idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
-    },
-    "InstructorvisibilityCourse": {
-       "id": "instructorvisibiltyCourse",
-       "name": "Instructorvisiblity",
-       "timeZone": "UTC"
     }
   },
   "instructors": {
@@ -528,65 +508,9 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      },
-      "instructor1ofTestinginstructorvisibilty" : {
-      "googleid": "idofinst1oftestingvisibilty",
-      "courseId": "instructorvisibiltyCourse",
-      "name": "instructor 1",
-      "email": "inst1@gmail.tmt",
-      "isArchived": false,
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "instructor 1",
-       "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canviewcommentinsection": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
-    "instructor2ofTestinginstructorvisibilty" : {
-      "googleid": "idofinst2oftestingvisibilty",
-      "courseId": "instructorvisibiltyCourse",
-      "name": "instructor 2",
-      "email": "inst2@gmail.tmt",
-      "isArchived": false,
-      "role": "Co-owner",
-      "isDisplayedToStudents": false,
-      "displayedName": "instructor 2",
-       "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canviewcommentinsection": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
       }
     }
-    
-    },
-    
-
+  },
   "students": {
     "student1InCourse1": {
       "googleId": "student1InCourse1",

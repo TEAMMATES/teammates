@@ -29,20 +29,9 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-        InstructorAttributes instructorToEdit = instructorId == null ? logic.getInstructorForEmail(courseId, instructorEmail)
-        		: logic.getInstructorForGoogleId(courseId, instructorId);
-        
-        if(instructorToEdit.isDisplayedToStudents && getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT)==null) {
-        	long  totalInstructorDisplayed = getNumberOfInstructorsDisplayed(courseId);
-        	if( totalInstructorDisplayed == 1) {
-        		statusToUser.add(new StatusMessage(String.format(
-                      Const.StatusMessages.COURSE_INSTRUCTOR_DISPLAYED), StatusMessageColor.DANGER));
-                      RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
-                      result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-                      return result;
-        	}
-        }
-        	
+        InstructorAttributes instructorToEdit =
+                extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
+        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
         try {
             if (instructorId == null) {
@@ -50,9 +39,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             } else {
                 logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
             }
-            
-            instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
-            updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
                                                StatusMessageColor.SUCCESS));
@@ -78,12 +64,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
      * @param instructorToEdit Instructor that will be edited.
      *                             This may be modified within the method.
      */
-    
-    private long getNumberOfInstructorsDisplayed(String courseId) {
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        return instructors.stream().filter(instructor -> instructor.isDisplayedToStudents).count();
-        }
-    
     private void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         int numOfInstrCanModifyInstructor = 0;
