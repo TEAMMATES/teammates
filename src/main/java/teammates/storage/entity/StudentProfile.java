@@ -100,9 +100,6 @@ public class StudentProfile extends BaseEntity {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
-        if (googleId.isEmpty()) { // only in local attribute tests
-            return;
-        }
         this.account = Key.create(Account.class, googleId);
     }
 
