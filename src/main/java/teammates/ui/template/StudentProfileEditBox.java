@@ -21,9 +21,10 @@ public class StudentProfileEditBox {
     private String moreInfo;
     private String googleId;
     private String pictureUrl;
+    private String deleteUrl;
 
     public StudentProfileEditBox(String name, String isEditingPhoto, StudentProfileAttributes profile,
-                                 String googleId, String pictureUrl) {
+                                 String googleId, String pictureUrl, String deleteUrl) {
         this.name = name;
         this.editingPhoto = isEditingPhoto;
         this.shortName = StringHelper.convertToEmptyStringIfNull(profile.shortName);
@@ -36,6 +37,7 @@ public class StudentProfileEditBox {
         this.moreInfo = StringHelper.convertToEmptyStringIfNull(profile.moreInfo);
         this.googleId = googleId;
         this.pictureUrl = pictureUrl;
+        this.deleteUrl = deleteUrl;
     }
 
     public String getName() {
@@ -44,6 +46,10 @@ public class StudentProfileEditBox {
 
     public String getEditingPhoto() {
         return editingPhoto;
+    }
+
+    public String getDeleteUrl() {
+        return deleteUrl;
     }
 
     public String getShortName() {

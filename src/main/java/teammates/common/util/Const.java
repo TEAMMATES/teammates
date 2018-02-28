@@ -198,7 +198,8 @@ public final class Const {
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
-                        ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
+                        ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD,
+                        ActionURIs.STUDENT_PROFILE_PICTURE_DELETE));
 
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Collections.unmodifiableList(
                 Arrays.asList(
@@ -1015,6 +1016,7 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
         public static final String STUDENT_PROFILE_PICTURE_UPLOAD = "/page/studentProfilePictureUpload";
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
+        public static final String STUDENT_PROFILE_PICTURE_DELETE = "/page/studentProfilePictureDelete";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
         public static final String ADMIN_EMAIL_LOG_PAGE = "/admin/adminEmailLogPage";

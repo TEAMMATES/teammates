@@ -5,6 +5,10 @@ import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
+/**
+ * Action: deletes the profile picture.
+ */
+
 public class StudentProfilePictureDeleteAction extends Action {
 
     @Override

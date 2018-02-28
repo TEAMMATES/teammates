@@ -18,6 +18,8 @@ import {
     bindLinksInUnregisteredPage,
 } from '../common/student';
 
+const defaultProfilePicturePath = '/images/profile_picture_default.png';
+
 function finaliseEditPictureForm() {
     const picture = $('#editableProfilePicture');
     const transformData = picture.guillotine('getData');
@@ -76,12 +78,22 @@ $(document).ready(() => {
         }
     });
 
+    if ($('#profilePic').attr('src') === defaultProfilePicturePath) {
+        $('#deletePhoto').prop('disabled', true);
+    } else {
+        $('#deletePhoto').prop('disabled', false);
+    }
+
     $('#profileUploadPictureSubmit').on('click', () => {
         finaliseUploadPictureForm();
     });
 
     $('#profileEditPictureSubmit').on('click', () => {
         finaliseEditPictureForm();
+    });
+
+    $('#deletePhoto').on('click', () => {
+        window.location = $('#deletePhoto').attr('href');
     });
 
     $(window).load(() => {

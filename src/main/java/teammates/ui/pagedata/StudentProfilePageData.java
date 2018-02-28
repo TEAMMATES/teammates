@@ -14,6 +14,7 @@ public class StudentProfilePageData extends PageData {
     public StudentProfilePageData(AccountAttributes account, String sessionToken, String isEditingPhoto) {
         super(account, sessionToken);
         StudentProfileAttributes profile = account.studentProfile;
+        String deleteUrl = getStudentProfilePictureDeleteLink();
         String pictureUrl;
         if (profile.pictureKey.isEmpty()) {
             pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
@@ -23,7 +24,7 @@ public class StudentProfilePageData extends PageData {
                        + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
         this.profileEditBox = new StudentProfileEditBox(account.name, isEditingPhoto, profile,
-                                                        account.googleId, pictureUrl);
+                                                        account.googleId, pictureUrl, deleteUrl);
         this.uploadPhotoModal = new StudentProfileUploadPhotoModal(account.googleId, pictureUrl, profile.pictureKey);
 
     }

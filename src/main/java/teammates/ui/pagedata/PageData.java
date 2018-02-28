@@ -256,6 +256,12 @@ public class PageData {
         return link;
     }
 
+    public String getStudentProfilePictureDeleteLink() {
+        String link = Const.ActionURIs.STUDENT_PROFILE_PICTURE_DELETE;
+        link = addSessionTokenToUrl(link);
+        return link;
+    }
+
     public String getStudentCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         link = addUserIdToUrl(link);

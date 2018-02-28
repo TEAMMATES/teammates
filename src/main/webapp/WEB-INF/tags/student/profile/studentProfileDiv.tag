@@ -32,6 +32,16 @@
         Upload/Edit Photo
       </button>
     </div>
+    <br>
+    <br>
+    <div class="">
+      <button id="deletePhoto"
+              class="btn btn-primary"
+              href="${profile.deleteUrl}"
+              type="button">
+        Delete Photo
+      </button>
+    </div>
   </div>
   <form class="form center-block"
       role="form"
