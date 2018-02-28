@@ -68,7 +68,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
 
         ______TS("fail: feedback session is not a session for the course");
-        //### Modify this after modifing the json course for private session###
+
         frComment.feedbackSessionName = "Instructor feedback session";
 
         verifyExceptionThrownFromCreateFrComment(frComment,

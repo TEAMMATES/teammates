@@ -177,9 +177,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             typicalCase[indexOfSessionPublishTime] = "2";
             break;
         case 2:
-            // Check which methods are using this method with order 2, modify those, then delete this.
-            break;
-        case 3:
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
             typicalCase[indexOfSessionInstructionsValue] = "";
             break;

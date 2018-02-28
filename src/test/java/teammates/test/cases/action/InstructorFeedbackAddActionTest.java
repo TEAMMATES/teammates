@@ -132,11 +132,10 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 
-        /*______TS("timezone with minute offset");
-        //Wait for a reviewers feedback
+        ______TS("timezone with minute offset");
 
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, "Course with minute offset timezone", 2);
+                         instructor1ofCourse1.courseId, "Course with minute offset timezone", 1);
         params[25] = "5.5";
 
         a = getAction(params);
@@ -158,21 +157,21 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
                 + "<span class=\"bold\">From:</span> Tue Jan 31 18:30:00 UTC 2012"
                 + "<span class=\"bold\"> to</span> Wed Dec 31 18:30:00 UTC 2014<br>"
-                + "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>"
-                + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
+                + "<span class=\"bold\">Session visible from:</span> Thu Dec 31 00:00:00 UTC 1970<br>"
+                + "<span class=\"bold\">Results visible from:</span> Wed May 07 20:30:00 UTC 2014<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||"
                 + "/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
-        */
+
         ______TS("Masquerade mode");
 
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, "masquerade session", 3);
+                         instructor1ofCourse1.courseId, "masquerade session", 2);
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
         a = getAction(params);
