@@ -97,6 +97,7 @@
       "isinstructor": true,
       "email": "inst2@gmail.tmt",
       "institute": "Teammates Test Institue 1"
+    
     },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
@@ -582,8 +583,11 @@
         "sessionLevel": {}
       }
     }
+    
     },
-    "students": {
+    
+
+  "students": {
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "email": "student1InCourse1@gmail.tmt",
@@ -1568,5 +1572,4 @@
     }
   },
   "profiles": {}
-}
 }
