@@ -1,5 +1,6 @@
 package teammates.test.driver;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -30,7 +31,7 @@ public final class TimeHelperExtension {
      * Note the last one is different from the others.
      */
     public static String convertToDisplayValueInTimeDropDown(Date date) {
-        int optionValue = TimeHelper.convertToOptionValueInTimeDropDown(date);
+        int optionValue = convertToOptionValueInTimeDropDown(date);
         if (optionValue == 24) {
             return "2359H";
         } else if (optionValue >= 0 && optionValue < 10) {
@@ -40,5 +41,29 @@ public final class TimeHelperExtension {
         } else {
             throw new RuntimeException("Unrecognized time option: " + optionValue);
         }
+    }
+
+    /**
+     * Formats a date in the corresponding option value in 'Time' dropdowns The
+     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
+     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
+     */
+    @Deprecated
+    public static int convertToOptionValueInTimeDropDown(Date date) {
+        return convertToOptionValueInTimeDropDown(TimeHelper.convertDateToLocalDateTime(date));
+    }
+
+    /**
+     * Formats a date in the corresponding option value in 'Time' dropdowns The
+     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
+     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
+     */
+    public static int convertToOptionValueInTimeDropDown(LocalDateTime localDateTime) {
+        //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
+        int hour = localDateTime.getHour();
+        if (hour == 0 || hour == 23 && localDateTime.getMinute() == 59) {
+            return 24;
+        }
+        return hour;
     }
 }

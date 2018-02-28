@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -60,7 +61,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public String getCreatedAtDateString() {
-        return TimeHelper.formatDateTimeForInstructorCoursesPage(createdAt);
+        return TimeHelper.formatDateTimeForInstructorCoursesPage(createdAt, timeZone);
     }
 
     public String getCreatedAtDateStamp() {
@@ -68,7 +69,9 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public String getCreatedAtFullDateTimeString() {
-        return TimeHelper.formatTime12H(createdAt);
+        return TimeHelper.formatTime12H(
+                TimeHelper.convertInstantToLocalDateTime(
+                        TimeHelper.convertDateToInstant(createdAt), ZoneId.of(timeZone)));
     }
 
     public void setTimeZone(String timeZone) {

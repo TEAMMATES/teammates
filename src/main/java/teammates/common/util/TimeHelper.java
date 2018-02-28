@@ -1,11 +1,10 @@
 package teammates.common.util;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -136,6 +135,7 @@ public final class TimeHelper {
      * @param inputTimeHours    the hour, 0-24
      * @return                  a LocalDateTime at the specified date and hour
      */
+    // TODO: Rename after deleting the deprecated combineDateTime
     public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
@@ -182,6 +182,10 @@ public final class TimeHelper {
         return convertToUserTimeZone(c, timeZone).getTime();
     }
 
+    // User time zone is just a view of an Instant/ZonedDateTime,
+    // which should be handled in formatting methods.
+    // TODO: Remove this method and refactor where it is used.
+    @Deprecated
     public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
         Calendar newTime = (Calendar) time.clone();
         newTime.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
@@ -189,19 +193,27 @@ public final class TimeHelper {
     }
 
     /**
-     * Converts the {@code localDate} from {@code localTimeZone}) to UTC through shifting by the offset.
+     * Converts the {@code localDate} from {@code localTimeZone} to UTC through shifting by the offset.
      * Does not shift if {@code localDate} is a special representation.
      */
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
-        if (localDate == null) {
-            return null;
-        }
-        if (isSpecialTime(localDate)) {
-            return localDate;
-        }
-        Calendar localCal = dateToCalendar(localDate);
-        localCal.add(Calendar.MINUTE, (int) (60 * (-localTimeZone)));
-        return localCal.getTime();
+        return convertInstantToDate(
+                convertLocalDateTimeToInstant(convertDateToLocalDateTime(localDate),
+                        convertToZoneId(localTimeZone)));
+    }
+
+    /**
+     * Converts the {@code localDateTime} to {@code Instant} using the {@code timeZone}.
+     */
+    public static Instant convertLocalDateTimeToInstant(LocalDateTime localDateTime, ZoneId timeZone) {
+        return localDateTime == null ? null : localDateTime.atZone(timeZone).toInstant();
+    }
+
+    /**
+     * Converts the {@code Instant} at the specified {@code timeZone} to {@code localDateTime}.
+     */
+    public static LocalDateTime convertInstantToLocalDateTime(Instant instant, ZoneId timeZoneId) {
+        return instant == null ? null : instant.atZone(timeZoneId).toLocalDateTime();
     }
 
     /**
@@ -212,139 +224,157 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the corresponding option value in 'Time' dropdowns The
-     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
-     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
+     * Format {@code localDateTime} according to a specified {@code pattern}.
+     * PM is especially formatted as NOON if it's 12:00 PM, if present
      */
-    public static int convertToOptionValueInTimeDropDown(Date date) {
-        //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        c.setTime(date);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minutes = c.get(Calendar.MINUTE);
-        hour = hour == 0 ? 24 : hour;
-        hour = hour == 23 && minutes == 59 ? 24 : hour;
-        return hour;
+    private static String formatLocalDateTime(LocalDateTime localDateTime, String pattern) {
+        if (localDateTime == null) {
+            return "";
+        }
+        String processedPattern = pattern;
+        if (localDateTime.getHour() == 12 && localDateTime.getMinute() == 0) {
+            processedPattern = pattern.replace("a", "'NOON'");
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
+        return localDateTime.format(formatter);
     }
 
     /**
      * Formats a date in the format dd/MM/yyyy.
      */
+    @Deprecated
     public static String formatDate(Date date) {
-        if (date == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        return sdf.format(date);
+        return formatDate(convertDateToLocalDateTime(date));
+    }
+
+    /**
+     * Formats a date in the format dd/MM/yyyy.
+     */
+    public static String formatDate(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "dd/MM/yyyy");
     }
 
     /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
      * 2:04 PM<br>
      */
+    @Deprecated
     public static String formatTime12H(Date date) {
-        if (date == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        c.setTime(date);
-        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm");
-            sdf.setTimeZone(SystemParams.TIME_ZONE);
-            return sdf.format(date) + " NOON";
-        }
-        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm a");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        return sdf.format(date);
+        return formatTime12H(convertDateToLocalDateTime(date));
     }
 
-    public static String formatDateTimeForSessions(Date dateInUtc, double sessionTimeZone) {
-        if (dateInUtc == null) {
+    /**
+     * Formats a date in the format dd MMM yyyy, hh:mm a. 12:00 PM is especially formatted as 12:00 NOON
+     * Example: 05 May 2012, 2:04 PM<br>
+     */
+    public static String formatTime12H(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "EEE, dd MMM yyyy, hh:mm a");
+    }
+
+    /**
+     * Format {@code instant} at a {@code timeZone} according to a specified {@code pattern}.
+     * PM is especially formatted as NOON if it's 12:00 PM, if present.
+     */
+    private static String formatInstant(Instant instant, ZoneId timeZone, String pattern) {
+        if (instant == null) {
             return "";
         }
-        SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        TimeZone timeZone = getTimeZoneFromDoubleOffset(sessionTimeZone);
-        c.setTimeZone(timeZone);
-        c.setTime(dateInUtc);
-        String periodIndicator =
-                c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0 ? "'NOON'" : "a";
-        sdf = new SimpleDateFormat("EEE, dd MMM yyyy, hh:mm " + periodIndicator + " 'UTC'Z");
-        sdf.setTimeZone(timeZone);
-        return sdf.format(dateInUtc);
+        ZonedDateTime zonedDateTime = instant.atZone(timeZone);
+        String processedPattern = pattern;
+        if (zonedDateTime.getHour() == 12 && zonedDateTime.getMinute() == 0) {
+            processedPattern = pattern.replace("a", "'NOON'");
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
+        return zonedDateTime.format(formatter);
+    }
+
+    @Deprecated
+    public static String formatDateTimeForSessions(Date dateInUtc, double sessionTimeZone) {
+        return formatDateTimeForSessions(
+                convertDateToInstant(dateInUtc), convertToZoneId(sessionTimeZone));
+    }
+
+    public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
+        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
     }
 
     /**
      * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
      */
+    @Deprecated
     public static String formatDateTimeForInstructorHomePage(Date date) {
-        if (date == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        c.setTime(date);
-        if (c.get(Calendar.HOUR_OF_DAY) == 12 && c.get(Calendar.MINUTE) == 0) {
-            sdf = new SimpleDateFormat("d MMM h:mm");
-            sdf.setTimeZone(SystemParams.TIME_ZONE);
-            return sdf.format(date) + " NOON";
-        }
-        sdf = new SimpleDateFormat("d MMM h:mm a");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        return sdf.format(date);
+        return formatDateTimeForInstructorHomePage(convertDateToLocalDateTime(date));
+    }
+
+    /**
+     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
+     */
+    public static String formatDateTimeForInstructorHomePage(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "d MMM h:mm a");
     }
 
     /**
      * Formats a date in the format d MMM yyyy. Example: 5 May 2017
      */
-    public static String formatDateTimeForInstructorCoursesPage(Date date) {
-        if (date == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = null;
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        c.setTime(date);
-        sdf = new SimpleDateFormat("d MMM yyyy");
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        return sdf.format(date);
+    @Deprecated
+    public static String formatDateTimeForInstructorCoursesPage(Date date, String timeZoneId) {
+        return formatDateTimeForInstructorCoursesPage(convertDateToInstant(date), timeZoneId);
+    }
+
+    /**
+     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
+     */
+    public static String formatDateTimeForInstructorCoursesPage(Instant instant, String timeZoneId) {
+        return formatInstant(instant, ZoneId.of(timeZoneId), "d MMM yyyy");
     }
 
     /**
      * Formats {@code dateInUtc} according to the ISO8601 format.
      */
+    @Deprecated
     public static String formatDateToIso8601Utc(Date dateInUtc) {
-        if (dateInUtc == null) {
-            return "";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat(Const.TIME_FORMAT_ISO_8601_UTC);
-        sdf.setTimeZone(SystemParams.TIME_ZONE);
-        return sdf.format(dateInUtc);
+        return formatInstantToIso8601Utc(convertDateToInstant(dateInUtc));
     }
 
-    public static String calendarToString(Calendar c) {
-        if (c == null) {
-            return "";
-        }
-        return new SimpleDateFormat("MM/dd/yyyy HH:mm:ss SSS").format(c.getTime());
+    /**
+     * Formats {@code instant} according to the ISO8601 format.
+     */
+    public static String formatInstantToIso8601Utc(Instant instant) {
+        return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
+    }
+
+    public static String formatActivityLogTime(Instant instant, ZoneId adminTimeZone) {
+        return formatInstant(instant, adminTimeZone, "MM/dd/yyyy HH:mm:ss SSS");
     }
 
     /**
      * Converts the date string to a Date object.
      *
      * @param dateInStringFormat should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
+     * @deprecated Use {@link TimeHelper#parseInstant(String)} instead
      */
+    @Deprecated
     public static Date convertToDate(String dateInStringFormat) {
+        return convertInstantToDate(parseInstant(dateInStringFormat));
+    }
+
+    /**
+     * Converts the datetime string to an Instant object.
+     *
+     * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
+     */
+    public static Instant parseInstant(String dateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
         try {
-            DateFormat df = new SimpleDateFormat(SystemParams.DEFAULT_DATE_TIME_FORMAT);
-            return df.parse(dateInStringFormat);
-        } catch (ParseException e) {
+            return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
+        } catch (DateTimeParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
     }
 
+    // TODO: both Date and Calendar will become Instant so this should be removed totally
+    @Deprecated
     public static Calendar dateToCalendar(Date date) {
         Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
         if (date == null) {
@@ -458,6 +488,7 @@ public final class TimeHelper {
     /**
      * Temporary method for transition from storing time zone as double.
      */
+    @Deprecated
     public static ZoneId convertToZoneId(double timeZone) {
         return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (timeZone * 60 * 60)));
     }
@@ -466,8 +497,33 @@ public final class TimeHelper {
      * Temporary method for transition from java.util.Date.
      * @param localDateTime will be assumed to be in UTC
      */
+    @Deprecated
     public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
         return localDateTime == null ? null : Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
+    }
+
+    /**
+     * Temporary method for transition from java.util.Date.
+     */
+    @Deprecated
+    public static LocalDateTime convertDateToLocalDateTime(Date date) {
+        return date == null ? null : date.toInstant().atZone(ZoneId.of("UTC")).toLocalDateTime();
+    }
+
+    /**
+     * Temporary method for transition from java.util.Date.
+     */
+    @Deprecated
+    public static Date convertInstantToDate(Instant instant) {
+        return instant == null ? null : Date.from(instant);
+    }
+
+    /**
+     * Temporary method for transition from java.util.Date.
+     */
+    @Deprecated
+    public static Instant convertDateToInstant(Date date) {
+        return date == null ? null : date.toInstant();
     }
 
     /**
@@ -475,48 +531,34 @@ public final class TimeHelper {
      *
      * <p>Example: 1200 milliseconds ---> 0:1:200.
      */
-
     public static String convertToStandardDuration(Long timeInMilliseconds) {
 
         return timeInMilliseconds == null
              ? ""
              : String.format("%d:%d:%d",
-                             timeInMilliseconds / 60000,
-                             timeInMilliseconds / 1000,
-                             timeInMilliseconds % 1000);
+                timeInMilliseconds / 60000,
+                (timeInMilliseconds % 60000) / 1000,
+                timeInMilliseconds % 1000);
     }
 
     /**
-     * Combines separated date, hour and minute string into standard format.
+     * Parse a `LocalDateTime` object from separated date, hour and minute strings.
      *
      * <p>required parameter format:
-     * date: dd/MM/yyyy  hour: hh   min:mm
-     *
-     * @return Date String in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.<br>
-     *         Example: If date is 01/04/2014, hour is 23, min is 59, result will be  2014-04-01 11:59 PM UTC.
+     * date: dd/MM/yyyy  hour: H   min:m
+     * Example: If date is 01/04/2014, hour is 23, min is 59.
      */
-    public static String convertToRequiredFormat(String date, String hour, String min) {
-
+    public static LocalDateTime parseLocalDateTime(String date, String hour, String min) {
         if (date == null || hour == null || min == null) {
             return null;
         }
-
-        final String OLD_FORMAT = "dd/MM/yyyy";
-        final String NEW_FORMAT = "yyyy-MM-dd";
-
-        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy H m");
         try {
-            Date d = sdf.parse(date);
-            sdf.applyPattern(NEW_FORMAT);
-            int intHour = Integer.parseInt(hour);
-            String amOrPm = intHour >= 12 ? "PM" : "AM";
-            intHour = intHour >= 13 ? intHour - 12 : intHour;
-            return sdf.format(d) + " " + intHour + ":" + min + " " + amOrPm + " UTC";
-        } catch (ParseException e) {
+            return LocalDateTime.parse(date + " " + hour + " " + min, formatter);
+        } catch (DateTimeParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
-
     }
 
     public static TimeZone getTimeZoneFromDoubleOffset(double sessionTimeZone) {

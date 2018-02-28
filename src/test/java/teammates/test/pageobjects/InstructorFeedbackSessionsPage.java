@@ -15,6 +15,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackSessionsPage extends AppPage {
 
@@ -323,7 +324,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
 
             String timeDropdownId = timeDropdown.getAttribute("id");
-            int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            int timeDropdownVal = TimeHelperExtension.convertToOptionValueInTimeDropDown(datetimeValue);
             executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }

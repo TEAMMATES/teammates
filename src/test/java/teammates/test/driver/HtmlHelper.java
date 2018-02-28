@@ -41,7 +41,7 @@ public final class HtmlHelper {
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] ([AP]M|NOON)";
     private static final String REGEX_DISPLAY_TIME_ISO_8601_UTC =
-            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z";
+            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.([0-9]{3}|[0-9]{6}))?Z";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
     private static final String REGEX_TIMEZONE_OFFSET = "UTC([+-]\\d{4})";
@@ -513,7 +513,8 @@ public final class HtmlHelper {
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
                       .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
-                      .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(now));
+                      .replace("<!-- now.datetime.courses -->",
+                              TimeHelper.formatDateTimeForInstructorCoursesPage(now, "UTC"));
     }
 
     private static TimeZone getTimeZone(String content) {
