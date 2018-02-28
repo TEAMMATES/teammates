@@ -59,7 +59,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testSearchAction();
         testSortAction();
         testRemindActions();
-        testPublishUnpublishActions();
+        testPublishUnpublishResendLinksActions();
         testArchiveCourseAction();
         testCopyToFsAction();
         testDeleteCourseAction();
@@ -317,7 +317,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testPublishUnpublishActions() {
+    private void testPublishUnpublishResendLinksActions() {
         ______TS("publish action: AWAITING feedback session");
 
         homePage.verifyUnclickable(homePage.getSessionResultsOptionsCaretElement(feedbackSessionAwaiting.getCourseId(),
@@ -348,6 +348,36 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
         assertTrue(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),
                                                feedbackSessionPublished.getFeedbackSessionName()).isPublished());
+
+        ______TS("resend links action: PUBLISHED feedback session");
+        homePage.verifyResendPublishedLinksButtonExist(feedbackSessionPublished.getCourseId(),
+                                                       feedbackSessionPublished.getFeedbackSessionName());
+        homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
+                                                        feedbackSessionPublished.getFeedbackSessionName());
+        homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
+                                              feedbackSessionPublished.getFeedbackSessionName());
+        homePage.cancelResendPublshedLinksForm();
+        homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
+                feedbackSessionPublished.getFeedbackSessionName());
+        homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
+                                              feedbackSessionPublished.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
+        homePage.submitResendPublshedLinksForm();
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT);
+        homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
+                                                        feedbackSessionPublished.getFeedbackSessionName());
+        homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
+                                              feedbackSessionPublished.getFeedbackSessionName());
+        homePage.waitForAjaxLoaderGifToDisappear();
+        homePage.fillResendPublshedLinksForm();
+        homePage.submitResendPublshedLinksForm();
+        homePage.waitForPageToLoad();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT);
+
+        ______TS("resend links action: NOT PUBLISHED feedback session");
+        homePage.verifyResendPublishedLinksButtonNotExist(feedbackSessionAwaiting.getCourseId(),
+                                                          feedbackSessionAwaiting.getFeedbackSessionName());
     }
 
     private void testArchiveCourseAction() throws Exception {

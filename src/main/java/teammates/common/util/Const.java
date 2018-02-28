@@ -863,6 +863,7 @@ public final class Const {
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_FEEDBACK = "feedback";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
+        public static final String SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST = "usersToEmail";
 
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 

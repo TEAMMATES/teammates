@@ -31,7 +31,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsAction extends Acti
             return createRedirectResult(nextUrl);
         }
 
-        String[] usersToEmail = getRequestParamValues(Const.ParamsNames.SEND_PUBLISHED_EMAIL);
+        String[] usersToEmail = getRequestParamValues(Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST);
         if (usersToEmail == null || usersToEmail.length == 0) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT,
                                                StatusMessageColor.DANGER));

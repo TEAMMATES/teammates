@@ -33,7 +33,7 @@
       <td class="align-center">
         <div class="checkbox">
           <label>
-            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SEND_PUBLISHED_EMAIL %>" value="${userToEmailEmail}">
+            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST %>" value="${userToEmailEmail}">
           </label>
         </div>
       </td>
@@ -56,7 +56,7 @@
       <td class="align-center">
         <div class="checkbox">
           <label>
-            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SEND_PUBLISHED_EMAIL %>" value="${userToEmailEmail}">
+            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST %>" value="${userToEmailEmail}">
           </label>
         </div>
       </td>

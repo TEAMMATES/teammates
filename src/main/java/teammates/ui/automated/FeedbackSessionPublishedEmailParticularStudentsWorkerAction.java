@@ -33,7 +33,7 @@ public class FeedbackSessionPublishedEmailParticularStudentsWorkerAction extends
     public void execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
         String courseId = getNonNullRequestParamValue(ParamsNames.SUBMISSION_COURSE);
-        String[] usersToRemind = getNonNullRequestParamValues(ParamsNames.SEND_PUBLISHED_EMAIL);
+        String[] usersToRemind = getNonNullRequestParamValues(ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

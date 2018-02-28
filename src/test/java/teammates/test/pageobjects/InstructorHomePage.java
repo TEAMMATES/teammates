@@ -164,6 +164,30 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorHomePage.class);
     }
 
+    public void clickResendPublshedLinksLink(String courseId, String evalName) {
+        click(getResendPublishedLinksLink(courseId, evalName));
+        ThreadHelper.waitFor(1000);
+    }
+
+    public void cancelResendPublshedLinksForm() {
+        WebElement publishEmailModal = browser.driver.findElement(By.id("publishEmailModal"));
+        click(publishEmailModal.findElement(By.tagName("button")));
+        waitForModalToDisappear();
+    }
+
+    public void fillResendPublshedLinksForm() {
+        WebElement publishEmailModal = browser.driver.findElement(By.id("publishEmailModal"));
+        List<WebElement> usersToEmail = publishEmailModal.findElements(By.name("usersToEmail"));
+        for (WebElement e : usersToEmail) {
+            markCheckBoxAsChecked(e);
+        }
+    }
+
+    public void submitResendPublshedLinksForm() {
+        WebElement publishEmailModal = browser.driver.findElement(By.id("publishEmailModal"));
+        publishEmailModal.findElement(By.name("form_email_list")).submit();
+    }
+
     public InstructorStudentListPage searchForStudent(String studentName) {
         searchBox.clear();
         searchBox.sendKeys(studentName);
@@ -254,12 +278,36 @@ public class InstructorHomePage extends AppPage {
                     + "]//button[contains(@class,'session-results-options')]"));
     }
 
+    public void clickSessionResultsOptionsCaretElement(String courseId, String evalName) {
+        click(getSessionResultsOptionsCaretElement(courseId, evalName));
+    }
+
     public WebElement getPublishLink(String courseId, String evalName) {
         return getSessionLinkInRow("session-publish-for-test", getEvaluationRowId(courseId, evalName));
     }
 
     public WebElement getUnpublishLink(String courseId, String evalName) {
         return getSessionLinkInRow("session-unpublish-for-test", getEvaluationRowId(courseId, evalName));
+    }
+
+    public void verifyResendPublishedLinksButtonExist(String courseId, String evalName) {
+        int rowId = getEvaluationRowId(courseId, evalName);
+        waitForElementPresence(By.id("session" + rowId));
+        WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
+        String resendLinksClassNamePrefix = "session-publish-email-particular-for-test";
+        verifyElementContainsElement(sessionRow, By.className(resendLinksClassNamePrefix));
+    }
+
+    public void verifyResendPublishedLinksButtonNotExist(String courseId, String evalName) {
+        int rowId = getEvaluationRowId(courseId, evalName);
+        waitForElementPresence(By.id("session" + rowId));
+        WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
+        String resendLinksClassNamePrefix = "session-publish-email-particular-for-test";
+        verifyElementNotContainsElement(sessionRow, By.className(resendLinksClassNamePrefix));
+    }
+
+    public WebElement getResendPublishedLinksLink(String courseId, String evalName) {
+        return getSessionLinkInRow("session-publish-email-particular-for-test", getEvaluationRowId(courseId, evalName));
     }
 
     public WebElement getDeleteEvalLink(String courseId, String evalName) {

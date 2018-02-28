@@ -198,7 +198,7 @@ public class TaskQueuer {
         Map<String, String[]> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[] { feedbackSessionName });
         paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[] { courseId });
-        paramMap.put(ParamsNames.SEND_PUBLISHED_EMAIL, usersToEmail);
+        paramMap.put(ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST, usersToEmail);
 
         addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
                              TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
