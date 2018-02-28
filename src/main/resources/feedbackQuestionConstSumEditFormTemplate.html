@@ -98,11 +98,12 @@
       <div class="col-sm-12">
         <div class="checkbox" id="constSum_tooltipText-${questionNumber}"
              data-toggle="tooltip" data-placement="top" data-container="body"
-             title="Ticking this prevents a giver from distributing the same number of points to multiple ${optionRecipientDisplayName}s">
+             title="This determines whether a giver can distribute the same number of points to multiple ${optionRecipientDisplayName}s">
           <label class="bold-label">
             <span class="inline-block">
-              <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS}" disabled
-                     id="constSum_UnevenDistribution-${questionNumber}" ${distributeUnevenly}
+              <input type="checkbox" disabled
+                     id="distributePointsOptionsCheckbox-${questionNumber}"
+                     ${checkedDistributePointsOptions}
                      onchange="toggleConstSumDistributePointsOptions(this, ${questionNumber})">
             </span>
             <select class="form-control width-auto inline" id="constSumDistributePointsSelect-${questionNumber}"

@@ -201,10 +201,10 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
         boolean isPointsPerOption = false;
         int points = 100;
-        boolean shouldForceUnevenDistribution = false;
+        String distributePointsOption = "None";
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
                 new FeedbackConstantSumQuestionDetails(questionText, constSumOptions,
-                                                       isPointsPerOption, points, shouldForceUnevenDistribution);
+                                                       isPointsPerOption, points, distributePointsOption);
 
         requestParameters.put("questiontype-7", new String[] { "CONSTSUM" });
         requestParameters.put("responsetext-7-0", new String[] { "20", "80" });

@@ -17,6 +17,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
@@ -30,7 +31,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private List<String> constSumOptions;
     private boolean distributeToRecipients;
     private boolean pointsPerOption;
-    private boolean forceUnevenDistribution;
+    private String distributePointsFor;
     private int points;
 
     public FeedbackConstantSumQuestionDetails() {
@@ -41,12 +42,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
         this.points = 100;
-        this.forceUnevenDistribution = false;
+        this.distributePointsFor = FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption();
     }
 
     public FeedbackConstantSumQuestionDetails(String questionText,
             List<String> constSumOptions,
-            boolean pointsPerOption, int points, boolean unevenDistribution) {
+            boolean pointsPerOption, int points, String distributePointsFor) {
         super(FeedbackQuestionType.CONSTSUM, questionText);
 
         this.numOfConstSumOptions = constSumOptions.size();
@@ -54,8 +55,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributeToRecipients = false;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
-        this.forceUnevenDistribution = unevenDistribution;
-
+        this.distributePointsFor = distributePointsFor;
     }
 
     @Override
@@ -82,9 +82,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         Assumption.assertNotNull("Null points in total", pointsString);
         Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
         Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
-        String forceUnevenDistributionString =
+        String distributePointsOption =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS);
 
         boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
         boolean pointsPerOption = "true".equals(pointsPerOptionString);
@@ -96,10 +96,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         } else {
             points = Integer.parseInt(pointsString);
         }
-        boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
 
         if (distributeToRecipients) {
-            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
+            this.setConstantSumQuestionDetails(pointsPerOption, points, distributePointsOption);
         } else {
             String numConstSumOptionsCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -116,33 +115,33 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     numOfConstSumOptions++;
                 }
             }
-            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution);
+            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, distributePointsOption);
         }
         return true;
     }
 
     private void setConstantSumQuestionDetails(
             List<String> constSumOptions, boolean pointsPerOption,
-            int points, boolean unevenDistribution) {
+            int points, String distributePointsOption) {
 
         this.numOfConstSumOptions = constSumOptions.size();
         this.constSumOptions = constSumOptions;
         this.distributeToRecipients = false;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
-        this.forceUnevenDistribution = unevenDistribution;
+        this.distributePointsFor = distributePointsOption;
 
     }
 
     private void setConstantSumQuestionDetails(boolean pointsPerOption,
-            int points, boolean unevenDistribution) {
+            int points, String distributePointsOption) {
 
         this.numOfConstSumOptions = 0;
         this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = true;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
-        this.forceUnevenDistribution = unevenDistribution;
+        this.distributePointsFor = distributePointsOption;
     }
 
     @Override
@@ -210,7 +209,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_POINTS_PER_OPTION_VALUE, Boolean.toString(pointsPerOption),
                 Slots.CONSTSUM_NUM_OPTION_VALUE, Integer.toString(constSumOptions.size()),
                 Slots.CONSTSUM_POINTS_VALUE, Integer.toString(points),
-                Slots.CONSTSUM_UNEVEN_DISTRIBUTION_VALUE, Boolean.toString(forceUnevenDistribution),
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
@@ -218,7 +216,18 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_FOR_VALUE, distributePointsFor,
+                Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_SELECTED, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_SELECTED, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_TO_STRING,
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption(),
+                Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_TO_STRING,
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()
                 );
     }
 
@@ -269,7 +278,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_POINTS_PER_OPTION_VALUE, Boolean.toString(pointsPerOption),
                 Slots.CONSTSUM_NUM_OPTION_VALUE, Integer.toString(constSumOptions.size()),
                 Slots.CONSTSUM_POINTS_VALUE, Integer.toString(points),
-                Slots.CONSTSUM_UNEVEN_DISTRIBUTION_VALUE, Boolean.toString(forceUnevenDistribution),
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
@@ -277,7 +285,18 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
+                Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_FOR_VALUE, distributePointsFor,
+                Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_SELECTED, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_SELECTED, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_TO_STRING,
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption(),
+                Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_TO_STRING,
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()
                 );
     }
 
@@ -316,15 +335,25 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_TOOLTIP_POINTS_PER_OPTION, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_TOOLTIP_POINTS_PER_RECIPIENT,
                         Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
-
+                Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_FOR_VALUE, distributePointsFor,
+                Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_SELECTED, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_SELECTED, distributePointsFor.equals(
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_TO_STRING,
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption(),
+                Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_TO_STRING,
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()
+        );
     }
 
     @Override
@@ -635,7 +664,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return true;
         }
 
-        return this.forceUnevenDistribution != newConstSumDetails.forceUnevenDistribution;
+        return !this.distributePointsFor.equals(newConstSumDetails.distributePointsFor);
     }
 
     @Override
@@ -729,13 +758,30 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
 
             Set<Integer> answerSet = new HashSet<>();
-            if (this.forceUnevenDistribution) {
+            if (distributePointsFor.equals(
+                    FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
+                Logger.getLogger().info("UNEVEN");
                 for (int i : frd.getAnswerList()) {
                     if (answerSet.contains(i)) {
                         errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
                         return errors;
                     }
                     answerSet.add(i);
+                }
+            } else if (distributePointsFor.equals(
+                    FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
+                boolean hasDifferentPoints = false;
+                for (int i : frd.getAnswerList()) {
+                    if (answerSet.contains(i)) {
+                        hasDifferentPoints = true;
+                        break;
+                    }
+                    answerSet.add(i);
+                }
+
+                if (!hasDifferentPoints) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
+                    return errors;
                 }
             }
         }

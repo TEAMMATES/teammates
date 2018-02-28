@@ -491,7 +491,9 @@ function updateConstSumMessageQn(qnNum) {
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
     const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
-    const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
+    const forceUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() === 'None';
+    const forceAllUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() === 'All options';
+    const forceSomeUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() === 'At least some options';
 
     if (distributeToRecipients) {
         numOptions = numRecipients;
@@ -506,6 +508,7 @@ function updateConstSumMessageQn(qnNum) {
     let sum = 0;
     let remainingPoints = points;
     let allUnique = true;
+    let allSame = true;
     let allNotNumbers = true;
     let answerSet = {};
 
@@ -560,8 +563,14 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-blue');
         }
 
-        if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
+        if (!allNotNumbers && forceAllUnevenDistribution && !allUnique) {
             message += ' The same amount of points should not be given multiple times.';
+            messageElement.addClass('text-color-red');
+            messageElement.removeClass('text-color-green');
+        }
+
+        if (!allNotNumbers && forceSomeUnevenDistribution && allSame) {
+            message += ' Different amount of points should be given to some options.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
         }
@@ -581,6 +590,8 @@ function updateConstSumMessageQn(qnNum) {
 
         if (pointsAllocated in answerSet) {
             allUnique = false;
+        } else if (Object.keys(answerSet).length !== 0) {
+            allSame = false;
         }
 
         answerSet[pointsAllocated] = true;

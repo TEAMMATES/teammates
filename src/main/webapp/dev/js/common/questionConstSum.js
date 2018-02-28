@@ -70,10 +70,28 @@ function removeConstSumOption(index, questionNum) {
     }
 }
 
+function toggleConstSumDistributePointsOptions(checkbox, questionNum) {
+    if (checkbox.checked) {
+        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', false);
+        $(`#constSumDistributePointsOptions-${questionNum}`).attr('value',
+                $(`#constSumDistributePointsSelect-${questionNum}`).prop('value'));
+    } else {
+        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', true);
+        $(`#constSumDistributePointsOptions-${questionNum}`).attr('value', 'None');
+    }
+}
+
+function changeConstSumDistributePointsFor(questionNum) {
+    $(`#constSumDistributePointsOptions-${questionNum}`).attr('value',
+            $(`#constSumDistributePointsSelect-${questionNum}`).prop('value'));
+}
+
 export {
     addConstSumOption,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
     updateConstSumPointsValue,
+    toggleConstSumDistributePointsOptions,
+    changeConstSumDistributePointsFor,
 };
