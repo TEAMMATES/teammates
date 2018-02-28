@@ -10,13 +10,9 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
-    public static final transient String ERROR_MIN_RANK_OPTIONS_EMPTY =
-            "Minimum options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.";
-    public static final transient String ERROR_MAX_RANK_OPTIONS_EMPTY =
-            "Maximum options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.";
 
-    protected boolean minOptionsToBeRankedEnabled;
-    protected boolean maxOptionsToBeRankedEnabled;
+    protected transient boolean isMinOptionsToBeRankedEnabled;
+    protected transient boolean isMaxOptionsToBeRankedEnabled;
     protected int minOptionsToBeRanked;
     protected int maxOptionsToBeRanked;
     private boolean areDuplicatesAllowed;

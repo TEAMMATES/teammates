@@ -236,16 +236,13 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
 }
 
 function prepareRankedQuestionCheckbox() {
-    $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}]`
-            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}]`
-            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSCHECKBOX}]`
-            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSCHECKBOX}]`).change((e) => {
-        if ($(e.target).is(':checked')) {
-            const correspondingInput = $(e.target)
-                    .closest('div')
-                    .parent()
-                    .next('div')
-                    .find('input');
+    $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}]`).change((e) => {
+        if ($(e.currentTarget).is(':checked')) {
+            const inputId = $(e.currentTarget).attr('data-input-id');
+            const correspondingInput = $(`#${inputId}`);
 
             if ($(correspondingInput).val() === '') {
                 $(correspondingInput).val('1');

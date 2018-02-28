@@ -773,14 +773,18 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RANKTORECIPIENTS = "rankToRecipients";
         public static final String FEEDBACK_QUESTION_RANKNUMOPTIONS = "rankNumOptions";
         public static final String FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED = "rankAreDuplicatesAllowed";
-        public static final String FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED = "minOptionsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED = "maxOptionsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED = "minOptionsToBeRanked";
-        public static final String FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED = "maxOptionsToBeRanked";
-        public static final String FEEDBACK_QUESTION_RANKISMINRECIPIENTSTOBERANKEDENABLED = "minRecipientsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKISMAXRECIPIENTSTOBERANKEDENABLED = "maxRecipientsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKMINRECIPIENTSTOBERANKED = "minRecipientsToBeRanked";
-        public static final String FEEDBACK_QUESTION_RANKMAXRECIPIENTSTOBERANKED = "maxRecipientsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED =
+                "minOptionsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED =
+                "maxOptionsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED = "minOptionsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED = "maxOptionsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED =
+                "minRecipientsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED =
+                "maxRecipientsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED = "minRecipientsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED = "maxRecipientsToBeRanked";
 
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
         public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
@@ -1385,10 +1389,8 @@ public final class Const {
                 "Please enter the maximum number of recipients each respondents should give feedback to.";
         public static final String FEEDBACK_QUESTION_TEXTINVALID =
                 "Please enter a valid question. The question text cannot be empty.";
-        public static final String FEEDBACK_QUESTION_MIN_RANK_OPTIONS_EMPTY =
-                "Minimum options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.";
-        public static final String FEEDBACK_QUESTION_MAX_RANK_OPTIONS_EMPTY =
-                "Maximum options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.";
+        public static final String FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY =
+                "%s options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.";
 
         public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted successfully!";
         public static final String FEEDBACK_RESPONSES_MISSING_RECIPIENT =
