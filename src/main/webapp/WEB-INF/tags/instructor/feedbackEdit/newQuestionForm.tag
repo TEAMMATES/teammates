@@ -156,4 +156,3 @@
 <instructorHelp:rubricQuestionTypeHelpModal />
 <instructorHelp:rankOptionsQuestionTypeHelpModal />
 <instructorHelp:rankRecipientsQuestionTypeHelpModal />
-

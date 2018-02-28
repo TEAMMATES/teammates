@@ -788,6 +788,3 @@ Rubric questions allow instructors to create multiple sub-questions, with highly
     </div>
   </div>
 </div>
-
-
-

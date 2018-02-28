@@ -53,4 +53,3 @@ TEAMMATES currently provides the following question types. Click to see details 
     </a>
   </li>
 </ul>
-
