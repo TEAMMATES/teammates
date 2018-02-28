@@ -38,13 +38,13 @@
   },
   "courses": {
     "CHomeUiT.CS2104": {
-      "createdAt": "2012-04-01 11:58 PM UTC",
+      "createdAt": "2012-04-01T23:58:00Z",
       "id": "CHomeUiT.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     },
     "CHomeUiT.CS1101": {
-      "createdAt": "2012-04-01 11:59 PM UTC",
+      "createdAt": "2012-04-01T23:59:00Z",
       "id": "CHomeUiT.CS1101",
       "name": "Programming Methodology",
       "timeZone": "UTC"
@@ -55,7 +55,7 @@
       "timeZone": "UTC"
     },
     "CHomeUiT.testingSanitizationCourse": {
-      "createdAt": "2012-04-01 11:58 PM UTC",
+      "createdAt": "2012-04-01T23:58:00Z",
       "id": "CHomeUiT.idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
