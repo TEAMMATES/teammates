@@ -139,6 +139,45 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     }
 
+    @Test
+    public void getCopy_typicalData_createsDeepCopy() {
+        AccountAttributes account = createValidAccountAttributesObject();
+
+        AccountAttributes copy = account.getCopy();
+
+        assertNotSame(account, copy);
+        assertNotSame(account.studentProfile, copy.studentProfile);
+        assertFalse(account.isInstructor);
+
+        assertEquals(account.googleId, copy.googleId);
+        assertEquals(account.name, copy.name);
+        assertEquals(account.institute, copy.institute);
+        assertEquals(account.email, copy.email);
+    }
+
+    @Test
+    public void getCopy_allFieldsNull_createsDeepCopy() {
+        AccountAttributes account = AccountAttributes.builder()
+                .withGoogleId(null)
+                .withName(null)
+                .withEmail(null)
+                .withInstitute(null)
+                .withIsInstructor(false)
+                .withStudentProfileAttributes(null)
+                .build();
+
+        AccountAttributes copy = account.getCopy();
+
+        assertNotSame(account, copy);
+        assertFalse(account.isInstructor);
+
+        assertNull("student profile should be null", copy.studentProfile);
+        assertNull("google id should be null", copy.googleId);
+        assertNull("name should be null", copy.name);
+        assertNull("institute should be null", copy.institute);
+        assertNull("email should be null", copy.email);
+    }
+
     private AccountAttributes createInvalidAccountAttributesObject() {
 
         String googleId = "invalid google id";
