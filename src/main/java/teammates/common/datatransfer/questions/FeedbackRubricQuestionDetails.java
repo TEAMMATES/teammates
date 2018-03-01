@@ -624,7 +624,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         // Create table body
         StringBuilder tableBodyHtml = new StringBuilder();
-        StringBuilder tableBodyHtmlExcludingSelf = new StringBuilder();
+        StringBuilder tableBodyExcludingSelfHtml = new StringBuilder();
 
         String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
@@ -635,7 +635,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             StringBuilder tableBodyExcludingSelfFragmentHtml = new StringBuilder();
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
-            boolean isSubQuestionRespondedToForExcludingSelf = responseFrequencyExcludingSelf[i][numOfRubricChoices] > 0;
+            boolean isSubQuestionRespondedToExcludingSelf = responseFrequencyExcludingSelf[i][numOfRubricChoices] > 0;
 
             for (int j = 0; j < numOfRubricChoices; j++) {
                 String percentageFrequencyString = isSubQuestionRespondedTo
@@ -647,7 +647,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
 
                 //For excluding self
-                String percentageFrequencyStringExcludingSelf = isSubQuestionRespondedToForExcludingSelf
+                String percentageFrequencyStringExcludingSelf = isSubQuestionRespondedToExcludingSelf
                         ? df.format(rubricStatsExcludingSelf[i][j] * 100) + "%"
                         : STATISTICS_NO_VALUE_STRING;
                 String tableBodyCellForExcludingSelf = Templates.populateTemplate(tableBodyFragmentTemplate,
@@ -686,7 +686,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
                             + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                     Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyExcludingSelfFragmentHtml.toString());
-            tableBodyHtmlExcludingSelf.append(tableRowExcludingSelf).append(System.lineSeparator());
+            tableBodyExcludingSelfHtml.append(tableRowExcludingSelf).append(System.lineSeparator());
         }
 
         String statsTitle = "Response Summary";
@@ -721,7 +721,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.STATS_TITLE, statsTitle,
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString(),
-                Slots.TABLE_BODY_EXCLUDING_SELF_HTML, tableBodyHtmlExcludingSelf.toString(),
+                Slots.TABLE_BODY_EXCLUDING_SELF_HTML, tableBodyExcludingSelfHtml.toString(),
                 Slots.EXCULDING_SELF_OPTION_VISIBLE, isExcludingSelfOptionAvailable ? "" : "hidden",
                 Slots.RUBRIC_RECIPIENT_STATS_HTML, recipientStatsHtml);
     }
@@ -1262,8 +1262,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             this.responseTotalIndex = numOfRubricChoices;
 
             calculateResponseFrequency();
-            calculatePercentageFrequencyAndAverage(false);
-            calculatePercentageFrequencyAndAverage(true);
+            this.percentageFrequencyAndAverage = calculatePercentageFrequencyAndAverage(false);
+            this.percentageFrequencyAndAverageExcludingSelf = calculatePercentageFrequencyAndAverage(true);
         }
 
         void calculateResponseFrequency() {
@@ -1287,10 +1287,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
-         * Calculates the percentage frequencies for each choice and average value for each sub-question.
-         * Precondition: responseFrequency has been calculated.
+         * Returns the calculated percentage frequencies for each choice and average value for each sub-question.
+         * @param isSelfExcluded is used to determine whether the calculation is done for selfExcluded responses
+         * Precondition: responseFrequency and responseFrequencyExcludingSelf has been calculated.
          */
-        void calculatePercentageFrequencyAndAverage(boolean isSelfExcluded) {
+        float[][] calculatePercentageFrequencyAndAverage(boolean isSelfExcluded) {
             Assumption.assertNotNull("Response Frequency should be initialised and calculated first.",
                                      (Object[]) responseFrequency);
 
@@ -1323,11 +1324,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
 
-            if (isSelfExcluded) {
-                this.percentageFrequencyAndAverageExcludingSelf = tempPercentageFrequencyAndAverage;
-            } else {
-                this.percentageFrequencyAndAverage = tempPercentageFrequencyAndAverage;
-            }
+            return tempPercentageFrequencyAndAverage;
         }
 
         int[][] getResponseFrequency() {
