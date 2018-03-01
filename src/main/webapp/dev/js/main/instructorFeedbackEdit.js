@@ -1115,7 +1115,7 @@ function readyFeedbackEditPage() {
         const questionNum = $(this).data('qnnumber');
         const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
-        var formStatus = checkFeedbackQuestion(this);
+        let formStatus = checkFeedbackQuestion(this);
         if (editType === 'delete') {
             formStatus = true;
         }
