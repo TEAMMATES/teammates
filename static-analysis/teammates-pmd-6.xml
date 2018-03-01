@@ -46,7 +46,6 @@
     <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod"/>
     <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts"/>
     <rule ref="category/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal"/>
-    <rule ref="category/java/design.xml/DataClass"/>
     <rule ref="category/java/design.xml/FinalFieldCouldBeStatic"/>
     <rule ref="category/java/design.xml/LogicInversion"/>
     <rule ref="category/java/design.xml/SimplifyBooleanExpressions"/>
@@ -104,7 +103,7 @@
     <rule ref="category/java/errorprone.xml/EmptyInitializer"/>
     <rule ref="category/java/errorprone.xml/EmptyStatementBlock"/>
     <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop"/>
-    <rule ref="category/java/errorprone.xml/EmptyInitializer" name="EmptyStaticInitializer"/>
+    <rule ref="category/java/errorprone.xml/EmptyInitializer"/>
     <rule ref="category/java/errorprone.xml/EmptySwitchStatements"/>
     <rule ref="category/java/errorprone.xml/EmptySynchronizedBlock"/>
     <rule ref="category/java/errorprone.xml/EmptyTryBlock"/>
