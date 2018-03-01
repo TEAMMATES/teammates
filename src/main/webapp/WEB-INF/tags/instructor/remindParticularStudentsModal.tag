@@ -21,7 +21,7 @@
           <div>
             <input id="remind-particular-checkall-submitted" type="checkbox"/>
             <span class="bg-info">All submitted</span>
-            &nbsp;
+            <div class="inline-divider-5px"></div>
             <input id="remind-particular-checkall-notsubmitted" type="checkbox"/>
             <span class="bg-danger">All yet to submit</span>
           </div>
