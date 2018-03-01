@@ -137,12 +137,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_preview_instructor")
     private WebElement previewAsInstructorButton;
 
-    @FindBy(xpath = "//input[@name='minRecipientsToBeRankedEnabled']")
-    private WebElement minNumberOfOptionsToRankCheckbox;
-
-    @FindBy(xpath = "//input[@name='minRecipientsToBeRanked']")
-    private WebElement minRecipientsToBeRankedInput;
-
     private InstructorCopyFsToModal fsCopyToModal;
 
     public InstructorFeedbackEditPage(Browser browser) {
@@ -1937,11 +1931,16 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     // Only to be used for Rank Recipient Questions
-    public void clickEnableMinRankRecipients() {
+    public void clickEnableMinRankRecipients(int questionNumber) {
+        By checkboxSelector = By.cssSelector("#minRecipientsToBeRankedEnabled-" + Integer.toString(questionNumber));
+        WebElement minNumberOfOptionsToRankCheckbox = browser.driver.findElement(checkboxSelector);
         click(minNumberOfOptionsToRankCheckbox);
     }
 
-    public void clearMinRankRecipients() {
+    public void clearMinRankRecipients(int questionNumber) {
+        By inputSelector = By.cssSelector("#minRecipientsToBeRanked-" + Integer.toString(questionNumber));
+
+        WebElement minRecipientsToBeRankedInput = browser.driver.findElement(inputSelector);
         click(minRecipientsToBeRankedInput);
         minRecipientsToBeRankedInput.clear();
     }

@@ -35,6 +35,9 @@ import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
  */
 @Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
+
+    private static final int NEW_QUESTION_INDEX = -1;
+
     private InstructorFeedbackEditPage feedbackEditPage;
     private String instructorId;
     private String courseId;
@@ -118,16 +121,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("Empty Rank Options Message");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
 
-        feedbackEditPage.clickEnableMinRankRecipients();
-        feedbackEditPage.clearMinRankRecipients();
+        feedbackEditPage.clickEnableMinRankRecipients(NEW_QUESTION_INDEX);
+        feedbackEditPage.clearMinRankRecipients(NEW_QUESTION_INDEX);
 
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"));
 
         ______TS("Success Case");
-        feedbackEditPage.clickEnableMinRankRecipients();
-        feedbackEditPage.clickEnableMinRankRecipients();
+        feedbackEditPage.clickEnableMinRankRecipients(NEW_QUESTION_INDEX);
+        feedbackEditPage.clickEnableMinRankRecipients(NEW_QUESTION_INDEX);
 
         feedbackEditPage.clickAddQuestionButton();
 
