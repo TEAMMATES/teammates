@@ -97,7 +97,6 @@
       "isinstructor": true,
       "email": "inst2@gmail.tmt",
       "institute": "Teammates Test Institue 1"
-    
     },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
@@ -528,8 +527,9 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      },
-      "instructor1ofTestinginstructorvisibilty" : {
+      }
+    },
+    "instructor1ofTestinginstructorvisibilty" : {
       "googleid": "idofinst1oftestingvisibilty",
       "courseId": "instructorvisibiltyCourse",
       "name": "instructor 1",
@@ -583,10 +583,7 @@
         "sessionLevel": {}
       }
     }
-    
-    },
-    
-
+  },
   "students": {
     "student1InCourse1": {
       "googleId": "student1InCourse1",
@@ -904,6 +901,29 @@
         "value": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>"
       },
       "createdTime": "2012-03-20 11:59 PM UTC",
+      "startTime": "2012-04-01 9:59 PM UTC",
+      "endTime": "2027-04-30 9:59 PM UTC",
+      "sessionVisibleFromTime": "2012-03-28 9:59 PM UTC",
+      "resultsVisibleFromTime": "2027-05-01 9:59 PM UTC",
+      "timeZone": 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session1InTestingInstructorVisibility": {
+      "feedbackSessionName": "Instructor visibility session",
+      "courseId": "instructorvisibiltyCourse",
+      "creatorEmail": "inst1@gmail.tmt",
+      "instructions": {
+        "value": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>"
+      },
+      "createdTime": "2012-03-20 11:43 PM UTC",
       "startTime": "2012-04-01 9:59 PM UTC",
       "endTime": "2027-04-30 9:59 PM UTC",
       "sessionVisibleFromTime": "2012-03-28 9:59 PM UTC",
@@ -1287,6 +1307,28 @@
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "idOfTestingSanitizationCourse",
       "creatorEmail": "instructor1@sanitization.tmt",
+      "questionMetaData": {
+        "value": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn1InSession1InTestingInstructorVisibility": {
+      "feedbackSessionName": "Instructor visibility session",
+      "courseId": "instructorvisibiltyCourse",
+      "creatorEmail": "inst1@gmail.tmt",
       "questionMetaData": {
         "value": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
       },

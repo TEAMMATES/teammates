@@ -19,7 +19,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
@@ -28,21 +27,23 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         InstructorAttributes instructorToEdit = instructorId == null ? logic.getInstructorForEmail(courseId, instructorEmail)
-        		: logic.getInstructorForGoogleId(courseId, instructorId);
-        
-        if(instructorToEdit.isDisplayedToStudents && getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT)==null) {
-        	long  totalInstructorDisplayed = getNumberOfInstructorsDisplayed(courseId);
-        	if( totalInstructorDisplayed == 1) {
-        		statusToUser.add(new StatusMessage(String.format(
-                      Const.StatusMessages.COURSE_INSTRUCTOR_DISPLAYED), StatusMessageColor.DANGER));
-                      RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
-                      result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-                      return result;
-        	}
+                : logic.getInstructorForGoogleId(courseId, instructorId);
+
+        boolean instructorvisibilityInfo = getRequestParamValue(
+                                    Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
+
+        if (instructorToEdit.isDisplayedToStudents && !instructorvisibilityInfo) {
+            long totalInstructorDisplayed = getNumberOfInstructorsDisplayed(courseId);
+            if (totalInstructorDisplayed == 1) {
+                statusToUser.add(new StatusMessage(String.format(
+                                Const.StatusMessages.COURSE_INSTRUCTOR_DISPLAYED), StatusMessageColor.DANGER));
+                RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+                result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+                return result;
+            }
         }
-        	
 
         try {
             if (instructorId == null) {
@@ -50,7 +51,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             } else {
                 logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
             }
-            
+
             instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
             updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
@@ -78,12 +79,12 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
      * @param instructorToEdit Instructor that will be edited.
      *                             This may be modified within the method.
      */
-    
+
     private long getNumberOfInstructorsDisplayed(String courseId) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         return instructors.stream().filter(instructor -> instructor.isDisplayedToStudents).count();
-        }
-    
+    }
+
     private void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         int numOfInstrCanModifyInstructor = 0;

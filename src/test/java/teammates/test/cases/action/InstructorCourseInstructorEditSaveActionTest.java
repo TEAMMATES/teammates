@@ -233,12 +233,14 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_EMAIL), e.getMessage());
         }
-        
+
         ______TS("verify only one visible instructor cannot be made invisible");
-        
+
         instructorToEdit = typicalBundle.instructors.get("instructor1ofTestinginstructorvisibilty");
         instructorId = instructorToEdit.googleId;
         courseId = instructorToEdit.courseId;
+        gaeSimulation.loginAsInstructor(instructorId);
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
@@ -247,8 +249,8 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
 
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,instructorToEdit.displayedName,
-
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, instructorToEdit.displayedName,
+                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "false",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
@@ -262,9 +264,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DISPLAYED,
                 redirectResult.getStatusMessage());
-        
-        
-        
+
     }
 
     @Override
