@@ -13,6 +13,9 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  *      specifically for multiple choice (single answer) questions.
  */
 public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
+
+    private static final int NEW_QUESTION_INDEX = -1;
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -59,6 +62,23 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MCQ");
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+
+        ______TS("MCQ: Check UI after cancelling and add new MCQ question again");
+
+        feedbackEditPage.clickGenerateMcqOptionsCheckbox(NEW_QUESTION_INDEX);
+        assertFalse(feedbackEditPage.isElementVisible("mcqChoiceTable--1"));
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MCQ");
+        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+        assertFalse(feedbackEditPage.isElementVisible("mcqChoiceTable--1"));
+        assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect--1"));
+
+        feedbackEditPage.clickGenerateMcqOptionsCheckbox(NEW_QUESTION_INDEX); //Make the generate options checkbox unchecked
+
     }
 
     @Override
