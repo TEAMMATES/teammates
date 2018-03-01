@@ -13,7 +13,7 @@ Similarly, when maximum options to be ranked restriction is enabled, it will ens
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions">
-    <div class="panel panel-primary questionTable" id="rankOptionsTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="rankOptionsTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">

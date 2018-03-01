@@ -11,7 +11,7 @@ Team contribution questions are a specialized question type designed for team co
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post" >
-    <div class="panel panel-primary questionTable" id="teamContributionTable">
+    <div class="panel panel-primary questionHelp-questionTable" id="teamContributionTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">

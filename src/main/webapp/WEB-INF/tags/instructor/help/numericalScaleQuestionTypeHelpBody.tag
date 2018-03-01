@@ -7,7 +7,7 @@ Numerical scale questions are questions that allow numerical responses from stud
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post" >
-    <div class="panel panel-primary questionTable" id="numericalQuestionTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="numericalQuestionTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">

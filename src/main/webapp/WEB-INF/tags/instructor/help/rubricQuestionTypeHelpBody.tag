@@ -196,7 +196,7 @@ Rubric questions allow instructors to create multiple sub-questions, with highly
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post" >
-    <div class="panel panel-primary questionTable" id="rubricQuestionTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="rubricQuestionTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">

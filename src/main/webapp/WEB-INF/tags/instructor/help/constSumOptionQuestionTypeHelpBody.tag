@@ -10,7 +10,7 @@ Distribute points (among options) question allows you to specify some options, a
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post" >
-    <div class="panel panel-primary questionTable" id="amongOptionsTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="amongOptionsTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">

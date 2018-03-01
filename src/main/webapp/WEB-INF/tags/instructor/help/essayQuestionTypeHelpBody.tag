@@ -1,12 +1,13 @@
 <%@ tag description="instructorHelpSessions and instructorFeedbackEdit - Essay Question Body" pageEncoding="UTF-8" %>
 
+
 Essay questions are open ended questions that allow students to give text feedback for a question.
 <br> To setup a question of this type, simply provide the question text, feedback path(giver/recipient) and visibility options.
 <br>
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form">
-    <div class="panel panel-primary questionTable" id="essayQuestionTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="essayQuestionTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">

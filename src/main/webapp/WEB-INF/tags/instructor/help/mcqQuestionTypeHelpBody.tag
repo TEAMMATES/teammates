@@ -8,7 +8,7 @@ Multiple-choice (single answer) questions allows you to specify several options,
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post">
-    <div class="panel panel-primary questionTable" id="specifiedOptionsTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="specifiedOptionsTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">
@@ -461,7 +461,7 @@ Example with generated options:
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post" >
-    <div class="panel panel-primary questionTable" id="generatedOptionsTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="generatedOptionsTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">

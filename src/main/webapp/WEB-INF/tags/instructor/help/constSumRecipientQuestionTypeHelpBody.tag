@@ -11,7 +11,7 @@ Distribute points (among recipients) question is similar to Distribute points (a
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post" >
-    <div class="panel panel-primary questionTable" id="amongRecipientTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="amongRecipientTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">

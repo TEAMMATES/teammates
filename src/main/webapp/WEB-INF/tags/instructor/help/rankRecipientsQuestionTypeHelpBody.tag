@@ -7,7 +7,7 @@ Rank recipients questions are questions where the students are to rank students,
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form" method="post">
-    <div class="panel panel-primary questionTable" id="rankRecpientTable">
+    <div class="panel panel-primary questionhelp-questionTable" id="rankRecpientTable">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">
