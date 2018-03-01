@@ -203,7 +203,7 @@ public final class TimeHelper {
 
     /**
      * Returns the date object with specified offset in number of days from now.
-     * @deprecated Use {@code TimeHelper#getInstantDateOffsetFromNow} instead.
+     * @deprecated Use {@link TimeHelper#getInstantDaysOffsetFromNow(long)} instead.
      */
     @Deprecated
     public static Date getDateOffsetToCurrentTime(long offsetInDays) {
@@ -221,7 +221,7 @@ public final class TimeHelper {
 
     /**
      * Returns the date object with specified offset in number of ms from now.
-     * @deprecated Use {@code getInstantMillisOffsetFromNow} instead.
+     * @deprecated Use {@link TimeHelper#getInstantMillisOffsetFromNow(long)} instead.
      */
     @Deprecated
     public static Date getMsOffsetToCurrentTime(long offsetMilliseconds) {
