@@ -27,6 +27,7 @@
         <exclude name="SimpleDateFormatNeedsLocale"/>
         <exclude name="UseLocaleWithCaseConversions"/>
         <exclude name="UseVarargs"/>
+        <exclude name="OptimizableToArrayCall"/>
     </rule>
 
     <rule ref="rulesets/java/empty.xml">
