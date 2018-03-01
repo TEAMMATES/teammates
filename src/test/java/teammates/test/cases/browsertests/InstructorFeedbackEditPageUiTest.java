@@ -885,7 +885,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditQuestionButton(qnNumber);
         feedbackEditPage.fillQuestionTextBox("", qnNumber);
         feedbackEditPage.clickSaveExistingQuestionButton(qnNumber);
-        String expectedString = "Please enter a valid question. The question text cannot be empty.";
+        String expectedString = Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID;
         feedbackEditPage.verifyStatus(expectedString);
 
         feedbackEditPage.clickDeleteQuestionLink(qnNumber);

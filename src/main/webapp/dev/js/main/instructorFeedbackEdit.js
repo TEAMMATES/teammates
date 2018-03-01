@@ -277,7 +277,7 @@ function bindFeedbackSessionEditFormSubmission() {
         }
         const $form = $(event.currentTarget);
 
-        // Ensure the 'editType' to be 'edit' before submitting,
+        // LEGACY IMPLEMENTATION: Ensure the 'editType' to be 'edit' before submitting,
         // as the global state below might be modified erroneously elsewhere
         const questionNum = $($form).data('qnnumber');
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
@@ -1110,14 +1110,14 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function () {
-        // Submission and deletion logic are coupled and determined by the global state.
+        // LEGACY IMPLEMENTATION: Submission and deletion logic are coupled and determined by the global state.
         // However, validating the form does not make sense when deleting.
         const questionNum = $(this).data('qnnumber');
         const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
-        let formStatus = checkFeedbackQuestion(this);
-        if (editType === 'delete') {
-            formStatus = true;
+        let formStatus = true;
+        if (editType !== 'delete') {
+            formStatus = checkFeedbackQuestion(this);
         }
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'), 'Save Question');
