@@ -594,6 +594,14 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseRichTextEditor(2, 2, "Response to no recipient");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyStatus("You did not specify a recipient for your response in question 2.");
+
+        ______TS("cannot choose self when generating choices from students (excluding self)");
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        assertFalse(submitPage.doesMcqOptionExist(24, 0, "Alice Betsy</option></td></div>'\" (Team >'\"< 1</td></div>'\")"));
+        assertTrue(submitPage.doesMcqOptionExist(24, 0, "Charlie Davis (Team 2)"));
+        assertFalse(submitPage.doesMsqOptionExist(25, 0, "Alice Betsy</option></td></div>'\" (Team >'\"< 1</td></div>'\")"));
+        assertTrue(submitPage.doesMsqOptionExist(25, 0, "Charlie Davis (Team 2)"));
+        assertTrue(submitPage.doesMsqOptionExist(25, 0, "Extra guy (Team 2)"));
     }
 
     private void testResponsiveSubmission() {

@@ -124,6 +124,24 @@ public class FeedbackSubmitPage extends AppPage {
         click(element);
     }
 
+    public boolean doesMcqOptionExist(int qnNumber, int responseNumber, String choiceName) {
+        try {
+            chooseMcqOption(qnNumber, responseNumber, choiceName);
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean doesMsqOptionExist(int qnNumber, int responseNumber, String choiceName) {
+        try {
+            toggleMsqOption(qnNumber, responseNumber, choiceName);
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+        return true;
+    }
+
     public void fillMcqOtherOptionTextBox(int qnNumber, int responseNumber, String otherOptionText) {
         String elementId = "otherOptionText-" + qnNumber + "-" + responseNumber;
         WebElement otherOptionTextBox = browser.driver.findElement(By.id(elementId));

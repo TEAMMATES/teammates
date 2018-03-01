@@ -339,7 +339,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Get the number of MSQ choices excluding self.
-     * @param courseId
      * @return number of MSQ choices generated.
      */
     private int generateNumOfChoicesForStudentsExcludingSelf(String courseId) {
