@@ -104,7 +104,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testAjaxOnVisibilityMessageButton();
 
         testDeleteQuestionAction(2);
-        testEditThenDeleteQuestionAction(1);
+        testEditWithEmptyQuestionTextThenDeleteQuestionAction(1);
 
         testEditNonExistentQuestion();
 
@@ -878,12 +878,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNull(getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
     }
 
-    private void testEditThenDeleteQuestionAction(int qnNumber) throws MaximumRetriesExceededException {
+    private void testEditWithEmptyQuestionTextThenDeleteQuestionAction(int qnNumber)
+            throws MaximumRetriesExceededException {
         ______TS("qn " + qnNumber + " edit the question with invalid input then delete question");
 
         feedbackEditPage.clickEditQuestionButton(qnNumber);
         feedbackEditPage.fillQuestionTextBox("", qnNumber);
         feedbackEditPage.clickSaveExistingQuestionButton(qnNumber);
+        String expectedString = "Please enter a valid question. The question text cannot be empty.";
+        feedbackEditPage.verifyStatus(expectedString);
+
         feedbackEditPage.clickDeleteQuestionLink(qnNumber);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);

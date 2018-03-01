@@ -192,11 +192,6 @@ function getQuestionNumFromEditForm(form) {
  * @returns {Boolean}
  */
 function checkFeedbackQuestion(form) {
-    const questionNum = $(form).data('qnnumber');
-    const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
-    if (editType === 'delete') {
-        return true;
-    }
     const recipientType = $(form).find(`select[name|=${ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE}]`)
             .find(':selected')
             .val();
@@ -281,8 +276,12 @@ function bindFeedbackSessionEditFormSubmission() {
             tinymce.get('instructions').save();
         }
         const $form = $(event.currentTarget);
+
+        // Ensure the 'editType' to be 'edit' before submitting,
+        // as the global state below might be modified erroneously elsewhere
         const questionNum = $($form).data('qnnumber');
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
+
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -309,7 +308,6 @@ function bindFeedbackSessionEditFormSubmission() {
  * @param questionNum
  */
 function disableQuestion(questionNum) {
-    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
     if (typeof richTextEditorBuilder !== 'undefined') {
         destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${questionNum}`);
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
@@ -569,6 +567,26 @@ function enableNewQuestion() {
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
 }
 
+/**
+ * Pops up confirmation dialog whether to delete specified question
+ * @param question questionNum
+ * @returns
+ */
+function deleteQuestion(questionNum) {
+    if (questionNum === NEW_QUESTION) {
+        window.location.reload();
+        return false;
+    }
+
+    const okCallback = function () {
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
+        $(`#form_editquestion-${questionNum}`).submit();
+    };
+    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback,
+            null, null, null, BootstrapContextualColors.DANGER);
+    return false;
+}
+
 function hideNewQuestionAndShowNewQuestionForm() {
     $(`#questionTable-${NEW_QUESTION}`).hide();
     $('#addNewQuestionTable').show();
@@ -654,26 +672,6 @@ function discardChanges(questionNum) {
     };
     showModalConfirmation(WARNING_DISCARD_CHANGES, confirmationMsg, okCallback, null, null, null,
             BootstrapContextualColors.WARNING);
-}
-
-/**
- * Pops up confirmation dialog whether to delete specified question
- * @param question questionNum
- * @returns
- */
-function deleteQuestion(questionNum) {
-    if (questionNum === NEW_QUESTION) {
-        window.location.reload();
-        return false;
-    }
-
-    const okCallback = function () {
-        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('delete');
-        $(`#form_editquestion-${questionNum}`).submit();
-    };
-    showModalConfirmation(WARNING_DELETE_QNS, CONFIRM_DELETE_QNS, okCallback,
-            null, null, null, BootstrapContextualColors.DANGER);
-    return false;
 }
 
 /**
@@ -1112,8 +1110,15 @@ function readyFeedbackEditPage() {
     });
 
     $('form.form_question').submit(function () {
+        // Submission and deletion logic are coupled and determined by the global state.
+        // However, validating the form does not make sense when deleting.
+        const questionNum = $(this).data('qnnumber');
+        const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
-        const formStatus = checkFeedbackQuestion(this);
+        var formStatus = checkFeedbackQuestion(this);
+        if (editType === 'delete') {
+            formStatus = true;
+        }
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'), 'Save Question');
         }
