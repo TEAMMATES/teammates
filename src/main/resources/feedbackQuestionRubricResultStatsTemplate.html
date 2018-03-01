@@ -5,11 +5,12 @@
         ${statsTitle}
       </strong>
     </div>
-    <div class="col-sm-4 text-right ${isExcludingSelfOptionAvailable}"
-         data-toggle="tooltip" data-placement="top"
-         title="Excludes giver's responses to himself/herself from Statistics">
+    <div class="col-sm-4 text-right ${isExcludingSelfOptionAvailable}">
       <input type="checkbox" id="excluding-self-check" onchange="switchExcludingSelfResultsForRubricStatistics(this)">
-        Excluding self evaluation
+        <span class="text-nowrap tool-tip-decorate" title="Excludes giver's responses to himself/herself from Statistics"
+              data-placement="top" data-toggle="tooltip">
+          Excluding self evaluation
+        </span>
     </div>
   </div>
   <div class="row">
