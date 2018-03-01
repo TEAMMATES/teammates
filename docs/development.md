@@ -132,6 +132,8 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 **NOTE**
 > The dev server sets its time zone to UTC at startup.
 
+> Selenium turns off browser cache for both Firefox and Chrome
+
 ### Using Firefox
 
 * Only Firefox between versions 38.0.5 and 46.0.1 are supported.
@@ -141,20 +143,12 @@ It is recommended to use Firefox 46.0 as this is the browser used in CI build (T
 
 * If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
 
-* If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
-  * Enter `about:config` into the Firefox address bar and set `network.http.use-cache` (or `browser.cache.disk.enable` in newer versions of Firefox) to `false`.
-
 ### Using Chrome
 
 * You need to use chromedriver for testing with Chrome.
   * Download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
     The site will also inform the versions of Chrome that can be used with the driver.
   * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
-
-* If you are planning to test changes to JavaScript code, disable JavaScript caching for Chrome:
-  * Press Ctrl+Shift+J to bring up the Web Console.
-  * Click on the settings button at the bottom right corner.
-  * Under the General tab, check "Disable Cache".
 
 * The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.<br>
   You will need to manually kill these processes after the tests are done.
