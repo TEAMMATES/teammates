@@ -491,7 +491,7 @@ function updateConstSumMessageQn(qnNum) {
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
     const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
-    const forceUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() === 'None';
+    const forceUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() !== 'None';
     const forceAllUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() === 'All options';
     const forceSomeUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() === 'At least some options';
 
