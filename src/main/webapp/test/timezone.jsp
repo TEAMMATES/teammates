@@ -28,7 +28,7 @@
       </tr>
     </table>
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
+    <script type="text/javascript" src="/data/moment-timezone-with-data-2013-2023.min.js"></script>
     <script>
       function isSupportedByJava(name) {
           // These short timezones are not supported by Java
