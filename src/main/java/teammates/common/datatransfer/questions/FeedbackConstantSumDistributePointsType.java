@@ -15,7 +15,7 @@ public enum FeedbackConstantSumDistributePointsType {
     }
 
     /**
-     * Gets {@code displayedOption}
+     * Gets {@code displayedOption} that is associated with a particular distribute points option.
      */
     public String getDisplayedOption() {
         return displayedOption;

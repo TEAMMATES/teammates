@@ -217,12 +217,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
                         FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
-                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
                 Slots.CONSTSUM_DISTRIBUTE_POINTS_FOR_VALUE, distributePointsFor,
                 Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_SELECTED, distributePointsFor.equals(
-                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())
+                            ? "selected" : "",
                 Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_SELECTED, distributePointsFor.equals(
-                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())
+                            ? "selected" : "",
                 Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_TO_STRING,
                         FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption(),
                 Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_TO_STRING,
@@ -281,17 +284,21 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
+                Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
                         FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
-                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
                 Slots.CONSTSUM_DISTRIBUTE_POINTS_FOR_VALUE, distributePointsFor,
                 Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_SELECTED, distributePointsFor.equals(
-                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())
+                            ? "selected" : "",
                 Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_SELECTED, distributePointsFor.equals(
-                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())
+                            ? "selected" : "",
                 Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_TO_STRING,
                         FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption(),
                 Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_TO_STRING,
@@ -331,23 +338,28 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_TOOLTIP_POINTS,
                         distributeToRecipients ? Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_RECIPIENT
                                                : Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_OPTION,
-                Slots.CONSTSUM_TOOLTIP_POINTS_PER_OPTION, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
+                Slots.CONSTSUM_TOOLTIP_POINTS_PER_OPTION,
+                        Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_TOOLTIP_POINTS_PER_RECIPIENT,
                         Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
-                Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
+                Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
                         FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
-                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
+                Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
                 Slots.CONSTSUM_DISTRIBUTE_POINTS_FOR_VALUE, distributePointsFor,
                 Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_SELECTED, distributePointsFor.equals(
-                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())
+                            ? "selected" : "",
                 Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_SELECTED, distributePointsFor.equals(
-                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()) ? "selected" : "",
+                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())
+                            ? "selected" : "",
                 Slots.CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_TO_STRING,
                         FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption(),
                 Slots.CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_TO_STRING,

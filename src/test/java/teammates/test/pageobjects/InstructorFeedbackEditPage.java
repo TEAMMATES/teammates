@@ -1464,7 +1464,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickDistributePointsOptionsCheckbox(int qnIndex) {
         String idSuffix = getIdSuffix(qnIndex);
 
-        WebElement distributePointsOptionsCheckbox = browser.driver.findElement(By.id("distributePointsOptionsCheckbox" + idSuffix));
+        WebElement distributePointsOptionsCheckbox =
+                browser.driver.findElement(By.id("distributePointsOptionsCheckbox" + idSuffix));
         click(distributePointsOptionsCheckbox);
     }
 
