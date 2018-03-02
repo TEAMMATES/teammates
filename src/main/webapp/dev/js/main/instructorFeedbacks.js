@@ -70,6 +70,7 @@ function selectDefaultTimeOptions() {
     const now = new Date();
 
     if (!isTimeZoneIntialized()) {
+        $('#ui-datepicker-div').css('display','none');
         $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).datepicker('setDate', now);
         $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(now.getHours() + 1);
         $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).val(-now.getTimezoneOffset() / 60);
