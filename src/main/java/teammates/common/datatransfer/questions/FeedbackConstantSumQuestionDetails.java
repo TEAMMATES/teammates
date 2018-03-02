@@ -17,7 +17,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
@@ -760,7 +759,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Set<Integer> answerSet = new HashSet<>();
             if (distributePointsFor.equals(
                     FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
-                Logger.getLogger().info("UNEVEN");
                 for (int i : frd.getAnswerList()) {
                     if (answerSet.contains(i)) {
                         errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
@@ -772,7 +770,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
                 boolean hasDifferentPoints = false;
                 for (int i : frd.getAnswerList()) {
-                    if (answerSet.contains(i)) {
+                    if (!answerSet.contains(i)) {
                         hasDifferentPoints = true;
                         break;
                     }
