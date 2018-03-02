@@ -3,6 +3,7 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.questions.FeedbackConstantSumDistributePointsType;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -12,6 +13,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  *      specifically for constant sum (recipients) questions.
  */
 public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiTest {
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -62,7 +64,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     @Override
     public void testInputValidation() {
 
-        ______TS("CONST SUM:input validation");
+        ______TS("CONST SUM: input validation");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("ConstSum-recipient qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
@@ -79,7 +81,6 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         assertEquals("", feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-
     }
 
     @Override
@@ -91,7 +92,6 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerRecipient");
         feedbackEditPage.fillConstSumPointsForEachRecipientBoxForNewQuestion("30");
-
     }
 
     @Override
@@ -106,6 +106,9 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption());
 
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("30", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
@@ -121,6 +124,47 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.fillQuestionDescription("more details", 1);
         feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("Total", 1);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
+
+        ______TS("CONST SUM: edit to force uneven distribution for all recipients");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption());
+        assertFalse(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.clickDistributePointsOptionsCheckbox(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
+
+        ______TS("CONST SUM: edit to force uneven distribution for at least some recipients");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
+        feedbackEditPage.selectConstSumDistributePointsOptions("At least some options", 1);
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption());
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);

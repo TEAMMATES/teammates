@@ -1461,9 +1461,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickRemoveConstSumOptionLink(optionIndex, NEW_QUESTION_NUM);
     }
 
+    public void clickDistributePointsOptionsCheckbox(int qnIndex) {
+        String idSuffix = getIdSuffix(qnIndex);
+
+        WebElement distributePointsOptionsCheckbox = browser.driver.findElement(By.id("distributePointsOptionsCheckbox" + idSuffix));
+        click(distributePointsOptionsCheckbox);
+    }
+
     public void selectConstSumDistributePointsOptions(String distributePointsFor, int questionNumber) {
         selectDropdownByVisibleValue(
-                browser.driver.findElement(By.id("constSumDistributePointsOptionsSelect-" + questionNumber)),
+                browser.driver.findElement(By.id("constSumDistributePointsSelect-" + questionNumber)),
                 distributePointsFor);
     }
 
