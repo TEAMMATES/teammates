@@ -1,4 +1,4 @@
-<%@ tag description="instructorSearch.jsp - Instructor search page input" pageEncoding="UTF-8" %>
+<%@ tag description="instructorSearch.jsp - Instructor search page input"%>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -32,24 +32,28 @@
                 class="glyphicon glyphicon-info-sign">
             </span>
           </li>
+
+          <li>
+            <input id="students-check" type="checkbox"
+                   name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true"
+                   <c:if test="${data.searchForStudents || !data.searchCommentForResponses}">checked</c:if>>
+            <label for="students-check">
+              Students
+            </label>
+          </li>
+
           <li>
             <input id="comments-for-responses-check" type="checkbox"
                 name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true"
                 <c:if test="${data.searchCommentForResponses}">checked</c:if>>
             <label for="comments-for-responses-check">
-              Comments for responses
+              Questions, responses, comments on responses
             </label>
           </li>
-          <li>
-            <input id="students-check" type="checkbox"
-                name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true"
-                <c:if test="${data.searchForStudents || !data.searchCommentForResponses}">checked</c:if>>
-            <label for="students-check">
-              Students
-            </label>
-          </li>
+
         </ul>
       </div>
     </div>
   </form>
 </div>
+
