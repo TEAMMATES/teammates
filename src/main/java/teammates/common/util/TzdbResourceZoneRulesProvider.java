@@ -1,39 +1,49 @@
-package java.time.zone;
+package teammates.common.util;
 
-import java.io.ByteArrayInputStream;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.DataInput;
 import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StreamCorruptedException;
+import java.lang.reflect.Method;
+import java.time.zone.ZoneOffsetTransition;
+import java.time.zone.ZoneOffsetTransitionRule;
+import java.time.zone.ZoneRules;
+import java.time.zone.ZoneRulesException;
+import java.time.zone.ZoneRulesProvider;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Loads time-zone rules for 'TZDB'.
- *
- * @since 1.8
+ * Loads time-zone rules for 'TZDB'. Modified from {@link java.time.zone.TzdbZoneRulesProvider}.
+ * Reads the file 'tzdb.dat' from resources instead of the JRE library directory.
  */
-final class TzdbZoneRulesProvider extends ZoneRulesProvider {
+public final class TzdbResourceZoneRulesProvider extends ZoneRulesProvider {
+
+    /** Type for ZoneRules. */
+    private static final byte ZRULES = 1;
+    /** Type for ZoneOffsetTransition. */
+    private static final byte ZOT = 2;
+    /** Type for ZoneOffsetTransitionRule. */
+    private static final byte ZOTRULE = 3;
 
     /**
      * All the regions that are available.
      */
     private List<String> regionIds;
     /**
-     * Version Id of this tzdb rules
+     * Version Id of this tzdb rules.
      */
     private String versionId;
     /**
-     * Region to rules mapping
+     * Region to rules mapping.
      */
     private final Map<String, Object> regionToRules = new ConcurrentHashMap<>();
 
@@ -43,16 +53,14 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
      *
      * @throws ZoneRulesException if unable to load
      */
-    public TzdbZoneRulesProvider() {
+    public TzdbResourceZoneRulesProvider() {
         try {
-            String libDir = System.getProperty("java.home") + File.separator + "lib";
             try (DataInputStream dis = new DataInputStream(
-                    new BufferedInputStream(new FileInputStream(
-                            new File(libDir, "tzdb.dat"))))) {
+                    new BufferedInputStream(FileHelper.getResourceAsStream("tzdb.dat")))) {
                 load(dis);
             }
         } catch (Exception ex) {
-            throw new ZoneRulesException("Unable to load TZDB time-zone rules", ex);
+            throw new ZoneRulesException("Unable to load TZDB time-zone rules from resource tzdb.dat", ex);
         }
     }
 
@@ -72,7 +80,7 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
             if (obj instanceof byte[]) {
                 byte[] bytes = (byte[]) obj;
                 DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes));
-                obj = Ser.read(dis);
+                obj = serRead(dis);
                 regionToRules.put(zoneId, obj);
             }
             return (ZoneRules) obj;
@@ -97,13 +105,14 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
      * @param dis  the DateInputStream to load, not null
      * @throws Exception if an error occurs
      */
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException") // follow original method signature
     private void load(DataInputStream dis) throws Exception {
         if (dis.readByte() != 1) {
             throw new StreamCorruptedException("File format not recognised");
         }
         // group
         String groupId = dis.readUTF();
-        if ("TZDB".equals(groupId) == false) {
+        if (!"TZDB".equals(groupId)) {
             throw new StreamCorruptedException("File format not recognised");
         }
         // versions
@@ -141,5 +150,32 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
     @Override
     public String toString() {
         return "TZDB[" + versionId + "]";
+    }
+
+    /**
+     * Modified from {@link java.time.zone.Ser#read}.
+     */
+    private static Object serRead(DataInput in) throws IOException {
+        byte type = in.readByte();
+        switch (type) {
+        case ZRULES:
+            return invokeReadExternal(ZoneRules.class, in); // ZoneRules.readExternal(in)
+        case ZOT:
+            return invokeReadExternal(ZoneOffsetTransition.class, in); // ZoneOffsetTransition.readExternal(in)
+        case ZOTRULE:
+            return invokeReadExternal(ZoneOffsetTransitionRule.class, in); // ZoneOffsetTransitionRule.readExternal(in)
+        default:
+            throw new StreamCorruptedException("Unknown serialized type");
+        }
+    }
+
+    private static Object invokeReadExternal(Class<?> cls, DataInput in) throws IOException {
+        try {
+            Method m = cls.getDeclaredMethod("readExternal", DataInput.class);
+            m.setAccessible(true);
+            return m.invoke(null, in);
+        } catch (ReflectiveOperationException e) {
+            throw new IOException(e);
+        }
     }
 }
