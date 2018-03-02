@@ -152,8 +152,6 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
 
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
-
         ______TS("CONST SUM: edit to force uneven distribution for at least some recipients");
 
         feedbackEditPage.clickEditQuestionButton(1);
@@ -171,8 +169,6 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
-
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
     }
 
     @Override
