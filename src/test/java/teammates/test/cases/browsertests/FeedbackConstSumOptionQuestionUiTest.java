@@ -209,7 +209,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
-        
+
         ______TS("CONST SUM: edit to force uneven distribution for at least some options");
 
         feedbackEditPage.clickEditQuestionButton(1);
