@@ -681,7 +681,7 @@
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
       "feedbackQuestionType": "TEXT",
-      "giver": "FSRTest.student1InCourse1@gmail.tmt",
+      "giver": "FSRTest.student2InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
       "responseMetaData": {
         "value": "team 1.1 > team 1.2"
