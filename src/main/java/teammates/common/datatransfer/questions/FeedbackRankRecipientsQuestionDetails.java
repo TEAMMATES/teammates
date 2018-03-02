@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -77,7 +76,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                                            totalNumRecipients, existingResponse.answer),
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         Slots.RANK_OPTION_VALUE, "");
-        optionListHtml.append(optionFragment).append(Const.EOL);
+        optionListHtml.append(optionFragment).append(System.lineSeparator());
 
         boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
         boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
@@ -123,7 +122,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                                            totalNumRecipients, Const.INT_UNINITIALIZED),
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         Slots.RANK_OPTION_VALUE, "");
-        optionListHtml.append(optionFragment).append(Const.EOL);
+        optionListHtml.append(optionFragment).append(System.lineSeparator());
 
         boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
         boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
@@ -254,23 +253,26 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
+        Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
+
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
+
+        Map<String, Integer> recipientOverallRankExceptSelf =
+                generateNormalizedOverallRankMapping(recipientRanksExcludingSelf);
+
         Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
         String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
         String templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
 
-        DecimalFormat df = new DecimalFormat("#.##");
-
         recipientRanks.forEach((participantIdentifier, ranks) -> {
 
-            double average = computeAverage(ranks);
             String ranksReceived = getListOfRanksReceivedAsString(ranks);
-
+            String overallRank = Integer.toString(recipientOverallRank.get(participantIdentifier));
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
-            String userAverageExcludingSelfText =
-                    getAverageExcludingSelfText(df, recipientRanksExcludingSelf, participantIdentifier);
+            String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientOverallRankExceptSelf.get(participantIdentifier)) : "-";
             String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
                     ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
 
@@ -279,8 +281,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                     Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                     Slots.RANK_RECIEVED, ranksReceived,
                     Slots.RANK_SELF, selfRank,
-                    Slots.RANK_AVERAGE, df.format(average),
-                    Slots.RANK_EXCLUDING_SELF_AVERAGE, userAverageExcludingSelfText));
+                    Slots.RANK_OVERALL, overallRank,
+                    Slots.RANK_EXCLUDING_SELF_OVERALL, overallRankExceptSelf));
 
         });
 
@@ -300,38 +302,43 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         }
 
         StringBuilder fragments = new StringBuilder();
+
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
+        Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
+
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
+
+        Map<String, Integer> recipientOverallRankExceptSelf =
+                generateNormalizedOverallRankMapping(recipientRanksExcludingSelf);
+
         Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        recipientRanks.forEach((participantIdentifier, ranks) -> {
 
-        recipientRanks.forEach((key, ranks) -> {
-
-            String teamName = bundle.getTeamNameForEmail(key);
-            String recipientName = bundle.getNameForEmail(key);
+            String teamName = bundle.getTeamNameForEmail(participantIdentifier);
+            String recipientName = bundle.getNameForEmail(participantIdentifier);
             String option = SanitizationHelper.sanitizeForCsv(teamName)
                             + ","
                             + SanitizationHelper.sanitizeForCsv(recipientName);
 
-            String userAverageExcludingSelfText =
-                    getAverageExcludingSelfText(df, recipientRanksExcludingSelf, key);
-            double average = computeAverage(ranks);
-            String selfRank = recipientSelfRanks.containsKey(key)
-                    ? Integer.toString(recipientSelfRanks.get(key)) : "-";
+            String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientOverallRankExceptSelf.get(participantIdentifier)) : "-";
+            String overallRank = Integer.toString(recipientOverallRank.get(participantIdentifier));
+            String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
 
             fragments.append(option);
             fragments.append(',').append(selfRank);
-            fragments.append(',').append(df.format(average));
-            fragments.append(',').append(userAverageExcludingSelfText);
+            fragments.append(',').append(overallRank);
+            fragments.append(',').append(overallRankExceptSelf);
             fragments.append(',');
             fragments.append(StringHelper.join(",", ranks));
-            fragments.append(Const.EOL);
+            fragments.append(System.lineSeparator());
         });
 
-        return "Team, Recipient, Self Rank, Average Rank, Average Rank Excluding Self, Ranks Received" + Const.EOL
-                + fragments + Const.EOL;
+        return "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received"
+                + System.lineSeparator() + fragments + System.lineSeparator();
     }
 
     /**
@@ -384,15 +391,16 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                                   .add(response);
         }
 
+        // generate response-responseDetails pair
+        Map<FeedbackResponseAttributes, Integer> rankOfResponse = new HashMap<>();
+        for (FeedbackResponseAttributes res : responses) {
+            FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) res.getResponseDetails();
+            rankOfResponse.put(res, frd.answer);
+        }
+
         // resolve ties for each giver's responses
         Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = new HashMap<>();
         responsesGivenByPerson.forEach((key, feedbackResponseAttributesList) -> {
-            Map<FeedbackResponseAttributes, Integer> rankOfResponse = new HashMap<>();
-            for (FeedbackResponseAttributes res : responses) {
-                FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) res.getResponseDetails();
-                rankOfResponse.put(res, frd.answer);
-            }
-
             normalisedRankOfResponse.putAll(obtainMappingToNormalisedRanksForRanking(rankOfResponse,
                     feedbackResponseAttributesList));
         });
@@ -414,25 +422,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             }
         }
         return responsesExcludingSelf;
-    }
-
-    /**
-     * Returns the average excluding self response text.
-     * Displays a dash if the user has only self response.
-     *
-     * @param df decimal format
-     * @param recipientRanksExcludingSelf map of recipient ranks excluding self response
-     * @param recipientName recipient for which average is to be calculated
-     * @return average excluding self text
-     */
-    private String getAverageExcludingSelfText(DecimalFormat df,
-            Map<String, List<Integer>> recipientRanksExcludingSelf, String recipientName) {
-        List<Integer> ranksExcludingSelf = recipientRanksExcludingSelf.get(recipientName);
-        if (ranksExcludingSelf == null) {
-            return "-";
-        }
-        Double averageExcludingSelf = computeAverage(ranksExcludingSelf);
-        return df.format(averageExcludingSelf);
     }
 
     /**

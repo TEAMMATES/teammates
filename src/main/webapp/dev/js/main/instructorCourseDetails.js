@@ -3,7 +3,7 @@ import {
 } from '../common/bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -68,7 +68,7 @@ function attachEventToRemindStudentsButton() {
         };
 
         showModalConfirmation('Confirm sending join requests', messageText, okCallback, null,
-                null, null, StatusType.INFO);
+                null, null, BootstrapContextualColors.INFO);
     });
 }
 
@@ -88,7 +88,7 @@ function attachEventToSendInviteLink() {
         };
 
         showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
-                null, null, StatusType.INFO);
+                null, null, BootstrapContextualColors.INFO);
     });
 }
 

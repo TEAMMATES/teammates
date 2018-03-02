@@ -895,7 +895,7 @@
                   </ul>
                 </div>
                 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">
+                <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">
                   This is the visibility hint as seen by the feedback giver:
                   <ul class="text-muted background-color-warning">
 
@@ -1276,7 +1276,7 @@
                   </ul>
                 </div>
                 <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display:none;">
-                  <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                  <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                     <tbody>
                       <tr>
                         <th class="text-center">User/Group</th>
@@ -1368,7 +1368,7 @@
                   </table>
                 </div>
                 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">
+                <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">
                   This is the visibility hint as seen by the feedback giver:
                   <ul class="text-muted background-color-warning">
 

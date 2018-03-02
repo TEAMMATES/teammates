@@ -1,9 +1,5 @@
 <%@ tag description="instructorHelpSessions and instructorFeedbackEdit - Essay Question Body" pageEncoding="UTF-8" %>
 
-
-Essay questions are open ended questions that allow students to give text feedback for a question.
-<br> To setup a question of this type, simply provide the question text, feedback path(giver/recipient) and visibility options.
-<br>
 <br>
 <div class="bs-example">
   <form class="form-horizontal form_question" role="form">
@@ -11,35 +7,35 @@ Essay questions are open ended questions that allow students to give text feedba
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-7">
-                          <span>
-                            <strong>Question</strong>
-                            <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-1" disabled="">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                              <option value="11">11</option>
-                              <option value="12">12</option>
+                      <span>
+                        <strong>Question</strong>
+                        <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-1" disabled="">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
 
-                            </select>
-                            &nbsp; Essay question
-                          </span>
+                        </select>
+                        &nbsp; Essay question
+                      </span>
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
-                          <span class="mobile-no-pull pull-right">
-                            <a class="btn btn-primary btn-xs" id="questionedittext-2" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(2,5)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
-                              <span class="glyphicon glyphicon-pencil"></span> Edit
-                            </a>
-                            <a class="btn btn-primary btn-xs" onclick="deleteQuestion(2)" data-toggle="tooltip" data-placement="top" data-original-title="" title="">
-                              <span class=" glyphicon glyphicon-trash"></span> Delete
-                            </a>
-                          </span>
+                      <span class="mobile-no-pull pull-right">
+                        <a class="btn btn-primary btn-xs" id="questionedittext-2" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(2,5)" data-original-title="Edit the existing question. Do remember to save the changes before moving on to editing another question.">
+                          <span class="glyphicon glyphicon-pencil"></span> Edit
+                        </a>
+                        <a class="btn btn-primary btn-xs" onclick="deleteQuestion(2)" data-toggle="tooltip" data-placement="top" data-original-title="" title="">
+                          <span class=" glyphicon glyphicon-trash"></span> Delete
+                        </a>
+                      </span>
           </div>
         </div>
       </div>
@@ -77,8 +73,8 @@ Essay questions are open ended questions that allow students to give text feedba
                 <div class="col-xs-12 question-recommended-length">
                   [Optional]
                   <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The recommended length is shown to the respondent but not enforced" class="tool-tip-decorate">
-                                  Recommended length
-                                </span>
+                              Recommended length
+                            </span>
                   for the response:
                   <input disabled="" type="number" class="form-control" name="recommendedlength" value="">
                   words
@@ -210,7 +206,7 @@ Essay questions are open ended questions that allow students to give text feedba
             </ul>
           </div>
           <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
-            <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+            <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
               <tbody>
               <tr>
                 <th class="text-center">User/Group</th>
@@ -302,12 +298,12 @@ Essay questions are open ended questions that allow students to give text feedba
             </table>
           </div>
           <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-          <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+          <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
         </div>
         <div>
-                        <span class="pull-right">
-                          <input id="button_question_submit-1" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
-                        </span>
+                    <span class="pull-right">
+                      <input id="button_question_submit-1" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: none;" disabled="">
+                    </span>
         </div>
       </div>
     </div>

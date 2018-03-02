@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import static teammates.common.util.Const.EOL;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -244,8 +242,14 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
-                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
+        AccountsLogic.inst().createAccount(AccountAttributes.builder()
+                .withGoogleId("instructor1")
+                .withName("Instructor 1")
+                .withEmail("instructor@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build());
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Asia/Singapore");
         courseSummary = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseSummary.course.getId());
@@ -301,8 +305,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
-                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
+        AccountsLogic.inst().createAccount(AccountAttributes.builder()
+                .withGoogleId("instructor1")
+                .withName("Instructor 1")
+                .withEmail("instructor@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build());
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "America/Los_Angeles");
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
         assertEquals("course1", courseSummary.course.getId());
@@ -361,8 +371,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
-                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
+        AccountsLogic.inst().createAccount(AccountAttributes.builder()
+                .withGoogleId("instructor1")
+                .withName("Instructor 1")
+                .withEmail("instructor@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build());
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Australia/Adelaide");
         courseDetails = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseDetails.course.getId());
@@ -413,8 +429,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
         spa.googleId = "instructor1";
 
-        AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
-                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
+        AccountsLogic.inst().createAccount(AccountAttributes.builder()
+                .withGoogleId("instructor1")
+                .withName("Instructor 1")
+                .withEmail("instructor@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build());
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "UTC");
         teams = coursesLogic.getTeamsForCourse("course1");
 
@@ -644,7 +666,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
 
         ______TS("Typical case: course without sections");
 
@@ -667,7 +689,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
 
         ______TS("Typical case: course with unregistered student");
 
@@ -690,7 +712,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expectedCsvString, EOL), csvString);
+        assertEquals(StringUtils.join(expectedCsvString, System.lineSeparator()), csvString);
 
         ______TS("Failure case: non existent instructor");
 
@@ -812,14 +834,15 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: account doesn't have instructor privileges");
 
-        AccountAttributes a = new AccountAttributes();
-        a.googleId = i.googleId;
-        a.name = i.name;
-        a.email = i.email;
-        a.institute = "TEAMMATES Test Institute 5";
-        a.isInstructor = false;
-        a.studentProfile = StudentProfileAttributes.builder().build();
-        a.studentProfile.googleId = i.googleId;
+        AccountAttributes a = AccountAttributes.builder()
+                .withGoogleId(i.googleId)
+                .withName(i.name)
+                .withIsInstructor(false)
+                .withEmail(i.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withDefaultStudentProfileAttributes(i.googleId)
+                .build();
+
         accountsDb.createAccount(a);
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone());
@@ -844,7 +867,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 + " it is not in the correct format. "
                 + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
                 + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces."
-                + EOL
+                + System.lineSeparator()
                 + "\"InvalidTimeZone\" is not acceptable to TEAMMATES as a/an course time zone because it not available "
                 + "as a choice. The value must be one of the values from the time zone dropdown selector.";
 

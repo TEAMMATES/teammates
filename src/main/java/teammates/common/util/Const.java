@@ -24,7 +24,6 @@ public final class Const {
      * This section holds constants that are defined as constants primarily
      * because they are repeated in many places.
      */
-    public static final String EOL = System.getProperty("line.separator");
     public static final String HTML_BR_TAG = "<br>";
 
     public static final String USER_NOBODY_TEXT = "-";
@@ -237,9 +236,10 @@ public final class Const {
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_FEEDBACKSESSION = "Add a feedback session for the course";
-        public static final String CLAIMED = "This is the student's own estimation of his/her contributions";
+        public static final String CLAIMED =
+                "Claimed Contribution: This is the student's own estimation of his/her contributions";
         public static final String PERCEIVED =
-                "This is the average of what other team members think this student contributed";
+                "Perceived Contribution: This is the average of what other team members think this student contributed";
 
         public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
@@ -866,6 +866,10 @@ public final class Const {
         public static final String SEARCH_KEY = "searchkey";
         public static final String DISPLAY_ARCHIVE = "displayarchive";
 
+        public static final String RESPONDENT_EMAIL = "respondentemail";
+        public static final String RESPONDENT_IS_INSTRUCTOR = "respondentisinstructor";
+        public static final String RESPONDENT_IS_TO_BE_REMOVED = "respondentistoberemoved";
+
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 
@@ -1089,6 +1093,11 @@ public final class Const {
                 "feedback-session-unpublished-email-queue";
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionUnpublishedEmail";
+
+        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME =
+                "feedback-session-update-respondent-queue";
+        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL =
+                "/worker/feedbackSessionUpdateRespondent";
 
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";

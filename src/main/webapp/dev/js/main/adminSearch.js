@@ -1,5 +1,5 @@
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -42,7 +42,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoog
                     googleIdEntry.html(originalGoogleIdEntry);
                     $(button).html(originalButton);
                 }
-                setStatusMessage(data.statusForAjax, StatusType.INFO);
+                setStatusMessage(data.statusForAjax, BootstrapContextualColors.INFO);
             }, 500);
         },
     });
