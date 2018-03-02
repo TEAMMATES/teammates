@@ -384,16 +384,16 @@ Rank recipients questions are questions where the students are to rank students,
         </div>
       </div>
     </div>
-    <input type="hidden" name="fsname" value="rankk">
-    <input type="hidden" name="courseid" value="instr.ema-demo">
-    <input type="hidden" name="questionid" value="ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIKPCQw">
-    <input type="hidden" name="questionnum" value="4">
-    <input type="hidden" name="questiontype" value="RANK_RECIPIENTS">
-    <input type="hidden" name="questionedittype" id="questionedittype-4" value="edit">
-    <input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS">
-    <input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
-    <input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
-    <input type="hidden" name="user" value="inst@email.com">
+    <input type="hidden" name="questionhelp-fsname" value="rankk">
+    <input type="hidden" name="questionhelp-courseid" value="instr.ema-demo">
+    <input type="hidden" name="questionhelp-questionid" value="ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIKPCQw">
+    <input type="hidden" name="questionhelp-questionnum" value="4">
+    <input type="hidden" name="questionhelp-questiontype" value="RANK_RECIPIENTS">
+    <input type="hidden" name="questionhelp-questionedittype" id="questionedittype-4" value="edit">
+    <input type="hidden" name="questionhelp-showresponsesto" value="RECEIVER,INSTRUCTORS">
+    <input type="hidden" name="questionhelp-showgiverto" value="RECEIVER,INSTRUCTORS">
+    <input type="hidden" name="questionhelp-showrecipientto" value="RECEIVER,INSTRUCTORS">
+    <input type="hidden" name="questionhelp-user" value="inst@email.com">
   </form>
 </div>
 

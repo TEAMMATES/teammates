@@ -12,7 +12,7 @@ Similarly, when maximum options to be ranked restriction is enabled, it will ens
 <br>
 <br>
 <div class="bs-example">
-  <form class="form-horizontal form_question" role="form" method="post" action="/page/instructorFeedbackQuestionEdit" id="form_editquestion-3" name="form_editquestions">
+  <form class="form-horizontal form_question" role="form" method="post">
     <div class="panel panel-primary questionhelp-questionTable" id="rankOptionsTable">
       <div class="panel-heading">
         <div class="row">
@@ -395,15 +395,15 @@ Similarly, when maximum options to be ranked restriction is enabled, it will ens
         </div>
       </div>
     </div>
-    <input type="hidden" name="fsname" value="rankk">
-    <input type="hidden" name="courseid" value="instr.ema-demo">
-    <input type="hidden" name="questionid" value="ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgKzgCQw">
-    <input type="hidden" name="questionnum" value="3">
-    <input type="hidden" name="questiontype" value="RANK_OPTIONS">
-    <input type="hidden" name="questionedittype" id="questionedittype-3" value="edit">
-    <input type="hidden" name="showresponsesto" value="RECEIVER,INSTRUCTORS">
-    <input type="hidden" name="showgiverto" value="RECEIVER,INSTRUCTORS">
-    <input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS">
-    <input type="hidden" name="user" value="inst@email.com">
+    <input type="hidden" name="questionhelp-fsname" value="rankk">
+    <input type="hidden" name="questionhelp-courseid" value="instr.ema-demo">
+    <input type="hidden" name="questionhelp-questionid" value="ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgKzgCQw">
+    <input type="hidden" name="questionhelp-questionnum" value="3">
+    <input type="hidden" name="questionhelp-questiontype" value="RANK_OPTIONS">
+    <input type="hidden" name="questionhelp-questionedittype" id="questionedittype-3" value="edit">
+    <input type="hidden" name="questionhelp-showresponsesto" value="RECEIVER,INSTRUCTORS">
+    <input type="hidden" name="questionhelp-showgiverto" value="RECEIVER,INSTRUCTORS">
+    <input type="hidden" name="questionhelp-showrecipientto" value="RECEIVER,INSTRUCTORS">
+    <input type="hidden" name="questionhelp-user" value="inst@email.com">
   </form>
 </div>
