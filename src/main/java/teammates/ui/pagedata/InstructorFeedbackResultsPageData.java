@@ -704,7 +704,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         for (String section : sections) {
-            sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
+            InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
             sectionPanels.put(section, sectionPanel);
         }
     }
