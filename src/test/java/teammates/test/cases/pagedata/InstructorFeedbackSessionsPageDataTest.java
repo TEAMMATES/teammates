@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorFeedbackSessionsPageData;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
