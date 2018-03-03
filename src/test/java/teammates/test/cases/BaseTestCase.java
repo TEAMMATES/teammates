@@ -179,6 +179,10 @@ public class BaseTestCase {
         Assert.assertNotEquals(expected, actual);
     }
 
+    protected static void assertNotSame(Object expected, Object actual) {
+        AssertJUnit.assertNotSame(expected, actual);
+    }
+
     protected static void assertNull(Object object) {
         AssertJUnit.assertNull(object);
     }
