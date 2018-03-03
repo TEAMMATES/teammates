@@ -19,6 +19,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
@@ -27,7 +28,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+
         InstructorAttributes instructorToEdit = instructorId == null ? logic.getInstructorForEmail(courseId, instructorEmail)
                 : logic.getInstructorForGoogleId(courseId, instructorId);
 
@@ -44,6 +45,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
                 return result;
             }
         }
+        instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
+        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
         try {
             if (instructorId == null) {
@@ -51,9 +54,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             } else {
                 logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
             }
-
-            instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
-            updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
                                                StatusMessageColor.SUCCESS));

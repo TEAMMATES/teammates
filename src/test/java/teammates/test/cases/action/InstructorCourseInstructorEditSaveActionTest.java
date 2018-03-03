@@ -75,6 +75,64 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 + "New Name: " + newInstructorName + "<br>New Email: " + newInstructorEmail;
         AssertHelper.assertContains(expectedLogSegment, saveAction.getLogMessage());
 
+        ______TS("verify if two insructor are visible  one can be made invisible and 2nd can't");
+
+        instructorToEdit = typicalBundle.instructors.get("instructor1OfCourse1");
+        instructorId = instructorToEdit.googleId;
+        courseId = instructorToEdit.courseId;
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
+                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
+
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, instructorToEdit.displayedName,
+                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "false",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+        saveAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(saveAction);
+        AssertHelper.assertContains(
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        AssertHelper.assertContains(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED,
+                redirectResult.getStatusMessage());
+
+        instructorToEdit = typicalBundle.instructors.get("instructor2OfCourse1");
+        instructorId = instructorToEdit.googleId;
+        courseId = instructorToEdit.courseId;
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
+                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
+
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, instructorToEdit.displayedName,
+                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "false",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+        saveAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(saveAction);
+        AssertHelper.assertContains(
+                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        AssertHelper.assertContains(Const.StatusMessages.COURSE_INSTRUCTOR_DISPLAYED,
+                redirectResult.getStatusMessage());
+
         ______TS("Failure case: edit failed due to invalid parameters");
 
         String invalidEmail = "wrongEmail.com";
@@ -233,37 +291,6 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
                     Const.ParamsNames.INSTRUCTOR_EMAIL), e.getMessage());
         }
-
-        ______TS("verify only one visible instructor cannot be made invisible");
-
-        instructorToEdit = typicalBundle.instructors.get("instructor1ofTestinginstructorvisibilty");
-        instructorId = instructorToEdit.googleId;
-        courseId = instructorToEdit.courseId;
-        gaeSimulation.loginAsInstructor(instructorId);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, instructorToEdit.displayedName,
-                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "false",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
-        };
-        saveAction = getAction(submissionParams);
-        redirectResult = getRedirectResult(saveAction);
-        AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                redirectResult.getDestinationWithParams());
-        assertFalse(redirectResult.isError);
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DISPLAYED,
-                redirectResult.getStatusMessage());
 
     }
 
