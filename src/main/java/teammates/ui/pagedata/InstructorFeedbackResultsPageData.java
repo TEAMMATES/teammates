@@ -696,10 +696,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
         sectionPanels = new LinkedHashMap<>();
 
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
+        if (bundle.getTeamsInSectionFromRoster(Const.DEFAULT_SECTION).size() > 0) {
+            InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
                 Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
 
-        if (bundle.getTeamsInSectionFromRoster(Const.DEFAULT_SECTION).size() > 0) {
             sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
         }
 

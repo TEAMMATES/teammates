@@ -90,7 +90,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-    @Test
+//    @Test
     public void testExceptionalCases() throws Exception {
         ______TS("Case where more than 1 question with same question number");
         // results page should be able to load incorrect data and still display it gracefully
@@ -458,7 +458,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test view photo for view by recipient > giver > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("0-2",
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("0-1",
+                "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody("0-2",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("0-3", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
     }
