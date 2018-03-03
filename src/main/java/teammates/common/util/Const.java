@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.joda.time.DateTimeZone;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
@@ -69,7 +67,7 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
-    public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
+    public static final String DEFAULT_TIMEZONE = "UTC";
 
     /*
      * These constants are used as variable values to mean that the variable

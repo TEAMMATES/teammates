@@ -1,6 +1,6 @@
 package teammates.test.cases.datatransfer;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.testng.annotations.Test;
 
@@ -18,14 +18,14 @@ public class CourseAttributesTest extends BaseTestCase {
     private String validName = "validName";
     private String validId = "validId";
     private String validTimeZone = "validTimeZone";
-    private Date validCreatedAt = new Date(98765);
+    private Instant validCreatedAt = Instant.ofEpochMilli(98765);
 
     @Test
     public void testStandardBuilder() {
         CourseAttributes courseAttributes = CourseAttributes
                 .builder(validId, validName, validTimeZone)
                 .build();
-        assertEquals(new Date(), courseAttributes.createdAt);
+        assertEquals(Instant.now(), courseAttributes.createdAt);
         assertEquals(validId, courseAttributes.getId());
         assertEquals(validName, courseAttributes.getName());
         assertEquals(validTimeZone, courseAttributes.getTimeZone());
@@ -82,7 +82,7 @@ public class CourseAttributesTest extends BaseTestCase {
                 .builder(validId, validName, validTimeZone)
                 .withCreatedAt(null)
                 .build();
-        assertEquals(new Date(), courseAttributes.createdAt);
+        assertEquals(Instant.now(), courseAttributes.createdAt);
     }
 
     @Test
