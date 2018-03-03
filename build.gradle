@@ -13,9 +13,10 @@ apply plugin: "findbugs"
 apply plugin: "jacoco"
 
 def appengineVersion = "1.9.+"
-def checkstyleVersion = "8.7"
+def checkstyleVersion = "8.8"
 def pmdVersion = "5.8.1"
 def findbugsVersion = "3.0.1"
+def jacocoVersion = "0.8.0"
 def guavaVersion = "22.0"
 
 buildscript {
@@ -57,7 +58,8 @@ dependencies {
     staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
                     "net.sourceforge.pmd:pmd-java:${pmdVersion}",
                     "com.google.code.findbugs:findbugs:${findbugsVersion}",
-                    "de.andrena.tools.macker:macker:1.0.1"
+                    "de.andrena.tools.macker:macker:1.0.1",
+                    "org.jacoco:org.jacoco.build:${jacocoVersion}"
 
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine.tools:appengine-gcs-client:0.7",
@@ -634,7 +636,7 @@ task downloadFailedXml {
 // COVERAGE TASKS
 
 jacoco {
-    toolVersion = "0.7.9"
+    toolVersion = jacocoVersion
 }
 
 task jacocoMerge(type: JacocoMerge) {
