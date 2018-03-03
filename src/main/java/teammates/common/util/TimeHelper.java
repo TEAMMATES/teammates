@@ -115,7 +115,7 @@ public final class TimeHelper {
      * Convert a date string and time string into a Date object. Returns null on error.
      *
      * @param inputDate
-     *            The date in format dd/MM/yyyy
+     *            The date in format D, dd MMM, yyyy
      * @param inputTimeHours
      *            The time as number of hours
      */
@@ -342,19 +342,6 @@ public final class TimeHelper {
         }
         c.setTime(date);
         return c;
-    }
-
-    /**
-     * Returns the date object representing the next full hour from now.
-     * Example: If now is 1055, this will return 1100
-     */
-    public static Date getNextHour() {
-        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
-        cal.add(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
     }
 
     /**

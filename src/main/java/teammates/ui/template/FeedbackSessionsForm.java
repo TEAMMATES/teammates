@@ -131,7 +131,7 @@ public class FeedbackSessionsForm {
                                : SanitizationHelper.sanitizeForRichText(feedbackSession.getInstructions().getValue());
 
         newFsForm.fsStartDate = feedbackSession == null
-                              ? TimeHelper.formatDateForSessionsForm(TimeHelper.getNextHour())
+                              ? ""
                               : TimeHelper.formatDateForSessionsForm(feedbackSession.getStartTimeLocal());
 
         Date startDate = feedbackSession == null ? null : feedbackSession.getStartTimeLocal();
