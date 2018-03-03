@@ -8,7 +8,12 @@ import {
 
 import {
     BootstrapContextualColors,
+    ParamsNames,
 } from './const';
+
+import {
+    updateCharLeft,
+} from './updateCharCount';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
@@ -50,6 +55,7 @@ function setupFsCopyModal() {
                             $('#fscopy_submit').closest('form').submit();
                         });
                 $('#fscopy_submit').prop('disabled', false);
+                updateCharLeft(ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
             },
         });
     });

@@ -41,6 +41,7 @@ BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
 // Mirrored subset of Const#ParamsNames
 const ParamsNames = {
     SESSION_TOKEN: 'token',
+    COPIED_FEEDBACK_SESSION_NAME: 'copiedfsname',
 
     COURSE_ID: 'courseid',
     COURSE_NAME: 'coursename',

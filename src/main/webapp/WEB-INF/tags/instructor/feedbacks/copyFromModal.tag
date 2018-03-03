@@ -44,11 +44,7 @@
                 id="modalCopiedSessionName"
                 maxlength="<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>"
                 value="${copyFromModal.fsName}"
-                placeholder="e.g. Feedback for Project Presentation 1" data-length-text-id="charLeft-2">
-            <div class="col-md-6 padding-0">
-              <span id="charLeft-2"></span>
-              characters left
-            </div>
+                placeholder="e.g. Feedback for Project Presentation 1">
           </div>
           <%-- Previous Session --%>
           <label>Copy settings and questions from</label>
