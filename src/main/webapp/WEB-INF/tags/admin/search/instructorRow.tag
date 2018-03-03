@@ -34,7 +34,7 @@
   <%-- Options --%>
   <td>
     <c:if test="${not empty instructor.viewRecentActionsId}">
-      <form method="post" target="_blank" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
+      <form method="post" target="_blank" rel="noopener noreferrer" action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
         <button type="submit" id="${instructor.viewRecentActionsId}_recentActions"
             class="btn btn-link btn-xs optionButton">
 
@@ -44,7 +44,7 @@
         <input type="hidden" name="courseId" value="${instructor.courseId}">
       </form>
       <c:if test="${not empty instructor.googleId}">
-        <form method="get" target="_blank" action="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">
+        <form method="get" target="_blank" rel="noopener noreferrer" action="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">
           <button type="submit" id="" class="btn btn-link btn-xs optionButton">
             <span class="glyphicon glyphicon-edit"></span>Manage this account
           </button>

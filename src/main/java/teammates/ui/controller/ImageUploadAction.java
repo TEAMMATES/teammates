@@ -56,7 +56,7 @@ public class ImageUploadAction extends Action {
         data.fileSrcUrl = fileSrcUrl.toString();
 
         log.info("New Image Uploaded : " + absoluteFileSrcUrl);
-        statusToAdmin = "New Image Uploaded : " + "<a href=" + data.fileSrcUrl + " target=\"_blank\">"
+        statusToAdmin = "New Image Uploaded : " + "<a href=" + data.fileSrcUrl + " target=\"_blank\" rel=\"noopener noreferrer\">"
                 + absoluteFileSrcUrl + "</a>";
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 

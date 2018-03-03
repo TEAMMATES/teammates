@@ -14,7 +14,7 @@
     </form>
     <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_PREVIEW_ASSTUDENT %>">
       <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT %>"
-          name="form_previewasstudent" class="form_preview" target="_blank">
+          name="form_previewasstudent" class="form_preview" target="_blank" rel="noopener noreferrer">
 
         <div class="col-sm-6">
           <select class="form-control margin-bottom-7px" name="<%= Const.ParamsNames.PREVIEWAS %>">
@@ -36,7 +36,7 @@
     </div>
     <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_PREVIEW_ASINSTRUCTOR %>">
       <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR %>"
-          name="form_previewasinstructor" class="form_preview" target="_blank">
+          name="form_previewasinstructor" class="form_preview" target="_blank" rel="noopener noreferrer">
         <div class="col-sm-6">
           <select class="form-control margin-bottom-7px" name="<%= Const.ParamsNames.PREVIEWAS %>">
             <c:forEach items="${previewForm.instructorToPreviewAsOptions}" var="option">
