@@ -32,7 +32,6 @@
                 class="glyphicon glyphicon-info-sign">
             </span>
           </li>
-
           <li>
             <input id="students-check" type="checkbox"
                    name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true"
@@ -41,7 +40,6 @@
               Students
             </label>
           </li>
-
           <li>
             <input id="comments-for-responses-check" type="checkbox"
                 name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true"
@@ -50,10 +48,8 @@
               Questions, responses, comments on responses
             </label>
           </li>
-
         </ul>
       </div>
     </div>
   </form>
 </div>
-
