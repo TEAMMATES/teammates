@@ -885,8 +885,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditQuestionButton(qnNumber);
         feedbackEditPage.fillQuestionTextBox("", qnNumber);
         feedbackEditPage.clickSaveExistingQuestionButton(qnNumber);
-        String expectedString = Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID;
-        feedbackEditPage.verifyStatus(expectedString);
+        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
 
         feedbackEditPage.clickDeleteQuestionLink(qnNumber);
         feedbackEditPage.waitForConfirmationModalAndClickOk();

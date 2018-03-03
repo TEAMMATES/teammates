@@ -1114,11 +1114,12 @@ function readyFeedbackEditPage() {
         // However, validating the form does not make sense when deleting.
         const questionNum = $(this).data('qnnumber');
         const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
-        addLoadingIndicator($('#button_submit_add'), 'Saving ');
-        let formStatus = true;
-        if (editType !== 'delete') {
-            formStatus = checkFeedbackQuestion(this);
+        if (editType === 'delete') {
+            return true;
         }
+
+        addLoadingIndicator($('#button_submit_add'), 'Saving ');
+        const formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
             removeLoadingIndicator($('#button_submit_add'), 'Save Question');
         }
