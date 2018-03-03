@@ -117,7 +117,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the current date and time as a {@code Calendar} object for the given timezone.
+     * Returns the current instant in time as an {@code Instant} object.
      */
     public static Instant now() {
         return Instant.now();
