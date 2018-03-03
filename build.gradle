@@ -73,7 +73,7 @@ dependencies {
                     objectify,
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1",
                     "com.mailjet:mailjet-client:4.1.1",
-                    "com.sendgrid:sendgrid-java:2.2.2",
+                    "com.sendgrid:sendgrid-java:4.1.2",
                     "com.sun.jersey:jersey-client:1.19.4",
                     "com.sun.jersey:jersey-core:1.19.4",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.4",
