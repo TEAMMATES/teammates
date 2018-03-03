@@ -1,9 +1,10 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Assumption;
@@ -20,7 +21,7 @@ import teammates.storage.entity.Course;
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     //Note: be careful when changing these variables as their names are used in *.json files.
-    public Date createdAt;
+    public Instant createdAt;
     private String id;
     private String name;
     private String timeZone;
@@ -29,7 +30,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.id = SanitizationHelper.sanitizeTitle(courseId);
         this.name = SanitizationHelper.sanitizeTitle(name);
         this.timeZone = timeZone;
-        this.createdAt = new Date();
+        this.createdAt = TimeHelper.now();
     }
 
     /**
@@ -65,13 +66,12 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public String getCreatedAtDateStamp() {
-        return TimeHelper.formatDateToIso8601Utc(createdAt);
+        return TimeHelper.formatInstantToIso8601Utc(createdAt);
     }
 
     public String getCreatedAtFullDateTimeString() {
-        return TimeHelper.formatTime12H(
-                TimeHelper.convertInstantToLocalDateTime(
-                        TimeHelper.convertDateToInstant(createdAt), ZoneId.of(timeZone)));
+        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdAt, ZoneId.of(timeZone));
+        return TimeHelper.formatTime12H(localDateTime);
     }
 
     public void setTimeZone(String timeZone) {
@@ -155,7 +155,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             courseAttributes = new CourseAttributes(courseId, name, timeZone);
         }
 
-        public Builder withCreatedAt(Date createdAt) {
+        public Builder withCreatedAt(Instant createdAt) {
             if (createdAt != null) {
                 courseAttributes.createdAt = createdAt;
             }
