@@ -334,8 +334,8 @@ appengine {
         jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
                 // Absolute paths are not supported, the following is relative to the project directory
                 // These only specify the datastore/blobstore paths, but search indexes are still generated in WEB-INF/appengine-generated
-                "-Ddatastore.backing_store=appengine-generated/local_db.bin",
-                "-Dblobstore.backing_store=appengine-generated"]
+                "-Ddatastore.backing_store=../../appengine-generated/local_db.bin",
+                "-Dblobstore.backing_store=../../appengine-generated"]
     }
     deploy {
         String appengineWebXmlPath = "${projectDir}/src/main/webapp/WEB-INF/appengine-web.xml"
