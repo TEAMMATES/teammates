@@ -54,6 +54,9 @@ repositories {
     jcenter()
 }
 
+def objectify = "com.googlecode.objectify:objectify:5.1.22"
+def testng = "org.testng:testng:6.9.4"
+
 dependencies {
     staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
                     "net.sourceforge.pmd:pmd-java:${pmdVersion}",
@@ -61,11 +64,13 @@ dependencies {
                     "de.andrena.tools.macker:macker:1.0.1",
                     "org.jacoco:org.jacoco.build:${jacocoVersion}"
 
+    annotationProcessor objectify
+
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine.tools:appengine-gcs-client:0.7",
                     "com.google.code.gson:gson:2.8.2",
                     "com.google.guava:guava:${guavaVersion}",
-                    "com.googlecode.objectify:objectify:5.1.21",
+                    objectify,
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1",
                     "com.mailjet:mailjet-client:4.1.1",
                     "com.sendgrid:sendgrid-java:2.2.2",
@@ -76,12 +81,14 @@ dependencies {
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:1.11.2"
 
+    testAnnotationProcessor testng
+
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
                     "org.httpunit:httpunit:1.7.2",
                     "org.seleniumhq.selenium:selenium-java:2.53.1",
-                    "org.testng:testng:6.9.4",
+                    testng,
                     "org.kohsuke:wordnet-random-name:1.3",
                     // For access of Google APIs such as HTTP transport, authentication and JSON parsing
                     "com.google.api-client:google-api-client:1.23.0",
