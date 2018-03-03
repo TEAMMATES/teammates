@@ -73,7 +73,6 @@ dependencies {
                     "com.sun.jersey:jersey-client:1.19.4",
                     "com.sun.jersey:jersey-core:1.19.4",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.4",
-                    "joda-time:joda-time:2.9.9",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
                     "org.jsoup:jsoup:${jsoupVersion}"
 
