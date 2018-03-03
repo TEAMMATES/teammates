@@ -1,7 +1,7 @@
 /**
  * Updates the number of characters left in the text area
  * @param textArea - Text area for which char are to be counted
- * @param wordsCountId - Id of Label to display length of text area
+ * @param letterCountId - Id of Label to display length of text area
  */
 function updateCharLeftCount(textArea, letterCountId) {
     const letterCountArea = $(`#${letterCountId}`);
@@ -12,14 +12,15 @@ function updateCharLeftCount(textArea, letterCountId) {
 /**
  * Create the div to display the number of characters left in textArea
  * @param textArea - Text area for which char are to be counted
- * @param wordsCountId - Id of Label to display length of text area
+ * @param letterCountId - Id of area for letter count display
  */
-function insertLetterCountArea(textArea, letterCountAreaId) {
+function insertLetterCountArea(textArea, letterCountId) {
     const maxLength = textArea.attr('maxlength');
-    const letterCountAreaTemplate = `<div class="col-md-6 padding-0"> 
-            <span id="${letterCountAreaId}">${maxLength}</span> characters left </div>`;
-
-    $(letterCountAreaTemplate).insertAfter(textArea);
+    if ($(`#${letterCountId}`).length === 0) {
+        const letterCountAreaTemplate = `<div class="col-md-6 padding-0">
+            <span id="${letterCountId}">${maxLength}</span> characters left </div>`;
+        $(letterCountAreaTemplate).insertAfter(textArea);
+    }
 }
 
 function updateCharLeft(textAreaId) {

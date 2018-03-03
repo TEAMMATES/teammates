@@ -778,33 +778,41 @@
                 <label class="control-label" for="copiedfsname">
                   Name for copied sessions
                 </label>
-                <input class="form-control" id="copiedfsname" name="copiedfsname" type="text" value="First Session">
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input name="copiedcoursesid" type="checkbox" value="FeedbackEditCopy.CS2103">
-                  [FeedbackEditCopy.CS2103] : Software Engineering
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input name="copiedcoursesid" type="checkbox" value="FeedbackEditCopy.CS2105">
-                  [FeedbackEditCopy.CS2105] : Introduction to Computer Networks
-                </label>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input name="copiedcoursesid" type="checkbox" value="FeedbackEditCopy.CS2104">
-                  [
-                  <span class="text-color-red">
-                    FeedbackEditCopy.CS2104
+                <input class="form-control" id="copiedfsname" maxlength="38" name="copiedfsname" type="text" value="First Session">
+                <div class="col-md-6 padding-0">
+                  <span id="charLeft-copiedfsname">
+                    25
                   </span>
-                  ] : Programming Language Concepts
-                  <br>
-                  <span class="text-color-red small">
-                    {Session currently in this course}
-                  </span>
-                </label>
+                  characters left
+                </div>
+              </div>
+              <div class="char-count-above">
+                <div class="checkbox">
+                  <label>
+                    <input name="copiedcoursesid" type="checkbox" value="FeedbackEditCopy.CS2103">
+                    [FeedbackEditCopy.CS2103] : Software Engineering
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input name="copiedcoursesid" type="checkbox" value="FeedbackEditCopy.CS2105">
+                    [FeedbackEditCopy.CS2105] : Introduction to Computer Networks
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input name="copiedcoursesid" type="checkbox" value="FeedbackEditCopy.CS2104">
+                    [
+                    <span class="text-color-red">
+                      FeedbackEditCopy.CS2104
+                    </span>
+                    ] : Programming Language Concepts
+                    <br>
+                    <span class="text-color-red small">
+                      {Session currently in this course}
+                    </span>
+                  </label>
+                </div>
               </div>
               <div class="alert alert-danger" id="feedback-copy-modal-status">
                 A feedback session with the name "First Session" already exists in the following course(s): FeedbackEditCopy.CS2104.
