@@ -500,12 +500,6 @@ public final class TimeHelper {
         return isAfterStartTime && isBeforeEndTime;
     }
 
-    public static double getLocalTimezoneHourOffset() {
-        // getOffset returns the offset from UTC in milliseconds
-        // so we need to divide it by (1000 * 60 * 60) to get it in hours
-        return TimeZone.getDefault().getOffset(new Date().getTime()) / 1000.0 / 60.0 / 60.0;
-    }
-
     /**
      * Temporary method for transition from storing time zone as double.
      */
