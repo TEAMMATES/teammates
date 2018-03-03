@@ -157,7 +157,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Test
     public void testBuilderWithPopulatedFieldValues() {
         String expectedGoogleId = "dummyGoogleId";
-        String expectedEmail = "dummyEmail";
+        String expectedEmail = "email@example.com";
         String expectedName = "dummyName";
         String expectedInstitute = "dummyInstitute";
         boolean expectedIsInstructor = true; //since false case is covered in default test
@@ -187,7 +187,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes observedAccountAttributes = AccountAttributes.builder()
                 .withGoogleId("googleId@gmail.com")
                 .withName("  random  name with   extra spaces    ")
-                .withEmail("         email   ")
+                .withEmail("         email@example.com ")
                 .withInstitute("    random  institute name      with extra    spaces  ")
                 .withStudentProfileAttributes(StudentProfileAttributes.builder("googleId@gmail.com")
                         .build())
@@ -195,7 +195,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         assertEquals("googleId", observedAccountAttributes.getGoogleId());
         assertEquals("random name with extra spaces", observedAccountAttributes.getName());
-        assertEquals("email", observedAccountAttributes.getEmail());
+        assertEquals("email@example.com", observedAccountAttributes.getEmail());
         assertEquals("random institute name with extra spaces", observedAccountAttributes.getInstitute());
         assertEquals("googleId", observedAccountAttributes.studentProfile.googleId);
     }
