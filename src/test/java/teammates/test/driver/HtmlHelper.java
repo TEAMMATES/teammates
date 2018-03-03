@@ -162,6 +162,9 @@ public final class HtmlHelper {
                 } else if (isMotdContainerAttribute(attribute)) {
                     // replace MOTD content with placeholder
                     return generateStudentMotdPlaceholder(indentation);
+                } else if (isDatepickerAttribute(attribute)) {
+                    // replace datepicker with placeholder
+                    return generateDatepickerPlaceholder(indentation);
                 }
             }
         } else if (currentNode.getNodeName().equalsIgnoreCase("select")) {
@@ -197,6 +200,10 @@ public final class HtmlHelper {
 
     private static String generateTimeZoneSelectorPlaceholder(String indentation) {
         return indentation + "${timezone.options}" + System.lineSeparator();
+    }
+
+    private static String generateDatepickerPlaceholder(String indentation) {
+        return indentation + "${datepicker}" + System.lineSeparator();
     }
 
     // private static String generateTinymceStylePlaceholder(String indentation) {
@@ -277,6 +284,13 @@ public final class HtmlHelper {
      */
     private static boolean isMotdContainerAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-container");
+    }
+
+    /**
+     * Checks for datepicker (i.e a <code>div</code> with id <code>ui-datepicker-div</code>).
+     */
+    private static boolean isDatepickerAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "ui-datepicker-div");
     }
 
     /**

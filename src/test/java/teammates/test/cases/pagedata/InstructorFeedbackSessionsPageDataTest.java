@@ -66,10 +66,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals("", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
-
-        String dateAsString = "";
-
-        assertEquals(dateAsString, formModel.getFsStartDate());
+        assertEquals("", formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
 
         assertEquals(7, formModel.getGracePeriodOptions().size());
