@@ -191,6 +191,33 @@ function getQuestionNumFromEditForm(form) {
     return extractQuestionNumFromEditFormId($(form).attr('id'));
 }
 
+function isRankMinMaxOptionEmpty(form, isMin) {
+    if (isMin) {
+        if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}]:checked`).val() === 'on'
+                && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}]`).val() === '') {
+            return true;
+        }
+        if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}]:checked`).val() === 'on'
+                && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED}]`).val() === '') {
+            return true;
+        }
+
+        return false;
+    }
+
+    if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}]:checked`).val() === 'on'
+            && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}]`).val() === '') {
+        return true;
+    }
+
+    if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}]:checked`).val() === 'on'
+            && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED}]`).val() === '') {
+        return true;
+    }
+
+    return false;
+}
+
 /**
  * Check whether the feedback question input is valid
  * @param form
@@ -230,24 +257,12 @@ function checkFeedbackQuestion(form) {
 
     if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'RANK_OPTIONS'
         || $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'RANK_RECIPIENTS') {
-        if (($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}]:checked`).val() === 'on'
-                && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}]`).val() === '')
-                || ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}]:checked`).val()
-                        === 'on'
-                        && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED}]`).val()
-                        === '')
-        ) {
+        if (isRankMinMaxOptionEmpty(form, true)) {
             setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY, BootstrapContextualColors.DANGER, form);
             return false;
         }
 
-        if (($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}]:checked`).val() === 'on'
-                && $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}]`).val() === '')
-                || ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}]:checked`).val()
-                        === 'on' &&
-                        $(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED}]`).val()
-                        === '')
-        ) {
+        if (isRankMinMaxOptionEmpty(form, false)) {
             setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY, BootstrapContextualColors.DANGER, form);
             return false;
         }

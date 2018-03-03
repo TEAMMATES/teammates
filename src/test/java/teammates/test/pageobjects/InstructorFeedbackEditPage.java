@@ -26,6 +26,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.ThreadHelper;
 import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
@@ -1932,16 +1933,18 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     // Only to be used for Rank Recipient Questions
     public void clickEnableMinRankRecipients(int questionNumber) {
-        By checkboxSelector = By.cssSelector("#minRecipientsToBeRankedEnabled-" + Integer.toString(questionNumber));
+        By checkboxSelector = By.id("minRecipientsToBeRankedEnabled-" + questionNumber);
         WebElement minNumberOfOptionsToRankCheckbox = browser.driver.findElement(checkboxSelector);
-        click(minNumberOfOptionsToRankCheckbox);
+        ThreadHelper.waitFor(1000);
+        minNumberOfOptionsToRankCheckbox.click();
     }
 
     public void clearMinRankRecipients(int questionNumber) {
-        By inputSelector = By.cssSelector("#minRecipientsToBeRanked-" + Integer.toString(questionNumber));
+        By inputSelector = By.id("minRecipientsToBeRanked-" + questionNumber);
 
         WebElement minRecipientsToBeRankedInput = browser.driver.findElement(inputSelector);
-        click(minRecipientsToBeRankedInput);
+        ThreadHelper.waitFor(1000);
+        minRecipientsToBeRankedInput.click();
         minRecipientsToBeRankedInput.clear();
     }
 }

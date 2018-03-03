@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.primitives.Ints;
+
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -41,11 +43,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public List<String> getInstructions() {
         List<String> instructions = new ArrayList<>();
 
-        if (minOptionsToBeRanked != Integer.MIN_VALUE) {
+        if (minOptionsToBeRanked != NO_VALUE) {
             instructions.add("You need to rank at least " + minOptionsToBeRanked + " options.");
         }
 
-        if (maxOptionsToBeRanked != Integer.MIN_VALUE) {
+        if (maxOptionsToBeRanked != NO_VALUE) {
             instructions.add("Rank no more than " + maxOptionsToBeRanked + " options.");
         }
 
@@ -74,24 +76,32 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         this.initialiseQuestionDetails(options);
 
-        String minOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
+        String minOptionsToBeRankedStr = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED);
-        String maxOptionsToBeRanked = HttpRequestHelper.getValueFromParamMap(
+        String maxOptionsToBeRankedStr = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED);
         String minOptionsToBeRankedEnabled = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED);
         String maxOptionsToBeRankedEnabled = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED);
 
-        this.isMinOptionsToBeRankedEnabled = "on".equals(minOptionsToBeRankedEnabled);
-        this.isMaxOptionsToBeRankedEnabled = "on".equals(maxOptionsToBeRankedEnabled);
+        isMinOptionsToBeRankedEnabled = "on".equals(minOptionsToBeRankedEnabled);
+        isMaxOptionsToBeRankedEnabled = "on".equals(maxOptionsToBeRankedEnabled);
 
-        if (minOptionsToBeRanked != null && !"".equals(minOptionsToBeRanked)) {
-            this.minOptionsToBeRanked = Integer.parseInt(minOptionsToBeRanked);
+        if (minOptionsToBeRankedStr != null) {
+            Integer parsedMinOptionsToBeRanked = Ints.tryParse(minOptionsToBeRankedStr);
+
+            if (parsedMinOptionsToBeRanked != null) {
+                minOptionsToBeRanked = parsedMinOptionsToBeRanked;
+            }
         }
 
-        if (maxOptionsToBeRanked != null && !"".equals(maxOptionsToBeRanked)) {
-            this.maxOptionsToBeRanked = Integer.parseInt(maxOptionsToBeRanked);
+        if (maxOptionsToBeRankedStr != null) {
+            Integer parsedMaxOptionsToBeRanked = Ints.tryParse(maxOptionsToBeRankedStr);
+
+            if (parsedMaxOptionsToBeRanked != null) {
+                maxOptionsToBeRanked = parsedMaxOptionsToBeRanked;
+            }
         }
 
         return true;
@@ -132,8 +142,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         }
 
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
@@ -179,8 +189,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
@@ -240,8 +250,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.RANK_EDIT_OPTIONS_FORM,
@@ -444,11 +454,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");
         }
 
-        if (this.isMinOptionsToBeRankedEnabled && this.minOptionsToBeRanked == Integer.MIN_VALUE) {
+        if (isMinOptionsToBeRankedEnabled && minOptionsToBeRanked == NO_VALUE) {
             errors.add(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"));
         }
 
-        if (this.isMaxOptionsToBeRankedEnabled && this.maxOptionsToBeRanked == Integer.MIN_VALUE) {
+        if (isMaxOptionsToBeRankedEnabled && maxOptionsToBeRanked == NO_VALUE) {
             errors.add(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Maximum"));
         }
 
