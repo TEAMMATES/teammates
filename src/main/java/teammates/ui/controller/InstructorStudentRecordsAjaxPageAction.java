@@ -1,9 +1,12 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.SessionAttributes;
@@ -50,11 +53,15 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
         sessions.sort(SessionAttributes.DESCENDING_ORDER);
 
         List<FeedbackSessionResultsBundle> results = new ArrayList<>();
+        Map<String, Boolean> sessionSubmissionStatusMap = new HashMap<>();
         for (SessionAttributes session : sessions) {
             if (session instanceof FeedbackSessionAttributes) {
                 if (!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())) {
                     FeedbackSessionResultsBundle result = logic.getFeedbackSessionResultsForInstructor(
                                                     session.getSessionName(), courseId, instructor.email);
+                    String sessionName = session.getSessionName();
+                    sessionSubmissionStatusMap.put(sessionName, 
+                            logic.hasStudentSubmittedFeedback((FeedbackSessionAttributes)session, student.email));
                     results.add(result);
                 }
             } else {
@@ -65,9 +72,10 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for session <span class=\"bold\">[" + targetSessionName + "]</span> "
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
-
+        
         InstructorStudentRecordsAjaxPageData data =
-                                        new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results);
+                                        new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results,
+                                                sessionSubmissionStatusMap);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
     }

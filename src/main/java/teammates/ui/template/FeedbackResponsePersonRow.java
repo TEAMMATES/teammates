@@ -11,6 +11,10 @@ public class FeedbackResponsePersonRow {
     private String personName;
     private List<FeedbackResponseRow> responses;
 
+    public FeedbackResponsePersonRow(){
+        /* attributes set later*/
+    }
+    
     public FeedbackResponsePersonRow(int fbIndex, int personIndex, String personName, String personType,
                                      List<FeedbackResponseAttributes> responses,
                                      FeedbackSessionResultsBundle results) {
@@ -28,5 +32,13 @@ public class FeedbackResponsePersonRow {
     public List<FeedbackResponseRow> getResponses() {
         return responses;
     }
-
+    
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+    
+    public void setResponses(List<FeedbackResponseRow> responses) {
+        this.responses = responses;
+    }
+    
 }
