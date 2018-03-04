@@ -71,8 +71,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         InstructorAttributes instructorToNotify = instructorsLogic.getInstructorForGoogleId(session.getCourseId(),
                 instructor1.getGoogleId());
 
-
-
         ______TS("feedback session opening emails");
 
         List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(session);
