@@ -17,7 +17,7 @@ public class FeedbackResultsTable {
     public FeedbackResultsTable(int fbIndex, String studentName, FeedbackSessionResultsBundle result,
                                 boolean submissionStatus) {
         this.studentName = studentName;
-
+        
         this.receivedResponses = new ArrayList<>();
         Map<String, List<FeedbackResponseAttributes>> received =
                                         result.getResponsesSortedByRecipient().get(studentName);
@@ -28,24 +28,27 @@ public class FeedbackResultsTable {
                 this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(), "giver",
                                                                          entry.getValue(), result));
             }
-            /* if student has already submitted the session then PC is shown along with his submission
-             * else student's submission to CONTRIB is shown NOT AVAILABLE and PC is shown next to it */
-            if(submissionStatus == false){
-                boolean contribExists = false;
-                FeedbackResponseAttributes response = new FeedbackResponseAttributes();
-                for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
-                    for(int j=0;j<entry.getValue().size();j++){
-                        if(entry.getValue().get(j).feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB)){
-                            response = new FeedbackResponseAttributes(entry.getValue().get(j));
-                            contribExists = true;
-                            break;
+                        
+            boolean hasAnsweredContrib = false;
+            boolean contribExistsFromOtherStudent = false;
+            FeedbackResponseAttributes response = new FeedbackResponseAttributes();
+            
+            for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
+                for(int j=0;j<entry.getValue().size();j++){
+                    if(entry.getValue().get(j).feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB)){
+                        response = new FeedbackResponseAttributes(entry.getValue().get(j));
+                        contribExistsFromOtherStudent = true;
+                        /* check if student has answered CONTRIB question about himself */
+                        if(entry.getValue().get(j).giver.equals(entry.getValue().get(j).recipient)){
+                            hasAnsweredContrib = true;
                         }
                     }
-                    if(contribExists==true){
-                        break;
-                    }
                 }
-                if(contribExists==true){
+            }
+            /* if student has not submitted the session or CONTRIB response about himself then 
+             *  student's submission to CONTRIB is shown NOT AVAILABLE and PC is shown next to it */
+            if((submissionStatus == false)||(submissionStatus==true && hasAnsweredContrib == false)){
+                if(contribExistsFromOtherStudent==true){
                     giverIndex++;
                     response.giver = response.recipient;
                     response.giverSection = response.recipientSection;
@@ -54,13 +57,13 @@ public class FeedbackResultsTable {
                     FeedbackResponsePersonRow contribPcRow = new FeedbackResponsePersonRow(fbIndex, giverIndex, studentName, "giver",
                                                                                            responses, result); 
                     String responseText = contribPcRow.getResponses().get(0).getResponseText();
-                    String newResponseText = "<span>NOT AVAILABLE</span>"+ responseText.substring(responseText.indexOf("</span>")+7);
+                    String newResponseText = "<span>No Response</span>"+ responseText.substring(responseText.indexOf("</span>")+7);
                     contribPcRow.getResponses().get(0).setResponseText(newResponseText);
                     this.receivedResponses.add(contribPcRow);
                 }
             }
         }
-
+        
         this.givenResponses = new ArrayList<>();
         Map<String, List<FeedbackResponseAttributes>> given = result.getResponsesSortedByGiver().get(studentName);
         int recipientIndex = 0;
