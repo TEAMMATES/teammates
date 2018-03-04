@@ -115,7 +115,7 @@ public final class TimeHelper {
      * Convert a date string and time string into a Date object. Returns null on error.
      *
      * @param inputDate
-     *            The date in format dd/MM/yyyy
+     *            The date in format EEE, dd MMM, yyyy
      * @param inputTimeHours
      *            The time as number of hours
      */
@@ -213,6 +213,18 @@ public final class TimeHelper {
             return "";
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setTimeZone(SystemParams.TIME_ZONE);
+        return sdf.format(date);
+    }
+
+    /**
+     * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
+     */
+    public static String formatDateForSessionsForm(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM, yyyy");
         sdf.setTimeZone(SystemParams.TIME_ZONE);
         return sdf.format(date);
     }
@@ -333,19 +345,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the date object representing the next full hour from now.
-     * Example: If now is 1055, this will return 1100
-     */
-    public static Date getNextHour() {
-        Calendar cal = Calendar.getInstance(SystemParams.TIME_ZONE);
-        cal.add(Calendar.HOUR_OF_DAY, 1);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
-    }
-
-    /**
      * Returns whether the given date is being used as a special representation,
      * signifying it's face value should not be used without proper processing.
      * A null date is not a special time.
@@ -434,7 +433,7 @@ public final class TimeHelper {
     }
 
     private static Date convertToDate(String date, int time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM, yyyy");
         sdf.setTimeZone(SystemParams.TIME_ZONE);
         Calendar calendar = Calendar.getInstance(SystemParams.TIME_ZONE);
 
