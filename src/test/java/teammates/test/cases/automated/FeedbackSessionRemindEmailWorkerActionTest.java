@@ -40,6 +40,8 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         ______TS("Send feedback session reminder email");
 
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
+
 
         // re-read from Datastore to update the respondents list
         session1 = fsLogic.getFeedbackSession(session1.getFeedbackSessionName(), session1.getCourseId());
@@ -47,7 +49,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         String[] submissionParams = new String[] {
                 ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
                 ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
-                ParamsNames.USER_ID, "idOfInstructor1OfCourse1"
+                ParamsNames.USER_ID, instructor1.getGoogleId()
         };
 
         FeedbackSessionRemindEmailWorkerAction action = getAction(submissionParams);
