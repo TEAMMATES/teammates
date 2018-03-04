@@ -54,7 +54,7 @@ function removeMcqOption(index, questionNum) {
 }
 
 function toggleMcqGeneratedOptions(checkbox, questionNum) {
-    if (checkbox.checked) {
+    if ($(checkbox).prop('checked')) {
         $(`#mcqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', true);
         $(`#mcqChoiceTable-${questionNum}`).hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);

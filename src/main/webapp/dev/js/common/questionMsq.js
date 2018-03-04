@@ -177,7 +177,7 @@ function toggleMsqMinSelectableChoices(questionNum) {
 }
 
 function toggleMsqGeneratedOptions(checkbox, questionNum) {
-    if (checkbox.checked) {
+    if ($(checkbox).prop('checked')) {
         $(`#msqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', true);
         $(`#msqChoiceTable-${questionNum}`).hide();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
