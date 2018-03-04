@@ -186,14 +186,14 @@ function getQuestionNumFromEditForm(form) {
     return extractQuestionNumFromEditFormId($(form).attr('id'));
 }
 
-function bindRadioButtons(questionNum){
+function bindRadioButtons(questionNum) {
     $(`#numberOfTeams-${questionNum}`).prop('disabled', true);
 
-    $(`#unlimitedRatio-${questionNum}`).on('click', (e) => {
+    $(`#unlimitedRatio-${questionNum}`).on('click', () => {
         $(`#numberOfTeams-${questionNum}`).prop('disabled', true);
     });
 
-    $(`#valueRatio-${questionNum}`).on('click', (e) => {
+    $(`#valueRatio-${questionNum}`).on('click', () => {
         $(`#numberOfTeams-${questionNum}`).prop('disabled', false);
     });
 }
