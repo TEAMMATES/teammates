@@ -1100,10 +1100,10 @@ function readyFeedbackEditPage() {
         }
     });
 
-    $('form.form_question').submit(function () {
+    $('form.form_question').submit(function (event) {
         // LEGACY IMPLEMENTATION: Submission and deletion logic are coupled and determined by the global state.
         // However, validating the form does not make sense when deleting.
-        const questionNum = $(this).data('qnnumber');
+        const questionNum = $(event.currentTarget).data('qnnumber');
         const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
         if (editType === 'delete') {
             return true;
