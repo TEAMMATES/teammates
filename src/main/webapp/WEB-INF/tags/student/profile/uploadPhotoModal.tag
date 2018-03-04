@@ -18,9 +18,13 @@
             aria-hidden="true">
           &times;
         </button>
-        <h4 class="modal-title">
-          Upload/Edit Photo
-        </h4>
+        <div class=""
+             data-toggle="tooltip"
+             data-placement="top"
+             title="Upload a profile picture. Max size 5MB. .jpg or .png extensions"> -->
+          <h4 class="modal-title">
+            Upload/Edit Photo
+          </h4>
       </div>
       <div class="modal-body center-block align-center">
         <br>
