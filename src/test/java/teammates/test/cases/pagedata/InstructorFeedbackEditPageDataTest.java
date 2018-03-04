@@ -84,10 +84,10 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                                                           fs.getFeedbackSessionName(),
                                                           Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE),
                      fsForm.getFsDeleteLink());
-        assertEquals(TimeHelper.formatDate(fs.getEndTime()), fsForm.getFsEndDate());
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getEndTime()), fsForm.getFsEndDate());
 
         assertEquals(fs.getFeedbackSessionName(), fsForm.getFsName());
-        assertEquals(TimeHelper.formatDate(fs.getStartTime()), fsForm.getFsStartDate());
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getStartTime()), fsForm.getFsStartDate());
 
         assertEquals(SanitizationHelper.sanitizeForHtml(fs.getInstructions().getValue()), fsForm.getInstructions());
         assertEquals("Save Changes", fsForm.getSubmitButtonText());
@@ -98,9 +98,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(fsForm.isSubmitButtonDisabled());
 
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = data.getFsForm().getAdditionalSettings();
-        assertEquals(TimeHelper.formatDate(fs.getResultsVisibleFromTime()),
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getResultsVisibleFromTime()),
                                            additionalSettings.getResponseVisibleDateValue());
-        assertEquals(TimeHelper.formatDate(fs.getSessionVisibleFromTime()),
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getSessionVisibleFromTime()),
                                            additionalSettings.getSessionVisibleDateValue());
 
         assertFalse(additionalSettings.isResponseVisiblePublishManuallyChecked());
@@ -234,9 +234,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertNull(fsForm.getFeedbackSessionTypeOptions());
 
         additionalSettings = data.getFsForm().getAdditionalSettings();
-        assertEquals(TimeHelper.formatDate(fs.getResultsVisibleFromTime()),
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getResultsVisibleFromTime()),
                                            additionalSettings.getResponseVisibleDateValue());
-        assertEquals(TimeHelper.formatDate(fs.getSessionVisibleFromTime()),
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getSessionVisibleFromTime()),
                                            additionalSettings.getSessionVisibleDateValue());
 
         assertFalse(additionalSettings.isResponseVisiblePublishManuallyChecked());
