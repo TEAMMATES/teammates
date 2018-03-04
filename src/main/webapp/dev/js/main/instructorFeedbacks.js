@@ -61,15 +61,22 @@ function isTimeZoneIntialized() {
 }
 
 /**
- * To be run on page finish loading, timezone based on client's time.
+ * To be run on page finish loading, this will select the input: start date,
+ * start time, and timezone based on client's time.
  *
  * The default values will not be set if the form was submitted previously and
  * failed validation.
+ *
+ *
  */
 function selectDefaultTimeOptions() {
     const now = new Date();
 
     if (!isTimeZoneIntialized()) {
+        /*
+         * A workaround to hide the datepicker which opens up at the bottom of the page
+         * when setting date from datepicker. (line 81)
+         */
         $('#ui-datepicker-div').css('display', 'none');
         $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).datepicker('setDate', now);
         $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(now.getHours() + 1);

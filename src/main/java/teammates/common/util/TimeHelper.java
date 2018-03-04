@@ -115,7 +115,7 @@ public final class TimeHelper {
      * Convert a date string and time string into a Date object. Returns null on error.
      *
      * @param inputDate
-     *            The date in format D, dd MMM, yyyy
+     *            The date in format EEE, dd MMM, yyyy
      * @param inputTimeHours
      *            The time as number of hours
      */
@@ -218,7 +218,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format D, dd MMM, yyyy. Example: Sat, 05 May, 2012
+     * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
      */
     public static String formatDateForSessionsForm(Date date) {
         if (date == null) {
