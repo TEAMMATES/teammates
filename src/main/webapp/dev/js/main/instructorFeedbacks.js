@@ -66,8 +66,6 @@ function isTimeZoneIntialized() {
  *
  * The default values will not be set if the form was submitted previously and
  * failed validation.
- *
- *
  */
 function selectDefaultTimeOptions() {
     const now = new Date();
@@ -75,9 +73,10 @@ function selectDefaultTimeOptions() {
     if (!isTimeZoneIntialized()) {
         /*
          * A workaround to hide the datepicker which opens up at the bottom of the page
-         * when setting date from datepicker. (line 81)
+         * when setting the start date using the datepicker.
          */
         $('#ui-datepicker-div').css('display', 'none');
+
         $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).datepicker('setDate', now);
         $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(now.getHours() + 1);
         $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).val(-now.getTimezoneOffset() / 60);
