@@ -37,5 +37,4 @@
     "lint": "npm run lint:js && npm run lint:json && npm run lint:css && npm run lint:spaces"
   },
   "private": true
-  
 }
