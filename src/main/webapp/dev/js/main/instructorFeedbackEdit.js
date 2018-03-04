@@ -186,6 +186,18 @@ function getQuestionNumFromEditForm(form) {
     return extractQuestionNumFromEditFormId($(form).attr('id'));
 }
 
+function bindRadioButtons(questionNum){
+    $(`#numberOfTeams-${questionNum}`).prop('disabled', true);
+
+    $(`#unlimitedRatio-${questionNum}`).on('click', (e) => {
+        $(`#numberOfTeams-${questionNum}`).prop('disabled', true);
+    });
+
+    $(`#valueRatio-${questionNum}`).on('click', (e) => {
+        $(`#numberOfTeams-${questionNum}`).prop('disabled', false);
+    });
+}
+
 /**
  * Check whether the feedback question input is valid
  * @param form
@@ -480,6 +492,7 @@ function enableQuestion(questionNum) {
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
     hideInvalidRankRecipientFeedbackPaths(questionNum);
+    bindRadioButtons(questionNum);
 }
 
 /**
@@ -521,6 +534,7 @@ function enableNewQuestion() {
     $newQuestionTable.find('.removeOptionLink').show();
     $newQuestionTable.find('.addOptionLink').show();
 
+    bindRadioButtons(NEW_QUESTION);
     $newQuestionTable.find(`#rubricAddChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`#rubricAddSubQuestionLink-${NEW_QUESTION}`).show();
 

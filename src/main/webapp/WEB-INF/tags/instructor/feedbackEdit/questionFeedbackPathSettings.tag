@@ -93,16 +93,19 @@
       <div class="col-sm-8 form-control-static">
         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
           <input class="nonDestructive" type="radio"
+              id="valueRatio-${fqForm.questionIndex}"
               name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
               <c:if test="${fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked</c:if>
               value="custom" <c:if test="${!fqForm.editable}">disabled</c:if>>
           <input class="nonDestructive numberOfEntitiesBox width-75-pc" type="number"
+              id="numberOfTeams-${fqForm.questionIndex}"
               name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
               value="${fqForm.feedbackPathSettings.numOfEntitiesToGiveFeedbackToValue}"
               min="1" max="250" <c:if test="${!fqForm.editable}">disabled</c:if>>
         </div>
         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
           <input class="nonDestructive" type="radio"
+              id="unlimitedRatio-${fqForm.questionIndex}"
               name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
               <c:if test="${!fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked</c:if>
               value="max" <c:if test="${!fqForm.editable}">disabled</c:if>>
