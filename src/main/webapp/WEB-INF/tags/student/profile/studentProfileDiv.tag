@@ -32,8 +32,14 @@
         <div class=""
              data-toggle="tooltip"
              data-placement="top"
+<<<<<<< Updated upstream
              title="Upload a profile picture. Max size 5MB. .jpg or .png extensions">-->
           Upload/Edit Photo
+=======
+             title="Upload a profile picture. Max size 5MB. .jpg or .png extensions.">
+          Upload/Edit Photo
+        </div>
+>>>>>>> Stashed changes
       </button>
     </div>
   </div>

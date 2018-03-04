@@ -18,6 +18,7 @@
             aria-hidden="true">
           &times;
         </button>
+<<<<<<< Updated upstream
         <div class=""
              data-toggle="tooltip"
              data-placement="top"
@@ -25,6 +26,16 @@
           <h4 class="modal-title">
             Upload/Edit Photo
           </h4>
+=======
+        <h4 class="modal-title">
+          <div class=""
+               data-toggle="tooltip"
+               data-placement="top"
+               title="Upload a profile picture. Max size 5MB. .jpg or .png extensions.">
+            Upload/Edit Photo
+          </div>
+        </h4>
+>>>>>>> Stashed changes
       </div>
       <div class="modal-body center-block align-center">
         <br>
