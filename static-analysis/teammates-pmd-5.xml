@@ -75,29 +75,4 @@
     <rule ref="rulesets/java/unnecessary.xml"/>
     <rule ref="rulesets/java/unusedcode.xml"/>
 
-    <!-- Not used, but kept here for reference and possible change in the future -->
-
-    <!-- Relevant only for production code -->
-    <!--<rule ref="rulesets/java/logging-java.xml"/>-->
-
-    <!-- Not worth the trouble in enforcing -->
-    <!--<rule ref="rulesets/java/codesize.xml"/>-->
-    <!--<rule ref="rulesets/java/comments.xml"/>-->
-    <!--<rule ref="rulesets/java/controversial.xml"/>-->
-    <!--<rule ref="rulesets/java/coupling.xml"/>-->
-    <!--<rule ref="rulesets/java/sunsecure.xml"/>-->
-
-    <!-- Handled by Checkstyle -->
-    <!--<rule ref="rulesets/java/braces.xml"/>-->
-    <!--<rule ref="rulesets/java/imports.xml"/>-->
-    <!--<rule ref="rulesets/java/naming.xml"/>-->
-
-    <!-- Irrelevant for our code -->
-    <!--<rule ref="rulesets/java/clone.xml"/>-->
-    <!--<rule ref="rulesets/java/finalizers.xml"/>-->
-    <!--<rule ref="rulesets/java/j2ee.xml"/>-->
-    <!--<rule ref="rulesets/java/javabeans.xml"/>-->
-    <!--<rule ref="rulesets/java/logging-jakarta-commons.xml"/>-->
-    <!--<rule ref="rulesets/java/migrating.xml"/>-->
-
 </ruleset>
