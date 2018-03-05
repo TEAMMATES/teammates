@@ -40,5 +40,5 @@ public class FeedbackResponsePersonRow {
     public void setResponses(List<FeedbackResponseRow> responses) {
         this.responses = responses;
     }
-    
+
 }

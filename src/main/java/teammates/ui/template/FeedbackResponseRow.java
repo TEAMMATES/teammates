@@ -88,7 +88,7 @@ public class FeedbackResponseRow {
     public String getResponseText() {
         return responseText;
     }
-    
+
     public void setResponseText(String responseText) {
         this.responseText = responseText;
     }

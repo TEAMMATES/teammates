@@ -37,7 +37,7 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS, 
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS,
                                                 StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
