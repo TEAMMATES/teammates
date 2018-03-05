@@ -17,6 +17,7 @@ import {
 import {
     bindLinksInUnregisteredPage,
 } from '../common/student';
+import { showModalConfirmation } from '../common/bootboxWrapper';
 
 const defaultProfilePicturePath = '/images/profile_picture_default.png';
 
@@ -78,11 +79,7 @@ $(document).ready(() => {
         }
     });
 
-    if ($('#profilePic').attr('src') === defaultProfilePicturePath) {
-        $('#deletePhoto').prop('disabled', true);
-    } else {
-        $('#deletePhoto').prop('disabled', false);
-    }
+    $('#deletePhoto').prop('disabled', $('#profilePic').attr('src') === defaultProfilePicturePath);
 
     $('#profileUploadPictureSubmit').on('click', () => {
         finaliseUploadPictureForm();
@@ -93,7 +90,12 @@ $(document).ready(() => {
     });
 
     $('#deletePhoto').on('click', () => {
-        window.location = $('#deletePhoto').attr('href');
+        const messageText = 'Are sure you want to delete your profile picture?';
+        const okCallback = function () {
+            window.location = $('#deletePhoto').data('deletelink');
+        };
+        showModalConfirmation('Confirm deleting profile picture', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.DANGER);
     });
 
     $(window).load(() => {

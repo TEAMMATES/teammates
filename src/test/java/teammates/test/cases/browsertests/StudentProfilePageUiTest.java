@@ -73,15 +73,13 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void testJsFunctions() {
-        ______TS("Test disabling and enabling of delete button");
-        //enabled when photo is uploaded
+        ______TS("Test disabling delete button when photo is not uploaded");
+
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
-        profilePage.verifyDeleteButtonState(true);
-
         //disabled when photo is not uploaded
         profilePage.deletePicture();
-        profilePage.verifyDeleteButtonState(false);
+        profilePage.verifyUnclickable(browser.driver.findElement(By.id("deletePhoto")));
 
         //Upload picture again for next tests
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");

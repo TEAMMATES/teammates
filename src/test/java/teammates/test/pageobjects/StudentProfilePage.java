@@ -246,10 +246,6 @@ public class StudentProfilePage extends AppPage {
 
     }
 
-    public void verifyDeleteButtonState(boolean expectedState) {
-        assertEquals(expectedState, deletePicture.isEnabled());
-    }
-
     public void waitForUploadEditModalVisible() {
         waitForElementVisibility(uploadEditModal);
     }

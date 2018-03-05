@@ -8,7 +8,6 @@ import teammates.common.util.StatusMessageColor;
 /**
  * Action: deletes the profile picture.
  */
-
 public class StudentProfilePictureDeleteAction extends Action {
 
     @Override

@@ -23,7 +23,7 @@
           data-target="#studentPhotoUploader"
           data-edit="${profile.editingPhoto}">
     </div>
-    <div class="">
+    <div>
       <button id="uploadEditPhoto"
           class="btn btn-primary"
           type="button"
@@ -34,10 +34,10 @@
     </div>
     <br>
     <br>
-    <div class="">
+    <div>
       <button id="deletePhoto"
               class="btn btn-primary"
-              href="${profile.deleteUrl}"
+              data-deletelink="${profile.deleteUrl}"
               type="button">
         Delete Photo
       </button>
