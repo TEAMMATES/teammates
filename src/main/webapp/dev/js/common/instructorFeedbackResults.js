@@ -67,7 +67,7 @@ function showHideStats() {
 
 // Toggles Rubric Questions excluding self
 function toggleExcludingSelfResultsForRubricStatistics(checkbox) {
-    if (checkbox.checked) {
+    if ($(checkbox).prop('checked')) {
         $(checkbox).parent().parent().parent()
                 .find('.table-body-including-self')
                 .addClass('hidden');
