@@ -90,7 +90,7 @@ public class EmailGenerator {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
-        List<InstructorAttributes> instructorToNotifyAsList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorToNotifyAsList = new ArrayList<>();
         instructorToNotifyAsList.add(instructorToNotify);
 
         List<EmailWrapper> emails =

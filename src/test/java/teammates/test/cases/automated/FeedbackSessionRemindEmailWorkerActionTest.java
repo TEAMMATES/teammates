@@ -72,7 +72,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
             }
         }
         instructorNotifiedList.add(instructorsLogic.getInstructorForGoogleId(session1.getCourseId(),
-                "idOfInstructor1OfCourse1").email);
+                instructor1.getGoogleId()).email);
 
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
