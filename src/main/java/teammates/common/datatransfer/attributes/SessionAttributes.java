@@ -18,42 +18,33 @@ public interface SessionAttributes {
      * end time, followed by start time and session name.
      */
     Comparator<SessionAttributes> ASCENDING_ORDER = (session1, session2) -> {
-
         FeedbackSessionAttributes feedbackSession1 = null;
         FeedbackSessionAttributes feedbackSession2 = null;
-        Boolean isSession1PrivateFeedback = false;
-        Boolean isSession2PrivateFeedback = false;
         if (session1 instanceof FeedbackSessionAttributes) {
             feedbackSession1 = (FeedbackSessionAttributes) session1;
         }
         if (session2 instanceof FeedbackSessionAttributes) {
             feedbackSession2 = (FeedbackSessionAttributes) session2;
         }
+        if (feedbackSession1 != null && feedbackSession1.isPrivateSession()
+                || feedbackSession2 != null && feedbackSession2.isPrivateSession()) {
+            return session1.getSessionName().compareTo(session2.getSessionName());
+        }
 
         Assumption.assertNotNull(session1.getSessionName());
-        if (feedbackSession1 != null && feedbackSession1.isPrivateSession()) {
-            isSession1PrivateFeedback = true;
-        } else {
-            Assumption.assertNotNull(session1.getSessionStartTime());
-            Assumption.assertNotNull(session1.getSessionEndTime());
-        }
+        Assumption.assertNotNull(session1.getSessionStartTime());
+        Assumption.assertNotNull(session1.getSessionEndTime());
         Assumption.assertNotNull(session2.getSessionName());
-        if (feedbackSession2 != null && feedbackSession2.isPrivateSession()) {
-            isSession2PrivateFeedback = true;
-        } else {
-            Assumption.assertNotNull(session2.getSessionStartTime());
-            Assumption.assertNotNull(session2.getSessionEndTime());
-        }
+        Assumption.assertNotNull(session2.getSessionStartTime());
+        Assumption.assertNotNull(session2.getSessionEndTime());
         int result = 0;
 
         //Compares end times
-        if (!isSession1PrivateFeedback && !isSession2PrivateFeedback) {
-            result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? 1
-                    : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? -1 : 0;
-        }
+        result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? 1
+                : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? -1 : 0;
 
         //If the end time is same, compares start times
-        if (result == 0 && !isSession1PrivateFeedback && !isSession2PrivateFeedback) {
+        if (result == 0) {
             result = session1.getSessionStartTime().after(session2.getSessionStartTime()) ? 1
                     : session1.getSessionStartTime().before(session2.getSessionStartTime()) ? -1 : 0;
         }
@@ -74,39 +65,31 @@ public interface SessionAttributes {
 
         FeedbackSessionAttributes feedbackSession1 = null;
         FeedbackSessionAttributes feedbackSession2 = null;
-        Boolean isSession1PrivateFeedback = false;
-        Boolean isSession2PrivateFeedback = false;
         if (session1 instanceof FeedbackSessionAttributes) {
             feedbackSession1 = (FeedbackSessionAttributes) session1;
         }
         if (session2 instanceof FeedbackSessionAttributes) {
             feedbackSession2 = (FeedbackSessionAttributes) session2;
         }
+        if (feedbackSession1 != null && feedbackSession1.isPrivateSession()
+                || feedbackSession2 != null && feedbackSession2.isPrivateSession()) {
+            return session1.getSessionName().compareTo(session2.getSessionName());
+        }
 
         Assumption.assertNotNull(session1.getSessionName());
-        if (feedbackSession1 != null && feedbackSession1.isPrivateSession()) {
-            isSession1PrivateFeedback = true;
-        } else {
-            Assumption.assertNotNull(session1.getSessionStartTime());
-            Assumption.assertNotNull(session1.getSessionEndTime());
-        }
+        Assumption.assertNotNull(session1.getSessionStartTime());
+        Assumption.assertNotNull(session1.getSessionEndTime());
         Assumption.assertNotNull(session2.getSessionName());
-        if (feedbackSession2 != null && feedbackSession2.isPrivateSession()) {
-            isSession2PrivateFeedback = true;
-        } else {
-            Assumption.assertNotNull(session2.getSessionStartTime());
-            Assumption.assertNotNull(session2.getSessionEndTime());
-        }
+        Assumption.assertNotNull(session2.getSessionStartTime());
+        Assumption.assertNotNull(session2.getSessionEndTime());
         int result = 0;
 
         //Compares end times
-        if (!isSession1PrivateFeedback && !isSession2PrivateFeedback) {
-            result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? -1
-                    : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0;
-        }
+        result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? -1
+                : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0;
 
         //If the end time is same, compares start times
-        if (result == 0 && !isSession1PrivateFeedback && !isSession2PrivateFeedback) {
+        if (result == 0) {
             result = session1.getSessionStartTime().after(session2.getSessionStartTime()) ? -1
                     : session1.getSessionStartTime().before(session2.getSessionStartTime()) ? 1 : 0;
         }
