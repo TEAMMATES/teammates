@@ -78,8 +78,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
         //disabled when photo is not uploaded
-        profilePage.deletePicture();
-        profilePage.verifyUnclickable(browser.driver.findElement(By.id("deletePhoto")));
+        profilePage.clickAndConfirm(profilePage.getDeletePicture());
+        profilePage.verifyUnclickable(profilePage.getDeletePicture());
 
         //Upload picture again for next tests
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
@@ -262,7 +262,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("Typical case: delete picture");
 
-        profilePage.deletePicture();
+        profilePage.clickAndCancel(profilePage.getDeletePicture());
+        assertNotNull("Photo should not have been deleted", BackDoor.getStudentProfile(studentGoogleId).pictureKey);
+
+        profilePage.clickAndConfirm(profilePage.getDeletePicture());
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_DELETED);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 "female", "this is enough!$%&*</>");
@@ -281,7 +284,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(currentPictureKey);
-
     }
 
     private void testAjaxPictureUrl() {

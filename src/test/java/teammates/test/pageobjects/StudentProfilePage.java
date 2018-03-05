@@ -208,9 +208,8 @@ public class StudentProfilePage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void deletePicture() {
-        click(deletePicture);
-        waitForPageToLoad();
+    public WebElement getDeletePicture() {
+        return deletePicture;
     }
 
     public void editProfilePhoto() {
