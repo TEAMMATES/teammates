@@ -5,13 +5,12 @@ import {
 function bindCheckAllCheckboxesEventHandler() {
     const $checkallSubmitted = $('#remind-particular-checkall-submitted');
     const $checkallNotSubmitted = $('#remind-particular-checkall-notsubmitted');
-    const $studentList = $('#studentList');
     $checkallSubmitted.on('click', () => {
-        const $studentsResponded = $studentList.find('.bg-info').find('input[type="checkbox"]');
+        const $studentsResponded = $('#studentList').find('.bg-info').find('input[type="checkbox"]');
         $studentsResponded.prop('checked', $checkallSubmitted.is(':checked'));
     });
     $checkallNotSubmitted.on('click', () => {
-        const $studentsNotResponded = $studentList.find('.bg-danger').find('input[type="checkbox"]');
+        const $studentsNotResponded = $('#studentList').find('.bg-danger').find('input[type="checkbox"]');
         $studentsNotResponded.prop('checked', $checkallNotSubmitted.is(':checked'));
     });
 }
