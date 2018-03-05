@@ -7,11 +7,11 @@ import {
 } from '../common/ui';
 
 import {
-    switchExcludingSelfResultsForRubricStatistics,
+    toggleExcludingSelfResultsForRubricStatistics,
 } from '../common/instructorFeedbackResults';
 
 window.toggleAdditionalQuestionInfo = toggleAdditionalQuestionInfo;
-window.switchExcludingSelfResultsForRubricStatistics = switchExcludingSelfResultsForRubricStatistics;
+window.toggleExcludingSelfResultsForRubricStatistics = toggleExcludingSelfResultsForRubricStatistics;
 
 $(document).ready(() => {
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
