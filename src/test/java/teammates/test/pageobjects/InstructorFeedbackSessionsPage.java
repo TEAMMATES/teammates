@@ -320,7 +320,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
-            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
+            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateForSessionsForm(datetimeValue) + "');");
 
             String timeDropdownId = timeDropdown.getAttribute("id");
             int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
@@ -337,8 +337,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        dateInputElement.sendKeys(newValue.get(Calendar.DATE) + "/" + (newValue.get(Calendar.MONTH) + 1)
-                                  + "/" + newValue.get(Calendar.YEAR));
+        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.getTime()));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {

@@ -708,7 +708,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"numOfMcqChoices\":2,\"questionText\":\"What do you like best about the class' product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"numOfMsqChoices\":2,\"questionText\":\"What do you like best about the class' product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 2,
       "questionType": "MSQ",
