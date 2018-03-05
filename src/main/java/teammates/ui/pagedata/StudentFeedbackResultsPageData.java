@@ -181,7 +181,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             } else if (isUserGiver) {
                 displayedGiverName = "You";
             } else {
-                displayedGiverName = getDisplayableIdentifier(giverName);
+                displayedGiverName = removeAnonymousHash(giverName);
             }
 
             boolean isUserRecipient = student.email.equals(response.recipient);
@@ -190,7 +190,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                 // since the giver would know which recipient he/she gave the response to
                 recipientName = bundle.getNameForEmail(response.recipient);
             } else {
-                recipientName = getDisplayableIdentifier(recipientName);
+                recipientName = removeAnonymousHash(recipientName);
             }
 
             String answer = response.getResponseDetails().getAnswerHtmlStudentView(questionDetails);
@@ -242,11 +242,12 @@ public class StudentFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Remove the identifier from anonymous participant name or email, if any.
+     * Remove the anonymous hash from anonymous participant name or email, if any.
      * @param identifier  The given name or email
-     * @return The name or email without any anonymous identifier
+     * @return The name or email without any anonymous hash
      */
-    private String getDisplayableIdentifier(String identifier) {
+    @Deprecated //Slated to be removed
+    private String removeAnonymousHash(String identifier) {
         return identifier.replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
                         + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
     }
