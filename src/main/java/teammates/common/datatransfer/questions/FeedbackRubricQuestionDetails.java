@@ -681,12 +681,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableBodyHtml = new StringBuilder();
 
         if (isExcludingSelf) {
-            responseFrequency = statistics.getResponseFrequency();
-            rubricStats = statistics.getPercentageFrequencyAndAverage();
-
-        } else {
             responseFrequency = statistics.getResponseFrequencyExcludingSelf();
             rubricStats = statistics.getPercentageFrequencyAndAverageExcludingSelf();
+        } else {
+            responseFrequency = statistics.getResponseFrequency();
+            rubricStats = statistics.getPercentageFrequencyAndAverage();
         }
 
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
