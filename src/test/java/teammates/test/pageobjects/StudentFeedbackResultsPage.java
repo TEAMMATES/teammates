@@ -36,11 +36,8 @@ public class StudentFeedbackResultsPage extends AppPage {
         click(By.id("excluding-self-check"));
     }
 
-    public boolean checkIfExcludingSelfTableShown() {
+    public boolean isExcludingSelfTableVisible() {
         return isElementVisible(By.className("table-body-excluding-self"));
     }
 
-    public boolean checkIfExcludingSelfTableHidden() {
-        return !isElementVisible(By.className("table-body-excluding-self"));
-    }
 }

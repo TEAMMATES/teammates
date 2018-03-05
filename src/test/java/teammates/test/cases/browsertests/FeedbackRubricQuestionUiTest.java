@@ -57,10 +57,10 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("test rubric question: Check functionality of 'Excluding Self` option");
 
-        assertTrue(simpleResultsPage.checkIfExcludingSelfTableHidden());
+        assertFalse(simpleResultsPage.isExcludingSelfTableVisible());
         assertTrue(simpleResultsPage.isExcludingSelfOptionVisible());
         simpleResultsPage.clickExcludingSelfCheckbox();
-        assertTrue(simpleResultsPage.checkIfExcludingSelfTableShown());
+        assertTrue(simpleResultsPage.isExcludingSelfTableVisible());
 
         ______TS("test rubric question extended student results page");
 

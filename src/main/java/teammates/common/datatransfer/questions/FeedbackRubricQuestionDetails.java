@@ -591,12 +591,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         boolean isExcludingSelfOptionAvailable = recipientType.equals(FeedbackParticipantType.SELF)
                 || recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
-        RubricStatistics statistics = new RubricStatistics(responsesForStatistics, fqd);
-        int[][] responseFrequency = statistics.getResponseFrequency();
-        int[][] responseFrequencyExcludingSelf = statistics.getResponseFrequencyExcludingSelf();
-        float[][] rubricStats = statistics.getPercentageFrequencyAndAverage();
-        float[][] rubricStatsExcludingSelf = statistics.getPercentageFrequencyAndAverageExcludingSelf();
-
         DecimalFormat weightFormat = new DecimalFormat("#.##");
 
         // Create table row header fragments
@@ -623,71 +617,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         // Create table body
-        StringBuilder tableBodyHtml = new StringBuilder();
-        StringBuilder tableBodyExcludingSelfHtml = new StringBuilder();
+        StringBuilder tableBodyHtml;
+        StringBuilder tableBodyExcludingSelfHtml;
 
-        String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
-        String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
-        DecimalFormat df = new DecimalFormat("#");
-        DecimalFormat dfAverage = new DecimalFormat("0.00");
-
-        for (int i = 0; i < numOfRubricSubQuestions; i++) {
-            StringBuilder tableBodyFragmentHtml = new StringBuilder();
-            StringBuilder tableBodyExcludingSelfFragmentHtml = new StringBuilder();
-            boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
-            boolean isSubQuestionRespondedToExcludingSelf = responseFrequencyExcludingSelf[i][numOfRubricChoices] > 0;
-
-            for (int j = 0; j < numOfRubricChoices; j++) {
-                String percentageFrequencyString = isSubQuestionRespondedTo
-                                                 ? df.format(rubricStats[i][j] * 100) + "%"
-                                                 : STATISTICS_NO_VALUE_STRING;
-                String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
-                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
-                        percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
-                tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
-
-                //For excluding self
-                String percentageFrequencyStringExcludingSelf = isSubQuestionRespondedToExcludingSelf
-                        ? df.format(rubricStatsExcludingSelf[i][j] * 100) + "%"
-                        : STATISTICS_NO_VALUE_STRING;
-                String tableBodyCellForExcludingSelf = Templates.populateTemplate(tableBodyFragmentTemplate,
-                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
-                        percentageFrequencyStringExcludingSelf + " (" + responseFrequencyExcludingSelf[i][j] + ")");
-                tableBodyExcludingSelfFragmentHtml.append(tableBodyCellForExcludingSelf).append(System.lineSeparator());
-            }
-
-            if (fqd.hasAssignedWeights) {
-                String averageString = isSubQuestionRespondedTo
-                                     ? dfAverage.format(rubricStats[i][numOfRubricChoices])
-                                     : STATISTICS_NO_VALUE_STRING;
-                String tableBodyAverageCell = Templates.populateTemplate(tableBodyFragmentTemplate,
-                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, averageString);
-                tableBodyFragmentHtml.append(tableBodyAverageCell).append(System.lineSeparator());
-
-                //For excluding self
-                String averageStringExcludingSelf = isSubQuestionRespondedTo
-                        ? dfAverage.format(rubricStatsExcludingSelf[i][numOfRubricChoices])
-                        : STATISTICS_NO_VALUE_STRING;
-
-                String tableBodyAverageCellExcludingSelf = Templates.populateTemplate(tableBodyFragmentTemplate,
-                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, averageStringExcludingSelf);
-                tableBodyExcludingSelfFragmentHtml.append(tableBodyAverageCellExcludingSelf).append(System.lineSeparator());
-            }
-
-            // Get entire row
-            String tableRow = Templates.populateTemplate(tableBodyTemplate,
-                    Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
-                            + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
-                    Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(tableRow).append(System.lineSeparator());
-
-            //Get entire row for excluding self
-            String tableRowExcludingSelf = Templates.populateTemplate(tableBodyTemplate,
-                    Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
-                            + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
-                    Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyExcludingSelfFragmentHtml.toString());
-            tableBodyExcludingSelfHtml.append(tableRowExcludingSelf).append(System.lineSeparator());
-        }
+        tableBodyHtml = getQuestionResultsStatisticsBodyHtml(fqd, responsesForStatistics, false);
+        tableBodyExcludingSelfHtml = getQuestionResultsStatisticsBodyHtml(fqd, responsesForStatistics, true);
 
         String statsTitle = "Response Summary";
 
@@ -724,6 +658,70 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.TABLE_BODY_EXCLUDING_SELF_HTML, tableBodyExcludingSelfHtml.toString(),
                 Slots.EXCULDING_SELF_OPTION_VISIBLE, isExcludingSelfOptionAvailable ? "" : "hidden",
                 Slots.RUBRIC_RECIPIENT_STATS_HTML, recipientStatsHtml);
+    }
+
+    /**
+     * Returns the rendered HTMl body of Rubric statistics
+     * @param isExcludingSelf is used to determine whether the body is for genera
+     */
+    private StringBuilder getQuestionResultsStatisticsBodyHtml(FeedbackRubricQuestionDetails fqd,
+                                                 List<FeedbackResponseAttributes> responsesForStatistics,
+                                                               boolean isExcludingSelf) {
+
+        DecimalFormat df = new DecimalFormat("#");
+        DecimalFormat dfAverage = new DecimalFormat("0.00");
+
+        String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
+        String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
+
+        RubricStatistics statistics = new RubricStatistics(responsesForStatistics, fqd);
+
+        int[][] responseFrequency;
+        float[][] rubricStats;
+        StringBuilder tableBodyHtml = new StringBuilder();
+
+        if (isExcludingSelf) {
+            responseFrequency = statistics.getResponseFrequency();
+            rubricStats = statistics.getPercentageFrequencyAndAverage();
+
+        } else {
+            responseFrequency = statistics.getResponseFrequencyExcludingSelf();
+            rubricStats = statistics.getPercentageFrequencyAndAverageExcludingSelf();
+        }
+
+        for (int i = 0; i < numOfRubricSubQuestions; i++) {
+            StringBuilder tableBodyFragmentHtml = new StringBuilder();
+            boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
+
+            for (int j = 0; j < numOfRubricChoices; j++) {
+                String percentageFrequencyString = isSubQuestionRespondedTo
+                        ? df.format(rubricStats[i][j] * 100) + "%"
+                        : STATISTICS_NO_VALUE_STRING;
+                String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
+                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
+                        percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
+                tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
+
+            }
+
+            if (fqd.hasAssignedWeights) {
+                String averageString = isSubQuestionRespondedTo
+                        ? dfAverage.format(rubricStats[i][numOfRubricChoices])
+                        : STATISTICS_NO_VALUE_STRING;
+                String tableBodyAverageCell = Templates.populateTemplate(tableBodyFragmentTemplate,
+                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, averageString);
+                tableBodyFragmentHtml.append(tableBodyAverageCell).append(System.lineSeparator());
+
+            }
+
+            // Get entire row
+            String tableRow = Templates.populateTemplate(tableBodyTemplate,
+                    Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
+                            + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
+                    Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
+             tableBodyHtml.append(tableRow).append(System.lineSeparator());
+        }
+        return tableBodyHtml;
     }
 
     /**
