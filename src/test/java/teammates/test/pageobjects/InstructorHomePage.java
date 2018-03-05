@@ -175,7 +175,7 @@ public class InstructorHomePage extends AppPage {
         waitForModalToDisappear();
     }
 
-    public void fillResendPublshedLinksForm() {
+    public void fillResendPublishedLinksForm() {
         WebElement publishEmailModal = browser.driver.findElement(By.id("publishEmailModal"));
         List<WebElement> usersToEmail = publishEmailModal.findElements(By.name("usersToEmail"));
         for (WebElement e : usersToEmail) {

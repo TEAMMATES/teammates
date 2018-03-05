@@ -350,13 +350,18 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                feedbackSessionPublished.getFeedbackSessionName()).isPublished());
 
         ______TS("resend links action: PUBLISHED feedback session");
+        // Test that the resend published links button exists for this published session
         homePage.verifyResendPublishedLinksButtonExist(feedbackSessionPublished.getCourseId(),
                                                        feedbackSessionPublished.getFeedbackSessionName());
+
+        // Test that the resend published links button can be clicked and the form can be cancelled
         homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
                                                         feedbackSessionPublished.getFeedbackSessionName());
         homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
                                               feedbackSessionPublished.getFeedbackSessionName());
         homePage.cancelResendPublshedLinksForm();
+
+        // Test the status message when the form is submitted with empty recipient list
         homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
         homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
@@ -370,12 +375,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
                                               feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForAjaxLoaderGifToDisappear();
-        homePage.fillResendPublshedLinksForm();
+        homePage.fillResendPublishedLinksForm();
         homePage.submitResendPublshedLinksForm();
         homePage.waitForPageToLoad();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT);
 
         ______TS("resend links action: NOT PUBLISHED feedback session");
+        // Test that the resend published links button does not exist for this not published session
         homePage.verifyResendPublishedLinksButtonNotExist(feedbackSessionAwaiting.getCourseId(),
                                                           feedbackSessionAwaiting.getFeedbackSessionName());
     }
