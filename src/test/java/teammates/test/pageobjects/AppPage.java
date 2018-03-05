@@ -796,7 +796,11 @@ public abstract class AppPage {
     }
 
     public void verifyUnclickable(WebElement element) {
-        assertNotNull(element.getAttribute("disabled"));
+        if (element.getTagName().equals("a")) {
+            assertTrue(element.getAttribute("class").contains("disabled"));
+        } else {
+            assertNotNull(element.getAttribute("disabled"));
+        }
     }
 
     /**
