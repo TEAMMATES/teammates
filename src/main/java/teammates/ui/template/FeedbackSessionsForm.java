@@ -55,6 +55,9 @@ public class FeedbackSessionsForm {
     private boolean isSubmitButtonDisabled;
     private boolean isSubmitButtonVisible;
 
+    private String submissionStatus;
+    private String publishedStatus;
+
     private FeedbackSessionsAdditionalSettingsFormSegment additionalSettings;
 
     public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
@@ -94,6 +97,9 @@ public class FeedbackSessionsForm {
         fsForm.submitButtonText = "Save Changes";
 
         fsForm.additionalSettings = additionalSettings;
+
+        fsForm.submissionStatus = getInstructorSubmissionStatus(existingFs);
+        fsForm.publishedStatus = getInstructorPublishedStatus(existingFs);
 
         return fsForm;
     }
@@ -155,10 +161,13 @@ public class FeedbackSessionsForm {
 
         newFsForm.additionalSettings = additionalSettings;
 
+        newFsForm.submissionStatus = feedbackSession == null ? "" : getInstructorSubmissionStatus(feedbackSession);
+        newFsForm.publishedStatus = feedbackSession == null ? "" : getInstructorPublishedStatus(feedbackSession);
+
         return newFsForm;
     }
 
-    public String getInstructorSubmissionStatus(FeedbackSessionAttributes session) {
+    private static String getInstructorSubmissionStatus(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
             return "Private";
         } else if (session.isOpened()) {
@@ -170,7 +179,7 @@ public class FeedbackSessionsForm {
         }
     }
 
-    public String getInstructorPublishedStatus(FeedbackSessionAttributes session) {
+    private static String getInstructorPublishedStatus(FeedbackSessionAttributes session) {
         if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
             return "-";
         } else if (session.isPublished()) {
@@ -282,5 +291,13 @@ public class FeedbackSessionsForm {
 
     public boolean isEditFsButtonsVisible() {
         return isEditFsButtonsVisible;
+    }
+
+    public String getSubmissionStatus() {
+        return submissionStatus;
+    }
+
+    public String getPublishedStatus() {
+        return publishedStatus;
     }
 }

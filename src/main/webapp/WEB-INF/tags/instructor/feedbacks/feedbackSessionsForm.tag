@@ -173,7 +173,7 @@
                     </label>
                   </h5>
                   <div class="col-sm-10 col-md-8">
-                    <h5>${fsForm.getInstructorSubmissionStatus(fsAttributes)}</h5>
+                    <h5>${fsForm.submissionStatus}</h5>
                   </div>
                 </div>
               </div>
@@ -185,7 +185,7 @@
                     </label>
                   </h5>
                   <div class="col-sm-10 col-md-8">
-                    <h5>${fsForm.getInstructorPublishedStatus(fsAttributes)}</h5>
+                    <h5>${fsForm.publishedStatus}</h5>
                   </div>
                 </div>
               </div>
