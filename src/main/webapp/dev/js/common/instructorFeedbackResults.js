@@ -153,9 +153,9 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     const expandCollapseTeamButton = 'a[id^="collapse-panels-button-team-"]';
     const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
 
-    /**
-     *When collapsing (@code expandCollapseButton), all panels buttons under it
-     * ((@code expandCollapseTeamButton) and (@code expandCollapseStudentButton)) should be in collapsed state.
+    /*
+     *When collapsing expandCollapseButton, all panels buttons under it,
+     * (expandCollapseTeamButton and  expandCollapseStudentButton) should be in collapsed state.
      * So that next time we expand the main panel, we find the expandCollapseTeamButton and
      * expandCollapseStudentButton in collapsed state.
      */
@@ -171,8 +171,7 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
             $(expandCollapseTeamButton).trigger('mouseleave');
         }
     }
-    // When collapsing (@code expandCollapseTeamButton),
-    // (@code expandCollapseStudentButton) should be in collapsed state.
+    // When collapsing expandCollapseTeamButton, expandCollapseStudentButton should be in collapsed state.
     if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))) {
         if ($(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
             && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
