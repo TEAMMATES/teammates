@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.SessionAttributes;
@@ -38,8 +37,8 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS,
-                                               StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS, 
+                                                StatusMessageColor.DANGER));
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
@@ -58,10 +57,10 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
             if (session instanceof FeedbackSessionAttributes) {
                 if (!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())) {
                     FeedbackSessionResultsBundle result = logic.getFeedbackSessionResultsForInstructor(
-                                                    session.getSessionName(), courseId, instructor.email);
+                            session.getSessionName(), courseId, instructor.email);
                     String sessionName = session.getSessionName();
-                    sessionSubmissionStatusMap.put(sessionName, 
-                            logic.hasStudentSubmittedFeedback((FeedbackSessionAttributes)session, student.email));
+                    sessionSubmissionStatusMap.put(sessionName,
+                            logic.hasStudentSubmittedFeedback((FeedbackSessionAttributes) session, student.email));
                     results.add(result);
                 }
             } else {
@@ -72,19 +71,18 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for session <span class=\"bold\">[" + targetSessionName + "]</span> "
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
-        
-        InstructorStudentRecordsAjaxPageData data =
-                                        new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results,
-                                                sessionSubmissionStatusMap);
+
+        InstructorStudentRecordsAjaxPageData data = new InstructorStudentRecordsAjaxPageData(account, student,
+                sessionToken, results, sessionSubmissionStatusMap);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
     }
 
     private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks,
-                                        InstructorAttributes currentInstructor, StudentAttributes student) {
+            InstructorAttributes currentInstructor, StudentAttributes student) {
         feedbacks.removeIf(tempFs -> !tempFs.getCourseId().equals(courseId)
-                    || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
-                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
 
     }
 
