@@ -661,8 +661,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Returns the rendered HTMl body of Rubric statistics
-     * @param isExcludingSelf is used to determine whether the body is for genera
+     * Returns the rendered HTMl body of Rubric statistics.
+     * @param isExcludingSelf is used to determine for which statistics is the body generated
      */
     private StringBuilder getQuestionResultsStatisticsBodyHtml(FeedbackRubricQuestionDetails fqd,
                                                  List<FeedbackResponseAttributes> responsesForStatistics,
@@ -719,7 +719,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Slots.SUB_QUESTION, StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") "
                             + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i)),
                     Slots.RUBRIC_ROW_BODY_FRAGMENTS, tableBodyFragmentHtml.toString());
-             tableBodyHtml.append(tableRow).append(System.lineSeparator());
+            tableBodyHtml.append(tableRow).append(System.lineSeparator());
         }
         return tableBodyHtml;
     }
