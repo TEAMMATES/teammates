@@ -61,31 +61,6 @@ function isTimeZoneIntialized() {
 }
 
 /**
- * Format a number to be two digits
- */
-function formatDigit(num) {
-    return (num < 10 ? '0' : '') + num;
-}
-
-/**
- * Format a date object into DD/MM/YYYY format
- * @param date
- * @returns {String}
- */
-function convertDateToDDMMYYYY(date) {
-    return `${formatDigit(date.getDate())}/${formatDigit(date.getMonth() + 1)}/${date.getFullYear()}`;
-}
-
-/**
- * Format a date object into HHMM format
- * @param date
- * @returns {String}
- */
-function convertDateToHHMM(date) {
-    return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
-}
-
-/**
  * To be run on page finish loading, this will select the input: start date,
  * start time, and timezone based on client's time.
  *
@@ -95,15 +70,16 @@ function convertDateToHHMM(date) {
 function selectDefaultTimeOptions() {
     const now = new Date();
 
-    const currentDate = convertDateToDDMMYYYY(now);
-    const hours = convertDateToHHMM(now).substring(0, 2);
-    const currentTime = parseInt(hours, 10) + 1;
-    const timeZone = -now.getTimezoneOffset() / 60;
-
     if (!isTimeZoneIntialized()) {
-        $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).val(currentDate);
-        $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(currentTime);
-        $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).val(timeZone);
+        /*
+         * A workaround to hide the datepicker which opens up at the bottom of the page
+         * when setting the start date using the datepicker.
+         */
+        $('#ui-datepicker-div').css('display', 'none');
+
+        $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).datepicker('setDate', now);
+        $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(now.getHours() + 1);
+        $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).val(-now.getTimezoneOffset() / 60);
     }
 
     const uninitializedTimeZone = $(`#timezone > option[value='${TIMEZONE_SELECT_UNINITIALISED}']`);
