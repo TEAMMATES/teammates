@@ -151,11 +151,14 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     const STRING_COLLAPSE = 'Collapse';
     const expandCollapseStudentsButton = 'a[id^="collapse-panels-button-section-"]';
     const expandCollapseTeamButton = 'a[id^="collapse-panels-button-team-"]';
-    // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
-    // need to define corresponding {@code targetPanels}.
-
     const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
 
+    /**
+     *When collapsing (@code expandCollapseButton), all panels buttons under it
+     * ((@code expandCollapseTeamButton) and (@code expandCollapseStudentButton)) should be in collapsed state.
+     * So that next time we expand the main panel, we find the expandCollapseTeamButton and
+     * expandCollapseStudentButton in collapsed state.
+     */
     if (!panels && !isButtonInExpandMode) {
         if ($(expandCollapseStudentsButton).length
             && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
@@ -168,6 +171,8 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
             $(expandCollapseTeamButton).trigger('mouseleave');
         }
     }
+    // When collapsing (@code expandCollapseTeamButton),
+    // (@code expandCollapseStudentButton) should be in collapsed state.
     if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))) {
         if ($(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
             && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
@@ -176,6 +181,8 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
         }
     }
 
+    // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
+    // need to define corresponding {@code targetPanels}.
     const targetPanels = panels || $('div.panel-collapse');
 
     if (isButtonInExpandMode) {
