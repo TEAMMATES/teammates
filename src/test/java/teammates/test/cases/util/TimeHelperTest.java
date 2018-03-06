@@ -38,7 +38,7 @@ public class TimeHelperTest extends BaseTestCase {
 
     @Test
     public void testCombineDateTime() {
-        String testDate = "01/02/2013";
+        String testDate = "Fri, 01 Feb, 2013";
         String testTime = "0";
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.clear();
@@ -202,6 +202,7 @@ public class TimeHelperTest extends BaseTestCase {
         cal.set(2015, 11, 30, 12, 0, 0);
         Date date = cal.getTime();
         assertEquals("30/12/2015", TimeHelper.formatDate(date));
+        assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC+0000", TimeHelper.formatDateTimeForSessions(date, 0));
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));

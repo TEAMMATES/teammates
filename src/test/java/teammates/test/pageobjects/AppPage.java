@@ -1,8 +1,9 @@
 package teammates.test.pageobjects;
 
+import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -795,7 +796,11 @@ public abstract class AppPage {
     }
 
     public void verifyUnclickable(WebElement element) {
-        assertNotNull(element.getAttribute("disabled"));
+        if (element.getTagName().equals("a")) {
+            assertTrue(element.getAttribute("class").contains("disabled"));
+        } else {
+            assertNotNull(element.getAttribute("disabled"));
+        }
     }
 
     /**

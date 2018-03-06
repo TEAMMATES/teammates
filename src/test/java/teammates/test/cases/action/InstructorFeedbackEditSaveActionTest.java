@@ -65,7 +65,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         ______TS("failure: invalid parameters");
 
-        params[15] = "01/03/2012";
+        params[15] = "Thu, 01 Mar, 2012";
 
         a = getAction(params);
         ar = getAjaxResult(a);
