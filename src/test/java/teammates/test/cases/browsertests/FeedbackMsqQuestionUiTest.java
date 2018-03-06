@@ -199,13 +199,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementVisible("msqAddOptionLink-1"));
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_MSQGENERATEDOPTIONS,
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS,
                 FeedbackParticipantType.NONE.toString());
         assertFalse(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.clickGenerateMsqOptionsCheckbox(1);
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_MSQGENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
         assertFalse(feedbackEditPage.isElementVisible("msqAddOptionLink-1"));
 
@@ -219,7 +219,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 "msqGenerateForSelect-1",
                 FeedbackParticipantType.STUDENTS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_MSQGENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
 
         ______TS("MSQ: change generated type");
@@ -233,7 +233,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 "msqGenerateForSelect-1",
                 FeedbackParticipantType.TEAMS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_MSQGENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.TEAMS.toString());
 
         ______TS("MSQ: min/max selectable options");

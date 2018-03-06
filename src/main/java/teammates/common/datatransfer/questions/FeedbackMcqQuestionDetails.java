@@ -76,7 +76,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         String generatedMcqOptions =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_MCQGENERATEDOPTIONS);
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS);
 
         if (generatedMcqOptions.equals(FeedbackParticipantType.NONE.toString())) {
             String numMcqChoicesCreatedString =
@@ -305,7 +305,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MCQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION,
                 Slots.MCQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG,
                 Slots.MCQ_CHECKED_GENERATED_OPTION, generateOptionsFor == FeedbackParticipantType.NONE ? "" : "checked",
-                Slots.MCQ_GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_MCQGENERATEDOPTIONS,
+                Slots.MCQ_GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
                 Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
                 Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
                 Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),

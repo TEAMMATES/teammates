@@ -230,8 +230,8 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
             public static final String QUESTION_NUMBER = "${questionNumber}";
             public static final String CHECKED_OTHER_OPTION_ENABLED = "${checkedOtherOptionEnabled}";
-            public static final String MCQ_GENERATED_OPTIONS = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQGENERATEDOPTIONS}";
-            public static final String MSQ_GENERATED_OPTIONS = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQGENERATEDOPTIONS}";
+            public static final String MCQ_GENERATED_OPTIONS = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS}";
+            public static final String MSQ_GENERATED_OPTIONS = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS}";
 
             public static final String GENERATE_OPTIONS_FOR_VALUE = "${generateOptionsForValue}";
             public static final String STUDENT_SELECTED = "${studentSelected}";
