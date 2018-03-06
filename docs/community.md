@@ -28,7 +28,7 @@ Contributors:
 Committers are community members who have shown significant contributions sustained over a long period of time.
 
 On top of contributor's privileges, committers:
-* Have "push" access to the main repository and submit their fixes via PRs from the main repository.
+* Have "push" access to the main repository and has the option to submit their fixes via PRs from the main repository.
 * Can label and close issues and PRs as they see fit.
 * Can assign themselves to issues.
 * Can assign reviewers for PRs authored by themselves.
