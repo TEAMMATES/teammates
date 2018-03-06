@@ -42,7 +42,7 @@ public class TestNgTest extends BaseTestCase {
      *
      * @param testNgXml    Contents of testng.xml
      * @param rootPath     Root path of test files
-     * @return             HashMap containing {@code <class name, package name>}
+     * @return             Map containing {@code <class name, package name>}
      */
     private Map<String, String> getTestFiles(String testNgXml, String rootPath) {
         // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because
@@ -58,8 +58,7 @@ public class TestNgTest extends BaseTestCase {
      * @param filesExcludedFromTestNg    Files to be excluded
      * @return                           Files to be checked after excluding tests
      */
-    private Map<String, String> excludeFilesNotInTestNg(Map<String, String> testFiles,
-                                                            String... filesExcludedFromTestNg) {
+    private Map<String, String> excludeFilesNotInTestNg(Map<String, String> testFiles, String... filesExcludedFromTestNg) {
         for (String test : filesExcludedFromTestNg) {
             testFiles.remove(test);
         }
@@ -82,12 +81,11 @@ public class TestNgTest extends BaseTestCase {
      * @param packageName                     Package name of the current file
      * @param testNgXml                       Contents of testng.xml
      *
-     * @return                                HashMap containing {@code <class name, package name>} including
+     * @return                                Map containing {@code <class name, package name>} including
      *                                        current file or tests in the current directory
      */
-    private Map<String, String> addFilesToTestsRecursively(String path,
-                                                               boolean areFilesInCurrentDirExcluded,
-                                                               String packageName, String testNgXml) {
+    private Map<String, String> addFilesToTestsRecursively(String path, boolean areFilesInCurrentDirExcluded,
+            String packageName, String testNgXml) {
 
         Map<String, String> testFiles = new HashMap<>();
         File folder = new File(path);

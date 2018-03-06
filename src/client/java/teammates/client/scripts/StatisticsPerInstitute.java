@@ -106,7 +106,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private StatsBundle generateStatsPerInstitute(
             List<CourseStudent> allStudents, List<Instructor> allInstructors, List<Account> allAccounts) {
-        Map<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<>();
+        Map<String, Map<Integer, Set<String>>> institutes = new HashMap<>();
         Set<String> allInstructorEmailSet = new HashSet<>();
         Set<String> allStudentEmailSet = new HashSet<>();
         int studentEmailCounter = 0;
@@ -121,7 +121,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             String institute = getInstituteForInstructor(instructor, allAccounts);
 
             if (!institutes.containsKey(institute)) {
-                institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+                institutes.put(institute, new HashMap<Integer, Set<String>>());
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
@@ -140,7 +140,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             String institute = getInstituteForStudent(student, allInstructors, allAccounts);
 
             if (!institutes.containsKey(institute)) {
-                institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+                institutes.put(institute, new HashMap<Integer, Set<String>>());
 
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
@@ -252,7 +252,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private List<InstituteStats> convertToList(
-            Map<String, HashMap<Integer, HashSet<String>>> institutes) {
+            Map<String, Map<Integer, Set<String>>> institutes) {
         List<InstituteStats> list = new ArrayList<>();
         institutes.forEach((insName, insStudents) -> {
             InstituteStats insStat = new InstituteStats();
