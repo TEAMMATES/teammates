@@ -141,6 +141,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
   e.g. `Remove unnecessary System.out.printlns from Java files #3942`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
   Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).
+* Ensure that "Allow edits from maintainers" is ticked.
 * You are encouraged to describe the changes you have made in your branch and how they resolve the issue.
 
 It is not required that you submit a PR only when your work is ready for review;
@@ -190,7 +191,7 @@ The cycle of "code review" - "updating the PR" will be repeated until your PR is
 
 ### Step 6: Prepare for merging
 
-The core team member responsible for merging your PR might contact you for reasons such as syncing your PR with the latest `master` branch or resolving merge conflicts.
+The core team member responsible for merging your PR might contact you for reasons such as resolving merge conflicts.
 Depending on the situation, this may necessitate more changes to be made in your PR (e.g. if your PR is functionally conflicting with a recent change), however this rarely happens.
 
 Your work on the issue is done when your PR is successfully merged to the main repo's `master` or `release` branch.
@@ -231,9 +232,9 @@ This instruction set will use the issue `Remove unnecessary System.out.printlns 
 * Merging can be done anytime as long as the `s.MergeApproved` label is present and GitHub gives a green light for merging.
   There are a few scenarios where GitHub can prevent merging from proceeding:
   * **Merge conflict**: the PR is conflicting with the current `master` branch; the author will need to resolve the conflicts before proceeding.
-  * **Outdated branch**: the PR is not in sync with the current `master` branch; the author will need to sync it before proceeding.
+  * **Outdated branch**: the PR is not in sync with the current `master` branch. If the PR allows edits from maintainers, simply update the branch using the "Update branch" option; otherwise, the author will need to sync it themselves before proceeding.
 
-  The dev will need to resolve them before merging can proceed. It is up to the dev/reviewer's discretion on whether the merge conflict or outdated branch necessitates another review.<br>
+  It is up to the dev/reviewer's discretion on whether the merge conflict or outdated branch necessitates another review.<br>
   In general, unless the changeset is functionally conflicting, there is no need for another review.
 * When ready for merging,
   * Checkout to the PR branch and test the code locally by running the "Local tests".
