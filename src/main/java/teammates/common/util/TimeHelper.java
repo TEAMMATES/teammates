@@ -469,7 +469,9 @@ public final class TimeHelper {
      * @param isStartInclusive true to allow time to fall on start time
      * @param isEndInclusive true to allow time to fall on end time
      * @return true if the time falls between the start and end time
+     * @deprecated This method will be removed eventually once FeedbackSessionsDb is overhauled.
      */
+    @Deprecated
     public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time,
                                              boolean isStartInclusive, boolean isEndInclusive) {
         if (startTime == null || endTime == null || time == null) {
