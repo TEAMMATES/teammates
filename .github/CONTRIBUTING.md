@@ -9,7 +9,6 @@ If that is the case, [open a new issue][new issue]. Use the following templates:
 
 * For bug reports, refer [here](template-bugReport.md).
 * For feature/enhancement requests, refer [here](template-featureRequest.md).
-* For new contributor introduction, refer [here](template-contributorIntro.md).
 * For help requests, refer [here](template-helpRequest.md).
 * For other work like refactoring or updating documentation, simply provide a clear issue title and description of the work to be done.
 
