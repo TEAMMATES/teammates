@@ -298,7 +298,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         Date now = new Date();
         Date gracedEnd = new Date(endTime.getTime() + gracePeriod * 60000L);
 
-        return now.after(endTime) && now.before(gracedEnd);
+        return (now.after(endTime) || now.equals(endTime)) && now.before(gracedEnd);
     }
 
     /**
