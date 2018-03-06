@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.lang.reflect.Field;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -7,6 +8,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.zone.ZoneRulesProvider;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
 
 /** A helper class to hold time-related functions (e.g., converting dates to strings etc.).
@@ -84,6 +87,40 @@ public final class TimeHelper {
     private static void map(String timeZone, String cities) {
         TIME_ZONE_CITIES_MAP.put(timeZone, cities);
         TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
+    }
+
+    /**
+     * Registers the zone rules loaded from resources via {@link TzdbResourceZoneRulesProvider}.
+     * Some manipulation of the system class loader is required to enable loading of a custom
+     * {@link ZoneRulesProvider} in GAE.
+     */
+    public static void registerResourceZoneRules() {
+        try {
+            ClassLoader originalScl = ClassLoader.getSystemClassLoader();
+
+            // ZoneRulesProvider uses the system class loader for loading a custom provider as the default provider.
+            // However, GAE's system class loader includes only the Java runtime and not the application. Hence, we
+            // use reflection to temporarily replace the system class loader with the class loader for the current context.
+            Field scl = ClassLoader.class.getDeclaredField("scl");
+            scl.setAccessible(true);
+            scl.set(null, Thread.currentThread().getContextClassLoader());
+
+            // ZoneRulesProvider reads this system property to determine which provider to use as the default.
+            System.setProperty("java.time.zone.DefaultZoneRulesProvider",
+                    TzdbResourceZoneRulesProvider.class.getCanonicalName());
+
+            // This first reference to ZoneRulesProvider executes the class's static initialization block,
+            // performing the actual registration of our custom provider named in the system property above.
+            // The system class loader is used to load the class from the name.
+            // If any exceptions occur, an Error is thrown.
+            log.info("Registered zone rules version " + ZoneRulesProvider.getVersions("UTC").firstKey());
+
+            // Restore the original system class loader.
+            scl.set(null, originalScl);
+
+        } catch (ReflectiveOperationException | Error e) {
+            log.severe("Failed to register zone rules: " + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
     /**
