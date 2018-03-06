@@ -182,14 +182,13 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
         $(`#msqChoiceTable-${questionNum}`).hide();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#msqGeneratedOptions-${questionNum}`).attr('value',
-                $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
+        $(`#msqGeneratedOptions-${questionNum}`).val($(`#msqGenerateForSelect-${questionNum}`).prop('value'));
     } else {
         $(`#msqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', false);
         $(`#msqChoiceTable-${questionNum}`).show();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#msqGeneratedOptions-${questionNum}`).attr('value', 'NONE');
+        $(`#msqGeneratedOptions-${questionNum}`).val('NONE');
     }
 
     adjustMinMaxSelectableChoices(questionNum);
@@ -204,8 +203,7 @@ function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
 }
 
 function changeMsqGenerateFor(questionNum) {
-    $(`#msqGeneratedOptions-${questionNum}`).attr('value',
-            $(`#msqGenerateForSelect-${questionNum}`).prop('value'));
+    $(`#msqGeneratedOptions-${questionNum}`).val($(`#msqGenerateForSelect-${questionNum}`).prop('value'));
     adjustMinMaxSelectableChoices(questionNum);
 }
 
