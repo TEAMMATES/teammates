@@ -237,21 +237,12 @@ This instruction set will use the issue `Remove unnecessary System.out.printlns 
   It is up to the dev/reviewer's discretion on whether the merge conflict or outdated branch necessitates another review.<br>
   In general, unless the changeset is functionally conflicting, there is no need for another review.
 * When ready for merging,
-  * Checkout to the PR branch and test the code locally by running the "Local tests".
+  * Merge with ["Squash and merge"](https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits) option. Format of the commit message:
 
-    ```sh
-    git checkout -b 3942-remove-unnecessary-println {remote-name}/3942-remove-unnecessary-println
     ```
-  * If green,
-    * Merge with ["Squash and merge"](https://github.com/blog/2141-squash-your-commits) option (preferable). Format of the commit message:
-
-      ```
-      [#Issue number] Issue title as given in the original issue (#PR number)
-      ```
-      e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
-    * Apply an `e.*` label to the issue (not the PR) to indicate the estimated effort required to fix the issue,
-      and another `e.*` label to the PR to indicate the estimated effort required to review the PR.<br>
-      `e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.
-  * If not green,
-    * Change the PR status back to `s.Ongoing`.
-    * Add a comment to mention the test failure(s).
+    [#Issue number] Issue title as given in the original issue (#PR number)
+    ```
+    e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
+  * Apply an `e.*` label to the issue (not the PR) to indicate the estimated effort required to fix the issue,
+    and another `e.*` label to the PR to indicate the estimated effort required to review the PR.<br>
+    `e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.
