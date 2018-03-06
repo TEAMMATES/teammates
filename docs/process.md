@@ -152,12 +152,8 @@ make it clear in the PR (e.g. in the description, in a comment, or as an `s.*` l
 Once a PR is opened, try and complete it within 2 weeks, or at least stay actively working on it.
 Inactivity for a long period may necessitate a closure of the PR.
 
-The following labels are used to indicate status of PRs:
-* `s.Ongoing`: the PR is being worked on
-* `s.ToReview`: the PR is waiting for review
-* `s.FinalReview`: the PR is ready for final review by code quality reviewer
-* `s.ToMerge`: code quality reviewer has approved the changes; PR ready to be merged
-* `s.OnHold`: the work on the PR has been put on hold pending some other event; this label is to be used as needed
+Labels `s.*` (status labels) are used to indicate status of PRs.
+Their full descriptions can be viewed under the [labels page](https://github.com/TEAMMATES/teammates/labels).
 
 #### Code review
 
