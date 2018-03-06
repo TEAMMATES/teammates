@@ -4,6 +4,7 @@
 <%@ page import="java.time.Instant" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Collections" %>
+<%@ page import="java.time.zone.ZoneRulesProvider" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -13,6 +14,7 @@
     <table>
       <tr>
         <td id="javatime">
+          <%= ZoneRulesProvider.getVersions("UTC").firstKey() %><br>
           <%
           Instant now = Instant.now();
           ArrayList<String> zoneIds = new ArrayList<>(ZoneId.getAvailableZoneIds());
@@ -28,7 +30,7 @@
       </tr>
     </table>
     <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT %>"></script>
-    <script type="text/javascript" src="<%= FrontEndLibrary.MOMENT_TIMEZONE %>"></script>
+    <script type="text/javascript" src="/data/moment-timezone-with-data-2013-2023.min.js"></script>
     <script>
       function isSupportedByJava(name) {
           // These short timezones are not supported by Java
@@ -38,7 +40,7 @@
           return !badZones[name];
       }
       var d = new Date();
-      var text = '';
+      var text = moment.tz.dataVersion + '<br>';
       moment.tz.names().filter(isSupportedByJava).forEach(function(timeZone) {
         var offset = moment.tz.zone(timeZone).offset(d) * -1;
         text += timeZone + ' ' + offset + '<br>';
