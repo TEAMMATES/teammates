@@ -261,7 +261,7 @@ public class FeedbackResponseCommentRow {
         return "(last edited "
                 + (isGiverAnonymous 
                     ? "" 
-                    : "by " + SanitizationHelper.desanitizeIfHtmlSanitized(instructorEmailNameTable.get(lastEditorEmail)) + " ")
+                    : "by " + SanitizationHelper.sanitizeForHtml(instructorEmailNameTable.get(lastEditorEmail)) + " ")
                 + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone) + ")";
     }
 }

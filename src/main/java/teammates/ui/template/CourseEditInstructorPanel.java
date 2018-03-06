@@ -36,8 +36,8 @@ public class CourseEditInstructorPanel {
         this.instructor = instructor;
         
         if (this.instructor != null) {
-        	this.instructor.displayedName = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.displayedName);
-        	this.instructor.role = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.role);
+            this.instructor.displayedName = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.displayedName);
+            this.instructor.role = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.role);
         	
         }
 
