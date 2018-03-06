@@ -1,5 +1,7 @@
 package teammates.test.driver;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,5 +67,23 @@ public final class TimeHelperExtension {
             return 24;
         }
         return hour;
+    }
+
+    /**
+     * Returns the date object with specified offset in number of ms from now.
+     * @deprecated Use {@link TimeHelperExtension#getInstantMillisOffsetFromNow(long)} instead.
+     */
+    @Deprecated
+    public static Date getMsOffsetToCurrentTime(long offsetMilliseconds) {
+        return Date.from(getInstantMillisOffsetFromNow(offsetMilliseconds));
+    }
+
+    /**
+     * Returns an java.time.Instant object that is offset by a number of milliseconds from now.
+     * @param offsetInMillis number of milliseconds offset by (integer).
+     * @return java.time.Instant offset by offsetInMillis milliseconds from now.
+     */
+    public static Instant getInstantMillisOffsetFromNow(long offsetInMillis) {
+        return Instant.now().plus(Duration.ofMillis(offsetInMillis));
     }
 }

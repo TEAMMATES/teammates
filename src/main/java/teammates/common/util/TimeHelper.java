@@ -219,24 +219,6 @@ public final class TimeHelper {
         return Instant.now().plus(Duration.ofDays(offsetInDays));
     }
 
-    /**
-     * Returns the date object with specified offset in number of ms from now.
-     * @deprecated Use {@link TimeHelper#getInstantMillisOffsetFromNow(long)} instead.
-     */
-    @Deprecated
-    public static Date getMsOffsetToCurrentTime(long offsetMilliseconds) {
-        return Date.from(getInstantMillisOffsetFromNow(offsetMilliseconds));
-    }
-
-    /**
-     * Returns an java.time.Instant object that is offset by a number of milliseconds from now.
-     * @param offsetInMillis number of milliseconds offset by (integer).
-     * @return java.time.Instant offset by offsetInMillis milliseconds from now.
-     */
-    public static Instant getInstantMillisOffsetFromNow(long offsetInMillis) {
-        return Instant.now().plus(Duration.ofMillis(offsetInMillis));
-    }
-
     // User time zone is just a view of an Instant/ZonedDateTime,
     // which should be handled in formatting methods.
     // TODO: Remove this method and refactor where it is used.
