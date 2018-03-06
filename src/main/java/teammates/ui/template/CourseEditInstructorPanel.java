@@ -34,11 +34,11 @@ public class CourseEditInstructorPanel {
             isAccessControlDisplayed = true;
         }
         this.instructor = instructor;
-        
+
         if (this.instructor != null) {
             this.instructor.displayedName = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.displayedName);
             this.instructor.role = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.role);
-        	
+
         }
 
         sectionRows = createSectionRows(instructorIndex, sectionNames, feedbackNames);
