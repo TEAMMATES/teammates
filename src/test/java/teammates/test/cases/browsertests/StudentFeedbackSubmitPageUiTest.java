@@ -597,15 +597,17 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("cannot choose self when generating choices from students (excluding self)");
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        assertFalse(submitPage.doesMcqOptionExist(24, 0, "Alice Betsy</option></td></div>'\" (Team >'\"< 1</td></div>'\")"));
-        assertTrue(submitPage.doesMcqOptionExist(24, 0, "Charlie Davis (Team 2)"));
-        submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        assertFalse(submitPage.checkIfMcqOrMsqChoiceExists(24, 0,
+                "Alice Betsy</option></td></div>'\" (Team >'\"< 1</td></div>'\")"));
+        assertTrue(submitPage.checkIfMcqOrMsqChoiceExists(24, 0,
+                "Charlie Davis (Team 2)"));
 
-        assertFalse(submitPage.doesMsqOptionExist(25, 0, "Alice Betsy</option></td></div>'\" (Team >'\"< 1</td></div>'\")"));
-        assertTrue(submitPage.doesMsqOptionExist(25, 0, "Charlie Davis (Team 2)"));
-        assertTrue(submitPage.doesMsqOptionExist(25, 0, "Extra guy (Team 2)"));
+        assertFalse(submitPage.checkIfMcqOrMsqChoiceExists(25, 0,
+                "Alice Betsy</option></td></div>'\" (Team >'\"< 1</td></div>'\")"));
+        assertTrue(submitPage.checkIfMcqOrMsqChoiceExists(25, 0,
+                "Charlie Davis (Team 2)"));
+        assertTrue(submitPage.checkIfMcqOrMsqChoiceExists(25, 0,
+                "Extra guy (Team 2)"));
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);

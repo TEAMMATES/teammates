@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -124,19 +125,14 @@ public class FeedbackSubmitPage extends AppPage {
         click(element);
     }
 
-    public boolean doesMcqOptionExist(int qnNumber, int responseNumber, String choiceName) {
+    public boolean checkIfMcqOrMsqChoiceExists(int qnNumber, int responseNumber, String choiceName) {
+        String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
+        name = SanitizationHelper.sanitizeStringForXPath(name);
+        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
         try {
-            chooseMcqOption(qnNumber, responseNumber, choiceName);
-        } catch (org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean doesMsqOptionExist(int qnNumber, int responseNumber, String choiceName) {
-        try {
-            toggleMsqOption(qnNumber, responseNumber, choiceName);
-        } catch (org.openqa.selenium.NoSuchElementException e) {
+            browser.driver.findElement(
+                    By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
+        } catch (NoSuchElementException e) {
             return false;
         }
         return true;
