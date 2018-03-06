@@ -1166,6 +1166,7 @@ $(document).ready(() => {
                     });
                     ed.on('change', function () {
                         updateTextQuestionWordsCount(id, $(textField).data('lengthTextId'), $(this).data('recommendedText'));
+                        ed.save();
                     });
                 },
             });
@@ -1174,6 +1175,8 @@ $(document).ready(() => {
     }
 
     $('form[name="form_submit_response"]').submit((e) => {
+        tinymce.triggerSave();
+
         formatRubricQuestions();
 
         const validationStatus = validateConstSumQuestions()
