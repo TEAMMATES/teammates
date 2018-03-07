@@ -168,7 +168,7 @@ public class StudentFeedbackResultsPageData extends PageData {
         List<FeedbackResultsResponse> responses = new ArrayList<>();
 
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-        String recipientName = recipientNameParam;
+        String recipientName = removeAnonymousHash(recipientNameParam);
         for (FeedbackResponseAttributes response : responsesBundleForRecipient) {
             String giverName = bundle.getGiverNameForResponse(response);
             String displayedGiverName;
@@ -189,8 +189,6 @@ public class StudentFeedbackResultsPageData extends PageData {
                 // If the giver is the user, show the real name of the recipient
                 // since the giver would know which recipient he/she gave the response to
                 recipientName = bundle.getNameForEmail(response.recipient);
-            } else {
-                recipientName = removeAnonymousHash(recipientName);
             }
 
             String answer = response.getResponseDetails().getAnswerHtmlStudentView(questionDetails);
