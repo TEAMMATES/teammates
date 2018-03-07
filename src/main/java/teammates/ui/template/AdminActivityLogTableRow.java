@@ -5,6 +5,7 @@ import java.util.TimeZone;
 
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 
@@ -106,8 +107,8 @@ public class AdminActivityLogTableRow {
     // --------------- Enhancement to the fields ---------------
 
     public String getDisplayedActionUrl() {
-        return Url.addParamToUrl(activityLog.getActionUrl(),
-                                 Const.ParamsNames.USER_ID, activityLog.getUserGoogleId());
+        return SanitizationHelper.sanitizeForHtml(Url.addParamToUrl(activityLog.getActionUrl(),
+                                                  Const.ParamsNames.USER_ID, activityLog.getUserGoogleId()));
     }
 
     public String getDisplayedLogTime() {
@@ -145,7 +146,7 @@ public class AdminActivityLogTableRow {
     }
 
     public String getActionName() {
-        return activityLog.getActionName();
+        return SanitizationHelper.sanitizeForHtml(activityLog.getActionName());
     }
 
     public String getLogTime() {
@@ -157,7 +158,7 @@ public class AdminActivityLogTableRow {
     }
 
     public String getMessage() {
-        return activityLog.getLogMessage();
+        return SanitizationHelper.sanitizeForLogMessage(activityLog.getLogMessage());
     }
 
 }

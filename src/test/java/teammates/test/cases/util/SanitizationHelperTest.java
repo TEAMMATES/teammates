@@ -358,4 +358,19 @@ public class SanitizationHelperTest extends BaseTestCase {
         assertEquals("should return same unsanitized string if given unsanitized string containing sanitized sequences",
                 unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
     }
+
+    @Test
+    public void testSanitizeForLogMessage() {
+        assertNull("should return null if given null", SanitizationHelper.sanitizeForLogMessage(null));
+
+        String unsanitized = "<span class=\"text-danger\"> A <span class=\"bold\">typical</span> log  message <br>" +
+                " It contains some <script>dangerous</script> elements </span>";
+        String correctSanitized =
+                "<span class=\"text-danger\"> A <span class=\"bold\">typical</span> log  message <br>" +
+                " It contains some &lt;script&gt;dangerous&lt;&#x2f;script&gt; elements </span>";
+        assertEquals("Should escape HTML special characters" +
+                        "other than in <span class=\"text-danger\">, <span class=\"bold\"> and <br>",
+                correctSanitized, SanitizationHelper.sanitizeForLogMessage(unsanitized));
+
+    }
 }
