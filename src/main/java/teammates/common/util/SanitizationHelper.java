@@ -374,8 +374,8 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes the log message, only allow br element and span element with class attribute equals to "bold" or "text-danger".
-     * Convert other special characters into HTML-safe equivalents.
+     * Sanitizes the log message, only allow br element and span element with class attribute equals to
+     * "bold" or "text-danger". Convert other special characters into HTML-safe equivalents.
      */
     public static String sanitizeForLogMessage(String unsanitizedString) {
         if (unsanitizedString == null) {
