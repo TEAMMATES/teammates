@@ -152,22 +152,22 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     const expandCollapseStudentsButton = 'a[id^="collapse-panels-button-section-"]';
     const expandCollapseTeamButton = 'a[id^="collapse-panels-button-team-"]';
     const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
-
+    const isCollapsePanelsButton = !panels;
     /*
-     *When collapsing expandCollapseButton, all panels buttons under it,
-     * (expandCollapseTeamButton and  expandCollapseStudentButton) should be in collapsed state.
-     * So that next time we expand the main panel, we find the expandCollapseTeamButton and
+     * When collapsing expandCollapseButton, all panels buttons under it,
+     * (expandCollapseTeamButton and  expandCollapseStudentButton) should be in collapsed state,
+     * so that next time we expand the main panel, we find the expandCollapseTeamButton and
      * expandCollapseStudentButton in collapsed state.
      */
-    if (!panels && !isButtonInExpandMode) {
+    if (isCollapsePanelsButton && !isButtonInExpandMode) {
         if ($(expandCollapseStudentsButton).length
             && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
-            $(expandCollapseStudentsButton).trigger('click');
+            replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
             $(expandCollapseStudentsButton).trigger('mouseleave');
         }
         if ($(expandCollapseTeamButton).length
             && $(expandCollapseTeamButton).html().trim().startsWith(STRING_EXPAND)) {
-            $(expandCollapseTeamButton).trigger('click');
+            replaceButtonHtmlAndTooltipText(expandCollapseTeamButton, STRING_EXPAND, STRING_COLLAPSE);
             $(expandCollapseTeamButton).trigger('mouseleave');
         }
     }
@@ -175,7 +175,7 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))) {
         if ($(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
             && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
-            $(expandCollapseStudentsButton).trigger('click');
+            replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
             $(expandCollapseStudentsButton).trigger('mouseleave');
         }
     }
