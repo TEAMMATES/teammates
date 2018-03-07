@@ -141,6 +141,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
   e.g. `Remove unnecessary System.out.printlns from Java files #3942`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
   Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).
+* Ensure that "Allow edits from maintainers" is ticked.
 * You are encouraged to describe the changes you have made in your branch and how they resolve the issue.
 
 It is not required that you submit a PR only when your work is ready for review;
@@ -151,12 +152,8 @@ make it clear in the PR (e.g. in the description, in a comment, or as an `s.*` l
 Once a PR is opened, try and complete it within 2 weeks, or at least stay actively working on it.
 Inactivity for a long period may necessitate a closure of the PR.
 
-The following labels are used to indicate status of PRs:
-* `s.Ongoing`: the PR is being worked on
-* `s.ToReview`: the PR is waiting for review
-* `s.ToMerge`: reviewer has accepted the changes
-* `s.MergeApproved`: code quality reviewer has approved the merge; PR ready to be merged
-* `s.OnHold`: the work on the PR has been put on hold pending some other event; this label is to be used as needed
+Labels `s.*` (status labels) are used to indicate status of PRs.
+Their full descriptions can be viewed under the [labels page](https://github.com/TEAMMATES/teammates/labels).
 
 #### Code review
 
@@ -171,7 +168,7 @@ Your code will be reviewed, in this sequence, by:
   You can consult the CI log to find which tests.<br>
   Ensure that all tests pass before triggering another build.
   * The CI log will also contain the command that will enable running the failed tests locally.
-* Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR (`s.ToMerge`) or suggest changes (`s.Ongoing`).
+* Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR (`s.FinalReview`) or suggest changes (`s.Ongoing`).
   Feel free to add a comment if:
   * a reviewer is not assigned within 24 hours.
   * the PR does not get any review within 48 hours of review request.
@@ -186,11 +183,11 @@ You should make and push the updates to the same branch used in the PR, essentia
 Remember to add a comment to indicate the PR is ready for review again, e.g. `Ready for review` or `Changes made`.
 If you have permission to change labels, you may additionally change the `s.*` PR label as appropriate.
 
-The cycle of "code review" - "updating the PR" will be repeated until your PR is approved by all the parties involved (`s.MergeApproved`).
+The cycle of "code review" - "updating the PR" will be repeated until your PR is approved by all the parties involved (`s.ToMerge`).
 
 ### Step 6: Prepare for merging
 
-The core team member responsible for merging your PR might contact you for reasons such as syncing your PR with the latest `master` branch or resolving merge conflicts.
+The core team member responsible for merging your PR might contact you for reasons such as resolving merge conflicts.
 Depending on the situation, this may necessitate more changes to be made in your PR (e.g. if your PR is functionally conflicting with a recent change), however this rarely happens.
 
 Your work on the issue is done when your PR is successfully merged to the main repo's `master` or `release` branch.
@@ -215,12 +212,12 @@ Your work on the issue is done when your PR is successfully merged to the main r
   * Add comments in the diff to suggest changes.
     Bundle the review comments with the "Start a review" and "Add review comment" features, and finish it with "Request changes", preferably with the review summary.
   * Change the status of the PR to `s.Ongoing`.
-* If the code is OK in all aspects, change the PR status to `s.ToMerge` and "Approve" the PR.
+* If the code is OK in all aspects, change the PR status to `s.FinalReview` and "Approve" the PR.
 
 **Role: Code quality reviewer**
 
 * Review the code for maintainability and style.
-* The follow-up action is the same as that of reviewers, with the only difference being the label to be applied is `s.MergeApproved`.
+* The follow-up action is the same as that of reviewers, with the only difference being the label to be applied is `s.ToMerge`.
 
 ## Merging a PR
 
@@ -228,29 +225,20 @@ Your work on the issue is done when your PR is successfully merged to the main r
 
 This instruction set will use the issue `Remove unnecessary System.out.printlns from Java files #3942`, resolved by PR `#3944`, as an example.
 
-* Merging can be done anytime as long as the `s.MergeApproved` label is present and GitHub gives a green light for merging.
+* Merging can be done anytime as long as the `s.ToMerge` label is present and GitHub gives a green light for merging.
   There are a few scenarios where GitHub can prevent merging from proceeding:
   * **Merge conflict**: the PR is conflicting with the current `master` branch; the author will need to resolve the conflicts before proceeding.
-  * **Outdated branch**: the PR is not in sync with the current `master` branch; the author will need to sync it before proceeding.
+  * **Outdated branch**: the PR is not in sync with the current `master` branch. If the PR allows edits from maintainers, simply update the branch using the "Update branch" option; otherwise, the author will need to sync it themselves before proceeding.
 
-  The dev will need to resolve them before merging can proceed. It is up to the dev/reviewer's discretion on whether the merge conflict or outdated branch necessitates another review.<br>
+  It is up to the dev/reviewer's discretion on whether the merge conflict or outdated branch necessitates another review.<br>
   In general, unless the changeset is functionally conflicting, there is no need for another review.
 * When ready for merging,
-  * Checkout to the PR branch and test the code locally by running the "Local tests".
+  * Merge with ["Squash and merge"](https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits) option. Format of the commit message:
 
-    ```sh
-    git checkout -b 3942-remove-unnecessary-println {remote-name}/3942-remove-unnecessary-println
     ```
-  * If green,
-    * Merge with ["Squash and merge"](https://github.com/blog/2141-squash-your-commits) option (preferable). Format of the commit message:
-
-      ```
-      [#Issue number] Issue title as given in the original issue (#PR number)
-      ```
-      e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
-    * Apply an `e.*` label to the issue (not the PR) to indicate the estimated effort required to fix the issue,
-      and another `e.*` label to the PR to indicate the estimated effort required to review the PR.<br>
-      `e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.
-  * If not green,
-    * Change the PR status back to `s.Ongoing`.
-    * Add a comment to mention the test failure(s).
+    [#Issue number] Issue title as given in the original issue (#PR number)
+    ```
+    e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
+  * Apply an `e.*` label to the issue (not the PR) to indicate the estimated effort required to fix the issue,
+    and another `e.*` label to the PR to indicate the estimated effort required to review the PR.<br>
+    `e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.
