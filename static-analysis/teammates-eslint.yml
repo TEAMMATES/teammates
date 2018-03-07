@@ -42,6 +42,12 @@ rules:
     no-mixed-operators: "off"
     no-negated-condition: "error"
     no-param-reassign: ["error", { "props": false }]
+    object-curly-newline: ["error", {
+        "ObjectExpression": { minProperties: 4, multiline: true, consistent: true },
+        "ObjectPattern": { minProperties: 4, multiline: true, consistent: true },
+        "ExportDeclaration": "always",
+        "ImportDeclaration": "always"
+    }]
 
     import/no-extraneous-dependencies: "off"
     import/prefer-default-export: "off"

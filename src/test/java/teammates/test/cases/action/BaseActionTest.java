@@ -108,7 +108,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         for (String s : params) {
             list.add(s);
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     private String[] addStudentAuthenticationInfo(String[] params) {
@@ -122,7 +122,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         for (String s : params) {
             list.add(s);
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     protected String[] createValidParamsForProfile() {
@@ -173,7 +173,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             typicalCase[indexOfSessionVisibleTime] = "0";
 
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM;
-            typicalCase[indexOfSessionPublishDate] = "08/05/2014";
+            typicalCase[indexOfSessionPublishDate] = "Thu, 08 May, 2014";
             typicalCase[indexOfSessionPublishTime] = "2";
             break;
         case 2:
@@ -202,15 +202,15 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         return new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName,
-                Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, "01/02/2012",
+                Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, "Wed, 01 Feb, 2012",
                 Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "01/01/2015",
+                Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, "Thu, 01 Jan, 2015",
                 Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "0",
 
                 Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON,
                 Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM,
 
-                Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "01/01/2012",
+                Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, "Sun, 01 Jan, 2012",
                 Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME, "0",
 
                 Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON,
