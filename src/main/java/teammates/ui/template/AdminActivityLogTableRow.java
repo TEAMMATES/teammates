@@ -97,7 +97,7 @@ public class AdminActivityLogTableRow {
     }
 
     public boolean getIsActionFailure() {
-        return activityLog.getActionName().contains(Const.ACTION_RESULT_FAILURE);
+        return activityLog.getActionResponse().contains(Const.ACTION_RESULT_FAILURE);
     }
 
     public boolean getIsActionErrorReport() {
