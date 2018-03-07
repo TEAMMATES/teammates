@@ -159,6 +159,9 @@ public final class HtmlHelper {
                         || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
+                } else if (isTinymceStyleDiv(attribute)) {
+                    // ignore as the style definition differs across browsers
+                    return ignoreNode();
                 } else if (isMotdContainerAttribute(attribute)) {
                     // replace MOTD content with placeholder
                     return generateStudentMotdPlaceholder(indentation);
@@ -180,8 +183,7 @@ public final class HtmlHelper {
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 if (isTinymceStyleAttribute(attribute)) {
-                    // the style definition differs across browsers; replace with placeholder
-                    // return generateTinymceStylePlaceholder(indentation);
+                    // ignore as the style definition differs across browsers
                     return ignoreNode();
                 }
             }
@@ -205,10 +207,6 @@ public final class HtmlHelper {
     private static String generateDatepickerPlaceholder(String indentation) {
         return indentation + "${datepicker}" + System.lineSeparator();
     }
-
-    // private static String generateTinymceStylePlaceholder(String indentation) {
-    //     return indentation + "${tinymce.style}" + System.lineSeparator();
-    // }
 
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
         StringBuilder currentHtmlText = new StringBuilder();
@@ -250,6 +248,15 @@ public final class HtmlHelper {
         return !("html".equals(currentNodeName)
                  || "head".equals(currentNodeName)
                  || "body".equals(currentNodeName));
+    }
+
+    private static boolean isTinymceStyleDiv(Node attribute) {
+        if (!"style".equalsIgnoreCase(attribute.getNodeName())) {
+            return false;
+        }
+        String value = attribute.getNodeValue();
+        return value.contains("position: static") && value.contains("height: 0px") && value.contains("width: 0px")
+                && value.contains("padding: 0px") && value.contains("margin: 0px");
     }
 
     private static boolean isTinymceStyleAttribute(Node attribute) {

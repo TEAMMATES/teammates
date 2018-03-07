@@ -53,30 +53,15 @@ Of course we are happy to guide you if you encounter any difficulties when doing
 1. [Optional but recommended] [Set up the TEAMMATES project in an IDE](ide-setup.md).
 1. Get the test to pass (more info in [_Development Guidelines_ document](development.md)). It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
-### **Phase C**: Tinker with the code
+### **Phase C**: Learn and start contributing
 
-> You are recommended to refer to [the _Development Guidelines_ document](development.md) for this phase.
+In order to contribute effectively, you are advised to learn how to do the various development routines lined out in [the _Development Guidelines_ document](development.md). Try your best to be familiar with at least building and testing the application in your local development environment.
 
-1. Create a branch named `tinker`.
-1. In that branch, do a small change to the code that makes a visible change to TEAMMATES UI. Preferably, your change should improve the UI in some way, or at least not make it worse.
-1. [Optional] Deploy the changed version to your _staging server_.
-1. Push your changes to your fork.
+When you are ready for a real contribution, you are advised to start with an issue labelled [d.FirstTimers](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:d.FirstTimers) (but do not do more than one of those), then move on to other issues labelled [d.Contributors](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:d.Contributors).
+Steps for fixing an issue are lined out in the [process document](process.md).
 
-### **Phase D**: Introduce yourself to the community
-
-Create a new issue in our issue tracker with the following info:
-
-Issue title: "New contributor self intro [your name]"<br>
-a) link to your app (if you deployed to your staging server in Phase C)<br>
-b) link to your fork<br>
-c) a screenshot of the change you did (as seen on the UI)<br>
-d) your real name and a short self-intro
-
-### **Phase E**: Start contributing
-
-After you complete the above tasks, you are ready to become a contributor.
-
-Steps for fixing an issue is explained in the [process document](process.md). New contributors are advised to start doing an issue labeled [d.FirstTimers](https://github.com/TEAMMATES/teammates/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Ad.FirstTimers) (but do not do more than one of those), then to other issues labeled as [d.Contributors](https://github.com/TEAMMATES/teammates/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Ad.Contributors).
+> In the event that you cannot find a `d.FirstTimers`-labelled issue, you can start with a `d.Contributors`-labelled issue.
+> You can consult the `e.*` label, if it is present, to estimate the difficulty. Lower number generally means less amount of work required.
 
 ### **Important**
 
