@@ -34,7 +34,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     private String frId = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1").feedbackResponseId;
     private FeedbackResponseCommentAttributes anotherFrcaData =
             dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-    private ArrayList<FeedbackResponseCommentAttributes> frcasData = new ArrayList<>();
+    private List<FeedbackResponseCommentAttributes> frcasData = new ArrayList<>();
 
     @BeforeClass
     public void classSetup() throws Exception {

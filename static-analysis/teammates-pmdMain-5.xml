@@ -12,11 +12,11 @@
     <exclude-pattern>.*.jsp</exclude-pattern>
     <exclude-pattern>.*.js</exclude-pattern>
     <exclude-pattern>.*.xml</exclude-pattern>
-    <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace"/>
-    <rule ref="category/java/bestpractices.xml/SystemPrintln"/>
-    <rule ref="category/java/design.xml/AvoidThrowingRawExceptionTypes"/>
-    <rule ref="category/java/design.xml/SignatureDeclareThrowsException"/>
-    <rule ref="category/java/errorprone.xml/InvalidSlf4jMessageFormat"/>
-    <rule ref="category/java/errorprone.xml/LoggerIsNotStaticFinal"/>
-    <rule ref="category/java/errorprone.xml/MoreThanOneLogger"/>
+    <rule ref="rulesets/java/logging-java.xml">
+        <!-- Not worth the added safety -->
+        <exclude name="GuardLogStatementJavaUtil"/>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException"/>
+    <rule ref="rulesets/java/typeresolution.xml/LooseCoupling"/>
+    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingRawExceptionTypes"/>
 </ruleset>
