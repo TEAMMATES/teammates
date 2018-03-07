@@ -372,5 +372,10 @@ public class SanitizationHelperTest extends BaseTestCase {
                 + "other than in <span class=\"text-danger\">, <span class=\"bold\"> and <br>",
                 correctSanitized, SanitizationHelper.sanitizeForLogMessage(unsanitized));
 
+        unsanitized = "Hmm. <span class=\"text-info\"> How about this? </span> and <span> this</span>";
+        correctSanitized =
+                "Hmm. &lt;span class=&quot;text-info&quot;&gt; How about this? </span> and <span> this</span>";
+        assertEquals("Should escape <span class=\"text-danger\">, <span class=\"bold\"> and <br>",
+                correctSanitized, SanitizationHelper.sanitizeForLogMessage(unsanitized));
     }
 }

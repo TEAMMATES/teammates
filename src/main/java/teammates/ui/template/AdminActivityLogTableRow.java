@@ -127,6 +127,14 @@ public class AdminActivityLogTableRow {
         return TimeHelper.convertToStandardDuration(activityLog.getActionTimeTaken());
     }
 
+    public String getDisplayedActionName() {
+        return SanitizationHelper.sanitizeForHtml(activityLog.getActionName());
+    }
+
+    public String getDisplayedMessage() {
+        return SanitizationHelper.sanitizeForLogMessage(activityLog.getLogMessage());
+    }
+
     // --------------- Forwarding activityLog methods ---------------
 
     public String getUserGoogleId() {
@@ -145,20 +153,12 @@ public class AdminActivityLogTableRow {
         return activityLog.getLogId();
     }
 
-    public String getActionName() {
-        return SanitizationHelper.sanitizeForHtml(activityLog.getActionName());
-    }
-
     public String getLogTime() {
         return String.valueOf(activityLog.getLogTime());
     }
 
     public boolean getIsMasqueradeUserRole() {
         return activityLog.isMasqueradeUserRole();
-    }
-
-    public String getMessage() {
-        return SanitizationHelper.sanitizeForLogMessage(activityLog.getLogMessage());
     }
 
 }
