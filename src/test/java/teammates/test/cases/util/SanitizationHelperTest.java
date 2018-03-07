@@ -375,7 +375,12 @@ public class SanitizationHelperTest extends BaseTestCase {
         unsanitized = "Hmm. <span class=\"text-info\"> How about this? </span> and <span> this</span>";
         correctSanitized =
                 "Hmm. &lt;span class=&quot;text-info&quot;&gt; How about this? </span> and <span> this</span>";
-        assertEquals("Should escape <span class=\"text-danger\">, <span class=\"bold\"> and <br>",
+        assertEquals("Should escape if span has a class other than 'bold' or 'text-danger'",
+                correctSanitized, SanitizationHelper.sanitizeForLogMessage(unsanitized));
+
+        unsanitized = "Single <span class='bold'> quotation mark? </span>";
+        correctSanitized = "Single &lt;span class=&#39;bold&#39;&gt; quotation mark? </span>";
+        assertEquals("Should escape if attribute is specified using single quotation marks",
                 correctSanitized, SanitizationHelper.sanitizeForLogMessage(unsanitized));
     }
 }
