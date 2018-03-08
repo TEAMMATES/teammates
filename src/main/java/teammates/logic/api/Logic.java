@@ -666,9 +666,6 @@ public class Logic {
      * Updates the details of a course.
      *
      * @see CoursesLogic#updateCourse(String, String, String)
-     * @param courseId
-     * @param courseName
-     * @param courseTimeZone
      */
     public void updateCourse(String courseId, String courseName, String courseTimeZone)
             throws InvalidParametersException, EntityDoesNotExistException {

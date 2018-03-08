@@ -594,9 +594,9 @@ public final class CoursesLogic {
 
     /**
      * Updates the course details.
-     * @param courseId
-     * @param courseName
-     * @param courseTimeZone
+     * @param courseId Id of the course to update
+     * @param courseName new name of the course
+     * @param courseTimeZone new time zone of the course
      */
     public void updateCourse(String courseId, String courseName, String courseTimeZone)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -734,9 +734,8 @@ public final class CoursesLogic {
             throw new InvalidParametersException(errors);
         }
 
-        CourseAttributes courseToAdd = CourseAttributes
+        return CourseAttributes
                 .builder(courseId, courseName, ZoneId.of(courseTimeZone))
                 .build();
-        return courseToAdd;
     }
 }

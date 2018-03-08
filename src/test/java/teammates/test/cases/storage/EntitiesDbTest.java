@@ -1,5 +1,7 @@
 package teammates.test.cases.storage;
 
+import java.time.ZoneId;
+
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
@@ -13,8 +15,6 @@ import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-
-import java.time.ZoneId;
 
 /**
  * SUT: {@link teammates.storage.api.EntitiesDb}.

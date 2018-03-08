@@ -1,5 +1,7 @@
 package teammates.test.cases.testdriver;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -17,8 +19,6 @@ import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
-
-import java.time.ZoneId;
 
 /**
  * SUT: {@link BackDoor}.
