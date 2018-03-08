@@ -29,11 +29,11 @@ public class StudentFeedbackResultsPage extends AppPage {
     }
 
     public boolean isExcludingSelfOptionVisible() {
-        return isElementVisible("excluding-self-check");
+        return isElementVisible(By.className("excluding-self-check"));
     }
 
     public void clickExcludingSelfCheckbox() {
-        click(By.id("excluding-self-check"));
+        click(By.className("excluding-self-check"));
     }
 
     public boolean isExcludingSelfTableVisible() {
