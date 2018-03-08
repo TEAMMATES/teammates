@@ -8,6 +8,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 
+import java.time.ZoneId;
+
 /**
  * SUT: {@link teammates.logic.backdoor.BackDoorLogic}.
  */
@@ -45,7 +47,7 @@ public class BackDoorLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters in an entity");
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("invalid id", "valid course name", "UTC")
+                .builder("invalid id", "valid course name", ZoneId.of("UTC"))
                 .build();
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);

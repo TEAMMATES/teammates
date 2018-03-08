@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -95,7 +96,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         }
 
         courseEntityToUpdate.setName(courseToUpdate.getName());
-        courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone());
+        courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone().getId());
 
         saveEntity(courseEntityToUpdate, courseToUpdate);
     }
@@ -111,7 +112,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
         // only the courseId is important here, everything else are placeholders
         deleteEntity(CourseAttributes
-                .builder(courseId, "Non-existent course", "UTC")
+                .builder(courseId, "Non-existent course", ZoneId.of("UTC"))
                 .build());
     }
 
@@ -148,7 +149,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     protected CourseAttributes makeAttributes(Course entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), entity.getTimeZone())
+        return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), ZoneId.of(entity.getTimeZone()))
                 .withCreatedAt(entity.getCreatedAt()).build();
     }
 }

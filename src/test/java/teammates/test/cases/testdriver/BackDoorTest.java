@@ -18,6 +18,8 @@ import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.Priority;
 
+import java.time.ZoneId;
+
 /**
  * SUT: {@link BackDoor}.
  */
@@ -156,7 +158,7 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
 
         String courseId = "tmapitt.tcc.course";
         CourseAttributes course = CourseAttributes
-                .builder(courseId, "Name of tmapitt.tcc.instructor", "UTC")
+                .builder(courseId, "Name of tmapitt.tcc.instructor", ZoneId.of("UTC"))
                 .build();
 
         // Make sure not already inside

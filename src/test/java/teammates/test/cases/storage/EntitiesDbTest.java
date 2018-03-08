@@ -14,6 +14,8 @@ import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
+import java.time.ZoneId;
+
 /**
  * SUT: {@link teammates.storage.api.EntitiesDb}.
  */
@@ -31,7 +33,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
         ______TS("success: typical case");
         CourseAttributes c = CourseAttributes
-                .builder("Computing101-fresh", "Basic Computing", "UTC")
+                .builder("Computing101-fresh", "Basic Computing", ZoneId.of("UTC"))
                 .build();
         coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatastore(c);
@@ -52,7 +54,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
         ______TS("fails: invalid parameters");
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("invalid id spaces", "Basic Computing", "UTC")
+                .builder("invalid id spaces", "Basic Computing", ZoneId.of("UTC"))
                 .build();
         try {
             coursesDb.createEntity(invalidCourse);

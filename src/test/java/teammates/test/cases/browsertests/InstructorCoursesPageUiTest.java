@@ -15,6 +15,8 @@ import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 
+import java.time.ZoneId;
+
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSES_PAGE}.
  */
@@ -35,7 +37,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
     private CourseAttributes validCourse =
             CourseAttributes
-                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore")
+                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", ZoneId.of("Asia/Singapore"))
                     .build();
 
     @Override

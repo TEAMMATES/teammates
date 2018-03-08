@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -68,9 +69,7 @@ public final class CoursesLogic {
     public void createCourse(String courseId, String courseName, String courseTimeZone)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        CourseAttributes courseToAdd = CourseAttributes
-                .builder(courseId, courseName, courseTimeZone)
-                .build();
+        CourseAttributes courseToAdd = validateAndCreateCourseAttributes(courseId, courseName, courseTimeZone);
         coursesDb.createEntity(courseToAdd);
     }
 
@@ -595,12 +594,13 @@ public final class CoursesLogic {
 
     /**
      * Updates the course details.
-     * @param newCourse the course object containing new details of the course
+     * @param courseId
+     * @param courseName
+     * @param courseTimeZone
      */
-    public void updateCourse(CourseAttributes newCourse) throws InvalidParametersException,
-                                                                EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newCourse);
-
+    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes newCourse = validateAndCreateCourseAttributes(courseId, courseName, courseTimeZone);
         CourseAttributes oldCourse = coursesDb.getCourse(newCourse.getId());
 
         if (oldCourse == null) {
@@ -717,5 +717,26 @@ public final class CoursesLogic {
             }
         }
         return archivedCourseIds;
+    }
+
+    private CourseAttributes validateAndCreateCourseAttributes(String courseId,
+                                                               String courseName, String courseTimeZone)
+            throws InvalidParametersException {
+
+        FieldValidator validator = new FieldValidator();
+        String timeZoneErrorMessage = validator.getInvalidityInfoForCourseTimeZone(courseTimeZone);
+        if (!timeZoneErrorMessage.isEmpty()) {
+            CourseAttributes dummyCourse = CourseAttributes
+                    .builder(courseId, courseName, ZoneId.of("UTC"))
+                    .build();
+            List<String> errors = dummyCourse.getInvalidityInfo();
+            errors.add(timeZoneErrorMessage);
+            throw new InvalidParametersException(errors);
+        }
+
+        CourseAttributes courseToAdd = CourseAttributes
+                .builder(courseId, courseName, ZoneId.of(courseTimeZone))
+                .build();
+        return courseToAdd;
     }
 }

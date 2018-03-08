@@ -18,6 +18,8 @@ import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
+import java.time.ZoneId;
+
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_HOME_PAGE}.
  */
@@ -126,7 +128,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithoutSampleCourse.html");
 
         CourseAttributes newCourse = CourseAttributes
-                .builder("newIns.wit-demo", "Sample Course 101", "UTC")
+                .builder("newIns.wit-demo", "Sample Course 101", ZoneId.of("UTC"))
                 .build();
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")

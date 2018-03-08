@@ -370,14 +370,14 @@ public final class TimeHelper {
      */
     @Deprecated
     public static String formatDateTimeForInstructorCoursesPage(Date date, String timeZoneId) {
-        return formatDateTimeForInstructorCoursesPage(convertDateToInstant(date), timeZoneId);
+        return formatDateTimeForInstructorCoursesPage(convertDateToInstant(date), ZoneId.of(timeZoneId));
     }
 
     /**
      * Formats a date in the format d MMM yyyy. Example: 5 May 2017
      */
-    public static String formatDateTimeForInstructorCoursesPage(Instant instant, String timeZoneId) {
-        return formatInstant(instant, ZoneId.of(timeZoneId), "d MMM yyyy");
+    public static String formatDateTimeForInstructorCoursesPage(Instant instant, ZoneId timeZoneId) {
+        return formatInstant(instant, timeZoneId, "d MMM yyyy");
     }
 
     /**

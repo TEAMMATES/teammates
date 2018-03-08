@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
@@ -36,6 +37,7 @@ public final class JsonUtils {
     private static Gson getTeammatesGson() {
         return new GsonBuilder().registerTypeAdapter(Date.class, new TeammatesDateAdapter())
                                 .registerTypeAdapter(Instant.class, new TeammatesInstantAdapter())
+                                .registerTypeAdapter(ZoneId.class, new TeammatesZoneIdAdapter())
                                 .setPrettyPrinting()
                                 .disableHtmlEscaping()
                                 .create();
@@ -123,6 +125,23 @@ public final class JsonUtils {
         public synchronized Instant deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
             try {
                 return Instant.parse(element.getAsString());
+            } catch (DateTimeParseException e) {
+                throw new JsonSyntaxException(element.getAsString(), e);
+            }
+        }
+    }
+
+    private static class TeammatesZoneIdAdapter implements JsonSerializer<ZoneId>, JsonDeserializer<ZoneId> {
+
+        @Override
+        public synchronized JsonElement serialize(ZoneId zoneId, Type type, JsonSerializationContext context) {
+            return new JsonPrimitive(zoneId.getId());
+        }
+
+        @Override
+        public synchronized ZoneId deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
+            try {
+                return ZoneId.of(element.getAsString());
             } catch (DateTimeParseException e) {
                 throw new JsonSyntaxException(element.getAsString(), e);
             }
