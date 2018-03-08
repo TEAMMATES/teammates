@@ -68,10 +68,10 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
 
         feedbackEditPage.fillConstSumPointsForEachRecipientBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsForEachRecipientBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsForEachRecipientBoxForNewQuestion());
 
         assertFalse(feedbackEditPage.isElementVisible("constSumOptionTable--1"));
 
