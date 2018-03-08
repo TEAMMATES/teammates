@@ -5,6 +5,7 @@ import java.util.TimeZone;
 
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 
@@ -96,7 +97,7 @@ public class AdminActivityLogTableRow {
     }
 
     public boolean getIsActionFailure() {
-        return activityLog.getActionName().contains(Const.ACTION_RESULT_FAILURE);
+        return activityLog.getActionResponse().contains(Const.ACTION_RESULT_FAILURE);
     }
 
     public boolean getIsActionErrorReport() {
@@ -106,8 +107,8 @@ public class AdminActivityLogTableRow {
     // --------------- Enhancement to the fields ---------------
 
     public String getDisplayedActionUrl() {
-        return Url.addParamToUrl(activityLog.getActionUrl(),
-                                 Const.ParamsNames.USER_ID, activityLog.getUserGoogleId());
+        return SanitizationHelper.sanitizeForHtml(Url.addParamToUrl(activityLog.getActionUrl(),
+                                                  Const.ParamsNames.USER_ID, activityLog.getUserGoogleId()));
     }
 
     public String getDisplayedLogTime() {
@@ -124,6 +125,14 @@ public class AdminActivityLogTableRow {
 
     public String getDisplayedLogTimeTaken() {
         return TimeHelper.convertToStandardDuration(activityLog.getActionTimeTaken());
+    }
+
+    public String getDisplayedActionName() {
+        return SanitizationHelper.sanitizeForHtml(activityLog.getActionName());
+    }
+
+    public String getDisplayedMessage() {
+        return SanitizationHelper.sanitizeForLogMessage(activityLog.getLogMessage());
     }
 
     // --------------- Forwarding activityLog methods ---------------
@@ -144,20 +153,12 @@ public class AdminActivityLogTableRow {
         return activityLog.getLogId();
     }
 
-    public String getActionName() {
-        return activityLog.getActionName();
-    }
-
     public String getLogTime() {
         return String.valueOf(activityLog.getLogTime());
     }
 
     public boolean getIsMasqueradeUserRole() {
         return activityLog.isMasqueradeUserRole();
-    }
-
-    public String getMessage() {
-        return activityLog.getLogMessage();
     }
 
 }
