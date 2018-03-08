@@ -68,17 +68,17 @@ function showHideStats() {
 // Toggles Rubric Questions excluding self
 function toggleExcludingSelfResultsForRubricStatistics(checkbox) {
     if ($(checkbox).prop('checked')) {
-        $(checkbox).parent().parent().parent()
+        $(checkbox).closest('.resultStatistics')
                 .find('.table-body-including-self')
                 .addClass('hidden');
-        $(checkbox).parent().parent().parent()
+        $(checkbox).closest('.resultStatistics')
                 .find('.table-body-excluding-self')
                 .removeClass('hidden');
     } else {
-        $(checkbox).parent().parent().parent()
+        $(checkbox).closest('.resultStatistics')
                 .find('.table-body-including-self')
                 .removeClass('hidden');
-        $(checkbox).parent().parent().parent()
+        $(checkbox).closest('.resultStatistics')
                 .find('.table-body-excluding-self')
                 .addClass('hidden');
     }
