@@ -462,7 +462,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             subQnIndex++;
         }
 
-        return col.toArray(new String[col.size()]);
+        return col.toArray(new String[0]);
     }
 
     /**
