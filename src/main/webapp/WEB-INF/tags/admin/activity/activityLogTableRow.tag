@@ -42,7 +42,7 @@
         <a href="${log.displayedActionUrl}"
             class="${log.isActionFailure || log.isActionErrorReport ? "text-danger" : "" }"
             target="_blank">
-          ${log.actionName}
+          ${log.displayedActionName}
         </a>
         <small>
           id: ${log.logId} [${log.userName}
@@ -73,7 +73,7 @@
         <input class="ifShowAll_for_person" type="hidden" name="all" value="false">
         <input class="ifShowTestData_for_person" type="hidden" name="testdata" value="false">
       </h4>
-      <div class="log-message">${log.message}</div>
+      <div class="log-message">${log.displayedMessage}</div>
     </form>
   </td>
 </tr>
