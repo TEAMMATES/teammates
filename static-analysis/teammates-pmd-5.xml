@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name=""
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        This is the PMD ruleset for all TEAMMATES Java code.
+    </description>
+    <exclude-pattern>.*.html</exclude-pattern>
+    <exclude-pattern>.*.jsp</exclude-pattern>
+    <exclude-pattern>.*.js</exclude-pattern>
+    <exclude-pattern>.*.xml</exclude-pattern>
+    <rule ref="rulesets/java/basic.xml"/>
+
+    <rule ref="rulesets/java/design.xml">
+        <!-- Thread-safety-related rule -->
+        <exclude name="AvoidSynchronizedAtMethodLevel"/>
+        <exclude name="NonThreadSafeSingleton"/>
+
+        <!-- Very difficult to enforce -->
+        <exclude name="GodClass"/>
+        <exclude name="ImmutableField"/>
+
+        <!-- Not worth the added safety -->
+        <exclude name="AccessorMethodGeneration"/>
+        <exclude name="ConstructorCallsOverridableMethod"/>
+        <exclude name="SimpleDateFormatNeedsLocale"/>
+        <exclude name="UseLocaleWithCaseConversions"/>
+        <exclude name="UseVarargs"/>
+        <exclude name="OptimizableToArrayCall"/>
+    </rule>
+
+    <rule ref="rulesets/java/empty.xml">
+        <!-- Prefer Checkstyle's which allows commented empty block -->
+        <exclude name="EmptyIfStmt"/>
+        <exclude name="EmptyCatchBlock"/>
+    </rule>
+
+    <rule ref="rulesets/java/junit.xml">
+        <!-- Not worth the benefit -->
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+        <exclude name="JUnitStaticSuite"/>
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
+    </rule>
+
+    <rule ref="rulesets/java/optimizations.xml">
+        <!-- Inevitably occur -->
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+
+        <!-- Not worth the optimization -->
+        <exclude name="LocalVariableCouldBeFinal"/>
+        <exclude name="SimplifyStartsWith"/>
+
+        <!-- Achieved by disallowing parameter reassignment -->
+        <exclude name="MethodArgumentCouldBeFinal"/>
+    </rule>
+
+    <rule ref="rulesets/java/strictexception.xml">
+        <!-- Some are needed as safety net -->
+        <exclude name="AvoidCatchingGenericException"/>
+        <exclude name="AvoidThrowingRawExceptionTypes"/>
+
+        <!-- Might be enforced later on -->
+        <exclude name="SignatureDeclareThrowsException"/>
+    </rule>
+
+    <rule ref="rulesets/java/strings.xml">
+        <!-- Very difficult to enforce -->
+        <exclude name="AvoidDuplicateLiterals"/>
+
+        <!-- Not worth the optimization -->
+        <exclude name="InefficientEmptyStringCheck"/>
+    </rule>
+
+    <rule ref="rulesets/java/unnecessary.xml"/>
+    <rule ref="rulesets/java/unusedcode.xml"/>
+
+</ruleset>
