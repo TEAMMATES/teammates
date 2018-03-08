@@ -1,9 +1,9 @@
 package teammates.test.cases.storage;
 
-import java.time.ZoneId;
-
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
+
+import java.time.ZoneId;
 
 import org.testng.annotations.Test;
 
