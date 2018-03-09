@@ -28,7 +28,7 @@ The rules to be used are configured in a ruleset file; in TEAMMATES the file can
 
 ##### Configuring Checkstyle Eclipse plugin
 
-The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/content/checkstyle-plug). **Install version 8.7.0**.
+The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/content/checkstyle-plug). **Install version 8.8.0**.
 
 1. In `Project > Properties`, go to the `Checkstyle` tab.
 2. In the `Local Check Configurations tab`, create a new Check Configuration. Select `Project Relative Configuration` for its Type, enter any Name you wish and set the Location to the `teammates-checkstyle.xml` file in the Project Folder. Click OK.
@@ -85,9 +85,9 @@ The plugin for Eclipse can be found [here](https://marketplace.eclipse.org/conte
 1. In `Project > Properties`, go to the `PMD` tab.
 1. Check `Enable PMD for this project`.
 1. Click `Add`, select `Project` and click `Next >`.
-1. Click `Browse` next to the `Location` bar, navigate to the `static-analysis` directory of the project and select `teammates-pmd.xml`.
+1. Click `Browse` next to the `Location` bar, navigate to the `static-analysis` directory of the project and select `teammates-pmd-5.xml`.
 1. Enter any name you wish for the ruleset. Click `OK`.
-1. Repeat the last two steps for `teammates-pmdMain.xml`.
+1. Repeat the last two steps for `teammates-pmdMain-5.xml`.
 
 ##### Configuring PMD for IntelliJ
 
@@ -102,7 +102,7 @@ The plugin for IntelliJ can be found [here](https://plugins.jetbrains.com/idea/p
 
 ##### Suppressing PMD warnings
 
-To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](https://pmd.github.io/pmd-5.8.1/usage/suppressing.html).
+To introduce code that violates PMD rules, use `@SuppressWarnings("PMD.RuleName")` annotation at the narrowest possible scope. PMD also provides several other methods of suppressing rule violations, which can be found in the [documentation here](https://pmd.github.io/pmd-6.1.0/pmd_userdocs_suppressing_warnings.html).
 The suppression should be as specific as possible, and the reason for violating the rule should be explained.
 
 ### FindBugs

@@ -2026,7 +2026,6 @@ public final class FeedbackSessionsLogic {
         responseCommentList.sort(Comparator.comparing(responseComment -> responseComment.createdAt));
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD
     private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
