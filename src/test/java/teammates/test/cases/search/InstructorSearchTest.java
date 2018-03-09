@@ -136,7 +136,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         assertEquals(expected.length, actual.instructorList.size());
         standardizeInstructorsForComparison(expected);
         standardizeInstructorsForComparison(
-                actual.instructorList.toArray(new InstructorAttributes[actual.instructorList.size()]));
+                actual.instructorList.toArray(new InstructorAttributes[0]));
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual.instructorList);
     }
 
