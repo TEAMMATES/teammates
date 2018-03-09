@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -58,6 +59,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         testCreateCourse();
         testCreateCourseAndInstructor();
         testDeleteCourse();
+        testUpdateCourse();
     }
 
     private void testGetCourse() throws Exception {
@@ -776,10 +778,6 @@ public class CoursesLogicTest extends BaseLogicTest {
 
     private void testCreateCourse() throws Exception {
 
-        /*Explanation:
-         * The SUT (i.e. CoursesLogic::createCourse) has only 1 path. Therefore, we
-         * should typically have 1 test cases here.
-         */
         ______TS("typical case");
 
         CourseAttributes c = CourseAttributes
@@ -795,6 +793,18 @@ public class CoursesLogicTest extends BaseLogicTest {
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Non-null value expected", e.getMessage());
+        }
+        ______TS("Invalid time zone");
+
+        String invalidTimeZone = "Invalid Timezone";
+        try {
+            coursesLogic.createCourse(c.getId(), c.getName(), invalidTimeZone);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            String expectedErrorMessage = getPopulatedErrorMessage(
+                    FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
+                    FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+            assertEquals(expectedErrorMessage, e.getMessage());
         }
     }
 
@@ -979,4 +989,24 @@ public class CoursesLogicTest extends BaseLogicTest {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
+
+    private void testUpdateCourse() throws Exception {
+        ______TS("Invalid time zone");
+
+        CourseAttributes c = CourseAttributes
+                .builder("Computing101-getthis", "Basic Computing Getting", ZoneId.of("UTC"))
+                .build();
+        coursesDb.createEntity(c);
+        String invalidTimeZone = "Invalid Timezone";
+        try {
+            coursesLogic.updateCourse(c.getId(), c.getName(), invalidTimeZone);
+            signalFailureToDetectException();
+        } catch (InvalidParametersException e) {
+            String expectedErrorMessage = getPopulatedErrorMessage(
+                    FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
+                    FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+            assertEquals(expectedErrorMessage, e.getMessage());
+        }
+    }
+
 }

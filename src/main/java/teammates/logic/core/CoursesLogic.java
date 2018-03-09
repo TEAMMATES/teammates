@@ -719,21 +719,33 @@ public final class CoursesLogic {
         return archivedCourseIds;
     }
 
-    private CourseAttributes validateAndCreateCourseAttributes(String courseId,
-                                                               String courseName, String courseTimeZone)
-            throws InvalidParametersException {
+    /**
+     * Check that {@code courseTimeZone} is valid and then return a {@code CourseAttributes}
+     *
+     * Field validation is usually done in {@code CourseDb} by calling {@code CourseAttributes.getInvalidityInfo}.
+     * However, a {@code CourseAttributes} cannot be created with an invalid time zone string.
+     * Hence, validation of this field is carried out here.
+     *
+     * @throws InvalidParametersException containing error messages for all fields if {@code courseTimeZone} is valid
+     */
+    private CourseAttributes validateAndCreateCourseAttributes(
+            String courseId, String courseName, String courseTimeZone) throws InvalidParametersException {
 
+        // Imitate `CourseAttributes.getInvalidityInfo`
         FieldValidator validator = new FieldValidator();
         String timeZoneErrorMessage = validator.getInvalidityInfoForCourseTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
+            // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
             CourseAttributes dummyCourse = CourseAttributes
                     .builder(courseId, courseName, ZoneId.of("UTC"))
                     .build();
             List<String> errors = dummyCourse.getInvalidityInfo();
             errors.add(timeZoneErrorMessage);
+            // Imitate exception throwing in `CourseDb`
             throw new InvalidParametersException(errors);
         }
 
+        // If time zone field is valid, leave validation  of other fields to `CourseDb` like usual
         return CourseAttributes
                 .builder(courseId, courseName, ZoneId.of(courseTimeZone))
                 .build();

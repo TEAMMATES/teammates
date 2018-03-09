@@ -40,6 +40,11 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
      * <ul>
      * <li>{@code createdAt = current date}</li>
      * </ul>
+     *
+     * @param courseId Id of the course.
+     * @param name Name of the course.
+     * @param timeZone Time zone of the course.
+     * @return a {@code Builder} object that can be used to construct a {@code CourseAttributes} object
      */
     public static Builder builder(String courseId, String name, ZoneId timeZone) {
         return new Builder(courseId, name, timeZone);

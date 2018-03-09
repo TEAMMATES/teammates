@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -142,7 +143,7 @@ public final class JsonUtils {
         public synchronized ZoneId deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
             try {
                 return ZoneId.of(element.getAsString());
-            } catch (DateTimeParseException e) {
+            } catch (DateTimeException e) {
                 throw new JsonSyntaxException(element.getAsString(), e);
             }
         }
