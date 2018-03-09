@@ -720,10 +720,9 @@ public final class CoursesLogic {
     }
 
     /**
-     * Check that {@code courseTimeZone} is valid and then return a {@code CourseAttributes}
-     *
-     * Field validation is usually done in {@code CourseDb} by calling {@code CourseAttributes.getInvalidityInfo}.
-     * However, a {@code CourseAttributes} cannot be created with an invalid time zone string.
+     * Check that {@code courseTimeZone} is valid and then return a {@link CourseAttributes}
+     * Field validation is usually done in {@link CoursesDb} by calling {@link CourseAttributes#getInvalidityInfo()}.
+     * However, a {@link CourseAttributes} cannot be created with an invalid time zone string.
      * Hence, validation of this field is carried out here.
      *
      * @throws InvalidParametersException containing error messages for all fields if {@code courseTimeZone} is valid
@@ -741,11 +740,11 @@ public final class CoursesLogic {
                     .build();
             List<String> errors = dummyCourse.getInvalidityInfo();
             errors.add(timeZoneErrorMessage);
-            // Imitate exception throwing in `CourseDb`
+            // Imitate exception throwing in `CoursesDb`
             throw new InvalidParametersException(errors);
         }
 
-        // If time zone field is valid, leave validation  of other fields to `CourseDb` like usual
+        // If time zone field is valid, leave validation  of other fields to `CoursesDb` like usual
         return CourseAttributes
                 .builder(courseId, courseName, ZoneId.of(courseTimeZone))
                 .build();

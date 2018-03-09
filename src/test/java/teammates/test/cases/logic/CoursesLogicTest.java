@@ -991,12 +991,21 @@ public class CoursesLogicTest extends BaseLogicTest {
     }
 
     private void testUpdateCourse() throws Exception {
-        ______TS("Invalid time zone");
-
         CourseAttributes c = CourseAttributes
                 .builder("Computing101-getthis", "Basic Computing Getting", ZoneId.of("UTC"))
                 .build();
         coursesDb.createEntity(c);
+
+        ______TS("Typical case");
+        String newName = "New Course Name";
+        String validTimeZone = "Asia/Singapore";
+        coursesLogic.updateCourse(c.getId(), newName, validTimeZone);
+        c.setName(newName);
+        c.setTimeZone(ZoneId.of(validTimeZone));
+        verifyPresentInDatastore(c);
+
+        ______TS("Invalid time zone");
+
         String invalidTimeZone = "Invalid Timezone";
         try {
             coursesLogic.updateCourse(c.getId(), c.getName(), invalidTimeZone);
@@ -1006,6 +1015,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                     FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
                     FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
             assertEquals(expectedErrorMessage, e.getMessage());
+            verifyPresentInDatastore(c);
         }
     }
 
