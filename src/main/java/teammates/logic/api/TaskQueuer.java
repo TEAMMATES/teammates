@@ -142,8 +142,10 @@ public class TaskQueuer {
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the name of the feedback session
      */
-    public void scheduleFeedbackSessionReminders(String courseId, String feedbackSessionName) {
+    public void scheduleFeedbackSessionReminders(String courseId, String feedbackSessionName,
+                                                 String googleIdOfRequestingInstructor) {
         Map<String, String> paramMap = new HashMap<>();
+        paramMap.put(ParamsNames.USER_ID, googleIdOfRequestingInstructor);
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
         paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
 
@@ -160,11 +162,13 @@ public class TaskQueuer {
      * @param usersToRemind the group of users to send the reminders to
      */
     public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
-                                                                   String[] usersToRemind) {
+                                                                   String[] usersToRemind,
+                                                                   String googleIdOfRequestingInstructor) {
         Map<String, String[]> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[] { feedbackSessionName });
         paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[] { courseId });
         paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
+        paramMap.put(ParamsNames.USER_ID, new String[] { googleIdOfRequestingInstructor });
 
         addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
                              TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
