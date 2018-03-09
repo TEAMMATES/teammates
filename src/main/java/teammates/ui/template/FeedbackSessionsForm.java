@@ -80,10 +80,10 @@ public class FeedbackSessionsForm {
 
         fsForm.instructions = SanitizationHelper.sanitizeForRichText(existingFs.getInstructions().getValue());
 
-        fsForm.fsStartDate = TimeHelper.formatDate(existingFs.getStartTimeLocal());
+        fsForm.fsStartDate = TimeHelper.formatDateForSessionsForm(existingFs.getStartTimeLocal());
         fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getStartTimeLocal());
 
-        fsForm.fsEndDate = TimeHelper.formatDate(existingFs.getEndTimeLocal());
+        fsForm.fsEndDate = TimeHelper.formatDateForSessionsForm(existingFs.getEndTimeLocal());
         fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getEndTimeLocal());
 
         fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.getGracePeriod());
@@ -131,15 +131,15 @@ public class FeedbackSessionsForm {
                                : SanitizationHelper.sanitizeForRichText(feedbackSession.getInstructions().getValue());
 
         newFsForm.fsStartDate = feedbackSession == null
-                              ? TimeHelper.formatDate(TimeHelper.getNextHour())
-                              : TimeHelper.formatDate(feedbackSession.getStartTimeLocal());
+                              ? ""
+                              : TimeHelper.formatDateForSessionsForm(feedbackSession.getStartTimeLocal());
 
         Date startDate = feedbackSession == null ? null : feedbackSession.getStartTimeLocal();
         newFsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(startDate);
 
         newFsForm.fsEndDate = feedbackSession == null
                             ? ""
-                            : TimeHelper.formatDate(feedbackSession.getEndTimeLocal());
+                            : TimeHelper.formatDateForSessionsForm(feedbackSession.getEndTimeLocal());
 
         Date endDate = feedbackSession == null ? null : feedbackSession.getEndTimeLocal();
         newFsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(endDate);
