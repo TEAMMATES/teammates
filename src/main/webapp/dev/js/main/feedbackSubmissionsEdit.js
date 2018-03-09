@@ -6,6 +6,7 @@ import {
 
 import {
     BootstrapContextualColors,
+    ParamsNames,
 } from '../common/const';
 
 import {
@@ -491,9 +492,14 @@ function updateConstSumMessageQn(qnNum) {
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
     const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
-    const forceUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() !== 'None';
-    const forceAllUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() === 'All options';
-    const forceSomeUnevenDistribution = $(`#constSumDistributePointsOptions-${qnNum}`).val() === 'At least some options';
+
+    const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
+    const forceUnevenDistribution = constSumDistributePointsOptionSelected
+            !== ParamsNames.FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION;
+    const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION;
+    const forceSomeUnevenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION;
 
     if (distributeToRecipients) {
         numOptions = numRecipients;
@@ -528,7 +534,7 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
         } else if (remainingPoints === 0) {
-            if (!forceUnevenDistribution || allUnique) {
+            if (!forceUnevenDistribution || allUnique || (forceSomeUnevenDistribution && !allSame)) {
                 message = 'All points distributed!';
                 messageElement.addClass('text-color-green');
                 messageElement.removeClass('text-color-red');
