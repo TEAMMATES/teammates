@@ -720,12 +720,12 @@ public final class CoursesLogic {
     }
 
     /**
-     * Check that {@code courseTimeZone} is valid and then return a {@link CourseAttributes}
+     * Checks that {@code courseTimeZone} is valid and then returns a {@link CourseAttributes}.
      * Field validation is usually done in {@link CoursesDb} by calling {@link CourseAttributes#getInvalidityInfo()}.
      * However, a {@link CourseAttributes} cannot be created with an invalid time zone string.
      * Hence, validation of this field is carried out here.
      *
-     * @throws InvalidParametersException containing error messages for all fields if {@code courseTimeZone} is valid
+     * @throws InvalidParametersException containing error messages for all fields if {@code courseTimeZone} is invalid
      */
     private CourseAttributes validateAndCreateCourseAttributes(
             String courseId, String courseName, String courseTimeZone) throws InvalidParametersException {
