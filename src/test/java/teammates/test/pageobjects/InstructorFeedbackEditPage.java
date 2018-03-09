@@ -462,7 +462,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             subQnIndex++;
         }
 
-        return col.toArray(new String[col.size()]);
+        return col.toArray(new String[0]);
     }
 
     /**
@@ -948,7 +948,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
         String year = Integer.toString(date.get(Calendar.YEAR));
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM, yyyy");
 
         selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
 
@@ -1140,13 +1140,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
-                      + TimeHelper.formatDate(startTime) + "';");
+                      + TimeHelper.formatDateForSessionsForm(startTime) + "';");
         selectDropdownByVisibleValue(startTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(startTime));
 
         // Select deadline date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
-                      + TimeHelper.formatDate(endTime) + "';");
+                      + TimeHelper.formatDateForSessionsForm(endTime) + "';");
         selectDropdownByVisibleValue(endTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
