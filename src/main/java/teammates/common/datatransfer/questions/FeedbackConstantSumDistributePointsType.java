@@ -1,12 +1,14 @@
 package teammates.common.datatransfer.questions;
 
+import teammates.common.util.Const;
+
 /**
  * Enum that defines different distribute points options for constant sum questions.
  */
 public enum FeedbackConstantSumDistributePointsType {
-    DISTRIBUTE_ALL_UNEVENLY("All options"),
-    DISTRIBUTE_SOME_UNEVENLY("At least some options"),
-    NONE("None");
+    DISTRIBUTE_ALL_UNEVENLY(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION),
+    DISTRIBUTE_SOME_UNEVENLY(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION),
+    NONE(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION);
 
     private String displayedOption;
 

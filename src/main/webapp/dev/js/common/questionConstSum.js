@@ -71,13 +71,16 @@ function removeConstSumOption(index, questionNum) {
 }
 
 function toggleConstSumDistributePointsOptions(checkbox, questionNum) {
+    const constSumDistributePointsSelect = `#constSumDistributePointsSelect-${questionNum}`;
+    const constSumDistributePointsOptions = `#constSumDistributePointsOptions-${questionNum}`;
+
     if (checkbox.checked) {
-        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', false);
-        $(`#constSumDistributePointsOptions-${questionNum}`).attr('value',
-                $(`#constSumDistributePointsSelect-${questionNum}`).prop('value'));
+        $(constSumDistributePointsSelect).prop('disabled', false);
+        $(constSumDistributePointsOptions).attr('value',
+                $(constSumDistributePointsSelect).prop('value'));
     } else {
-        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', true);
-        $(`#constSumDistributePointsOptions-${questionNum}`).attr('value', 'None');
+        $(constSumDistributePointsSelect).prop('disabled', true);
+        $(constSumDistributePointsOptions).attr('value', 'None');
     }
 }
 
