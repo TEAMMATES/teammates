@@ -17,7 +17,10 @@ import {
 import {
     bindLinksInUnregisteredPage,
 } from '../common/student';
-import { showModalConfirmation } from '../common/bootboxWrapper';
+
+import {
+    showModalConfirmation,
+} from '../common/bootboxWrapper';
 
 const defaultProfilePicturePath = '/images/profile_picture_default.png';
 
