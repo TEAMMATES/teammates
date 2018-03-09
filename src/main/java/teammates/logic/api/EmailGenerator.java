@@ -85,15 +85,18 @@ public class EmailGenerator {
      */
     public List<EmailWrapper> generateFeedbackSessionReminderEmails(
             FeedbackSessionAttributes session, List<StudentAttributes> students,
-            List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
+            List<InstructorAttributes> instructorsToRemind, InstructorAttributes instructorToNotify) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+        List<InstructorAttributes> instructorToNotifyAsList = new ArrayList<>();
+        instructorToNotifyAsList.add(instructorToNotify);
+
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
-        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
+        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorToNotifyAsList, template,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                                         FEEDBACK_ACTION_SUBMIT, additionalContactInformation));
 

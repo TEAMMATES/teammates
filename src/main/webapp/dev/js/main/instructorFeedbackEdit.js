@@ -276,6 +276,12 @@ function bindFeedbackSessionEditFormSubmission() {
             tinymce.get('instructions').save();
         }
         const $form = $(event.currentTarget);
+
+        // LEGACY IMPLEMENTATION: Ensure the 'editType' to be 'edit' before submitting,
+        // as the global state below might be modified erroneously elsewhere
+        const questionNum = $($form).data('qnnumber');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
+
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -1094,7 +1100,15 @@ function readyFeedbackEditPage() {
         }
     });
 
-    $('form.form_question').submit(function () {
+    $('form.form_question').submit(function (event) {
+        // LEGACY IMPLEMENTATION: Submission and deletion logic are coupled and determined by the global state.
+        // However, validating the form does not make sense when deleting.
+        const questionNum = $(event.currentTarget).data('qnnumber');
+        const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
+        if (editType === 'delete') {
+            return true;
+        }
+
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
         const formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
