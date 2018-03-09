@@ -20,10 +20,10 @@
               <span class="text-muted">
                 <ul>
                   <li>
-                    Session with your own questions
+                    "session with my own questions"
                   </li>
                   <li>
-                    Team peer evaluation session (creates 5 standard questions)
+                    "session using template: team peer evaluation" (creates 5 standard questions)
                   </li>
                 </ul>
               </span>
