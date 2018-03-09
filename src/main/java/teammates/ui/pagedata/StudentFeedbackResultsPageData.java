@@ -239,11 +239,6 @@ public class StudentFeedbackResultsPageData extends PageData {
         return responsesForRecipient;
     }
 
-    /**
-     * Remove the anonymous hash from anonymous participant name or email, if any.
-     * @param identifier  The given name or email
-     * @return The name or email without any anonymous hash
-     */
     @Deprecated // The anonymous identifier hash is slated for complete removal
     private String removeAnonymousHash(String identifier) {
         return identifier.replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
