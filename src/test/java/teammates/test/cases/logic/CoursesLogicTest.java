@@ -28,7 +28,6 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link CoursesLogic}.
