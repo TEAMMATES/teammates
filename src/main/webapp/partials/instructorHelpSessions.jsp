@@ -1,3 +1,4 @@
+<%@ page import="teammates.common.util.Const" %>
 <%@ page pageEncoding="UTF-8" %>
 <h4 class="text-color-primary" id="sessionTypes">Sessions</h4>
 <div id="contentHolder">
@@ -945,7 +946,9 @@
               <br>
               <div class="col-sm-12 form-inline mobile-align-left">
                 <label for="input" style="text-indent: 24px">
-                  <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">Evaluee/Recipient </span>
+                      <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>" class="tool-tip-decorate">
+                        Evaluee/Recipient
+                      </span>
                 </label>
               </div>
 
@@ -6156,7 +6159,9 @@
                   <br>
                   <div class="col-sm-12 form-inline mobile-align-left">
                     <label for="input" style="text-indent: 24px">
-                      <span>Evaluee/Recipient</span>
+                      <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>" class="tool-tip-decorate">
+                        Evaluee/Recipient
+                      </span>
                     </label>
                   </div>
                   <br><br>
