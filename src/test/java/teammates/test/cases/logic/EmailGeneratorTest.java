@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -290,7 +291,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("instructor course join email");
 
         CourseAttributes course = CourseAttributes
-                .builder("course-id", "Course Name", "UTC")
+                .builder("course-id", "Course Name", ZoneId.of("UTC"))
                 .build();
 
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
@@ -338,7 +339,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("student course join email");
 
         CourseAttributes course = CourseAttributes
-                .builder("idOfTypicalCourse1", "Course Name", "UTC")
+                .builder("idOfTypicalCourse1", "Course Name", ZoneId.of("UTC"))
                 .build();
 
         StudentAttributes student = StudentAttributes
@@ -361,7 +362,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course (without co-owners) join email");
 
-        course = CourseAttributes.builder("course-id", "Course Name", "UTC").build();
+        course = CourseAttributes.builder("course-id", "Course Name", ZoneId.of("UTC")).build();
 
         email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -405,7 +406,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("student course register email");
 
         CourseAttributes course = CourseAttributes
-                .builder("idOfTypicalCourse1", "Course Name", "UTC")
+                .builder("idOfTypicalCourse1", "Course Name", ZoneId.of("UTC"))
                 .build();
         String name = "User Name";
         String emailAddress = "user@email.tmt";
