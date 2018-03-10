@@ -6154,12 +6154,20 @@
                   </ul>
 
                   <br>
+                  <div class="col-sm-12 form-inline mobile-align-left">
+                    <label for="input" style="text-indent: 24px">
+                      <span>Evaluee/Recipient</span>
+                    </label>
+                  </div>
+                  <br><br>
                   <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                      <label for="input">To:</label>
-                      <span> Charlie Davis</span>
+                    <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+                      <label>
+                        <span> Charlie Davis</span>
+                      </label>
+                      (Student) :
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                       <div class="row">
                         <div class="col-sm-12 table-responsive">
                           <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-0">
@@ -6237,11 +6245,13 @@
 
                   <br>
                   <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                      <label for="input">To:</label>
-                      <span> Francis Gabriel</span>
+                    <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+                      <label>
+                        <span> Francis Gabriel</span>
+                      </label>
+                      (Student) :
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                       <div class="row">
                         <div class="col-sm-12 table-responsive">
                           <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-1">
