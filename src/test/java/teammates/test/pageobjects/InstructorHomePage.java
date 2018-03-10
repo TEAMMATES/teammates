@@ -242,6 +242,18 @@ public class InstructorHomePage extends AppPage {
         }
     }
 
+    public void fillRemindParticularUsersFormWithAllSubmitted() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        WebElement submittedUsers = remindModal.findElement(By.id("remind-particular-checkall-submitted"));
+        markCheckBoxAsChecked(submittedUsers);
+    }
+
+    public void fillRemindParticularUsersFormWithAllNotSubmitted() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        WebElement notSubmittedUsers = remindModal.findElement(By.id("remind-particular-checkall-notsubmitted"));
+        markCheckBoxAsChecked(notSubmittedUsers);
+    }
+
     public void submitRemindParticularUsersForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
         remindModal.findElement(By.name("form_remind_list")).submit();
