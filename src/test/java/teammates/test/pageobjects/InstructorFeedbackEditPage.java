@@ -25,8 +25,8 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.TimeHelper;
 import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {

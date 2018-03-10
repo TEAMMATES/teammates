@@ -1551,7 +1551,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(emptyMinOptionsParams);
         r = getRedirectResult(a);
 
-        assertEquals(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"), r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"),
+                r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
@@ -1590,7 +1591,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(nonDigitMinOptionsParams);
         r = getRedirectResult(a);
 
-        assertEquals(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"), r.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"),
+                r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
