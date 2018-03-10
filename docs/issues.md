@@ -14,92 +14,21 @@ Colors indicate which roles are involved in which states/transitions.
 
 ## Issue labels
 
-### Status (`s.*`)
+This portion will only describe the purpose of each *label group* briefly.
+The full description of each individual label can be viewed under the [labels page](https://github.com/TEAMMATES/teammates/labels).
 
-This label classifies the issue based on its **status**.
-
-* No `s.*` label and no other labels: issue is yet to be triaged
-* `s.NeedsInfo`: more information is needed from the issue reporter
-* `s.ToInvestigate`: the issue needs to be validated by a core team member
-* `s.OnHold`: the issue's validity has been put on hold pending some other event
-* No `s.*` label and other labels present: issue is accepted
-
-### Category (`c.*`)
-
-This label classifies the issue based on its **type**.
-
-* `c.Bug`: a bug report
-* `c.Epic`: a feature that is worth many user stories
-* `c.DevOps`: workflow-related or build-related improvements and additions
-* `c.Release`: release-related issues; this is reserved for core team members working on managing release
-* `c.Message`: a means of communication with the dev team, e.g. help requests; while this is not an issue to be worked on, any contributor is welcome to chip in their opinions
-
-### Priority (`p.*`)
-
-This label classifies the issue based on its **importance**, as determined by the project maintainers.
-
-* `p.Critical`: would like to fix it ASAP and release as a hot patch
-* `p.Urgent`: would like to handle in the very next release
-* `p.High`: enhances user experience, software design, or development process significantly, would like to do in the next few releases
-* `p.Medium`: marginal impact on user experience, software design, or development process
-* `p.Low`: very little impact, unlikely to do in the near future
-* `p.Zero`: unlikely to do, ever
-
-### Difficulty Level (`d.*`)
-
-This label classifies the issue based on its **difficulty level**.
-
-* `d.FirstTimers`: easy; to do as the first issue for new developers (one developer should not do more than one of these)
-* `d.Contributors`: moderate difficulty, small localized change; suitable for contributors (new developers who are not first timers)
-* `d.Committers`: more difficult issues that are better left for committers or more senior developers
-* No `d.*` label: variable difficulty level, typically between `d.Contributors` and `d.Committers` level
-
-### Aspect (`a-*`)
-
-This label classifies the issue based on the **non-functional aspect** it tackles.
-
-* `a-AccessControl`: controlling access to user groups, authentication, privacy, anonymity
-* `a-CodeQuality`: code/design quality-related issues, static analysis
-* `a-Concurrency`: things related to concurrent access, session control
-* `a-Build`: IDE support, CI, task automation
-* `a-Docs`: website, user docs, dev docs
-* `a-FaultTolerance`: resilience to user errors, environmental problems
-* `a-Performance`: speed of operation
-* `a-Persistence`: eventual consistency, CRUD operations
-* `a-Process`: workflow management, release management
-* `a-Scalability`: related to behavior at increasing loads
-* `a-Security`: protection from security threats
-* `a-Storage`: database schema, GAE datastore
-* `a-Testing`: testing-related traits such as efficiency, robustness, and coverage
-* `a-UIX`: User Interface, User eXperience, responsiveness
-* No `a-*` label: no specific aspect tackled, usually the case for enhancements or new features
-
-### Feature (`f-*`)
-
-This label classifies the issue based on the **functional aspect** it tackles.
-
-* `f-Admin`: features used by system administrators
-* `f-Comments`: comments
-* `f-Courses`: courses, instructors, students, home page
-* `f-Email`: code related to sending emails
-* `f-Profiles`: user profiles
-* `f-Questions`: features related to specific question types
-* `f-Results`: session results, moderation, download
-* `f-Search`: search
-* `f-Sessions`: feedback session creation, editing
-* `f-Submissions`: feedback submissions
-* `f-Website`: front page, product website
-* No `f-*` label: no specific feature tackled, usually the case for refactoring
-
-### Technology (`t-*`)
-
-This label classifies the issue based on the **technology/tool stack** it involves.
-
-* `t-CI`: Gradle, NPM, static analysis, build script, CI
-* `t-CSS`: CSS, Bootstrap
-* `t-GAE`: Google App Engine-related technologies
-* `t-HTML`: HTML, Browsers
-* `t-Java`: Java-related technologies, e.g. language syntaxes
-* `t-JS`: JavaScript, jQuery, related frameworks such as Node.js
-* `t-JSTL`: JSP, JSTL, Servlets
-* No `t-*` label: usually documentation update, or mixture of many languages
+* **Status (`s.*`)**: Classifies issues and PRs based on **status**
+  * No `s.*` label and no other labels in issue: issue is yet to be triaged
+  * No `s.*` label and other labels present in issue: issue is accepted
+* **Category (`c.*`)**: Classifies issues and PRs based on **type of work done**
+* **Priority (`p.*`)**: Classifies issues based on **importance**, as determined by the project maintainers
+* **Difficulty Level (`d.*`)**: Classifies issues based on **difficulty level**
+  * No `d.*` label: variable difficulty level, typically between `d.Contributors` and `d.Committers` level
+* **Aspect (`a-*`)**: Classifies issues based on the **non-functional aspect**
+  * No `a-*` label: no specific aspect tackled, usually the case for enhancements or new features
+* **Feature (`f-*`)**: Classifies issues based on the **functional aspect**
+  * No `f-*` label: no specific feature tackled, usually the case for refactoring
+* **Technology (`t-*`)**: Classifies issues based on the **technology/tool stack** involved
+  * No `t-*` label: usually documentation update, or mixture of many languages
+* **Effort Estimate (`e.*`)**: Indicates the **estimated number of hours** needed to work on the issue
+  * `e.n`: `n` hours estimated effort, e.g. `e.1` is 1 hour, `e.2` is 2 hours, etc.

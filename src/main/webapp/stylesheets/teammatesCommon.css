@@ -1486,7 +1486,7 @@ Prevent Long URL From Breaking Out of Container
 .icon-info::before {
     /* Icon font has no generic fallback */
 
-    /* noinspection CssNoGenericFontName */
+    /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
     font-family: 'Glyphicons Halflings';
     display: inline-block;
     padding-right: .5em;
