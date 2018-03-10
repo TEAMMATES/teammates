@@ -74,14 +74,37 @@
     data-placement="top"
     style="display: inline-block; padding-right: 5px;">
   <div class="btn-group margin-bottom-7px">
-    <a class="btn btn-default btn-xs btn-tm-actions session-remind-particular-for-test<c:if test="${not actions.allowedToRemind || actions.privateSession}"> disabled</c:if>"
-        href=""
-        data-actionlink="${actions.remindParticularStudentsPageLink}"
-        data-courseid="${actions.courseId}"
-        data-fsname="${actions.fsName}"
-        data-toggle="modal"
-        data-target="#remindModal">
+    <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test<c:if test="${not actions.allowedToRemind || actions.privateSession}"> disabled</c:if>"
+        href="${actions.allowedToRemind && not actions.privateSession ? actions.remindLink : 'javascript:;'}"
+        data-fsname="${actions.fsName}">
       Remind
     </a>
+    <button type="button"
+        class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
+        data-toggle="dropdown"
+        aria-expanded="false"
+        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li>
+        <a href="${actions.remindLink}"
+            class="session-remind-inner-for-test"
+            data-fsname="${actions.fsName}">
+          Remind all students
+        </a>
+      </li>
+      <li>
+        <a href="javascript:;"
+            data-actionlink="${actions.remindParticularStudentsPageLink}"
+            class="session-remind-particular-for-test"
+            data-courseid="${actions.courseId}"
+            data-fsname="${actions.fsName}"
+            data-toggle="modal"
+            data-target="#remindModal">
+          Remind particular students
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
