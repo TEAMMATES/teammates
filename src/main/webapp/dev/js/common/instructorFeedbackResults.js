@@ -154,10 +154,9 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
     const isCollapsePanelsButton = !panels;
     /*
-     * When collapsing expandCollapseButton, all panels buttons under it,
-     * (expandCollapseTeamButton and  expandCollapseStudentButton) should be in collapsed state,
-     * so that next time we expand the main panel, we find the expandCollapseTeamButton and
-     * expandCollapseStudentButton in collapsed state.
+     * When collapsing expandCollapseButton, expandCollapseTeamButton and expandCollapseStudentButton
+     * should be in collapsed state, so that next time when we expand the main panel, we find
+     * the expandCollapseTeamButton and expandCollapseStudentButton in collapsed state.
      */
     if (isCollapsePanelsButton && !isButtonInExpandMode) {
         if ($(expandCollapseStudentsButton).length
@@ -172,12 +171,11 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
         }
     }
     // When collapsing expandCollapseTeamButton, expandCollapseStudentButton should be in collapsed state.
-    if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))) {
-        if ($(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
-            && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
-            replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
-            $(expandCollapseStudentsButton).trigger('mouseleave');
-        }
+    if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))
+        && $(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
+        && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
+        replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
+        $(expandCollapseStudentsButton).trigger('mouseleave');
     }
 
     // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
