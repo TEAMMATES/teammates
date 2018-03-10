@@ -1,6 +1,7 @@
 package teammates.test.cases.datatransfer;
 
 import java.time.Instant;
+import java.time.ZoneId;
 
 import org.testng.annotations.Test;
 
@@ -17,7 +18,7 @@ public class CourseAttributesTest extends BaseTestCase {
 
     private String validName = "validName";
     private String validId = "validId";
-    private String validTimeZone = "validTimeZone";
+    private ZoneId validTimeZone = ZoneId.of("UTC");
     private Instant validCreatedAt = Instant.ofEpochMilli(98765);
 
     @Test
@@ -94,9 +95,8 @@ public class CourseAttributesTest extends BaseTestCase {
 
         String veryLongId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
-        String invalidTimeZone = "InvalidTimeZone";
         CourseAttributes invalidCourse = CourseAttributes
-                .builder(veryLongId, emptyName, invalidTimeZone)
+                .builder(veryLongId, emptyName, validTimeZone)
                 .build();
 
         assertFalse("invalid value", invalidCourse.isValid());
@@ -107,10 +107,7 @@ public class CourseAttributesTest extends BaseTestCase {
                     FieldValidator.COURSE_ID_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedEmptyStringErrorMessage(
                       FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH) + System.lineSeparator()
-                + getPopulatedErrorMessage(
-                      FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidCourse.getTimeZone(),
-                      FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals("invalid value", errorMessage, StringHelper.toString(invalidCourse.getInvalidityInfo()));
     }
 
@@ -131,7 +128,7 @@ public class CourseAttributesTest extends BaseTestCase {
     }
 
     private static CourseAttributes generateValidCourseAttributesObject() {
-        return CourseAttributes.builder("valid-id-$_abc", "valid-name", "UTC").build();
+        return CourseAttributes.builder("valid-id-$_abc", "valid-name", ZoneId.of("UTC")).build();
     }
 
 }
