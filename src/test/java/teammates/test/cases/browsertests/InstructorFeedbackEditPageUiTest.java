@@ -885,11 +885,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditQuestionButton(qnNumber);
         feedbackEditPage.fillQuestionTextBox("", qnNumber);
         feedbackEditPage.clickSaveExistingQuestionButton(qnNumber);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
 
         feedbackEditPage.clickDeleteQuestionLink(qnNumber);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
     }
 
