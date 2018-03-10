@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -48,6 +49,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testUiConsistencyForNewQuestion();
     }
 
     @Override
@@ -204,4 +206,21 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    private void testUiConsistencyForNewQuestion() {
+        ______TS("CONSTSUM-option after CONSTSUM-recipient: Check ui consistency success case");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+
+        assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPoints--1")));
+        assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPointsForEachOption--1")));
+        assertFalse(feedbackEditPage.isElementVisible(By.id("constSumOption_Recipient--1")));
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+    }
 }
