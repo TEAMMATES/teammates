@@ -40,20 +40,22 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
         ______TS("Send feedback session reminder email");
 
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         // re-read from Datastore to update the respondents list
         session1 = fsLogic.getFeedbackSession(session1.getFeedbackSessionName(), session1.getCourseId());
 
         String[] submissionParams = new String[] {
                 ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
-                ParamsNames.SUBMISSION_COURSE, session1.getCourseId()
+                ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
+                ParamsNames.USER_ID, instructor1.getGoogleId()
         };
 
         FeedbackSessionRemindEmailWorkerAction action = getAction(submissionParams);
         action.execute();
 
-        // 2 students and 4 instructors sent reminder, 5 instructors notified
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 11);
+        // 2 students and 4 instructors sent reminder, 1 instructor notified
+        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 7);
 
         List<String> studentRecipientList = new ArrayList<>();
         for (StudentAttributes student : studentsLogic.getStudentsForCourse(session1.getCourseId())) {
@@ -68,8 +70,9 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
             if (!fsLogic.isFeedbackSessionCompletedByInstructor(session1, instructor.email)) {
                 instructorRecipientList.add(instructor.email);
             }
-            instructorNotifiedList.add(instructor.email);
         }
+        instructorNotifiedList.add(instructorsLogic.getInstructorForGoogleId(session1.getCourseId(),
+                instructor1.getGoogleId()).email);
 
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
@@ -83,7 +86,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest extends BaseAutomatedAct
             String content = paramMap.get(ParamsNames.EMAIL_CONTENT)[0];
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
 
-            if (content.contains(header)) { // notification to all instructors
+            if (content.contains(header)) { // notification to only requesting instructors
                 assertTrue(instructorNotifiedList.contains(recipient));
                 instructorNotifiedList.remove(recipient);
                 continue;

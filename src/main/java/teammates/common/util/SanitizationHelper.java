@@ -372,4 +372,23 @@ public final class SanitizationHelper {
     public static String desanitizeIfHtmlSanitized(String string) {
         return isSanitizedHtml(string) ? desanitizeFromHtml(string) : string;
     }
+
+    /**
+     * Sanitizes the log message, only allow br element and span element with class attribute equals to
+     * "bold" or "text-danger". Convert other special characters into HTML-safe equivalents.
+     */
+    public static String sanitizeForLogMessage(String unsanitizedString) {
+        if (unsanitizedString == null) {
+            return null;
+        }
+        return unsanitizedString
+                .replaceAll("<(?!(/?(span( class=\"(bold|text-danger)\")?|br)>))", "&lt;")
+                .replaceAll("(?<!(</?(span( class=\"(bold|text-danger)\")?|br)))>", "&gt;")
+                .replaceAll("(?<!<span class=(\"(bold|text-danger))?)\"(?!>)", "&quot;")
+                .replaceAll("(?<!<)/(?!(span|br)>)", "&#x2f;")
+                .replace("'", "&#39;")
+                //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
+                //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
+                .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+    }
 }

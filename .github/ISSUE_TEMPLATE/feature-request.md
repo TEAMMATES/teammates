@@ -1,7 +1,7 @@
-**Issue Title:** [brief description of feature/enhancement request]
+<!-- Issue title: [brief description of feature/enhancement] -->
 
-Copy-and-paste the following template to the issue tracker and fill it in with relevant details:
-```markdown
+- **Environment**: <!-- The environment in which the said feature/enhancement is absent, e.g. live server at `V6.0.0`, `master` branch at commit 1234567. -->
+
 **Description of feature/enhancement**
 
 
@@ -14,4 +14,3 @@ Copy-and-paste the following template to the issue tracker and fill it in with r
 **Existing similar features and their shortcomings**
 <!-- Explain why existing similar features fall short of your expectation. -->
 <!-- This section can be skipped if there are no existing similar features. -->
-```
