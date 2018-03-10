@@ -155,7 +155,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
             courseTimeZone = ZoneId.of(entity.getTimeZone());
         } catch (DateTimeException e) {
             log.severe("Timezone '" + entity.getTimeZone() + "' of course '" + entity.getUniqueId()
-                    + "' is no longer supported. UTC will be used instead.");
+                    + "' is not supported. UTC will be used instead.");
             courseTimeZone = ZoneId.of("UTC");
         }
         return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), courseTimeZone)

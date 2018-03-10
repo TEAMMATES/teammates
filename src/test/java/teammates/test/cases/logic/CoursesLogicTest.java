@@ -28,6 +28,7 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.StringHelperExtension;
 
 /**
  * SUT: {@link CoursesLogic}.
@@ -1004,16 +1005,22 @@ public class CoursesLogicTest extends BaseLogicTest {
         c.setTimeZone(ZoneId.of(validTimeZone));
         verifyPresentInDatastore(c);
 
-        ______TS("Invalid time zone");
+        ______TS("Invalid time zone and name");
 
+        String emptyName = "";
         String invalidTimeZone = "Invalid Timezone";
         try {
-            coursesLogic.updateCourse(c.getId(), c.getName(), invalidTimeZone);
+            coursesLogic.updateCourse(c.getId(), emptyName, invalidTimeZone);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
-            String expectedErrorMessage = getPopulatedErrorMessage(
-                    FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
-                    FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+            String expectedErrorMessage =
+                    getPopulatedEmptyStringErrorMessage(
+                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                            FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH)
+                    + System.lineSeparator()
+                    + getPopulatedErrorMessage(
+                            FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
+                            FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
             assertEquals(expectedErrorMessage, e.getMessage());
             verifyPresentInDatastore(c);
         }
