@@ -47,17 +47,65 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 
         setStatusToAdmin();
 
-        if (data.isSessionOpenForSubmission()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER,
-                    StatusMessageColor.INFO));
-        } else {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
-                    StatusMessageColor.WARNING));
-        }
-
+        addFeedbackSubmissionStatusMessageIfNotRedirected();
         data.init(regKey, email, courseId);
 
         return createSpecificShowPageResult();
+    }
+
+    private void addFeedbackSubmissionStatusMessageIfNotRedirected() {
+        // Add status messages only if accessing the page directly, otherwise use only status messages from original page
+        if (isRedirectedFromFeedbackSubmissionEditSave()) {
+            return;
+        }
+
+        if (data.isSessionOpenForSubmission()) {
+            // Side effect of only adding status message when accessing the page directly means that the status message
+            // following is only shown the first time and not when submitting
+            StatusMessage statusMessage =
+                    new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER,
+                            StatusMessageColor.INFO);
+            statusToUser.add(statusMessage);
+        } else {
+            // Side effect of only adding status message when accessing the page directly means that the status message
+            // following will not show double submission statuses, such as the following (non-exhaustive):
+            // - FEEDBACK_SUBMISSIONS_NOT_OPEN from FeedbackSubmissionEditSaveAction followed by
+            // FEEDBACK_SUBMISSIONS_NOT_OPEN from FeedbackSubmissionEditPageAction
+            // - FEEDBACK_RESPONSES_SAVED from FeedbackSubmissionEditSaveAction followed by
+            // FEEDBACK_SUBMISSIONS_NOT_OPEN from FeedbackSubmissionEditPageAction
+            StatusMessage statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
+                    StatusMessageColor.WARNING);
+            statusToUser.add(statusMessage);
+        }
+    }
+
+    /**
+     * Returns if the page is redirected from other pages that are mapped to subclasses of
+     * {@link FeedbackSubmissionEditSaveAction}.
+     *
+     * <p><b>Note:</b> This is a leaky abstraction; does not detect if the page is redirected but depends on the way
+     * status messages to user are passed through the session.
+     *
+     * <p>The way status messages to user are implemented right now are as follows:<br>
+     * 1. Every {@code *Action} adds the status messages ({@link Action#statusToUser}) to be shown the user.<br>
+     * 2. The {@code *Action} is executed.<br>
+     * 3. The base {@link Action} class will add the status messages to the session status messages
+     * ({@link Action#putStatusMessageToSession}).<br>
+     * 4. If the execution returns an {@link AjaxResult}, the status messages in the session may be cleared after setting it
+     * in the {@link PageData} ({@link AjaxResult#clearStatusMessageForRequest(HttpServletRequest)}).<br>
+     * 4. If the execution returns a {@link FileDownloadResult} or {@link ImageResult}, they do not do anything with status
+     * messages but the session status messages will <strong>continue to persist.</strong><br>
+     * 4. If the execution returns a {@link RedirectResult}, the status messages in the session will be passed along to the
+     * next page.<br>
+     * 4. If the execution returns a {@link ShowPageResult}, the status messages in the session is cleared after setting it
+     * in the {@link PageData} ({@link ShowPageResult#addStatusMessagesToPageData(HttpServletRequest)}.<br>
+     *
+     * <p>Therefore if the session unexpectedly contains another status message, this returns the wrong result.
+     * For example, one reason this could happen is that when the user is concurrently accessing another page and the status
+     * message is currently being inserted into the session.
+     */
+    private boolean isRedirectedFromFeedbackSubmissionEditSave() {
+        return session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST) != null;
     }
 
     protected abstract boolean isSpecificUserJoinedCourse();
