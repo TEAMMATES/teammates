@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.joda.time.DateTimeZone;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
@@ -69,7 +67,7 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
-    public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
+    public static final String DEFAULT_TIMEZONE = "UTC";
 
     /*
      * These constants are used as variable values to mean that the variable
@@ -102,15 +100,13 @@ public final class Const {
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 12:00 AM UTC");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 12:00 AM UTC");
-        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 12:00 AM UTC");
-        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 12:00 AM UTC");
-        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 12:00 AM UTC");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 12:00 AM UTC");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 12:00 AM +0000");
+        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 12:00 AM +0000");
+        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 12:00 AM +0000");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 12:00 AM +0000");
     }
-
-    public static final String TIME_FORMAT_ISO_8601_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     /*
      * Other Constants
