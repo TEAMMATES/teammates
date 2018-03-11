@@ -134,8 +134,9 @@ The steps for adding a student is almost identical to the steps for adding instr
 
 ## Testing
 
-TEAMMATES automated testing requires Firefox or Chrome (works on Windows and OS X).
-It is recommended to use Firefox 46.0 as this is the browser used in CI build (Travis/AppVeyor).
+TEAMMATES automated testing requires Firefox or Chrome.
+
+Before running tests, modify `src/test/resources/test.properties` if necessary, e.g. to configure which browser and test accounts to use.
 
 **NOTE**
 > The dev server sets its time zone to UTC at startup.
