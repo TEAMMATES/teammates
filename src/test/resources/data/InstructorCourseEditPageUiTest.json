@@ -34,6 +34,20 @@
       "isInstructor": true,
       "email": "InsCrsEdit.instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>"
+    },
+    "InsCrsEdit.instructor1OfCS2105": {
+      "googleId": "InsCrsEdit.idOfInstructor1OfCS2105",
+      "name": "CS2105 Instructor 1",
+      "isInstructor": true,
+      "email": "insCrsEdit.instructor1@cs2105.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "InsCrsEdit.instructor2OfCS2105": {
+      "googleId": "InsCrsEdit.idOfInstructor2OfCS2105",
+      "name": "CS2105 Instructor 2",
+      "isInstructor": true,
+      "email": "insCrsEdit.instructor2@cs2105.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
@@ -46,6 +60,11 @@
       "createdAt": "2012-04-01 11:58 PM UTC",
       "id": "InsCrsEdit.idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    },
+    "InsCrsEdit.CS2105": {
+      "id": "InsCrsEdit.CS2105",
+      "name": "Algorithms",
       "timeZone": "UTC"
     }
   },
@@ -221,6 +240,60 @@
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "inst<script>alert('hi!');</script>",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.instructor1OfCS2105": {
+      "googleId": "InsCrsEdit.idOfInstructor1OfCS2105",
+      "courseId": "InsCrsEdit.CS2105",
+      "name": "CS2105 Instructor 1",
+      "email": "insCrsEdit.instructor1@cs2105.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "CS2105 Instructor 1",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cangivecommentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canviewcommentinsection": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.instructor2OfCS2105": {
+      "googleId": "InsCrsEdit.idOfInstructor2OfCS2105",
+      "courseId": "InsCrsEdit.CS2105",
+      "name": "CS2105 Instructor 2",
+      "email": "insCrsEdit.instructor2@cs2105.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "CS2105 Instructor 2",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,

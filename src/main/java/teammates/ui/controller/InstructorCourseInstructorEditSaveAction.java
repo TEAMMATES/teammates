@@ -19,7 +19,6 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
@@ -29,10 +28,29 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-        InstructorAttributes instructorToEdit =
-                extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
-        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        InstructorAttributes instructorToEdit = instructorId == null
+                ? logic.getInstructorForEmail(courseId, instructorEmail)
+                : logic.getInstructorForGoogleId(courseId, instructorId);
 
+        boolean isDisplayedToStudentsAfterChanges =
+                getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
+        boolean isMakingInstructorInvisible = instructorToEdit.isDisplayedToStudents
+                && !isDisplayedToStudentsAfterChanges;
+        if (isMakingInstructorInvisible) {
+            long numberOfInstructorsDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId);
+            boolean isSoleVisibleInstructor = numberOfInstructorsDisplayed == 1;
+            if (isSoleVisibleInstructor) {
+                statusToUser.add(new StatusMessage(String.format(
+                        Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED), StatusMessageColor.DANGER));
+                RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
+                result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
+                return result;
+            }
+        }
+
+        instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
+        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
         try {
             if (instructorId == null) {
                 logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
@@ -41,7 +59,7 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
             }
 
             statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, instructorName),
-                                               StatusMessageColor.SUCCESS));
+                    StatusMessageColor.SUCCESS));
             statusToAdmin = "Instructor <span class=\"bold\"> " + instructorName + "</span>"
                     + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                     + "New Name: " + instructorName + "<br>New Email: " + instructorEmail;
@@ -53,6 +71,11 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
         result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
         return result;
+    }
+
+    private long getNumberOfInstructorsDisplayedToStudents(String courseId) {
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        return instructors.stream().filter(instructor -> instructor.isDisplayedToStudents).count();
     }
 
     /**

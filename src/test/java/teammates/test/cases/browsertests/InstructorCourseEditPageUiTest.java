@@ -22,7 +22,6 @@ import teammates.test.pageobjects.InstructorCoursesPage;
  */
 public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private InstructorCourseEditPage courseEditPage;
-
     private String instructorId;
     private String courseId;
 
@@ -55,6 +54,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testDeleteCourseAction();
 
         testSanitization();
+
+        testEditingInstructorVisibility();
     }
 
     private void testContent() throws Exception {
@@ -228,18 +229,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.reloadPage();
 
         ______TS("success: edit instructor, make hidden and verify changes");
-        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", false, "",
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
-        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "new_email@email.tmt",
+        editInstructorSuccessfully(editInstructorIndex, "New name", "new_email@email.tmt",
                 false, "", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
         ______TS("success: unhide instructor and verify changes");
-
-        courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", true, "New display name",
-                                      Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
-        courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "new_email@email.tmt",
+        editInstructorSuccessfully(editInstructorIndex, "New name", "new_email@email.tmt",
                 true, "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
         ______TS("success: edit yet-to-join instructor, make hidden and verify changes");
@@ -795,4 +789,41 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         return loginAdminToPage(courseEditPageLink, InstructorCourseEditPage.class);
     }
 
+    private void testEditingInstructorVisibility() {
+
+        instructorId = testData.instructors.get("InsCrsEdit.instructor1OfCS2105").googleId;
+        courseId = testData.courses.get("InsCrsEdit.CS2105").getId();
+        courseEditPage = getCourseEditPage();
+
+        ______TS("verify sole visible instructor cannot be made invisible");
+        courseEditPage.editInstructor(1, "Teammates Do Not Save", "insCrsEdit.instructor1@cs2105.tmt",
+                false, "CS2105 Instructor 1", "Co-owner");
+        courseEditPage.verifyInstructorDetails(1, "CS2105 Instructor 1", "insCrsEdit.instructor1@cs2105.tmt",
+                true, "CS2105 Instructor 1", "Co-owner");
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_NO_INSTRUCTOR_DISPLAYED));
+
+        ______TS("verify an invisible instructor can be modified, as long as one other instructor is visible");
+        editInstructorSuccessfully(2, "CS2105 Instructor 2", "new_email_number_2@email.tmt",
+                false, "CS2105 Instructor 2", "Co-owner");
+
+        ______TS("verify an instructor can be made invisible if there are other visible instructors");
+        courseEditPage.editInstructor(2, "CS2105 Instructor 2", "insCrsEdit.instructor2@cs2105.tmt",
+                true, "CS2105 Instructor 2", "Co-owner");
+        // set instructor 1 to invisible and also change email (for variety)
+        editInstructorSuccessfully(1, "CS2105 Instructor 1", "new_email@email.tmt", false,
+                "CS2105 Instructor 1", "Co-owner");
+    }
+
+    /**
+     * Edits instructor and then verifies that changes to instructor are successfully saved to the database
+     * and that the success message is displayed in the browser.
+     */
+    private void editInstructorSuccessfully(int instructorIndex, String newName, String newEmail,
+                                            boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
+        courseEditPage.editInstructor(instructorIndex, newName, newEmail, newIsDisplayedToStudents, newDisplayName,
+                newRole);
+        courseEditPage.verifyInstructorDetails(instructorIndex, newName, newEmail, newIsDisplayedToStudents,
+                newDisplayName, newRole);
+        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, newName));
+    }
 }
