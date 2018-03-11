@@ -14,6 +14,7 @@ It is assumed that the team members are familiar with the [development workflow]
   * [Making a release](#making-a-release)
   * [Making a hot patch](#making-a-hot-patch)
 * Other tasks
+  * [Security vulnerabilities](#security-vulnerabilities)
   * [Branch management](#branch-management)
     * [Using a long-lived feature branch](#using-a-long-lived-feature-branch)
   * [Community membership](#community-membership)
@@ -118,6 +119,13 @@ It is released on a necessity basis, typically few days after latest release.
 The PM's actions are the same as when [making a release](#making-a-release), minus the "Closing the release issue" part.
 
 ## Other tasks
+
+### Security vulnerabilities
+
+Security vulnerabilities, once reported and confirmed, should be treated as a candidate for hot patch (i.e. fixed in the soonest possible time directly on the `release` branch).
+
+Since the detail of such vulnerability cannot be disclosed until it is fixed, an issue can be created just before a PR for the fix is submitted, with minimal information (e.g. simply "Security vulnerability" as an issue with no further description).
+The complete details can be filled in just before merging and/or after the fix is deployed.
 
 ### Branch management
 
