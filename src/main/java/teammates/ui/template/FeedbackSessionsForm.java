@@ -98,8 +98,8 @@ public class FeedbackSessionsForm {
 
         fsForm.additionalSettings = additionalSettings;
 
-        fsForm.submissionStatus = getInstructorSubmissionStatus(existingFs);
-        fsForm.publishedStatus = getInstructorPublishedStatus(existingFs);
+        fsForm.submissionStatus = PageData.getInstructorSubmissionStatusForFeedbackSession(existingFs);
+        fsForm.publishedStatus = PageData.getInstructorPublishedStatusForFeedbackSession(existingFs);
 
         return fsForm;
     }
@@ -161,33 +161,12 @@ public class FeedbackSessionsForm {
 
         newFsForm.additionalSettings = additionalSettings;
 
-        newFsForm.submissionStatus = feedbackSession == null ? "" : getInstructorSubmissionStatus(feedbackSession);
-        newFsForm.publishedStatus = feedbackSession == null ? "" : getInstructorPublishedStatus(feedbackSession);
+        newFsForm.submissionStatus = feedbackSession == null ? "" : PageData.getInstructorSubmissionStatusForFeedbackSession(feedbackSession);
+        newFsForm.publishedStatus = feedbackSession == null ? "" : PageData.getInstructorPublishedStatusForFeedbackSession(feedbackSession);
 
         return newFsForm;
     }
 
-    private static String getInstructorSubmissionStatus(FeedbackSessionAttributes session) {
-        if (session.isPrivateSession()) {
-            return "Private";
-        } else if (session.isOpened()) {
-            return "Open";
-        } else if (session.isWaitingToOpen()) {
-            return "Awaiting";
-        } else {
-            return "Closed";
-        }
-    }
-
-    private static String getInstructorPublishedStatus(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "-";
-        } else if (session.isPublished()) {
-            return "Published";
-        } else {
-            return "Not Published";
-        }
-    }
 
     public void setFsName(String fsName) {
         this.fsName = fsName;
