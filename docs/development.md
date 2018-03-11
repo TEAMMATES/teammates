@@ -138,9 +138,6 @@ TEAMMATES automated testing requires Firefox or Chrome.
 
 Before running tests, modify `src/test/resources/test.properties` if necessary, e.g. to configure which browser and test accounts to use.
 
-**NOTE**
-> The dev server sets its time zone to UTC at startup.
-
 ### Using Firefox
 
 * Only Firefox between versions 38.0.5 and 46.0.1 are supported.
