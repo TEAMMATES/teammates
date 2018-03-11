@@ -216,8 +216,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
 
-        assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPoints--1")));
-        assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPointsForEachOption--1")));
+        assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPointsTotal--1")));
+        assertTrue(feedbackEditPage.isElementVisible(By.id("constSumOption_Option--1")));
         assertFalse(feedbackEditPage.isElementVisible(By.id("constSumOption_Recipient--1")));
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
