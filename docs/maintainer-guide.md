@@ -10,6 +10,7 @@ It is assumed that the team members are familiar with the [development workflow]
 * PR management
   * [Choosing a reviewer](#choosing-a-reviewer)
   * [Closing a PR](#closing-a-pr)
+  * [Reverting a PR](#reverting-a-pr)
 * Release management
   * [Making a release](#making-a-release)
   * [Making a hot patch](#making-a-hot-patch)
@@ -73,6 +74,19 @@ A PR can be closed without merging if:
 * The author is not acting in the project's best interest, e.g. resisting review comments, not following project guidelines.
 
 In any case, leave a comment to explain why the PR is closed without merging.
+
+### Reverting a PR
+
+There may be situations where a merged PR needs to be reverted, e.g. when the PR has an unintended side effect that is difficult to fix or the PR was incomplete but accidentally merged.
+
+For example, to revert the PR `#3944` (`Remove unnecessary System.out.printlns from Java files #3942`):
+* No issue needs to be opened for this.
+* There should only be one commit, which can be auto-generated with `git revert 1234567` (replace `1234567` with the appropriate commit SHA). A conflict resolution may be necessary.
+* PR title: Duplicate the first line of the reversion commit message. (e.g. `Revert "[#3942] Remove unnecessary System.out.printlns from Java files (#3944)"`).
+* PR description: `Reverts #...` (e.g. `Reverts #3944`).
+* Merge with "Rebase and merge" option.
+* Re-open the issue once the reversion is merged.
+* The reverted PR and the reversion PR should not be included in any milestone if the reverted PR does not belong in any released version.
 
 ## Release management
 
