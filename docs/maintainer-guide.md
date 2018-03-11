@@ -16,6 +16,7 @@ It is assumed that the team members are familiar with the [development workflow]
   * [Making a hot patch](#making-a-hot-patch)
 * Other tasks
   * [Security vulnerabilities](#security-vulnerabilities)
+  * [Dependencies update](#dependencies-update)
   * [Branch management](#branch-management)
     * [Using a long-lived feature branch](#using-a-long-lived-feature-branch)
   * [Community membership](#community-membership)
@@ -140,6 +141,17 @@ Security vulnerabilities, once reported and confirmed, should be treated as a ca
 
 Since the detail of such vulnerability cannot be disclosed until it is fixed, an issue can be created just before a PR for the fix is submitted, with minimal information (e.g. simply "Security vulnerability" as an issue with no further description).
 The complete details can be filled in just before merging and/or after the fix is deployed.
+
+### Dependencies update
+
+The third-party dependencies/libraries should be updated periodically (e.g. once every 3-6 months) in order to benefit from fixes developed by the library developers.
+
+The steps to update dependencies can be found in the [dependencies document](dependencies.md).
+To find which dependencies need update, you can use libraries like [`Gradle Versions Plugin`](https://plugins.gradle.org/plugin/com.github.ben-manes.versions) and [`npm-check-updates`](https://www.npmjs.com/package/npm-check-updates).
+
+* Not all updates are important/relevant; it is up to the team's discretion on what needs to be updated and what not, and when to update.
+* Only stable versions (i.e. non-beta and non-alpha) should be considered.
+* Updates with little to no breaking changes should be included in the periodic mass update; otherwise, an issue to update a specific dependency should be created.
 
 ### Branch management
 
