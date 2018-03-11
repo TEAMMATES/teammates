@@ -15,6 +15,7 @@ It is assumed that the team members are familiar with the [development workflow]
   * [Making a hot patch](#making-a-hot-patch)
 * Other tasks
   * [Branch management](#branch-management)
+    * [Using a long-lived feature branch](#using-a-long-lived-feature-branch)
   * [Community membership](#community-membership)
   * [Beginner-level issues](#beginner-level-issues)
 
@@ -126,6 +127,22 @@ Ideally, only two branches should exist in the main repository:
 * `release` to contain the copy of the code running on the live server.
 
 The usage of any other branch should be accounted for, and the branches should be deleted as soon as they are no longer needed.
+
+#### Using a long-lived feature branch
+
+There may be times where a major feature development/refactoring necessitates a long-lived branch to be used to contain all the changes before merging everything to `master` branch in one go.
+
+For the usage of such a branch, the following practices should be observed:
+
+* There should be at least one team member in charge of the branch.
+* The first commit of the branch should be allowing CI to run on that branch. This can be done by modifying `.travis.yml` and `appveyor.yml`.
+* Keep this long-lived branch in sync with `master` periodically. Syncing should be done strictly by rebasing in order to preserve all the individual commits and to keep the commit history linear.
+  * The team member(s) in charge will be responsible for syncing with the `master` branch, including resolving conflicts.
+* When the long-lived branch is ready to be merged to the `master` branch:
+  * Rebase with the latest `master` branch and get rid of the commit which explicitly allows CI run.
+  * Submit a PR and get it merged as per the usual procedure.
+    * The PR title and issue number can be a dummy, but keep the PR title as informative as possible.
+    * Reviews can be skipped if the individual commits/PRs are sufficiently reviewed.
 
 ### Community membership
 
