@@ -1,5 +1,6 @@
 package teammates.test.cases.pagedata;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -149,10 +150,10 @@ public class StudentHomePageDataTest extends BaseTestCase {
     private StudentHomePageData createData() {
         // Courses
         CourseAttributes course1 = CourseAttributes
-                .builder("course-id-1", "old-course", "UTC")
+                .builder("course-id-1", "old-course", ZoneId.of("UTC"))
                 .build();
         CourseAttributes course2 = CourseAttributes
-                .builder("course-id-2", "new-course", "UTC")
+                .builder("course-id-2", "new-course", ZoneId.of("UTC"))
                 .build();
 
         // Feedback sessions

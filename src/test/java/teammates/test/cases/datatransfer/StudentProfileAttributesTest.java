@@ -106,7 +106,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testGetJsonString() throws Exception {
         StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
-        spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM UTC");
+        spa.modifiedDate = TimeHelper.convertToDate("2015-05-21 8:34 AM +0000");
         assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
                      + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
                      + "\n  \"nationality\": \"Lebanese\",\n  \"gender\": \"female\","
