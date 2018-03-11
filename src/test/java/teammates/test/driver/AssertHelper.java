@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 import com.google.common.base.Joiner;
 
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 
 /**
  * Provides additional assertion methods that are often used during testing.
@@ -27,8 +26,8 @@ public final class AssertHelper {
      * Assert date is now +- 1 min.
      */
     public static void assertDateIsNow(Date date) {
-        assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),
-                                    TimeHelper.getMsOffsetToCurrentTime(1000 * 60));
+        assertDateWithinRange(date, Date.from(TimeHelperExtension.getInstantMillisOffsetFromNow(-1000 * 60)),
+                                    Date.from(TimeHelperExtension.getInstantMillisOffsetFromNow(1000 * 60)));
     }
 
     private static void assertDateWithinRange(Date date, Date startDate, Date endDate) {
