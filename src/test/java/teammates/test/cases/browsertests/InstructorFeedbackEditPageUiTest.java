@@ -52,7 +52,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         editedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         editedSession.setInstructions(new Text("Please fill in the edited feedback session."));
-        editedSession.setEndTime(TimeHelper.convertToDate("2026-05-01 08:00 PM UTC"));
+        editedSession.setEndTime(TimeHelper.convertToDate("2026-05-01 08:00 PM +0000"));
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();

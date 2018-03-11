@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,8 +9,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import org.joda.time.DateTimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -496,14 +495,14 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if the given string is a non-null string contained in {@link DateTimeZone}'s
-     * list of time zone IDs.
+     * Checks if the given string is a non-null string contained in Java's list of
+     * regional time zone IDs.
      * @return An explanation of why the {@code timeZoneValue} is not acceptable.
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
     public String getInvalidityInfoForCourseTimeZone(String timeZoneValue) {
         Assumption.assertNotNull("Non-null value expected", timeZoneValue);
-        if (!DateTimeZone.getAvailableIDs().contains(timeZoneValue)) {
+        if (!ZoneId.getAvailableZoneIds().contains(timeZoneValue)) {
             return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
                                             REASON_UNAVAILABLE_AS_CHOICE);
         }
