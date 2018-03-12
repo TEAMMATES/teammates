@@ -21,6 +21,7 @@ public final class TimeHelperExtension {
     /**
      * Returns the date object with specified offset in number of hours from now.
      */
+    @Deprecated
     public static Date getHoursOffsetToCurrentTime(int offsetHours) {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         cal.setTime(cal.getTime());
@@ -76,5 +77,14 @@ public final class TimeHelperExtension {
      */
     public static Instant getInstantMillisOffsetFromNow(long offsetInMillis) {
         return Instant.now().plus(Duration.ofMillis(offsetInMillis));
+    }
+
+    /**
+     * Returns an java.time.Instant object that is offset by a number of hours from now.
+     * @param offsetInHours number of hours offset by (integer).
+     * @return java.time.Instant offset by offsetInHours hours from now.
+     */
+    public static Instant getInstantHoursOffsetFromNow(long offsetInHours) {
+        return Instant.now().plus(Duration.ofHours(offsetInHours));
     }
 }
