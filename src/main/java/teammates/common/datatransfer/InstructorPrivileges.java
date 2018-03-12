@@ -9,9 +9,13 @@ import java.util.Set;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Representation of instructor privileges. Store the privileges of the instructor
  */
+
+@EqualsAndHashCode
 public final class InstructorPrivileges {
 
     private static final Map<String, Boolean> PRIVILEGES_COOWNER = new LinkedHashMap<>();
@@ -482,32 +486,4 @@ public final class InstructorPrivileges {
         });
         return copy;
     }
-
-    @Override
-    public boolean equals(Object another) {
-        if (!(another instanceof InstructorPrivileges)) {
-            return false;
-        }
-        if (another == this) {
-            return true;
-        }
-
-        InstructorPrivileges rhs = (InstructorPrivileges) another;
-        return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges())
-               && this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges())
-               && this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
-    }
-
-    @Override
-    public int hashCode() {
-        int prime = 31;
-        int result = 1;
-
-        result = prime * result + this.getCourseLevelPrivileges().hashCode();
-        result = prime * result + this.getSectionLevelPrivileges().hashCode();
-        result = prime * result + this.getSessionLevelPrivileges().hashCode();
-
-        return result;
-    }
-
 }
