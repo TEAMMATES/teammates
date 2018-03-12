@@ -49,10 +49,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         editedSession = testData.feedbackSessions.get("openSession");
         editedSession.setGracePeriod(30);
-        editedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        editedSession.setSessionVisibleFromTime(Const.INSTANT_REPRESENTS_FOLLOW_OPENING);
+        editedSession.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_LATER);
         editedSession.setInstructions(new Text("Please fill in the edited feedback session."));
-        editedSession.setEndTime(TimeHelper.convertToDate("2026-05-01 08:00 PM +0000"));
+        editedSession.setEndTime(TimeHelper.parseInstant("2026-05-01 08:00 PM +0000"));
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
@@ -198,7 +198,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("test edit page not changed after manual publish");
 
         // Do a backdoor 'manual' publish.
-        editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NOW);
+        editedSession.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_NOW);
         String status = BackDoor.editFeedbackSession(editedSession);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 

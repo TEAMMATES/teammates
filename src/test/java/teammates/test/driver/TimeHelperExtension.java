@@ -41,7 +41,7 @@ public final class TimeHelperExtension {
      * Returns one of these : 0100H, 0200H, ..., 0900H, 1000H, ... 2300H, 2359H.
      * Note the last one is different from the others.
      */
-    public static String convertToDisplayValueInTimeDropDown(Date date) {
+    public static String convertToDisplayValueInTimeDropDown(LocalDateTime date) {
         int optionValue = convertToOptionValueInTimeDropDown(date);
         if (optionValue == 24) {
             return "2359H";
@@ -59,16 +59,6 @@ public final class TimeHelperExtension {
      * hour just after midnight is converted to option 24 (i.e., 2359 as shown
      * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
      */
-    @Deprecated
-    public static int convertToOptionValueInTimeDropDown(Date date) {
-        return convertToOptionValueInTimeDropDown(TimeHelper.convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the corresponding option value in 'Time' dropdowns The
-     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
-     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
-     */
     public static int convertToOptionValueInTimeDropDown(LocalDateTime localDateTime) {
         //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
         int hour = localDateTime.getHour();
@@ -79,12 +69,12 @@ public final class TimeHelperExtension {
     }
 
     /**
-     * Returns an java.time.Instant object that is offset by a number of milliseconds from now.
-     * @param offsetInMillis number of milliseconds offset by (integer).
-     * @return java.time.Instant offset by offsetInMillis milliseconds from now.
+     * Returns an java.time.Instant object that is offset by a number of minutes from now.
+     * @param offsetInMinutes number of minutes offset by (integer).
+     * @return java.time.Instant offset by offsetInMinutes minutes from now.
      */
-    public static Instant getInstantMillisOffsetFromNow(long offsetInMillis) {
-        return Instant.now().plus(Duration.ofMillis(offsetInMillis));
+    public static Instant getInstantMinutesOffsetFromNow(long offsetInMinutes) {
+        return Instant.now().plus(Duration.ofMinutes(offsetInMinutes));
     }
 
     /**
