@@ -1398,7 +1398,7 @@ public final class FeedbackSessionsLogic {
             throw new InvalidParametersException(ERROR_FS_ALREADY_UNPUBLISH);
         }
 
-        sessionToUnpublish.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_LATER);
+        sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         updateFeedbackSession(sessionToUnpublish);
     }
 

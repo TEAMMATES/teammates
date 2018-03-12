@@ -631,7 +631,7 @@ public class PageData {
     }
 
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.INSTANT_REPRESENTS_NEVER)) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
             return "-";
         } else if (session.isPublished()) {
             return "Published";
@@ -669,7 +669,7 @@ public class PageData {
     public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
-        } else if (session.getResultsVisibleFromTime().equals(Const.INSTANT_REPRESENTS_NEVER)) {
+        } else if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
         } else if (session.isPublished()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;

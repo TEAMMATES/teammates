@@ -52,7 +52,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
         // Do a manual publish
 
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("gracePeriodSession");
-        session3.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_LATER);
+        session3.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         fsLogic.updateFeedbackSession(session3);
         fsLogic.publishFeedbackSession(session3);
         verifyPresentInDatastore(session3);

@@ -426,11 +426,11 @@ public final class TimeHelper {
             return false;
         }
 
-        return instant.equals(Const.INSTANT_REPRESENTS_FOLLOW_OPENING)
-                || instant.equals(Const.INSTANT_REPRESENTS_FOLLOW_VISIBLE)
-                || instant.equals(Const.INSTANT_REPRESENTS_LATER)
-                || instant.equals(Const.INSTANT_REPRESENTS_NEVER)
-                || instant.equals(Const.INSTANT_REPRESENTS_NOW);
+        return instant.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
+                || instant.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
+                || instant.equals(Const.TIME_REPRESENTS_LATER)
+                || instant.equals(Const.TIME_REPRESENTS_NEVER)
+                || instant.equals(Const.TIME_REPRESENTS_NOW);
 
     }
 

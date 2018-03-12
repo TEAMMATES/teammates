@@ -130,7 +130,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
             session.setResultsVisibleFromTime(resultsVisibleFromTimeForPublishedSession);
             assertTrue(session.isPublished());
         } else {
-            session.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_LATER);
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             assertFalse(session.isPublished());
         }
 

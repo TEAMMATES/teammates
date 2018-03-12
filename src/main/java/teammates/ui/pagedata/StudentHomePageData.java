@@ -99,7 +99,7 @@ public class StudentHomePageData extends PageData {
     }
 
     private String getStudentPublishedStatusForSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.INSTANT_REPRESENTS_NEVER)) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
             return "-";
         }
 
@@ -135,7 +135,7 @@ public class StudentHomePageData extends PageData {
     }
 
     private String getStudentPublishedTooltipForSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.INSTANT_REPRESENTS_NEVER)) {
+        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
             return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
         } else if (session.isPublished()) {
             return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;

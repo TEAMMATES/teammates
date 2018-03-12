@@ -1980,7 +1980,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // set as manual publish
 
-        sessionUnderTest.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_LATER);
+        sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         fsLogic.updateFeedbackSession(sessionUnderTest);
 
         fsLogic.publishFeedbackSession(sessionUnderTest);
@@ -2006,7 +2006,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         fsLogic.unpublishFeedbackSession(sessionUnderTest);
 
-        sessionUnderTest.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_LATER);
+        sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
         assertEquals(
                 sessionUnderTest.toString(),

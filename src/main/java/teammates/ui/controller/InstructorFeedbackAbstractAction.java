@@ -88,13 +88,13 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                     publishTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
-            attributes.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_FOLLOW_VISIBLE);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER:
-            attributes.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_LATER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER:
-            attributes.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_NEVER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             break;
         default:
             log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
@@ -113,12 +113,12 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                     visibleTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
-            attributes.setSessionVisibleFromTime(Const.INSTANT_REPRESENTS_FOLLOW_OPENING);
+            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            attributes.setSessionVisibleFromTime(Const.INSTANT_REPRESENTS_NEVER);
+            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             // Overwrite if private
-            attributes.setResultsVisibleFromTime(Const.INSTANT_REPRESENTS_NEVER);
+            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
             attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:

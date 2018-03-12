@@ -214,7 +214,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         Instant actualSessionVisibleFromTime = sessionVisibleFromTime;
 
-        if (actualSessionVisibleFromTime.equals(Const.INSTANT_REPRESENTS_FOLLOW_OPENING)) {
+        if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             actualSessionVisibleFromTime = startTime;
         }
 
@@ -306,9 +306,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public boolean isVisible() {
         Instant visibleTime = this.sessionVisibleFromTime;
 
-        if (visibleTime.equals(Const.INSTANT_REPRESENTS_FOLLOW_OPENING)) {
+        if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             visibleTime = this.startTime;
-        } else if (visibleTime.equals(Const.INSTANT_REPRESENTS_NEVER)) {
+        } else if (visibleTime.equals(Const.TIME_REPRESENTS_NEVER)) {
             return false;
         }
 
@@ -324,13 +324,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         Instant now = Instant.now();
         Instant publishTime = this.resultsVisibleFromTime;
 
-        if (publishTime.equals(Const.INSTANT_REPRESENTS_FOLLOW_VISIBLE)) {
+        if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             return isVisible();
-        } else if (publishTime.equals(Const.INSTANT_REPRESENTS_LATER)) {
+        } else if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
             return false;
-        } else if (publishTime.equals(Const.INSTANT_REPRESENTS_NEVER)) {
+        } else if (publishTime.equals(Const.TIME_REPRESENTS_NEVER)) {
             return false;
-        } else if (publishTime.equals(Const.INSTANT_REPRESENTS_NOW)) {
+        } else if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
             return true;
         } else {
             return now.isAfter(publishTime) || now.equals(publishTime);
@@ -341,8 +341,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns {@code true} if the session has been set by the creator to be manually published.
      */
     public boolean isManuallyPublished() {
-        return resultsVisibleFromTime.equals(Const.INSTANT_REPRESENTS_LATER)
-               || resultsVisibleFromTime.equals(Const.INSTANT_REPRESENTS_NOW);
+        return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
+               || resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
     }
 
     /**
@@ -350,7 +350,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      *  {@code false} if not.
      */
     public boolean isPrivateSession() {
-        return Const.INSTANT_REPRESENTS_NEVER.equals(sessionVisibleFromTime)
+        return Const.TIME_REPRESENTS_NEVER.equals(sessionVisibleFromTime)
                || FeedbackSessionType.PRIVATE.equals(feedbackSessionType);
     }
 
