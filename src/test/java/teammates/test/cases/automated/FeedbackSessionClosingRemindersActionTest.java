@@ -46,8 +46,8 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
 
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         session1.setTimeZone(0);
-        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session1.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         fsLogic.updateFeedbackSession(session1);
         verifyPresentInDatastore(session1);
 
@@ -55,8 +55,8 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
 
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse2");
         session2.setTimeZone(0);
-        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session2.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session2.setClosingEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
@@ -65,8 +65,8 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
 
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("gracePeriodSession");
         session3.setTimeZone(0);
-        session3.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(1));
-        session3.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session3.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1));
+        session3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         fsLogic.updateFeedbackSession(session3);
         verifyPresentInDatastore(session3);
 

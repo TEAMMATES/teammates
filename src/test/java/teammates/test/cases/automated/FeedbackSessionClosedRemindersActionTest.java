@@ -1,5 +1,6 @@
 package teammates.test.cases.automated;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +47,8 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseAutomatedActio
 
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         session1.setTimeZone(0);
-        session1.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session1.setEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1));
+        session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session1.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session1);
         verifyPresentInDatastore(session1);
 
@@ -55,8 +56,8 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseAutomatedActio
 
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse1");
         session2.setTimeZone(0);
-        session2.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session2.setEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1));
+        session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session2.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         session2.setClosingEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);
@@ -65,8 +66,8 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseAutomatedActio
 
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("gracePeriodSession");
         session3.setTimeZone(0);
-        session3.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session3.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        session3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session3.setEndTime(Instant.now());
         fsLogic.updateFeedbackSession(session3);
         verifyPresentInDatastore(session3);
 
