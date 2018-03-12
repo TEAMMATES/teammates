@@ -469,35 +469,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Checks if the time falls between the period specified. Possible scenarios:
-     * <ul>
-     *  <li>{@code startTime <= time <= endTime}</li>
-     *  <li>{@code startTime <= time < endTime}</li>
-     *  <li>{@code startTime < time <= endTime}</li>
-     *  <li>{@code startTime < time < endTime}</li>
-     * </ul>
-     * @param startTime the start time of the period
-     * @param endTime the end time of the period
-     * @param time the time to be checked
-     * @param isStartInclusive true to allow time to fall on start time
-     * @param isEndInclusive true to allow time to fall on end time
-     * @return true if the time falls between the start and end time
-     * @deprecated This method will be removed eventually once FeedbackSessionsDb is overhauled.
-     */
-    @Deprecated
-    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time,
-                                             boolean isStartInclusive, boolean isEndInclusive) {
-        if (startTime == null || endTime == null || time == null) {
-            return false;
-        }
-
-        boolean isAfterStartTime = time.after(startTime) || isStartInclusive && time.equals(startTime);
-        boolean isBeforeEndTime = time.before(endTime) || isEndInclusive && time.equals(endTime);
-
-        return isAfterStartTime && isBeforeEndTime;
-    }
-
-    /**
      * Temporary method for transition from storing time zone as double.
      */
     @Deprecated
