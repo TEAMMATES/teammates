@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
@@ -39,8 +40,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         FeedbackSessionAttributes gracedFeedbackSession =
                 BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
-        gracedFeedbackSession.setEndTime(TimeHelper.convertLocalDateToUtc(
-                TimeHelper.getDateOffsetToCurrentTime(0), gracedFeedbackSession.getTimeZone()));
+        gracedFeedbackSession.setEndTime(TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelperExtension.now(), TimeHelper.convertToZoneId(gracedFeedbackSession.getTimeZone())));
         BackDoor.editFeedbackSession(gracedFeedbackSession);
     }
 

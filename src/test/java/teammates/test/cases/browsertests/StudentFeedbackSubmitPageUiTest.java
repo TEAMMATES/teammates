@@ -1,6 +1,6 @@
 package teammates.test.cases.browsertests;
 
-import java.util.Calendar;
+import java.time.Instant;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
@@ -15,7 +15,6 @@ import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
@@ -90,10 +89,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFSubmitUiT.CS2104",
                                                                    "Grace Period Session");
 
-        Calendar endDate = TimeHelper.now(0);
-        endDate.add(Calendar.MINUTE, -1);
         fs.setGracePeriod(10);
-        fs.setEndTime(endDate.getTime());
+        fs.setEndTime(Instant.now().minusSeconds(60));
         BackDoor.editFeedbackSession(fs);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Grace Period Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageGracePeriod.html");
