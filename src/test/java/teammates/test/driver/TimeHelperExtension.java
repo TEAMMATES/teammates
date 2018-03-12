@@ -4,9 +4,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 import teammates.common.util.TimeHelper;
 
@@ -24,17 +21,6 @@ public final class TimeHelperExtension {
      */
     public static LocalDateTime now() {
         return TimeHelper.convertInstantToLocalDateTime(Instant.now(), ZoneId.of("UTC"));
-    }
-
-    /**
-     * Returns the date object with specified offset in number of hours from now.
-     */
-    @Deprecated
-    public static Date getHoursOffsetToCurrentTime(int offsetHours) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.setTime(cal.getTime());
-        cal.add(Calendar.HOUR, +offsetHours);
-        return cal.getTime();
     }
 
     /**

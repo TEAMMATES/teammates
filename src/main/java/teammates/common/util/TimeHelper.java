@@ -157,19 +157,6 @@ public final class TimeHelper {
     /**
      * Convert a date string and time string of only the hour into a Date object.
      * If the hour is 24, it is converted to 23:59. Returns null on error.
-     * @param inputDate
-     *            The date in format EEE, dd MMM, yyyy
-     * @param inputTimeHours
-     *            0-24
-     */
-    @Deprecated
-    public static Date combineDateTime(String inputDate, String inputTimeHours) {
-        return convertLocalDateTimeToDate(combineDateTimeNew(inputDate, inputTimeHours));
-    }
-
-    /**
-     * Convert a date string and time string of only the hour into a Date object.
-     * If the hour is 24, it is converted to 23:59. Returns null on error.
      * @param inputDate         the date string in EEE, dd MMM, yyyy format
      * @param inputTimeHours    the hour, 0-24
      * @return                  a LocalDateTime at the specified date and hour
@@ -445,26 +432,6 @@ public final class TimeHelper {
                 || instant.equals(Const.INSTANT_REPRESENTS_LATER)
                 || instant.equals(Const.INSTANT_REPRESENTS_NEVER)
                 || instant.equals(Const.INSTANT_REPRESENTS_NOW);
-
-    }
-
-    /**
-     * Returns whether the given date is being used as a special representation,
-     * signifying it's face value should not be used without proper processing.
-     * A null date is not a special time.
-     */
-    @Deprecated
-    public static boolean isSpecialTime(Date date) {
-
-        if (date == null) {
-            return false;
-        }
-
-        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
-               || date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
-               || date.equals(Const.TIME_REPRESENTS_LATER)
-               || date.equals(Const.TIME_REPRESENTS_NEVER)
-               || date.equals(Const.TIME_REPRESENTS_NOW);
 
     }
 
