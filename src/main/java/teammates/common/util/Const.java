@@ -104,7 +104,9 @@ public final class Const {
     public static final Date TIME_REPRESENTS_NEVER;
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
-    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+
+    @Deprecated
+    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
 
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
@@ -121,7 +123,7 @@ public final class Const {
         TIME_REPRESENTS_NEVER = TimeHelper.convertInstantToDate(INSTANT_REPRESENTS_NEVER);
         TIME_REPRESENTS_LATER = TimeHelper.convertInstantToDate(INSTANT_REPRESENTS_LATER);
         TIME_REPRESENTS_NOW = TimeHelper.convertInstantToDate(INSTANT_REPRESENTS_NOW);
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertInstantToDate(INSTANT_REPRESENTS_DEFAULT_TIMESTAMP);
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE = TimeHelper.convertInstantToDate(INSTANT_REPRESENTS_DEFAULT_TIMESTAMP);
     }
 
     /*

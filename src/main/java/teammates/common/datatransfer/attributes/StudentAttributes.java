@@ -44,8 +44,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         googleId = "";
         section = Const.DEFAULT_SECTION;
         updateStatus = StudentUpdateStatus.UNKNOWN;
-        createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
+        updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
     }
 
     public static StudentAttributes valueOf(CourseStudent student) {
@@ -69,8 +69,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      * <li>{@code googleId = ""}</li>
      * <li>{@code section = Const.DEFAULT_SECTION}</li>
      * <li>{@code updateStatus = StudentUpdateStatus.UNKNOWN}</li>
-     * <li>{@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP}</li>
-     * <li>{@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP}</li>
+     * <li>{@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE}</li>
+     * <li>{@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE}</li>
      * </ul>
      */
     public static Builder builder(String courseId, String name, String email) {
@@ -394,7 +394,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
         public Builder withCreatedAt(Date createdAt) {
             Date dateToAdd = createdAt == null
-                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
+                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE
                     : createdAt;
             studentAttributes.setCreatedAt(dateToAdd);
             return this;
@@ -402,7 +402,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
         public Builder withUpdatedAt(Date updatedAt) {
             Date dateToAdd = updatedAt == null
-                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
+                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE
                     : updatedAt;
             studentAttributes.setUpdatedAt(dateToAdd);
             return this;

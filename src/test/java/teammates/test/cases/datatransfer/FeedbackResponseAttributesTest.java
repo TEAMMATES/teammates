@@ -33,7 +33,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         fra.setCreatedAt(null);
         fra.setUpdatedAt(null);
 
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
 
         ______TS("success : defaultTimeStamp for createdAt date");
 

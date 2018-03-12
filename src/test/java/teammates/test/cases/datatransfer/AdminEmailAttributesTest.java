@@ -43,7 +43,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributesWithDefaultValues.getEmailId());
         assertFalse("Default false for isInTrashBin", attributesWithDefaultValues.isInTrashBin);
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributesWithDefaultValues.getCreateDate());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE, attributesWithDefaultValues.getCreateDate());
         assertTrue("Valid input", attributesWithDefaultValues.isValid());
     }
 
@@ -64,7 +64,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributesWithNullOptionalArguments.getEmailId());
         assertFalse("Default false for isInTrashBin", attributesWithNullOptionalArguments.isInTrashBin);
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributesWithNullOptionalArguments.getCreateDate());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE, attributesWithNullOptionalArguments.getCreateDate());
         assertEquals(null, attributesWithNullOptionalArguments.getSendDate());
     }
 
