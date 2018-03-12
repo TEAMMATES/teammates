@@ -430,10 +430,30 @@ public final class TimeHelper {
     }
 
     /**
+     * Returns whether the given instant is being used as a special representation,
+     * signifying its face value should not be used without proper processing.
+     * A null instant is not a special time.
+     */
+    public static boolean isSpecialTime(Instant instant) {
+
+        if (instant == null) {
+            return false;
+        }
+
+        return instant.equals(Const.INSTANT_REPRESENTS_FOLLOW_OPENING)
+                || instant.equals(Const.INSTANT_REPRESENTS_FOLLOW_VISIBLE)
+                || instant.equals(Const.INSTANT_REPRESENTS_LATER)
+                || instant.equals(Const.INSTANT_REPRESENTS_NEVER)
+                || instant.equals(Const.INSTANT_REPRESENTS_NOW);
+
+    }
+
+    /**
      * Returns whether the given date is being used as a special representation,
      * signifying it's face value should not be used without proper processing.
      * A null date is not a special time.
      */
+    @Deprecated
     public static boolean isSpecialTime(Date date) {
 
         if (date == null) {
