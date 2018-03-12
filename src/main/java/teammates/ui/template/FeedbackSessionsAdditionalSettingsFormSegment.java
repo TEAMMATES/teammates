@@ -159,14 +159,14 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.isResponseVisibleDateDisabled = !hasResultVisibleDate;
 
         additionalSettings.isResponseVisibleImmediatelyChecked =
-                                      Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(
+                                      Const.INSTANT_REPRESENTS_FOLLOW_VISIBLE.equals(
                                                                       feedbackSession.getResultsVisibleFromTime());
 
         additionalSettings.isResponseVisiblePublishManuallyChecked =
-                                          Const.TIME_REPRESENTS_LATER.equals(feedbackSession.getResultsVisibleFromTime())
-                                       || Const.TIME_REPRESENTS_NOW.equals(feedbackSession.getResultsVisibleFromTime());
+                                          Const.INSTANT_REPRESENTS_LATER.equals(feedbackSession.getResultsVisibleFromTime())
+                                       || Const.INSTANT_REPRESENTS_NOW.equals(feedbackSession.getResultsVisibleFromTime());
 
-        additionalSettings.isResponseVisibleNeverChecked = Const.TIME_REPRESENTS_NEVER.equals(
+        additionalSettings.isResponseVisibleNeverChecked = Const.INSTANT_REPRESENTS_NEVER.equals(
                                                                    feedbackSession.getResultsVisibleFromTime());
     }
 
@@ -175,10 +175,10 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(feedbackSession.getSessionVisibleFromTime());
 
         additionalSettings.isSessionVisibleAtOpenChecked =
-                                        Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
+                                        Const.INSTANT_REPRESENTS_FOLLOW_OPENING.equals(
                                              feedbackSession.getSessionVisibleFromTime());
         additionalSettings.isSessionVisiblePrivateChecked =
-                                        Const.TIME_REPRESENTS_NEVER.equals(
+                                        Const.INSTANT_REPRESENTS_NEVER.equals(
                                             feedbackSession.getSessionVisibleFromTime());
 
         additionalSettings.isSessionVisibleDateButtonChecked = hasSessionVisibleDate;
