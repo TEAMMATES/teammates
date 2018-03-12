@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -31,7 +33,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Date sessionVisibleFromTime;
     private Date resultsVisibleFromTime;
     private double timeZone;
-    private int gracePeriod;
+    private int gracePeriod; // gracePeriod is in minutes; TODO change type to Duration
     private FeedbackSessionType feedbackSessionType;
     private boolean sentOpenEmail;
     private boolean sentClosingEmail;
@@ -253,11 +255,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
-     * Returns true if the session is closed within the past hour of calling this function.
+     * Checks if the session closed some time in the last one hour from calling this function.
+     *
+     * @return true if the session closed within the past hour; false otherwise.
      */
     public boolean isClosedWithinPastHour() {
-        Date date = new Date(endTime.getTime() + gracePeriod * 60000L);
-        return TimeHelper.isWithinPastHourFromNow(date);
+        Instant given = endTime.toInstant().plus(Duration.ofMinutes(gracePeriod));
+        Instant now = Instant.now();
+        return given.isBefore(now) && Duration.between(given, now).compareTo(Duration.ofHours(1)) < 0;
     }
 
     /**

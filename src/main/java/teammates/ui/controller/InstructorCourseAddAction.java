@@ -37,10 +37,8 @@ public class InstructorCourseAddAction extends Action {
 
         /* Create a new course in the database */
         data = new InstructorCoursesPageData(account, sessionToken);
-        CourseAttributes newCourse = CourseAttributes
-                .builder(newCourseId, newCourseName, newCourseTimeZone)
-                .build();
-        createCourse(newCourse);
+
+        createCourse(newCourseId, newCourseName, newCourseTimeZone);
 
         /* Prepare data for the refreshed page after executing the adding action */
         Map<String, InstructorAttributes> instructorsForCourses = new HashMap<>();
@@ -73,8 +71,8 @@ public class InstructorCourseAddAction extends Action {
         String courseNameToShowParam = "";
 
         if (isError) { // there is error in adding the course
-            courseIdToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getId());
-            courseNameToShowParam = SanitizationHelper.sanitizeForHtml(newCourse.getName());
+            courseIdToShowParam = SanitizationHelper.sanitizeForHtml(newCourseId);
+            courseNameToShowParam = SanitizationHelper.sanitizeForHtml(newCourseName);
 
             List<String> statusMessageTexts = new ArrayList<>();
 
@@ -84,7 +82,7 @@ public class InstructorCourseAddAction extends Action {
 
             statusToAdmin = StringHelper.toString(statusMessageTexts, "<br>");
         } else {
-            statusToAdmin = "Course added : " + newCourse.getId();
+            statusToAdmin = "Course added : " + newCourseId;
             statusToAdmin += "<br>Total courses: " + allCourses.size();
         }
 
@@ -94,13 +92,12 @@ public class InstructorCourseAddAction extends Action {
                 : createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
 
-    private void createCourse(CourseAttributes course) {
+    private void createCourse(String newCourseId, String newCourseName, String newCourseTimeZone) {
         try {
-            logic.createCourseAndInstructor(data.account.googleId, course.getId(), course.getName(),
-                                            course.getTimeZone());
+            logic.createCourseAndInstructor(data.account.googleId, newCourseId, newCourseName, newCourseTimeZone);
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
-                    data.getInstructorCourseEnrollLink(course.getId())).replace("${courseEditLink}",
-                    data.getInstructorCourseEditLink(course.getId()));
+                    data.getInstructorCourseEnrollLink(newCourseId)).replace("${courseEditLink}",
+                    data.getInstructorCourseEditLink(newCourseId));
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             isError = false;
 
@@ -108,10 +105,6 @@ public class InstructorCourseAddAction extends Action {
             setStatusForException(e, Const.StatusMessages.COURSE_EXISTS);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
-        }
-
-        if (isError) {
-            return;
         }
     }
 

@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,13 +62,15 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
 
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(session.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
-
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
 
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
+
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(session.getCourseId());
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
+        InstructorAttributes instructorToNotify = instructorsLogic.getInstructorForGoogleId(session.getCourseId(),
+                instructor1.getGoogleId());
 
         ______TS("feedback session opening emails");
 
@@ -82,8 +85,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session reminders");
 
-        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors, instructors);
-        assertEquals(15, emails.size());
+        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors,
+                instructorToNotify);
+        // (5 instructors, 5 students reminded) and (1 instructor to be notified)
+        assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -286,7 +291,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("instructor course join email");
 
         CourseAttributes course = CourseAttributes
-                .builder("course-id", "Course Name", "UTC")
+                .builder("course-id", "Course Name", ZoneId.of("UTC"))
                 .build();
 
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
@@ -334,7 +339,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("student course join email");
 
         CourseAttributes course = CourseAttributes
-                .builder("idOfTypicalCourse1", "Course Name", "UTC")
+                .builder("idOfTypicalCourse1", "Course Name", ZoneId.of("UTC"))
                 .build();
 
         StudentAttributes student = StudentAttributes
@@ -357,7 +362,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course (without co-owners) join email");
 
-        course = CourseAttributes.builder("course-id", "Course Name", "UTC").build();
+        course = CourseAttributes.builder("course-id", "Course Name", ZoneId.of("UTC")).build();
 
         email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -401,7 +406,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("student course register email");
 
         CourseAttributes course = CourseAttributes
-                .builder("idOfTypicalCourse1", "Course Name", "UTC")
+                .builder("idOfTypicalCourse1", "Course Name", ZoneId.of("UTC"))
                 .build();
         String name = "User Name";
         String emailAddress = "user@email.tmt";

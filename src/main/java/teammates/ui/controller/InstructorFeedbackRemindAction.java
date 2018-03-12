@@ -31,7 +31,7 @@ public class InstructorFeedbackRemindAction extends Action {
             return createRedirectResult(nextUrl);
         }
 
-        taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName);
+        taskQueuer.scheduleFeedbackSessionReminders(courseId, feedbackSessionName, account.googleId);
 
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to all students who have not completed "
