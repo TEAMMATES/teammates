@@ -20,9 +20,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
@@ -48,6 +46,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     protected transient Date createdAt;
     protected transient Date updatedAt;
     private String feedbackQuestionId;
+
+    public FeedbackQuestionAttributes() {
+        // attributes to be set after construction
+    }
 
     public FeedbackQuestionAttributes(FeedbackQuestion fq) {
         this.feedbackQuestionId = fq.getId();
