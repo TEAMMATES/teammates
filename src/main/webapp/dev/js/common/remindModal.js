@@ -2,19 +2,6 @@ import {
     sendRemindersToStudents,
 } from './instructor';
 
-function bindCheckAllCheckboxesEventHandler() {
-    const $checkallSubmitted = $('#remind-particular-checkall-submitted');
-    const $checkallNotSubmitted = $('#remind-particular-checkall-notsubmitted');
-    $checkallSubmitted.on('click', () => {
-        const $studentsResponded = $('#studentList').find('.bg-info').find('input[type="checkbox"]');
-        $studentsResponded.prop('checked', $checkallSubmitted.is(':checked'));
-    });
-    $checkallNotSubmitted.on('click', () => {
-        const $studentsNotResponded = $('#studentList').find('.bg-danger').find('input[type="checkbox"]');
-        $studentsNotResponded.prop('checked', $checkallNotSubmitted.is(':checked'));
-    });
-}
-
 function populateCheckBoxes($button) {
     // if clicked button is on no-response panel, then populate check boxes otherwise not
     if ($button.hasClass('remind-btn-no-response')) {
@@ -61,7 +48,6 @@ function prepareRemindModal() {
         const url = `${action}&${formData}`;
         sendRemindersToStudents(url);
     });
-    bindCheckAllCheckboxesEventHandler();
 }
 
 export {
