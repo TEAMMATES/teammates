@@ -51,10 +51,10 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             }
         }
-        LocalDateTime startTimeLocal = TimeHelper.combineDateTimeNew(
+        LocalDateTime startTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
-        LocalDateTime endTimeLocal = TimeHelper.combineDateTimeNew(
+        LocalDateTime endTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
         attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(
@@ -81,7 +81,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            LocalDateTime publishTimeLocal = TimeHelper.combineDateTimeNew(
+            LocalDateTime publishTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
             attributes.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
@@ -106,7 +106,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            LocalDateTime visibleTimeLocal = TimeHelper.combineDateTimeNew(
+            LocalDateTime visibleTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(

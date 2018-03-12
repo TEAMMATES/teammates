@@ -23,33 +23,33 @@ public class TimeHelperTest extends BaseTestCase {
 
         testTime = "0";
         ______TS("boundary case: time = 0");
-        assertEquals(expectedOutput, TimeHelper.combineDateTimeNew(testDate, testTime));
+        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
 
         ______TS("boundary case: time = 24");
         testTime = "24";
         expectedOutput = LocalDateTime.of(2013, 2, 1, 23, 59);
-        assertEquals(expectedOutput, TimeHelper.combineDateTimeNew(testDate, testTime));
+        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
 
         ______TS("negative time");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, "-5"));
+        assertNull(TimeHelper.combineDateTime(testDate, "-5"));
 
         ______TS("large time");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, "68"));
+        assertNull(TimeHelper.combineDateTime(testDate, "68"));
 
         ______TS("date null");
-        assertNull(TimeHelper.combineDateTimeNew(null, testTime));
+        assertNull(TimeHelper.combineDateTime(null, testTime));
 
         ______TS("time null");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, null));
+        assertNull(TimeHelper.combineDateTime(testDate, null));
 
         ______TS("invalid time");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, "invalid time"));
+        assertNull(TimeHelper.combineDateTime(testDate, "invalid time"));
 
         ______TS("fractional time");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, "5.5"));
+        assertNull(TimeHelper.combineDateTime(testDate, "5.5"));
 
         ______TS("invalid date");
-        assertNull(TimeHelper.combineDateTimeNew("invalid date", testDate));
+        assertNull(TimeHelper.combineDateTime("invalid date", testDate));
     }
 
     @Test
