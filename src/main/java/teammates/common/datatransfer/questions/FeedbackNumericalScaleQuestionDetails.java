@@ -13,6 +13,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -83,7 +84,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails, StudentAttributes student) {
         FeedbackNumericalScaleResponseDetails numscaleResponseDetails =
                 (FeedbackNumericalScaleResponseDetails) existingResponseDetails;
 
@@ -105,7 +106,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
         return Templates.populateTemplate(
                 FormTemplates.NUMSCALE_SUBMISSION_FORM,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
