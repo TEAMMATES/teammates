@@ -161,12 +161,14 @@ public class FeedbackSessionsForm {
 
         newFsForm.additionalSettings = additionalSettings;
 
-        newFsForm.submissionStatus = feedbackSession == null ? "" : PageData.getInstructorSubmissionStatusForFeedbackSession(feedbackSession);
-        newFsForm.publishedStatus = feedbackSession == null ? "" : PageData.getInstructorPublishedStatusForFeedbackSession(feedbackSession);
-
+        newFsForm.submissionStatus = feedbackSession == null
+                                     ? ""
+                                     : PageData.getInstructorSubmissionStatusForFeedbackSession(feedbackSession);
+        newFsForm.publishedStatus = feedbackSession == null
+                                    ? ""
+                                    : PageData.getInstructorPublishedStatusForFeedbackSession(feedbackSession);
         return newFsForm;
     }
-
 
     public void setFsName(String fsName) {
         this.fsName = fsName;
