@@ -85,34 +85,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, instructorToEdit.displayedName,
-                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "false",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
-        };
-        saveAction = getAction(submissionParams);
-        redirectResult = getRedirectResult(saveAction);
-        AssertHelper.assertContains(
-                Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                redirectResult.getDestinationWithParams());
-        assertFalse(redirectResult.isError);
-        AssertHelper.assertContains(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED,
-                redirectResult.getStatusMessage());
-
-        instructorToEdit = typicalBundle.instructors.get("instructor2OfCourse1");
-        instructorId = instructorToEdit.googleId;
-        courseId = instructorToEdit.courseId;
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorToEdit.email,
 
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,

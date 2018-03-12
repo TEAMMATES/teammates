@@ -205,7 +205,7 @@
       "email": "instructor2@course1.tmt",
       "isArchived": false,
       "role": "Manager",
-      "isDisplayedToStudents": true,
+      "isDisplayedToStudents": false,
       "displayedName": "Manager",
       "privileges": {
         "courseLevel": {
