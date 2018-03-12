@@ -100,8 +100,8 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double offset, int gracePeriod,
+            String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, double offset, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
@@ -112,8 +112,8 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double offset, int gracePeriod,
+            String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, double offset, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -122,11 +122,11 @@ public class FeedbackSession extends BaseEntity {
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
         this.instructions = instructions;
-        this.createdTime = createdTime;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
+        this.createdTime = TimeHelper.convertInstantToDate(createdTime);
+        this.startTime = TimeHelper.convertInstantToDate(startTime);
+        this.endTime = TimeHelper.convertInstantToDate(endTime);
+        this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
+        this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
         this.timeZone = convertOffsetToZoneId(offset);
         this.gracePeriod = gracePeriod;
         this.feedbackSessionType = feedbackSessionType;
@@ -219,44 +219,44 @@ public class FeedbackSession extends BaseEntity {
         this.instructions = instructions;
     }
 
-    public Date getCreatedTime() {
-        return createdTime;
+    public Instant getCreatedTime() {
+        return TimeHelper.convertDateToInstant(createdTime);
     }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public void setCreatedTime(Instant createdTime) {
+        this.createdTime = TimeHelper.convertInstantToDate(createdTime);
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Instant getStartTime() {
+        return TimeHelper.convertDateToInstant(startTime);
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartTime(Instant startTime) {
+        this.startTime = TimeHelper.convertInstantToDate(startTime);
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Instant getEndTime() {
+        return TimeHelper.convertDateToInstant(endTime);
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndTime(Instant endTime) {
+        this.endTime = TimeHelper.convertInstantToDate(endTime);
     }
 
-    public Date getSessionVisibleFromTime() {
-        return sessionVisibleFromTime;
+    public Instant getSessionVisibleFromTime() {
+        return TimeHelper.convertDateToInstant(sessionVisibleFromTime);
     }
 
-    public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
+    public void setSessionVisibleFromTime(Instant sessionVisibleFromTime) {
+        this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
     }
 
-    public Date getResultsVisibleFromTime() {
-        return resultsVisibleFromTime;
+    public Instant getResultsVisibleFromTime() {
+        return TimeHelper.convertDateToInstant(resultsVisibleFromTime);
     }
 
-    public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
+    public void setResultsVisibleFromTime(Instant resultsVisibleFromTime) {
+        this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
     }
 
     public double getOffset() {
