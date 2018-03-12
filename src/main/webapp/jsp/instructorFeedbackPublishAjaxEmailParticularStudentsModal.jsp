@@ -28,30 +28,7 @@
       <span class="icon-sort unsorted"></span>
     </th>
   </tr>
-  <c:forEach items="${data.responseStatus.noResponse}" var="userToEmailEmail">
-    <tr>
-      <td class="align-center">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST %>" value="${userToEmailEmail}">
-          </label>
-        </div>
-      </td>
-      <td>
-        ${data.responseStatus.emailSectionTable[userToEmailEmail]}
-      </td>
-      <td>
-        ${data.responseStatus.emailTeamNameTable[userToEmailEmail]}
-      </td>
-      <td>
-        ${data.responseStatus.emailNameTable[userToEmailEmail]}
-      </td>
-      <td>
-        ${userToEmailEmail}
-      </td>
-    </tr>
-  </c:forEach>
-  <c:forEach items="${data.responseStatus.studentsWhoResponded}" var="userToEmailEmail">
+  <c:forEach items="${data.responseStatus.getAllStudentsSorted()}" var="userToEmailEmail">
     <tr>
       <td class="align-center">
         <div class="checkbox">
