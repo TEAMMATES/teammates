@@ -3,6 +3,7 @@ package teammates.test.driver;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -16,6 +17,13 @@ public final class TimeHelperExtension {
 
     private TimeHelperExtension() {
         // utility class
+    }
+
+    /**
+     * Returns the current time as a {@link LocalDateTime} object.
+     */
+    public static LocalDateTime now() {
+        return TimeHelper.convertInstantToLocalDateTime(Instant.now(), ZoneId.of("UTC"));
     }
 
     /**
