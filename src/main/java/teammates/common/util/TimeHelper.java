@@ -155,13 +155,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the current instant in time as an {@code Instant} object.
-     */
-    public static Instant now() {
-        return Instant.now();
-    }
-
-    /**
      * Convert a date string and time string of only the hour into a Date object.
      * If the hour is 24, it is converted to 23:59. Returns null on error.
      * @param inputDate

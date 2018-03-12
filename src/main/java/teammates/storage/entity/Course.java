@@ -41,7 +41,7 @@ public class Course extends BaseEntity {
             this.setTimeZone(courseTimeZone);
         }
         if (createdAt == null) {
-            this.setCreatedAt(TimeHelper.now());
+            this.setCreatedAt(Instant.now());
         } else {
             this.setCreatedAt(createdAt);
         }
