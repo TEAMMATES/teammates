@@ -1033,7 +1033,7 @@ public abstract class AppPage {
         browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void verifyHTMLFormInputInvalid() {
+    public void verifyHtmlFormInputInvalid() {
         List<WebElement> inputInvalid = browser.driver.findElements(By.cssSelector("input:invalid"));
 
         assertTrue(!inputInvalid.isEmpty());
