@@ -28,17 +28,14 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        InstructorAttributes instructorToEdit = instructorId == null
-                ? logic.getInstructorForEmail(courseId, instructorEmail)
-                : logic.getInstructorForGoogleId(courseId, instructorId);
-         String isMakingInstructorInvisible = "true";
-         boolean isInstructorVisibilitychange = false;
-         if (getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null) {
-        	 isInstructorVisibilitychange = true;
-        	 isMakingInstructorInvisible = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT);
-         }
-                     
+        String isMakingInstructorInvisible = "true";
+        boolean isInstructorVisibilitychange = false;
+
+        if (getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null) {
+            isInstructorVisibilitychange = true;
+            isMakingInstructorInvisible = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT);
+        }
+
         if ("false".equalsIgnoreCase(isMakingInstructorInvisible) && isInstructorVisibilitychange) {
             long numberOfInstructorsDisplayed = getNumberOfInstructorsDisplayedToStudents(courseId);
             boolean isSoleVisibleInstructor = numberOfInstructorsDisplayed == 1;
@@ -50,6 +47,12 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
                 return result;
             }
         }
+
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+
+        InstructorAttributes instructorToEdit = instructorId == null
+                ? logic.getInstructorForEmail(courseId, instructorEmail)
+                : logic.getInstructorForGoogleId(courseId, instructorId);
 
         instructorToEdit = extractUpdatedInstructor(courseId, instructorId, instructorName, instructorEmail);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
