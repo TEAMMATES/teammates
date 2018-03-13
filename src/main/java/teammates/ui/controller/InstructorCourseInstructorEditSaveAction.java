@@ -32,7 +32,10 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         InstructorAttributes instructorToEdit = instructorId == null ? logic.getInstructorForEmail(courseId, instructorEmail)
                 : logic.getInstructorForGoogleId(courseId, instructorId);
         String instructorvisibilityInfo = "true";
-        boolean isVisibilityChanged = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
+        boolean isVisibilityChanged = false;
+        if (getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null)
+        	isVisibilityChanged = true;
+        
         if (isVisibilityChanged) {
             instructorvisibilityInfo = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT);
         }
