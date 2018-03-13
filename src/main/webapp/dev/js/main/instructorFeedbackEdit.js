@@ -165,10 +165,6 @@ const DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. Th
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
         'Please enter valid options. The interval is not divisible by the specified increment.';
-const DISPLAY_FEEDBACK_QUESTION_RANK_MIN_EMPTY =
-    'Minimum options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.';
-const DISPLAY_FEEDBACK_QUESTION_RANK_MAX_EMPTY =
-    'Maximum options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.';
 const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
