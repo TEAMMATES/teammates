@@ -75,7 +75,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 + "New Name: " + newInstructorName + "<br>New Email: " + newInstructorEmail;
         AssertHelper.assertContains(expectedLogSegment, saveAction.getLogMessage());
 
-        ______TS("verify if two insructor are visible  one can be made invisible and 2nd can't");
+        ______TS("verify if one instructor is displayed then it can't be made invisible");
 
         instructorToEdit = typicalBundle.instructors.get("instructor1OfTestingSanitizationCourse");
         instructorId = instructorToEdit.googleId;
