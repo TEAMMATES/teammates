@@ -38,6 +38,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private boolean hasError;
     private CourseDetailsBundle courseDetails;
     private int numOfInstructors;
+    private FeedbackSessionAttributes feedbackSession;
 
     public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -62,6 +63,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         this.courseDetails = courseDetails;
         // numOfInstructors can be different from instructorList.size()
         this.numOfInstructors = numOfInstructors;
+
+        this.feedbackSession = feedbackSession;
 
         buildNewQuestionForm(feedbackSession, questions.size() + 1);
 
@@ -382,5 +385,9 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public boolean getShouldLoadInEditMode() {
         return shouldLoadInEditMode;
+    }
+
+    public FeedbackSessionAttributes getFeedbackSession() {
+        return feedbackSession;
     }
 }

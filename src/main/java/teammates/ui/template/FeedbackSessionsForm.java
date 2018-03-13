@@ -55,6 +55,9 @@ public class FeedbackSessionsForm {
     private boolean isSubmitButtonDisabled;
     private boolean isSubmitButtonVisible;
 
+    private String submissionStatus;
+    private String publishedStatus;
+
     private FeedbackSessionsAdditionalSettingsFormSegment additionalSettings;
 
     public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
@@ -94,6 +97,9 @@ public class FeedbackSessionsForm {
         fsForm.submitButtonText = "Save Changes";
 
         fsForm.additionalSettings = additionalSettings;
+
+        fsForm.submissionStatus = PageData.getInstructorSubmissionStatusForFeedbackSession(existingFs);
+        fsForm.publishedStatus = PageData.getInstructorPublishedStatusForFeedbackSession(existingFs);
 
         return fsForm;
     }
@@ -155,6 +161,12 @@ public class FeedbackSessionsForm {
 
         newFsForm.additionalSettings = additionalSettings;
 
+        newFsForm.submissionStatus = feedbackSession == null
+                                     ? ""
+                                     : PageData.getInstructorSubmissionStatusForFeedbackSession(feedbackSession);
+        newFsForm.publishedStatus = feedbackSession == null
+                                    ? ""
+                                    : PageData.getInstructorPublishedStatusForFeedbackSession(feedbackSession);
         return newFsForm;
     }
 
@@ -260,5 +272,13 @@ public class FeedbackSessionsForm {
 
     public boolean isEditFsButtonsVisible() {
         return isEditFsButtonsVisible;
+    }
+
+    public String getSubmissionStatus() {
+        return submissionStatus;
+    }
+
+    public String getPublishedStatus() {
+        return publishedStatus;
     }
 }
