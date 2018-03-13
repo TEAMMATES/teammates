@@ -236,17 +236,21 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
 }
 
 function prepareRankedQuestionCheckbox() {
-    $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}]`
-            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}]`
-            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}]`
-            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}]`).change((e) => {
-        if ($(e.currentTarget).is(':checked')) {
-            const inputId = $(e.currentTarget).attr('data-input-id');
-            const correspondingInput = $(`#${inputId}`);
+    $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED}]`).change((e) => {
+        const inputId = $(e.currentTarget).data('linkedInputId');
+        const correspondingInput = $(`#${inputId}`);
 
+        if ($(e.currentTarget).is(':checked')) {
             if ($(correspondingInput).val() === '') {
                 $(correspondingInput).val('1');
             }
+
+            $(correspondingInput).prop('required', true);
+        } else {
+            $(correspondingInput).prop('required', false);
         }
     });
 }

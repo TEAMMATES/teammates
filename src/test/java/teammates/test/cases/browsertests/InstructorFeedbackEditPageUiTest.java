@@ -126,7 +126,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.verifyStatus(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"));
+        feedbackEditPage.verifyHTMLFormInputInvalid();
 
         ______TS("Success Case");
         feedbackEditPage.clickEnableMinRankRecipients(NEW_QUESTION_INDEX);

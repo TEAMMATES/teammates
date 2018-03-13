@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -75,34 +77,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         }
 
         this.initialiseQuestionDetails(options);
+        String minOptionsToBeRankedParameter = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED));
+        String maxOptionsToBeRankedParameter = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED));
 
-        String minOptionsToBeRankedStr = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED);
-        String maxOptionsToBeRankedStr = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED);
-        String minOptionsToBeRankedEnabled = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED);
-        String maxOptionsToBeRankedEnabled = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED);
+        Integer parsedMinOptionsToBeRanked = Ints.tryParse(minOptionsToBeRankedParameter);
+        Integer parsedMaxOptionsToBeRanked = Ints.tryParse(maxOptionsToBeRankedParameter);
 
-        isMinOptionsToBeRankedEnabled = "on".equals(minOptionsToBeRankedEnabled);
-        isMaxOptionsToBeRankedEnabled = "on".equals(maxOptionsToBeRankedEnabled);
-
-        if (minOptionsToBeRankedStr != null) {
-            Integer parsedMinOptionsToBeRanked = Ints.tryParse(minOptionsToBeRankedStr);
-
-            if (parsedMinOptionsToBeRanked != null) {
-                minOptionsToBeRanked = parsedMinOptionsToBeRanked;
-            }
-        }
-
-        if (maxOptionsToBeRankedStr != null) {
-            Integer parsedMaxOptionsToBeRanked = Ints.tryParse(maxOptionsToBeRankedStr);
-
-            if (parsedMaxOptionsToBeRanked != null) {
-                maxOptionsToBeRanked = parsedMaxOptionsToBeRanked;
-            }
-        }
+        minOptionsToBeRanked = MoreObjects.firstNonNull(parsedMinOptionsToBeRanked, NO_VALUE);
+        maxOptionsToBeRanked = MoreObjects.firstNonNull(parsedMaxOptionsToBeRanked, NO_VALUE);
 
         return true;
     }
@@ -263,13 +247,13 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MIN_OPTIONS_CHECKBOX,
-                    Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED,
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED,
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED,
                 Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
                         ? Integer.toString(minOptionsToBeRanked) : "",
                 Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MAX_OPTIONS_CHECKBOX,
-                    Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED,
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED,
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED,
                 Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
                         ? Integer.toString(maxOptionsToBeRanked) : "",
@@ -452,14 +436,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         List<String> errors = new ArrayList<>();
         if (options.size() < MIN_NUM_OF_OPTIONS) {
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");
-        }
-
-        if (isMinOptionsToBeRankedEnabled && minOptionsToBeRanked == NO_VALUE) {
-            errors.add(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"));
-        }
-
-        if (isMaxOptionsToBeRankedEnabled && maxOptionsToBeRanked == NO_VALUE) {
-            errors.add(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Maximum"));
         }
 
         return errors;

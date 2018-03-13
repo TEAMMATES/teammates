@@ -11,9 +11,7 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
-    public static final transient int NO_VALUE = Integer.MIN_VALUE;
-    protected boolean isMinOptionsToBeRankedEnabled;
-    protected boolean isMaxOptionsToBeRankedEnabled;
+    static final transient int NO_VALUE = Integer.MIN_VALUE;
     protected int minOptionsToBeRanked;
     protected int maxOptionsToBeRanked;
     private boolean areDuplicatesAllowed;

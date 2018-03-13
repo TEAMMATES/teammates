@@ -1033,6 +1033,12 @@ public abstract class AppPage {
         browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
+    public void verifyHTMLFormInputInvalid() {
+        List<WebElement> inputInvalid = browser.driver.findElements(By.cssSelector("input:invalid"));
+
+        assertTrue(!inputInvalid.isEmpty());
+    }
+
     public void changeToMobileView() {
         browser.driver.manage().window().setSize(new Dimension(360, 640));
     }

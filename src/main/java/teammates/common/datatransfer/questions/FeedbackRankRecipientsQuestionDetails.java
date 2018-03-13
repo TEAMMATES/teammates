@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -40,33 +42,16 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             FeedbackQuestionType questionType) {
         super.extractQuestionDetails(requestParameters, questionType);
 
-        String minRecipientsToBeRanked = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED);
-        String maxRecipientsToBeRanked = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED);
-        String minRecipientsToBeRankedEnabled = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED);
-        String maxRecipientsToBeRankedEnabled = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED);
+        String minRecipientsToBeRanked = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED));
+        String maxRecipientsToBeRanked = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED));
 
-        isMinOptionsToBeRankedEnabled = "on".equals(minRecipientsToBeRankedEnabled);
-        isMaxOptionsToBeRankedEnabled = "on".equals(maxRecipientsToBeRankedEnabled);
+        Integer parsedMinOptionsToBeRanked = Ints.tryParse(minRecipientsToBeRanked);
+        Integer parsedMaxOptionsToBeRanked = Ints.tryParse(maxRecipientsToBeRanked);
 
-        if (minRecipientsToBeRanked != null) {
-            Integer parsedMinOptionsToBeRanked = Ints.tryParse(minRecipientsToBeRanked);
-
-            if (parsedMinOptionsToBeRanked != null) {
-                minOptionsToBeRanked = parsedMinOptionsToBeRanked;
-            }
-        }
-
-        if (maxRecipientsToBeRanked != null) {
-            Integer parsedMaxOptionsToBeRanked = Ints.tryParse(maxRecipientsToBeRanked);
-
-            if (parsedMaxOptionsToBeRanked != null) {
-                maxOptionsToBeRanked = parsedMaxOptionsToBeRanked;
-            }
-        }
+        minOptionsToBeRanked = MoreObjects.firstNonNull(parsedMinOptionsToBeRanked, NO_VALUE);
+        maxOptionsToBeRanked = MoreObjects.firstNonNull(parsedMaxOptionsToBeRanked, NO_VALUE);
 
         return true;
     }
@@ -470,17 +455,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public List<String> validateQuestionDetails() {
-        List<String> errors = new ArrayList<>();
-
-        if (this.isMinOptionsToBeRankedEnabled && minOptionsToBeRanked == NO_VALUE) {
-            errors.add(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Minimum"));
-        }
-
-        if (this.isMaxOptionsToBeRankedEnabled && maxOptionsToBeRanked == NO_VALUE) {
-            errors.add(String.format(Const.StatusMessages.FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY, "Maximum"));
-        }
-
-        return errors;
+        return new ArrayList<>();
     }
 
     @Override
