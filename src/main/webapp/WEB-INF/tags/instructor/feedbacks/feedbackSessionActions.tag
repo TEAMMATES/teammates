@@ -75,7 +75,6 @@
     style="display: inline-block; padding-right: 5px;">
   <div class="btn-group margin-bottom-7px">
     <a class="btn btn-default btn-xs btn-tm-actions session-remind-particular-for-test<c:if test="${not actions.allowedToRemind || actions.privateSession}"> disabled</c:if>"
-        href=""
         data-actionlink="${actions.remindParticularStudentsPageLink}"
         data-courseid="${actions.courseId}"
         data-fsname="${actions.fsName}"

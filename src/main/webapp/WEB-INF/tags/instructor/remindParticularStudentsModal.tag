@@ -19,10 +19,10 @@
         <div class="modal-body">
           <div id="studentList" class="form-group"></div>
           <div>
-            <input id="remind-particular-checkall-submitted" type="checkbox"/>
+            <input id="remind-particular-checkall-submitted" type="checkbox">
             <span class="bg-info">All submitted</span>
             <div class="inline-divider-5px"></div>
-            <input id="remind-particular-checkall-notsubmitted" type="checkbox"/>
+            <input id="remind-particular-checkall-notsubmitted" type="checkbox">
             <span class="bg-danger">All yet to submit</span>
           </div>
         </div>
