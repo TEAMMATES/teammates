@@ -77,9 +77,10 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
 
         ______TS("verify if two insructor are visible  one can be made invisible and 2nd can't");
 
-        instructorToEdit = typicalBundle.instructors.get("instructor1OfCourse1");
+        instructorToEdit = typicalBundle.instructors.get("instructor1OfTestingSanitizationCourse");
         instructorId = instructorToEdit.googleId;
         courseId = instructorToEdit.courseId;
+        gaeSimulation.loginAsInstructor(instructorId);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,

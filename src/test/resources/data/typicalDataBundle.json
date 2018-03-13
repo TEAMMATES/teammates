@@ -205,7 +205,7 @@
       "email": "instructor2@course1.tmt",
       "isArchived": false,
       "role": "Manager",
-      "isDisplayedToStudents": false,
+      "isDisplayedToStudents": true,
       "displayedName": "Manager",
       "privileges": {
         "courseLevel": {
@@ -229,7 +229,7 @@
       "email": "helper@course1.tmt",
       "isArchived": false,
       "role": "Custom",
-      "isDisplayedToStudents": false,
+      "isDisplayedToStudents": true,
       "displayedName": "Helper",
       "privileges": {
         "courseLevel": {
@@ -325,7 +325,7 @@
       "email": "instructor3@course1.tmt",
       "isArchived": false,
       "role": "Co-owner",
-      "isDisplayedToStudents": false,
+      "isDisplayedToStudents": true,
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
