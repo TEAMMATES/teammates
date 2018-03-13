@@ -229,7 +229,7 @@
       "email": "helper@course1.tmt",
       "isArchived": false,
       "role": "Custom",
-      "isDisplayedToStudents": true,
+      "isDisplayedToStudents": false,
       "displayedName": "Helper",
       "privileges": {
         "courseLevel": {
