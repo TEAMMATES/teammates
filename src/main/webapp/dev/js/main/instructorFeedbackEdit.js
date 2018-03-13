@@ -464,6 +464,7 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Recipient-${questionNum}`).show();
     } else {
         $(`#constSumOptionTable-${questionNum}`).show();
+        $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
 
@@ -727,6 +728,7 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
+        $(`#constSumOption_Option-${NEW_QUESTION}`).show();
         showConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
