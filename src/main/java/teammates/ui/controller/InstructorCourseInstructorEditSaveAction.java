@@ -33,15 +33,16 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
                 : logic.getInstructorForGoogleId(courseId, instructorId);
         String instructorvisibilityInfo = "true";
         boolean isVisibilityChanged = false;
-        if (getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null)
-        	isVisibilityChanged = true;
+        if (getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null) {
+            isVisibilityChanged = true;
+        }
         
         if (isVisibilityChanged) {
             instructorvisibilityInfo = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT);
         }
-        if ("false".equalsIgnoreCase(instructorvisibilityInfo) && instructorToEdit.isDisplayedToStudents) {
+        if ("false".equalsIgnoreCase(instructorvisibilityInfo)) {
             long totalInstructorDisplayed = getNumberOfInstructorsDisplayed(courseId);
-            if (totalInstructorDisplayed <= 1) {
+            if (totalInstructorDisplayed == 1) {
                 statusToUser.add(new StatusMessage(String.format(
                                 Const.StatusMessages.COURSE_INSTRUCTOR_DISPLAYED), StatusMessageColor.DANGER));
                 RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE);
