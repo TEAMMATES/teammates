@@ -187,7 +187,6 @@ function getQuestionNumFromEditForm(form) {
     return extractQuestionNumFromEditFormId($(form).attr('id'));
 }
 
-
 /**
  * Check whether the feedback question input is valid
  * @param form

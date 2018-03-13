@@ -1947,6 +1947,4 @@ public class InstructorFeedbackEditPage extends AppPage {
         minRecipientsToBeRankedInput.click();
         minRecipientsToBeRankedInput.clear();
     }
-
-
 }
