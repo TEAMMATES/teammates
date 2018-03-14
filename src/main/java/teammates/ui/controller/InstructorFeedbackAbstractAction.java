@@ -62,7 +62,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
-            attributes.setGracePeriod(Integer.parseInt(paramGracePeriod));
+            attributes.setGracePeriodMinutes(Integer.parseInt(paramGracePeriod));
         } catch (NumberFormatException nfe) {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
         }

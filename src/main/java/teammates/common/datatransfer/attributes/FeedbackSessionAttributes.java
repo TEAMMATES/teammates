@@ -135,7 +135,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public FeedbackSession toEntity() {
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions,
                 createdTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                timeZone.getId(), getGracePeriod(), feedbackSessionType,
+                timeZone.getId(), getGracePeriodMinutes(), feedbackSessionType,
                 sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
                 respondingInstructorList, respondingStudentList);
@@ -375,7 +375,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", endTime=" + endTime + ", sessionVisibleFromTime="
                + sessionVisibleFromTime + ", resultsVisibleFromTime="
                + resultsVisibleFromTime + ", timeZone=" + timeZone
-               + ", gracePeriod=" + getGracePeriod() + "min, feedbackSessionType="
+               + ", gracePeriod=" + getGracePeriodMinutes() + "min, feedbackSessionType="
                + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
@@ -515,11 +515,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.timeZone = timeZone;
     }
 
-    public int getGracePeriod() {
+    public int getGracePeriodMinutes() {
         return (int) gracePeriod.toMinutes();
     }
 
-    public void setGracePeriod(int gracePeriodMinutes) {
+    public void setGracePeriodMinutes(int gracePeriodMinutes) {
         this.gracePeriod = Duration.ofMinutes(gracePeriodMinutes);
     }
 
@@ -670,7 +670,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public Builder withGracePeriod(int gracePeriod) {
-            feedbackSessionAttributes.setGracePeriod(gracePeriod);
+            feedbackSessionAttributes.setGracePeriodMinutes(gracePeriod);
             return this;
         }
 

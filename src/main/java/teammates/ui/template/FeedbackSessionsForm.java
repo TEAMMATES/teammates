@@ -89,7 +89,7 @@ public class FeedbackSessionsForm {
         fsForm.fsEndDate = TimeHelper.formatDateForSessionsForm(existingFs.getEndTimeLocal());
         fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getEndTimeLocal());
 
-        fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.getGracePeriod());
+        fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.getGracePeriodMinutes());
 
         fsForm.isSubmitButtonDisabled = false;
         fsForm.isSubmitButtonVisible = false;
@@ -152,7 +152,7 @@ public class FeedbackSessionsForm {
 
         newFsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(feedbackSession == null
                                                                               ? Const.INT_UNINITIALIZED
-                                                                              : feedbackSession.getGracePeriod());
+                                                                              : feedbackSession.getGracePeriodMinutes());
 
         newFsForm.isSubmitButtonDisabled = isSubmitButtonDisabled;
         newFsForm.formSubmitActionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;

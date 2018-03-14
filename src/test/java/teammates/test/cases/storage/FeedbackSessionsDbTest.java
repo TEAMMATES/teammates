@@ -276,7 +276,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.createEntity(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
         modifiedSession.setInstructions(new Text("new instructions"));
-        modifiedSession.setGracePeriod(0);
+        modifiedSession.setGracePeriodMinutes(0);
         modifiedSession.setSentOpenEmail(false);
         fsDb.updateFeedbackSession(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
