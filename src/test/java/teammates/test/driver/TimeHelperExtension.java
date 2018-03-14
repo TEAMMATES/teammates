@@ -3,24 +3,14 @@ package teammates.test.driver;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-
-import teammates.common.util.TimeHelper;
 
 /**
- * Holds additional methods for {@link TimeHelper} used only in tests.
+ * Holds additional methods for {@link teammates.common.util.TimeHelper} used only in tests.
  */
 public final class TimeHelperExtension {
 
     private TimeHelperExtension() {
         // utility class
-    }
-
-    /**
-     * Returns the current time as a {@link LocalDateTime} object.
-     */
-    public static LocalDateTime now() {
-        return TimeHelper.convertInstantToLocalDateTime(Instant.now(), ZoneId.of("UTC"));
     }
 
     /**

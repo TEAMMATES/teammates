@@ -26,7 +26,6 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
 
@@ -1128,8 +1127,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
     private void testGracePeriodAccessControlForStudents() {
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("gracePeriodSession");
-        fs.setEndTime(TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelperExtension.now(), TimeHelper.convertToZoneId(fs.getTimeZone())));
+        fs.setEndTime(Instant.now());
         typicalBundle.feedbackSessions.put("gracePeriodSession", fs);
 
         assertFalse(fs.isOpened());

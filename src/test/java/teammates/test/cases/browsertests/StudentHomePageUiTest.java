@@ -1,14 +1,15 @@
 package teammates.test.cases.browsertests;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
@@ -40,8 +41,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         FeedbackSessionAttributes gracedFeedbackSession =
                 BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
-        gracedFeedbackSession.setEndTime(TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelperExtension.now(), TimeHelper.convertToZoneId(gracedFeedbackSession.getTimeZone())));
+        // TODO: change to actual now once HTML time zone detection is fixed
+        Instant nowMinusZoneOffset = Instant.now().minus(Duration.ofMinutes((int) gracedFeedbackSession.getTimeZone() * 60));
+        gracedFeedbackSession.setEndTime(nowMinusZoneOffset);
         BackDoor.editFeedbackSession(gracedFeedbackSession);
     }
 
