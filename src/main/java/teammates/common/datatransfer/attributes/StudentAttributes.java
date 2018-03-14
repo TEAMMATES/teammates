@@ -1,8 +1,8 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import com.google.common.base.Strings;
@@ -37,15 +37,15 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      * Creation and update time stamps.
      * Updated automatically in Student.java, jdoPreStore()
      */
-    private transient Date createdAt;
-    private transient Date updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     StudentAttributes() {
         googleId = "";
         section = Const.DEFAULT_SECTION;
         updateStatus = StudentUpdateStatus.UNKNOWN;
-        createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
-        updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
+        createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
 
     public static StudentAttributes valueOf(CourseStudent student) {
@@ -279,19 +279,19 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -392,17 +392,17 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             return this;
         }
 
-        public Builder withCreatedAt(Date createdAt) {
-            Date dateToAdd = createdAt == null
-                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE
+        public Builder withCreatedAt(Instant createdAt) {
+            Instant dateToAdd = createdAt == null
+                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
                     : createdAt;
             studentAttributes.setCreatedAt(dateToAdd);
             return this;
         }
 
-        public Builder withUpdatedAt(Date updatedAt) {
-            Date dateToAdd = updatedAt == null
-                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE
+        public Builder withUpdatedAt(Instant updatedAt) {
+            Instant dateToAdd = updatedAt == null
+                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
                     : updatedAt;
             studentAttributes.setUpdatedAt(dateToAdd);
             return this;
