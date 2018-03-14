@@ -1928,9 +1928,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId,
-                                                                        String giverEmail,
-                                                                        Date creationDate) {
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
+            String responseId, String giverEmail, Instant creationDate) {
         Assumption.assertNotNull(responseId);
         Assumption.assertNotNull(giverEmail);
         Assumption.assertNotNull(creationDate);
