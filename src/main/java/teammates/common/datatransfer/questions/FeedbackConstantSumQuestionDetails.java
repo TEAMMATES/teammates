@@ -782,7 +782,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
                 boolean hasDifferentPoints = false;
                 for (int i : frd.getAnswerList()) {
-                    if (!answerSet.contains(i)) {
+                    if (!answerSet.isEmpty() && !answerSet.contains(i)) {
                         hasDifferentPoints = true;
                         break;
                     }
