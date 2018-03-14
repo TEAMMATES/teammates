@@ -27,8 +27,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
     @BeforeClass
     public void classSetup() {
-        double timeZoneOffset = 8;
-        ZoneId timeZone = TimeHelper.convertToZoneId(timeZoneOffset);
+        ZoneId timeZone = ZoneId.of("UTC+08:00");
         startTime = TimeHelper.convertLocalDateTimeToInstant(
                 TimeHelper.combineDateTime("Mon, 09 May, 2016", "1000"), timeZone);
         endTime = TimeHelper.convertLocalDateTimeToInstant(
@@ -72,7 +71,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(TimeHelper.convertToZoneId(8)).withGracePeriod(0)
+                .withTimeZone(ZoneId.of("UTC+08:00")).withGracePeriod(0)
                 .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
                 .build();

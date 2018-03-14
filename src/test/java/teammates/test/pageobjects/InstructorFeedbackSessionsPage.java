@@ -257,7 +257,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             Text instructions, int gracePeriod) {
 
         addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime,
-                instructions, gracePeriod, TimeHelper.convertToZoneId(8));
+                instructions, gracePeriod, ZoneId.of("UTC+08:00"));
     }
 
     private void selectTimeZone(ZoneId timeZone) {
