@@ -1,6 +1,8 @@
 package teammates.ui.pagedata;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -102,10 +104,10 @@ public class PageData {
         return result;
     }
 
-    public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
+    public static List<ElementTag> getTimeZoneOptionsAsElementTags(ZoneId existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
         ArrayList<ElementTag> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
+        if (existingTimeZone == null) {
             ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
             result.add(option);
         }
@@ -114,7 +116,13 @@ public class PageData {
             String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
             String textToDisplay = "(" + utcFormatOption
                                             + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
+
+            boolean isExistingTimeZone = false;
+            if (existingTimeZone != null) {
+                int timeZoneOptionOffsetInSeconds = (int) (timeZoneOption * 60 * 60);
+                int existingZoneOffsetInSeconds = existingTimeZone.getRules().getOffset(Instant.now()).getTotalSeconds();
+                isExistingTimeZone = existingZoneOffsetInSeconds == timeZoneOptionOffsetInSeconds;
+            }
 
             ElementTag option = createOption(textToDisplay,
                                              formatAsString(timeZoneOption), isExistingTimeZone);

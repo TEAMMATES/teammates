@@ -129,7 +129,7 @@ public class FeedbackSessionsForm {
         newFsForm.feedbackSessionTypeOptions = fsTypeOptions;
 
         newFsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(feedbackSession == null
-                                                                            ? Const.DOUBLE_UNINITIALIZED
+                                                                            ? null
                                                                             : feedbackSession.getTimeZone());
 
         newFsForm.instructions = feedbackSession == null

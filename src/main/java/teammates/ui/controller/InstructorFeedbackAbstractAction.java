@@ -46,7 +46,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
-                attributes.setTimeZone(Double.parseDouble(paramTimeZone));
+                attributes.setTimeZone(TimeHelper.convertToZoneId(Double.parseDouble(paramTimeZone)));
             } catch (NumberFormatException nfe) {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             }
@@ -57,10 +57,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         LocalDateTime endTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
-        attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(
-                startTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
-        attributes.setEndTime(TimeHelper.convertLocalDateTimeToInstant(
-                endTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
+        attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(startTimeLocal, attributes.getTimeZone()));
+        attributes.setEndTime(TimeHelper.convertLocalDateTimeToInstant(endTimeLocal, attributes.getTimeZone()));
 
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
@@ -85,7 +83,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
             attributes.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
-                    publishTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
+                    publishTimeLocal, attributes.getTimeZone()));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
             attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
@@ -110,7 +108,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
-                    visibleTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
+                    visibleTimeLocal, attributes.getTimeZone()));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
