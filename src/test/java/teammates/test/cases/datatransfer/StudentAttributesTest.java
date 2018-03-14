@@ -26,8 +26,8 @@ public class StudentAttributesTest extends BaseTestCase {
                 .builder("courseId", "Joe White", "e@e.com")
                 .build();
 
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getCreatedAt());
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getUpdatedAt());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE, sd.getCreatedAt());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE, sd.getUpdatedAt());
         assertEquals("", sd.googleId);
         assertEquals(Const.DEFAULT_SECTION, sd.section);
         assertEquals(StudentUpdateStatus.UNKNOWN, sd.updateStatus);
@@ -45,8 +45,8 @@ public class StudentAttributesTest extends BaseTestCase {
                 .build();
 
         // Fields with default values
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getCreatedAt());
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, sd.getUpdatedAt());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE, sd.getCreatedAt());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE, sd.getUpdatedAt());
         assertEquals("", sd.googleId);
         assertEquals(Const.DEFAULT_SECTION, sd.section);
         assertEquals(StudentUpdateStatus.UNKNOWN, sd.updateStatus);

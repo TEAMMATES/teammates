@@ -1,10 +1,10 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -465,16 +465,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, double newTimeZone) {
-        double oldTimeZone = session.getTimeZone();
-        Date localStart = TimeHelper.convertUtcToLocalDate(session.getStartTime(), oldTimeZone);
-        Date localEnd = TimeHelper.convertUtcToLocalDate(session.getEndTime(), oldTimeZone);
-        Date localSessionVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getSessionVisibleFromTime(), oldTimeZone);
-        Date localResultsVisibleFrom = TimeHelper.convertUtcToLocalDate(session.getResultsVisibleFromTime(), oldTimeZone);
+        LocalDateTime localStart = session.getStartTimeLocal();
+        LocalDateTime localEnd = session.getEndTimeLocal();
+        LocalDateTime localSessionVisibleFrom = session.getSessionVisibleFromTimeLocal();
+        LocalDateTime localResultsVisibleFrom = session.getResultsVisibleFromTimeLocal();
+        ZoneId newTimeZoneId = TimeHelper.convertToZoneId(newTimeZone);
         session.setTimeZone(newTimeZone);
-        session.setStartTime(TimeHelper.convertLocalDateToUtc(localStart, newTimeZone));
-        session.setEndTime(TimeHelper.convertLocalDateToUtc(localEnd, newTimeZone));
-        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateToUtc(localSessionVisibleFrom, newTimeZone));
-        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateToUtc(localResultsVisibleFrom, newTimeZone));
+        session.setStartTime(TimeHelper.convertLocalDateTimeToInstant(localStart, newTimeZoneId));
+        session.setEndTime(TimeHelper.convertLocalDateTimeToInstant(localEnd, newTimeZoneId));
+        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localSessionVisibleFrom, newTimeZoneId));
+        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localResultsVisibleFrom, newTimeZoneId));
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)

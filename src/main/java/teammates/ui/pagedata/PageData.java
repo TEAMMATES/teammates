@@ -1,11 +1,10 @@
 package teammates.ui.pagedata;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -194,7 +193,7 @@ public class PageData {
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
      */
-    public static List<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+    public static List<ElementTag> getTimeOptionsAsElementTags(LocalDateTime timeToShowAsSelected) {
         List<ElementTag> result = new ArrayList<>();
         for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
@@ -744,13 +743,11 @@ public class PageData {
         return str.substring(0, str.length() - 2);
     }
 
-    private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
+    private static boolean isTimeToBeSelected(LocalDateTime timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            cal.setTime(timeToShowAsSelected);
-            if (cal.get(Calendar.MINUTE) == 0) {
-                if (cal.get(Calendar.HOUR_OF_DAY) == hourOfTheOption) {
+            if (timeToShowAsSelected.getMinute() == 0) {
+                if (timeToShowAsSelected.getHour() == hourOfTheOption) {
                     return true;
                 }
             } else {

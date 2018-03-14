@@ -155,34 +155,13 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the current instant in time as an {@code Instant} object.
-     */
-    public static Instant now() {
-        return Instant.now();
-    }
-
-    /**
-     * Convert a date string and time string of only the hour into a Date object.
-     * If the hour is 24, it is converted to 23:59. Returns null on error.
-     * @param inputDate
-     *            The date in format EEE, dd MMM, yyyy
-     * @param inputTimeHours
-     *            0-24
-     */
-    @Deprecated
-    public static Date combineDateTime(String inputDate, String inputTimeHours) {
-        return convertLocalDateTimeToDate(combineDateTimeNew(inputDate, inputTimeHours));
-    }
-
-    /**
      * Convert a date string and time string of only the hour into a Date object.
      * If the hour is 24, it is converted to 23:59. Returns null on error.
      * @param inputDate         the date string in EEE, dd MMM, yyyy format
      * @param inputTimeHours    the hour, 0-24
      * @return                  a LocalDateTime at the specified date and hour
      */
-    // TODO: Rename after deleting the deprecated combineDateTime
-    public static LocalDateTime combineDateTimeNew(String inputDate, String inputTimeHours) {
+    public static LocalDateTime combineDateTime(String inputDate, String inputTimeHours) {
         if (inputDate == null || inputTimeHours == null) {
             return null;
         }
@@ -437,51 +416,22 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns whether the given date is being used as a special representation,
-     * signifying it's face value should not be used without proper processing.
-     * A null date is not a special time.
+     * Returns whether the given instant is being used as a special representation,
+     * signifying its face value should not be used without proper processing.
+     * A null instant is not a special time.
      */
-    public static boolean isSpecialTime(Date date) {
+    public static boolean isSpecialTime(Instant instant) {
 
-        if (date == null) {
+        if (instant == null) {
             return false;
         }
 
-        return date.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
-               || date.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
-               || date.equals(Const.TIME_REPRESENTS_LATER)
-               || date.equals(Const.TIME_REPRESENTS_NEVER)
-               || date.equals(Const.TIME_REPRESENTS_NOW);
+        return instant.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
+                || instant.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
+                || instant.equals(Const.TIME_REPRESENTS_LATER)
+                || instant.equals(Const.TIME_REPRESENTS_NEVER)
+                || instant.equals(Const.TIME_REPRESENTS_NOW);
 
-    }
-
-    /**
-     * Checks if the time falls between the period specified. Possible scenarios:
-     * <ul>
-     *  <li>{@code startTime <= time <= endTime}</li>
-     *  <li>{@code startTime <= time < endTime}</li>
-     *  <li>{@code startTime < time <= endTime}</li>
-     *  <li>{@code startTime < time < endTime}</li>
-     * </ul>
-     * @param startTime the start time of the period
-     * @param endTime the end time of the period
-     * @param time the time to be checked
-     * @param isStartInclusive true to allow time to fall on start time
-     * @param isEndInclusive true to allow time to fall on end time
-     * @return true if the time falls between the start and end time
-     * @deprecated This method will be removed eventually once FeedbackSessionsDb is overhauled.
-     */
-    @Deprecated
-    public static boolean isTimeWithinPeriod(Date startTime, Date endTime, Date time,
-                                             boolean isStartInclusive, boolean isEndInclusive) {
-        if (startTime == null || endTime == null || time == null) {
-            return false;
-        }
-
-        boolean isAfterStartTime = time.after(startTime) || isStartInclusive && time.equals(startTime);
-        boolean isBeforeEndTime = time.before(endTime) || isEndInclusive && time.equals(endTime);
-
-        return isAfterStartTime && isBeforeEndTime;
     }
 
     /**

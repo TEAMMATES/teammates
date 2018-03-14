@@ -1,9 +1,9 @@
 package teammates.test.cases.logic;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,9 +140,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
 
@@ -179,9 +179,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(0);
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-23));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
 
@@ -201,7 +201,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         ______TS("case : 1 closed session with mail unsent");
-        session.setEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1));
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session);
 
         sessionList = fsLogic
@@ -226,9 +226,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("case : 1 published session with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         session.setTimeZone(0);
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
 
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
@@ -425,7 +425,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes privateSession =
                 newDataBundle.feedbackSessions.get("private.session");
         privateSession.setSessionVisibleFromTime(privateSession.getStartTime());
-        privateSession.setEndTime(TimeHelper.convertToDate("2015-04-01 2:00 PM +0000"));
+        privateSession.setEndTime(TimeHelper.parseInstant("2015-04-01 2:00 PM +0000"));
         privateSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         fsLogic.updateFeedbackSession(privateSession);
 
@@ -2096,11 +2096,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.tmt")
                 .withFeedbackSessionType(FeedbackSessionType.STANDARD)
-                .withCreatedTime(new Date())
-                .withStartTime(new Date())
-                .withEndTime(new Date())
-                .withSessionVisibleFromTime(new Date())
-                .withResultsVisibleFromTime(new Date())
+                .withCreatedTime(Instant.now())
+                .withStartTime(Instant.now())
+                .withEndTime(Instant.now())
+                .withSessionVisibleFromTime(Instant.now())
+                .withResultsVisibleFromTime(Instant.now())
                 .withGracePeriod(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)

@@ -2,8 +2,8 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -210,10 +210,10 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,
-            Date startTime,
-            Date endTime,
-            Date visibleTime,
-            Date publishTime,
+            LocalDateTime startTime,
+            LocalDateTime endTime,
+            LocalDateTime visibleTime,
+            LocalDateTime publishTime,
             Text instructions,
             int gracePeriod) {
 
@@ -241,8 +241,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         clickSubmitButton();
     }
 
-    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId, Date startTime,
-            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod, double timeZone) {
+    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId,
+            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
+            Text instructions, int gracePeriod, double timeZone) {
 
         selectTimeZone(timeZone);
 
@@ -250,8 +251,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
                 feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
     }
 
-    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId, Date startTime,
-            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
+    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId,
+            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
+            Text instructions, int gracePeriod) {
 
         addFeedbackSessionWithTimeZone(
                 feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod, 8.0);
@@ -303,23 +305,23 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(button);
     }
 
-    public void fillStartTime(Date startTime) {
+    public void fillStartTime(LocalDateTime startTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown);
     }
 
-    public void fillEndTime(Date endTime) {
+    public void fillEndTime(LocalDateTime endTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown);
     }
 
-    public void fillVisibleTime(Date visibleTime) {
+    public void fillVisibleTime(LocalDateTime visibleTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown);
     }
 
-    public void fillPublishTime(Date publishTime) {
+    public void fillPublishTime(LocalDateTime publishTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown);
     }
 
-    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown) {
+    public void fillTimeValueIfNotNull(String dateId, LocalDateTime datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
             executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateForSessionsForm(datetimeValue) + "');");
 

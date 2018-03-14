@@ -23,110 +23,33 @@ public class TimeHelperTest extends BaseTestCase {
 
         testTime = "0";
         ______TS("boundary case: time = 0");
-        assertEquals(expectedOutput, TimeHelper.combineDateTimeNew(testDate, testTime));
+        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
 
         ______TS("boundary case: time = 24");
         testTime = "24";
         expectedOutput = LocalDateTime.of(2013, 2, 1, 23, 59);
-        assertEquals(expectedOutput, TimeHelper.combineDateTimeNew(testDate, testTime));
+        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
 
         ______TS("negative time");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, "-5"));
+        assertNull(TimeHelper.combineDateTime(testDate, "-5"));
 
         ______TS("large time");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, "68"));
+        assertNull(TimeHelper.combineDateTime(testDate, "68"));
 
         ______TS("date null");
-        assertNull(TimeHelper.combineDateTimeNew(null, testTime));
+        assertNull(TimeHelper.combineDateTime(null, testTime));
 
         ______TS("time null");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, null));
+        assertNull(TimeHelper.combineDateTime(testDate, null));
 
         ______TS("invalid time");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, "invalid time"));
+        assertNull(TimeHelper.combineDateTime(testDate, "invalid time"));
 
         ______TS("fractional time");
-        assertNull(TimeHelper.combineDateTimeNew(testDate, "5.5"));
+        assertNull(TimeHelper.combineDateTime(testDate, "5.5"));
 
         ______TS("invalid date");
-        assertNull(TimeHelper.combineDateTimeNew("invalid date", testDate));
-    }
-
-    @Test
-    public void testIsTimeWithinPeriod() {
-        Calendar startCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        Calendar endCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        Calendar timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-
-        // Set start time to 5 days before today and end time to 5 days after today
-        startCalendar.add(Calendar.DAY_OF_MONTH, -5);
-        endCalendar.add(Calendar.DAY_OF_MONTH, 5);
-
-        Date startTime = startCalendar.getTime();
-        Date endTime = endCalendar.getTime();
-        Date time;
-
-        ______TS("Time within period test");
-        time = timeCalendar.getTime();
-
-        assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-        assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-        assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
-
-        ______TS("Time on start time test");
-        timeCalendar = startCalendar;
-        time = timeCalendar.getTime();
-
-        assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-        assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
-
-        ______TS("Time before start time test");
-        timeCalendar.add(Calendar.DAY_OF_MONTH, -10);
-        time = timeCalendar.getTime();
-
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
-
-        ______TS("Time on end time test");
-        timeCalendar = endCalendar;
-        time = timeCalendar.getTime();
-
-        assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        assertTrue(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
-
-        ______TS("Time after start time test");
-        timeCalendar.add(Calendar.DAY_OF_MONTH, 10);
-        time = timeCalendar.getTime();
-
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, true, false));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, time, false, false));
-
-        ______TS("Start time null test");
-        assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, true, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, true, false));
-        assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, false, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(null, endTime, time, false, false));
-
-        ______TS("End time null test");
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, true, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, true, false));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, false, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, null, time, false, false));
-
-        ______TS("Time null test");
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, true, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, true, false));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, false, true));
-        assertFalse(TimeHelper.isTimeWithinPeriod(startTime, endTime, null, false, false));
+        assertNull(TimeHelper.combineDateTime("invalid date", testDate));
     }
 
     @Test

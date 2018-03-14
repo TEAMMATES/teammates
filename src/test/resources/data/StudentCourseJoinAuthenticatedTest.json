@@ -215,11 +215,11 @@
       "instructions": {
         "value": "Please please fill in the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 9:59 PM UTC",
-      "endTime": "2027-04-30 9:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 9:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 9:59 PM UTC",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": 2.0,
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
@@ -238,11 +238,11 @@
       "instructions": {
         "value": "Please please fill in the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2300-04-01 3:59 PM UTC",
-      "endTime": "2317-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2300-03-20 3:59 PM UTC",
-      "resultsVisibleFromTime": "2317-05-01 3:59 PM UTC",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2300-04-01T15:59:00Z",
+      "endTime": "2317-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2300-03-20T15:59:00Z",
+      "resultsVisibleFromTime": "2317-05-01T15:59:00Z",
       "timeZone": 8.0,
       "gracePeriod": 0,
       "feedbackSessionType": "STANDARD",

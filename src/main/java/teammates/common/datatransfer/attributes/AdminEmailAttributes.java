@@ -29,7 +29,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public boolean isInTrashBin;
 
     AdminEmailAttributes() {
-        createDate = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        createDate = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
         emailId = Const.ParamsNames.ADMIN_EMAIL_ID;
     }
 
@@ -39,7 +39,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
      * <p>Following default values are set to corresponding attributes:
      * <ul>
      * <li>{@code null} for {@code sendDate}</li>
-     * <li>{@code Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} for {@code createDate}</li>
+     * <li>{@code Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE} for {@code createDate}</li>
      * <li>{@code Const.ParamsNames.ADMIN_EMAIL_ID} for {@code emailId}</li>
      * <li>{@code false} for {@code isInTrashBin}</li>
      * </ul>
