@@ -32,6 +32,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -680,7 +681,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(8)
+                .withTimeZone(TimeHelper.convertToZoneId(8))
                 .withGracePeriod(0)
                 .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false)

@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -138,7 +139,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("typical case : 1 non private session closing within time limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
-        session.setTimeZone(0);
+        session.setTimeZone(ZoneId.of("UTC"));
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
@@ -177,7 +178,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("case : 1 open session with mail unsent");
         FeedbackSessionAttributes session = getNewFeedbackSession();
-        session.setTimeZone(0);
+        session.setTimeZone(ZoneId.of("UTC"));
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
@@ -225,7 +226,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("case : 1 published session with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        session.setTimeZone(0);
+        session.setTimeZone(ZoneId.of("UTC"));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
