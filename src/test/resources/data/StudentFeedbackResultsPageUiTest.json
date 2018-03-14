@@ -1781,12 +1781,12 @@
         "STUDENTS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-01 11:59 PM UTC",
+      "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor first comment to Alice"
       },
       "lastEditorEmail": "SFResultsUiT.instr@gmail.tmt",
-      "lastEditedAt": "2026-03-02 11:59 PM UTC"
+      "lastEditedAt": "2026-03-02T23:59:00Z"
     },
     "comment2FromT1C1ToR1Q1S1C1": {
       "courseId": "SFResultsUiT.CS2104",
@@ -1803,7 +1803,7 @@
         "STUDENTS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-02 11:59 PM UTC",
+      "createdAt": "2026-03-02T23:59:00Z",
       "commentText": {
         "value": "Instructor second comment to Alice"
       }

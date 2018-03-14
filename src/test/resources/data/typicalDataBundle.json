@@ -1439,12 +1439,12 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-01 11:59 PM UTC",
+      "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback"
       },
       "lastEditorEmail": "instructor1@course1.tmt",
-      "lastEditedAt": "2012-04-02 11:59 PM UTC"
+      "lastEditedAt": "2012-04-02T23:59:00Z"
     },
     "comment1FromT1C1ToR1Q2S1C1": {
       "courseId": "idOfTypicalCourse1",
@@ -1457,7 +1457,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-02-01 11:59 PM UTC",
+      "createdAt": "2026-02-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 2"
       }
@@ -1473,7 +1473,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-01-01 11:59 PM UTC",
+      "createdAt": "2026-01-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
       }
@@ -1489,7 +1489,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2027-01-01 11:59 PM UTC",
+      "createdAt": "2027-01-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 3 comment to instr1C2 response to student1C2"
       }

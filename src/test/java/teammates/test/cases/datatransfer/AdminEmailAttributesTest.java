@@ -1,8 +1,8 @@
 package teammates.test.cases.datatransfer;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -26,7 +26,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     private List<String> groupReceiverListFileKey = Arrays.asList("listfilekey", "listfilekey");
     private String subject = "subject of email";
     private Text content = new Text("valid email content");
-    private Date date = new Date();
+    private Instant date = Instant.now();
     private AdminEmailAttributes validAdminEmailAttributesObject = AdminEmailAttributes
             .builder(subject, addressReceiverListString, groupReceiverListFileKey, content)
             .build();
@@ -43,7 +43,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributesWithDefaultValues.getEmailId());
         assertFalse("Default false for isInTrashBin", attributesWithDefaultValues.isInTrashBin);
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE, attributesWithDefaultValues.getCreateDate());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributesWithDefaultValues.getCreateDate());
         assertTrue("Valid input", attributesWithDefaultValues.isValid());
     }
 
@@ -64,7 +64,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
         assertEquals(Const.ParamsNames.ADMIN_EMAIL_ID, attributesWithNullOptionalArguments.getEmailId());
         assertFalse("Default false for isInTrashBin", attributesWithNullOptionalArguments.isInTrashBin);
-        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE, attributesWithNullOptionalArguments.getCreateDate());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, attributesWithNullOptionalArguments.getCreateDate());
         assertEquals(null, attributesWithNullOptionalArguments.getSendDate());
     }
 
@@ -259,26 +259,22 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testSendDateForDisplay() {
-        Calendar calendar = formatDateForAdminEmailAttributesTest(validAdminEmailAttributesObject.sendDate);
-        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        validAdminEmailAttributesObject.sendDate = Instant.now();
+        String expectedDate = TimeHelper.formatTime12H(convertToAdminTime(validAdminEmailAttributesObject.sendDate));
         String actualDate = validAdminEmailAttributesObject.getSendDateForDisplay();
         assertEquals(expectedDate, actualDate);
     }
 
     @Test
     public void testCreateDateForDisplay() {
-        validAdminEmailAttributesObject.createDate = new Date();
-        Calendar calendar = formatDateForAdminEmailAttributesTest(validAdminEmailAttributesObject.createDate);
-        String expectedDate = TimeHelper.formatTime12H(calendar.getTime());
+        validAdminEmailAttributesObject.createDate = Instant.now();
+        String expectedDate = TimeHelper.formatTime12H(convertToAdminTime(validAdminEmailAttributesObject.createDate));
         String actualDate = validAdminEmailAttributesObject.getCreateDateForDisplay();
         assertEquals(expectedDate, actualDate);
     }
 
-    private Calendar formatDateForAdminEmailAttributesTest(Date date) {
-        validAdminEmailAttributesObject.sendDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return TimeHelper.convertToUserTimeZone(calendar, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
+    private LocalDateTime convertToAdminTime(Instant date) {
+        return TimeHelper.convertInstantToLocalDateTime(date, Const.SystemParams.ADMIN_TIME_ZONE_ID);
     }
 
     private String getInvalidityInfoForSubject(String emailSubject) throws Exception {

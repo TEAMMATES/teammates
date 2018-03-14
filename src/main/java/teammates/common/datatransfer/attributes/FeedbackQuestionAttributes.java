@@ -1,7 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
@@ -40,8 +40,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
-    protected transient Date createdAt;
-    protected transient Date updatedAt;
+    protected transient Instant createdAt;
+    protected transient Instant updatedAt;
     private String feedbackQuestionId;
 
     public FeedbackQuestionAttributes() {
@@ -95,12 +95,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return new FeedbackQuestionAttributes(this);
     }
 
-    public Date getCreatedAt() {
-        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE : createdAt;
+    public Instant getCreatedAt() {
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE : updatedAt;
+    public Instant getUpdatedAt() {
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
 
     public String getId() {

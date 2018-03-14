@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.googlecode.objectify.annotation.OnSave;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents a feedback question.
@@ -100,25 +102,25 @@ public class FeedbackQuestion extends BaseEntity {
         this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
         this.showRecipientNameTo =
                 showRecipientNameTo == null ? new ArrayList<FeedbackParticipantType>() : showRecipientNameTo;
-        this.setCreatedAt(new Date());
+        this.setCreatedAt(Instant.now());
     }
 
-    public Date getCreatedAt() {
-        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE : createdAt;
+    public Instant getCreatedAt() {
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : TimeHelper.convertDateToInstant(createdAt);
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE : updatedAt;
+    public Instant getUpdatedAt() {
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : TimeHelper.convertDateToInstant(updatedAt);
     }
 
-    public void setCreatedAt(Date newDate) {
-        this.createdAt = newDate;
+    public void setCreatedAt(Instant newDate) {
+        this.createdAt = TimeHelper.convertInstantToDate(newDate);
         setLastUpdate(newDate);
     }
 
-    public void setLastUpdate(Date newDate) {
+    public void setLastUpdate(Instant newDate) {
         if (!keepUpdateTimestamp) {
-            this.updatedAt = newDate;
+            this.updatedAt = TimeHelper.convertInstantToDate(newDate);
         }
     }
 
@@ -234,6 +236,6 @@ public class FeedbackQuestion extends BaseEntity {
 
     @OnSave
     public void updateLastUpdateTimestamp() {
-        this.setLastUpdate(new Date());
+        this.setLastUpdate(Instant.now());
     }
 }

@@ -706,7 +706,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2012-04-02 11:59 PM UTC",
+      "createdAt": "2012-04-02T23:59:00Z",
       "commentText": {
         "value": "First comment to Alice about feedback to Benny from different instructor"
       }
@@ -722,12 +722,12 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-01 11:59 PM UTC",
+      "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor second comment to Alice about feedback to Benny"
       },
       "lastEditorEmail": "teammates.test@gmail.tmt",
-      "lastEditedAt": "2026-03-02 11:59 PM UTC"
+      "lastEditedAt": "2026-03-02T23:59:00Z"
     },
     "comment3FromT1C1ToR1Q2S1C1": {
       "courseId": "ISR.CS2104",
@@ -740,7 +740,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-02 11:59 PM UTC",
+      "createdAt": "2026-03-02T23:59:00Z",
       "commentText": {
         "value": "Instructor third comment to Alice about feedback to Benny"
       }

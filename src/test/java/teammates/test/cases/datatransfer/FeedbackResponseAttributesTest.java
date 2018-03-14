@@ -1,6 +1,6 @@
 package teammates.test.cases.datatransfer;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.testng.annotations.Test;
 
@@ -15,11 +15,11 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
 
     private static class FeedbackResponseAttributesWithModifiableTimestamp extends FeedbackResponseAttributes {
 
-        void setCreatedAt(Date createdAt) {
+        void setCreatedAt(Instant createdAt) {
             this.createdAt = createdAt;
         }
 
-        void setUpdatedAt(Date updatedAt) {
+        void setUpdatedAt(Instant updatedAt) {
             this.updatedAt = updatedAt;
         }
 
@@ -33,7 +33,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         fra.setCreatedAt(null);
         fra.setUpdatedAt(null);
 
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
+        Instant defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
         ______TS("success : defaultTimeStamp for createdAt date");
 

@@ -1786,12 +1786,12 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-01 11:59 PM UTC",
+      "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "<p> Some comment from instructor </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
       },
       "lastEditorEmail": "CFResultsUiT.instr@gmail.tmt",
-      "lastEditedAt": "2026-03-02 11:59 PM UTC"
+      "lastEditedAt": "2026-03-02T23:59:00Z"
     },
     "comment2ToBeEditedByDifferentInstructor": {
       "courseId": "CFResultsUiT.CS2104",
@@ -1816,12 +1816,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2012-04-02 11:59 PM UTC",
+      "createdAt": "2012-04-02T23:59:00Z",
       "commentText": {
         "value": "Comment to be edited by different instructor."
       },
       "lastEditorEmail": "CFResultsUiT.instr2@gmail.tmt",
-      "lastEditedAt": "2012-04-02 11:59 PM UTC"
+      "lastEditedAt": "2012-04-02T23:59:00Z"
     }
   },
   "profiles": {}
