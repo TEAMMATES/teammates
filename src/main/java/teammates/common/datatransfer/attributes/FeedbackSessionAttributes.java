@@ -233,7 +233,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return Instant.now().plus(Duration.ofHours(hours)).isAfter(endTime);
     }
 
-    public boolean isClosingWithinTimeLimit(int hours) {
+    public boolean isClosingWithinTimeLimit(long hours) {
         Instant now = Instant.now();
         Duration difference = Duration.between(now, endTime);
         // If now and start are almost similar, it means the feedback session
@@ -321,20 +321,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      *         Does not care if the session has ended or not.
      */
     public boolean isPublished() {
-        Instant now = Instant.now();
         Instant publishTime = this.resultsVisibleFromTime;
 
         if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             return isVisible();
-        } else if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
-            return false;
-        } else if (publishTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-            return false;
-        } else if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
-            return true;
-        } else {
-            return now.isAfter(publishTime) || now.equals(publishTime);
         }
+        if (publishTime.equals(Const.TIME_REPRESENTS_LATER) || publishTime.equals(Const.TIME_REPRESENTS_NEVER)) {
+            return false;
+        }
+        if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
+            return true;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(publishTime) || now.equals(publishTime);
     }
 
     /**
