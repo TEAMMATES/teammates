@@ -67,7 +67,7 @@
       "timeZone": "UTC"
     },
     "SCDetailsUiT.TSCourse": {
-      "createdAt": "2012-04-01 11:58 PM UTC",
+      "createdAt": "2012-04-01T23:58:00Z",
       "id": "SCDetailsUiT.idOfTSCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"

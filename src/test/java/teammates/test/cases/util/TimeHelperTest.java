@@ -1,5 +1,6 @@
 package teammates.test.cases.util;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -15,107 +16,40 @@ import teammates.test.cases.BaseTestCase;
 public class TimeHelperTest extends BaseTestCase {
 
     @Test
-    public void testFormatTimeForEvaluation() {
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-
-        c.set(Calendar.HOUR_OF_DAY, 9);
-        assertEquals(9, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
-
-        c.set(Calendar.HOUR_OF_DAY, 22);
-        c.set(Calendar.MINUTE, 59);
-        assertEquals(22, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
-
-        //special cases that returns 24
-
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        assertEquals(24, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
-
-        c.set(Calendar.HOUR_OF_DAY, 23);
-        c.set(Calendar.MINUTE, 59);
-        assertEquals(24, TimeHelper.convertToOptionValueInTimeDropDown(c.getTime()));
-
-    }
-
-    @Test
     public void testCombineDateTime() {
         String testDate = "Fri, 01 Feb, 2013";
         String testTime = "0";
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.clear();
-        cal.set(2013, 1, 1, 0, 0, 0);
-        Date expectedOutput = cal.getTime();
+        LocalDateTime expectedOutput = LocalDateTime.of(2013, 2, 1, 0, 0);
 
         testTime = "0";
         ______TS("boundary case: time = 0");
-        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
+        assertEquals(expectedOutput, TimeHelper.combineDateTimeNew(testDate, testTime));
 
         ______TS("boundary case: time = 24");
         testTime = "24";
-        cal.clear();
-        cal.set(2013, 1, 1, 23, 59);
-        expectedOutput = cal.getTime();
-        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
+        expectedOutput = LocalDateTime.of(2013, 2, 1, 23, 59);
+        assertEquals(expectedOutput, TimeHelper.combineDateTimeNew(testDate, testTime));
 
         ______TS("negative time");
-        cal.clear();
-        cal.set(2013, 1, 1, -5, 0);
-        expectedOutput = cal.getTime();
-        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, "-5"));
+        assertNull(TimeHelper.combineDateTimeNew(testDate, "-5"));
 
         ______TS("large time");
-        cal.clear();
-        cal.set(2013, 1, 1, 68, 0);
-        expectedOutput = cal.getTime();
-        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, "68"));
+        assertNull(TimeHelper.combineDateTimeNew(testDate, "68"));
 
         ______TS("date null");
-        assertNull(TimeHelper.combineDateTime(null, testTime));
+        assertNull(TimeHelper.combineDateTimeNew(null, testTime));
 
         ______TS("time null");
-        assertNull(TimeHelper.combineDateTime(testDate, null));
+        assertNull(TimeHelper.combineDateTimeNew(testDate, null));
 
         ______TS("invalid time");
-        assertNull(TimeHelper.combineDateTime(testDate, "invalid time"));
+        assertNull(TimeHelper.combineDateTimeNew(testDate, "invalid time"));
 
         ______TS("fractional time");
-        assertNull(TimeHelper.combineDateTime(testDate, "5.5"));
+        assertNull(TimeHelper.combineDateTimeNew(testDate, "5.5"));
 
         ______TS("invalid date");
-        assertNull(TimeHelper.combineDateTime("invalid date", testDate));
-    }
-
-    @Test
-    public void testIsWithinHour() {
-        Calendar timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-
-        ______TS("Time within past hour");
-
-        timeCalendar.add(Calendar.MINUTE, -10);
-        assertTrue(TimeHelper.isWithinPastHour(timeCalendar.getTime(),
-                   Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
-
-        ______TS("End time not within past hour");
-
-        timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        timeCalendar.add(Calendar.MINUTE, -70);
-        assertFalse(TimeHelper.isWithinPastHour(timeCalendar.getTime(),
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
-
-        timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        timeCalendar.add(Calendar.MINUTE, 10);
-        assertFalse(TimeHelper.isWithinPastHour(timeCalendar.getTime(),
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
-
-        timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        timeCalendar.add(Calendar.MINUTE, 10);
-        assertFalse(TimeHelper.isWithinPastHour(timeCalendar.getTime(), timeCalendar.getTime()));
-
-        ______TS("Session ended but grace time left");
-        int gracePeriod = 15;
-        timeCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        timeCalendar.add(Calendar.MINUTE, -10);
-        assertFalse(TimeHelper.isWithinPastHour(new Date(timeCalendar.getTime().getTime() + gracePeriod * 60000L),
-                    Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
+        assertNull(TimeHelper.combineDateTimeNew("invalid date", testDate));
     }
 
     @Test

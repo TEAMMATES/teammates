@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.util.Date;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -8,6 +10,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.Priority;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.GenericAppPage;
 
 /**
@@ -47,7 +50,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
 
         // Set closing time of one feedback session to 30 mins ago
         FeedbackSessionAttributes closedFeedbackSession = testData.feedbackSessions.get("closedSession");
-        closedFeedbackSession.setEndTime(TimeHelper.getMsOffsetToCurrentTime(-1000 * 60 * 30));
+        closedFeedbackSession.setEndTime(Date.from(TimeHelperExtension.getInstantMillisOffsetFromNow(-1000 * 60 * 30)));
 
         // Set opening time for one feedback session to yesterday
         FeedbackSessionAttributes openingFeedbackSession = testData.feedbackSessions.get("openingSession");
