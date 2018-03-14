@@ -265,8 +265,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForAjaxLoaderGifToDisappear();
         homePage.submitRemindParticularUsersForm();
         homePage.waitForPageToLoad();
-        homePage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
         homePage.clickRemindOptionsLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionOpen.getCourseId(),
                                                 feedbackSessionOpen.getFeedbackSessionName());
@@ -300,8 +299,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForAjaxLoaderGifToDisappear();
         homePage.submitRemindParticularUsersForm();
         homePage.waitForPageToLoad();
-        homePage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
+        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
 
         homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
         homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
@@ -310,8 +308,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.fillRemindParticularUsersForm();
         homePage.submitRemindParticularUsersForm();
         homePage.waitForPageToLoad();
-        homePage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
+        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
 
         ______TS("remind action: PUBLISHED feedback session");
 

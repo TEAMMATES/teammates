@@ -186,8 +186,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickAddInstructorButton();
 
         courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, "Teammates Instructor",
-                                                  "InsCrsEdit.instructor@gmail.tmt"));
+                String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
+                        "Teammates Instructor", "InsCrsEdit.instructor@gmail.tmt"));
 
         AppUrl courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                     .withCourseId(courseId)
