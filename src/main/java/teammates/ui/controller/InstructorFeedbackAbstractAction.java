@@ -1,9 +1,10 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,14 +51,16 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             }
         }
-        Date startTimeLocal = TimeHelper.combineDateTime(
+        LocalDateTime startTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
-        Date endTimeLocal = TimeHelper.combineDateTime(
+        LocalDateTime endTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
-        attributes.setStartTime(TimeHelper.convertLocalDateToUtc(startTimeLocal, attributes.getTimeZone()));
-        attributes.setEndTime(TimeHelper.convertLocalDateToUtc(endTimeLocal, attributes.getTimeZone()));
+        attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(
+                startTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
+        attributes.setEndTime(TimeHelper.convertLocalDateTimeToInstant(
+                endTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
 
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
@@ -67,7 +70,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         }
 
         if (isCreatingNewSession) {
-            attributes.setCreatedTime(new Date());
+            attributes.setCreatedTime(Instant.now());
             attributes.setSentOpenEmail(false);
             attributes.setSentPublishedEmail(false);
         }
@@ -78,11 +81,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            Date publishTimeLocal = TimeHelper.combineDateTime(
+            LocalDateTime publishTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
-            attributes.setResultsVisibleFromTime(
-                    TimeHelper.convertLocalDateToUtc(publishTimeLocal, attributes.getTimeZone()));
+            attributes.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
+                    publishTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
             attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
@@ -103,11 +106,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            Date visibleTimeLocal = TimeHelper.combineDateTime(
+            LocalDateTime visibleTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
-            attributes.setSessionVisibleFromTime(
-                    TimeHelper.convertLocalDateToUtc(visibleTimeLocal, attributes.getTimeZone()));
+            attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
+                    visibleTimeLocal, TimeHelper.convertToZoneId(attributes.getTimeZone())));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);

@@ -2,6 +2,8 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.DateTimeException;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -95,7 +97,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         }
 
         courseEntityToUpdate.setName(courseToUpdate.getName());
-        courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone());
+        courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone().getId());
 
         saveEntity(courseEntityToUpdate, courseToUpdate);
     }
@@ -111,7 +113,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
         // only the courseId is important here, everything else are placeholders
         deleteEntity(CourseAttributes
-                .builder(courseId, "Non-existent course", "UTC")
+                .builder(courseId, "Non-existent course", ZoneId.of("UTC"))
                 .build());
     }
 
@@ -148,7 +150,15 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     protected CourseAttributes makeAttributes(Course entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), entity.getTimeZone())
+        ZoneId courseTimeZone;
+        try {
+            courseTimeZone = ZoneId.of(entity.getTimeZone());
+        } catch (DateTimeException e) {
+            log.severe("Timezone '" + entity.getTimeZone() + "' of course '" + entity.getUniqueId()
+                    + "' is not supported. UTC will be used instead.");
+            courseTimeZone = ZoneId.of("UTC");
+        }
+        return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), courseTimeZone)
                 .withCreatedAt(entity.getCreatedAt()).build();
     }
 }

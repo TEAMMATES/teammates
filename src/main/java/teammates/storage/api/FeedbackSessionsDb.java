@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -62,14 +63,17 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         startTimeEntities.removeAll(endTimeEntities);
         endTimeEntities.addAll(startTimeEntities);
 
+        Instant start = startUtc.toInstant();
+        Instant end = endUtc.toInstant();
+
         // TODO: remove after all legacy data has been converted
         for (FeedbackSession feedbackSession : endTimeEntities) {
             FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
+            Instant fsStart = fs.getStartTime();
+            Instant fsEnd = fs.getEndTime();
 
-            boolean isStartTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getStartTime(), true, false);
-            boolean isEndTimeWithinRange =
-                    TimeHelper.isTimeWithinPeriod(startUtc, endUtc, fs.getEndTime(), false, true);
+            boolean isStartTimeWithinRange = (fsStart.isAfter(start) || fsStart.equals(start)) && fsStart.isBefore(end);
+            boolean isEndTimeWithinRange = fsEnd.isAfter(start) && (fsEnd.isBefore(end) || fsEnd.equals(end));
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);

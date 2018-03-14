@@ -6,9 +6,9 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -1137,7 +1137,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, int gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDateForSessionsForm(startTime) + "';");

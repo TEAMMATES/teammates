@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +43,8 @@ public class FeedbackResponseCommentRow {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
-        this.createdAt = TimeHelper.formatDateTimeForSessions(frc.createdAt, this.sessionTimeZone);
+        this.createdAt = TimeHelper.formatDateTimeForSessions(
+                frc.createdAt, TimeHelper.convertToZoneId(this.sessionTimeZone));
         this.commentText = frc.commentText.getValue();
         this.commentGiverName = getCommentGiverNameFromEmail(giverDisplay);
         this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
@@ -252,13 +253,14 @@ public class FeedbackResponseCommentRow {
         return instructorEmailNameTable.get(giverEmail);
     }
 
-    private String getEditedAtText(String lastEditorEmail, Date createdAt, Date lastEditedAt) {
+    private String getEditedAtText(String lastEditorEmail, Instant createdAt, Instant lastEditedAt) {
         if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
                 + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
-                + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone) + ")";
+                + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, TimeHelper.convertToZoneId(sessionTimeZone))
+                + ")";
     }
 }
