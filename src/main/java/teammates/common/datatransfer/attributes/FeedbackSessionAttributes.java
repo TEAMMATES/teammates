@@ -54,6 +54,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         respondingStudentList = new HashSet<>();
 
         timeZone = Const.DEFAULT_TIME_ZONE;
+        gracePeriod = Duration.ZERO;
 
         instructions = new Text("");
     }
