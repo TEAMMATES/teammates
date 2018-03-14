@@ -53,7 +53,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         respondingInstructorList = new HashSet<>();
         respondingStudentList = new HashSet<>();
 
-        timeZone = ZoneId.of("UTC");
+        timeZone = Const.DEFAULT_TIME_ZONE;
 
         instructions = new Text("");
     }
