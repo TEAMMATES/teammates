@@ -260,8 +260,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testSendDateForDisplay() {
         validAdminEmailAttributesObject.sendDate = Instant.now();
-        String expectedDate = TimeHelper.formatTime12H(formatDateForAdminEmailAttributesTest(
-                validAdminEmailAttributesObject.sendDate));
+        String expectedDate = TimeHelper.formatTime12H(convertToAdminTime(validAdminEmailAttributesObject.sendDate));
         String actualDate = validAdminEmailAttributesObject.getSendDateForDisplay();
         assertEquals(expectedDate, actualDate);
     }
@@ -269,13 +268,12 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     @Test
     public void testCreateDateForDisplay() {
         validAdminEmailAttributesObject.createDate = Instant.now();
-        String expectedDate = TimeHelper.formatTime12H(formatDateForAdminEmailAttributesTest(
-                validAdminEmailAttributesObject.createDate));
+        String expectedDate = TimeHelper.formatTime12H(convertToAdminTime(validAdminEmailAttributesObject.createDate));
         String actualDate = validAdminEmailAttributesObject.getCreateDateForDisplay();
         assertEquals(expectedDate, actualDate);
     }
 
-    private LocalDateTime formatDateForAdminEmailAttributesTest(Instant date) {
+    private LocalDateTime convertToAdminTime(Instant date) {
         return TimeHelper.convertInstantToLocalDateTime(date, Const.SystemParams.ADMIN_TIME_ZONE_ID);
     }
 
