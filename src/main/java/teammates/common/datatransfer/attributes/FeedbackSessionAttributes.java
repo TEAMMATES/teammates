@@ -34,7 +34,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Instant sessionVisibleFromTime;
     private Instant resultsVisibleFromTime;
     private ZoneId timeZone;
-    private int gracePeriod; // gracePeriod is in minutes; TODO change type to Duration
+    private Duration gracePeriod;
     private FeedbackSessionType feedbackSessionType;
     private boolean sentOpenEmail;
     private boolean sentClosingEmail;
@@ -135,7 +135,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public FeedbackSession toEntity() {
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions,
                 createdTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                timeZone.getId(), gracePeriod, feedbackSessionType,
+                timeZone.getId(), getGracePeriod(), feedbackSessionType,
                 sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
                 respondingInstructorList, respondingStudentList);
@@ -254,7 +254,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public boolean isClosedWithinPastHour() {
         Instant now = Instant.now();
-        Instant given = endTime.plus(Duration.ofMinutes(gracePeriod));
+        Instant given = endTime.plus(gracePeriod);
         return given.isBefore(now) && Duration.between(given, now).compareTo(Duration.ofHours(1)) < 0;
     }
 
@@ -265,7 +265,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         if (endTime == null) {
             return false;
         }
-        return Instant.now().isAfter(endTime.plus(Duration.ofMinutes(gracePeriod)));
+        return Instant.now().isAfter(endTime.plus(gracePeriod));
     }
 
     /**
@@ -287,7 +287,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return false;
         }
         Instant now = Instant.now();
-        Instant gracedEnd = endTime.plus(Duration.ofMinutes(gracePeriod));
+        Instant gracedEnd = endTime.plus(gracePeriod);
         return (now.isAfter(endTime) || now.equals(endTime)) && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
     }
 
@@ -375,7 +375,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", endTime=" + endTime + ", sessionVisibleFromTime="
                + sessionVisibleFromTime + ", resultsVisibleFromTime="
                + resultsVisibleFromTime + ", timeZone=" + timeZone
-               + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
+               + ", gracePeriod=" + getGracePeriod() + ", feedbackSessionType="
                + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
@@ -516,11 +516,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public int getGracePeriod() {
-        return gracePeriod;
+        return (int) gracePeriod.toMinutes();
     }
 
-    public void setGracePeriod(int gracePeriod) {
-        this.gracePeriod = gracePeriod;
+    public void setGracePeriod(int gracePeriodMinutes) {
+        this.gracePeriod = Duration.ofMinutes(gracePeriodMinutes);
     }
 
     public FeedbackSessionType getFeedbackSessionType() {
