@@ -1,8 +1,6 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -101,19 +99,19 @@ public class FeedbackSession extends BaseEntity {
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
-            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, double offset, int gracePeriod,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, offset, gracePeriod, feedbackSessionType,
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
              sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
              isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
-            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, double offset, int gracePeriod,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, int gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -127,7 +125,7 @@ public class FeedbackSession extends BaseEntity {
         this.endTime = TimeHelper.convertInstantToDate(endTime);
         this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
         this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
-        this.timeZone = convertOffsetToZoneId(offset);
+        this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
@@ -170,7 +168,7 @@ public class FeedbackSession extends BaseEntity {
         } else {
             offset = Double.valueOf(timeZone);
         }
-        timeZone = convertOffsetToZoneId(offset);
+        timeZone = TimeHelper.convertToZoneId(offset).getId();
     }
 
     @OnLoad
@@ -259,12 +257,12 @@ public class FeedbackSession extends BaseEntity {
         this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
     }
 
-    public double getOffset() {
-        return convertZoneIdToOffset(timeZone);
+    public String getTimeZone() {
+        return timeZone;
     }
 
-    public void setOffset(double offset) {
-        this.timeZone = convertOffsetToZoneId(offset);
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 
     public int getGracePeriod() {
@@ -370,14 +368,6 @@ public class FeedbackSession extends BaseEntity {
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
-    }
-
-    private String convertOffsetToZoneId(double offset) {
-        return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (offset * 60 * 60))).getId();
-    }
-
-    private double convertZoneIdToOffset(String zoneId) {
-        return ((double) ZoneId.of(zoneId).getRules().getOffset(Instant.now()).getTotalSeconds()) / 60 / 60;
     }
 
 }
