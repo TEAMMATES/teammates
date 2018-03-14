@@ -151,9 +151,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.waitForTextsForAllStatusMessagesToUserEquals(
                 "The team \"Team 1</option></td></div>'\"\" is in multiple sections. "
-                                + "The team ID should be unique across the entire course "
-                                + "and a team cannot be spread across multiple sections."
-                                + "\nPlease use the enroll page to edit multiple students");
+                        + "The team ID should be unique across the entire course "
+                        + "and a team cannot be spread across multiple sections."
+                        + "\nPlease use the enroll page to edit multiple students");
 
         ______TS("enroll action: fail to enroll due to invalid header");
 

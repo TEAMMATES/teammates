@@ -165,8 +165,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         UserErrorReportPage errorReportPage = currentPage.changePageType(UserErrorReportPage.class);
         errorReportPage.verifyErrorReportFormContents();
         errorReportPage.fillFormAndClickSubmit("This is an error report.");
-        errorReportPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS);
+        errorReportPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS);
 
         ______TS("user error report form - submit failed");
         logout();

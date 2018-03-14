@@ -446,8 +446,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getInstructions(), newSession.getGracePeriod());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "bad name %% #",
-                                                           FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                                           FieldValidator.REASON_CONTAINS_INVALID_CHAR));
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.REASON_CONTAINS_INVALID_CHAR));
 
     }
 
@@ -969,10 +969,11 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
                 newSession.getInstructions(),
                 newSession.getGracePeriod());
-        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(getPopulatedEmptyStringErrorMessage(
-                                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                                            FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                            FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
+                getPopulatedEmptyStringErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
         assertTrue(feedbackPage.isVisible(By.id("timeFramePanel")));
         assertTrue(feedbackPage.isVisible(By.id("responsesVisibleFromColumn")));
         assertTrue(feedbackPage.isVisible(By.id("instructionsRow")));

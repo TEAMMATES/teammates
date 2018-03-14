@@ -476,7 +476,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(
                 "Please fix the error(s) for distribution question(s) 17, 18, 19."
-                                + " To skip a distribution question, leave the boxes blank.");
+                        + " To skip a distribution question, leave the boxes blank.");
 
         // Test error message for const sum (to recipient) qn with uneven distribution
         qnNumber = 19;
@@ -505,7 +505,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(
                 "Please fix the error(s) for distribution question(s) 17, 18, 19."
-                                + " To skip a distribution question, leave the boxes blank.");
+                        + " To skip a distribution question, leave the boxes blank.");
 
         // Test error message for const sum (to options) qn with uneven distribution
         qnNumber = 20;

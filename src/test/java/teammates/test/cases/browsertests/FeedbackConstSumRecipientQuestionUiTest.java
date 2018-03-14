@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.util.Collections;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -77,7 +79,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertTrue(feedbackEditPage.getTextsForAllStatusMessagesToUser().isEmpty());
+        assertEquals(Collections.emptyList(), feedbackEditPage.getTextsForAllStatusMessagesToUser());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
     }

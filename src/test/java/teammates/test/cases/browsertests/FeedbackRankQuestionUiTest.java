@@ -360,7 +360,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
-                                      + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
+                        + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");

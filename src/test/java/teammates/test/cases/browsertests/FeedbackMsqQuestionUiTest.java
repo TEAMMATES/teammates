@@ -95,8 +95,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                "Too little choices for Multiple-choice (multiple answers) question. "
-                                      + "Minimum number of options is: 2.");
+                "Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.");
 
         ______TS("remove when 1 left");
 
@@ -114,8 +113,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                "Too little choices for Multiple-choice (multiple answers) question. "
-                                      + "Minimum number of options is: 2.");
+                "Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.");
 
         ______TS("select Add Other Option");
 

@@ -196,4 +196,5 @@ public final class AssertHelper {
         assertEquals(expectedStringTypeList, actualStringTypeList);
 
     }
+
 }

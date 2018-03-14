@@ -598,13 +598,13 @@ public abstract class AppPage {
 
     /**
      * Returns a list of Texts of user status messages in the page.
-     * Returns a empty list if there is no status message in the page.
+     * @see WebElement#getText()
      */
     public List<String> getTextsForAllStatusMessagesToUser() {
-        List<WebElement> statusMessages = statusMessage.findElements(By.tagName("div"));
+        List<WebElement> statusMessagesToUser = statusMessage.findElements(By.tagName("div"));
         List<String> statusMessageTexts = new ArrayList<String>();
-        for (WebElement status : statusMessages) {
-            statusMessageTexts.add(status.getText());
+        for (WebElement statusMessage : statusMessagesToUser) {
+            statusMessageTexts.add(statusMessage.getText());
         }
         return statusMessageTexts;
     }
@@ -969,12 +969,11 @@ public abstract class AppPage {
     }
 
     /**
-     * Verifies the texts for status messages to the user in the page are equal to the expected texts.
+     * Verifies that the texts of user status messages in the page are equal to the expected texts.
      * The check is done multiple times with waiting times in between to account for
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
-    public void waitForTextsForAllStatusMessagesToUserEquals(String firstExpectedText,
-            String... remainingExpectedTexts) {
+    public void waitForTextsForAllStatusMessagesToUserEquals(String firstExpectedText, String... remainingExpectedTexts) {
         List<String> expectedTexts = Arrays.asList(ObjectArrays.concat(firstExpectedText, remainingExpectedTexts));
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {

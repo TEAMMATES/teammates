@@ -78,8 +78,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                "Too little options for Distribute points (among options) question. "
-                                      + "Minimum number of options is: 2.");
+                "Too little options for Distribute points (among options) question. Minimum number of options is: 2.");
 
         ______TS("remove when 1 left");
 
@@ -98,8 +97,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                "Too little options for Distribute points (among options) question. "
-                                      + "Minimum number of options is: 2.");
+                "Too little options for Distribute points (among options) question. Minimum number of options is: 2.");
 
         ______TS("duplicate options");
 
@@ -157,8 +155,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("30");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
@@ -177,8 +174,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumPointsForEachOptionBox("200", 1);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
@@ -208,8 +204,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 

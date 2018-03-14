@@ -44,11 +44,11 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         data.bundle = getDataBundle(userEmailForCourse);
 
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
+        data.init(regKey, email, courseId);
 
         setStatusToAdmin();
-
+        // TODO: implement this in another way so there is no dependence on status messages from another page
         addFeedbackSubmissionStatusMessageIfNotRedirected();
-        data.init(regKey, email, courseId);
 
         return createSpecificShowPageResult();
     }
@@ -80,31 +80,38 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
     }
 
     /**
-     * Returns if the page is redirected from other pages that are mapped to subclasses of
+     * Returns if the page is redirected from either pages that are mapped to subclasses of
      * {@link FeedbackSubmissionEditSaveAction}.
      *
-     * <p><b>Note:</b> This is a leaky abstraction; does not detect if the page is redirected but depends on the way
-     * status messages to user are passed through the session.
+     * <p><b>Note:</b> This is a leaky abstraction; does not detect if the page is actually redirected from
+     * {@link FeedbackSubmissionEditSaveAction} but detects if there are status messages in the session.
      *
-     * <p>The way status messages to user are implemented right now are as follows:<br>
-     * 1. Every {@code *Action} adds the status messages ({@link Action#statusToUser}) to be shown the user.<br>
-     * 2. The {@code *Action} is executed.<br>
-     * 3. The base {@link Action} class will add the status messages to the session status messages
-     * ({@link Action#putStatusMessageToSession}).<br>
-     * 4. If the execution returns an {@link AjaxResult}, the status messages in the session may be cleared after setting it
-     * in the {@link PageData} ({@link AjaxResult#clearStatusMessageForRequest(HttpServletRequest)}).<br>
-     * 4. If the execution returns a {@link FileDownloadResult} or {@link ImageResult}, they do not do anything with status
-     * messages but the session status messages will <strong>continue to persist.</strong><br>
-     * 4. If the execution returns a {@link RedirectResult}, the status messages in the session will be passed along to the
-     * next page.<br>
-     * 4. If the execution returns a {@link ShowPageResult}, the status messages in the session is cleared after setting it
-     * in the {@link PageData} ({@link ShowPageResult#addStatusMessagesToPageData(HttpServletRequest)}.<br>
+     * <p>This abstraction is implemented this way due to how status messages are implemented as follows:`
+     * <ol>
+     * <li>Every {@code *Action} adds the status messages ({@link Action#statusToUser}) to be shown the user.
+     * <li>The {@code *Action} is executed.
+     * <li>The base {@link Action} class will add the status messages to the session status messages
+     *     ({@link Action#putStatusMessageToSession}).
+     * <li>
+     *     The action will be executed and returns a {@code *Result}.
+     *     <ul>
+     *     <li>For {@link AjaxResult}, the session status messages may be cleared after setting it
+     *         in the {@link PageData} ({@link AjaxResult#clearStatusMessageForRequest(HttpServletRequest)}).
+ *         <li>For {@link FileDownloadResult} or {@link ImageResult}, they do not do anything with status messages but
+     *         the session status messages will <strong>continue to persist.</strong>
+     *     <li>For {@link RedirectResult}, the session status messages will be used in the next page.
+     *     <li>For {@link ShowPageResult}, the session status messages in the session is cleared after setting it
+     *         in the {@link PageData} ({@link ShowPageResult#addStatusMessagesToPageData(HttpServletRequest)}.
+     *     </ul>
+     * </ol>
      *
      * <p>Therefore if the session unexpectedly contains another status message, this returns the wrong result.
      * For example, one reason this could happen is that when the user is concurrently accessing another page and the status
-     * message is currently being inserted into the session.
+     * message is currently being added to the session.
      */
     private boolean isRedirectedFromFeedbackSubmissionEditSave() {
+        // If there are status messages in the session means there is a redirect, or there is a previous AJAX request, or
+        // the user is concurrently accessing another page that has just added status messages into the session.
         return session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST) != null;
     }
 
