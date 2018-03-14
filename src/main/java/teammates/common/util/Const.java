@@ -5,7 +5,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,9 +98,6 @@ public final class Const {
     public static final Instant TIME_REPRESENTS_NOW;
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
-    @Deprecated
-    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE;
-
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
@@ -111,8 +107,6 @@ public final class Const {
         TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
         TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
-
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE = TimeHelper.convertInstantToDate(TIME_REPRESENTS_DEFAULT_TIMESTAMP);
     }
 
     /*

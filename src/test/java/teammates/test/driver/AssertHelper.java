@@ -6,14 +6,12 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 
 /**
  * Provides additional assertion methods that are often used during testing.
@@ -22,14 +20,6 @@ public final class AssertHelper {
 
     private AssertHelper() {
         // utility class
-    }
-
-    /**
-     * Assert date is now +- 1 min.
-     */
-    @Deprecated
-    public static void assertDateIsNow(Date date) {
-        assertInstantIsNow(TimeHelper.convertDateToInstant(date));
     }
 
     /**
