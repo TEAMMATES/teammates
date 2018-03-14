@@ -50,7 +50,7 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     public static final String ERROR_TRYING_TO_MAKE_NON_EXISTENT_ACCOUNT_AN_INSTRUCTOR =
             "Trying to make an non-existent account an Instructor :";
 
-    private static final Logger log = Logger.getLogger();
+    protected static final Logger log = Logger.getLogger();
 
     /**
      * Preconditions:

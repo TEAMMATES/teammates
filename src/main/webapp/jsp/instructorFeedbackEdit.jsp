@@ -20,7 +20,9 @@
 </c:set>
 <ti:instructorPage title="Edit Feedback Session" jsIncludes="${jsIncludes}">
 
-  <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" fsEnableEdit="${data.shouldLoadInEditMode}"/>
+  <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}"
+      courseName="${fn:escapeXml(data.courseDetails.course.getName())}"
+      fsEnableEdit="${data.shouldLoadInEditMode}" fsAttributes="${data.feedbackSession}"/>
 
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />

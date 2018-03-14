@@ -1,5 +1,8 @@
 package teammates.test.driver;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -30,7 +33,7 @@ public final class TimeHelperExtension {
      * Note the last one is different from the others.
      */
     public static String convertToDisplayValueInTimeDropDown(Date date) {
-        int optionValue = TimeHelper.convertToOptionValueInTimeDropDown(date);
+        int optionValue = convertToOptionValueInTimeDropDown(date);
         if (optionValue == 24) {
             return "2359H";
         } else if (optionValue >= 0 && optionValue < 10) {
@@ -40,5 +43,38 @@ public final class TimeHelperExtension {
         } else {
             throw new RuntimeException("Unrecognized time option: " + optionValue);
         }
+    }
+
+    /**
+     * Formats a date in the corresponding option value in 'Time' dropdowns The
+     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
+     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
+     */
+    @Deprecated
+    public static int convertToOptionValueInTimeDropDown(Date date) {
+        return convertToOptionValueInTimeDropDown(TimeHelper.convertDateToLocalDateTime(date));
+    }
+
+    /**
+     * Formats a date in the corresponding option value in 'Time' dropdowns The
+     * hour just after midnight is converted to option 24 (i.e., 2359 as shown
+     * to the user) 23.59 is also converted to 24. (i.e., 23.59-00.59 ---> 24)
+     */
+    public static int convertToOptionValueInTimeDropDown(LocalDateTime localDateTime) {
+        //TODO: see if we can eliminate this method (i.e., merge with convertToDisplayValueInTimeDropDown)
+        int hour = localDateTime.getHour();
+        if (hour == 0 || hour == 23 && localDateTime.getMinute() == 59) {
+            return 24;
+        }
+        return hour;
+    }
+
+    /**
+     * Returns an java.time.Instant object that is offset by a number of milliseconds from now.
+     * @param offsetInMillis number of milliseconds offset by (integer).
+     * @return java.time.Instant offset by offsetInMillis milliseconds from now.
+     */
+    public static Instant getInstantMillisOffsetFromNow(long offsetInMillis) {
+        return Instant.now().plus(Duration.ofMillis(offsetInMillis));
     }
 }

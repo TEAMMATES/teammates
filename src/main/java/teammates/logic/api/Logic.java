@@ -665,12 +665,14 @@ public class Logic {
     /**
      * Updates the details of a course.
      *
-     * @see CoursesLogic#updateCourse(CourseAttributes)
+     * @see CoursesLogic#updateCourse(String, String, String)
      */
-    public void updateCourse(CourseAttributes course) throws InvalidParametersException,
-                                                             EntityDoesNotExistException {
-        Assumption.assertNotNull(course);
-        coursesLogic.updateCourse(course);
+    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(courseName);
+        Assumption.assertNotNull(courseTimeZone);
+        coursesLogic.updateCourse(courseId, courseName, courseTimeZone);
     }
 
     /**
