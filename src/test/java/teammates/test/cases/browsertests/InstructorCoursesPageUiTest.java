@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,7 +37,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
     private CourseAttributes validCourse =
             CourseAttributes
-                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore")
+                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", ZoneId.of("Asia/Singapore"))
                     .build();
 
     @Override

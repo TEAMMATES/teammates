@@ -248,12 +248,6 @@ input.inline {
     display: inline-block;
 }
 
-.inline-divider-5px {
-    width: 5px;
-    height: auto;
-    display: inline-block;
-}
-
 .margin-0 {
     margin: 0;
 }
