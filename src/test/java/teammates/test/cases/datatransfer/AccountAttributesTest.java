@@ -1,6 +1,6 @@
 package teammates.test.cases.datatransfer;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.testng.annotations.Test;
 
@@ -161,7 +161,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         String expectedName = "dummyName";
         String expectedInstitute = "dummyInstitute";
         boolean expectedIsInstructor = true; //since false case is covered in default test
-        Date expectedCreatedAt = new Date(98765);
+        Instant expectedCreatedAt = Instant.ofEpochMilli(98765);
 
         AccountAttributes observedAccountAttributes = AccountAttributes.builder()
                 .withGoogleId(expectedGoogleId)

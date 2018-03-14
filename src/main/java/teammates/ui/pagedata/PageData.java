@@ -2,7 +2,6 @@ package teammates.ui.pagedata;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -74,10 +73,6 @@ public class PageData {
 
     public static String truncate(String untruncatedString, int truncateLength) {
         return StringHelper.truncate(untruncatedString, truncateLength);
-    }
-
-    public static String displayDateTime(Date date) {
-        return TimeHelper.formatTime12H(date);
     }
 
     public String addUserIdToUrl(String link) {

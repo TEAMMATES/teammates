@@ -1,12 +1,13 @@
 package teammates.ui.template;
 
+import java.time.ZoneId;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
-import teammates.ui.pagedata.AdminAccountManagementPageData;
 
 public class AdminAccountManagementAccountTableRow {
     private AccountAttributes account;
@@ -35,7 +36,8 @@ public class AdminAccountManagementAccountTableRow {
     }
 
     public String getCreatedAt() {
-        return AdminAccountManagementPageData.displayDateTime(account.createdAt);
+        return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
+                account.createdAt, ZoneId.of(Const.SystemParams.ADMIN_TIME_ZONE)));
     }
 
     public String getAdminViewAccountDetailsLink() {
