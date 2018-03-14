@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
@@ -11,6 +12,7 @@ import com.googlecode.objectify.annotation.OnSave;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents a feedback response.
@@ -75,7 +77,7 @@ public class FeedbackResponse extends BaseEntity {
 
         this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;
 
-        this.setCreatedAt(new Date());
+        this.setCreatedAt(Instant.now());
     }
 
     public String getId() {
@@ -154,27 +156,27 @@ public class FeedbackResponse extends BaseEntity {
         this.answer = answer;
     }
 
-    public Date getCreatedAt() {
-        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE : createdAt;
+    public Instant getCreatedAt() {
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : TimeHelper.convertDateToInstant(createdAt);
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE : updatedAt;
+    public Instant getUpdatedAt() {
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : TimeHelper.convertDateToInstant(updatedAt);
     }
 
-    public void setCreatedAt(Date newDate) {
-        this.createdAt = newDate;
+    public void setCreatedAt(Instant newDate) {
+        this.createdAt = TimeHelper.convertInstantToDate(newDate);
         setLastUpdate(newDate);
     }
 
-    public void setLastUpdate(Date newDate) {
+    public void setLastUpdate(Instant newDate) {
         if (!keepUpdateTimestamp) {
-            this.updatedAt = newDate;
+            this.updatedAt = TimeHelper.convertInstantToDate(newDate);
         }
     }
 
     @OnSave
     public void updateLastUpdateTimestamp() {
-        this.setLastUpdate(new Date());
+        this.setLastUpdate(Instant.now());
     }
 }
