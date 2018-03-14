@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-import java.time.ZoneId;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -37,7 +36,7 @@ public class AdminAccountManagementAccountTableRow {
 
     public String getCreatedAt() {
         return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
-                account.createdAt, ZoneId.of(Const.SystemParams.ADMIN_TIME_ZONE)));
+                account.createdAt, Const.SystemParams.ADMIN_TIME_ZONE_ID));
     }
 
     public String getAdminViewAccountDetailsLink() {

@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -143,7 +144,12 @@ public final class Const {
         /* Field sizes and error messages for invalid fields can be found
          * in the FieldValidator class.
          */
-        public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
+
+        // TODO: rename back to ADMIN_TIME_ZONE once the String version has been deleted
+        public static final ZoneId ADMIN_TIME_ZONE_ID = ZoneId.of("Asia/Singapore");
+        @Deprecated // use ZoneId version
+        public static final String ADMIN_TIME_ZONE = ADMIN_TIME_ZONE_ID.getId();
+        @Deprecated // use ZoneId version
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
 
         public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
