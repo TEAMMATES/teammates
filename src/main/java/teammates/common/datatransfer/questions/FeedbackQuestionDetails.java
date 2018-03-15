@@ -8,6 +8,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -38,13 +39,12 @@ public abstract class FeedbackQuestionDetails {
     public abstract String getQuestionTypeDisplayName();
 
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
-                                boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                                int totalNumRecipients,
-                                FeedbackResponseDetails existingResponseDetails);
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
+            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails, StudentAttributes student);
 
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
                                 boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                                int totalNumRecipients);
+                                int totalNumRecipients, StudentAttributes student);
 
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 

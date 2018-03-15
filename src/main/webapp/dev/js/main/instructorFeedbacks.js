@@ -189,6 +189,27 @@ function bindEventsAfterAjax() {
     setupFsCopyModal();
 }
 
+function escapeXml(unsafe) {
+    return (unsafe || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+}
+
+function initializeCourseName() {
+    $('.course-name-data').each((idx, obj) => {
+        $('.course-name-data').data(obj.id, obj.value);
+    });
+    const selectedId = $('#courseid').val();
+    $('#coursename').html(escapeXml($('.course-name-data').data(selectedId)));
+}
+
+function bindSelectField() {
+    $('#courseid').change(() => {
+        const selectedId = $('#courseid').val();
+        $('#coursename').html(escapeXml($('.course-name-data').data(selectedId)));
+    });
+}
+
 const ajaxRequest = function (e) {
     e.preventDefault();
 
@@ -247,6 +268,9 @@ function readyFeedbackPage() {
     bindRemindButtons();
     bindPublishButtons();
     bindUnpublishButtons();
+
+    initializeCourseName();
+    bindSelectField();
 
     updateUncommonSettingsInfo();
     showUncommonPanelsIfNotInDefaultValues();

@@ -1,7 +1,7 @@
 package teammates.test.cases.storage;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -74,7 +74,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     private void testEntityCreationAndDeletion() throws Exception {
         FeedbackResponseCommentAttributes frcaTemp =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-        frcaTemp.createdAt = new Date();
+        frcaTemp.createdAt = Instant.now();
         frcaTemp.commentText = new Text("test creation and deletion");
 
         ______TS("Entity creation");
@@ -119,14 +119,14 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("null parameter");
 
         try {
-            frcDb.getFeedbackResponseComment(null, "", new Date());
+            frcDb.getFeedbackResponseComment(null, "", Instant.now());
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
         }
 
         try {
-            frcDb.getFeedbackResponseComment("", null, new Date());
+            frcDb.getFeedbackResponseComment("", null, Instant.now());
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
@@ -224,7 +224,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         FeedbackResponseCommentAttributes frcaTemp =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-        frcaTemp.createdAt = new Date();
+        frcaTemp.createdAt = Instant.now();
         frcaTemp.commentText = new Text("Update feedback response comment");
         frcDb.createEntity(frcaTemp);
         frcaTemp = frcDb.getFeedbackResponseComment(frcaTemp.feedbackResponseId,
@@ -308,7 +308,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q3S1C1");
         String giverEmail = "frcdb.newGiver@email.com";
         String courseId = "frcdb.giver.courseId";
-        Date createdAt = new Date();
+        Instant createdAt = Instant.now();
         frcaDataOfNewGiver.createdAt = createdAt;
         frcaDataOfNewGiver.commentText = new Text("another comment for this response");
         frcaDataOfNewGiver.setId(null);
@@ -367,7 +367,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         // get another frc from data bundle and use it to create another feedback response
         FeedbackResponseCommentAttributes tempFrcaData =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-        tempFrcaData.createdAt = new Date();
+        tempFrcaData.createdAt = Instant.now();
         tempFrcaData.commentText = new Text("another comment for this response");
         // for some reason, the id is 0 instead of null. so we explicitly set it to be null
         tempFrcaData.setId(null);
