@@ -89,7 +89,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFSubmitUiT.CS2104",
                                                                    "Grace Period Session");
 
-        fs.setGracePeriod(10);
+        fs.setGracePeriodMinutes(10);
         fs.setEndTime(Instant.now().minusSeconds(60));
         BackDoor.editFeedbackSession(fs);
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Grace Period Session");

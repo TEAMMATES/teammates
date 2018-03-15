@@ -73,7 +73,7 @@ public class FeedbackSession extends BaseEntity {
     private Double timeZoneDouble;
 
     @Unindex
-    private int gracePeriod;
+    private long gracePeriod;
 
     private FeedbackSessionType feedbackSessionType;
 
@@ -99,7 +99,7 @@ public class FeedbackSession extends BaseEntity {
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
-            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, int gracePeriod,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
@@ -111,7 +111,7 @@ public class FeedbackSession extends BaseEntity {
 
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
-            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, int gracePeriod,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -265,11 +265,11 @@ public class FeedbackSession extends BaseEntity {
         this.timeZone = timeZone;
     }
 
-    public int getGracePeriod() {
+    public long getGracePeriod() {
         return gracePeriod;
     }
 
-    public void setGracePeriod(int gracePeriod) {
+    public void setGracePeriod(long gracePeriod) {
         this.gracePeriod = gracePeriod;
     }
 
