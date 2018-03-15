@@ -50,6 +50,7 @@ before_script:
 install: true
 script:
   - npm run build
+  - gcloud version
   - ./gradlew appengineStart
   - ./gradlew ciTests
 
