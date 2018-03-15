@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -1927,9 +1928,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId,
-                                                                        String giverEmail,
-                                                                        Date creationDate) {
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
+            String responseId, String giverEmail, Instant creationDate) {
         Assumption.assertNotNull(responseId);
         Assumption.assertNotNull(giverEmail);
         Assumption.assertNotNull(creationDate);
@@ -2027,7 +2027,7 @@ public class Logic {
         return adminEmailsLogic.getAdminEmailById(emailId);
     }
 
-    public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
+    public Instant createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
         Assumption.assertNotNull(newAdminEmail);
         return adminEmailsLogic.createAdminEmail(newAdminEmail);
     }
@@ -2098,9 +2098,9 @@ public class Logic {
     /**
      * Gets an admin email by subject and createDate.
      *
-     * @see AdminEmailsLogic#getAdminEmail(String, Date)
+     * @see AdminEmailsLogic#getAdminEmail(String, Instant)
      */
-    public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
+    public AdminEmailAttributes getAdminEmail(String subject, Instant createDate) {
         Assumption.assertNotNull(subject);
         Assumption.assertNotNull(createDate);
 
