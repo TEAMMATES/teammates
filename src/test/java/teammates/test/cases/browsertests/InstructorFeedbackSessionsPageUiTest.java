@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -50,7 +51,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .withInstructions(new Text("Please fill in the new feedback session."))
                 .withSentOpenEmail(false)
                 .withSentPublishedEmail(false)
-                .withTimeZone(8.0)
+                .withTimeZone(ZoneId.of("UTC+08:00"))
                 .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withClosingEmailEnabled(true)
                 .withPublishedEmailEnabled(true)
@@ -295,7 +296,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionName("Allow Early Viewing Session #");
         newSession.setCourseId("CFeedbackUiT.CS1101");
-        newSession.setTimeZone(-4.5);
+        newSession.setTimeZone(ZoneId.of("UTC-04:30"));
 
         newSession.setStartTime(TimeHelper.parseInstant("2004-05-01 12:30 PM +0000"));
         newSession.setEndTime(newSession.getStartTime());
@@ -342,7 +343,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
         newSession.setGracePeriod(25);
         newSession.setInstructions(instructions);
-        newSession.setTimeZone(-2);
+        newSession.setTimeZone(ZoneId.of("UTC-02:00"));
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
 
@@ -369,7 +370,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         newSession.setFeedbackSessionName("Long Instruction Test ##");
-        newSession.setTimeZone(0);
+        newSession.setTimeZone(ZoneId.of("UTC"));
         newSession.setStartTime(TimeHelper.parseInstant("2012-05-01 8:00 AM +0000"));
         newSession.setEndTime(TimeHelper.parseInstant("2012-09-01 11:00 PM +0000"));
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
@@ -946,7 +947,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 TimeHelper.parseLocalDateTime("01/04/2035", "10", "00"),
                 TimeHelper.parseLocalDateTime("30/04/2035", "22", "00"),
                 null, null,
-                newSession.getInstructions(), newSession.getGracePeriod(), -2.0);
+                newSession.getInstructions(), newSession.getGracePeriod(), ZoneId.of("UTC-02:00"));
 
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());

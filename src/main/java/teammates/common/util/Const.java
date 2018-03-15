@@ -68,7 +68,7 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
-    public static final String DEFAULT_TIMEZONE = "UTC";
+    public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
     /*
      * These constants are used as variable values to mean that the variable

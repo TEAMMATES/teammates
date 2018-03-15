@@ -443,6 +443,14 @@ public final class TimeHelper {
     }
 
     /**
+     * Inverse of {@link #convertToZoneId}.
+     */
+    @Deprecated
+    public static double convertToOffset(ZoneId timeZone) {
+        return ((double) timeZone.getRules().getOffset(Instant.now()).getTotalSeconds()) / 60 / 60;
+    }
+
+    /**
      * Temporary method for transition from java.util.Date.
      * @param localDateTime will be assumed to be in UTC
      */

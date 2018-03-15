@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -680,7 +681,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(8)
+                .withTimeZone(ZoneId.of("UTC+08:00"))
                 .withGracePeriod(0)
                 .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false)

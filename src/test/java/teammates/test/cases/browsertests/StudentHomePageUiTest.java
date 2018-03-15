@@ -1,6 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import java.time.Duration;
 import java.time.Instant;
 
 import org.testng.annotations.Test;
@@ -42,7 +41,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes gracedFeedbackSession =
                 BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
         // TODO: change to actual now once HTML time zone detection is fixed
-        Instant nowMinusZoneOffset = Instant.now().minus(Duration.ofMinutes((int) gracedFeedbackSession.getTimeZone() * 60));
+        int zoneOffsetInSeconds = gracedFeedbackSession.getTimeZone().getRules().getOffset(Instant.now()).getTotalSeconds();
+        Instant nowMinusZoneOffset = Instant.now().minusSeconds(zoneOffsetInSeconds);
         gracedFeedbackSession.setEndTime(nowMinusZoneOffset);
         BackDoor.editFeedbackSession(gracedFeedbackSession);
     }

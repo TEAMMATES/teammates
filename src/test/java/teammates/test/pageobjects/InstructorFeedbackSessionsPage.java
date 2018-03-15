@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.fail;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
 
@@ -243,7 +244,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId,
             LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, int gracePeriod, double timeZone) {
+            Text instructions, int gracePeriod, ZoneId timeZone) {
 
         selectTimeZone(timeZone);
 
@@ -255,17 +256,19 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
             Text instructions, int gracePeriod) {
 
-        addFeedbackSessionWithTimeZone(
-                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod, 8.0);
+        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime,
+                instructions, gracePeriod, ZoneId.of("UTC+08:00"));
     }
 
-    private void selectTimeZone(double timeZone) {
-        String timeZoneString = Double.toString(timeZone);
+    private void selectTimeZone(ZoneId timeZone) {
+        double offset = TimeHelper.convertToOffset(timeZone);
 
-        double fractionalPart = timeZone % 1;
+        String timeZoneString = Double.toString(offset);
+
+        double fractionalPart = offset % 1;
 
         if (fractionalPart == 0.0) {
-            timeZoneString = Integer.toString((int) timeZone);
+            timeZoneString = Integer.toString((int) offset);
         }
 
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);

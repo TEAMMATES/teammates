@@ -1,5 +1,6 @@
 package teammates.ui.pagedata;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -177,7 +178,7 @@ public class InstructorSearchPageData extends PageData {
                 frCommentGiver = frc.giverEmail;
             }
 
-            double sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
+            ZoneId sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
                     frcSearchResultBundle.instructorEmailNameTable, sessionTimeZone);
 

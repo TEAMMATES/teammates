@@ -1,5 +1,6 @@
 package teammates.ui.pagedata;
 
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public Map<String, String> instructorEmailNameTable;
     public boolean isError;
     public FeedbackQuestionAttributes question;
-    public double sessionTimeZone;
+    public ZoneId sessionTimeZone;
 
     public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -94,9 +95,9 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String createEditedCommentDetails(String giverName, String editorName) {
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverName);
         return "From: " + giverName + " ["
-                + TimeHelper.formatDateTimeForSessions(comment.createdAt, TimeHelper.convertToZoneId(sessionTimeZone))
+                + TimeHelper.formatDateTimeForSessions(comment.createdAt, sessionTimeZone)
                 + "] (last edited " + (isGiverAnonymous ? "" : "by " + editorName + " ") + "at "
-                + TimeHelper.formatDateTimeForSessions(comment.lastEditedAt, TimeHelper.convertToZoneId(sessionTimeZone))
+                + TimeHelper.formatDateTimeForSessions(comment.lastEditedAt, sessionTimeZone)
                 + ")";
     }
 }
