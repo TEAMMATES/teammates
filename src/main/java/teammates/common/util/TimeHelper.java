@@ -354,14 +354,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats {@code dateInUtc} according to the ISO8601 format.
-     */
-    @Deprecated
-    public static String formatDateToIso8601Utc(Date dateInUtc) {
-        return formatInstantToIso8601Utc(convertDateToInstant(dateInUtc));
-    }
-
-    /**
      * Formats {@code instant} according to the ISO8601 format.
      */
     public static String formatInstantToIso8601Utc(Instant instant) {

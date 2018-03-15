@@ -3,6 +3,7 @@ package teammates.test.driver;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
@@ -511,6 +512,7 @@ public final class HtmlHelper {
      */
     public static String injectContextDependentValuesForTest(String content) {
         Date now = new Date();
+        Instant nowInstant = Instant.now();
         return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                       .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
                       .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
@@ -529,7 +531,7 @@ public final class HtmlHelper {
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
-                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
+                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatInstantToIso8601Utc(nowInstant))
                       .replace("<!-- now.datetime.courses -->",
                               TimeHelper.formatDateTimeForInstructorCoursesPage(now, "UTC"));
     }
