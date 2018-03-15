@@ -251,14 +251,9 @@ public final class TimeHelper {
 
     /**
      * Formats a date in the format dd/MM/yyyy.
-     */
-    @Deprecated
-    public static String formatDate(Date date) {
-        return formatDate(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format dd/MM/yyyy.
+     *
+     * @param localDateTime the LocalDateTime object to be formatted
+     * @return a string in the format {@code dd/MM/yyyy}
      */
     public static String formatDate(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "dd/MM/yyyy");
