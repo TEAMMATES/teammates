@@ -112,8 +112,7 @@ public class AdminActivityLogTableRow {
 
     public String getDisplayedLogTime() {
         Instant logInstant = Instant.ofEpochMilli(activityLog.getLogTime());
-        return TimeHelper.formatActivityLogTime(logInstant,
-                TimeHelper.convertToZoneId(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE));
+        return TimeHelper.formatActivityLogTime(logInstant, Const.SystemParams.ADMIN_TIME_ZONE_ID);
     }
 
     public String getDisplayedRole() {
