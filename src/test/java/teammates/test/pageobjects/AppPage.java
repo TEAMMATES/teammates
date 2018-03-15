@@ -597,7 +597,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns a list of texts of user status messages in the page.
+     * Returns a list containing the texts of the user status messages in the page.
      * @see WebElement#getText()
      */
     public List<String> getTextsForAllStatusMessagesToUser() {
