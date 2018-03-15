@@ -70,7 +70,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         // try to submit with error
         submitPage.clickSubmitButton();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals("Please fix the error(s) for rank question(s) 5. "
-                                + "To skip a rank question, leave all the boxes blank.");
+                + "To skip a rank question, leave all the boxes blank.");
 
         submitPage.selectResponseTextDropdown(5, 1, 0, "1");
         assertEquals("Please rank the above recipients.", submitPage.getRankMessage(5, 3));

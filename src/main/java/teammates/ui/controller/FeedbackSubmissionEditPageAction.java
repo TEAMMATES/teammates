@@ -80,7 +80,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
     }
 
     /**
-     * Returns if the page is redirected from either pages that are mapped to subclasses of
+     * Returns if the page is redirected from other pages that are mapped to subclasses of
      * {@link FeedbackSubmissionEditSaveAction}.
      *
      * <p><b>Note:</b> This is a leaky abstraction; does not detect if the page is actually redirected from
