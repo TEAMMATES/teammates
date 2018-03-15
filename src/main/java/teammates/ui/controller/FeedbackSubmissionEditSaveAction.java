@@ -1,11 +1,10 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -209,12 +208,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             Assumption.assertFalse(student == null && instructor == null);
 
             try {
-                Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 EmailWrapper email = instructor == null
                         ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session,
-                                student, timestamp)
+                                student, Instant.now())
                         : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
-                                instructor, timestamp);
+                                instructor, Instant.now());
                 emailSender.sendEmail(email);
             } catch (EmailSendingException e) {
                 log.severe("Submission confirmation email failed to send: "

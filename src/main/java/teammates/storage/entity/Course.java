@@ -36,12 +36,12 @@ public class Course extends BaseEntity {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
-            this.setTimeZone(Const.DEFAULT_TIMEZONE);
+            this.setTimeZone(Const.DEFAULT_TIME_ZONE.getId());
         } else {
             this.setTimeZone(courseTimeZone);
         }
         if (createdAt == null) {
-            this.setCreatedAt(TimeHelper.now());
+            this.setCreatedAt(Instant.now());
         } else {
             this.setCreatedAt(createdAt);
         }

@@ -47,11 +47,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         removeAndRestoreDataBundle(testData);
 
         editedSession = testData.feedbackSessions.get("openSession");
-        editedSession.setGracePeriod(30);
+        editedSession.setGracePeriodMinutes(30);
         editedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         editedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         editedSession.setInstructions(new Text("Please fill in the edited feedback session."));
-        editedSession.setEndTime(TimeHelper.convertToDate("2026-05-01 08:00 PM +0000"));
+        editedSession.setEndTime(TimeHelper.parseInstant("2026-05-01 08:00 PM +0000"));
 
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").getId();
@@ -137,7 +137,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickDefaultVisibleTimeButton();
 
         feedbackEditPage.editFeedbackSession(editedSession.getStartTimeLocal(), editedSession.getEndTimeLocal(),
-                editedSession.getInstructions(), editedSession.getGracePeriod());
+                editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
 
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
         assertTrue(feedbackEditPage.isElementInViewport(Const.ParamsNames.STATUS_MESSAGES_LIST));
@@ -216,7 +216,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditSessionButton();
         editedSession.setInstructions(new Text("Made some changes"));
         feedbackEditPage.editFeedbackSession(editedSession.getEndTimeLocal(), editedSession.getStartTimeLocal(),
-                                        editedSession.getInstructions(), editedSession.getGracePeriod());
+                                        editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
 
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(expectedString);
