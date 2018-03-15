@@ -280,17 +280,11 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
-     * 2:04 PM<br>
-     */
-    @Deprecated
-    public static String formatTime12H(Date date) {
-        return formatTime12H(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format dd MMM yyyy, hh:mm a. 12:00 PM is especially formatted as 12:00 NOON
-     * Example: 05 May 2012, 2:04 PM<br>
+     * Formats a date in the format dd MMM yyyy, hh:mm a. 12:00 PM is especially formatted as 12:00 NOON.
+     * Example: 05 May 2012, 2:04 PM
+     *
+     * @param localDateTime the LocalDateTime object to be formatted
+     * @return a string in the format {@code EEE, dd MMM yyyy, hh:mm a}
      */
     public static String formatTime12H(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM yyyy, hh:mm a");

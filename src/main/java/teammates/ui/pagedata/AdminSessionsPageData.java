@@ -81,11 +81,11 @@ public class AdminSessionsPageData extends PageData {
     }
 
     public String getRangeStartString() {
-        return TimeHelper.formatTime12H(rangeStart);
+        return TimeHelper.formatTime12H(TimeHelper.convertDateToLocalDateTime(rangeStart));
     }
 
     public String getRangeEndString() {
-        return TimeHelper.formatTime12H(rangeEnd);
+        return TimeHelper.formatTime12H(TimeHelper.convertDateToLocalDateTime(rangeEnd));
     }
 
     public List<InstitutionPanel> getInstitutionPanels() {
