@@ -313,12 +313,13 @@ public final class TimeHelper {
         return zonedDateTime.format(formatter);
     }
 
-    @Deprecated
-    public static String formatDateTimeForSessions(Date dateInUtc, double sessionTimeZone) {
-        return formatDateTimeForSessions(
-                convertDateToInstant(dateInUtc), convertToZoneId(sessionTimeZone));
-    }
-
+    /**
+     * Formats an Instant for a session in a specified ZoneId.
+     *
+     * @param instant the instant to be formatted
+     * @param sessionTimeZone the ZoneId representing the timezone for that session
+     * @return a string in the format {@code EEE, dd MMM yyyy, hh:mm a 'UTC'Z}
+     */
     public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
     }
