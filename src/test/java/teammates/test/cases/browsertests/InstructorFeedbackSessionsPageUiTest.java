@@ -47,7 +47,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .withCreatedTime(Const.TIME_REPRESENTS_NEVER)
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
-                .withGracePeriod(0)
+                .withGracePeriodMinutes(0)
                 .withInstructions(new Text("Please fill in the new feedback session."))
                 .withSentOpenEmail(false)
                 .withSentPublishedEmail(false)

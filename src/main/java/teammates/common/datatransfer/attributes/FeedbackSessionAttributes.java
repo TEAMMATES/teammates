@@ -68,7 +68,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 .withSessionVisibleFromTime(fs.getSessionVisibleFromTime())
                 .withResultsVisibleFromTime(fs.getResultsVisibleFromTime())
                 .withTimeZone(ZoneId.of(fs.getTimeZone()))
-                .withGracePeriod(fs.getGracePeriod())
+                .withGracePeriodMinutes(fs.getGracePeriod())
                 .withFeedbackSessionType(fs.getFeedbackSessionType())
                 .withSentOpenEmail(fs.isSentOpenEmail())
                 .withSentClosingEmail(fs.isSentClosingEmail())
@@ -670,8 +670,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return this;
         }
 
-        public Builder withGracePeriod(long gracePeriod) {
-            feedbackSessionAttributes.setGracePeriodMinutes(gracePeriod);
+        public Builder withGracePeriodMinutes(long gracePeriodMinutes) {
+            feedbackSessionAttributes.setGracePeriodMinutes(gracePeriodMinutes);
             return this;
         }
 

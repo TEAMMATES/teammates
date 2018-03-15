@@ -290,7 +290,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 .withEndTime(Instant.now())
                 .withSessionVisibleFromTime(Instant.now())
                 .withResultsVisibleFromTime(Instant.now())
-                .withGracePeriod(5)
+                .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
                 .withInstructions(new Text("Give feedback."))
