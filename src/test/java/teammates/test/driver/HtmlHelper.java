@@ -531,7 +531,8 @@ public final class HtmlHelper {
                       .replace("<!-- test.admin.truncated -->",
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(TimeHelper.convertDateToLocalDateTime(now)))
-                      .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(nowInstant, ZoneId.of("UTC")))
+                      .replace("<!-- now.datetime.sessions -->",
+                              TimeHelper.formatDateTimeForSessions(nowInstant, ZoneId.of("UTC")))
                       .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatInstantToIso8601Utc(nowInstant))
                       .replace("<!-- now.datetime.courses -->",
                               TimeHelper.formatDateTimeForInstructorCoursesPage(nowInstant, ZoneId.of("UTC")));
