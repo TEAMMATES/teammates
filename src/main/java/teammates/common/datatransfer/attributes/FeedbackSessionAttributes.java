@@ -516,11 +516,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.timeZone = timeZone;
     }
 
-    public int getGracePeriodMinutes() {
-        return (int) gracePeriod.toMinutes();
+    public long getGracePeriodMinutes() {
+        return gracePeriod.toMinutes();
     }
 
-    public void setGracePeriodMinutes(int gracePeriodMinutes) {
+    public void setGracePeriodMinutes(long gracePeriodMinutes) {
         this.gracePeriod = Duration.ofMinutes(gracePeriodMinutes);
     }
 
@@ -670,7 +670,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return this;
         }
 
-        public Builder withGracePeriod(int gracePeriod) {
+        public Builder withGracePeriod(long gracePeriod) {
             feedbackSessionAttributes.setGracePeriodMinutes(gracePeriod);
             return this;
         }
