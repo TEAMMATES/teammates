@@ -306,7 +306,7 @@ public final class TimeHelper {
      * PM is especially formatted as NOON if it's 12:00 PM, if present.
      */
     private static String formatInstant(Instant instant, ZoneId timeZone, String pattern) {
-        if (instant == null) {
+        if (instant == null || timeZone == null) {
             return "";
         }
         ZonedDateTime zonedDateTime = instant.atZone(timeZone);
@@ -373,8 +373,11 @@ public final class TimeHelper {
         return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
-    public static String formatActivityLogTime(Instant instant, ZoneId adminTimeZone) {
-        return formatInstant(instant, adminTimeZone, "MM/dd/yyyy HH:mm:ss SSS");
+    /**
+     * Formats {@code instant} in admin's activity log page.
+     */
+    public static String formatActivityLogTime(Instant instant, ZoneId zoneId) {
+        return formatInstant(instant, zoneId, "dd/MM/yyyy HH:mm:ss.SSS");
     }
 
     /**
