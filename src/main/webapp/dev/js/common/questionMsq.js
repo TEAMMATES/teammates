@@ -182,8 +182,8 @@ function toggleMsqGeneratedOptions(checkbox, questionNum) {
         $(`#msqChoiceTable-${questionNum}`).hide();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#msqGeneratedOptions-${questionNum}`).val($(`#msqGenerateForSelect-${questionNum}`).prop('value'));
-    } else {
+        changeMsqGenerateFor(questionNum);
+        } else {
         $(`#msqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', false);
         $(`#msqChoiceTable-${questionNum}`).show();
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);

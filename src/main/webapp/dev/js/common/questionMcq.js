@@ -59,7 +59,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         $(`#mcqChoiceTable-${questionNum}`).hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#mcqGeneratedOptions-${questionNum}`).val($(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
+        changeMcqGenerateFor(questionNum);
     } else {
         $(`#mcqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', false);
         $(`#mcqChoiceTable-${questionNum}`).show();
