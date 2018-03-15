@@ -325,14 +325,9 @@ public final class TimeHelper {
 
     /**
      * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
-     */
-    @Deprecated
-    public static String formatDateTimeForInstructorHomePage(Date date) {
-        return formatDateTimeForInstructorHomePage(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
+     *
+     * @param localDateTime the java.time.LocalDateTime object to be formatted
+     * @return a string in the format {@code d MMM h:mm a}
      */
     public static String formatDateTimeForInstructorHomePage(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "d MMM h:mm a");
