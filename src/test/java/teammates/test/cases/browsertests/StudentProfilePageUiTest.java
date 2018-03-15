@@ -266,7 +266,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         assertNotNull("Photo should not have been deleted", BackDoor.getStudentProfile(studentGoogleId).pictureKey);
 
         profilePage.clickAndConfirm(profilePage.getDeletePicture());
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_DELETED);
+        profilePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_PROFILE_PICTURE_DELETED);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 "female", "this is enough!$%&*</>");
 
