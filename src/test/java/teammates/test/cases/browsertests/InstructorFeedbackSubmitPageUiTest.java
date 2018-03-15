@@ -137,7 +137,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
 
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         assertNotNull(BackDoor.getFeedbackResponse(
                                    fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.alice.b@gmail.tmt"));
@@ -240,7 +240,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
 
-        submitPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         assertEquals("<p>" + editedResponse + "</p>",
                     BackDoor.getFeedbackResponse(
                                  fq.getId(), "IFSubmitUiT.instr@gmail.tmt",
@@ -474,8 +474,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("90 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
 
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyStatus("Please fix the error(s) for distribution question(s) 17, 18, 19."
-                                + " To skip a distribution question, leave the boxes blank.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Please fix the error(s) for distribution question(s) 17, 18, 19."
+                        + " To skip a distribution question, leave the boxes blank.");
 
         // Test error message for const sum (to recipient) qn with uneven distribution
         qnNumber = 19;
@@ -502,8 +503,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                      submitPage.getConstSumMessage(qnNumber, 3));
 
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyStatus("Please fix the error(s) for distribution question(s) 17, 18, 19."
-                                + " To skip a distribution question, leave the boxes blank.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Please fix the error(s) for distribution question(s) 17, 18, 19."
+                        + " To skip a distribution question, leave the boxes blank.");
 
         // Test error message for const sum (to options) qn with uneven distribution
         qnNumber = 20;

@@ -149,22 +149,24 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                        + "Different Section | Team 1</option></td></div>'\" | Alice Betsy | alice.b.tmms@gmail.tmt |\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The team \"Team 1</option></td></div>'\"\" is in multiple sections. "
-                                + "The team ID should be unique across the entire course "
-                                + "and a team cannot be spread across multiple sections."
-                                + "\nPlease use the enroll page to edit multiple students");
+        enrollPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "The team \"Team 1</option></td></div>'\"\" is in multiple sections. "
+                        + "The team ID should be unique across the entire course "
+                        + "and a team cannot be spread across multiple sections."
+                        + "\nPlease use the enroll page to edit multiple students");
 
         ______TS("enroll action: fail to enroll due to invalid header");
 
         enrollString = "Section | Team | Name | Email | Comments | Section\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The header row contains repeated fields");
+        enrollPage.waitForTextsForAllStatusMessagesToUserEquals("The header row contains repeated fields");
 
         enrollString = "Section | Name | Email\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The following required column names are missing in the header row: Team");
+        enrollPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "The following required column names are missing in the header row: Team");
 
         ______TS("enroll action: fail to enroll as there is no input");
 
@@ -177,7 +179,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString = "";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("Please input at least one student detail.");
+        enrollPage.waitForTextsForAllStatusMessagesToUserEquals("Please input at least one student detail.");
 
         ______TS("enroll action: fail to enroll as there is an invalid line");
 
