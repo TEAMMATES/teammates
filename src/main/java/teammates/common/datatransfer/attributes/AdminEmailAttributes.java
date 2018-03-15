@@ -1,8 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
@@ -23,8 +22,8 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
     public Text content;
 
     // Optional fields
-    public Date sendDate;
-    public Date createDate;
+    public Instant sendDate;
+    public Instant createDate;
     public String emailId;
     public boolean isInTrashBin;
 
@@ -39,7 +38,7 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
      * <p>Following default values are set to corresponding attributes:
      * <ul>
      * <li>{@code null} for {@code sendDate}</li>
-     * <li>{@code Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP} for {@code createDate}</li>
+     * <li>{@code Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE} for {@code createDate}</li>
      * <li>{@code Const.ParamsNames.ADMIN_EMAIL_ID} for {@code emailId}</li>
      * <li>{@code false} for {@code isInTrashBin}</li>
      * </ul>
@@ -118,11 +117,11 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         return this.subject;
     }
 
-    public Date getSendDate() {
+    public Instant getSendDate() {
         return this.sendDate;
     }
 
-    public Date getCreateDate() {
+    public Instant getCreateDate() {
         return this.createDate;
     }
 
@@ -138,20 +137,13 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         if (this.sendDate == null) {
             return "Draft";
         }
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(this.sendDate);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-
-        return TimeHelper.formatTime12H(cal.getTime());
+        return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
+                this.sendDate, Const.SystemParams.ADMIN_TIME_ZONE_ID));
     }
 
     public String getCreateDateForDisplay() {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(this.createDate);
-        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-
-        return TimeHelper.formatTime12H(cal.getTime());
+        return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
+                this.createDate, Const.SystemParams.ADMIN_TIME_ZONE_ID));
     }
 
     public String getFirstAddressReceiver() {
@@ -179,14 +171,14 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             adminEmailAttributes.content = content;
         }
 
-        public Builder withSendDate(Date sendDate) {
+        public Builder withSendDate(Instant sendDate) {
             if (sendDate != null) {
                 adminEmailAttributes.sendDate = sendDate;
             }
             return this;
         }
 
-        public Builder withCreateDate(Date createDate) {
+        public Builder withCreateDate(Instant createDate) {
             if (createDate != null) {
                 adminEmailAttributes.createDate = createDate;
             }
