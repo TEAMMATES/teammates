@@ -1,15 +1,14 @@
 package teammates.common.util;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
-import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -68,7 +67,7 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
-    public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
+    public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
     /*
      * These constants are used as variable values to mean that the variable
@@ -91,25 +90,23 @@ public final class Const {
     public static final String USER_IS_NOBODY = "%NOBODY%";
     public static final String USER_IS_MISSING = "%MISSING%";
 
-    public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
-    public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
-    public static final Date TIME_REPRESENTS_NEVER;
-    public static final Date TIME_REPRESENTS_LATER;
-    public static final Date TIME_REPRESENTS_NOW;
-    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+    public static final Instant TIME_REPRESENTS_FOLLOW_OPENING;
+    public static final Instant TIME_REPRESENTS_FOLLOW_VISIBLE;
+    public static final Instant TIME_REPRESENTS_NEVER;
+    public static final Instant TIME_REPRESENTS_LATER;
+    public static final Instant TIME_REPRESENTS_NOW;
+    public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 12:00 AM UTC");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 12:00 AM UTC");
-        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 12:00 AM UTC");
-        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 12:00 AM UTC");
-        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 12:00 AM UTC");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 12:00 AM UTC");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
+        TIME_REPRESENTS_NEVER = TimeHelper.parseInstant("1970-11-27 12:00 AM +0000");
+        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
     }
-
-    public static final String TIME_FORMAT_ISO_8601_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     /*
      * Other Constants
@@ -140,7 +137,12 @@ public final class Const {
         /* Field sizes and error messages for invalid fields can be found
          * in the FieldValidator class.
          */
-        public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
+
+        // TODO: rename back to ADMIN_TIME_ZONE once the String version has been deleted
+        public static final ZoneId ADMIN_TIME_ZONE_ID = ZoneId.of("Asia/Singapore");
+        @Deprecated // use ZoneId version
+        public static final String ADMIN_TIME_ZONE = ADMIN_TIME_ZONE_ID.getId();
+        @Deprecated // use ZoneId version
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
 
         public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");

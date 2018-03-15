@@ -1,9 +1,9 @@
-<!--
 Before opening a new issue, please check that no existing issue covers the same topic.
 
-Use the following templates for opening issues, where applicable:
-1. For bug reports: https://github.com/TEAMMATES/teammates/blob/master/.github/template-bugReport.md
-2. For feature/enhancement requests: https://github.com/TEAMMATES/teammates/blob/master/.github/template-featureRequest.md
-3. For new contributor introduction: https://github.com/TEAMMATES/teammates/blob/master/.github/template-contributorIntro.md
-4. For help requests: https://github.com/TEAMMATES/teammates/blob/master/.github/template-helpRequest.md
--->
+Go to the "Preview" tab and click on the relevant issue type to be redirected to the appropriate template.
+
+- [Bug reports](?template=bug-report.md)
+- [Feature/enhancement requests, enhancement to build process](?template=feature-request.md)
+- [Help requests](?template=help-request.md)
+
+For other tasks (e.g. refactoring, adding tests, fixing typo), there is no template to follow. Simply provide a clear issue title and description of the work to be done.

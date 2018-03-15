@@ -108,7 +108,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         for (String s : params) {
             list.add(s);
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     private String[] addStudentAuthenticationInfo(String[] params) {
@@ -122,7 +122,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         for (String s : params) {
             list.add(s);
         }
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     protected String[] createValidParamsForProfile() {
