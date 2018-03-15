@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.Date;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -10,6 +11,8 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 import com.googlecode.objectify.annotation.Unindex;
+
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents profile details for student entities associated with an
@@ -78,7 +81,7 @@ public class StudentProfile extends BaseEntity {
         this.setNationality(nationality);
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
-        this.setModifiedDate(new Date());
+        this.setModifiedDate(Instant.now());
         this.setPictureKey(pictureKey);
     }
 
@@ -91,7 +94,7 @@ public class StudentProfile extends BaseEntity {
         this.setGender("other");
         this.setMoreInfo(new Text(""));
         this.setPictureKey(new BlobKey(""));
-        this.setModifiedDate(new Date());
+        this.setModifiedDate(Instant.now());
     }
 
     public String getGoogleId() {
@@ -159,12 +162,12 @@ public class StudentProfile extends BaseEntity {
         this.pictureKey = pictureKey;
     }
 
-    public Date getModifiedDate() {
-        return this.modifiedDate;
+    public Instant getModifiedDate() {
+        return TimeHelper.convertDateToInstant(this.modifiedDate);
     }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setModifiedDate(Instant modifiedDate) {
+        this.modifiedDate = TimeHelper.convertInstantToDate(modifiedDate);
     }
 
 }

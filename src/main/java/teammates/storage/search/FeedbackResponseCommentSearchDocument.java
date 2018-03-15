@@ -24,6 +24,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for response comments.
@@ -211,7 +212,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
                                             .setText(searchableText))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE)
-                                            .setDate(comment.createdAt))
+                                            .setDate(TimeHelper.convertInstantToDate(comment.createdAt)))
                 // attribute field is used to convert a doc back to attribute
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE)
                                             .setText(JsonUtils.toJson(comment)))
