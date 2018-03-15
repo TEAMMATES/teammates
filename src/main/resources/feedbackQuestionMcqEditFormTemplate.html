@@ -44,6 +44,7 @@
           onchange="changeMcqGenerateFor(${questionNumber})"
           disabled>
         <option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
+        <option ${studentExcludingSelfSelected} value="${FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString()}">students (excluding self)</option>
         <option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
         <option ${instructorSelected} value="${FeedbackParticipantType.INSTRUCTORS.toString()}">instructors</option>
       </select>

@@ -276,6 +276,12 @@ function bindFeedbackSessionEditFormSubmission() {
             tinymce.get('instructions').save();
         }
         const $form = $(event.currentTarget);
+
+        // LEGACY IMPLEMENTATION: Ensure the 'editType' to be 'edit' before submitting,
+        // as the global state below might be modified erroneously elsewhere
+        const questionNum = $($form).data('qnnumber');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
+
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -458,6 +464,7 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Recipient-${questionNum}`).show();
     } else {
         $(`#constSumOptionTable-${questionNum}`).show();
+        $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
 
@@ -721,6 +728,7 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
+        $(`#constSumOption_Option-${NEW_QUESTION}`).show();
         showConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
@@ -1094,7 +1102,15 @@ function readyFeedbackEditPage() {
         }
     });
 
-    $('form.form_question').submit(function () {
+    $('form.form_question').submit(function (event) {
+        // LEGACY IMPLEMENTATION: Submission and deletion logic are coupled and determined by the global state.
+        // However, validating the form does not make sense when deleting.
+        const questionNum = $(event.currentTarget).data('qnnumber');
+        const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
+        if (editType === 'delete') {
+            return true;
+        }
+
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
         const formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
