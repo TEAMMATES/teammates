@@ -266,14 +266,9 @@ public final class TimeHelper {
 
     /**
      * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
-     */
-    @Deprecated
-    public static String formatDateForSessionsForm(Date date) {
-        return formatDateForSessionsForm(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
+     *
+     * @param localDateTime the LocalDateTime object to be formatted
+     * @return a string in the format {@code EEE, dd MMM, yyyy}
      */
     public static String formatDateForSessionsForm(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM, yyyy");

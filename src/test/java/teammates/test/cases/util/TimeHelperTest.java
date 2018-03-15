@@ -65,7 +65,7 @@ public class TimeHelperTest extends BaseTestCase {
         cal.set(2015, 11, 30, 12, 0, 0);
         Date date = cal.getTime();
         assertEquals("30/12/2015", TimeHelper.formatDate(date));
-        assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(date));
+        assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(TimeHelper.convertDateToLocalDateTime(date)));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(TimeHelper.convertDateToLocalDateTime(date)));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC+0000", TimeHelper.formatDateTimeForSessions(
                 TimeHelper.convertDateToInstant(date), ZoneId.of("UTC")));
