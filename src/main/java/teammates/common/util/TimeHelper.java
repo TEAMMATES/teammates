@@ -341,14 +341,6 @@ public final class TimeHelper {
     /**
      * Formats a date in the format d MMM yyyy. Example: 5 May 2017
      */
-    @Deprecated
-    public static String formatDateTimeForInstructorCoursesPage(Date date, String timeZoneId) {
-        return formatDateTimeForInstructorCoursesPage(convertDateToInstant(date), ZoneId.of(timeZoneId));
-    }
-
-    /**
-     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
-     */
     public static String formatDateTimeForInstructorCoursesPage(Instant instant, ZoneId timeZoneId) {
         return formatInstant(instant, timeZoneId, "d MMM yyyy");
     }

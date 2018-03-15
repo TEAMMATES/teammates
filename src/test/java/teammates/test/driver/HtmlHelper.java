@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
@@ -533,7 +534,7 @@ public final class HtmlHelper {
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
                       .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatInstantToIso8601Utc(nowInstant))
                       .replace("<!-- now.datetime.courses -->",
-                              TimeHelper.formatDateTimeForInstructorCoursesPage(now, "UTC"));
+                              TimeHelper.formatDateTimeForInstructorCoursesPage(nowInstant, ZoneId.of("UTC")));
     }
 
     private static TimeZone getTimeZone(String content) {
