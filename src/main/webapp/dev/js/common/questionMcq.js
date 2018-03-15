@@ -53,6 +53,10 @@ function removeMcqOption(index, questionNum) {
     }
 }
 
+function changeMcqGenerateFor(questionNum) {
+    $(`#mcqGeneratedOptions-${questionNum}`).val($(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
+}
+
 function toggleMcqGeneratedOptions(checkbox, questionNum) {
     if ($(checkbox).prop('checked')) {
         $(`#mcqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', true);
@@ -75,10 +79,6 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
-}
-
-function changeMcqGenerateFor(questionNum) {
-    $(`#mcqGeneratedOptions-${questionNum}`).val($(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
 }
 
 export {
