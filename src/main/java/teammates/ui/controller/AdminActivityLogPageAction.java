@@ -53,16 +53,16 @@ public class AdminActivityLogPageAction extends Action {
 
         String logRoleFromAjax = getRequestParamValue("logRole");
         String logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
-        String logTimeInAdminTimeZoneFromAjax = getRequestParamValue("logTimeInAdminTimeZone");
+        String logUnixTimeMillis = getRequestParamValue("logUnixTimeMillis");
 
         boolean isLoadingLocalTimeAjax = logRoleFromAjax != null
                                          && logGoogleIdFromAjax != null
-                                         && logTimeInAdminTimeZoneFromAjax != null;
+                                         && logUnixTimeMillis != null;
 
         if (isLoadingLocalTimeAjax) {
             data.setLogLocalTime(getLocalTimeInfo(logGoogleIdFromAjax,
                                                   logRoleFromAjax,
-                                                  logTimeInAdminTimeZoneFromAjax));
+                                                  logUnixTimeMillis));
             return createAjaxResult(data);
         }
 
@@ -342,13 +342,13 @@ public class AdminActivityLogPageAction extends Action {
         return Const.DOUBLE_UNINITIALIZED;
     }
 
-    private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
+    private String getLocalTimeInfo(String logGoogleId, String logRole, String logUnixTimeMillis) {
         double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
         if (timeZone == Const.DOUBLE_UNINITIALIZED) {
             return "Local Time Unavailable";
         }
         double timeZoneOffset = timeZone - Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
-        return computeTimeWithOffset(timeZoneOffset, Long.parseLong(logTimeInAdminTimeZone));
+        return computeTimeWithOffset(timeZoneOffset, Long.parseLong(logUnixTimeMillis));
     }
 
     private String computeTimeWithOffset(double timeZoneOffset, long logTime) {
