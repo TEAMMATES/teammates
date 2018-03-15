@@ -964,7 +964,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
         feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickCustomPublishTimeButton();
-        newSession.setResultsVisibleFromTime(TimeHelper.parseInstant("2035-09-01 11:00 PM UTC"));
+        newSession.setResultsVisibleFromTime(TimeHelper.parseInstant("2035-09-01 11:00 PM +0000"));
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null,
