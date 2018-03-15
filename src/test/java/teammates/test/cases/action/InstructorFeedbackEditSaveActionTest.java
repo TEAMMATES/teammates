@@ -55,10 +55,10 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||Updated Feedback Session "
                 + "<span class=\"bold\">(First feedback session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Tue Jan 31 16:00:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Wed Dec 31 16:00:00 UTC 2014<br>"
-                + "<span class=\"bold\">Session visible from:</span> Sat Dec 31 16:00:00 UTC 2011<br>"
-                + "<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br><br>"
+                + "<span class=\"bold\">From:</span> 2012-01-31T16:00:00Z"
+                + "<span class=\"bold\"> to</span> 2014-12-31T16:00:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 2011-12-31T16:00:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 1970-06-22T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
@@ -99,10 +99,10 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||Updated Feedback Session "
                 + "<span class=\"bold\">(First feedback session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Tue Jan 31 18:15:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Wed Dec 31 18:15:00 UTC 2014<br>"
-                + "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>"
-                + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
+                + "<span class=\"bold\">From:</span> 2012-01-31T18:15:00Z"
+                + "<span class=\"bold\"> to</span> 2014-12-31T18:15:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 1970-11-27T00:00:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 1970-11-27T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
@@ -131,10 +131,10 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||Updated Feedback Session "
                 + "<span class=\"bold\">(First feedback session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>"
-                + "<span class=\"bold\">Session visible from:</span> Thu Dec 31 00:00:00 UTC 1970<br>"
-                + "<span class=\"bold\">Results visible from:</span> Thu May 08 02:00:00 UTC 2014<br><br>"
+                + "<span class=\"bold\">From:</span> 2012-02-01T00:00:00Z"
+                + "<span class=\"bold\"> to</span> 2015-01-01T00:00:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 1970-12-31T00:00:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 2014-05-08T02:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
@@ -165,10 +165,10 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||Updated Feedback Session "
                 + "<span class=\"bold\">(First feedback session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>"
-                + "<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>"
-                + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
+                + "<span class=\"bold\">From:</span> 2012-02-01T00:00:00Z"
+                + "<span class=\"bold\"> to</span> 2015-01-01T00:00:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 2012-01-01T00:00:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 1970-11-27T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);

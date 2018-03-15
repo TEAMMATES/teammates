@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -129,7 +129,7 @@ public class FeedbackSessionsForm {
         newFsForm.feedbackSessionTypeOptions = fsTypeOptions;
 
         newFsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(feedbackSession == null
-                                                                            ? Const.DOUBLE_UNINITIALIZED
+                                                                            ? null
                                                                             : feedbackSession.getTimeZone());
 
         newFsForm.instructions = feedbackSession == null
@@ -140,14 +140,14 @@ public class FeedbackSessionsForm {
                               ? ""
                               : TimeHelper.formatDateForSessionsForm(feedbackSession.getStartTimeLocal());
 
-        Date startDate = feedbackSession == null ? null : feedbackSession.getStartTimeLocal();
+        LocalDateTime startDate = feedbackSession == null ? null : feedbackSession.getStartTimeLocal();
         newFsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(startDate);
 
         newFsForm.fsEndDate = feedbackSession == null
                             ? ""
                             : TimeHelper.formatDateForSessionsForm(feedbackSession.getEndTimeLocal());
 
-        Date endDate = feedbackSession == null ? null : feedbackSession.getEndTimeLocal();
+        LocalDateTime endDate = feedbackSession == null ? null : feedbackSession.getEndTimeLocal();
         newFsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(endDate);
 
         newFsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(feedbackSession == null
