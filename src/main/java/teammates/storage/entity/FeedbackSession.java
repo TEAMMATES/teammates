@@ -193,6 +193,17 @@ public class FeedbackSession extends BaseEntity {
         }
     }
 
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void adjustOpeningAndClosingTimeForPrivateSessions() {
+        if (getStartTime() == null) {
+            setStartTime(getCreatedTime());
+        }
+        if (getEndTime() == null) {
+            setEndTime(TimeHelper.parseInstant("2118-01-01 12:00 AM +0000"));
+        }
+    }
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
