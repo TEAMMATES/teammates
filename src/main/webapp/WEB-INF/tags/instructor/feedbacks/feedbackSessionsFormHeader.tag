@@ -6,9 +6,9 @@
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 
 <c:if test="${fsForm.feedbackSessionTypeEditable}">
-  <div class="row">
+  <div class="row" style="margin-right: 6px;">
     <h4 class="label-control col-md-2 text-md">Create new </h4>
-    <div class="col-md-5">
+    <div class="col-md-6">
       <div class="col-xs-10 tablet-no-padding" title="Select a session type here."
           data-toggle="tooltip" data-placement="top">
         <select class="form-control"
