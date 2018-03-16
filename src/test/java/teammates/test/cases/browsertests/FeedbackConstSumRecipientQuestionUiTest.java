@@ -74,6 +74,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
         assertEquals("100", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
 
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerRecipient");
         feedbackEditPage.fillConstSumPointsForEachRecipientBoxForNewQuestion("");
         assertEquals("100", feedbackEditPage.getConstSumPointsForEachRecipientBoxForNewQuestion());
 
@@ -123,8 +124,8 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillQuestionTextBox("edited const sum qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
-        feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("Total", 1);
+        feedbackEditPage.fillConstSumPointsBox("200", 1);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);

@@ -80,9 +80,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
 
-        Assumption.assertNotNull("Null points in total", pointsString);
-        Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
-        Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
         String forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
@@ -92,9 +89,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         int points = 0;
         if (pointsPerOption) {
-            points = distributeToRecipients ? Integer.parseInt(pointsForEachRecipientString)
-                                            : Integer.parseInt(pointsForEachOptionString);
+            if (distributeToRecipients) {
+                Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
+                points = Integer.parseInt(pointsForEachRecipientString);
+            } else {
+                Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
+                points = Integer.parseInt(pointsForEachOptionString);
+            }
         } else {
+            Assumption.assertNotNull("Null points in total", pointsString);
             points = Integer.parseInt(pointsString);
         }
         boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);

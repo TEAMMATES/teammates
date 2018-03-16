@@ -73,6 +73,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
         assertEquals("100", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
 
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerOption");
         feedbackEditPage.fillConstSumPointsForEachOptionBoxForNewQuestion("");
         assertEquals("100", feedbackEditPage.getConstSumPointsForEachOptionBoxForNewQuestion());
 
