@@ -225,7 +225,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
      * Creates a list of options (STANDARD, TEAMEVALUATION, and OPTIMIZEDTEAMEVALUATION). If defaultSessionType is null,
      *     OPTIMIZEDTEAMEVALUATION is selected by default.
      * @param defaultSessionType  either STANDARD, TEAMEVALUATION or OPTIMIZEDTEAMEVALUATION,
-     *     the option that is selected on page load
+     *                            the option that is selected on page load
      */
     private List<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
         ArrayList<ElementTag> result = new ArrayList<>();
