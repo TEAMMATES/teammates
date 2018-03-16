@@ -212,7 +212,11 @@ public final class TimeHelper {
      * Converts the {@code localDate} from {@code localTimeZone} to UTC through shifting by the offset.
      * Does not shift if {@code localDate} is a special representation.
      */
+    @Deprecated
     public static Date convertLocalDateToUtc(Date localDate, double localTimeZone) {
+        if (isSpecialTime(convertDateToInstant(localDate))) {
+            return localDate;
+        }
         return convertInstantToDate(
                 convertLocalDateTimeToInstant(convertDateToLocalDateTime(localDate),
                         convertToZoneId(localTimeZone)));
