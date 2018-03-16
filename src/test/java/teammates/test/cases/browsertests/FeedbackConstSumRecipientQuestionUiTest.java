@@ -162,7 +162,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         //Make sure that constSumPointsTotal radio button is selected by default
         assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());
-        //verify that constSumPointsForEachOption field is disabled
+        //verify that constSumPointsForEachRecipient field is disabled
         feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachRecipient--1")));
         //Select constSumPointsPerOption radio button
         feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerRecipient");
@@ -170,7 +170,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPoints--1")));
         //Select constSumPointsTotal radio button.
         feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("Total");
-        //verify that constSumPointsForEachOption field is disabled
+        //verify that constSumPointsForEachRecipient field is disabled
         feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachRecipient--1")));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
