@@ -25,7 +25,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.TimeHelperExtension;
 
@@ -1513,6 +1512,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillRankOption(NEW_QUESTION_NUM, optionIndex, optionText);
     }
 
+    public void fillRankMinOptionForQuestion(int qnNumber, String minOption) {
+        WebElement rankMinOption = browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
+        fillInputElement(rankMinOption, minOption);
+    }
+
+    public void fillRankMaxOptionForQuestion(int qnNumber, String minOption) {
+        WebElement rankMinOption = browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
+        fillInputElement(rankMinOption, minOption);
+    }
+
     public void tickDuplicatesAllowedCheckbox(int qnIndex) {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertTrue(checkBox.isSelected());
@@ -1931,19 +1940,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         return checkbox.isSelected();
     }
 
-    // Only to be used for Rank Recipient Questions
-    public void clickEnableMinRankRecipients(int questionNumber) {
-        By checkboxSelector = By.id("minRecipientsToBeRankedEnabled-" + questionNumber);
-        WebElement minNumberOfOptionsToRankCheckbox = browser.driver.findElement(checkboxSelector);
-        ThreadHelper.waitFor(1000);
+    // Only to be used for Rank Options Questions
+    public void clickEnableMinRankOptions(int questionNumber) {
+        WebElement minNumberOfOptionsToRankCheckbox = getMinOptionsToBeRankedCheckbox(questionNumber);
+
+        waitForPageToScroll();
         minNumberOfOptionsToRankCheckbox.click();
     }
 
-    public void clearMinRankRecipients(int questionNumber) {
-        By inputSelector = By.id("minRecipientsToBeRanked-" + questionNumber);
+    public void clearMinRankOptions(int questionNumber) {
+        WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
 
-        WebElement minRecipientsToBeRankedInput = browser.driver.findElement(inputSelector);
-        ThreadHelper.waitFor(1000);
+        waitForPageToScroll();
         minRecipientsToBeRankedInput.click();
         minRecipientsToBeRankedInput.clear();
     }

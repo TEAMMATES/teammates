@@ -89,7 +89,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testCancelAddingNewQuestion();
         testCancelEditQuestion();
 
-        testNewQuestionLink("TEXT");
+        testNewQuestionLink();
         testInputValidationForQuestion();
         testAddQuestionAction();
 
@@ -115,28 +115,37 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testResponseRate();
     }
 
-    private void testRankQuestionOperations() throws Exception {
-        testNewQuestionLink("RANK_RECIPIENTS");
+    // TODO: backend validation
+    private void testRankQuestionOperations() {
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
 
-        ______TS("Empty Rank Options Message");
+        ______TS("Invalid empty number of options a respondent must rank");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
+        feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
+        feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 2");
 
-        feedbackEditPage.clickEnableMinRankRecipients(NEW_QUESTION_INDEX);
-        feedbackEditPage.clearMinRankRecipients(NEW_QUESTION_INDEX);
+        feedbackEditPage.clickEnableMinRankOptions(NEW_QUESTION_INDEX);
+        feedbackEditPage.clearMinRankOptions(NEW_QUESTION_INDEX);
 
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.verifyHtmlFormInputInvalid();
+        feedbackEditPage.verifyHtmlFormInputInvalid("minOptionsToBeRanked-" + NEW_QUESTION_INDEX);
+
+        ______TS("Invalid letters in number of options a respondent must rank");
+        feedbackEditPage.fillRankMinOptionForQuestion(NEW_QUESTION_INDEX, "invalid letters");
+
+        feedbackEditPage.clickAddQuestionButton();
+
+        feedbackEditPage.verifyHtmlFormInputInvalid("minOptionsToBeRanked-" + NEW_QUESTION_INDEX);
 
         ______TS("Success Case");
-        feedbackEditPage.clickEnableMinRankRecipients(NEW_QUESTION_INDEX);
-        feedbackEditPage.clickEnableMinRankRecipients(NEW_QUESTION_INDEX);
+        feedbackEditPage.clickEnableMinRankOptions(NEW_QUESTION_INDEX);
 
         feedbackEditPage.clickAddQuestionButton();
 
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
-        // Delete the Question
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
@@ -253,11 +262,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyStatus(expectedString);
     }
 
-    private void testNewQuestionLink(String questionType) {
+    private void testNewQuestionLink() {
 
         ______TS("new question (frame) link");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType(questionType);
+        feedbackEditPage.selectNewQuestionType("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
         feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
                 "You can see your own feedback in the results page later on.");

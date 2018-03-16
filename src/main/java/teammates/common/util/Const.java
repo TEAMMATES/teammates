@@ -1385,8 +1385,6 @@ public final class Const {
                 "Please enter the maximum number of recipients each respondents should give feedback to.";
         public static final String FEEDBACK_QUESTION_TEXTINVALID =
                 "Please enter a valid question. The question text cannot be empty.";
-        public static final String FEEDBACK_QUESTION_RANK_OPTIONS_EMPTY =
-                "%s options respondent must rank is checked but empty. Please fill in a number at least 1 or uncheck.";
 
         public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted successfully!";
         public static final String FEEDBACK_RESPONSES_MISSING_RECIPIENT =

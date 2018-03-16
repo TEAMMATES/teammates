@@ -85,7 +85,7 @@ import {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
-    prepareRankedQuestionCheckbox,
+    bindAutoFillEmptyRankOptionsChangeEvent,
 } from '../common/questionRank';
 
 import {
@@ -492,7 +492,7 @@ function enableQuestion(questionNum) {
 }
 
 /**
- * Enables editing of question fields and enables the "save changes" button for
+ *Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
  */
@@ -770,6 +770,7 @@ function prepareQuestionForm(type) {
         $(`#rankOption_Recipient-${NEW_QUESTION}`).hide();
         showRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_OPTION);
+
         $('#rankOptionsForm').show();
         break;
     case 'RANK_RECIPIENTS':
@@ -777,6 +778,7 @@ function prepareQuestionForm(type) {
         $(`#rankOption_Option-${NEW_QUESTION}`).hide();
         hideRankOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_RANK_RECIPIENT);
+
         $('#rankRecipientsForm').show();
         break;
     default:
@@ -1156,7 +1158,7 @@ function readyFeedbackEditPage() {
     bindMoveRubricColButtons();
     bindRankEvents();
 
-    prepareRankedQuestionCheckbox();
+    bindAutoFillEmptyRankOptionsChangeEvent();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
@@ -1187,6 +1189,7 @@ $(document).ready(() => {
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
+
     $('#fsSaveLink').on('click', (e) => {
         checkEditFeedbackSession(e.currentTarget.form);
     });

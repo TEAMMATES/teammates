@@ -235,22 +235,25 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
     }
 }
 
-function prepareRankedQuestionCheckbox() {
+/**
+ * For Rank Options and Rank Recipients questions, set
+ * input number field for min and max options
+ * to 1 when corresponding checkbox is checked.
+ */
+function bindAutoFillEmptyRankOptionsChangeEvent() {
     $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED}]`
             + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED}]`
             + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED}]`
             + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED}]`).change((e) => {
-        const inputId = $(e.currentTarget).data('linkedInputId');
-        const correspondingInput = $(`#${inputId}`);
+        const linkedInputId = $(e.currentTarget).data('linkedInputId');
+        const correspondingInput = $(`#${linkedInputId}`);
 
-        if ($(e.currentTarget).is(':checked')) {
+        if ($(e.currentTarget).prop('checked')) {
             if ($(correspondingInput).val() === '') {
                 $(correspondingInput).val('1');
             }
 
             $(correspondingInput).prop('required', true);
-        } else {
-            $(correspondingInput).prop('required', false);
         }
     });
 }
@@ -264,5 +267,5 @@ export {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
-    prepareRankedQuestionCheckbox,
+    bindAutoFillEmptyRankOptionsChangeEvent,
 };

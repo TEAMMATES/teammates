@@ -83,11 +83,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         String maxOptionsToBeRankedParameter = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED));
 
-        Integer parsedMinOptionsToBeRanked = Ints.tryParse(minOptionsToBeRankedParameter);
-        Integer parsedMaxOptionsToBeRanked = Ints.tryParse(maxOptionsToBeRankedParameter);
-
-        minOptionsToBeRanked = MoreObjects.firstNonNull(parsedMinOptionsToBeRanked, NO_VALUE);
-        maxOptionsToBeRanked = MoreObjects.firstNonNull(parsedMaxOptionsToBeRanked, NO_VALUE);
+        minOptionsToBeRanked = MoreObjects.firstNonNull(Ints.tryParse(minOptionsToBeRankedParameter), NO_VALUE);
+        maxOptionsToBeRanked = MoreObjects.firstNonNull(Ints.tryParse(maxOptionsToBeRankedParameter), NO_VALUE);
 
         return true;
     }
@@ -193,12 +190,12 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()),
                 Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "" : "disabled",
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED,
-                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                        ? Integer.toString(maxOptionsToBeRanked) : "",
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED,
+                isMaxOptionsToBeRankedEnabled ? Integer.toString(maxOptionsToBeRanked) : "",
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED,
-                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                        ? Integer.toString(minOptionsToBeRanked) : ""
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED,
+                isMinOptionsToBeRankedEnabled ? Integer.toString(minOptionsToBeRanked) : ""
                 );
     }
 
@@ -249,16 +246,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
                 Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MIN_OPTIONS_CHECKBOX,
-                        Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED,
+                Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED,
                 Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED,
-                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED, isMinOptionsToBeRankedEnabled
-                        ? Integer.toString(minOptionsToBeRanked) : "",
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED,
+                isMinOptionsToBeRankedEnabled ? Integer.toString(minOptionsToBeRanked) : "",
                 Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "",
                 Slots.RANK_PARAM_MAX_OPTIONS_CHECKBOX,
-                        Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED,
+                Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED,
                 Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED,
-                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED, isMaxOptionsToBeRankedEnabled
-                        ? Integer.toString(maxOptionsToBeRanked) : "",
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED,
+                isMaxOptionsToBeRankedEnabled ? Integer.toString(maxOptionsToBeRanked) : "",
                 Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
 
     }

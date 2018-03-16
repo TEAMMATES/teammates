@@ -358,6 +358,14 @@ public abstract class AppPage {
     }
 
     /**
+     * Waits for page to scroll with 1 second upper bound.
+     * Temporary solution until we can detect specifically when page scrolling.
+     */
+    public void waitForPageToScroll() {
+        ThreadHelper.waitFor(1000);
+    }
+
+    /**
      * Switches to the new browser window just opened.
      */
     protected void switchToNewWindow() {
@@ -493,6 +501,12 @@ public abstract class AppPage {
         click(textBoxElement);
         textBoxElement.clear();
         textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
+    }
+
+    protected void fillInputElement(WebElement inputElement, String value) {
+        inputElement.click();
+        inputElement.clear();
+        inputElement.sendKeys(value);
     }
 
     protected void fillRichTextEditor(String id, String content) {
@@ -1033,10 +1047,10 @@ public abstract class AppPage {
         browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void verifyHtmlFormInputInvalid() {
-        List<WebElement> inputInvalid = browser.driver.findElements(By.cssSelector("input:invalid"));
+    public void verifyHtmlFormInputInvalid(String inputId) {
+        WebElement inputInvalid = browser.driver.findElement(By.cssSelector("input:invalid"));
 
-        assertTrue(!inputInvalid.isEmpty());
+        assertEquals(inputInvalid.getAttribute("id"), inputId);
     }
 
     public void changeToMobileView() {
