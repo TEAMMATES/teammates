@@ -2,6 +2,7 @@ package teammates.test.cases.browsertests;
 
 import java.util.Collections;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -50,6 +51,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testConstSumPointsDisableAction();
     }
 
     @Override
@@ -148,4 +150,30 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    /**
+     * Test that the constSumPoints* number fields gets disabled, if the corresponding radio button is not checked.
+     */
+    private void testConstSumPointsDisableAction() {
+        ______TS("Success case: CONSTSUM-recipient points to distribute field disables when radio button is unchecked");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
+
+        //Make sure that constSumPointsTotal radio button is selected by default
+        assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());
+        //verify that constSumPointsForEachOption field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachRecipient--1")));
+        //Select constSumPointsPerOption radio button
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerRecipient");
+        //verify that constSumPoints field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPoints--1")));
+        //Select constSumPointsTotal radio button.
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("Total");
+        //verify that constSumPointsForEachOption field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachRecipient--1")));
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+    }
 }
