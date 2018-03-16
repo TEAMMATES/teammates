@@ -237,13 +237,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Inverse of {@link #convertLocalDateToUtc}.
-     */
-    public static Date convertUtcToLocalDate(Date utcDate, double timeZone) {
-        return convertLocalDateToUtc(utcDate, -timeZone);
-    }
-
-    /**
      * Format {@code localDateTime} according to a specified {@code pattern}.
      * PM is especially formatted as NOON if it's 12:00 PM, if present
      */
