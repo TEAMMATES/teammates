@@ -1,11 +1,17 @@
 package teammates.logic.core;
 
+import java.io.IOException;
+
 import org.jsoup.Jsoup;
 
+import com.sendgrid.Content;
+import com.sendgrid.Email;
+import com.sendgrid.Mail;
+import com.sendgrid.Method;
+import com.sendgrid.Personalization;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
-import com.sendgrid.SendGrid.Email;
-import com.sendgrid.SendGrid.Response;
-import com.sendgrid.SendGridException;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
@@ -25,30 +31,39 @@ public class SendgridService extends EmailSenderService {
      * {@inheritDoc}
      */
     @Override
-    public Email parseToEmail(EmailWrapper wrapper) {
-        Email email = new Email();
-        email.setFrom(wrapper.getSenderEmail());
-        if (wrapper.getSenderName() != null && !wrapper.getSenderName().isEmpty()) {
-            email.setFromName(wrapper.getSenderName());
+    public Mail parseToEmail(EmailWrapper wrapper) {
+        Mail email = new Mail();
+        Email sender;
+        if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
+            sender = new Email(wrapper.getSenderEmail());
+        } else {
+            sender = new Email(wrapper.getSenderEmail(), wrapper.getSenderName());
         }
-        email.setReplyTo(wrapper.getReplyTo());
-        email.addTo(wrapper.getRecipient());
+        email.setFrom(sender);
+        email.setReplyTo(new Email(wrapper.getReplyTo()));
+        Personalization personalization = new Personalization();
+        personalization.addTo(new Email(wrapper.getRecipient()));
         if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
-            email.addBcc(wrapper.getBcc());
+            personalization.addBcc(new Email(wrapper.getBcc()));
         }
+        email.addPersonalization(personalization);
         email.setSubject(wrapper.getSubject());
-        email.setHtml(wrapper.getContent());
-        email.setText(Jsoup.parse(wrapper.getContent()).text());
+        email.addContent(new Content("text/plain", Jsoup.parse(wrapper.getContent()).text()));
+        email.addContent(new Content("text/html", wrapper.getContent()));
         return email;
     }
 
     @Override
-    protected void sendEmailWithService(EmailWrapper wrapper) throws SendGridException {
-        Email email = parseToEmail(wrapper);
+    protected void sendEmailWithService(EmailWrapper wrapper) throws IOException {
+        Mail email = parseToEmail(wrapper);
         SendGrid sendgrid = new SendGrid(Config.SENDGRID_APIKEY);
-        Response response = sendgrid.send(email);
-        if (response.getCode() != SUCCESS_CODE) {
-            log.severe("Email failed to send: " + response.getMessage());
+        Request request = new Request();
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(email.build());
+        Response response = sendgrid.api(request);
+        if (response.getStatusCode() != SUCCESS_CODE) {
+            log.severe("Email failed to send: " + response.getBody());
         }
     }
 

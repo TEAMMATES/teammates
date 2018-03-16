@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
@@ -23,8 +25,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private int iterationCounter;
 
-    private HashMap<String, String> courseIdToInstituteMap = new HashMap<>();
-    private HashMap<String, String> googleIdToInstituteMap = new HashMap<>();
+    private Map<String, String> courseIdToInstituteMap = new HashMap<>();
+    private Map<String, String> googleIdToInstituteMap = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
@@ -104,9 +106,9 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private StatsBundle generateStatsPerInstitute(
             List<CourseStudent> allStudents, List<Instructor> allInstructors, List<Account> allAccounts) {
-        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<>();
-        HashSet<String> allInstructorEmailSet = new HashSet<>();
-        HashSet<String> allStudentEmailSet = new HashSet<>();
+        Map<String, Map<Integer, Set<String>>> institutes = new HashMap<>();
+        Set<String> allInstructorEmailSet = new HashSet<>();
+        Set<String> allStudentEmailSet = new HashSet<>();
         int studentEmailCounter = 0;
         int instructorEmailCounter = 0;
 
@@ -119,7 +121,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             String institute = getInstituteForInstructor(instructor, allAccounts);
 
             if (!institutes.containsKey(institute)) {
-                institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+                institutes.put(institute, new HashMap<Integer, Set<String>>());
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
@@ -138,7 +140,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             String institute = getInstituteForStudent(student, allInstructors, allAccounts);
 
             if (!institutes.containsKey(institute)) {
-                institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+                institutes.put(institute, new HashMap<Integer, Set<String>>());
 
                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
@@ -250,7 +252,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private List<InstituteStats> convertToList(
-            HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
+            Map<String, Map<Integer, Set<String>>> institutes) {
         List<InstituteStats> list = new ArrayList<>();
         institutes.forEach((insName, insStudents) -> {
             InstituteStats insStat = new InstituteStats();

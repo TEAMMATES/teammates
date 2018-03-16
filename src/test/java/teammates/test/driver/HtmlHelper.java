@@ -41,7 +41,7 @@ public final class HtmlHelper {
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] ([AP]M|NOON)";
     private static final String REGEX_DISPLAY_TIME_ISO_8601_UTC =
-            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z";
+            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.([0-9]{3}|[0-9]{6}))?Z";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
     private static final String REGEX_TIMEZONE_OFFSET = "UTC([+-]\\d{4})";
@@ -159,6 +159,9 @@ public final class HtmlHelper {
                         || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
+                } else if (isTinymceStyleDiv(attribute)) {
+                    // ignore as the style definition differs across browsers
+                    return ignoreNode();
                 } else if (isMotdContainerAttribute(attribute)) {
                     // replace MOTD content with placeholder
                     return generateStudentMotdPlaceholder(indentation);
@@ -180,8 +183,7 @@ public final class HtmlHelper {
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 if (isTinymceStyleAttribute(attribute)) {
-                    // the style definition differs across browsers; replace with placeholder
-                    // return generateTinymceStylePlaceholder(indentation);
+                    // ignore as the style definition differs across browsers
                     return ignoreNode();
                 }
             }
@@ -205,10 +207,6 @@ public final class HtmlHelper {
     private static String generateDatepickerPlaceholder(String indentation) {
         return indentation + "${datepicker}" + System.lineSeparator();
     }
-
-    // private static String generateTinymceStylePlaceholder(String indentation) {
-    //     return indentation + "${tinymce.style}" + System.lineSeparator();
-    // }
 
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
         StringBuilder currentHtmlText = new StringBuilder();
@@ -250,6 +248,15 @@ public final class HtmlHelper {
         return !("html".equals(currentNodeName)
                  || "head".equals(currentNodeName)
                  || "body".equals(currentNodeName));
+    }
+
+    private static boolean isTinymceStyleDiv(Node attribute) {
+        if (!"style".equalsIgnoreCase(attribute.getNodeName())) {
+            return false;
+        }
+        String value = attribute.getNodeValue();
+        return value.contains("position: static") && value.contains("height: 0px") && value.contains("width: 0px")
+                && value.contains("padding: 0px") && value.contains("margin: 0px");
     }
 
     private static boolean isTinymceStyleAttribute(Node attribute) {
@@ -523,7 +530,8 @@ public final class HtmlHelper {
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
                       .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
-                      .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(now));
+                      .replace("<!-- now.datetime.courses -->",
+                              TimeHelper.formatDateTimeForInstructorCoursesPage(now, "UTC"));
     }
 
     private static TimeZone getTimeZone(String content) {

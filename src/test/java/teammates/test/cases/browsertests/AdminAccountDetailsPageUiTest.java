@@ -49,14 +49,14 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase {
         String courseId = "AAMgtUiT.CS2104";
 
         detailsPage.clickRemoveInstructorFromCourse(courseId)
-            .verifyStatus(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
+            .waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
         assertNull(BackDoor.getInstructorByGoogleId(googleId, courseId));
 
         ______TS("action: remove student from course");
 
         courseId = "AAMgtUiT.CS1101";
         detailsPage.clickRemoveStudentFromCourse(courseId)
-            .verifyStatus(Const.StatusMessages.STUDENT_DELETED);
+            .waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_DELETED);
         assertNull(BackDoor.getStudent(courseId, "AAMgtUiT.instr2@gmail.com"));
         detailsPage.verifyHtmlMainContent("/adminAccountDetailsRemoveStudent.html");
     }

@@ -1,7 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.Comparator;
-import java.util.Date;
 
 import teammates.common.util.Assumption;
 
@@ -28,13 +28,13 @@ public interface SessionAttributes {
         int result = 0;
 
         //Compares end times
-        result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? 1
-                : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? -1 : 0;
+        result = session1.getSessionEndTime().isAfter(session2.getSessionEndTime()) ? 1
+                : session1.getSessionEndTime().isBefore(session2.getSessionEndTime()) ? -1 : 0;
 
         //If the end time is same, compares start times
         if (result == 0) {
-            result = session1.getSessionStartTime().after(session2.getSessionStartTime()) ? 1
-                    : session1.getSessionStartTime().before(session2.getSessionStartTime()) ? -1 : 0;
+            result = session1.getSessionStartTime().isAfter(session2.getSessionStartTime()) ? 1
+                    : session1.getSessionStartTime().isBefore(session2.getSessionStartTime()) ? -1 : 0;
         }
 
         //if both end and start time is same, compares session name
@@ -60,13 +60,13 @@ public interface SessionAttributes {
         int result = 0;
 
         //Compares end times
-        result = session1.getSessionEndTime().after(session2.getSessionEndTime()) ? -1
-                : session1.getSessionEndTime().before(session2.getSessionEndTime()) ? 1 : 0;
+        result = session1.getSessionEndTime().isAfter(session2.getSessionEndTime()) ? -1
+                : session1.getSessionEndTime().isBefore(session2.getSessionEndTime()) ? 1 : 0;
 
         //If the end time is same, compares start times
         if (result == 0) {
-            result = session1.getSessionStartTime().after(session2.getSessionStartTime()) ? -1
-                    : session1.getSessionStartTime().before(session2.getSessionStartTime()) ? 1 : 0;
+            result = session1.getSessionStartTime().isAfter(session2.getSessionStartTime()) ? -1
+                    : session1.getSessionStartTime().isBefore(session2.getSessionStartTime()) ? 1 : 0;
         }
 
         //if both end and start time is same, compares session name
@@ -76,9 +76,9 @@ public interface SessionAttributes {
         return result;
     };
 
-    Date getSessionStartTime();
+    Instant getSessionStartTime();
 
-    Date getSessionEndTime();
+    Instant getSessionEndTime();
 
     String getSessionName();
 
