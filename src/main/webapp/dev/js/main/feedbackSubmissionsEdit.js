@@ -494,8 +494,8 @@ function updateConstSumMessageQn(qnNum) {
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
 
     const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
-    const forceUnevenDistribution = constSumDistributePointsOptionSelected
-            !== ParamsNames.FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION;
+    const allowEvenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION;
     const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
             === ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION;
     const forceSomeUnevenDistribution = constSumDistributePointsOptionSelected
@@ -534,7 +534,8 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
         } else if (remainingPoints === 0) {
-            if (!forceUnevenDistribution || allUnique || (forceSomeUnevenDistribution && !allSame)) {
+            if (allowEvenDistribution || (forceAllUnevenDistribution && allUnique)
+                    || (forceSomeUnevenDistribution && !allSame)) {
                 message = 'All points distributed!';
                 messageElement.addClass('text-color-green');
                 messageElement.removeClass('text-color-red');
