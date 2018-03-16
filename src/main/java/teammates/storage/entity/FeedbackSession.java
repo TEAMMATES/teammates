@@ -204,6 +204,14 @@ public class FeedbackSession extends BaseEntity {
         }
     }
 
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void adjustFeedbackSessionType() {
+        if (getFeedbackSessionType() == FeedbackSessionType.PRIVATE) {
+            setFeedbackSessionType(FeedbackSessionType.STANDARD);
+        }
+    }
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
