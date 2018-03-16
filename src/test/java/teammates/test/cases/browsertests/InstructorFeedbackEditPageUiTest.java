@@ -140,7 +140,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlFormInputInvalid("minOptionsToBeRanked-" + NEW_QUESTION_INDEX);
 
         ______TS("Success Case");
-        feedbackEditPage.clickEnableMinRankOptions(NEW_QUESTION_INDEX);
+        feedbackEditPage.fillRankMinOptionForQuestion(NEW_QUESTION_INDEX, "1");
 
         feedbackEditPage.clickAddQuestionButton();
 

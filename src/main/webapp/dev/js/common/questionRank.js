@@ -239,6 +239,10 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
  * For Rank Options and Rank Recipients questions, set
  * input number field for min and max options
  * to 1 when corresponding checkbox is checked.
+ *
+ * Add 'required' to input for HTML validation when clicked on checkbox
+ * 
+ * TODO: Add 'required' to HTML file instead, but redesign form to exclude other questions.
  */
 function bindAutoFillEmptyRankOptionsChangeEvent() {
     $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED}]`
