@@ -770,6 +770,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 }
             }
 
+            //Check that points are given unevenly for all/at least some options as per the question settings
             Set<Integer> answerSet = new HashSet<>();
             if (distributePointsFor.equals(
                     FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
