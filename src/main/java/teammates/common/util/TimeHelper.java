@@ -381,17 +381,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Converts the date string to a Date object.
-     *
-     * @param dateInStringFormat should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
-     * @deprecated Use {@link TimeHelper#parseInstant(String)} instead
-     */
-    @Deprecated
-    public static Date convertToDate(String dateInStringFormat) {
-        return convertInstantToDate(parseInstant(dateInStringFormat));
-    }
-
-    /**
      * Converts the datetime string to an Instant object.
      *
      * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
@@ -404,17 +393,6 @@ public final class TimeHelper {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
-    }
-
-    // TODO: both Date and Calendar will become Instant so this should be removed totally
-    @Deprecated
-    public static Calendar dateToCalendar(Date date) {
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        if (date == null) {
-            return c;
-        }
-        c.setTime(date);
-        return c;
     }
 
     /**
