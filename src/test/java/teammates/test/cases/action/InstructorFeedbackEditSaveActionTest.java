@@ -102,7 +102,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">From:</span> 2012-01-31T18:15:00Z"
                 + "<span class=\"bold\"> to</span> 2014-12-31T18:15:00Z<br>"
                 + "<span class=\"bold\">Session visible from:</span> 1970-11-27T00:00:00Z<br>"
-                + "<span class=\"bold\">Results visible from:</span> 1970-11-27T00:00:00Z<br><br>"
+                + "<span class=\"bold\">Results visible from:</span> 1970-01-01T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
@@ -139,14 +139,14 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("success: Masquerade mode, never release results, invalid timezone and graceperiod");
+        ______TS("success: Masquerade mode, manual release results, invalid timezone and graceperiod");
 
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
-        params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
+        params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
         params[25] = " ";
         params[27] = "12dsf";
 
@@ -168,7 +168,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">From:</span> 2012-02-01T00:00:00Z"
                 + "<span class=\"bold\"> to</span> 2015-01-01T00:00:00Z<br>"
                 + "<span class=\"bold\">Session visible from:</span> 2012-01-01T00:00:00Z<br>"
-                + "<span class=\"bold\">Results visible from:</span> 1970-11-27T00:00:00Z<br><br>"
+                + "<span class=\"bold\">Results visible from:</span> 1970-01-01T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);

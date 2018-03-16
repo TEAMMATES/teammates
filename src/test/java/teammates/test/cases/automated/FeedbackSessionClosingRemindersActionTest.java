@@ -1,5 +1,6 @@
 package teammates.test.cases.automated;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
         // Modify session to close in 24 hours
 
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        session1.setTimeZone(0);
+        session1.setTimeZone(ZoneId.of("UTC"));
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         fsLogic.updateFeedbackSession(session1);
@@ -54,7 +55,7 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
         // Ditto, but disable the closing reminder
 
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse2");
-        session2.setTimeZone(0);
+        session2.setTimeZone(ZoneId.of("UTC"));
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session2.setClosingEmailEnabled(false);
@@ -64,7 +65,7 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
         // 1 session not yet opened; do not send the closing reminder
 
         FeedbackSessionAttributes session3 = dataBundle.feedbackSessions.get("gracePeriodSession");
-        session3.setTimeZone(0);
+        session3.setTimeZone(ZoneId.of("UTC"));
         session3.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1));
         session3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         fsLogic.updateFeedbackSession(session3);

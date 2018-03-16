@@ -1,6 +1,8 @@
 package teammates.ui.pagedata;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -102,10 +104,10 @@ public class PageData {
         return result;
     }
 
-    public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
+    public static List<ElementTag> getTimeZoneOptionsAsElementTags(ZoneId existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
         ArrayList<ElementTag> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
+        if (existingTimeZone == null) {
             ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
             result.add(option);
         }
@@ -114,7 +116,13 @@ public class PageData {
             String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
             String textToDisplay = "(" + utcFormatOption
                                             + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
+
+            boolean isExistingTimeZone = false;
+            if (existingTimeZone != null) {
+                int timeZoneOptionOffsetInSeconds = (int) (timeZoneOption * 60 * 60);
+                int existingZoneOffsetInSeconds = existingTimeZone.getRules().getOffset(Instant.now()).getTotalSeconds();
+                isExistingTimeZone = existingZoneOffsetInSeconds == timeZoneOptionOffsetInSeconds;
+            }
 
             ElementTag option = createOption(textToDisplay,
                                              formatAsString(timeZoneOption), isExistingTimeZone);
@@ -174,7 +182,7 @@ public class PageData {
     /**
      * Returns the grace period options as HTML code.
      */
-    public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
+    public static List<ElementTag> getGracePeriodOptionsAsElementTags(long existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<>();
         for (int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(i + " mins", String.valueOf(i),
@@ -626,9 +634,7 @@ public class PageData {
     }
 
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "-";
-        } else if (session.isPublished()) {
+        if (session.isPublished()) {
             return "Published";
         } else {
             return "Not Published";
@@ -664,8 +670,6 @@ public class PageData {
     public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
-        } else if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
         } else if (session.isPublished()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
         } else {
@@ -758,7 +762,7 @@ public class PageData {
         return false;
     }
 
-    private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
+    private static boolean isGracePeriodToBeSelected(long existingGracePeriodValue, long gracePeriodOptionValue) {
         boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;

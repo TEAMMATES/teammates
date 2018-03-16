@@ -27,8 +27,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
     @BeforeClass
     public void classSetup() {
-        double timeZoneOffset = 8;
-        ZoneId timeZone = TimeHelper.convertToZoneId(timeZoneOffset);
+        ZoneId timeZone = ZoneId.of("UTC+08:00");
         startTime = TimeHelper.convertLocalDateTimeToInstant(
                 TimeHelper.combineDateTime("Mon, 09 May, 2016", "1000"), timeZone);
         endTime = TimeHelper.convertLocalDateTimeToInstant(
@@ -38,8 +37,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .builder("", "", "")
                 .withStartTime(startTime)
                 .withEndTime(endTime)
-                .withTimeZone(timeZoneOffset)
-                .withGracePeriod(15)
+                .withTimeZone(timeZone)
+                .withGracePeriodMinutes(15)
                 .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withOpeningEmailEnabled(false)
                 .withClosingEmailEnabled(false)
@@ -72,7 +71,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(8).withGracePeriod(0).withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withTimeZone(ZoneId.of("UTC+08:00")).withGracePeriodMinutes(0)
+                .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
                 .build();
 
@@ -88,7 +88,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.getSessionVisibleFromTime(), copy.getSessionVisibleFromTime());
         assertEquals(original.getResultsVisibleFromTime(), copy.getResultsVisibleFromTime());
         assertEquals(original.getTimeZone(), copy.getTimeZone());
-        assertEquals(original.getGracePeriod(), copy.getGracePeriod());
+        assertEquals(original.getGracePeriodMinutes(), copy.getGracePeriodMinutes());
         assertEquals(original.getFeedbackSessionType(), copy.getFeedbackSessionType());
         assertEquals(original.isOpeningEmailEnabled(), copy.isOpeningEmailEnabled());
         assertEquals(original.isClosingEmailEnabled(), copy.isClosingEmailEnabled());

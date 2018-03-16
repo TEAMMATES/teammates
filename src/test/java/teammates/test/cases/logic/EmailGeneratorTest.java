@@ -1,12 +1,11 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
@@ -160,20 +159,19 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session submission email");
 
-        Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        time.set(2016, Calendar.SEPTEMBER, 4, 5, 30);
+        Instant time = TimeHelper.parseInstant("2016-09-04 05:30 AM +0000");
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
         verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
 
-        setTimeZoneButMaintainLocalDate(session, -9.5);
+        setTimeZoneButMaintainLocalDate(session, ZoneId.of("UTC-09:30"));
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
         verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailNegativeTimeZone.html");
 
-        setTimeZoneButMaintainLocalDate(session, -0.0);
+        setTimeZoneButMaintainLocalDate(session, ZoneId.of("UTC"));
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
@@ -247,8 +245,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session submission email: sanitization required");
 
-        Calendar time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        time.set(2016, Calendar.SEPTEMBER, 4, 5, 30);
+        Instant time = TimeHelper.parseInstant("2016-09-04 05:30 AM +0000");
 
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
@@ -464,17 +461,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
         assertEquals(content, email.getContent());
     }
 
-    private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, double newTimeZone) {
+    private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {
         LocalDateTime localStart = session.getStartTimeLocal();
         LocalDateTime localEnd = session.getEndTimeLocal();
         LocalDateTime localSessionVisibleFrom = session.getSessionVisibleFromTimeLocal();
         LocalDateTime localResultsVisibleFrom = session.getResultsVisibleFromTimeLocal();
-        ZoneId newTimeZoneId = TimeHelper.convertToZoneId(newTimeZone);
         session.setTimeZone(newTimeZone);
-        session.setStartTime(TimeHelper.convertLocalDateTimeToInstant(localStart, newTimeZoneId));
-        session.setEndTime(TimeHelper.convertLocalDateTimeToInstant(localEnd, newTimeZoneId));
-        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localSessionVisibleFrom, newTimeZoneId));
-        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localResultsVisibleFrom, newTimeZoneId));
+        session.setStartTime(TimeHelper.convertLocalDateTimeToInstant(localStart, newTimeZone));
+        session.setEndTime(TimeHelper.convertLocalDateTimeToInstant(localEnd, newTimeZone));
+        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localSessionVisibleFrom, newTimeZone));
+        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localResultsVisibleFrom, newTimeZone));
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)

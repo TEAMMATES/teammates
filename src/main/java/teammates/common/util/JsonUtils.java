@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -36,12 +37,14 @@ public final class JsonUtils {
      * Json file and also reformat the Json string in pretty-print format.
      */
     private static Gson getTeammatesGson() {
-        return new GsonBuilder().registerTypeAdapter(Date.class, new TeammatesDateAdapter())
-                                .registerTypeAdapter(Instant.class, new TeammatesInstantAdapter())
-                                .registerTypeAdapter(ZoneId.class, new TeammatesZoneIdAdapter())
-                                .setPrettyPrinting()
-                                .disableHtmlEscaping()
-                                .create();
+        return new GsonBuilder()
+                .registerTypeAdapter(Date.class, new TeammatesDateAdapter())
+                .registerTypeAdapter(Instant.class, new TeammatesInstantAdapter())
+                .registerTypeAdapter(ZoneId.class, new TeammatesZoneIdAdapter())
+                .registerTypeAdapter(Duration.class, new TeammatesDurationMinutesAdapter())
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .create();
     }
 
     /**
@@ -146,6 +149,19 @@ public final class JsonUtils {
             } catch (DateTimeException e) {
                 throw new JsonSyntaxException(element.getAsString(), e);
             }
+        }
+    }
+
+    private static class TeammatesDurationMinutesAdapter implements JsonSerializer<Duration>, JsonDeserializer<Duration> {
+
+        @Override
+        public synchronized JsonElement serialize(Duration duration, Type type, JsonSerializationContext context) {
+            return new JsonPrimitive(duration.toMinutes());
+        }
+
+        @Override
+        public synchronized Duration deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
+            return Duration.ofMinutes(element.getAsLong());
         }
     }
 }

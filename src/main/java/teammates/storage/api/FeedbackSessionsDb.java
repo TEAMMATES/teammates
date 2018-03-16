@@ -165,8 +165,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         fs.setEndTime(newAttributes.getEndTime());
         fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
         fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
-        fs.setOffset(newAttributes.getTimeZone());
-        fs.setGracePeriod(newAttributes.getGracePeriod());
+        fs.setTimeZone(newAttributes.getTimeZone().getId());
+        fs.setGracePeriod(newAttributes.getGracePeriodMinutes());
         fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
         fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
         fs.setSentClosingEmail(newAttributes.isSentClosingEmail());
