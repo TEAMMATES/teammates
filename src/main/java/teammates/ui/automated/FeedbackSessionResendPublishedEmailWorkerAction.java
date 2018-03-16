@@ -15,7 +15,7 @@ import teammates.logic.api.EmailGenerator;
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.
  */
-public class FeedbackSessionPublishedEmailParticularStudentsWorkerAction extends AutomatedAction {
+public class FeedbackSessionResendPublishedEmailWorkerAction extends AutomatedAction {
 
     private static final Logger log = Logger.getLogger();
 
@@ -33,7 +33,7 @@ public class FeedbackSessionPublishedEmailParticularStudentsWorkerAction extends
     public void execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
         String courseId = getNonNullRequestParamValue(ParamsNames.SUBMISSION_COURSE);
-        String[] usersToRemind = getNonNullRequestParamValues(ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST);
+        String[] usersToRemind = getNonNullRequestParamValues(ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

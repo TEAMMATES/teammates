@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.ui.pagedata.InstructorFeedbackRemindParticularStudentsPageData;
+import teammates.ui.pagedata.InstructorFeedbackAjaxStudentsListPageData;
 
 public class InstructorFeedbackPublishEmailParticularStudentsPageAction extends Action {
 
@@ -25,11 +25,11 @@ public class InstructorFeedbackPublishEmailParticularStudentsPageAction extends 
         FeedbackSessionResponseStatus fsResponseStatus =
                 logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
 
-        InstructorFeedbackRemindParticularStudentsPageData data =
-                new InstructorFeedbackRemindParticularStudentsPageData(account, sessionToken, fsResponseStatus,
+        InstructorFeedbackAjaxStudentsListPageData data =
+                new InstructorFeedbackAjaxStudentsListPageData(account, sessionToken, fsResponseStatus,
                                                                        courseId, feedbackSessionName);
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_PUBLISH_AJAX_EMAIL_PARTICULAR_STUDENTS_MODAL, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_RESEND_PUBLISHED_EMAIL_MODAL, data);
     }
 
 }

@@ -13,18 +13,18 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.CoursesLogic;
-import teammates.ui.automated.FeedbackSessionPublishedEmailParticularStudentsWorkerAction;
+import teammates.ui.automated.FeedbackSessionResendPublishedEmailWorkerAction;
 
 /**
- * SUT: {@link FeedbackSessionRemindParticularUsersEmailWorkerAction}.
+ * SUT: {@link FeedbackSessionResendPublishedEmailWorkerAction}.
  */
-public class FeedbackSessionPublishedEmailParticularStudentsWorkerActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAutomatedActionTest {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     protected String getActionUri() {
-        return Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_WORKER_URL;
+        return Const.TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL;
     }
 
     @Test
@@ -39,12 +39,12 @@ public class FeedbackSessionPublishedEmailParticularStudentsWorkerActionTest ext
         String[] submissionParams = new String[] {
                 ParamsNames.SUBMISSION_FEEDBACK, publishedSession.getFeedbackSessionName(),
                 ParamsNames.SUBMISSION_COURSE, publishedSession.getCourseId(),
-                ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST, student1.email,
-                ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST, instructor1.email,
-                ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST, "non-existent"
+                ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, student1.email,
+                ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, instructor1.email,
+                ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, "non-existent"
         };
 
-        FeedbackSessionPublishedEmailParticularStudentsWorkerAction action = getAction(submissionParams);
+        FeedbackSessionResendPublishedEmailWorkerAction action = getAction(submissionParams);
         action.execute();
 
         // send 2 emails as specified in the submission parameters
@@ -63,8 +63,8 @@ public class FeedbackSessionPublishedEmailParticularStudentsWorkerActionTest ext
     }
 
     @Override
-    protected FeedbackSessionPublishedEmailParticularStudentsWorkerAction getAction(String... params) {
-        return (FeedbackSessionPublishedEmailParticularStudentsWorkerAction)
+    protected FeedbackSessionResendPublishedEmailWorkerAction getAction(String... params) {
+        return (FeedbackSessionResendPublishedEmailWorkerAction)
                 gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 

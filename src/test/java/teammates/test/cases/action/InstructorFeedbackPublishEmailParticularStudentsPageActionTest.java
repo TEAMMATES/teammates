@@ -8,7 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackPublishEmailParticularStudentsPageAction;
 import teammates.ui.controller.ShowPageResult;
-import teammates.ui.pagedata.InstructorFeedbackRemindParticularStudentsPageData;
+import teammates.ui.pagedata.InstructorFeedbackAjaxStudentsListPageData;
 
 /**
  * SUT: {@link InstructorFeedbackPublishEmailParticularStudentsPageAction}.
@@ -17,7 +17,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsPageActionTest exte
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH_EMAIL_PARTICULAR_STUDENTS_PAGE;
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL_PAGE;
     }
 
     @Override
@@ -45,8 +45,8 @@ public class InstructorFeedbackPublishEmailParticularStudentsPageActionTest exte
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorFeedbackRemindParticularStudentsPageData pageData =
-                (InstructorFeedbackRemindParticularStudentsPageData) r.data;
+        InstructorFeedbackAjaxStudentsListPageData pageData =
+                (InstructorFeedbackAjaxStudentsListPageData) r.data;
         assertEquals(5, pageData.getResponseStatus().noResponse.size());
         assertEquals(0, pageData.getResponseStatus().studentsWhoResponded.size());
 

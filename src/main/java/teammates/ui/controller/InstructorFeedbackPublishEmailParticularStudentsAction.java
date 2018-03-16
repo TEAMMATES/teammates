@@ -31,14 +31,14 @@ public class InstructorFeedbackPublishEmailParticularStudentsAction extends Acti
             return createRedirectResult(nextUrl);
         }
 
-        String[] usersToEmail = getRequestParamValues(Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST);
+        String[] usersToEmail = getRequestParamValues(Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST);
         if (usersToEmail == null || usersToEmail.length == 0) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT,
                                                StatusMessageColor.DANGER));
             return createRedirectResult(nextUrl);
         }
 
-        taskQueuer.scheduleFeedbackSessionPublishedEmailParticularUsersEmail(courseId, feedbackSessionName, usersToEmail);
+        taskQueuer.scheduleFeedbackSessionResendPublishedEmail(courseId, feedbackSessionName, usersToEmail);
 
         statusToUser.add(new StatusMessage(
                 Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMAIL_SENT, StatusMessageColor.SUCCESS));

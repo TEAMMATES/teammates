@@ -75,7 +75,7 @@
             data-fsname="${actions.fsName}"
             data-toggle="modal"
             data-target="#publishEmailModal">
-          Inform students
+          Resend link to view results
         </a>
       </li>
       </c:if>

@@ -1,5 +1,5 @@
 import {
-    sendPublishEmailsToStudents,
+    resendPublishedEmailsToStudents,
 } from './instructor';
 
 function bindSelectAllStudentCheckboxEvent() {
@@ -11,7 +11,7 @@ function bindSelectAllStudentCheckboxEvent() {
     });
 }
 
-function preparePublishEmailModal() {
+function prepareResendPublishedEmailModal() {
     $('#publishEmailModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal
         const actionlink = button.data('actionlink');
@@ -42,10 +42,10 @@ function preparePublishEmailModal() {
         const action = $form.attr('action');
         const formData = $form.serialize();
         const url = `${action}&${formData}`;
-        sendPublishEmailsToStudents(url);
+        resendPublishedEmailsToStudents(url);
     });
 }
 
 export {
-    preparePublishEmailModal,
+    prepareResendPublishedEmailModal,
 };

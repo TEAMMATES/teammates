@@ -27,7 +27,7 @@ public class InstructorFeedbackSessionActions {
     private boolean isAllowedToDelete;
     private boolean isAllowedToSubmit;
     private boolean isAllowedToRemind;
-    private boolean isAllowedToEmailPublish;
+    private boolean isAllowedToResendPublishedEmail;
 
     private FeedbackSessionPublishButton publishButton;
 
@@ -70,7 +70,7 @@ public class InstructorFeedbackSessionActions {
 
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
-        this.isAllowedToEmailPublish = session.isPublished() && session.isPublishedEmailEnabled();
+        this.isAllowedToResendPublishedEmail = session.isPublished() && session.isPublishedEmailEnabled();
     }
 
     public boolean isPrivateSession() {
@@ -134,7 +134,7 @@ public class InstructorFeedbackSessionActions {
     }
 
     public boolean isAllowedToEmailPublish() {
-        return isAllowedToEmailPublish;
+        return isAllowedToResendPublishedEmail;
     }
 
     public FeedbackSessionPublishButton getPublishButton() {

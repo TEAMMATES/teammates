@@ -191,6 +191,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
@@ -380,8 +381,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_COPY = "Copy feedback session details";
         public static final String FEEDBACK_SESSION_REMIND =
                 "Send e-mails to remind students and instructors who have not submitted their feedbacks to do so";
-        public static final String FEEDBACK_SESSION_PUBLISH_EMAIL =
-                "Send e-mails to students and instructors notifying that the session results have been published.";
         public static final String FEEDBACK_SESSION_DELETE = "Delete the feedback session";
         public static final String FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";
         public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
@@ -858,14 +857,13 @@ public final class Const {
         public static final String COMMENT_ID = "commentid";
         public static final String COMMENT_TEXT = "commenttext";
 
-        public static final String SEND_PUBLISHED_EMAIL = "sendpublishedemail";
         public static final String SEND_SUBMISSION_EMAIL = "sendsubmissionemail";
 
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_FEEDBACK = "feedback";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
-        public static final String SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST = "usersToEmail";
+        public static final String SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST = "usersToResendEmail";
 
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 
@@ -976,10 +974,10 @@ public final class Const {
                 "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
-        public static final String INSTRUCTOR_FEEDBACK_PUBLISH_EMAIL_PARTICULAR_STUDENTS_PAGE =
-                "/page/instructorFeedbackPublishEmailParticularStudentsPage";
-        public static final String INSTRUCTOR_FEEDBACK_PUBLISH_EMAIL_PARTICULAR_STUDENTS =
-                "/page/instructorFeedbackPublishEmailParticularStudents";
+        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL_PAGE =
+                "/page/instructorFeedbackResendPublishEmailPage";
+        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL =
+                "/page/instructorFeedbackResendPublishEmail";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE = "/page/instructorFeedbackEditCopyPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY = "/page/instructorFeedbackEditCopy";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
@@ -1091,10 +1089,10 @@ public final class Const {
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionPublishedEmail";
 
-        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
-                "feedback-session-published-email-particular-users-email-queue";
-        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_WORKER_URL =
-                "/worker/feedbackSessionPublishedEmailParticularUsersEmail";
+        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-resend-published-email-queue";
+        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionResendPublishedEmail";
 
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
@@ -1156,8 +1154,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
                 "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_PUBLISH_AJAX_EMAIL_PARTICULAR_STUDENTS_MODAL =
-                "/jsp/instructorFeedbackPublishAjaxEmailParticularStudentsModal.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_AJAX_RESEND_PUBLISHED_EMAIL_MODAL =
+                "/jsp/instructorFeedbackAjaxResendPublishedEmailModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
@@ -1381,11 +1379,11 @@ public final class Const {
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_RESEND_LINKS_NOT_PUBLISHED =
                 "The feedback session is not published. "
-                + "You cannot send publication reminders for a session that is not published.";
+                + "You cannot resend published notification emails for a session that is not published.";
         public static final String FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT =
                 "You have not selected any student to email.";
         public static final String FEEDBACK_SESSION_RESEND_LINKS_EMAIL_SENT =
-                "E-mails have been sent out to those students and instructors. "
+                "Session published notification emails have been resent to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT =

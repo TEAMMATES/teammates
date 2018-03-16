@@ -60,7 +60,7 @@
     </queue>
 
     <queue>
-        <name>feedback-session-published-email-particular-users-email-queue</name>
+        <name>feedback-session-resend-published-email-queue</name>
         <!-- Configuration allows for 5 feedback session published emails to be queued for execution every second when the bucket is empty -->
         <rate>5/s</rate>
         <bucket-size>5</bucket-size>

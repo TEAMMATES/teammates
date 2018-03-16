@@ -197,15 +197,15 @@ public class TaskQueuer {
      * @param feedbackSessionName the name of the feedback session
      * @param usersToEmail the group of users to send the reminders to
      */
-    public void scheduleFeedbackSessionPublishedEmailParticularUsersEmail(String courseId, String feedbackSessionName,
-                                                                   String[] usersToEmail) {
+    public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
+                                                            String[] usersToEmail) {
         Map<String, String[]> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[] { feedbackSessionName });
         paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[] { courseId });
-        paramMap.put(ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST, usersToEmail);
+        paramMap.put(ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, usersToEmail);
 
-        addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
-                             TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
+        addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
+                             TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, paramMap);
     }
 
     /**

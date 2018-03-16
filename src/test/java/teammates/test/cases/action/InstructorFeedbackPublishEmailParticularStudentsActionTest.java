@@ -17,7 +17,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsActionTest extends 
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH_EMAIL_PARTICULAR_STUDENTS;
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsActionTest extends 
         String[] paramsFeedbackSessionNotPublshed = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
-                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST, studentToEmail.getEmail()
+                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentToEmail.getEmail()
         };
 
         action = getAction(paramsFeedbackSessionNotPublshed);
@@ -73,7 +73,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsActionTest extends 
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
-                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST, studentToEmail.getEmail()
+                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentToEmail.getEmail()
         };
 
         action = getAction(paramsTypical);
@@ -82,7 +82,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsActionTest extends 
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMAIL_SENT));
 
         verifySpecifiedTasksAdded(action,
-                TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_PARTICULAR_USERS_EMAIL_QUEUE_NAME, 1);
+                TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME, 1);
 
     }
 
@@ -100,7 +100,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsActionTest extends 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST, studentNotSubmitFeedback.getEmail()
+                Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentNotSubmitFeedback.getEmail()
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

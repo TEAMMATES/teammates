@@ -1,13 +1,13 @@
 <%@ tag description="instructorHome - Publish email modal" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="sessionPublishEmailParticularStudentsLink" required="true" %>
+<%@ attribute name="sessionResendPublishedEmailLink" required="true" %>
 
 <div class="modal fade" id="publishEmailModal" tabindex="-1" role="dialog"
     aria-labelledby="publishEmailModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form method="post" name="form_email_list" role="form"
-          action="${sessionPublishEmailParticularStudentsLink}">
+          action="${sessionResendPublishedEmailLink}">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"
               aria-hidden="true">&times;</button>

@@ -33,7 +33,7 @@
       <td class="align-center">
         <div class="checkbox">
           <label>
-            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_LINKS_USERLIST %>" value="${userToEmailEmail}">
+            <input type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST %>" value="${userToEmailEmail}">
           </label>
         </div>
       </td>
