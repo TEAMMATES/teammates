@@ -231,6 +231,27 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         assertEquals("[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.deleteFeedbackSession(templateSessionName, newSession.getCourseId()));
 
+        ______TS("success case: Add an Optimized Team Peer Evaluation Session (template session)");
+
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+
+        feedbackPage.clickEditUncommonSettingsButtons();
+        feedbackPage.clickManualPublishTimeButton();
+
+        feedbackPage.selectSessionType("session using template: team peer evaluation (optimized)");
+
+        String optimizedTemplateSessionName = "Optimized Team Peer Evaluation Session";
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
+                optimizedTemplateSessionName, newSession.getCourseId(),
+                newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriod());
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackOptimizedTeamPeerEvalTemplateAddSuccess.html");
+
+        //Remove added session to prevent state leaks.
+        assertEquals("[BACKDOOR_STATUS_SUCCESS]",
+                BackDoor.deleteFeedbackSession(optimizedTemplateSessionName, newSession.getCourseId()));
+
         ______TS("failure case: session exists already");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
