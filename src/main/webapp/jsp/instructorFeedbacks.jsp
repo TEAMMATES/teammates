@@ -11,7 +11,7 @@
 <ti:instructorPage title="Add New Feedback Session" jsIncludes="${jsIncludes}">
 
   <c:if test="${!data.usingAjax}">
-    <feedbacks:feedbackSessionsForm fsForm="${data.newFsForm}"/>
+    <feedbacks:feedbackSessionsForm courseAttributes="${data.courseAttributes}" fsForm="${data.newFsForm}"/>
     <feedbacks:loadSessionsTableByAjaxForm fsList="${data.fsList}" />
   </c:if>
   <br>

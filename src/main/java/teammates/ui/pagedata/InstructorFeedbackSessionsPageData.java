@@ -26,6 +26,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     private FeedbackSessionsTable fsList;
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
+    private List<CourseAttributes> courseAttributes;
 
     public InstructorFeedbackSessionsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -62,6 +63,8 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
         buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
                            defaultFormValues, highlightedFeedbackSession);
+
+        courseAttributes = courses;
     }
 
     public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -212,6 +215,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
     public FeedbackSessionsCopyFromModal getCopyFromModal() {
         return copyFromModal;
+    }
+
+    public List<CourseAttributes> getCourseAttributes() {
+        return courseAttributes;
     }
 
     /**
