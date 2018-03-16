@@ -486,7 +486,6 @@ public final class TimeHelper {
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException e) {
-            Assumption.fail("Date in String is in wrong format.");
             return null;
         }
     }
