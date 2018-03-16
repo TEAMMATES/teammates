@@ -137,7 +137,7 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
 
     // Replaces tooltip text of the {@code button}.
     const tooltipString = $(button).attr('data-original-title').replace(from, to);
-    $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+    $(button).attr('title', tooltipString).tooltip('fixTitle');
 }
 
 /**
@@ -162,12 +162,10 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
         if ($(expandCollapseStudentsButton).length
             && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
             replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
-            $(expandCollapseStudentsButton).trigger('mouseleave');
         }
         if ($(expandCollapseTeamButton).length
             && $(expandCollapseTeamButton).html().trim().startsWith(STRING_EXPAND)) {
             replaceButtonHtmlAndTooltipText(expandCollapseTeamButton, STRING_EXPAND, STRING_COLLAPSE);
-            $(expandCollapseTeamButton).trigger('mouseleave');
         }
     }
     // When collapsing expandCollapseTeamButton, expandCollapseStudentButton should be in collapsed state.
@@ -175,7 +173,6 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
         && $(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
         && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
         replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
-        $(expandCollapseStudentsButton).trigger('mouseleave');
     }
 
     // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
@@ -187,9 +184,11 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
         const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
         expandPanels(targetPanels, areAjaxLoadedPanels);
         replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
+        $(expandCollapseButton).tooltip('show');
     } else {
         collapsePanels(targetPanels);
         replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_COLLAPSE, STRING_EXPAND);
+        $(expandCollapseButton).tooltip('show');
     }
 }
 
