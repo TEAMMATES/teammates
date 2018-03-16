@@ -165,7 +165,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         UserErrorReportPage errorReportPage = currentPage.changePageType(UserErrorReportPage.class);
         errorReportPage.verifyErrorReportFormContents();
         errorReportPage.fillFormAndClickSubmit("This is an error report.");
-        errorReportPage.verifyStatus(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS);
+        errorReportPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.ERROR_FEEDBACK_SUBMIT_SUCCESS);
 
         ______TS("user error report form - submit failed");
         logout();
@@ -175,7 +175,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         errorReportPage.fillFormAndClickSubmit("This is an error report.");
         final String failedStatusMessage = "Failed to record the error message. Please email our support team at "
                 + Config.SUPPORT_EMAIL + ".";
-        errorReportPage.verifyStatus(failedStatusMessage);
+        errorReportPage.waitForTextsForAllStatusMessagesToUserEquals(failedStatusMessage);
     }
 
     private void loginStudent(String userName, String password) {

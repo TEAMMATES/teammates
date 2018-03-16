@@ -131,7 +131,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
                         student1InCourse1.googleId),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals("", pageResult.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER, pageResult.getStatusMessage());
 
         ______TS("feedbacksession deleted");
 
@@ -207,7 +207,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
                         Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false, student1InCourse1.googleId),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals("", pageResult.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER, pageResult.getStatusMessage());
 
         ______TS("masquerade mode");
 
@@ -221,7 +221,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
                         Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, false, student1InCourse1.googleId),
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals("", pageResult.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER, pageResult.getStatusMessage());
 
         ______TS("student has not joined course");
 

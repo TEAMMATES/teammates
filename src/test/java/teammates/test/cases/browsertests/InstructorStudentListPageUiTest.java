@@ -261,7 +261,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         String expectedStatus = "The student has been removed from the course";
         viewPage.clickDeleteAndConfirm(courseId, studentName);
         InstructorCourseDetailsPage courseDetailsPage = viewPage.changePageType(InstructorCourseDetailsPage.class);
-        courseDetailsPage.verifyStatus(expectedStatus);
+        courseDetailsPage.waitForTextsForAllStatusMessagesToUserEquals(expectedStatus);
     }
 
     private void testSearchScript() {

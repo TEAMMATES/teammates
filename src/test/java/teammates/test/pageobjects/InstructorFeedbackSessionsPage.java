@@ -62,9 +62,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
     private WebElement neverSessionVisibleTimeButton;
 
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
-    private WebElement neverResultsVisibleTimeButton;
-
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
     private WebElement defaultSessionVisibleTimeButton;
 
@@ -166,10 +163,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(neverSessionVisibleTimeButton);
     }
 
-    public void clickNeverPublishTimeButton() {
-        click(neverResultsVisibleTimeButton);
-    }
-
     public void clickManualPublishTimeButton() {
         click(manualResultsVisibleTimeButton);
     }
@@ -216,7 +209,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             LocalDateTime visibleTime,
             LocalDateTime publishTime,
             Text instructions,
-            int gracePeriod) {
+            long gracePeriod) {
 
         fillTextBox(fsNameTextBox, feedbackSessionName);
 
@@ -236,7 +229,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         // Select grace period
         if (gracePeriod != -1) {
-            selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
+            selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
         }
 
         clickSubmitButton();
@@ -244,7 +237,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId,
             LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, int gracePeriod, ZoneId timeZone) {
+            Text instructions, long gracePeriod, ZoneId timeZone) {
 
         selectTimeZone(timeZone);
 
@@ -254,7 +247,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId,
             LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, int gracePeriod) {
+            Text instructions, long gracePeriod) {
 
         addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime,
                 instructions, gracePeriod, ZoneId.of("UTC+08:00"));

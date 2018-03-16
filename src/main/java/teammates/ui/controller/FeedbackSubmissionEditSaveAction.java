@@ -219,6 +219,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                            + TeammatesException.toStringWithStackTrace(e));
             }
         }
+        // TODO: Refactor to AjaxResult so status messages do not have to be passed by session
         return createSpecificRedirectResult();
     }
 
