@@ -246,8 +246,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 optimizedTemplateSessionName, newSession.getCourseId(),
                 newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
-                newSession.getInstructions(), newSession.getGracePeriod());
-        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+                newSession.getInstructions(), newSession.getGracePeriodMinutes());
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackOptimizedTeamPeerEvalTemplateAddSuccess.html");
 
         //Remove added session to prevent state leaks.
