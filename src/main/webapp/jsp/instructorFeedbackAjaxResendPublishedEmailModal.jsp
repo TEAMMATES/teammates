@@ -28,7 +28,7 @@
       <span class="icon-sort unsorted"></span>
     </th>
   </tr>
-  <c:forEach items="${data.responseStatus.getAllStudentsSorted()}" var="userToEmailEmail">
+  <c:forEach items="${data.responseStatus.allStudentsSorted}" var="userToEmailEmail">
     <tr>
       <td class="align-center">
         <div class="checkbox">
