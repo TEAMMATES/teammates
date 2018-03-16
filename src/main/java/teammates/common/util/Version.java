@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Represents a version by 3 parts: major version, minor version and patch version.
  *
@@ -20,6 +22,8 @@ package teammates.common.util;
  * <p>It also support RC versions, which has "rc" appended at the end of the string.
  * For example: 5rc, 4.55rc, 5.55.01rc
  */
+
+@EqualsAndHashCode
 public class Version implements Comparable<Version> {
     /**
      * The original String of the version. It could be either XX-XX-XXXXX or XX.XX.XXXX format.
@@ -50,25 +54,6 @@ public class Version implements Comparable<Version> {
         if (list.length > 2) {
             patch = list[2];
         }
-    }
-
-    /**
-     * Compares by string representation.
-     */
-    @Override
-    public boolean equals(Object anotherVersion) {
-        if (anotherVersion == null) {
-            return false;
-        }
-        return toString().equals(anotherVersion.toString());
-    }
-
-    /**
-     * Gets hash code for this version.
-     */
-    @Override
-    public int hashCode() {
-        return toString().hashCode();
     }
 
     /**
