@@ -129,8 +129,16 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
             String templateType, String courseId, String feedbackSessionName, String creatorEmail) {
         Assumption.assertNotNull(templateType);
 
+        String template = "";
+
         if ("TEAMEVALUATION".equals(templateType)) {
-            String jsonString = Templates.populateTemplate(FeedbackSessionTemplates.TEAM_EVALUATION,
+            template = FeedbackSessionTemplates.TEAM_EVALUATION;
+        } else if ("OPTIMIZEDTEAMEVALUATION".equals(templateType)) {
+            template = FeedbackSessionTemplates.OPTIMIZED_TEAM_EVALUATION;
+        }
+
+        if (!template.isEmpty()) {
+            String jsonString = Templates.populateTemplate(template,
                     "${courseId}", courseId,
                     "${feedbackSessionName}", feedbackSessionName,
                     "${creatorEmail}", creatorEmail);

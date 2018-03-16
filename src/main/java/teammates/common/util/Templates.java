@@ -483,7 +483,12 @@ public final class Templates {
     // TODO: Consider adding instructions for the feedback session into template?
     // TODO: Or simply use static strings here?
     public static class FeedbackSessionTemplates {
+
         public static final String TEAM_EVALUATION =
                 FileHelper.readResourceFile("feedbackSessionTeamEvaluationTemplate.json");
+
+        public static final String OPTIMIZED_TEAM_EVALUATION =
+                FileHelper.readResourceFile("feedbackSessionOptimizedTeamEvaluationTemplate.json");
+
     }
 }
