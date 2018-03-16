@@ -199,7 +199,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("input validation");
 
         //one invalid case
-        coursesPage.addCourse("", "").verifyStatus(
+        coursesPage.addCourse("", "").waitForTextsForAllStatusMessagesToUserEquals(
                 getPopulatedEmptyStringErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
                 + getPopulatedEmptyStringErrorMessage(
