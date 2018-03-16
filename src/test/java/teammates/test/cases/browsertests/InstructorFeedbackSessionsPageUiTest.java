@@ -258,7 +258,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setCourseId("CFeedbackUiT.CS2104");
         newSession.setEndTime(null);
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
         newSession.setClosingEmailEnabled(false);
         newSession.setPublishedEmailEnabled(true);
@@ -332,7 +332,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickDefaultVisibleTimeButton();
-        feedbackPage.clickNeverPublishTimeButton();
+        feedbackPage.clickManualPublishTimeButton();
 
         instructions = new Text("cannot see responses<script>test</script>$^/\\=?");
 
@@ -341,7 +341,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setStartTime(TimeHelper.parseInstant("2012-05-01 6:00 AM +0000"));
         newSession.setEndTime(TimeHelper.parseInstant("2037-12-12 1:59 AM +0000"));
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriodMinutes(25);
         newSession.setInstructions(instructions);
         newSession.setTimeZone(ZoneId.of("UTC-02:00"));
@@ -963,10 +963,12 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionName("");
         newSession.setEndTime(Const.TIME_REPRESENTS_LATER);
         feedbackPage.clickEditUncommonSettingsButtons();
-        feedbackPage.clickNeverPublishTimeButton();
+        feedbackPage.clickCustomPublishTimeButton();
+        newSession.setResultsVisibleFromTime(TimeHelper.parseInstant("2035-09-01 11:00 PM +0000"));
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
+                newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null,
+                newSession.getResultsVisibleFromTimeLocal(),
                 newSession.getInstructions(),
                 newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(

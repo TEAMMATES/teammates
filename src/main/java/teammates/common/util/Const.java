@@ -39,7 +39,6 @@ public final class Const {
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
 
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
@@ -289,8 +288,6 @@ public final class Const {
                 "The responses for the session have been published and can now be viewed.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED =
                 "The responses for the session have not yet been published and cannot be viewed.";
-        public static final String STUDENT_FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
-                "The instructor has set the results for this feedback session to not be published.";
 
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
         public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED =
@@ -339,8 +336,6 @@ public final class Const {
                 + "when the session becomes visible to users.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER =
                 "Select this option if you intend to manually publish the responses for this session later on.";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER =
-                "Select this option if you intend never to publish the responses.";
         public static final String FEEDBACK_SESSION_SENDOPENEMAIL =
                 "Select this option to automatically send an email to students to notify them "
                 + "when the session is open for submission.";
@@ -362,8 +357,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STATUS_NOT_PUBLISHED = "The responses for this session are not visible.";
         public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION =
                 "This feedback session is not published as it is private and only visible to you.";
-        public static final String FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
-                "The responses for this feedback session have been set to never get published.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
                 "You should not need to change this as your timezone is auto-detected. <br><br>"

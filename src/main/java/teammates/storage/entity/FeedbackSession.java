@@ -185,6 +185,14 @@ public class FeedbackSession extends BaseEntity {
         }
     }
 
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void adjustResultsVisibleFromTimeIfRequired() {
+        if (Const.TIME_REPRESENTS_NEVER.equals(getResultsVisibleFromTime())) {
+            setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        }
+    }
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }

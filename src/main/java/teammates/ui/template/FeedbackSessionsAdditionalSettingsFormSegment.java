@@ -21,7 +21,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     private List<ElementTag> responseVisibleTimeOptions;
     private boolean isResponseVisibleImmediatelyChecked;
     private boolean isResponseVisiblePublishManuallyChecked;
-    private boolean isResponseVisibleNeverChecked;
 
     private boolean isSendClosingEmailChecked;
     private boolean isSendOpeningEmailChecked;
@@ -75,10 +74,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         return isResponseVisiblePublishManuallyChecked;
     }
 
-    public boolean isResponseVisibleNeverChecked() {
-        return isResponseVisibleNeverChecked;
-    }
-
     public boolean isSendClosingEmailChecked() {
         return isSendClosingEmailChecked;
     }
@@ -112,7 +107,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.responseVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(null);
         additionalSettings.isResponseVisibleImmediatelyChecked = false;
         additionalSettings.isResponseVisiblePublishManuallyChecked = true;
-        additionalSettings.isResponseVisibleNeverChecked = false;
 
         additionalSettings.isSendClosingEmailChecked = true;
         additionalSettings.isSendOpeningEmailChecked = true;
@@ -165,9 +159,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.isResponseVisiblePublishManuallyChecked =
                                           Const.TIME_REPRESENTS_LATER.equals(feedbackSession.getResultsVisibleFromTime())
                                        || Const.TIME_REPRESENTS_NOW.equals(feedbackSession.getResultsVisibleFromTime());
-
-        additionalSettings.isResponseVisibleNeverChecked = Const.TIME_REPRESENTS_NEVER.equals(
-                                                                   feedbackSession.getResultsVisibleFromTime());
     }
 
     private static void setSessionVisibleSettings(FeedbackSessionAttributes feedbackSession,
