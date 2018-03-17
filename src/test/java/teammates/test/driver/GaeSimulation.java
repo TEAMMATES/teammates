@@ -220,7 +220,7 @@ public class GaeSimulation {
             paramMultiMap.get(key).add(parameters[i + 1]);
         }
 
-        paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[values.size()])));
+        paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[0])));
 
         try {
             InvocationContext ic = sc.newInvocation(request);

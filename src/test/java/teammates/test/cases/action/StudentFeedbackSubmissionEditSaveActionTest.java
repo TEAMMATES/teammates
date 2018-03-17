@@ -1,5 +1,6 @@
 package teammates.test.cases.action;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1026,7 +1027,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("opened");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        fs.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertTrue(fs.isOpened());
@@ -1047,7 +1048,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("during grace period");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        fs.setEndTime(Instant.now());
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -1068,7 +1069,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("after grace period");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-10));
+        fs.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-10));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -1126,7 +1127,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
     private void testGracePeriodAccessControlForStudents() {
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("gracePeriodSession");
-        fs.setEndTime(TimeHelper.convertLocalDateToUtc(TimeHelper.getDateOffsetToCurrentTime(0), fs.getTimeZone()));
+        fs.setEndTime(Instant.now());
         typicalBundle.feedbackSessions.put("gracePeriodSession", fs);
 
         assertFalse(fs.isOpened());
