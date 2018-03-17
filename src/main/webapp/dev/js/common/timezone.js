@@ -21,7 +21,15 @@ const TimeZone = {
             return `UTC ${offset < 0 ? '+' : '-'}${addLeadingZeroes(hr)}:${addLeadingZeroes(min)}`;
         }
 
-        moment.tz.names().forEach((name) => {
+        function isSupportedByJava(name) {
+            // These short timezones are not supported by Java
+            const badZones = {
+                EST: true, 'GMT+0': true, 'GMT-0': true, HST: true, MST: true, ROC: true,
+            };
+            return !badZones[name];
+        }
+
+        moment.tz.names().filter(isSupportedByJava).forEach((name) => {
             const o = document.createElement('option');
             const date = new Date();
             const offset = moment.tz.zone(name).offset(date);

@@ -402,7 +402,7 @@
                       <div class="row">
                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below.">
                           <label class="label-control">
-                            Session visible from
+                            Make session visible
                           </label>
                         </div>
                       </div>
@@ -462,7 +462,7 @@
                     <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                       <div class="row">
                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later.">
-                          <label class="label-control">Responses visible from</label>
+                          <label class="label-control">Make responses visible</label>
                         </div>
                       </div>
                       <div class="row radio">
@@ -510,17 +510,12 @@
                         </div>
                       </div>
                       <div class="row radio">
-                        <div class="col-md-4" data-toggle="tooltip" data-placement="top" title="Select this option if you intend to manually publish the session later on.">
-                          <label for="resultsVisibleFromButton_later">Publish manually
+                        <div class="col-md-5" data-toggle="tooltip" data-placement="top" title="Select this option if you intend to manually publish the session later on.">
+                          <label for="resultsVisibleFromButton_later">Not now (publish manually)
                           </label>
                           <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_later" value="later">
                         </div>
                       </div>
-                      <div class="row radio">
-                        <div class="col-md-2" data-toggle="tooltip" data-placement="top" title="Select this option if you intend never to publish the responses.">
-                          <label for="resultsVisibleFromButton_never">Never</label>
-                          <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_never" value="never">
-                        </div>
                       </div>
                     </div>
                   </div>

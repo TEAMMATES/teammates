@@ -181,7 +181,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             typicalCase[indexOfSessionVisibleDate] = "";
             typicalCase[indexOfSessionVisibleTime] = "0";
 
-            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
+            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
 
             typicalCase[indexOfSessionInstructionsValue] = "<script>test</script>instructions";
             break;

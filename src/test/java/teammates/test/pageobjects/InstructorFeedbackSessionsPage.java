@@ -2,8 +2,9 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -15,6 +16,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackSessionsPage extends AppPage {
 
@@ -59,9 +61,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
     private WebElement neverSessionVisibleTimeButton;
-
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
-    private WebElement neverResultsVisibleTimeButton;
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
     private WebElement defaultSessionVisibleTimeButton;
@@ -164,10 +163,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(neverSessionVisibleTimeButton);
     }
 
-    public void clickNeverPublishTimeButton() {
-        click(neverResultsVisibleTimeButton);
-    }
-
     public void clickManualPublishTimeButton() {
         click(manualResultsVisibleTimeButton);
     }
@@ -209,12 +204,12 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,
-            Date startTime,
-            Date endTime,
-            Date visibleTime,
-            Date publishTime,
+            LocalDateTime startTime,
+            LocalDateTime endTime,
+            LocalDateTime visibleTime,
+            LocalDateTime publishTime,
             Text instructions,
-            int gracePeriod) {
+            long gracePeriod) {
 
         fillTextBox(fsNameTextBox, feedbackSessionName);
 
@@ -234,14 +229,15 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         // Select grace period
         if (gracePeriod != -1) {
-            selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
+            selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
         }
 
         clickSubmitButton();
     }
 
-    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId, Date startTime,
-            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod, double timeZone) {
+    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId,
+            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
+            Text instructions, long gracePeriod, ZoneId timeZone) {
 
         selectTimeZone(timeZone);
 
@@ -249,20 +245,23 @@ public class InstructorFeedbackSessionsPage extends AppPage {
                 feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
     }
 
-    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId, Date startTime,
-            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
+    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId,
+            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
+            Text instructions, long gracePeriod) {
 
-        addFeedbackSessionWithTimeZone(
-                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod, 8.0);
+        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime,
+                instructions, gracePeriod, ZoneId.of("UTC+08:00"));
     }
 
-    private void selectTimeZone(double timeZone) {
-        String timeZoneString = Double.toString(timeZone);
+    private void selectTimeZone(ZoneId timeZone) {
+        double offset = TimeHelper.convertToOffset(timeZone);
 
-        double fractionalPart = timeZone % 1;
+        String timeZoneString = Double.toString(offset);
+
+        double fractionalPart = offset % 1;
 
         if (fractionalPart == 0.0) {
-            timeZoneString = Integer.toString((int) timeZone);
+            timeZoneString = Integer.toString((int) offset);
         }
 
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);
@@ -302,28 +301,28 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(button);
     }
 
-    public void fillStartTime(Date startTime) {
+    public void fillStartTime(LocalDateTime startTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown);
     }
 
-    public void fillEndTime(Date endTime) {
+    public void fillEndTime(LocalDateTime endTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown);
     }
 
-    public void fillVisibleTime(Date visibleTime) {
+    public void fillVisibleTime(LocalDateTime visibleTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown);
     }
 
-    public void fillPublishTime(Date publishTime) {
+    public void fillPublishTime(LocalDateTime publishTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown);
     }
 
-    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown) {
+    public void fillTimeValueIfNotNull(String dateId, LocalDateTime datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
             executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateForSessionsForm(datetimeValue) + "');");
 
             String timeDropdownId = timeDropdown.getAttribute("id");
-            int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            int timeDropdownVal = TimeHelperExtension.convertToOptionValueInTimeDropDown(datetimeValue);
             executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }

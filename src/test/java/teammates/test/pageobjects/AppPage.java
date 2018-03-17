@@ -8,6 +8,8 @@ import static org.testng.AssertJUnit.assertFalse;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -27,6 +29,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -593,11 +597,16 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns the status message in the page. Returns "" if there is no
-     *         status message in the page.
+     * Returns a list containing the texts of the user status messages in the page.
+     * @see WebElement#getText()
      */
-    public String getStatus() {
-        return statusMessage == null ? "" : statusMessage.getText();
+    public List<String> getTextsForAllStatusMessagesToUser() {
+        List<WebElement> statusMessagesToUser = statusMessage.findElements(By.tagName("div"));
+        List<String> statusMessageTexts = new ArrayList<String>();
+        for (WebElement statusMessage : statusMessagesToUser) {
+            statusMessageTexts.add(statusMessage.getText());
+        }
+        return statusMessageTexts;
     }
 
     /**
@@ -960,21 +969,22 @@ public abstract class AppPage {
     }
 
     /**
-     * Verifies the status message in the page is same as the one specified.
+     * Verifies that the texts of user status messages in the page are equal to the expected texts.
      * The check is done multiple times with waiting times in between to account for
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
-    public void verifyStatus(final String expectedStatus) {
+    public void waitForTextsForAllStatusMessagesToUserEquals(String firstExpectedText, String... remainingExpectedTexts) {
+        List<String> expectedTexts = Arrays.asList(ObjectArrays.concat(firstExpectedText, remainingExpectedTexts));
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
                     waitForElementVisibility(statusMessage);
-                    assertEquals(expectedStatus, getStatus());
+                    assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
                 }
             }, WebDriverException.class, AssertionError.class);
         } catch (MaximumRetriesExceededException e) {
-            assertEquals(expectedStatus, getStatus());
+            assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
         }
     }
 
