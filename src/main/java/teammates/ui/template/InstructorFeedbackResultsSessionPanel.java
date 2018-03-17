@@ -86,8 +86,6 @@ public class InstructorFeedbackResultsSessionPanel {
             }
         } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_LATER)) {
             return "I want to manually publish the results.";
-        } else if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "Never";
         } else {
             return TimeHelper.formatTime12H(feedbackSession.getResultsVisibleFromTimeLocal());
         }
