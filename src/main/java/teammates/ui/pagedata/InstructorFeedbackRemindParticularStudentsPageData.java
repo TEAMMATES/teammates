@@ -15,8 +15,6 @@ public class InstructorFeedbackRemindParticularStudentsPageData extends PageData
         this.responseStatus = responseStatus;
         this.courseId = courseId;
         this.fsName = fsName;
-        responseStatus.sortStudentsNoResponse();
-        responseStatus.sortStudentsWhoResponded();
     }
 
     public String getCourseId() {

@@ -62,21 +62,25 @@ public class FeedbackSessionResponseStatus {
      * sorted by teamName > studentNamelist.
      */
     public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
-        this.sortStudentsNoResponse();
+        noResponse.sort(compareByTeamNameStudentName);
         return noResponse;
     }
 
     /**
      * Returns list of students who did not respond to the feedback session.
+     * sorted by teamName > studentNamelist.
      */
     public List<String> getNoResponse() {
+        noResponse.sort(compareByTeamNameStudentName);
         return noResponse;
     }
 
     /**
      * Returns list of students who responded to the feedback session.
+     * sorted by teamName > studentNamelist.
      */
     public List<String> getStudentsWhoResponded() {
+        studentsWhoResponded.sort(compareByTeamNameStudentName);
         return studentsWhoResponded;
     }
 
@@ -90,19 +94,5 @@ public class FeedbackSessionResponseStatus {
 
     public Map<String, String> getEmailSectionTable() {
         return emailSectionTable;
-    }
-
-    /**
-     * Sorts the list of students who did not respond to the feedback session by teamName > studentNamelist.
-     */
-    public void sortStudentsNoResponse() {
-        noResponse.sort(compareByTeamNameStudentName);
-    }
-
-    /**
-     * Sorts the list of students who responded to the feedback session by teamName > studentNamelist.
-     */
-    public void sortStudentsWhoResponded() {
-        studentsWhoResponded.sort(compareByTeamNameStudentName);
     }
 }
