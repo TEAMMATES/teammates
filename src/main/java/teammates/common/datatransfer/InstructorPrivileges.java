@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.util.Assumption;
@@ -485,29 +486,25 @@ public final class InstructorPrivileges {
 
     @Override
     public boolean equals(Object another) {
+        if (this == another) {
+            return true;
+        }
+        if (another == null) {
+            return false;
+        }
         if (!(another instanceof InstructorPrivileges)) {
             return false;
         }
-        if (another == this) {
-            return true;
-        }
 
-        InstructorPrivileges rhs = (InstructorPrivileges) another;
-        return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges())
-               && this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges())
-               && this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
+        InstructorPrivileges that = (InstructorPrivileges) another;
+        return Objects.equals(this.courseLevel, that.courseLevel)
+                && Objects.equals(this.sectionLevel, that.sectionLevel)
+                && Objects.equals(this.sessionLevel, that.sessionLevel);
     }
 
     @Override
     public int hashCode() {
-        int prime = 31;
-        int result = 1;
-
-        result = prime * result + this.getCourseLevelPrivileges().hashCode();
-        result = prime * result + this.getSectionLevelPrivileges().hashCode();
-        result = prime * result + this.getSessionLevelPrivileges().hashCode();
-
-        return result;
+        return Objects.hash(courseLevel, sectionLevel, sessionLevel);
     }
 
 }

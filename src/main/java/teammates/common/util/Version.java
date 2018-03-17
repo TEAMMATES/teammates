@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import java.util.Objects;
+
 /**
  * Represents a version by 3 parts: major version, minor version and patch version.
  *
@@ -57,10 +59,21 @@ public class Version implements Comparable<Version> {
      */
     @Override
     public boolean equals(Object anotherVersion) {
+        if (this == anotherVersion) {
+            return true;
+        }
         if (anotherVersion == null) {
             return false;
         }
-        return toString().equals(anotherVersion.toString());
+        if (this.getClass() != anotherVersion.getClass()) {
+            return false;
+        }
+
+        Version that = (Version) anotherVersion;
+
+        return Objects.equals(this.originalRepresentation, that.originalRepresentation)
+                && Objects.equals(this.major, that.major) && Objects.equals(this.minor, that.minor)
+                && Objects.equals(this.patch, that.patch) && Objects.equals(this.isRcVersion, that.isRcVersion);
     }
 
     /**
@@ -68,7 +81,7 @@ public class Version implements Comparable<Version> {
      */
     @Override
     public int hashCode() {
-        return toString().hashCode();
+        return Objects.hash(originalRepresentation, major, minor, patch, isRcVersion);
     }
 
     /**
