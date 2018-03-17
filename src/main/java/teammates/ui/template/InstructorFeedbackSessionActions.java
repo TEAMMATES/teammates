@@ -70,7 +70,7 @@ public class InstructorFeedbackSessionActions {
 
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
-        this.isAllowedToResendPublishedEmail = session.isPublished() && session.isPublishedEmailEnabled();
+        this.isAllowedToResendPublishedEmail = session.isPublished();
     }
 
     public boolean isPrivateSession() {
