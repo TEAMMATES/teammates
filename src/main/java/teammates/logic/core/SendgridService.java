@@ -62,7 +62,7 @@ public class SendgridService extends EmailSenderService {
         request.setEndpoint("mail/send");
         request.setBody(email.build());
         Response response = sendgrid.api(request);
-        if (response.getStatusCode() != SUCCESS_CODE) {
+        if (response.getStatusCode() < 200 || response.getStatusCode() > 299) {
             log.severe("Email failed to send: " + response.getBody());
         }
     }
