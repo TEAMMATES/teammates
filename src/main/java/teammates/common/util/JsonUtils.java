@@ -130,7 +130,7 @@ public final class JsonUtils {
             try {
                 return Instant.parse(element.getAsString());
             } catch (DateTimeParseException e) {
-                throw new JsonSyntaxException(element.getAsString(), e);
+                return new TeammatesDateAdapter().deserialize(element, type, context).toInstant();
             }
         }
     }
@@ -147,7 +147,7 @@ public final class JsonUtils {
             try {
                 return ZoneId.of(element.getAsString());
             } catch (DateTimeException e) {
-                throw new JsonSyntaxException(element.getAsString(), e);
+                return TimeHelper.convertToZoneId(element.getAsDouble());
             }
         }
     }
