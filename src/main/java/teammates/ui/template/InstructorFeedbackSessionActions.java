@@ -21,7 +21,7 @@ public class InstructorFeedbackSessionActions {
     private String remindLink;
     private String remindParticularStudentsPageLink;
     private String editCopyLink;
-    private String sessionPublishEmailParticularStudentsPageLink;
+    private String sessionResendPublishedEmailPageLink;
 
     private boolean isAllowedToEdit;
     private boolean isAllowedToDelete;
@@ -49,8 +49,8 @@ public class InstructorFeedbackSessionActions {
         this.remindParticularStudentsPageLink =
                 data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId, feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
-        this.sessionPublishEmailParticularStudentsPageLink =
-                data.getInstructorFeedbackPublishEmailParticularStudentsPageLink(courseId, feedbackSessionName);
+        this.sessionResendPublishedEmailPageLink =
+                data.getInstructorFeedbackResendPublishedEmailPageLink(courseId, feedbackSessionName);
 
         this.isAllowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.isAllowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -109,8 +109,8 @@ public class InstructorFeedbackSessionActions {
         return remindParticularStudentsPageLink;
     }
 
-    public String getSessionPublishEmailParticularStudentsPageLink() {
-        return sessionPublishEmailParticularStudentsPageLink;
+    public String getSessionResendPublishedEmailPageLink() {
+        return sessionResendPublishedEmailPageLink;
     }
 
     public String getEditCopyLink() {
@@ -133,7 +133,7 @@ public class InstructorFeedbackSessionActions {
         return isAllowedToRemind;
     }
 
-    public boolean isAllowedToEmailPublish() {
+    public boolean isAllowedToResendPublishedEmail() {
         return isAllowedToResendPublishedEmail;
     }
 

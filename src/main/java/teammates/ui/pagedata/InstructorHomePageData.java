@@ -52,7 +52,7 @@ public class InstructorHomePageData extends PageData {
      * @return form submit action link
      */
     public String getSessionResendPublishedEmailLink() {
-        return getInstructorFeedbackPublishEmailParticularStudentsLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        return getInstructorFeedbackResendPublishedEmailLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     /**

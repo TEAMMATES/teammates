@@ -169,7 +169,7 @@ public class InstructorHomePage extends AppPage {
         ThreadHelper.waitFor(1000);
     }
 
-    public void cancelResendPublshedLinksForm() {
+    public void cancelResendPublishedLinksForm() {
         WebElement publishEmailModal = browser.driver.findElement(By.id("publishEmailModal"));
         click(publishEmailModal.findElement(By.tagName("button")));
         waitForModalToDisappear();
@@ -183,7 +183,7 @@ public class InstructorHomePage extends AppPage {
         }
     }
 
-    public void submitResendPublshedLinksForm() {
+    public void submitResendPublishedLinksForm() {
         WebElement publishEmailModal = browser.driver.findElement(By.id("publishEmailModal"));
         publishEmailModal.findElement(By.name("form_email_list")).submit();
     }
@@ -294,7 +294,7 @@ public class InstructorHomePage extends AppPage {
         int rowId = getEvaluationRowId(courseId, evalName);
         waitForElementPresence(By.id("session" + rowId));
         WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
-        String resendLinksClassNamePrefix = "session-publish-email-particular-for-test";
+        String resendLinksClassNamePrefix = "session-resend-published-email-for-test";
         verifyElementContainsElement(sessionRow, By.className(resendLinksClassNamePrefix));
     }
 
@@ -302,12 +302,12 @@ public class InstructorHomePage extends AppPage {
         int rowId = getEvaluationRowId(courseId, evalName);
         waitForElementPresence(By.id("session" + rowId));
         WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
-        String resendLinksClassNamePrefix = "session-publish-email-particular-for-test";
+        String resendLinksClassNamePrefix = "session-resend-published-email-for-test";
         verifyElementNotContainsElement(sessionRow, By.className(resendLinksClassNamePrefix));
     }
 
     public WebElement getResendPublishedLinksLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-publish-email-particular-for-test", getEvaluationRowId(courseId, evalName));
+        return getSessionLinkInRow("session-resend-published-email-for-test", getEvaluationRowId(courseId, evalName));
     }
 
     public WebElement getDeleteEvalLink(String courseId, String evalName) {

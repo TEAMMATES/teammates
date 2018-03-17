@@ -6,14 +6,14 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.controller.InstructorFeedbackPublishEmailParticularStudentsPageAction;
+import teammates.ui.controller.InstructorFeedbackResendPublishedEmailPageAction;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.pagedata.InstructorFeedbackAjaxStudentsListPageData;
 
 /**
- * SUT: {@link InstructorFeedbackPublishEmailParticularStudentsPageAction}.
+ * SUT: {@link InstructorFeedbackResendPublishedEmailPageAction}.
  */
-public class InstructorFeedbackPublishEmailParticularStudentsPageActionTest extends BaseActionTest {
+public class InstructorFeedbackResendPublishedEmailPageActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
@@ -39,7 +39,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsPageActionTest exte
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()
         };
 
-        InstructorFeedbackPublishEmailParticularStudentsPageAction a = getAction(submissionParams);
+        InstructorFeedbackResendPublishedEmailPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 
         assertFalse(r.isError);
@@ -58,8 +58,8 @@ public class InstructorFeedbackPublishEmailParticularStudentsPageActionTest exte
     }
 
     @Override
-    protected InstructorFeedbackPublishEmailParticularStudentsPageAction getAction(String... params) {
-        return (InstructorFeedbackPublishEmailParticularStudentsPageAction)
+    protected InstructorFeedbackResendPublishedEmailPageAction getAction(String... params) {
+        return (InstructorFeedbackResendPublishedEmailPageAction)
                 gaeSimulation.getActionObject(getActionUri(), params);
     }
 

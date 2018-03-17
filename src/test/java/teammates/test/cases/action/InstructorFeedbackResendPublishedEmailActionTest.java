@@ -7,13 +7,13 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
-import teammates.ui.controller.InstructorFeedbackPublishEmailParticularStudentsAction;
+import teammates.ui.controller.InstructorFeedbackResendPublishedEmailAction;
 import teammates.ui.controller.RedirectResult;
 
 /**
- * SUT: {@link InstructorFeedbackPublishEmailParticularStudentsAction}.
+ * SUT: {@link InstructorFeedbackResendPublishedEmailAction}.
  */
-public class InstructorFeedbackPublishEmailParticularStudentsActionTest extends BaseActionTest {
+public class InstructorFeedbackResendPublishedEmailActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
@@ -46,7 +46,7 @@ public class InstructorFeedbackPublishEmailParticularStudentsActionTest extends 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
         };
 
-        InstructorFeedbackPublishEmailParticularStudentsAction action = getAction(paramsNoUserToEmail);
+        InstructorFeedbackResendPublishedEmailAction action = getAction(paramsNoUserToEmail);
 
         RedirectResult rr = getRedirectResult(action);
         assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT));
@@ -87,8 +87,8 @@ public class InstructorFeedbackPublishEmailParticularStudentsActionTest extends 
     }
 
     @Override
-    protected InstructorFeedbackPublishEmailParticularStudentsAction getAction(String... params) {
-        return (InstructorFeedbackPublishEmailParticularStudentsAction)
+    protected InstructorFeedbackResendPublishedEmailAction getAction(String... params) {
+        return (InstructorFeedbackResendPublishedEmailAction)
                 gaeSimulation.getActionObject(getActionUri(), params);
     }
 

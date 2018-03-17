@@ -66,11 +66,11 @@
       <li>
         <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
       </li>
-      <c:if test="${actions.allowedToEmailPublish}">
+      <c:if test="${actions.allowedToResendPublishedEmail}">
       <li>
         <a href=""
-            data-actionlink="${actions.sessionPublishEmailParticularStudentsPageLink}"
-            class="session-publish-email-particular-for-test"
+            data-actionlink="${actions.sessionResendPublishedEmailPageLink}"
+            class="session-resend-published-email-for-test"
             data-courseid="${actions.courseId}"
             data-fsname="${actions.fsName}"
             data-toggle="modal"

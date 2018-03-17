@@ -526,7 +526,7 @@ public class PageData {
      * @param feedbackSessionName the name of the feedback session
      * @return the link to load email modal
      */
-    public String getInstructorFeedbackPublishEmailParticularStudentsPageLink(String courseId, String feedbackSessionName) {
+    public String getInstructorFeedbackResendPublishedEmailPageLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -540,7 +540,7 @@ public class PageData {
      * @param returnUrl the url to return to after submitting the request
      * @return submit link with return url appended to it
      */
-    public String getInstructorFeedbackPublishEmailParticularStudentsLink(String returnUrl) {
+    public String getInstructorFeedbackResendPublishedEmailLink(String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addSessionTokenToUrl(link);

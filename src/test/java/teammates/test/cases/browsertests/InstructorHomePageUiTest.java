@@ -361,7 +361,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                                         feedbackSessionPublished.getFeedbackSessionName());
         homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
                                               feedbackSessionPublished.getFeedbackSessionName());
-        homePage.cancelResendPublshedLinksForm();
+        homePage.cancelResendPublishedLinksForm();
 
         // Test the status message when the form is submitted with empty recipient list
         homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
@@ -369,7 +369,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
                                               feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForAjaxLoaderGifToDisappear();
-        homePage.submitResendPublshedLinksForm();
+        homePage.submitResendPublishedLinksForm();
         homePage.waitForPageToLoad();
         homePage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT);
@@ -379,7 +379,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                               feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForAjaxLoaderGifToDisappear();
         homePage.fillResendPublishedLinksForm();
-        homePage.submitResendPublshedLinksForm();
+        homePage.submitResendPublishedLinksForm();
         homePage.waitForPageToLoad();
         homePage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT);
