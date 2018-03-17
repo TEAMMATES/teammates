@@ -505,9 +505,7 @@ public final class FeedbackSessionsLogic {
 
         for (String instructorEmail : hiddenInstructorEmails) {
 
-            if (recipients.containsKey(instructorEmail)) {
-                recipients.remove(instructorEmail);
-            }
+            recipients.remove(instructorEmail);
 
             // Remove responses to the hidden instructors if they have been stored already
             responses.removeIf(response -> response.recipient.equals(instructorEmail));

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -324,19 +325,21 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                             + ","
                             + SanitizationHelper.sanitizeForCsv(recipientName);
 
-            String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(participantIdentifier)
-                    ? Integer.toString(recipientOverallRankExceptSelf.get(participantIdentifier)) : "-";
+            String selfRank = Optional.ofNullable(recipientSelfRanks.get(participantIdentifier))
+                                      .map(val -> Integer.toString(val))
+                                      .orElse("-");
             String overallRank = Integer.toString(recipientOverallRank.get(participantIdentifier));
-            String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
-                    ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
+            String overallRankExceptSelf = Optional.ofNullable(recipientOverallRankExceptSelf.get(participantIdentifier))
+                                                   .map(val -> Integer.toString(val))
+                                                   .orElse("-");
 
-            fragments.append(option);
-            fragments.append(',').append(selfRank);
-            fragments.append(',').append(overallRank);
-            fragments.append(',').append(overallRankExceptSelf);
-            fragments.append(',');
-            fragments.append(StringHelper.join(",", ranks));
-            fragments.append(System.lineSeparator());
+            fragments.append(option)
+                    .append(',').append(selfRank)
+                    .append(',').append(overallRank)
+                    .append(',').append(overallRankExceptSelf)
+                    .append(',')
+                    .append(StringHelper.join(",", ranks))
+                    .append(System.lineSeparator());
         });
 
         return "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received"
