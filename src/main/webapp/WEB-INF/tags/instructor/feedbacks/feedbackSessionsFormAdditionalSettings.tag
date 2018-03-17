@@ -14,7 +14,7 @@
               title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLELABEL %>"
               data-toggle="tooltip"
               data-placement="top">
-            <label class="label-control">Session visible from </label>
+            <label class="label-control">Make session visible </label>
           </div>
         </div>
         <div class="row radio">
@@ -89,7 +89,7 @@
               title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELABEL %>"
               data-toggle="tooltip"
               data-placement="top">
-            <label class="label-control">Responses visible from</label>
+            <label class="label-control">Make responses visible</label>
           </div>
         </div>
         <div class="row radio">
@@ -152,27 +152,12 @@
               data-toggle="tooltip"
               data-placement="top">
             <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later">
-              Publish manually
+              Not now (publish manually)
             </label>
             <input type="radio" name="resultsVisibleFromButton"
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER %>"
                 <c:if test="${additionalSettings.responseVisiblePublishManuallyChecked}">checked</c:if>>
-          </div>
-        </div>
-        <div class="row radio">
-          <div class="col-xs-12"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLENEVER %>"
-              data-toggle="tooltip"
-              data-placement="top">
-            <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_never">
-              Never
-            </label>
-            <input type="radio"
-                name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_never"
-                value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER %>"
-                <c:if test="${additionalSettings.responseVisibleNeverChecked}">checked</c:if>>
           </div>
         </div>
       </div>
