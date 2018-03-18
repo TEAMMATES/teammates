@@ -271,8 +271,8 @@ public final class InstructorPrivileges {
     private void verifyExistenceOfsectionName(String sectionName) {
         if (!this.sessionLevel.containsKey(sectionName)) {
             addSectionWithDefaultPrivileges(sectionName);
-            this.sessionLevel.put(sectionName, new LinkedHashMap<String, Map<String, Boolean>>());
         }
+        this.sessionLevel.putIfAbsent(sectionName, new LinkedHashMap<>());
     }
 
     public void addSectionWithDefaultPrivileges(String sectionName) {

@@ -113,8 +113,9 @@ public class FeedbackSessionQuestionsBundle {
 
             if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
                 questionsToHide.add(question);
-                questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
+
             }
+            questionResponseBundle.putIfAbsent(question, new ArrayList<>());
         }
 
         questionResponseBundle.keySet().removeAll(questionsToHide);

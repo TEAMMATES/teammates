@@ -771,9 +771,9 @@ public final class FeedbackResponsesLogic {
         }
         for (FeedbackResponseAttributes newResponse : newResponses) {
             if (!responses.containsKey(newResponse.getId())) {
-                responses.put(newResponse.getId(), newResponse);
                 existingResponses.add(newResponse);
             }
+            responses.putIfAbsent(newResponse.getId(), newResponse);
         }
     }
 
