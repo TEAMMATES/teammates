@@ -236,11 +236,8 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
 }
 
 /**
- * For Rank Options and Rank Recipients questions, set
- * input number field for min and max options
- * to 1 when corresponding checkbox is checked.
- *
- * Add 'required' to input for HTML validation when clicked on checkbox
+ * Auto fills the min and max options to 1 if empty when the corresponding checkbox is checked
+ * in Rank options and Rank recipients questions
  *
  * TODO: Add 'required' to HTML file instead, but redesign form to exclude other questions.
  */
@@ -250,14 +247,14 @@ function bindAutoFillEmptyRankOptionsChangeEvent() {
             + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED}]`
             + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED}]`).change((e) => {
         const linkedInputId = $(e.currentTarget).data('linkedInputId');
-        const correspondingInput = $(`#${linkedInputId}`);
+        const linkedInput = $(`#${linkedInputId}`);
 
         if ($(e.currentTarget).prop('checked')) {
-            if ($(correspondingInput).val() === '') {
-                $(correspondingInput).val('1');
+            if ($(linkedInput).val() === '') {
+                $(linkedInput).val('1');
             }
 
-            $(correspondingInput).prop('required', true);
+            $(linkedInput).prop('required', true); // Add 'required' to input for HTML validation when clicked on checkbox
         }
     });
 }

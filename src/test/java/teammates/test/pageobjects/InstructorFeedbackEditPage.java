@@ -1508,16 +1508,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillRankOption(NEW_QUESTION_NUM, optionIndex, optionText);
     }
 
-    public void fillRankMinOptionForQuestion(int qnNumber, String minOption) {
-        WebElement rankMinOption = browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
-        fillInputElement(rankMinOption, minOption);
-    }
-
-    public void fillRankMaxOptionForQuestion(int qnNumber, String minOption) {
-        WebElement rankMinOption = browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
-        fillInputElement(rankMinOption, minOption);
-    }
-
     public void tickDuplicatesAllowedCheckbox(int qnIndex) {
         WebElement checkBox = toggleDuplicatesAllowedCheckBox(qnIndex);
         assertTrue(checkBox.isSelected());
@@ -1695,24 +1685,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         return Integer.parseInt(elem.getAttribute("value"));
     }
 
-    public void setMinOptionsToBeRanked(int qnNumber, int value) {
-        assertTrue(isMinOptionsToBeRankedEnabled(qnNumber));
-
-        WebElement inputBox = getMinOptionsToBeRankedInputElement(qnNumber);
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
-        String id = inputBox.getAttribute("id");
-
-        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    public void fillMinOptionsToBeRanked(int qnNumber, String value) {
+        WebElement rankMinOption = getMinOptionsToBeRankedInputElement(qnNumber);
+        fillTextBox(rankMinOption, value);
     }
 
-    public void setMaxOptionsToBeRanked(int qnNumber, int value) {
-        assertTrue(isMaxOptionsToBeRankedEnabled(qnNumber));
-
-        WebElement inputBox = getMaxOptionsToBeRankedInputElement(qnNumber);
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
-        String id = inputBox.getAttribute("id");
-
-        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    public void fillMaxOptionsToBeRanked(int qnNumber, String value) {
+        WebElement rankMaxOption = getMaxOptionsToBeRankedInputElement(qnNumber);
+        fillTextBox(rankMaxOption, value);
     }
 
     public void verifyMinMaxOptionsToBeSelectedRestrictions(int qnNumber) {
@@ -1936,18 +1916,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         return checkbox.isSelected();
     }
 
-    // Only to be used for Rank Options Questions
     public void clickEnableMinRankOptions(int questionNumber) {
         WebElement minNumberOfOptionsToRankCheckbox = getMinOptionsToBeRankedCheckbox(questionNumber);
 
-        waitForPageToScroll();
         minNumberOfOptionsToRankCheckbox.click();
     }
 
     public void clearMinRankOptions(int questionNumber) {
         WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
 
-        waitForPageToScroll();
         minRecipientsToBeRankedInput.click();
         minRecipientsToBeRankedInput.clear();
     }

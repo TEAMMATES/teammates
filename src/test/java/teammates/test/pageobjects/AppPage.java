@@ -30,6 +30,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
@@ -362,7 +363,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Waits for page to scroll with 1 second upper bound.
+     * Waits for page to scroll for 1 second.
      * Temporary solution until we can detect specifically when page scrolling.
      */
     public void waitForPageToScroll() {
@@ -505,12 +506,6 @@ public abstract class AppPage {
         click(textBoxElement);
         textBoxElement.clear();
         textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
-    }
-
-    protected void fillInputElement(WebElement inputElement, String value) {
-        inputElement.click();
-        inputElement.clear();
-        inputElement.sendKeys(value);
     }
 
     protected void fillRichTextEditor(String id, String content) {
@@ -1057,10 +1052,13 @@ public abstract class AppPage {
         browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    public void verifyHtmlFormInputInvalid(String inputId) {
-        WebElement inputInvalid = browser.driver.findElement(By.cssSelector("input:invalid"));
+    /**
+     * Returns if the input element is valid (satisfies constraint validation).
+     */
+    public boolean isInputElementValid(WebElement inputElement) {
+        Preconditions.checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
 
-        assertEquals(inputInvalid.getAttribute("id"), inputId);
+        return (boolean) executeScript("return arguments[0].checkValidity();", inputElement);
     }
 
     public void changeToMobileView() {

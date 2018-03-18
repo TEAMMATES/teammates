@@ -73,7 +73,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditSessionAction();
 
         testGeneralQuestionOperations();
-        testRankQuestionOperations();
 
         testPreviewSessionAction();
 
@@ -112,41 +111,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditNonExistentQuestion();
 
         testResponseRate();
-    }
-
-    // TODO: backend validation
-    private void testRankQuestionOperations() {
-        feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
-
-        ______TS("Invalid empty number of options a respondent must rank");
-        feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
-        feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
-        feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 2");
-
-        feedbackEditPage.clickEnableMinRankOptions(NEW_QUESTION_INDEX);
-        feedbackEditPage.clearMinRankOptions(NEW_QUESTION_INDEX);
-
-        feedbackEditPage.clickAddQuestionButton();
-
-        feedbackEditPage.verifyHtmlFormInputInvalid("minOptionsToBeRanked-" + NEW_QUESTION_INDEX);
-
-        ______TS("Invalid letters in number of options a respondent must rank");
-        feedbackEditPage.fillRankMinOptionForQuestion(NEW_QUESTION_INDEX, "invalid letters");
-
-        feedbackEditPage.clickAddQuestionButton();
-
-        feedbackEditPage.verifyHtmlFormInputInvalid("minOptionsToBeRanked-" + NEW_QUESTION_INDEX);
-
-        ______TS("Success Case");
-        feedbackEditPage.fillRankMinOptionForQuestion(NEW_QUESTION_INDEX, "1");
-
-        feedbackEditPage.clickAddQuestionButton();
-
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-
-        feedbackEditPage.clickDeleteQuestionLink(1);
-        feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
     private void testContent() throws Exception {
