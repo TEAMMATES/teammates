@@ -610,6 +610,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return TimeHelper.formatInstantToIso8601Utc(endTime);
     }
 
+    public String getStartTimeInIso8601Format() { return TimeHelper.formatInstantToIso8601Utc(startTime); }
+
     /**
      * A Builder for {@link FeedbackSessionAttributes}.
      */
