@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -335,50 +335,27 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case STUDENTS:
-            List<StudentAttributes> studentsInCourse = studentsLogic.getStudentsForCourse(question.courseId);
-            for (StudentAttributes student : studentsInCourse) {
-                // Ensure student does not evaluate himself
-                if (!giver.equals(student.email)) {
-                    recipients.put(student.email, student.name);
-                }
-            }
+            recipients.putAll(studentsLogic.getStudentsForCourse(question.courseId).stream()
+                    .filter(x -> !giver.equals(x.email)).collect(Collectors.toMap(x -> x.email, x -> x.name)));
             break;
         case INSTRUCTORS:
-            List<InstructorAttributes> instructorsInCourse = instructorsLogic.getInstructorsForCourse(question.courseId);
-            for (InstructorAttributes instr : instructorsInCourse) {
-                // Ensure instructor does not evaluate himself
-                if (!giver.equals(instr.email)) {
-                    recipients.put(instr.email, instr.name);
-                }
-            }
+            recipients.putAll(instructorsLogic.getInstructorsForCourse(question.courseId).stream()
+                    .filter(x -> !giver.equals(x.email)).collect(Collectors.toMap(x -> x.email, x -> x.name)));
             break;
         case TEAMS:
-            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(question.courseId);
-            for (TeamDetailsBundle team : teams) {
-                // Ensure student('s team) does not evaluate own team.
-                if (!giverTeam.equals(team.name)) {
-                    // recipientEmail doubles as team name in this case.
-                    recipients.put(team.name, team.name);
-                }
-            }
+            recipients.putAll(coursesLogic.getTeamsForCourse(question.courseId).stream()
+                    .filter(x -> !giverTeam.equals(x.name)).collect(Collectors.toMap(x -> x.name, x -> x.name)));
             break;
         case OWN_TEAM:
             recipients.put(giverTeam, giverTeam);
             break;
         case OWN_TEAM_MEMBERS:
-            List<StudentAttributes> students = studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
-            for (StudentAttributes student : students) {
-                if (!student.email.equals(giver)) {
-                    recipients.put(student.email, student.name);
-                }
-            }
+            recipients.putAll(studentsLogic.getStudentsForTeam(giverTeam, question.courseId).stream()
+                    .filter(x -> !giver.equals(x.email)).collect(Collectors.toMap(x -> x.email, x -> x.name)));
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
-            for (StudentAttributes student : teamMembers) {
-                // accepts self feedback too
-                recipients.put(student.email, student.name);
-            }
+            recipients.putAll(studentsLogic.getStudentsForTeam(giverTeam, question.courseId)
+                    .stream().collect(Collectors.toMap(x -> x.email, x -> x.name)));
             break;
         case NONE:
             recipients.put(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION);

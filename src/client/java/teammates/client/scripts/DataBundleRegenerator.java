@@ -83,9 +83,7 @@ public final class DataBundleRegenerator {
             keys.add((String) key);
         }
         keys.sort(null);
-        for (String key : keys) {
-            reprintedJson.put(key, json.get(key));
-        }
+        keys.forEach(x -> reprintedJson.put(x, json.get(x)));
         return reprintedJson;
     }
 
