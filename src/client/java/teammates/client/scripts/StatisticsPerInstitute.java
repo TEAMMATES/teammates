@@ -120,10 +120,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             String institute = getInstituteForInstructor(instructor, allAccounts);
 
+            institutes.putIfAbsent(institute, new HashMap<Integer, Set<String>>());
             if (!institutes.containsKey(institute)) {
-                institutes.put(institute, new HashMap<Integer, Set<String>>());
-                institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
-                institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
+        //        institutes.put(institute, new HashMap<Integer, Set<String>>());
+                  institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
+                  institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
             institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
             allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
@@ -139,11 +140,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             String institute = getInstituteForStudent(student, allInstructors, allAccounts);
 
-            if (!institutes.containsKey(institute)) {
-                institutes.put(institute, new HashMap<Integer, Set<String>>());
+            institutes.putIfAbsent(institute, new HashMap<Integer, Set<String>>());
 
-                institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
-                institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
+            if (!institutes.containsKey(institute)) {
+                 //institutes.put(institute, new HashMap<Integer, Set<String>>());
+
+                 institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
+                 institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
 
             institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
@@ -176,7 +179,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
         String institute = getInstituteForInstructors(instructorList, allAccounts);
 
-        courseIdToInstituteMap.put(student.getCourseId(), institute);
+        courseIdToInstituteMap.putIfAbsent(student.getCourseId(), institute);
+        //courseIdToInstituteMap.put(student.getCourseId(), institute);
 
         return institute;
 
@@ -224,7 +228,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
         for (Account account : allAccounts) {
             if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
-                googleIdToInstituteMap.put(googleId, account.getInstitute());
+                googleIdToInstituteMap.putIfAbsent(googleId, account.getInstitute());
+                //googleIdToInstituteMap.put(googleId, account.getInstitute());
                 return account.getInstitute();
             }
         }
