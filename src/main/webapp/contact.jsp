@@ -7,7 +7,7 @@
     </h1>
     <img class="img-responsive" src="images/contact.png">
     <p>
-      <b>Email:</b> You can contact us at the following email address - <a href="mailto:teammates@comp.nus.edu.sg">teammates@comp.nus.edu.sg</a>
+      <b>Email:</b> You can contact us at the following email address - <a href="mailto:teammates@comp.nus.edu.sg"><i>teammates@comp.nus.edu.sg</i></a>
     </p>
     <br>
     <p>
