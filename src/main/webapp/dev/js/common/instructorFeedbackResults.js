@@ -140,6 +140,10 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
     $(button).attr('title', tooltipString).tooltip('fixTitle');
 }
 
+function isInExpandMode(button) {
+    return $(button).html().trim().startsWith('Expand');
+}
+
 /**
  * Expands or collapses all panels when collapse/expand panels button is clicked.
  * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}.
@@ -151,45 +155,39 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     const STRING_COLLAPSE = 'Collapse';
     const expandCollapseStudentsButton = 'a[id^="collapse-panels-button-section-"]';
     const expandCollapseTeamButton = 'a[id^="collapse-panels-button-team-"]';
-    const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
     const isCollapsePanelsButton = !panels;
-    /*
-     * When collapsing expandCollapseButton, expandCollapseTeamButton and expandCollapseStudentButton
-     * should be in collapsed state, so that next time when we expand the main panel, we find
-     * the expandCollapseTeamButton and expandCollapseStudentButton in collapsed state.
-     */
-    if (isCollapsePanelsButton && !isButtonInExpandMode) {
-        if ($(expandCollapseStudentsButton).length
-            && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
-            replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
-        }
-        if ($(expandCollapseTeamButton).length
-            && $(expandCollapseTeamButton).html().trim().startsWith(STRING_EXPAND)) {
-            replaceButtonHtmlAndTooltipText(expandCollapseTeamButton, STRING_EXPAND, STRING_COLLAPSE);
-        }
-    }
-    // When collapsing expandCollapseTeamButton, expandCollapseStudentButton should be in collapsed state.
-    if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))
-        && $(expandCollapseTeamButton).html().trim().startsWith(STRING_COLLAPSE)
-        && $(expandCollapseStudentsButton).html().trim().startsWith(STRING_EXPAND)) {
-        replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
-    }
 
     // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
     // need to define corresponding {@code targetPanels}.
     const targetPanels = panels || $('div.panel-collapse');
 
-    if (isButtonInExpandMode) {
+    if (isInExpandMode(expandCollapseButton)) {
+        // When expanding all panels via the expand panels button update the state for
+        // all expand/collapse buttons underneath (namely, team and student buttons).
+        if (isCollapsePanelsButton) {
+            if ($(expandCollapseStudentsButton).length
+                && isInExpandMode(expandCollapseStudentsButton)) {
+                replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
+            }
+            if ($(expandCollapseTeamButton).length
+                && isInExpandMode(expandCollapseTeamButton)) {
+                replaceButtonHtmlAndTooltipText(expandCollapseTeamButton, STRING_EXPAND, STRING_COLLAPSE);
+            }
+        }
+        // When expanding expandCollapseTeamButton, expandCollapseStudentButton should be in collapsed state.
+        if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))
+            && isInExpandMode(expandCollapseStudentsButton)) {
+            replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
+        }
         // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
         const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
         expandPanels(targetPanels, areAjaxLoadedPanels);
         replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_EXPAND, STRING_COLLAPSE);
-        $(expandCollapseButton).tooltip('show');
     } else {
         collapsePanels(targetPanels);
         replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_COLLAPSE, STRING_EXPAND);
-        $(expandCollapseButton).tooltip('show');
     }
+    $(expandCollapseButton).tooltip('show');
 }
 
 function bindCollapseEvents(panels, nPanels) {
