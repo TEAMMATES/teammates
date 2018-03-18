@@ -41,12 +41,12 @@ import {
 
 import {
     addConstSumOption,
+    bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
-    updateConstSumPointsValue,
-    bindConstSumOptionsRadioButtons,
     toggleConstSumOptionsRadioButton,
+    updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
 import {
@@ -1223,7 +1223,6 @@ $(document).ready(() => {
 window.updateConstSumPointsValue = updateConstSumPointsValue;
 window.addConstSumOption = addConstSumOption;
 window.removeConstSumOption = removeConstSumOption;
-window.toggleConstSumOptionsRadioButton = toggleConstSumOptionsRadioButton;
 window.addMcqOption = addMcqOption;
 window.removeMcqOption = removeMcqOption;
 window.toggleMcqGeneratedOptions = toggleMcqGeneratedOptions;

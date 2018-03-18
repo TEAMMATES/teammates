@@ -291,7 +291,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
-        // backspace to clear the extra 100 when box is cleared.
+        // Backspace to clear the extra 100 when box is cleared.
         fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
@@ -315,7 +315,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachOption" + idSuffix));
-        // backspace to clear the extra 100 when box is cleared.
+        // Backspace to clear the extra 100 when box is cleared.
         fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
@@ -339,7 +339,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachRecipient" + idSuffix));
-        // backspace to clear the extra 100 when box is cleared.
+        // Backspace to clear the extra 100 when box is cleared.
         fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);

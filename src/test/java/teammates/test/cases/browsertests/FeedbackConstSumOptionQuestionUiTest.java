@@ -49,8 +49,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testDisableConstSumPointsAction();
         testUiConsistencyForNewQuestion();
-        testConstSumPointsDisableAction();
     }
 
     @Override
@@ -236,23 +236,23 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     /**
      * Test that the constSumPoints* number fields gets disabled, if the corresponding radio button is not checked.
      */
-    private void testConstSumPointsDisableAction() {
+    private void testDisableConstSumPointsAction() {
         ______TS("Success case: CONSTSUM-option points to distribute field disables when radio button is unchecked");
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
 
-        //Make sure that constSumPointsTotal radio button is selected by default
+        // Make sure that constSumPointsTotal radio button is selected by default
         assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());
-        //verify that constSumPointsForEachOption field is disabled
+        // Verify that constSumPointsForEachOption field is disabled
         feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachOption--1")));
-        //Select constSumPointsPerOption radio button
+        // Select constSumPointsPerOption radio button
         feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerOption");
-        //verify that constSumPoints field is disabled
+        // Verify that constSumPoints field is disabled
         feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPoints--1")));
-        //Select constSumPointsTotal radio button.
+        // Select constSumPointsTotal radio button.
         feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("Total");
-        //verify that constSumPointsForEachOption field is disabled
+        // Verify that constSumPointsForEachOption field is disabled
         feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachOption--1")));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();

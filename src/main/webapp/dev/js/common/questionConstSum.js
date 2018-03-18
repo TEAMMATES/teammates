@@ -93,10 +93,10 @@ function bindConstSumOptionsRadioButtons() {
 
 export {
     addConstSumOption,
+    bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
-    updateConstSumPointsValue,
-    bindConstSumOptionsRadioButtons,
     toggleConstSumOptionsRadioButton,
+    updateConstSumPointsValue,
 };
