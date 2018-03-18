@@ -115,6 +115,33 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 "Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.");
 
+        ______TS("Check that Max/Min selectable choices cannot be blank");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
+
+        feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
+        feedbackEditPage.fillMsqMaxSelectableChoices(NEW_QUESTION_INDEX, "");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Please enter valid option. The max selectable choices cannot be empty.");
+
+        feedbackEditPage.setMsqMaxSelectableChoices(NEW_QUESTION_INDEX, 2);
+        feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
+        feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
+        feedbackEditPage.fillMsqMinSelectableChoices(NEW_QUESTION_INDEX, "");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Please enter valid option. The min selectable choices cannot be empty.");
+        feedbackEditPage.setMsqMinSelectableChoices(NEW_QUESTION_INDEX, 1);
+        feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
         ______TS("select Add Other Option");
 
         feedbackEditPage.clickNewQuestionButton();
@@ -127,6 +154,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
         assertTrue(feedbackEditPage.isElementSelected("msqOtherOptionFlag--1"));
         feedbackEditPage.clickAddQuestionButton();
+
     }
 
     @Override
