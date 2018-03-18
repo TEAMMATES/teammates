@@ -23,7 +23,10 @@
                     Session with your own questions
                   </li>
                   <li>
-                    Team peer evaluation session (creates 5 standard questions)
+                    Team peer evaluation session
+                  </li>
+                  <li>
+                    session using template: team peer evaluation (optimized)
                   </li>
                 </ul>
               </span>
@@ -168,7 +171,7 @@
             <form class="form-group" name="form_feedbacksession">
               <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
                 <h4 class="label-control col-md-2 text-md">Create new </h4>
-                <div class="col-md-5">
+                <div class="col-md-6">
                   <select class="form-control" name="fstype" id="fstype">
                     <option value="STANDARD" selected="">
                       Session with your own questions
@@ -176,11 +179,14 @@
                     <option value="TEAMEVALUATION">
                       Team peer evaluation session
                     </option>
+                    <option value="OPTIMIZEDTEAMEVALUATION">
+                      session using template: team peer evaluation (optimized)
+                    </option>
                   </select>
                 </div>
                 <h4 class="label-control col-md-1 text-md">Or: </h4>
                 <div class="col-md-3">
-                  <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
+                  <a id="button_copy" class="btn btn-info" style="vertical-align:middle; float: right;">Copy from previous feedback sessions</a>
                 </div>
               </div>
               <br>

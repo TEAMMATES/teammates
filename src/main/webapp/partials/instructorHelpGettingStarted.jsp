@@ -105,14 +105,17 @@
           <div class="well well-plain">
             <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
               <h4 class="label-control col-md-2 text-md">Create new </h4>
-              <div class="col-md-5">
+              <div class="col-md-6">
                 <div class="col-xs-10 tablet-no-padding" title="" data-toggle="tooltip" data-placement="top" data-original-title="Select a session type here.">
                   <select class="form-control" name="fstype" id="fstype">
                     <option value="STANDARD" selected="">
                       Session with your own questions
                     </option>
-                    <option value="TEAMEVALUATION" selected>
+                    <option value="TEAMEVALUATION">
                       Team peer evaluation session
+                    </option>
+                    <option value="OPTIMIZEDTEAMEVALUATION" selected>
+                      session using template: team peer evaluation (optimized)
                     </option>
                   </select>
                 </div>
@@ -126,7 +129,7 @@
               </div>
               <h4 class="label-control col-md-1 text-md">Or: </h4>
               <div class="col-md-3">
-                <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
+                <a id="button_copy" class="btn btn-info" style="vertical-align:middle; float: right;">Copy from previous feedback sessions</a>
               </div>
             </div>
             <br>
@@ -331,8 +334,16 @@
             <li>Team peer evaluation session</li>
             <div style="margin: 0 auto; padding: 0 50px;">
               <ul>
-                <li>Provides 5 standard questions for team peer evaluations</li>
-                <li> Allows you to modify/remove the given questions and add your own questions as required</li>
+                <li>Provides 5 questions for team peer evaluations, with the first question being a contribution question</li>
+                <li>Allows you to modify/remove the given questions and add your own questions as required</li>
+              </ul>
+            </div>
+            <li>session using template: team peer evaluation (optimized)</li>
+            <div style="margin: 0 auto; padding: 0 50px;">
+              <ul>
+                <li>Provides 5 standard questions for team peer evaluations, with the first question being a distribute points question</li>
+                <li>Allows you to modify/remove the given questions and add your own questions as required</li>
+                <li>Recommended template for new users (distribute points questions are generally easier to use)</li>
               </ul>
             </div>
             <br>
