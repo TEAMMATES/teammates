@@ -122,7 +122,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(INSTRUCTOR_INDEX, new HashSet<String>());
             institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(STUDENT_INDEX, new HashSet<String>());
-            institutes.computeIfAbsent(institute, key -> new HashMap<>()).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>()).get(INSTRUCTOR_INDEX)
+                    .add(instructor.getEmail().toLowerCase());
 
             allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
             instructorEmailCounter++;
@@ -138,8 +139,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             String institute = getInstituteForStudent(student, allInstructors, allAccounts);
 
             institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(INSTRUCTOR_INDEX, new HashSet<String>());
-            institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(STUDENT_INDEX, new HashSet<String>());
-            institutes.computeIfAbsent(institute, key -> new HashMap<>()).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>())
+                    .put(STUDENT_INDEX, new HashSet<String>());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>()).get(STUDENT_INDEX)
+                    .add(student.getEmail().toLowerCase());
 
             allStudentEmailSet.add(student.getEmail().toLowerCase());
             studentEmailCounter++;
@@ -161,7 +164,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private String getInstituteForStudent(
             CourseStudent student, List<Instructor> allInstructors, List<Account> allAccounts) {
-
 
         if (courseIdToInstituteMap.containsKey(student.getCourseId())) {
             return courseIdToInstituteMap.get(student.getCourseId());
