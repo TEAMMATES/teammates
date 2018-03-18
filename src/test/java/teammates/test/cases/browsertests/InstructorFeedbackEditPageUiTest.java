@@ -34,9 +34,6 @@ import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
  */
 @Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
-
-    private static final int NEW_QUESTION_INDEX = -1;
-
     private InstructorFeedbackEditPage feedbackEditPage;
     private String instructorId;
     private String courseId;
