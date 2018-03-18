@@ -61,10 +61,21 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         attributes.setEndTime(TimeHelper.convertLocalDateTimeToInstant(endTimeLocal, attributes.getTimeZone()));
 
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
+        int gracePeriod = 0;
+        boolean isGracePeriodvalid = true;
         try {
-            attributes.setGracePeriodMinutes(Integer.parseInt(paramGracePeriod));
+            gracePeriod = Integer.parseInt(paramGracePeriod);
         } catch (NumberFormatException nfe) {
             log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
+            isGracePeriodvalid = false;
+        }
+
+        if (isGracePeriodvalid) {
+            if (gracePeriod >= 0) {
+                attributes.setGracePeriodMinutes(gracePeriod);
+            } else {
+                log.warning("Grace period is not valid" + paramGracePeriod);
+            }
         }
 
         if (isCreatingNewSession) {
