@@ -370,7 +370,7 @@ function resendPublishedEmailsToStudents(urlLink) {
             $statusMessage.css('display', 'block');
         },
         error() {
-            $statusMessage.html('An error has occurred while sending emails. Please try again.');
+            $statusMessage.html('An error has occurred while requesting for emails to be resent. Please try again.');
         },
         success(data) {
             const statusToUser = $(data).find('#statusMessagesToUser').html();

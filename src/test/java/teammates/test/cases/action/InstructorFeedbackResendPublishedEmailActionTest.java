@@ -17,7 +17,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL;
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
         InstructorFeedbackResendPublishedEmailAction action = getAction(paramsNoUserToEmail);
 
         RedirectResult rr = getRedirectResult(action);
-        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT));
+        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT));
         verifyNoTasksAdded(action);
 
         ______TS("Unsuccessful case: Feedback session not published, warning message generated");
@@ -64,7 +64,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
         action = getAction(paramsFeedbackSessionNotPublshed);
 
         rr = getRedirectResult(action);
-        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_NOT_PUBLISHED));
+        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_NOT_PUBLISHED));
         verifyNoTasksAdded(action);
 
         ______TS("Successful case: Typical case");
@@ -79,7 +79,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
         action = getAction(paramsTypical);
 
         rr = getRedirectResult(action);
-        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMAIL_SENT));
+        assertTrue(rr.getStatusMessage().contains(Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_SENT));
 
         verifySpecifiedTasksAdded(action,
                 TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME, 1);

@@ -17,7 +17,7 @@ public class InstructorFeedbackResendPublishedEmailPageActionTest extends BaseAc
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL_PAGE;
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE;
     }
 
     @Override

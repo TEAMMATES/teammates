@@ -26,28 +26,28 @@ public class InstructorFeedbackResendPublishedEmailAction extends Action {
 
         if (!feedbackSession.isPublished()) {
             statusToUser.add(new StatusMessage(
-                    Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_NOT_PUBLISHED, StatusMessageColor.DANGER));
+                    Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_NOT_PUBLISHED, StatusMessageColor.DANGER));
             statusToAdmin = "Reminder email could not be sent out as the feedback session is not published.";
             return createRedirectResult(nextUrl);
         }
 
         String[] usersToEmail = getRequestParamValues(Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST);
         if (usersToEmail == null || usersToEmail.length == 0) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT,
-                                               StatusMessageColor.DANGER));
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT,
+                    StatusMessageColor.DANGER));
             return createRedirectResult(nextUrl);
         }
 
         taskQueuer.scheduleFeedbackSessionResendPublishedEmail(courseId, feedbackSessionName, usersToEmail);
 
         statusToUser.add(new StatusMessage(
-                Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMAIL_SENT, StatusMessageColor.SUCCESS));
+                Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_SENT, StatusMessageColor.SUCCESS));
         statusToAdmin = "Email sent out to the selected user(s): ";
         for (String user : usersToEmail) {
             statusToAdmin += "<br>" + user;
         }
         statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName
-                         + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
+                + ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
 
         return createRedirectResult(nextUrl);
     }

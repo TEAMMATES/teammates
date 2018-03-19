@@ -70,8 +70,7 @@ public class FeedbackSessionResponseStatus {
      * Returns list of all students, sorted by teamName > studentNamelist.
      */
     public List<String> getAllStudentsSorted() {
-        ArrayList<String> allStudents = new ArrayList<String>();
-        allStudents.addAll(noResponse);
+        ArrayList<String> allStudents = new ArrayList<String>(noResponse);
         allStudents.addAll(studentsWhoResponded);
         allStudents.sort(compareByTeamNameStudentName);
         return allStudents;

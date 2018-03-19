@@ -190,7 +190,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
@@ -967,9 +967,9 @@ public final class Const {
                 "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
-        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL_PAGE =
+        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE =
                 "/page/instructorFeedbackResendPublishEmailPage";
-        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL =
+        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL =
                 "/page/instructorFeedbackResendPublishEmail";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE = "/page/instructorFeedbackEditCopyPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY = "/page/instructorFeedbackEditCopy";
@@ -1370,12 +1370,12 @@ public final class Const {
         public static final String FEEDBACK_SESSION_PUBLISHED =
                 "The feedback session has been published. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
-        public static final String FEEDBACK_SESSION_RESEND_LINKS_NOT_PUBLISHED =
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_NOT_PUBLISHED =
                 "The feedback session is not published. "
                 + "You cannot resend published notification emails for a session that is not published.";
-        public static final String FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT =
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT =
                 "You have not selected any student to email.";
-        public static final String FEEDBACK_SESSION_RESEND_LINKS_EMAIL_SENT =
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_SENT =
                 "Session published notification emails have been resent to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";

@@ -25,9 +25,8 @@ public class InstructorFeedbackResendPublishedEmailPageAction extends Action {
         FeedbackSessionResponseStatus fsResponseStatus =
                 logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
 
-        InstructorFeedbackAjaxStudentsListPageData data =
-                new InstructorFeedbackAjaxStudentsListPageData(account, sessionToken, fsResponseStatus,
-                                                                       courseId, feedbackSessionName);
+        InstructorFeedbackAjaxStudentsListPageData data = new InstructorFeedbackAjaxStudentsListPageData(
+                account, sessionToken, fsResponseStatus, courseId, feedbackSessionName);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_RESEND_PUBLISHED_EMAIL_MODAL, data);
     }

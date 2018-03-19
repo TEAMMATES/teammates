@@ -86,9 +86,9 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE, InstructorFeedbackRemindParticularStudentsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS, InstructorFeedbackRemindParticularStudentsAction.class);
         map(INSTRUCTOR_FEEDBACK_PUBLISH, InstructorFeedbackPublishAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL_PAGE,
+        map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE,
                 InstructorFeedbackResendPublishedEmailPageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL,
+        map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
                 InstructorFeedbackResendPublishedEmailAction.class);
         map(INSTRUCTOR_FEEDBACK_UNPUBLISH, InstructorFeedbackUnpublishAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);

@@ -521,13 +521,13 @@ public class PageData {
     }
 
     /**
-     * Retrieves the link to load session publish email modal.
+     * Retrieves the link to load data for the resend session published email modal.
      * @param courseId the course ID
      * @param feedbackSessionName the name of the feedback session
      * @return the link to load email modal
      */
     public String getInstructorFeedbackResendPublishedEmailPageLink(String courseId, String feedbackSessionName) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL_PAGE;
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
@@ -535,13 +535,12 @@ public class PageData {
     }
 
     /**
-     * Retrieves the link to submit the request to email session publication
-     * to a particular student(s).
+     * Retrieves the link to submit the request for resending the session published email.
      * @param returnUrl the url to return to after submitting the request
      * @return submit link with return url appended to it
      */
     public String getInstructorFeedbackResendPublishedEmailLink(String returnUrl) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISH_EMAIL;
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL;
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addSessionTokenToUrl(link);
 

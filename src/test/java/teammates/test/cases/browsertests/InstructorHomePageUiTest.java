@@ -372,7 +372,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.submitResendPublishedLinksForm();
         homePage.waitForPageToLoad();
         homePage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT);
+                Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
         homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
                                                         feedbackSessionPublished.getFeedbackSessionName());
         homePage.clickResendPublshedLinksLink(feedbackSessionPublished.getCourseId(),
@@ -382,7 +382,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.submitResendPublishedLinksForm();
         homePage.waitForPageToLoad();
         homePage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_EMPTY_RECIPIENT);
+                Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
 
         ______TS("resend links action: NOT PUBLISHED feedback session");
         // Test that the resend published links button does not exist for this not published session
