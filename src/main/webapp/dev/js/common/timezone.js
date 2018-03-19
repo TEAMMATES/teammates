@@ -18,7 +18,7 @@ const TimeZone = {
             const min = Math.abs(offset) % 60;
             // offset is calculated as the number of minutes needed to get to UTC
             // thus the +/- sign needs to be swapped
-            return `UTC ${offset < 0 ? '+' : '-'}${addLeadingZeroes(hr)}:${addLeadingZeroes(min)}`;
+            return `UTC${offset < 0 ? '+' : '-'}${addLeadingZeroes(hr)}:${addLeadingZeroes(min)}`;
         }
 
         function isSupportedByJava(name) {
@@ -32,7 +32,7 @@ const TimeZone = {
         moment.tz.names().filter(isSupportedByJava).forEach((name) => {
             const o = document.createElement('option');
             const date = new Date();
-            const offset = moment.tz.zone(name).offset(date);
+            const offset = moment.tz.zone(name).utcOffset(date);
             o.text = `${name} (${displayUtcOffset(offset)})`;
             o.value = name;
             $selectElement.append(o);
@@ -50,11 +50,16 @@ const TimeZone = {
 
     /**
      * Updates the specified <select> field with the chosen time zone.
+     * If the chosen time zone is unrecognized, a new option is added for it.
      */
     updateTimeZone($selectElement, timeZone) {
-        if (moment.tz.names().indexOf(timeZone) !== -1) {
-            $selectElement.val(timeZone);
+        if (moment.tz.names().indexOf(timeZone) === -1) {
+            const o = document.createElement('option');
+            o.text = `${timeZone} (please select one of the above options)`;
+            o.value = timeZone;
+            $selectElement.append(o);
         }
+        $selectElement.val(timeZone);
     },
 };
 
