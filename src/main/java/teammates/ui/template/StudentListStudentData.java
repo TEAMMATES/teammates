@@ -17,6 +17,7 @@ public class StudentListStudentData {
     private String courseStudentRemindLink;
     private String courseStudentDeleteLink;
     private String courseStudentRecordsLink;
+    private String courseStudentListRemindLink;
     private String sessionToken;
 
     public StudentListStudentData(String googleId, String studentName, String studentEmail, String course,
@@ -40,6 +41,8 @@ public class StudentListStudentData {
                                                                            course, studentEmail, googleId);
         this.courseStudentRecordsLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
                                                                             course, studentEmail, googleId);
+        this.courseStudentListRemindLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_REMIND,
+                course, studentEmail, googleId);
     }
 
     private String furnishLinkWithCourseEmailAndUserId(String rawLink, String course, String studentEmail,
@@ -96,4 +99,5 @@ public class StudentListStudentData {
         return courseStudentRecordsLink;
     }
 
+    public String getCourseStudentListRemindLink(){ return courseStudentListRemindLink; }
 }

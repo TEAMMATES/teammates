@@ -144,7 +144,12 @@
                           </c:when>
                           <c:otherwise>
                             title="<%= Const.Tooltips.COURSE_STUDENT_REMIND %>"
-                            href="${student.courseStudentRemindLink}"
+                            <c:if test="${fromCourseDetailsPage}">
+                              href="${student.courseStudentRemindLink}"
+                            </c:if>
+                            <c:if test="${fromStudentListPage}">
+                              href="${student.courseStudentListRemindLink}"
+                            </c:if>
                           </c:otherwise>
                         </c:choose>
                         data-toggle="tooltip"
