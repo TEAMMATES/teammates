@@ -11,7 +11,7 @@ import {
 } from './const';
 import {
     setStatusMessage,
-} from "./statusMessage";
+} from './statusMessage';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
