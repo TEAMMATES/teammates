@@ -115,19 +115,6 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 "Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.");
 
-        ______TS("select Add Other Option");
-
-        feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
-        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq with other option");
-        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
-        assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
-
-        assertTrue(feedbackEditPage.isElementPresent("msqOtherOptionFlag--1"));
-        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
-        assertTrue(feedbackEditPage.isElementSelected("msqOtherOptionFlag--1"));
-        feedbackEditPage.clickAddQuestionButton();
-
         ______TS("Check that Max/Min selectable choices cannot be blank");
 
         feedbackEditPage.clickNewQuestionButton();
@@ -142,17 +129,31 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 "Please enter valid option. The max selectable choices cannot be empty.");
-        feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
 
+        feedbackEditPage.setMsqMaxSelectableChoices(NEW_QUESTION_INDEX, 2);
+        feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
         feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
         feedbackEditPage.fillMsqMinSelectableChoices(NEW_QUESTION_INDEX, "");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 "Please enter valid option. The min selectable choices cannot be empty.");
+        feedbackEditPage.setMsqMinSelectableChoices(NEW_QUESTION_INDEX, 1);
         feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
-
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        ______TS("select Add Other Option");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq with other option");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
+
+        assertTrue(feedbackEditPage.isElementPresent("msqOtherOptionFlag--1"));
+        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+        assertTrue(feedbackEditPage.isElementSelected("msqOtherOptionFlag--1"));
+        feedbackEditPage.clickAddQuestionButton();
 
     }
 

@@ -164,10 +164,6 @@ const DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = 'Please enter a valid question. Th
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = 'Please enter valid options. The min/max/step cannot be empty.';
 const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
         'Please enter valid options. The interval is not divisible by the specified increment.';
-const DISPLAY_FEEDBACK_QUESTION_MSQ_MAX_CHOICE_OPTIONINVALID =
-        'Please enter valid option. The max selectable choices cannot be empty.';
-const DISPLAY_FEEDBACK_QUESTION_MSQ_MIN_CHOICE_OPTIONINVALID =
-        'Please enter valid option. The min selectable choices cannot be empty.';
 const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
@@ -225,22 +221,6 @@ function checkFeedbackQuestion(form) {
         }
         setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, BootstrapContextualColors.DANGER, form);
         return false;
-    }
-    if ($(form).find(`[name=${ParamsNames.FEEDBACK_QUESTION_TYPE}]`).val() === 'MSQ') {
-        if ($(form).find("[name='msqEnableMaxSelectableChoices']").prop('checked')) {
-            if (!$(form).find("[name='msqMaxSelectableChoices']").val()) {
-                setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_MSQ_MAX_CHOICE_OPTIONINVALID,
-                        BootstrapContextualColors.DANGER, form);
-                return false;
-            }
-        }
-        if ($(form).find("[name='msqEnableMinSelectableChoices']").prop('checked')) {
-            if (!$(form).find("[name='msqMinSelectableChoices']").val()) {
-                setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_MSQ_MIN_CHOICE_OPTIONINVALID,
-                        BootstrapContextualColors.DANGER, form);
-                return false;
-            }
-        }
     }
     return true;
 }
