@@ -31,7 +31,7 @@ public abstract class EmailSenderService {
     // accounts for the many different Exceptions from different email services
     protected abstract void sendEmailWithService(EmailWrapper wrapper) throws Exception;
 
-    static boolean isErrorStatus(int statusCode) {
+    static boolean isNotSuccessStatus(int statusCode) {
         return statusCode < 200 || statusCode > 299;
     }
 

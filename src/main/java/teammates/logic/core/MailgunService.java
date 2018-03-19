@@ -61,7 +61,7 @@ public class MailgunService extends EmailSenderService {
             ClientResponse response = webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE)
                     .post(ClientResponse.class, email);
 
-            if (isErrorStatus(response.getStatus())) {
+            if (isNotSuccessStatus(response.getStatus())) {
                 log.severe("Email failed to send: " + response.getStatusInfo().getReasonPhrase());
             }
         } catch (IOException e) {
