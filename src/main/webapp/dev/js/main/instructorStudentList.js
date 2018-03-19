@@ -4,6 +4,7 @@ import {
 
 import {
     attachEventToDeleteStudentLink,
+    attachEventToSendInviteLink,
     bindStudentPhotoLink,
     executeCopyCommand,
     prepareInstructorPages,
@@ -18,7 +19,6 @@ import {
     clearStatusMessages,
     setStatusMessage,
 } from '../common/statusMessage';
-import {showModalConfirmation} from "../common/bootboxWrapper";
 
 // Trigger ajax request for a course through clicking the heading
 function triggerAjax(e) {
@@ -337,26 +337,6 @@ const seeMoreRequest = function (e) {
     }
 };
 
-function attachEventToSendInviteLink() {
-    $('.course-student-remind-link').on('click', (event) => {
-        event.preventDefault();
-
-        const $clickedLink = $(event.currentTarget);
-        const messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
-                + 'invite to students at the opening time of each session. Send a join request anyway?';
-        const okCallback = function okCallback() {
-            $.get($clickedLink.attr('href'), () => {
-                const studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html().trim();
-                const message = `An email has been sent to ${studentEmail}`;
-                setStatusMessage(message, 'success');
-            });
-        };
-
-        showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.INFO);
-    });
-}
-
 $(document).ready(() => {
     prepareInstructorPages();
     attachEventToDeleteStudentLink();
@@ -558,6 +538,5 @@ $(document).ready(() => {
             toggleSort($(this));
         }
     });
-
     $('.ajax_submit').click(seeMoreRequest);
 });
