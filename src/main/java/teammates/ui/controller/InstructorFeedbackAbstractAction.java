@@ -1,7 +1,9 @@
 package teammates.ui.controller;
 
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -46,8 +48,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         if (paramTimeZone != null) {
             try {
-                attributes.setTimeZone(TimeHelper.convertToZoneId(Double.parseDouble(paramTimeZone)));
-            } catch (NumberFormatException nfe) {
+                attributes.setTimeZone(ZoneId.of(paramTimeZone));
+            } catch (DateTimeException e) {
                 log.warning("Failed to parse time zone parameter: " + paramTimeZone);
             }
         }
