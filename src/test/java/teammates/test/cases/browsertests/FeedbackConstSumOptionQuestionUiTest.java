@@ -234,7 +234,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     }
 
     /**
-     * Test that the constSumPoints* number fields gets disabled, if the corresponding radio button is not checked.
+     * Tests that the constSumPoints* number fields gets disabled, if the corresponding radio button is not checked.
      */
     private void testDisableConstSumPointsAction() {
         ______TS("Success case: CONSTSUM-option points to distribute field disables when radio button is unchecked");
