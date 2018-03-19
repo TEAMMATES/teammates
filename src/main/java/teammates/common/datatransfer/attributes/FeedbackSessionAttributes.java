@@ -224,6 +224,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
+        addNonEmptyError(validator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
 
         return errors;
     }

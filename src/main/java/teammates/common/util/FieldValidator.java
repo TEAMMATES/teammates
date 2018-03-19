@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -153,6 +154,8 @@ public class FieldValidator {
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
     // field-specific error messages
+    public static final String GRACE_PERIOD_NEGATIVE = " Grace period should never be negative i.e. "
+            + " it should always be positive or zero";
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
@@ -316,6 +319,20 @@ public class FieldValidator {
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
                                             REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if{@code gracePeriod} is not negative.
+     * @return An Explanation why the {@code gracePeriod} not acceptable.
+     */
+    public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
+        // flag to compare gracePeriod duration with Zero duration
+
+        int flag = gracePeriod.compareTo(Duration.ZERO);
+        if (flag < 0) {
+            return GRACE_PERIOD_NEGATIVE;
         }
         return "";
     }
