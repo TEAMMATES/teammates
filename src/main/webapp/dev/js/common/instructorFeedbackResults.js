@@ -156,6 +156,7 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     const expandCollapseStudentsButton = 'a[id^="collapse-panels-button-section-"]';
     const expandCollapseTeamButton = 'a[id^="collapse-panels-button-team-"]';
     const isCollapsePanelsButton = !panels;
+    const isCollapseTeamButton = expandCollapseButton === $(expandCollapseTeamButton);
 
     // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
     // need to define corresponding {@code targetPanels}.
@@ -166,16 +167,16 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
         // all expand/collapse buttons underneath (namely, team and student buttons).
         if (isCollapsePanelsButton) {
             if ($(expandCollapseStudentsButton).length
-                && isInExpandMode(expandCollapseStudentsButton)) {
+                    && isInExpandMode(expandCollapseStudentsButton)) {
                 replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
             }
             if ($(expandCollapseTeamButton).length
-                && isInExpandMode(expandCollapseTeamButton)) {
+                    && isInExpandMode(expandCollapseTeamButton)) {
                 replaceButtonHtmlAndTooltipText(expandCollapseTeamButton, STRING_EXPAND, STRING_COLLAPSE);
             }
-        }
-        // When expanding expandCollapseTeamButton, expandCollapseStudentButton should be in collapsed state.
-        if ($(expandCollapseStudentsButton).length && (expandCollapseButton === $(expandCollapseTeamButton))
+            // When expanding all panels via the expand team panels button update the state for
+            // expand/collapse student button underneath.
+        } else if (isCollapseTeamButton && $(expandCollapseStudentsButton).length
             && isInExpandMode(expandCollapseStudentsButton)) {
             replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
         }
