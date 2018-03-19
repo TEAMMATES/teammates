@@ -35,6 +35,7 @@ import {
     collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
+    initializeTimeZoneOptions,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
 } from '../common/instructorFeedbacks';
@@ -1168,6 +1169,7 @@ function readyFeedbackEditPage() {
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
+    initializeTimeZoneOptions();
 
     setupFsCopyModal();
 
