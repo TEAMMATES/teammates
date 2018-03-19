@@ -15,7 +15,7 @@ public class FeedbackResultsTable {
     private List<FeedbackResponsePersonRow> givenResponses;
 
     public FeedbackResultsTable(int fbIndex, String studentName, FeedbackSessionResultsBundle result,
-                                boolean submissionStatus) {
+                                boolean hasStudentSubmitted) {
         this.studentName = studentName;
 
         this.receivedResponses = new ArrayList<>();
@@ -29,38 +29,38 @@ public class FeedbackResultsTable {
                                                                          entry.getValue(), result));
             }
 
-            boolean hasAnsweredContrib = false;
-            boolean contribExistsFromOtherStudent = false;
-            FeedbackResponseAttributes response = new FeedbackResponseAttributes();
+            boolean[] hasAnsweredContrib = { false };
+            boolean[] contribExistsFromOtherStudent = { false };
+            FeedbackResponseAttributes[] response = new FeedbackResponseAttributes[1];
 
-            for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
-                for (int j = 0; j < entry.getValue().size(); j++) {
-                    FeedbackQuestionType questionType = entry.getValue().get(j).feedbackQuestionType;
-                    String recipient = entry.getValue().get(j).recipient;
-                    String giver = entry.getValue().get(j).giver;
+            received.forEach((key, value) -> {
+                for (FeedbackResponseAttributes feedbackResponseAttributes : value) {
+                    FeedbackQuestionType questionType = feedbackResponseAttributes.feedbackQuestionType;
+                    String recipient = feedbackResponseAttributes.recipient;
+                    String giver = feedbackResponseAttributes.giver;
                     if (questionType.equals(FeedbackQuestionType.CONTRIB)) {
-                        response = new FeedbackResponseAttributes(entry.getValue().get(j));
-                        contribExistsFromOtherStudent = true;
+                        response[0] = new FeedbackResponseAttributes(feedbackResponseAttributes);
+                        contribExistsFromOtherStudent[0] = true;
                     }
                     if (giver.equals(recipient) && questionType.equals(FeedbackQuestionType.CONTRIB)) {
-                        hasAnsweredContrib = true;
+                        hasAnsweredContrib[0] = true;
                     }
                 }
-            }
+            });
             // if student has not submitted the session or CONTRIB response
             // about himself then student's submission to CONTRIB is shown No
             // Response and PC is shown next to it
-            if ((!submissionStatus || !hasAnsweredContrib) && contribExistsFromOtherStudent) {
+            if ((!hasStudentSubmitted || !hasAnsweredContrib[0]) && contribExistsFromOtherStudent[0]) {
                 giverIndex++;
-                response.giver = response.recipient;
-                response.giverSection = response.recipientSection;
+                response[0].giver = response[0].recipient;
+                response[0].giverSection = response[0].recipientSection;
                 List<FeedbackResponseAttributes> responses = new ArrayList<>();
-                responses.add(response);
+                responses.add(response[0]);
                 FeedbackResponsePersonRow contribPcRow = new FeedbackResponsePersonRow(fbIndex, giverIndex, studentName,
                                                                                         "giver", responses, result);
                 String responseText = contribPcRow.getResponses().get(0).getResponseText();
                 String newResponseText = "<span>No Response</span>"
-                        + responseText.substring(responseText.indexOf("</span>") + 7);
+                        + responseText.substring(responseText.indexOf("</span>") + "</span>".length());
                 contribPcRow.getResponses().get(0).setResponseText(newResponseText);
                 this.receivedResponses.add(contribPcRow);
             }

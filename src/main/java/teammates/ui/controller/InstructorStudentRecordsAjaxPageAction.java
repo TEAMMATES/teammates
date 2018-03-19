@@ -73,8 +73,8 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
 
         InstructorStudentRecordsAjaxPageData data =
-                                        new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results,
-                                                                                 sessionSubmissionStatusMap);
+                new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results,
+                                                         sessionSubmissionStatusMap);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
     }

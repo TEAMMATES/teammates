@@ -20,14 +20,14 @@ public class InstructorStudentRecordsAjaxPageData extends PageData {
         this.resultsTables = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
             FeedbackSessionResultsBundle result = results.get(i);
-            boolean submissionStatus = true;
-            try {
-                submissionStatus = sessionSubmissionStatusMap.get(result.getFeedbackSession().getFeedbackSessionName());
-            } catch (Exception e) {
-                // assumed value of submisionSession is true
+            boolean hasStudentSubmitted;
+            if (sessionSubmissionStatusMap.containsKey(result.getFeedbackSession().getFeedbackSessionName())) {
+                hasStudentSubmitted = sessionSubmissionStatusMap.get(result.getFeedbackSession().getFeedbackSessionName());
+            } else {
+                hasStudentSubmitted = true;
             }
             String studentName = result.appendTeamNameToName(student.name, student.team);
-            this.resultsTables.add(new FeedbackResultsTable(i, studentName, result, submissionStatus));
+            this.resultsTables.add(new FeedbackResultsTable(i, studentName, result, hasStudentSubmitted));
         }
     }
 
