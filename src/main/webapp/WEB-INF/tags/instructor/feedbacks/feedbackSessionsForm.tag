@@ -63,20 +63,17 @@
             <div class="form-group">
               <h5 class="col-sm-2 col-md-4">
                 <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
-                  Timezone
+                  Time Zone
                 </label>
               </h5>
               <div class="col-sm-10 col-md-8">
                 <select class="form-control"
                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>"
-                    id="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
-                  <c:forEach items="${fsForm.timezoneSelectField}" var="option">
-                    <option ${option.attributesToString}>
-                      ${option.content}
-                    </option>
-                  </c:forEach>
-
+                    id="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>"
+                    data-time-zone="${fsForm.fsTimeZone}">
+                  <option value="">Select a time zone...</option>
                 </select>
+                <input type="button" class="btn btn-primary" id="auto-detect-time-zone" value="Auto-Detect Time Zone">
               </div>
             </div>
           </div>
