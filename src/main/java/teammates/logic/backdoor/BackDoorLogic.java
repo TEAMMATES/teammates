@@ -499,7 +499,7 @@ public class BackDoorLogic extends Logic {
     private void cleanSessionData(FeedbackSessionAttributes session) {
         if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
             session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         }
     }
 

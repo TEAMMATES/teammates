@@ -132,7 +132,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER, r.getStatusMessage());
 
         ______TS("masquerade mode");
 
@@ -146,7 +146,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER, r.getStatusMessage());
 
         ______TS("closed session case");
 
@@ -190,7 +190,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, false, instructor.googleId),
                 r.getDestinationWithParams());
         assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER, r.getStatusMessage());
     }
 
     @Override

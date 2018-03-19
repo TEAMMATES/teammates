@@ -8,8 +8,6 @@ import teammates.common.util.EmailWrapper;
  */
 public abstract class EmailSenderService {
 
-    protected static final int SUCCESS_CODE = 200;
-
     /**
      * Parses the {@code wrapper} email object to specific implementations of email object
      * used by the service.
@@ -32,5 +30,9 @@ public abstract class EmailSenderService {
     @SuppressWarnings("PMD.SignatureDeclareThrowsException")
     // accounts for the many different Exceptions from different email services
     protected abstract void sendEmailWithService(EmailWrapper wrapper) throws Exception;
+
+    static boolean isNotSuccessStatus(int statusCode) {
+        return statusCode < 200 || statusCode > 299;
+    }
 
 }
