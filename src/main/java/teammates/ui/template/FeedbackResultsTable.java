@@ -15,7 +15,7 @@ public class FeedbackResultsTable {
     private List<FeedbackResponsePersonRow> givenResponses;
 
     public FeedbackResultsTable(int fbIndex, String studentName, FeedbackSessionResultsBundle result,
-            boolean submissionStatus) {
+                                boolean submissionStatus) {
         this.studentName = studentName;
 
         this.receivedResponses = new ArrayList<>();
@@ -26,7 +26,7 @@ public class FeedbackResultsTable {
             for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
                 giverIndex++;
                 this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(), "giver",
-                        entry.getValue(), result));
+                                                                         entry.getValue(), result));
             }
 
             boolean hasAnsweredContrib = false;
@@ -47,11 +47,9 @@ public class FeedbackResultsTable {
                     }
                 }
             }
-            /*
-             * if student has not submitted the session or CONTRIB response
-             * about himself then student's submission to CONTRIB is shown No
-             * Response and PC is shown next to it
-             */
+            // if student has not submitted the session or CONTRIB response
+            // about himself then student's submission to CONTRIB is shown No
+            // Response and PC is shown next to it
             if ((!submissionStatus || !hasAnsweredContrib) && contribExistsFromOtherStudent) {
                 giverIndex++;
                 response.giver = response.recipient;
