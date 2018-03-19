@@ -167,7 +167,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
-        // Check for null fields and Grace period negative.
+        // Check for null fields.
 
         addNonEmptyError(validator.getValidityInfoForNonNullField(
                 FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName), errors);
@@ -182,8 +182,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
 
         addNonEmptyError(validator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
-
-        addNonEmptyError(validator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
 
         // Early return if any null fields
         if (!errors.isEmpty()) {
@@ -226,6 +224,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
+        
+        addNonEmptyError(validator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
 
         return errors;
     }

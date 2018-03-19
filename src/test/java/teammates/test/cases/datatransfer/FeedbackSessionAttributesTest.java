@@ -122,10 +122,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withResultsVisibleFromTime(Instant.now())
                 .withSessionVisibleFromTime(Instant.now())
                 .build();
-        assertEquals(feedbackSessionAttributes.getInvalidityInfo(), expectedErrorMessages());
+        assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
     }
 
-    private List<String> expectedErrorMessages() {
+    private List<String> buildExpectedErrorMessages() {
         String feedbackSessionNameError = "The field 'feedback session name' is empty. The value of a/an feedback "
                 + "session name should be no longer than 38 characters. It should not be empty.";
         String courseIdError = "The field 'course ID' is empty. A course ID can contain letters, numbers, fullstops, "
@@ -140,7 +140,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
     @Test
     public void testGracePeriodValidate() {
-        ______TS("check grace period negative info");
+        ______TS("check grace period can't be negative");
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes
                 .builder("lab session", "cs315", "instructor@gmail.com")
@@ -152,10 +152,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withGracePeriodMinutes(-100)
                 .withInstructions(new Text("Attempt all question"))
                 .build();
-        assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
+        assertEquals(feedbackSessionAttributes.getInvalidityInfo(), expectedErrorMessages());
     }
 
-    private List<String> buildExpectedErrorMessages() {
+    private List<String> expectedErrorMessages() {
         String gracePeriodError = " Grace period should never be negative i.e. "
                 + " it should always be positive or zero";
 
