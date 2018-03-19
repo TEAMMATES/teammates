@@ -324,14 +324,11 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if{@code gracePeriod} is not negative.
+     * Checks if {@code gracePeriod} is not negative.
      * @return An Explanation why the {@code gracePeriod} not acceptable.
      */
     public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
-        // flag to compare gracePeriod duration with Zero duration
-
-        int flag = gracePeriod.compareTo(Duration.ZERO);
-        if (flag < 0) {
+        if (gracePeriod.isNegative()) {
             return GRACE_PERIOD_NEGATIVE;
         }
         return "";
