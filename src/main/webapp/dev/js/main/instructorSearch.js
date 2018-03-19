@@ -1,4 +1,5 @@
 import {
+    attachEventToDeleteStudentLink,
     prepareInstructorPages,
 } from '../common/instructor';
 
@@ -17,6 +18,8 @@ $(document).ready(() => {
     }, function () {
         $("a[type='button']", this).hide();
     });
+
+    attachEventToDeleteStudentLink();
 
     // highlight search string
     highlightSearchResult('#searchBox', '.panel-body');
