@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorSearchPage;
 
 /**
@@ -38,6 +39,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
 
         testContent();
         testSearch();
+        testDeleteAction();
 
         testSanitization();
 
@@ -109,7 +111,33 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
     }
 
+    private void testDeleteAction() throws Exception {
+
+        ______TS("action: delete");
+
+        searchPage.clearSearchBox();
+        String searchContent = "\"student2 2 In Course1\"";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2WithExactString.html");
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String studentEmail = testData.students.get("student2.2InCourse1").email;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickDeleteAndCancel(courseId, studentName);
+        assertNotNull(BackDoor.getStudent(courseId, studentEmail));
+
+        String expectedStatus = "The student has been removed from the course";
+        searchPage.clickDeleteAndConfirm(courseId, studentName);
+        InstructorCourseDetailsPage courseDetailsPage = searchPage.changePageType(InstructorCourseDetailsPage.class);
+        courseDetailsPage.waitForTextsForAllStatusMessagesToUserEquals(expectedStatus);
+    }
+
     private void testSanitization() throws IOException {
+
+        ______TS("action: test sanitization");
+
         String instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
         searchPage = getInstructorSearchPage(instructorId);
 
