@@ -9,7 +9,9 @@ import {
 import {
     BootstrapContextualColors,
 } from './const';
-import {setStatusMessage} from "./statusMessage";
+import {
+    setStatusMessage,
+} from './statusMessage';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
