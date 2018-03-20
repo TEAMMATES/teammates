@@ -34,6 +34,7 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         feedbackSession.setOpeningEmailEnabled(true);
 
         try {
+            validateTimeData(feedbackSession, false);
             logic.updateFeedbackSession(feedbackSession);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin =

@@ -54,6 +54,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(account, sessionToken);
         try {
+            validateTimeData(fs, true);
             logic.createFeedbackSession(fs);
 
             try {

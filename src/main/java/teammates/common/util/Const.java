@@ -1530,6 +1530,9 @@ public final class Const {
                 "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
                 + "Enrollment for Course <span class=\"bold\">[%s]</span>";
 
+        public static final String AMBIGUOUS_LOCAL_DATE_TIME =
+                "The %s, %s, is ambiguous. It was resolved to %s.";
+
         public static final String ERROR_FEEDBACK_SUBMIT_SUCCESS = "Your error report has been recorded. "
                 + "We will follow up with you in due course, usually, within 24 hours.";
     }

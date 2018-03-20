@@ -323,6 +323,10 @@ public final class TimeHelper {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
     }
 
+    public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
+        return formatInstant(instant, zone, "EEE, dd MMM yyyy, hh:mm a z ('UTC'Z)");
+    }
+
     /**
      * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
      */
@@ -411,6 +415,21 @@ public final class TimeHelper {
                 || instant.equals(Const.TIME_REPRESENTS_NEVER)
                 || instant.equals(Const.TIME_REPRESENTS_NOW);
 
+    }
+
+    /**
+     * Checks whether a {@link LocalDateTime} can be unambiguously resolved to an {@link Instant}
+     * at a given time zone.
+     * @return false if the time falls within the gap/overlap period during transition
+     *         into/out of Daylight Savings Time, true otherwise.
+     */
+    public static boolean isLocalDateTimeUnambiguousAtZone(LocalDateTime localDateTime, ZoneId zone) {
+        if (localDateTime == null || zone == null) {
+            return false;
+        }
+
+        List<ZoneOffset> offsets = zone.getRules().getValidOffsets(localDateTime);
+        return offsets.size() == 1;
     }
 
     /**

@@ -17,15 +17,25 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 
 public abstract class InstructorFeedbackAbstractAction extends Action {
 
     private static final Logger log = Logger.getLogger();
+
+    private LocalDateTime startTimeLocal;
+    private LocalDateTime endTimeLocal;
+    private LocalDateTime visibleTimeLocal;
+    private LocalDateTime publishTimeLocal;
 
     /**
      * Creates a feedback session attributes object from the request parameters.
@@ -46,17 +56,17 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
                 .build();
 
         String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        if (paramTimeZone != null) {
-            try {
-                attributes.setTimeZone(ZoneId.of(paramTimeZone));
-            } catch (DateTimeException e) {
-                log.warning("Failed to parse time zone parameter: " + paramTimeZone);
-            }
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, paramTimeZone);
+        try {
+            attributes.setTimeZone(ZoneId.of(paramTimeZone));
+        } catch (DateTimeException e) {
+            // Leave the attributes time zone field at its default valid value (i.e. UTC)
         }
-        LocalDateTime startTimeLocal = TimeHelper.combineDateTime(
+
+        startTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
-        LocalDateTime endTimeLocal = TimeHelper.combineDateTime(
+        endTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
         attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(startTimeLocal, attributes.getTimeZone()));
@@ -81,7 +91,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            LocalDateTime publishTimeLocal = TimeHelper.combineDateTime(
+            publishTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
             attributes.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
@@ -103,7 +113,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            LocalDateTime visibleTimeLocal = TimeHelper.combineDateTime(
+            visibleTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
@@ -131,6 +141,50 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         attributes.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
 
         return attributes;
+    }
+
+    protected void validateTimeData(FeedbackSessionAttributes attributes, boolean isCreatingNewSession)
+            throws InvalidParametersException {
+        FieldValidator validator = new FieldValidator();
+
+        // Stop if invalid or fixed offset time zone is detected
+        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
+        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(paramTimeZone);
+        if (!timeZoneErrorMessage.isEmpty()) {
+            // Collect other errors before throwing an exception
+            List<String> errors = new ArrayList<>();
+            // When editing an existing session, this will fail as some fields might be validly set to null
+            if (isCreatingNewSession) {
+                errors.addAll(attributes.getInvalidityInfo());
+            }
+            errors.add(timeZoneErrorMessage);
+            throw new InvalidParametersException(errors);
+        }
+
+        // The time zone is valid at this point and can be used for future calculations
+        ZoneId timeZone = attributes.getTimeZone();
+
+        // Warn if ambiguity of time fields (brought about by DST) is detected
+        validateLocalDateTimeUnambiguity(startTimeLocal, attributes.getStartTime(), timeZone,
+                FieldValidator.SESSION_START_TIME_FIELD_NAME);
+        validateLocalDateTimeUnambiguity(endTimeLocal, attributes.getEndTime(), timeZone,
+                FieldValidator.SESSION_END_TIME_FIELD_NAME);
+        validateLocalDateTimeUnambiguity(visibleTimeLocal, attributes.getSessionVisibleFromTime(), timeZone,
+                FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME);
+        validateLocalDateTimeUnambiguity(publishTimeLocal, attributes.getResultsVisibleFromTime(), timeZone,
+                FieldValidator.RESULTS_VISIBLE_TIME_FIELD_NAME);
+    }
+
+    private void validateLocalDateTimeUnambiguity(LocalDateTime dateTime, Instant resolved, ZoneId zone, String fieldName) {
+        if (dateTime == null || resolved == null || zone == null) {
+            return;
+        }
+
+        if (!TimeHelper.isLocalDateTimeUnambiguousAtZone(dateTime, zone)) {
+            String warningText = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME, fieldName,
+                    TimeHelper.formatTime12H(dateTime), TimeHelper.formatDateTimeForDisambiguation(resolved, zone));
+            statusToUser.add(new StatusMessage(warningText, StatusMessageColor.WARNING));
+        }
     }
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
