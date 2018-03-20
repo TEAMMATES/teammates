@@ -1,7 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Assumption;
@@ -24,7 +24,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public boolean isInstructor;
     public String email;
     public String institute;
-    public Date createdAt;
+    public Instant createdAt;
     public StudentProfileAttributes studentProfile;
 
     AccountAttributes() {
@@ -57,7 +57,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
             accountAttributes = new AccountAttributes();
         }
 
-        public Builder withCreatedAt(Date createdAt) {
+        public Builder withCreatedAt(Instant createdAt) {
             accountAttributes.createdAt = createdAt;
             return this;
         }

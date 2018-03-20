@@ -30,7 +30,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.id = SanitizationHelper.sanitizeTitle(courseId);
         this.name = SanitizationHelper.sanitizeTitle(name);
         this.timeZone = timeZone;
-        this.createdAt = TimeHelper.now();
+        this.createdAt = Instant.now();
     }
 
     /**

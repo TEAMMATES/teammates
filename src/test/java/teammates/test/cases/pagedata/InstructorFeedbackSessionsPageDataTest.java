@@ -90,7 +90,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
 
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
@@ -289,7 +288,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertFalse(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
 
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
