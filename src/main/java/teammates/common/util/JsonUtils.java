@@ -75,6 +75,7 @@ public final class JsonUtils {
             return getTeammatesGson().fromJson(json, typeOfT);
         } catch (JsonSyntaxException e) {
             // some of the existing data does not use the prescribed date format
+            // TODO: remove once all search documents have been migrated
             return new Gson().fromJson(json, typeOfT);
         }
     }
@@ -113,6 +114,7 @@ public final class JsonUtils {
             try {
                 return dateFormat.parse(element.getAsString());
             } catch (ParseException e) {
+                // TODO: change to JsonParseException once all search documents have been migrated
                 throw new JsonSyntaxException(element.getAsString(), e);
             }
         }
@@ -130,7 +132,8 @@ public final class JsonUtils {
             try {
                 return Instant.parse(element.getAsString());
             } catch (DateTimeParseException e) {
-                throw new JsonSyntaxException(element.getAsString(), e);
+                // TODO: remove once all search documents have been migrated
+                return new TeammatesDateAdapter().deserialize(element, type, context).toInstant();
             }
         }
     }
@@ -147,7 +150,8 @@ public final class JsonUtils {
             try {
                 return ZoneId.of(element.getAsString());
             } catch (DateTimeException e) {
-                throw new JsonSyntaxException(element.getAsString(), e);
+                // TODO: remove once all search documents have been migrated
+                return TimeHelper.convertToZoneId(element.getAsDouble());
             }
         }
     }
