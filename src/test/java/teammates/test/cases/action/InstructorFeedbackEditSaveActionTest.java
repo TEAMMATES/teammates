@@ -66,7 +66,21 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("failure: invalid parameters");
+        ______TS("failure: Invalid time zone");
+
+        params[25] = "invalid time zone";
+
+        a = getAction(params);
+        ar = getAjaxResult(a);
+        pageData = (InstructorFeedbackEditPageData) ar.data;
+
+        expectedString = "\"invalid time zone\" is not acceptable to TEAMMATES as a/an time zone because it is not "
+                + "available as a choice. The value must be one of the values from the time zone dropdown selector.";
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, expectedString, StatusMessageColor.DANGER);
+        assertTrue(pageData.getHasError());
+
+        ______TS("failure: Invalid parameters");
 
         params[15] = "Thu, 01 Mar, 2012";
         params[25] = "UTC";
@@ -177,6 +191,12 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
+
+        ______TS("failure: Null time zone");
+
+        params = ArrayUtils.remove(params, 26);
+        params = ArrayUtils.remove(params, 26);
+        verifyAssumptionFailure(params);
     }
 
     @Override

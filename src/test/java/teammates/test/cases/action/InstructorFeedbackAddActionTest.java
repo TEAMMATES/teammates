@@ -1,5 +1,6 @@
 package teammates.test.cases.action;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -82,11 +83,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
 
-        ______TS("Error: Invalid parameter (invalid sesssion name, > 38 characters)");
+        ______TS("Error: Invalid parameters (invalid time zone and invalid session name, > 38 characters)");
 
         String longFsName = StringHelperExtension.generateStringOfLength(39);
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, longFsName, 0);
+        params[25] = "invalid time zone";
         a = getAction(params);
         pr = getShowPageResult(a);
         expectedString = getPageResultDestination(
@@ -94,11 +96,13 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertEquals(expectedString, pr.getDestinationWithParams());
         assertTrue(pr.isError);
 
-        expectedString =
-                teammatesLog + "Servlet Action Failure : " + "\"" + longFsName + "\" "
+        expectedString = teammatesLog + "Servlet Action Failure : " + "\"" + longFsName + "\" "
                 + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackAdd";
+                + "It should not be empty.<br>"
+                + "\"invalid time zone\" is not acceptable to TEAMMATES as a/an time zone because it is not "
+                + "available as a choice. The value must be one of the values from the time zone dropdown selector."
+                + "|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Add course with extra space (in middle and trailing)");
@@ -199,6 +203,18 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<Text: >|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
+
+        ______TS("Unsuccessful case: test null time zone parameter");
+        params = ArrayUtils.remove(params, 26);
+        params = ArrayUtils.remove(params, 26);
+
+        try {
+            a = getAction(params);
+            getRedirectResult(a);
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE),
+                    e.getMessage());
+        }
 
         ______TS("Unsuccessful case: test null course ID parameter");
         params = new String[] {};
