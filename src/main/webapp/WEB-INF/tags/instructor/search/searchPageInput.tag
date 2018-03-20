@@ -41,10 +41,10 @@
             </label>
           </li>
           <li>
-            <input id="comments-for-responses-check" type="checkbox"
-                name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true"
-                <c:if test="${data.searchCommentForResponses}">checked</c:if>>
-            <label for="comments-for-responses-check">
+            <input id="search-feedback-sessions-data-check" type="checkbox"
+                   name="<%=Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA%>" value="true"
+                   <c:if test="${data.searchCommentForResponses}">checked</c:if>>
+            <label for="search-feedback-sessions-data-check">
               Questions, responses, comments on responses
             </label>
           </li>
