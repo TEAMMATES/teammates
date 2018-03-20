@@ -30,6 +30,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
@@ -1041,6 +1042,15 @@ public abstract class AppPage {
         assertEquals(TestProperties.TEAMMATES_URL + Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH,
                 browser.driver.getCurrentUrl());
         browser.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    /**
+     * Returns if the input element is valid (satisfies constraint validation).
+     */
+    public boolean isInputElementValid(WebElement inputElement) {
+        Preconditions.checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
+
+        return (boolean) executeScript("return arguments[0].checkValidity();", inputElement);
     }
 
     public void changeToMobileView() {

@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -127,6 +128,31 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
         assertTrue(feedbackEditPage.isElementSelected("msqOtherOptionFlag--1"));
         feedbackEditPage.clickAddQuestionButton();
+
+        ______TS("Check that Max/Min selectable choices cannot be blank");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
+
+        feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
+        feedbackEditPage.fillMsqMaxSelectableChoices(NEW_QUESTION_INDEX, "");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.isInputElementValid(browser.driver.findElement(By.id("msqMaxSelectableChoices--1")));
+        feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
+
+        feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
+        feedbackEditPage.fillMsqMinSelectableChoices(NEW_QUESTION_INDEX, "");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.isInputElementValid(browser.driver.findElement(By.id("msqMinSelectableChoices--1")));
+        feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
     }
 
     @Override
