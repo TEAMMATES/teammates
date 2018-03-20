@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
@@ -29,7 +31,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         String expectedString = "";
 
-        ______TS("Not enough parameters");
+        ______TS("failure: Not enough parameters");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         verifyAssumptionFailure();
@@ -46,7 +48,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         AjaxResult ar = getAjaxResult(a);
         InstructorFeedbackEditPageData pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
+        StatusMessage statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS);
         assertFalse(pageData.getHasError());
 
         expectedString =
@@ -66,6 +69,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ______TS("failure: invalid parameters");
 
         params[15] = "Thu, 01 Mar, 2012";
+        params[25] = "UTC";
 
         a = getAction(params);
         ar = getAjaxResult(a);
@@ -73,24 +77,24 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         expectedString = "The start time for this feedback session cannot be "
                          + "earlier than the time when the session will be visible.";
-        assertEquals(expectedString, pageData.getStatusForAjax());
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, expectedString, StatusMessageColor.DANGER);
         assertTrue(pageData.getHasError());
 
-        ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
+        ______TS("success: Custom time zone, 'never' show session, 'custom' show results");
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
-        params[25] = "5.75";
+        params[25] = "Asia/Kathmandu";
         params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-
-        //remove instructions, grace period, start time to test null conditions
 
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS);
         assertFalse(pageData.getHasError());
 
         expectedString =
@@ -107,22 +111,22 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
+        ______TS("success: At open session visible time, custom results visible time, UTC, null grace period");
 
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, session.getFeedbackSessionName(), 1);
 
-        //remove grace period (first) and then time zone
+        //remove grace period
         params = ArrayUtils.remove(params, 26);
         params = ArrayUtils.remove(params, 26);
-        params = ArrayUtils.remove(params, 24);
-        params = ArrayUtils.remove(params, 24);
+        params[25] = "UTC";
 
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS);
         assertFalse(pageData.getHasError());
 
         expectedString =
@@ -139,7 +143,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("success: Masquerade mode, manual release results, invalid timezone and graceperiod");
+        ______TS("success: Masquerade mode, manual release results, UTC, invalid graceperiod");
 
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
@@ -147,7 +151,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-        params[25] = " ";
+        params[25] = "UTC";
         params[27] = "12dsf";
 
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
@@ -156,7 +160,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS);
         assertFalse(pageData.getHasError());
 
         expectedString =

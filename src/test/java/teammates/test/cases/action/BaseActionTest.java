@@ -16,6 +16,8 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
@@ -218,7 +220,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "8",
+                Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "Asia/Singapore",
                 Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD, "10",
                 Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
         };
@@ -746,6 +748,12 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             return url;
         }
         return url + (url.contains("?") ? "&" : "?") + key + "=" + value;
+    }
+
+    protected static void verifyStatusMessage(StatusMessage statusMessage,
+            String expectedText, StatusMessageColor expectedColor) {
+        assertEquals(expectedText, statusMessage.getText());
+        assertEquals(expectedColor.name().toLowerCase(), statusMessage.getColor());
     }
 
 }

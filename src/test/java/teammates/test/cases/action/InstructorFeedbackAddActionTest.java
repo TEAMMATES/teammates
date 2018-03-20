@@ -132,11 +132,11 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 
-        ______TS("timezone with minute offset");
+        ______TS("Custom time zone");
 
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, "Course with minute offset timezone", 2);
-        params[25] = "5.5";
+                         instructor1ofCourse1.courseId, "Course with custom time zone", 2);
+        params[25] = "Asia/Colombo";
 
         a = getAction(params);
         rr = getRedirectResult(a);
@@ -144,7 +144,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         expectedString = getPageResultDestination(
                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                 instructor1ofCourse1.courseId,
-                "Course+with+minute+offset+timezone",
+                "Course+with+custom+time+zone",
                 instructor1ofCourse1.googleId,
                 false);
         assertEquals(expectedString, rr.getDestinationWithParams());
@@ -153,7 +153,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||New Feedback Session "
-                + "<span class=\"bold\">(Course with minute offset timezone)</span> for Course "
+                + "<span class=\"bold\">(Course with custom time zone)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
                 + "<span class=\"bold\">From:</span> 2012-01-31T18:30:00Z"
                 + "<span class=\"bold\"> to</span> 2014-12-31T18:30:00Z<br>"
