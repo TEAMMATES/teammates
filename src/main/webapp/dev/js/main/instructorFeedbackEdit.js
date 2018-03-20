@@ -64,6 +64,7 @@ import {
 import {
     addMsqOption,
     bindMsqEvents,
+    bindMsqSelectableOptionsRequiredEvents,
     removeMsqOption,
     toggleMsqGeneratedOptions,
     toggleMsqMaxSelectableChoices,
@@ -520,6 +521,16 @@ function enableNewQuestion() {
     }
 
     const $newQuestionTable = $(`#questionTable-${NEW_QUESTION}`);
+
+    // Remove 'required' attribute if the MSQ max/min selectable choices field is hidden,
+    // that is if the form is being used by any other question type. This is to avoid
+    // "Invalid form control" in Google Chrome.
+    if ($newQuestionTable.find(`#msqMaxSelectableChoices-${NEW_QUESTION}`).is(':hidden')) {
+        $(`#msqMaxSelectableChoices-${NEW_QUESTION}`).prop('required', false);
+    }
+    if ($newQuestionTable.find(`#msqMinSelectableChoices-${NEW_QUESTION}`).is(':hidden')) {
+        $(`#msqMinSelectableChoices-${NEW_QUESTION}`).prop('required', false);
+    }
 
     $newQuestionTable.find('text,button,textarea,select,input')
             .not('[name="receiverFollowerCheckbox"]')
@@ -1154,6 +1165,7 @@ function readyFeedbackEditPage() {
 
     bindAssignWeightsCheckboxes();
     bindMsqEvents();
+    bindMsqSelectableOptionsRequiredEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
 
