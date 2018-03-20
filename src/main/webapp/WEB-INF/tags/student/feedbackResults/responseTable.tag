@@ -6,7 +6,7 @@
 
 <c:choose>
   <c:when test="${responseTable.giverNameYou}">
-    <c:set value="panel-info" var="panelHeaderClass"/>
+    <c:set value="panel-default" var="panelHeaderClass"/>
   </c:when>
   <c:otherwise>
     <c:set value="panel-primary" var="panelHeaderClass"/>
