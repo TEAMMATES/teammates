@@ -113,7 +113,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
         // only the courseId is important here, everything else are placeholders
         deleteEntity(CourseAttributes
-                .builder(courseId, "Non-existent course", ZoneId.of("UTC"))
+                .builder(courseId, "Non-existent course", Const.DEFAULT_TIME_ZONE)
                 .build());
     }
 
@@ -156,7 +156,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         } catch (DateTimeException e) {
             log.severe("Timezone '" + entity.getTimeZone() + "' of course '" + entity.getUniqueId()
                     + "' is not supported. UTC will be used instead.");
-            courseTimeZone = ZoneId.of("UTC");
+            courseTimeZone = Const.DEFAULT_TIME_ZONE;
         }
         return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), courseTimeZone)
                 .withCreatedAt(entity.getCreatedAt()).build();

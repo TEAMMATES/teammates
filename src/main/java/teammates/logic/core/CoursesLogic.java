@@ -736,7 +736,7 @@ public final class CoursesLogic {
         if (!timeZoneErrorMessage.isEmpty()) {
             // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
             CourseAttributes dummyCourse = CourseAttributes
-                    .builder(courseId, courseName, ZoneId.of("UTC"))
+                    .builder(courseId, courseName, Const.DEFAULT_TIME_ZONE)
                     .build();
             List<String> errors = dummyCourse.getInvalidityInfo();
             errors.add(timeZoneErrorMessage);
