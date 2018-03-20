@@ -115,6 +115,7 @@ import {
 } from '../common/scrollTo';
 
 import {
+    appendNewStatusMessage,
     clearStatusMessages,
     setStatusMessage,
     setStatusMessageToForm,
@@ -295,10 +296,11 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success(result) {
-                if (result.hasError) {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.DANGER);
-                } else {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.SUCCESS);
+                for (let i = 0; i < result.statusMessagesToUser.length; i += 1) {
+                    const statusMessageToUser = result.statusMessagesToUser[i];
+                    appendNewStatusMessage(statusMessageToUser.text, statusMessageToUser.color.toLowerCase());
+                }
+                if (!result.hasError) {
                     disableEditFS();
                 }
             },

@@ -46,13 +46,12 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
                     + "<br><span class=\"bold\">Session visible from:</span> " + feedbackSession.getSessionVisibleFromTime()
                     + "<br><span class=\"bold\">Results visible from:</span> " + feedbackSession.getResultsVisibleFromTime()
                     + "<br><br><span class=\"bold\">Instructions:</span> " + feedbackSession.getInstructions();
-            data.setStatusForAjax(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
             data.setHasError(false);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
-            data.setStatusForAjax(e.getMessage());
             data.setHasError(true);
         }
+        data.setStatusMessagesToUser(statusToUser);
         return createAjaxResult(data);
     }
 }

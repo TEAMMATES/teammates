@@ -33,7 +33,6 @@ public class InstructorFeedbackEditPageData extends PageData {
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
     private FeedbackSessionPreviewForm previewForm;
-    private String statusForAjax;
     private boolean shouldLoadInEditMode;
     private boolean hasError;
     private CourseDetailsBundle courseDetails;
@@ -356,14 +355,6 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public FeedbackSessionPreviewForm getPreviewForm() {
         return previewForm;
-    }
-
-    public String getStatusForAjax() {
-        return statusForAjax;
-    }
-
-    public void setStatusForAjax(String statusForAjax) {
-        this.statusForAjax = statusForAjax;
     }
 
     /**
