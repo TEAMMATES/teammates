@@ -29,7 +29,7 @@ import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
 
-    private static final int NEW_QUESTION_NUM = -1;
+    public static final int NEW_QUESTION_NUM = -1;
 
     @FindBy(id = "starttime")
     private WebElement startTimeDropdown;
@@ -1620,7 +1620,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(getMaxOptionsToBeRankedCheckbox(qnNumber));
     }
 
-    private WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
+    public WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
         if (isRankOptionsQuestion(qnNumber)) {
             return browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
         }
@@ -1628,7 +1628,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id("minRecipientsToBeRanked-" + qnNumber));
     }
 
-    private WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
+    public WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
         if (isRankOptionsQuestion(qnNumber)) {
             return browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
         }
@@ -1921,10 +1921,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         minNumberOfOptionsToRankCheckbox.click();
     }
 
-    public void clearMinRankOptions(int questionNumber) {
+    public void clickMinRankOptions(int questionNumber) {
         WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
 
         minRecipientsToBeRankedInput.click();
+    }
+
+    public void clearMinRankOptions(int questionNumber) {
+        WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
+
         minRecipientsToBeRankedInput.clear();
     }
 }

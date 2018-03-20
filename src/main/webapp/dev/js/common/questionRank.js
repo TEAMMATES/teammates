@@ -238,8 +238,6 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
 /**
  * Auto fills the min and max options to 1 if empty when the corresponding checkbox is checked
  * in Rank options and Rank recipients questions
- *
- * TODO: Add 'required' to HTML file instead, but redesign form to exclude other questions.
  */
 function bindAutoFillEmptyRankOptionsChangeEvent() {
     $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED}]`
@@ -253,7 +251,7 @@ function bindAutoFillEmptyRankOptionsChangeEvent() {
             if ($(linkedInput).val() === '') {
                 $(linkedInput).val('1');
             }
-
+            // TODO: Add 'required' to HTML file instead, but redesign form to exclude other questions. See issue #8688.
             $(linkedInput).prop('required', true); // Add 'required' to input for HTML validation when clicked on checkbox
         }
     });

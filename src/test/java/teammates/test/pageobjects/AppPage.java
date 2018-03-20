@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
@@ -1056,7 +1056,7 @@ public abstract class AppPage {
      * Returns if the input element is valid (satisfies constraint validation).
      */
     public boolean isInputElementValid(WebElement inputElement) {
-        Preconditions.checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
+        checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
 
         return (boolean) executeScript("return arguments[0].checkValidity();", inputElement);
     }

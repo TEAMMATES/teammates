@@ -18,10 +18,9 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE},
  *      specifically for rank questions.
+ * TODO: Backend validation. Blocked by #8646
  */
 public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
-    private static final int NEW_QUESTION_INDEX = -1;
-
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -396,24 +395,26 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
         feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 2");
 
-        feedbackEditPage.clickEnableMinRankOptions(NEW_QUESTION_INDEX);
-        feedbackEditPage.clearMinRankOptions(NEW_QUESTION_INDEX);
+        feedbackEditPage.clickEnableMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+        feedbackEditPage.clickMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+        feedbackEditPage.clearMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
 
         feedbackEditPage.clickAddQuestionButton();
 
-        WebElement rankMinOptionInput = browser.driver.findElement(By.id("minOptionsToBeRanked-" + NEW_QUESTION_INDEX));
+        WebElement minOptionsInputElement =
+                feedbackEditPage.getMinOptionsToBeRankedInputElement(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
 
-        assertFalse(feedbackEditPage.isInputElementValid(rankMinOptionInput));
+        assertFalse(feedbackEditPage.isInputElementValid(minOptionsInputElement));
 
         ______TS("Rank edit: Invalid letters in number of options a respondent must rank");
-        feedbackEditPage.fillMinOptionsToBeRanked(NEW_QUESTION_INDEX, "invalid letters");
+        feedbackEditPage.fillMinOptionsToBeRanked(InstructorFeedbackEditPage.NEW_QUESTION_NUM, "invalid letters");
 
         feedbackEditPage.clickAddQuestionButton();
 
-        assertFalse(feedbackEditPage.isInputElementValid(rankMinOptionInput));
+        assertFalse(feedbackEditPage.isInputElementValid(minOptionsInputElement));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
-        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
 
         ______TS("Rank edit: Auto fill with 1 in number of options a respondent must rank success");
         feedbackEditPage.clickNewQuestionButton();
@@ -424,7 +425,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
         feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 2");
 
-        feedbackEditPage.clickEnableMinRankOptions(NEW_QUESTION_INDEX);
+        feedbackEditPage.clickEnableMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);

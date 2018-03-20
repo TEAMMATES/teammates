@@ -223,7 +223,6 @@ function checkFeedbackQuestion(form) {
         setStatusMessageToForm(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID, BootstrapContextualColors.DANGER, form);
         return false;
     }
-
     return true;
 }
 
