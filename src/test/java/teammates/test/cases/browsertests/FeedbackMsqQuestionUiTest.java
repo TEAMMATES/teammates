@@ -76,6 +76,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect--1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox--1"));
 
         feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX); //Make the generate options checkbox unchecked
 
