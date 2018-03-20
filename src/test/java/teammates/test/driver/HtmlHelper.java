@@ -304,7 +304,8 @@ public final class HtmlHelper {
      * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>).
      */
     private static boolean isTimeZoneSelectorAttribute(Node attribute) {
-        return checkForAttributeWithSpecificValue(attribute, "id", "coursetimezone");
+        return checkForAttributeWithSpecificValue(attribute, "id", Const.ParamsNames.COURSE_TIME_ZONE)
+                || checkForAttributeWithSpecificValue(attribute, "id", Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
     }
 
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
