@@ -74,13 +74,15 @@
     data-placement="top"
     style="display: inline-block; padding-right: 5px;">
   <div class="btn-group margin-bottom-7px">
-    <a class="btn btn-default btn-xs btn-tm-actions session-remind-particular-for-test<c:if test="${not actions.allowedToRemind || actions.privateSession}"> disabled</c:if>"
+    <button type="button"
+        class="btn btn-default btn-xs btn-tm-actions session-remind-particular-for-test"
         data-actionlink="${actions.remindParticularStudentsPageLink}"
         data-courseid="${actions.courseId}"
         data-fsname="${actions.fsName}"
         data-toggle="modal"
-        data-target="#remindModal">
+        data-target="#remindModal"
+        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
       Remind
-    </a>
+    </button>
   </div>
 </div>

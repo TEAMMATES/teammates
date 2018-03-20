@@ -27,7 +27,7 @@
     </th>
   </tr>
   <c:forEach items="${data.responseStatus.noResponse}" var="userToRemindEmail">
-    <tr class="bg-danger">
+    <tr class="session-remind-particular-not-submitted-user bg-danger">
       <td class="align-center">
         <div class="checkbox">
           <label>
@@ -53,7 +53,7 @@
     </tr>
   </c:forEach>
   <c:forEach items="${data.responseStatus.studentsWhoResponded}" var="userToRemindEmail">
-    <tr class="bg-info">
+    <tr class="session-remind-particular-submitted-user bg-info">
       <td class="align-center">
         <div class="checkbox">
           <label>

@@ -6,11 +6,13 @@ function bindCheckAllCheckboxesEventHandler() {
     const $checkAllSubmitted = $('#remind-particular-checkall-submitted');
     const $checkAllNotSubmitted = $('#remind-particular-checkall-notsubmitted');
     $checkAllSubmitted.on('click', () => {
-        const $studentsResponded = $('#studentList').find('.bg-info').find('input[type="checkbox"]');
+        const $studentsResponded = $('#studentList').find('.session-remind-particular-submitted-user')
+                .find('input[type="checkbox"]');
         $studentsResponded.prop('checked', $checkAllSubmitted.is(':checked'));
     });
     $checkAllNotSubmitted.on('click', () => {
-        const $studentsNotResponded = $('#studentList').find('.bg-danger').find('input[type="checkbox"]');
+        const $studentsNotResponded = $('#studentList').find('.session-remind-particular-not-submitted-user')
+                .find('input[type="checkbox"]');
         $studentsNotResponded.prop('checked', $checkAllNotSubmitted.is(':checked'));
     });
 }
@@ -18,8 +20,9 @@ function bindCheckAllCheckboxesEventHandler() {
 function populateCheckBoxes($button) {
     // if clicked button is on no-response panel, then populate check boxes otherwise not
     if ($button.hasClass('remind-btn-no-response')) {
+        $('#remind-particular-checkall-notsubmitted').prop('checked', 'true');
         const $studentList = $('#studentList');
-        const $studentsNotResponded = $studentList.find('.bg-danger');
+        const $studentsNotResponded = $studentList.find('.session-remind-particular-not-submitted-user');
         for (let i = 0; i < $studentsNotResponded.length; i += 1) {
             const $studentNotResponded = $($studentsNotResponded[i]);
             const $checkbox = $studentNotResponded.find('input[type="checkbox"]');
