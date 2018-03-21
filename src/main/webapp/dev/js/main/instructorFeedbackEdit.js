@@ -1077,6 +1077,30 @@ function prepareDescription(form) {
     form.find(`input[name=questiondescription-${questionNum}]`).prop('disabled', true);
 }
 
+function prepareQuetionTypeHelpModal() {
+    $('.button_questionTypeHelpModal').click(function (e) {
+        e.preventDefault();
+        const modalId = $(this).data('modalLink');
+        const modalToBeOpened = $(`#${modalId}`);
+        $('.question-type-help-modal').not(modalToBeOpened).modal('hide');
+        modalToBeOpened.modal('show');
+    });
+}
+
+function disableBackgroundScrollingWhenModalPresent() {
+    const htmlElement = $('html');
+    $('.question-type-help-modal').on('show.bs.modal', () => {
+        htmlElement.css({
+            overflow: 'hidden',
+        });
+    });
+    $('.question-type-help-modal').on('hide.bs.modal', () => {
+        htmlElement.css({
+            overflow: 'auto',
+        });
+    });
+}
+
 /**
  * This function is called on edit page load.
  */
@@ -1133,9 +1157,11 @@ function readyFeedbackEditPage() {
                 }
             });
 
+    // Prepare for the events in the dropdown menu of 'Add New Question' button
     $('#add-new-question-dropdown > li').click(function () {
         showNewQuestionFrame($(this).data('questiontype'));
     });
+    prepareQuetionTypeHelpModal();
 
     // Copy Binding
     bindCopyButton();
@@ -1191,6 +1217,7 @@ $(document).ready(() => {
     hideInvalidRecipientTypeOptionsForAllPreviouslyAddedQuestions();
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
+    disableBackgroundScrollingWhenModalPresent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
 
     $('#fsSaveLink').on('click', (e) => {

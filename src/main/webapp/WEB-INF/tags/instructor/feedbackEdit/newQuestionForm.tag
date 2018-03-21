@@ -4,6 +4,7 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/help" prefix="instructorHelp" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 <%@ attribute name="nextQnNum" required="true"%>
@@ -29,8 +30,9 @@
           </ul>
         </div>
 
-        <a href="/instructorHelp.jsp#fbQuestionTypes"
-            target="_blank" rel="noopener noreferrer">
+        <a href="javascript:;"
+           class="button_questionTypeHelpModal"
+           data-modal-link = "questionTypeHelpModal_roadmap">
           <i class="glyphicon glyphicon-info-sign"></i>
         </a>
         <a id="button_copy" class="btn btn-primary margin-bottom-7px"
@@ -142,3 +144,15 @@
       id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS %>">
   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>
+
+<instructorHelp:roadmapQuestionTypeHelpModal />
+<instructorHelp:essayQuestionTypeHelpModal />
+<instructorHelp:mcqQuestionTypeHelpModal />
+<instructorHelp:msqQuestionTypeHelpModal />
+<instructorHelp:numericalScaleQuestionTypeHelpModal />
+<instructorHelp:constSumOptionQuestionTypeHelpModal />
+<instructorHelp:constSumRecipientQuestionTypeHelpModal />
+<instructorHelp:teamContribQuestionTypeHelpModal />
+<instructorHelp:rubricQuestionTypeHelpModal />
+<instructorHelp:rankOptionsQuestionTypeHelpModal />
+<instructorHelp:rankRecipientsQuestionTypeHelpModal />
