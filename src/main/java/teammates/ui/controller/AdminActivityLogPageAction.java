@@ -308,7 +308,7 @@ public class AdminActivityLogPageAction extends Action {
         for (CourseAttributes course : courses) {
             List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId());
             if (!fsl.isEmpty()) {
-                return fsl.get(0).getTimeZone();
+                return TimeHelper.convertToOffset(fsl.get(0).getTimeZone());
             }
         }
 
@@ -324,7 +324,7 @@ public class AdminActivityLogPageAction extends Action {
 
         List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(courseId);
         if (!fsl.isEmpty()) {
-            return fsl.get(0).getTimeZone();
+            return TimeHelper.convertToOffset(fsl.get(0).getTimeZone());
         }
 
         return localTimeZone;

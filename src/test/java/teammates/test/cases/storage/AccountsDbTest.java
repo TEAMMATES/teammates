@@ -1,7 +1,7 @@
 package teammates.test.cases.storage;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -201,7 +201,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         ______TS("success: profile not modified in the default case");
 
-        Date expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
+        Instant expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
 
         String expectedNationality = actualAccount.studentProfile.nationality;
         actualAccount.studentProfile.nationality = "Andorran";

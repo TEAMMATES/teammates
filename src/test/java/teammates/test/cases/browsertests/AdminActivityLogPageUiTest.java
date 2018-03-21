@@ -76,10 +76,11 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
                                         .after(yesterday.getTime()));
 
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
-        assertTrue(logPage.getStatus().contains("The earliest log entry checked on"));
-        assertTrue(logPage.getStatus().contains("in Admin Time Zone"));
-        assertTrue(logPage.getStatus().contains("in Local Time Zone")
-                   || logPage.getStatus().contains("Local Time Unavailable"));
+        String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
+        assertTrue(statusMessageText.contains("The earliest log entry checked on"));
+        assertTrue(statusMessageText.contains("in Admin Time Zone"));
+        assertTrue(statusMessageText.contains("in Local Time Zone")
+                   || statusMessageText.contains("Local Time Unavailable"));
     }
 
     private void testViewActionsLink() {
@@ -120,8 +121,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
         logPage.fillQueryBoxWithText("role:instructor");
         logPage.clickSearchSubmitButton();
-
-        assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
+        String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
+        assertTrue(statusMessageText.contains("Total Logs gone through in last search:"));
 
     }
 
