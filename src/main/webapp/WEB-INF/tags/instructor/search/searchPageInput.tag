@@ -35,7 +35,7 @@
           <li>
             <input id="students-check" type="checkbox"
                 name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true"
-                <c:if test="${data.searchForStudents || !data.searchCommentForResponses}">checked</c:if>>
+                <c:if test="${data.searchForStudents || !data.searchFeedbackSessionData}">checked</c:if>>
             <label for="students-check">
               Students
             </label>
@@ -43,7 +43,7 @@
           <li>
             <input id="search-feedback-sessions-data-check" type="checkbox"
                 name="<%=Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA%>" value="true"
-                <c:if test="${data.searchCommentForResponses}">checked</c:if>>
+                <c:if test="${data.searchFeedbackSessionData}">checked</c:if>>
             <label for="search-feedback-sessions-data-check">
               Questions, responses, comments on responses
             </label>
