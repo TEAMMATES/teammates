@@ -118,7 +118,7 @@ public class AdminActivityLogPage extends AppPage {
 
     public boolean isUserTimezoneAtFirstRowClicked() {
         List<WebElement> elements = browser.driver
-                .findElements(By.cssSelector("#activity-logs-table td > mark"));
+                .findElements(By.cssSelector("#activity-logs-table td > .localTime > mark"));
         return !elements.isEmpty();
     }
 
