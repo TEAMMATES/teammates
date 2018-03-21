@@ -37,7 +37,7 @@ public class CourseEditInstructorPanel {
 
         if (this.instructor != null) {
             this.instructor.displayedName = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.displayedName);
-            //TODO TO BE UPDATED AFTER DATA MIGRATION
+            //TODO TO REMOVE AFTER DATA MIGRATION
             this.instructor.role = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.role);
 
         }
