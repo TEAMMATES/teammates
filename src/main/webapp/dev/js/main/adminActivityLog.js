@@ -51,7 +51,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
                 if (data.isError) {
                     $(localTimeDisplay).html('Loading error, please retry');
                 } else {
-                    $(link).parent().html(`${originalTime}<mark><br>${data.logLocalTime}</mark>`);
+                    $(localTimeDisplay).html(`<mark>${data.logLocalTime}</mark>`);
                 }
 
                 setStatusMessage(data.statusForAjax, BootstrapContextualColors.INFO);
