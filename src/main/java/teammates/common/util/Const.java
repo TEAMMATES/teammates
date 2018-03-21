@@ -174,7 +174,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_REMIND,
-                        ActionURIs.INSTRUCTOR_STUDENT_LIST_REMIND,
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE_ALL,
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE,
@@ -939,7 +938,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
-        public static final String INSTRUCTOR_STUDENT_LIST_REMIND = "/page/instructorStudentListRemind";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";

@@ -109,8 +109,6 @@ public class ActionFactory {
         map(INSTRUCTOR_STUDENT_RECORDS_PAGE, InstructorStudentRecordsPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
 
-        map(INSTRUCTOR_STUDENT_LIST_REMIND, InstructorStudentListRemindAction.class);
-
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
         map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
         map(STUDENT_COURSE_JOIN_NEW, StudentCourseJoinAction.class);
@@ -161,7 +159,7 @@ public class ActionFactory {
             return controllerClass.newInstance();
         } catch (Exception e) {
             Assumption.fail("Could not create the action for " + uri + ": "
-                            + TeammatesException.toStringWithStackTrace(e));
+                    + TeammatesException.toStringWithStackTrace(e));
             return null;
 
         }

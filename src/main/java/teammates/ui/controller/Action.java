@@ -69,6 +69,9 @@ public abstract class Action {
     /** Execution status info to be shown to the user. */
     protected List<StatusMessage> statusToUser = new ArrayList<>();
 
+    /** This is for keeping track of where req is coming from. */
+    protected String currentUrl;
+
     /**
      * Whether the execution completed without any errors or
      * when we are unable to perform the requested action(s).
@@ -102,6 +105,7 @@ public abstract class Action {
     protected void initialiseAttributes(HttpServletRequest req) {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
+        currentUrl = request.getHeader("referer");
         logic = new Logic();
         gateKeeper = new GateKeeper();
         setTaskQueuer(new TaskQueuer());

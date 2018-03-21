@@ -66,7 +66,14 @@ public class InstructorCourseRemindAction extends Action {
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
-            redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+
+            /*see and compare if the request is coming from instructorCourseDetails
+            or instructorStudentList and redirect accordingly */
+            if (compareRefererAndCurrentPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
+                redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+            } else if (compareRefererAndCurrentPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
+                redirectUrl = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
+            }
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId,
                     instructorEmail, courseId);
@@ -92,7 +99,14 @@ public class InstructorCourseRemindAction extends Action {
             }
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDERS_SENT, StatusMessageColor.SUCCESS));
-            redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+
+            /*see and compare if the request is coming from instructorCourseDetails
+            or instructorStudentList and redirect accordingly */
+            if (compareRefererAndCurrentPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
+                redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+            } else if (compareRefererAndCurrentPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
+                redirectUrl = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
+            }
         }
 
         statusToAdmin = generateStatusToAdmin(emailDataMap, courseId);
@@ -123,6 +137,18 @@ public class InstructorCourseRemindAction extends Action {
         String keyParam = Const.ParamsNames.REGKEY + "=";
         int startIndex = joinLink.indexOf(keyParam) + keyParam.length();
         return joinLink.substring(startIndex);
+    }
+
+    private String isolatePrevPageUrl() {
+        String stringTillLastSlash = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
+        int indexOfSecondLastSlash = stringTillLastSlash.lastIndexOf('/');
+
+        return currentUrl.substring(indexOfSecondLastSlash, currentUrl.indexOf('?'));
+    }
+
+    private boolean compareRefererAndCurrentPage(String current) {
+        String referer = isolatePrevPageUrl();
+        return referer.compareTo(current) == 0;
     }
 
     private static class JoinEmailData {
