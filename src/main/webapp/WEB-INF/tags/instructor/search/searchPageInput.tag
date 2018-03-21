@@ -1,6 +1,6 @@
 <%@ tag description="instructorSearch.jsp - Instructor search page input" pageEncoding="UTF-8" %>
-<%@ tag import="teammates.common.util.Const" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ tag import="teammates.common.util.Const"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div>
   <form method="get" action="${data.instructorSearchLink}" name="search_form">
