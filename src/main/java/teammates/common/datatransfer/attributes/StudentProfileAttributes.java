@@ -1,7 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -31,7 +31,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String gender; // only accepts "male", "female" or "other"
     public String moreInfo;
     public String pictureKey;
-    public Date modifiedDate;
+    public Instant modifiedDate;
 
     StudentProfileAttributes(String googleId) {
         this.googleId = googleId;
@@ -42,7 +42,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.gender = "other";
         this.moreInfo = "";
         this.pictureKey = "";
-        this.modifiedDate = new Date();
+        this.modifiedDate = Instant.now();
     }
 
     public static StudentProfileAttributes valueOf(StudentProfile sp) {
@@ -233,8 +233,8 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             return this;
         }
 
-        public Builder withModifiedDate(Date modifiedDate) {
-            profileAttributes.modifiedDate = modifiedDate == null ? new Date() : modifiedDate;
+        public Builder withModifiedDate(Instant modifiedDate) {
+            profileAttributes.modifiedDate = modifiedDate == null ? Instant.now() : modifiedDate;
             return this;
         }
 

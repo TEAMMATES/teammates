@@ -4,7 +4,7 @@ package teammates.test.cases.util;
 import static teammates.common.util.FieldValidator.*;
 //CHECKSTYLE.ON:AvoidStarImport
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.testng.annotations.Test;
 
@@ -694,23 +694,23 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForSessionStartAndEnd_valid_returnEmptyString() {
-        Date sessionStart = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
-        Date sessionEnd = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
+        Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         assertEquals("", validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
     }
 
     @Test
     public void testGetInvalidityInfoForTimeForSessionStartAndEnd_invalid_returnErrorString() {
-        Date sessionStart = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
-        Date sessionEnd = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
+        Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         assertEquals("The end time for this feedback session cannot be earlier than the start time.",
                      validator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
     }
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_valid_returnEmptyString() {
-        Date visibilityStart = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
-        Date sessionStart = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
+        Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         assertEquals("",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
                          visibilityStart, sessionStart));
@@ -718,8 +718,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_invalid_returnErrorString() {
-        Date visibilityStart = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
-        Date sessionStart = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
+        Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         assertEquals("The start time for this feedback session cannot be earlier than the time when the "
                          + "session will be visible.",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
@@ -728,8 +728,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_valid_returnEmptyString() {
-        Date visibilityStart = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
-        Date resultsPublish = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
+        Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Instant resultsPublish = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         assertEquals("",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                          visibilityStart, resultsPublish));
@@ -737,8 +737,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndResultsPublish_invalid_returnErrorString() {
-        Date visibilityStart = TimeHelperExtension.getHoursOffsetToCurrentTime(1);
-        Date resultsPublish = TimeHelperExtension.getHoursOffsetToCurrentTime(-1);
+        Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        Instant resultsPublish = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         assertEquals("The time when the results will be visible for this feedback session cannot be "
                          + "earlier than the time when the session will be visible.",
                      validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(

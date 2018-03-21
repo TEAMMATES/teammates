@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -144,10 +144,10 @@ public class AdminEmailComposeSendAction extends Action {
 
         AdminEmailAttributes newDraft = AdminEmailAttributes
                 .builder(subject, addressReceiver, groupReceiver, new Text(content))
-                .withSendDate(new Date())
+                .withSendDate(Instant.now())
                 .build();
         try {
-            Date createDate = logic.createAdminEmail(newDraft);
+            Instant createDate = logic.createAdminEmail(newDraft);
             emailId = logic.getAdminEmail(subject, createDate).getEmailId();
         } catch (Exception e) {
             isError = true;
@@ -168,7 +168,7 @@ public class AdminEmailComposeSendAction extends Action {
 
         AdminEmailAttributes finalisedEmail = AdminEmailAttributes
                 .builder(subject, addressReceiver, groupReceiver, new Text(content))
-                .withSendDate(new Date())
+                .withSendDate(Instant.now())
                 .build();
 
         try {

@@ -1,15 +1,14 @@
 package teammates.common.util;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
-import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -40,7 +39,6 @@ public final class Const {
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
 
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
@@ -69,7 +67,7 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
-    public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
+    public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
     /*
      * These constants are used as variable values to mean that the variable
@@ -92,25 +90,23 @@ public final class Const {
     public static final String USER_IS_NOBODY = "%NOBODY%";
     public static final String USER_IS_MISSING = "%MISSING%";
 
-    public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
-    public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
-    public static final Date TIME_REPRESENTS_NEVER;
-    public static final Date TIME_REPRESENTS_LATER;
-    public static final Date TIME_REPRESENTS_NOW;
-    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+    public static final Instant TIME_REPRESENTS_FOLLOW_OPENING;
+    public static final Instant TIME_REPRESENTS_FOLLOW_VISIBLE;
+    public static final Instant TIME_REPRESENTS_NEVER;
+    public static final Instant TIME_REPRESENTS_LATER;
+    public static final Instant TIME_REPRESENTS_NOW;
+    public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 12:00 AM UTC");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 12:00 AM UTC");
-        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 12:00 AM UTC");
-        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 12:00 AM UTC");
-        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 12:00 AM UTC");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 12:00 AM UTC");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
+        TIME_REPRESENTS_NEVER = TimeHelper.parseInstant("1970-11-27 12:00 AM +0000");
+        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
     }
-
-    public static final String TIME_FORMAT_ISO_8601_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     /*
      * Other Constants
@@ -141,7 +137,12 @@ public final class Const {
         /* Field sizes and error messages for invalid fields can be found
          * in the FieldValidator class.
          */
-        public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
+
+        // TODO: rename back to ADMIN_TIME_ZONE once the String version has been deleted
+        public static final ZoneId ADMIN_TIME_ZONE_ID = ZoneId.of("Asia/Singapore");
+        @Deprecated // use ZoneId version
+        public static final String ADMIN_TIME_ZONE = ADMIN_TIME_ZONE_ID.getId();
+        @Deprecated // use ZoneId version
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
 
         public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
@@ -287,8 +288,6 @@ public final class Const {
                 "The responses for the session have been published and can now be viewed.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED =
                 "The responses for the session have not yet been published and cannot be viewed.";
-        public static final String STUDENT_FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
-                "The instructor has set the results for this feedback session to not be published.";
 
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
         public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED =
@@ -337,8 +336,6 @@ public final class Const {
                 + "when the session becomes visible to users.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER =
                 "Select this option if you intend to manually publish the responses for this session later on.";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER =
-                "Select this option if you intend never to publish the responses.";
         public static final String FEEDBACK_SESSION_SENDOPENEMAIL =
                 "Select this option to automatically send an email to students to notify them "
                 + "when the session is open for submission.";
@@ -360,8 +357,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STATUS_NOT_PUBLISHED = "The responses for this session are not visible.";
         public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION =
                 "This feedback session is not published as it is private and only visible to you.";
-        public static final String FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
-                "The responses for this feedback session have been set to never get published.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
                 "You should not need to change this as your timezone is auto-detected. <br><br>"
@@ -1403,6 +1398,10 @@ public final class Const {
                 "<strong>The feedback session is currently not open for submissions.</strong> "
                 + "You can view the questions and any submitted responses for this feedback session "
                 + "but cannot submit new responses.";
+        public static final String FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER =
+                "Note that you can use the Submit button to save responses already entered, "
+                + "and continue to answer remaining questions after that. "
+                + "You may also edit your submission any number of times before the closing time of this session.";
 
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW =
                 "You have received feedback from others. Please see below.";
