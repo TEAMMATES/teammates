@@ -32,10 +32,7 @@ function toggleReference() {
 function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
     const params = `logUnixTimeMillis=${time}&logRole=${role}&logGoogleId=${googleId}`;
 
-    const link = $(entry);
     const localTimeDisplay = $(entry).parent().children()[1];
-
-    const originalTime = $(link).html();
 
     $.ajax({
         type: 'POST',
