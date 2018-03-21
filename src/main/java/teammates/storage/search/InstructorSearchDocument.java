@@ -97,6 +97,7 @@ public class InstructorSearchDocument extends SearchDocument {
     private static void sortInstructorResultList(List<InstructorAttributes> instructorList) {
 
         instructorList.sort(Comparator.comparing((InstructorAttributes instructor) -> instructor.courseId)
+                //TODO TO REMOVE AFTER DATA MIGRATION
                 .thenComparing(instructor -> SanitizationHelper.desanitizeIfHtmlSanitized(instructor.role))
                 .thenComparing(instructor -> instructor.name)
                 .thenComparing(instructor -> instructor.email));
