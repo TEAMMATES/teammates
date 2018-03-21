@@ -88,15 +88,15 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
 
         ______TS("empty options");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
-                                      + "Minimum number of options is: 2.");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.");
 
         ______TS("remove when 1 left");
 
@@ -113,8 +113,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMsqOptionLinkForNewQuestion(0);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
-                                      + "Minimum number of options is: 2.");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.");
 
         ______TS("select Add Other Option");
 
@@ -172,7 +172,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionAddSuccess.html");
     }
@@ -189,7 +189,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMsqOptionLink(0, 1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionEditSuccess.html");
 
@@ -211,7 +211,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementVisible("msqAddOptionLink-1"));
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         assertFalse(feedbackEditPage.isElementEnabled("generateMsqOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1"));
@@ -253,7 +253,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: min/max selectable options");
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         // Check min/max selectable restrictions for
         // new MSQ question with custom options
@@ -269,7 +269,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         checkMinMaxSelectableRestrictionForCustomOptions(-1);
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
         // Check min/max selectable restrictions for
         // existing MSQ question with custom options
@@ -277,7 +277,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         checkMinMaxSelectableRestrictionForCustomOptions(2);
         feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
 
         // Check min/max selectable restrictions for new
         // MSQ question with options generated from students
@@ -288,7 +288,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(-1);
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
         // Check min/max selectable restrictions for existing
         // MSQ question with options generated from students
@@ -296,7 +296,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(2);
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
     }
 
     private void checkMinMaxSelectableRestrictionForCustomOptions(int qnNumber) {
@@ -452,7 +452,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 

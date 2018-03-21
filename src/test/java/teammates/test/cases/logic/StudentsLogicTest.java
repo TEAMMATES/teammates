@@ -682,7 +682,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
                 .withTimeZone(ZoneId.of("UTC+08:00"))
-                .withGracePeriod(0)
+                .withGracePeriodMinutes(0)
                 .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false)
                 .withClosingEmailEnabled(false)

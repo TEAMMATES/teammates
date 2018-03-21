@@ -49,6 +49,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testDisableConstSumPointsAction();
         testUiConsistencyForNewQuestion();
     }
 
@@ -70,15 +71,16 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
 
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerOption");
         feedbackEditPage.fillConstSumPointsForEachOptionBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsForEachOptionBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsForEachOptionBoxForNewQuestion());
 
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.verifyStatus("Too little options for Distribute points (among options) question. "
-                                      + "Minimum number of options is: 2.");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little options for Distribute points (among options) question. Minimum number of options is: 2.");
 
         ______TS("remove when 1 left");
 
@@ -96,8 +98,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickRemoveConstSumOptionLinkForNewQuestion(0);
         assertTrue(feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little options for Distribute points (among options) question. "
-                                      + "Minimum number of options is: 2.");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little options for Distribute points (among options) question. Minimum number of options is: 2.");
 
         ______TS("duplicate options");
 
@@ -110,7 +112,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumOptionForNewQuestion(1, "duplicate option");
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
     }
 
     @Override
@@ -154,7 +157,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("30");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
@@ -173,7 +176,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumPointsForEachOptionBox("200", 1);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
@@ -187,7 +190,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillConstSumOption(1, "duplicate option", 1);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
     }
 
     @Override
@@ -202,7 +206,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
@@ -224,6 +228,33 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPointsTotal--1")));
         assertTrue(feedbackEditPage.isElementVisible(By.id("constSumOption_Option--1")));
         assertFalse(feedbackEditPage.isElementVisible(By.id("constSumOption_Recipient--1")));
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+    }
+
+    /**
+     * Tests that the constSumPoints* number fields gets disabled, if the corresponding radio button is not checked.
+     */
+    private void testDisableConstSumPointsAction() {
+        ______TS("Success case: CONSTSUM-option points to distribute field disables when radio button is unchecked");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+
+        // Make sure that constSumPointsTotal radio button is selected by default
+        assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());
+        // Verify that constSumPointsForEachOption field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachOption--1")));
+        // Select constSumPointsPerOption radio button
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerOption");
+        // Verify that constSumPoints field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPoints--1")));
+        // Select constSumPointsTotal radio button.
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("Total");
+        // Verify that constSumPointsForEachOption field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachOption--1")));
+
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
