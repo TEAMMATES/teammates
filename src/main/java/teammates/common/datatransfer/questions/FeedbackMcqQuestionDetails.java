@@ -336,7 +336,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
                 Slots.TEAM_EXCLUDING_SELF_SELECTED,
                     generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF ? "selected" : "",
-                Slots.TEAMS_EXCLUDING_SELF_TO_STRING, FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString(),
+                Slots.TEAMS_EXCLUDING_SELF_TO_STRING, FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString(),
                 Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
                 Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString());
     }
