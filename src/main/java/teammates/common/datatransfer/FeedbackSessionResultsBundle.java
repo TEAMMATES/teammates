@@ -1703,4 +1703,14 @@ public class FeedbackSessionResultsBundle {
         }
         return SanitizationHelper.sanitizeForCsv(comment.toString());
     }
+
+    public boolean containsResponsesToInstructorOrGeneral() {
+        for (FeedbackResponseAttributes response : responses) {
+            String recipientIdentifier = response.recipient;
+            if (getSectionFromRoster(recipientIdentifier) == Const.NO_SPECIFIC_RECIPIENT) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

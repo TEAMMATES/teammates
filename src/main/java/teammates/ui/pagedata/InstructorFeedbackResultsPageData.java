@@ -183,7 +183,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // results page to be loaded by ajax
         if (isAllSectionsSelected()) {
             if (bundle.isComplete) {
-                buildSectionPanelsForForAjaxLoading(getSections());
+                buildSectionPanelsForForAjaxLoading(getSections(), viewType);
             } else {
                 buildSectionPanelWithErrorMessage();
             }
@@ -693,18 +693,28 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     }
 
-    private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
+    private void buildSectionPanelsForForAjaxLoading(List<String> sections, InstructorFeedbackResultsPageViewType viewType) {
         sectionPanels = new LinkedHashMap<>();
 
-        if (bundle.getTeamsInSectionFromRoster(Const.DEFAULT_SECTION).size() > 0) {
-            InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
+        boolean hasGeneralFeedback = false;
+        boolean hasTeamsInNoSection = bundle.getTeamsInSectionFromRoster(Const.DEFAULT_SECTION).size() > 0;
+
+        if ((viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION
+                || viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER)
+                && bundle.containsResponsesToInstructorOrGeneral()) {
+            hasGeneralFeedback = true;
+        }
+
+        if (hasGeneralFeedback || hasTeamsInNoSection) {
+            InstructorFeedbackResultsSectionPanel sectionPanel =
+                    new InstructorFeedbackResultsSectionPanel(Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
 
             sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
         }
 
         for (String section : sections) {
-            InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
+            InstructorFeedbackResultsSectionPanel sectionPanel =
+                    new InstructorFeedbackResultsSectionPanel(section, section, true);
             sectionPanels.put(section, sectionPanel);
         }
     }
