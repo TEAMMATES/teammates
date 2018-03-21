@@ -36,7 +36,7 @@ public abstract class ActionResult {
     protected AccountAttributes account;
 
     /** A list of status messages to be shown to the user. */
-    protected List<StatusMessage> statusToUser = new ArrayList<>();
+    protected List<StatusMessage> statusToUser;
 
     /**
      * Parameters to be sent with the result. These will be automatically added
@@ -72,6 +72,10 @@ public abstract class ActionResult {
 
     public String getStatusMessageColor() {
         return statusToUser == null || statusToUser.isEmpty() ? "info" : statusToUser.get(0).getColor();
+    }
+
+    public List<StatusMessage> getStatusToUser() {
+        return statusToUser;
     }
 
     /**

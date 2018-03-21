@@ -95,6 +95,35 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         verifyStatusMessage(statusMessage, expectedString, StatusMessageColor.DANGER);
         assertTrue(pageData.getHasError());
 
+        ______TS("success: Time zone with DST, gap start time, overlap end time");
+
+        params[25] = "Europe/Andorra";
+        // After Sun, 25 Mar 2012, 01:59:59 AM: clocks sprang forward to Sun, 25 Mar 2012, 03:00:00 AM
+        params[5] = "Sun, 25 Mar, 2012";
+        params[7] = "2";
+        // After Sun, 28 Oct 2012, 02:59:59 AM: clocks fell back to Sun, 28 Oct 2012, 02:00:00 AM
+        params[9] = "Sun, 28 Oct, 2012";
+        params[11] = "2";
+
+        a = getAction(params);
+        ar = getAjaxResult(a);
+        pageData = (InstructorFeedbackEditPageData) ar.data;
+
+        expectedString = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP,
+                "start time", "Sun, 25 Mar 2012, 02:00 AM", "Sun, 25 Mar 2012, 03:00 AM CEST (UTC+0200)");
+        verifyStatusMessage(pageData.getStatusMessagesToUser().get(0), expectedString, StatusMessageColor.WARNING);
+
+        expectedString = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP,
+                "end time", "Sun, 28 Oct 2012, 02:00 AM",
+                "Sun, 28 Oct 2012, 02:00 AM CEST (UTC+0200)", "Sun, 28 Oct 2012, 02:00 AM CET (UTC+0100)",
+                "Sun, 28 Oct 2012, 02:00 AM CEST (UTC+0200)");
+        verifyStatusMessage(pageData.getStatusMessagesToUser().get(1), expectedString, StatusMessageColor.WARNING);
+
+        expectedString = Const.StatusMessages.FEEDBACK_SESSION_EDITED;
+        verifyStatusMessage(pageData.getStatusMessagesToUser().get(2), expectedString, StatusMessageColor.SUCCESS);
+
+        assertFalse(pageData.getHasError());
+
         ______TS("success: Custom time zone, 'never' show session, 'custom' show results");
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
