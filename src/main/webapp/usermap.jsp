@@ -12,13 +12,13 @@
 <t:staticPage jsIncludes="${jsIncludes}">
   <main>
     <input type="hidden" id="geo-data-url" value="${geoDataUrl}">
-    <h1 class="color_orange">Who is using TEAMMATES?</h1>
+    <h1 class="color-orange">Who is using TEAMMATES?</h1>
     <div id="world-map"></div>
     <p class="text-right">Last updated: <span id="lastUpdate" ></span></p>
-    <h2 class="text-center color_blue">
-      <span id="totalUserCount" class="color_orange"></span>
+    <h2 class="text-center color-blue">
+      <span id="totalUserCount" class="color-orange"></span>
       institutions from
-      <span id="totalCountryCount" class="color_orange"></span>
+      <span id="totalCountryCount" class="color-orange"></span>
       countries
     </h2>
   </main>

@@ -19,6 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
 import com.google.common.base.CharMatcher;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 
 /**
  * Holds String-related helper functions.
@@ -130,7 +131,8 @@ public final class StringHelper {
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return byteArrayToHexString(encrypted);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            return null;
         }
     }
 
@@ -153,7 +155,8 @@ public final class StringHelper {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
             throw new InvalidParametersException(e);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            return null;
         }
     }
 
@@ -163,7 +166,7 @@ public final class StringHelper {
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list) {
-        return toString(list, Const.EOL);
+        return toString(list, System.lineSeparator());
     }
 
     /**
@@ -182,6 +185,7 @@ public final class StringHelper {
         return df.format(doubleVal);
     }
 
+    @Deprecated
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
         if (hourOffsetTimeZone == 0) {
@@ -329,7 +333,7 @@ public final class StringHelper {
      * @return html table string
      */
     public static String csvToHtmlTable(String str) {
-        String[] lines = handleNewLine(str).split(Const.EOL);
+        String[] lines = handleNewLine(str).split(System.lineSeparator());
 
         StringBuilder result = new StringBuilder();
 

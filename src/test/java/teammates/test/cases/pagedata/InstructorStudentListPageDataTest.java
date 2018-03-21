@@ -1,5 +1,6 @@
 package teammates.test.cases.pagedata;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,15 +46,16 @@ public class InstructorStudentListPageDataTest extends BaseTestCase {
     }
 
     private InstructorStudentListPageData initializeDataWithSearchKey() {
-        acct = new AccountAttributes();
-        acct.googleId = "valid.id"; // only googleId is used
+        acct = AccountAttributes.builder()
+            .withGoogleId("valid.id") // only googleId is used
+            .build();
 
         searchKey = "<script>alert(\"A search key\");</script>";
         shouldDisplayArchive = false;
 
         // only course ID and name are used
         sampleCourse = CourseAttributes
-                .builder("validCourseId", "Sample course name", "UTC")
+                .builder("validCourseId", "Sample course name", ZoneId.of("UTC"))
                 .build();
 
         isCourseArchived = false;

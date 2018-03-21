@@ -199,14 +199,35 @@
           </div>
           <br class="hidden-xs">
           <div class="row">
-            <div class="col-sm-12" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
+            <div class="col-sm-12 col-md-6">
               <div class="form-group">
-                <h5 class="col-sm-2">
+                <h5 class="col-sm-2 col-md-4">
+                  <label class="control-label" for="coursename">
+                    Course name
+                  </label>
+                </h5>
+                <div class="col-sm-10 col-md-8">
+                  <input class="course-name-data" id="FeedbackEditCopy.CS2103" type="hidden" value="Software Engineering">
+                  <input class="course-name-data" id="FeedbackEditCopy.CS2104" type="hidden" value="Programming Language Concepts">
+                  <input class="course-name-data" id="FeedbackEditCopy.CS2105" type="hidden" value="Introduction to Computer Networks">
+                  <input class="course-name-data" id="FeedbackEditCopy.CS2107" type="hidden" value="Introduction to Information and System Security">
+                  <h5 class="form-control-static font-weight-normal" id="coursename">
+                    Software Engineering
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br class="hidden-xs">
+          <div class="row">
+            <div class="col-sm-12 col-md-6" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." data-placement="top" data-toggle="tooltip" title="">
+              <div class="form-group">
+                <h5 class="col-sm-2 col-md-4">
                   <label class="control-label" for="fsname">
                     Session name
                   </label>
                 </h5>
-                <div class="col-sm-10">
+                <div class="col-sm-10 col-md-8">
                   <input class="form-control" id="fsname" maxlength="38" name="fsname" placeholder="e.g. Feedback for Project Presentation 1" type="text" value="">
                 </div>
               </div>
@@ -247,7 +268,7 @@
               </div>
               <div class="row">
                 <div class="col-xs-6">
-                  <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="${date.nexthour}">
+                  <input class="form-control col-sm-2 hasDatepicker" id="startdate" name="startdate" placeholder="Date" type="text" value="">
                 </div>
                 <div class="col-xs-6">
                   <select class="form-control" id="starttime" name="starttime">
@@ -464,7 +485,7 @@
                 <div class="row">
                   <div class="col-xs-12" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
                     <label class="label-control">
-                      Session visible from
+                      Make session visible
                     </label>
                   </div>
                 </div>
@@ -576,7 +597,7 @@
                 <div class="row">
                   <div class="col-xs-12" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
                     <label class="label-control">
-                      Responses visible from
+                      Make responses visible
                     </label>
                   </div>
                 </div>
@@ -678,17 +699,9 @@
                 <div class="row radio">
                   <div class="col-xs-12" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
                     <label for="resultsVisibleFromButton_later">
-                      Publish manually
+                      Not now (publish manually)
                     </label>
                     <input checked="" id="resultsVisibleFromButton_later" name="resultsVisibleFromButton" type="radio" value="later">
-                  </div>
-                </div>
-                <div class="row radio">
-                  <div class="col-xs-12" data-original-title="Select this option if you intend never to publish the responses." data-placement="top" data-toggle="tooltip" title="">
-                    <label for="resultsVisibleFromButton_never">
-                      Never
-                    </label>
-                    <input id="resultsVisibleFromButton_never" name="resultsVisibleFromButton" type="radio" value="never">
                   </div>
                 </div>
               </div>
@@ -736,7 +749,7 @@
           <span id="uncommonSettingsSessionResponsesVisibleInfoText">
             Session is visible at submission opening time, responses are only visible when you publish the results.
           </span>
-          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
+          <a class="edit-uncommon-settings-button enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSessionResponsesVisibleButton">
             [Change]
           </a>
         </div>
@@ -744,7 +757,7 @@
           <span id="uncommonSettingsSendEmailsInfoText">
             Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.
           </span>
-          <a class="editUncommonSettingsButton enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
+          <a class="edit-uncommon-settings-button enable-edit-fs" data-done="[Done]" data-edit="[Edit]" id="editUncommonSettingsSendEmailsButton">
             [Change]
           </a>
         </div>
@@ -1234,7 +1247,7 @@
               <input class="form-control" id="modalCopiedSessionName" maxlength="38" name="copiedfsname" placeholder="e.g. Feedback for Project Presentation 1" type="text" value="">
             </div>
             <label>
-              Copy sessions/questions from
+              Copy settings and questions from
             </label>
             <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
               <thead class="fill-primary">

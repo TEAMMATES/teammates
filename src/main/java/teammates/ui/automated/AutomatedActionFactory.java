@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const.ActionURIs;
 import teammates.common.util.Const.TaskQueue;
 
@@ -38,6 +39,7 @@ public class AutomatedActionFactory {
         map(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, FeedbackSessionUnpublishedEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_RESEND_PARTICULAR_USER_EMAIL_WORKER_URL,
                 FeedbackSessionResendEmailWorkerAction.class);
+        map(TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL, FeedbackSessionUpdateRespondentWorkerAction.class);
         map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, SendEmailWorkerAction.class);
         map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, StudentCourseJoinEmailWorkerAction.class);
@@ -71,8 +73,9 @@ public class AutomatedActionFactory {
         try {
             return action.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Could not create the action for " + uri + ": "
-                                       + TeammatesException.toStringWithStackTrace(e));
+            Assumption.fail("Could not create the action for " + uri + ": "
+                    + TeammatesException.toStringWithStackTrace(e));
+            return null;
         }
     }
 

@@ -36,6 +36,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private FeedbackParticipantType generateOptionsFor;
     private int maxSelectableChoices;
     private int minSelectableChoices;
+    private StudentAttributes studentDoingQuestion;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -120,9 +121,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
-        this.numOfMsqChoices = generateOptionList(courseId).size();
-        Assumption.assertTrue("Can only generate students, teams or instructors",
+        if (generateOptionsFor.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)) {
+            this.numOfMsqChoices = generateNumOfChoicesForStudentsExcludingSelf(courseId);
+        } else {
+            this.numOfMsqChoices = generateOptionList(courseId).size();
+        }
+        Assumption.assertTrue("Can only generate students, students (excluding self), teams or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS
+                || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
                 || generateOptionsFor == FeedbackParticipantType.TEAMS
                 || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
     }
@@ -183,7 +189,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails, StudentAttributes student) {
+        studentDoingQuestion = student;
         FeedbackMsqResponseDetails existingMsqResponse = (FeedbackMsqResponseDetails) existingResponseDetails;
         List<String> choices = generateOptionList(courseId);
 
@@ -201,7 +208,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
                             Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         if (otherEnabled) {
@@ -219,7 +226,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.MSQ_CHOICE_VALUE,
                                     SanitizationHelper.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
                             Slots.MSQ_OTHER_OPTION_ANSWER, isOtherSelected ? "1" : "0");
-            optionListHtml.append(otherOptionFragment).append(Const.EOL);
+            optionListHtml.append(otherOptionFragment).append(System.lineSeparator());
         }
 
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
@@ -235,7 +242,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MSQ_CHOICE_VALUE, "",
                             Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
@@ -258,7 +265,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
+        studentDoingQuestion = student;
         List<String> choices = generateOptionList(courseId);
 
         StringBuilder optionListHtml = new StringBuilder();
@@ -274,7 +283,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(choices.get(i)),
                             Slots.MSQ_CHOICE_TEXT, SanitizationHelper.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment);
-            optionListHtml.append(Const.EOL);
+            optionListHtml.append(System.lineSeparator());
         }
 
         if (otherEnabled) {
@@ -291,7 +300,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                                     Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
                             Slots.MSQ_CHOICE_VALUE, "",
                             Slots.MSQ_OTHER_OPTION_ANSWER, "0");
-            optionListHtml.append(otherOptionFragment).append(Const.EOL);
+            optionListHtml.append(otherOptionFragment).append(System.lineSeparator());
         }
 
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
@@ -307,7 +316,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.MSQ_CHOICE_VALUE, "",
                             Slots.MSQ_CHOICE_TEXT, "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
@@ -328,6 +337,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1");
     }
 
+    /**
+     * Get the number of MSQ choices excluding self.
+     * @return number of MSQ choices generated.
+     */
+    private int generateNumOfChoicesForStudentsExcludingSelf(String courseId) {
+        List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
+
+        return studentList.size() - 1;
+    }
+
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<>();
 
@@ -336,8 +355,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionList = msqChoices;
             break;
         case STUDENTS:
-            List<StudentAttributes> studentList =
-                    StudentsLogic.inst().getStudentsForCourse(courseId);
+            //fallthrough
+        case STUDENTS_EXCLUDING_SELF:
+            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
+
+            if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+                studentList.removeIf(studentInList -> studentInList.email.equals(studentDoingQuestion.email));
+            }
 
             for (StudentAttributes student : studentList) {
                 optionList.add(student.name + " (" + student.team + ")");
@@ -390,7 +414,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)),
                             Slots.MSQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;
@@ -410,6 +434,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
                 Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
                 Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),
+                Slots.STUDENT_EXCLUDING_SELF_SELECTED,
+                    generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF ? "selected" : "",
+                Slots.STUDENTS_EXCLUDING_SELF_TO_STRING, FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString(),
                 Slots.TEAM_SELECTED, generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected" : "",
                 Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
                 Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
@@ -535,10 +562,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key) + ','
                 + value.toString() + ','
                 + df.format(100 * divideOrReturnZero(value, numChoicesSelected))
-                + Const.EOL));
+                + System.lineSeparator()));
 
-        return "Choice, Response Count, Percentage" + Const.EOL
-               + fragments + Const.EOL;
+        return "Choice, Response Count, Percentage" + System.lineSeparator()
+               + fragments + System.lineSeparator();
     }
 
     @Override

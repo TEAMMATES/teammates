@@ -1,5 +1,5 @@
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -237,7 +237,7 @@ function numStudentsRetrieved() {
 
 function showStudentLimitError(courseCheck, displayIcon) {
     courseCheck.prop('checked', false);
-    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, StatusType.DANGER);
+    setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, BootstrapContextualColors.DANGER);
     displayIcon.html('');
 }
 

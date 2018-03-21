@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
@@ -45,8 +44,8 @@ public class StringHelperTest extends BaseTestCase {
         assertTrue(StringHelper.isWhiteSpace(""));
         assertTrue(StringHelper.isWhiteSpace("       "));
         assertTrue(StringHelper.isWhiteSpace("\t\n\t"));
-        assertTrue(StringHelper.isWhiteSpace(Const.EOL));
-        assertTrue(StringHelper.isWhiteSpace(Const.EOL + "   "));
+        assertTrue(StringHelper.isWhiteSpace(System.lineSeparator()));
+        assertTrue(StringHelper.isWhiteSpace(System.lineSeparator() + "   "));
     }
 
     @Test(expectedExceptions = NullPointerException.class)
@@ -378,12 +377,12 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testCsvToHtmlTable() {
-        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + Const.EOL
-                         + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + Const.EOL
-                         + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + Const.EOL
-                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + Const.EOL
-                         + ",,," + Const.EOL
-                         + ",,,Data 5-4" + Const.EOL;
+        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + System.lineSeparator()
+                         + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + System.lineSeparator()
+                         + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + System.lineSeparator()
+                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + System.lineSeparator()
+                         + ",,," + System.lineSeparator()
+                         + ",,,Data 5-4" + System.lineSeparator();
         String htmlText = StringHelper.csvToHtmlTable(csvText);
         String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
                                       + "<tr>"

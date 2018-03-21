@@ -7,7 +7,7 @@
 <t:staticPage jsIncludes="${jsIncludes}" currentPage="about">
   <div class="container">
     <section class="row">
-      <h1 class="color_orange">About Us</h1>
+      <h1 class="color-orange">About Us</h1>
       <p class="h3">Acknowledgements:</p>
       <p>
         TEAMMATES team wishes to thank the following invaluable contributions:

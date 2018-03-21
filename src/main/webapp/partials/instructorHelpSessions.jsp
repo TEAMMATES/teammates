@@ -402,7 +402,7 @@
                       <div class="row">
                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below.">
                           <label class="label-control">
-                            Session visible from
+                            Make session visible
                           </label>
                         </div>
                       </div>
@@ -462,7 +462,7 @@
                     <div class="col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                       <div class="row">
                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later.">
-                          <label class="label-control">Responses visible from</label>
+                          <label class="label-control">Make responses visible</label>
                         </div>
                       </div>
                       <div class="row radio">
@@ -510,17 +510,12 @@
                         </div>
                       </div>
                       <div class="row radio">
-                        <div class="col-md-4" data-toggle="tooltip" data-placement="top" title="Select this option if you intend to manually publish the session later on.">
-                          <label for="resultsVisibleFromButton_later">Publish manually
+                        <div class="col-md-5" data-toggle="tooltip" data-placement="top" title="Select this option if you intend to manually publish the session later on.">
+                          <label for="resultsVisibleFromButton_later">Not now (publish manually)
                           </label>
                           <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_later" value="later">
                         </div>
                       </div>
-                      <div class="row radio">
-                        <div class="col-md-2" data-toggle="tooltip" data-placement="top" title="Select this option if you intend never to publish the responses.">
-                          <label for="resultsVisibleFromButton_never">Never</label>
-                          <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_never" value="never">
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -893,7 +888,7 @@
                   </ul>
                 </div>
                 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">
+                <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">
                   This is the visibility hint as seen by the feedback giver:
                   <ul class="text-muted background-color-warning">
 
@@ -1274,7 +1269,7 @@
                   </ul>
                 </div>
                 <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display:none;">
-                  <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                  <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                     <tbody>
                       <tr>
                         <th class="text-center">User/Group</th>
@@ -1366,7 +1361,7 @@
                   </table>
                 </div>
                 <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">
+                <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">
                   This is the visibility hint as seen by the feedback giver:
                   <ul class="text-muted background-color-warning">
 
@@ -2297,7 +2292,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -2389,7 +2384,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -2759,7 +2754,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -2851,7 +2846,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -3184,7 +3179,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -3276,7 +3271,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -3367,7 +3362,7 @@
                     </div>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-striped table-bordered dataTable margin-0">
+                    <table class="table table-striped table-bordered data-table margin-0">
                       <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                         <tr>
                           <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
@@ -3748,7 +3743,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-6" style="display:none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -3840,7 +3835,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-6">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving instructor can see your response, but not your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-6">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving instructor can see your response, but not your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -3910,7 +3905,7 @@
                     </div>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-striped table-bordered dataTable margin-0">
+                    <table class="table table-striped table-bordered data-table margin-0">
                       <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                         <tr>
                           <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
@@ -4359,7 +4354,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -4451,7 +4446,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -4534,7 +4529,7 @@
                       </div>
                     </div>
                     <div class="table-responsive">
-                      <table class="table table-striped table-bordered dataTable margin-0">
+                      <table class="table table-striped table-bordered data-table margin-0">
                         <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                           <tr>
                             <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
@@ -4972,7 +4967,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -5064,7 +5059,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -5382,7 +5377,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions--1" style="display:none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -5474,7 +5469,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage--1">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, but not your name.</li><li>Your team members can see your response, but not the name of the recipient, or your name.</li><li>The recipient's team members can see your response, but not the name of the recipient, or your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage--1">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, but not your name.</li><li>Your team members can see your response, but not the name of the recipient, or your name.</li><li>The recipient's team members can see your response, but not the name of the recipient, or your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -5552,18 +5547,18 @@
                                   Emma Farrell
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
                                   <span>0</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>
                                 </td>
                               </tr>
                               <tr>
@@ -5572,18 +5567,18 @@
                                   Danny Engrid
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
                                   <span>0</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>
                                 </td>
                               </tr>
                               <tr>
@@ -5592,18 +5587,18 @@
                                   Alice Betsy
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
                                   <span>0</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>
                                 </td>
                               </tr>
                               <tr>
@@ -5612,18 +5607,18 @@
                                   Benny Charles
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>
                                 </td>
                                 <td>
                                   <span>0</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>,
-                                  <span class="color_neutral">E</span>
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
+                                  <span class="color-neutral">E</span>
                                 </td>
                               </tr>
                               <tr>
@@ -5641,7 +5636,7 @@
                                   <span class="color-positive">+1%</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
                                   <span class="color-positive">E +9%</span>,
                                   <span class="color-positive">E +7%</span>
                                 </td>
@@ -5661,7 +5656,7 @@
                                   <span class="color-positive">+1%</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
                                   <span class="color-positive">E +7%</span>,
                                   <span class="color-positive">E +10%</span>
                                 </td>
@@ -5681,7 +5676,7 @@
                                   <span class="color-positive">+2%</span>
                                 </td>
                                 <td>
-                                  <span class="color_neutral">E</span>,
+                                  <span class="color-neutral">E</span>,
                                   <span class="color-positive">E +9%</span>,
                                   <span class="color-positive">E +12%</span>
                                 </td>
@@ -5713,7 +5708,7 @@
                     </div>
                   </div>
                   <div class="table-responsive">
-                    <table class="table table-striped table-bordered dataTable margin-0">
+                    <table class="table table-striped table-bordered data-table margin-0">
                       <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                         <tr>
                           <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
@@ -5747,9 +5742,9 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Alice Betsy</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]
+                              <span class="color-neutral">Equal Share</span>]
                             </span>
                           </td>
                         </tr>
@@ -5761,7 +5756,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Benny Charles</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5772,7 +5767,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Danny Engrid</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5783,7 +5778,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Emma Farrell</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5794,7 +5789,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Alice Betsy</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5805,9 +5800,9 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Benny Charles</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]
+                              <span class="color-neutral">Equal Share</span>]
                             </span>
                           </td>
                         </tr>
@@ -5819,7 +5814,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Danny Engrid</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5830,7 +5825,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Emma Farrell</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5888,7 +5883,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Alice Betsy</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5899,7 +5894,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Benny Charles</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5910,9 +5905,9 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Danny Engrid</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]
+                              <span class="color-neutral">Equal Share</span>]
                             </span>
                           </td>
                         </tr>
@@ -5924,7 +5919,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Emma Farrell</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5935,7 +5930,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Alice Betsy</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5946,7 +5941,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Benny Charles</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5957,7 +5952,7 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Danny Engrid</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                           </td>
                         </tr>
 
@@ -5968,9 +5963,9 @@
                           <td class="middlealign">Team 1</td>
                           <td class="middlealign">Emma Farrell</td>
                           <td class="multiline">
-                            <span class="color_neutral">Equal Share</span>
+                            <span class="color-neutral">Equal Share</span>
                             <span>&nbsp;&nbsp;[Perceived Contribution:
-                              <span class="color_neutral">Equal Share</span>]
+                              <span class="color-neutral">Equal Share</span>]
                             </span>
                           </td>
                         </tr>
@@ -6188,19 +6183,19 @@
                                 </td>
                                 <td class="col-md-1 cell-selected">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-0-0" name="rubricChoice-10-0-0" value="0-0" checked="">
-                                  <span class="color_neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
+                                  <span class="color-neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-0-1" name="rubricChoice-10-0-0" value="0-1">
-                                  <span class="color_neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
+                                  <span class="color-neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-0-2" name="rubricChoice-10-0-0" value="0-2">
-                                  <span class="color_neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
+                                  <span class="color-neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-0-3" name="rubricChoice-10-0-0" value="0-3">
-                                  <span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
+                                  <span class="color-neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
                                 </td>
 
                               </tr>
@@ -6210,19 +6205,19 @@
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-1-0" name="rubricChoice-10-0-1" value="1-0">
-                                  <span class="color_neutral overlay"> Provides work of the highest quality.</span>
+                                  <span class="color-neutral overlay"> Provides work of the highest quality.</span>
                                 </td>
                                 <td class="col-md-1 cell-selected">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-1-1" name="rubricChoice-10-0-1" value="1-1" checked="">
-                                  <span class="color_neutral overlay"> Provides high quality work.</span>
+                                  <span class="color-neutral overlay"> Provides high quality work.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-1-2" name="rubricChoice-10-0-1" value="1-2">
-                                  <span class="color_neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
+                                  <span class="color-neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-0-1-3" name="rubricChoice-10-0-1" value="1-3">
-                                  <span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
+                                  <span class="color-neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
                                 </td>
 
                               </tr>
@@ -6270,19 +6265,19 @@
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-0-0" name="rubricChoice-10-1-0" value="0-0">
-                                  <span class="color_neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
+                                  <span class="color-neutral overlay"> Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-0-1" name="rubricChoice-10-1-0" value="0-1">
-                                  <span class="color_neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
+                                  <span class="color-neutral overlay"> Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!</span>
                                 </td>
                                 <td class="col-md-1 cell-selected">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-0-2" name="rubricChoice-10-1-0" value="0-2" checked="">
-                                  <span class="color_neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
+                                  <span class="color-neutral overlay"> Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-0-3" name="rubricChoice-10-1-0" value="0-3">
-                                  <span class="color_neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
+                                  <span class="color-neutral overlay"> Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.</span>
                                 </td>
 
                               </tr>
@@ -6292,19 +6287,19 @@
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-1-0" name="rubricChoice-10-1-1" value="1-0">
-                                  <span class="color_neutral overlay"> Provides work of the highest quality.</span>
+                                  <span class="color-neutral overlay"> Provides work of the highest quality.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-1-1" name="rubricChoice-10-1-1" value="1-1">
-                                  <span class="color_neutral overlay"> Provides high quality work.</span>
+                                  <span class="color-neutral overlay"> Provides high quality work.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-1-2" name="rubricChoice-10-1-1" value="1-2">
-                                  <span class="color_neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
+                                  <span class="color-neutral overlay"> Provides work that occasionally needs to be checked/redone by other group members to ensure quality.</span>
                                 </td>
                                 <td class="col-md-1">
                                   <input class="overlay" type="radio" id="rubricChoice-10-1-1-3" name="rubricChoice-10-1-1" value="1-3">
-                                  <span class="color_neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
+                                  <span class="color-neutral overlay"> Provides work that usually needs to be checked/redone by others to ensure quality.</span>
                                 </td>
 
                               </tr>
@@ -6727,7 +6722,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-1" style="display:none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -6819,7 +6814,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-1">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-1">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>The receiving student can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -6926,15 +6921,14 @@
         <div class="col-sm-12">
             <b id="fbRankOptions">Rank Options question</b>
           <br>
-          Rank options questions are question where the students rank options that are created by you.
+          Rank options questions are questions where the respondents rank the options that you have created.
           <br>
 
           <br>
-          To setup the question, enter the main question text, and add the options for the students to rank. You can configure if students can give the same rank multiple times.
+          To set up the question, enter the main question text, and add the options for the respondents to rank. You can configure it to allow the respondents to give the same rank multiple times.
           <br>
-          You can also configure the minimum and (or) maximum options to be ranked. When the minimum options to be ranked restriction is enabled, it will ensure that the respondent ranks at least the number of options mentioned in the restriction.
-          <br>
-          Similarly, when maximum options to be ranked restriction is enabled, it will ensure that the respondent ranks at most the number of options mentioned in the restriction.
+          You can also configure the minimum and (or) maximum number of options to be ranked. When the restriction on the minimum number is enabled, it will ensure that the respondent ranks at least the number of options as set in the restriction.
+          Similarly, when the restriction on the maximum number is enabled, it will ensure that the respondent ranks at most the number of options as set in the restriction.
           <br>
           <br>
           <div class="bs-example">
@@ -7220,7 +7214,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -7312,7 +7306,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -7340,9 +7334,10 @@
         <div class="col-sm-12">
             <b id="fbRankRecipients">Rank Recipients question</b>
           <br>
-          Rank recipients questions are questions where the students are to rank students, teams, or instructors.
+          Rank recipients questions are questions where the respondents are to rank other respondents, themselves, teams, or instructors.
           <br>
-          <br> The options to rank are determined by the feedback path selected for the question. You can configure if students can give the same rank multiple times.
+          <br>
+          The options to rank are determined by the feedback path selected for the question. You can configure it to allow the respondents to give the same rank multiple times.
           <br>
           <br>
           <div class="bs-example">
@@ -7623,7 +7618,7 @@
                       </ul>
                     </div>
                     <div class="visibilityOptions col-sm-12 overflow-hidden" id="visibilityOptions-2" style="display: none;">
-                      <table class="dataTable participantTable table table-striped text-center background-color-white margin-bottom-10px">
+                      <table class="data-table participantTable table table-striped text-center background-color-white margin-bottom-10px">
                         <tbody>
                           <tr>
                             <th class="text-center">User/Group</th>
@@ -7715,7 +7710,7 @@
                       </table>
                     </div>
                     <!-- Fix for collapsing margin problem. Reference: http://stackoverflow.com/questions/6204670 -->
-                    <div class="col-sm-12 visibilityMessage overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, and your name.</li></ul></div>
+                    <div class="col-sm-12 visibility-message overflow-hidden" id="visibilityMessage-2">This is the visibility hint as seen by the feedback giver:<ul class="text-muted background-color-warning"><li>Instructors in this course can see your response, and your name.</li></ul></div>
                   </div>
                   <div>
                     <span class="pull-right">
@@ -7737,7 +7732,12 @@
             </form>
           </div>
 
-          <br> The statistics for both rank questions show the average rank an option/recipient received. Ties are handled during the computation of statistics. If duplicate ranks are allowed to be given, ties are resolved by assigning the best rank to the occurences of tied values. For example, for the data {1, 3, 3, 4}, the ranks will be converted to {1, 2, 2, 4}.
+          <br>
+          The statistics for rank questions show the ranks which an option/recipient received and the overall rank computed.
+          <br>
+          The <b> Ranks Received </b> as shown in the statistic summary below are processed from the original responses with the ties handled (if exist) and the void ranking slots removed. For example, if giver A's original response is {1, 3, 3, 5} and the Rank 5 is to recipient B, after the processing, giver A's response will become {1, 2, 2, 4} and recipient B will have a Rank 4 in his <b>Ranks Received</b>, instead of the Rank 5 in the original response by giver A.
+          <br>
+          The <b> Overall Rank </b> is basically a ranking of the averages of the ranks for each recipient. For example, if recipient A's <b> Ranks Received </b> is {1,2} and recipient B's <b> Ranks Received </b> is {2,4,6}, then the averages of the ranks for recipient A and recipient B are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get an <b>Overall Rank</b> of 1 and 2 respectively.
           <br>
           <br>
           <div class="bs-example">
@@ -7760,7 +7760,7 @@
                         <span class="icon-sort unsorted"></span></td>
                       <td class="button-sort-none" id="button_sortname" style="width:15%;">Ranks Received
                         <span class="icon-sort unsorted"></span></td>
-                      <td class="button-sort-none" id="button_sortclaimed" style="width:15%;">Average Rank
+                      <td class="button-sort-none" id="button_sortclaimed" style="width:15%;">Overall Rank
                         <span class="icon-sort unsorted"></span></td>
                     </tr>
                     </thead>
@@ -7776,7 +7776,7 @@
                           1 , 1 , 2
                         </td>
                         <td>
-                          1.33
+                          1
                         </td>
                       </tr>
                       <tr>
@@ -7790,7 +7790,7 @@
                           1 , 2
                         </td>
                         <td>
-                          1.5
+                          2
                         </td>
                       </tr>
                       <tr>
@@ -7804,7 +7804,7 @@
                           1 , 2
                         </td>
                         <td>
-                          1.5
+                          2
                         </td>
                       </tr>
                     </tbody>

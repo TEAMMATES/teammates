@@ -1,13 +1,14 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -27,13 +28,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     // Optional fields
     private Text instructions;
-    private Date createdTime;
-    private Date startTime;
-    private Date endTime;
-    private Date sessionVisibleFromTime;
-    private Date resultsVisibleFromTime;
-    private double timeZone;
-    private int gracePeriod;
+    private Instant createdTime;
+    private Instant startTime;
+    private Instant endTime;
+    private Instant sessionVisibleFromTime;
+    private Instant resultsVisibleFromTime;
+    private ZoneId timeZone;
+    private Duration gracePeriod;
     private FeedbackSessionType feedbackSessionType;
     private boolean sentOpenEmail;
     private boolean sentClosingEmail;
@@ -52,6 +53,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         respondingInstructorList = new HashSet<>();
         respondingStudentList = new HashSet<>();
 
+        timeZone = Const.DEFAULT_TIME_ZONE;
+        gracePeriod = Duration.ZERO;
+
         instructions = new Text("");
     }
 
@@ -63,8 +67,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 .withEndTime(fs.getEndTime())
                 .withSessionVisibleFromTime(fs.getSessionVisibleFromTime())
                 .withResultsVisibleFromTime(fs.getResultsVisibleFromTime())
-                .withTimeZone(fs.getTimeZone())
-                .withGracePeriod(fs.getGracePeriod())
+                .withTimeZone(ZoneId.of(fs.getTimeZone()))
+                .withGracePeriodMinutes(fs.getGracePeriod())
                 .withFeedbackSessionType(fs.getFeedbackSessionType())
                 .withSentOpenEmail(fs.isSentOpenEmail())
                 .withSentClosingEmail(fs.isSentClosingEmail())
@@ -110,16 +114,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         if (startTime == null) {
             return "-";
         }
-        Date startTimeInUtc = TimeHelper.convertLocalDateToUtc(startTime, timeZone);
-        return TimeHelper.formatDateTimeForSessions(startTimeInUtc, timeZone);
+        return TimeHelper.formatDateTimeForSessions(startTime, timeZone);
     }
 
     public String getEndTimeString() {
         if (endTime == null) {
             return "-";
         }
-        Date endTimeInUtc = TimeHelper.convertLocalDateToUtc(endTime, timeZone);
-        return TimeHelper.formatDateTimeForSessions(endTimeInUtc, timeZone);
+        return TimeHelper.formatDateTimeForSessions(endTime, timeZone);
     }
 
     public String getInstructionsString() {
@@ -132,12 +134,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     @Override
     public FeedbackSession toEntity() {
-        return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions, createdTime,
-                                   startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                                   timeZone, gracePeriod, feedbackSessionType, sentOpenEmail,
-                                   sentClosingEmail, sentClosedEmail, sentPublishedEmail,
-                                   isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
-                                   respondingInstructorList, respondingStudentList);
+        return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions,
+                createdTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
+                timeZone.getId(), getGracePeriodMinutes(), feedbackSessionType,
+                sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
+                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
+                respondingInstructorList, respondingStudentList);
     }
 
     @Override
@@ -214,7 +216,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
                 sessionVisibleFromTime, startTime), errors);
 
-        Date actualSessionVisibleFromTime = sessionVisibleFromTime;
+        Instant actualSessionVisibleFromTime = sessionVisibleFromTime;
 
         if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             actualSessionVisibleFromTime = startTime;
@@ -231,89 +233,63 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return getInvalidityInfo().isEmpty();
     }
 
-    public boolean isClosedAfter(int hours) {
-        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        // Fix the time zone accordingly
-        now.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
-
-        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        start.setTime(startTime);
-
-        Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        deadline.setTime(endTime);
-
-        long nowMillis = now.getTimeInMillis();
-        long deadlineMillis = deadline.getTimeInMillis();
-        long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
-
-        return now.after(start) && differenceBetweenDeadlineAndNow < hours;
+    public boolean isClosedAfter(long hours) {
+        return Instant.now().plus(Duration.ofHours(hours)).isAfter(endTime);
     }
 
-    public boolean isClosingWithinTimeLimit(int hours) {
-        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        // Fix the time zone accordingly
-        now.add(Calendar.MILLISECOND,
-                (int) (60 * 60 * 1000 * timeZone));
-
-        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        start.setTime(startTime);
-
-        Calendar deadline = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        deadline.setTime(endTime);
-
-        long nowMillis = now.getTimeInMillis();
-        long deadlineMillis = deadline.getTimeInMillis();
-        long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
-
+    public boolean isClosingWithinTimeLimit(long hours) {
+        Instant now = Instant.now();
+        Duration difference = Duration.between(now, endTime);
         // If now and start are almost similar, it means the feedback session
         // is open for only 24 hours.
         // Hence we do not send a reminder e-mail for feedback session.
-        return now.after(start)
-               && differenceBetweenDeadlineAndNow >= hours - 1
-               && differenceBetweenDeadlineAndNow < hours;
+        return now.isAfter(startTime)
+               && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+               && difference.compareTo(Duration.ofHours(hours)) < 0;
     }
 
     /**
-     * Returns true if the session is closed within the past hour of calling this function.
+     * Checks if the session closed some time in the last one hour from calling this function.
+     *
+     * @return true if the session closed within the past hour; false otherwise.
      */
     public boolean isClosedWithinPastHour() {
-        long timeZoneOffset = (long) timeZone * 60 * 60 * 1000;
-        Date date = new Date(endTime.getTime() + gracePeriod * 60000L - timeZoneOffset);
-        return TimeHelper.isWithinPastHourFromNow(date);
+        Instant now = Instant.now();
+        Instant given = endTime.plus(gracePeriod);
+        return given.isBefore(now) && Duration.between(given, now).compareTo(Duration.ofHours(1)) < 0;
     }
 
     /**
      * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
      */
     public boolean isClosed() {
-        Calendar now = TimeHelper.now(timeZone);
-        Calendar end = TimeHelper.dateToCalendar(endTime);
-        end.add(Calendar.MINUTE, gracePeriod);
-
-        return now.after(end);
+        if (endTime == null) {
+            return false;
+        }
+        return Instant.now().isAfter(endTime.plus(gracePeriod));
     }
 
     /**
      * Returns true if the session is currently open and accepting responses.
      */
     public boolean isOpened() {
-        Calendar now = TimeHelper.now(timeZone);
-        Calendar start = TimeHelper.dateToCalendar(startTime);
-        Calendar end = TimeHelper.dateToCalendar(endTime);
-
-        return now.after(start) && now.before(end);
+        if (startTime == null || endTime == null) {
+            return false;
+        }
+        Instant now = Instant.now();
+        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(endTime);
     }
 
     /**
      * Returns true if the session is currently close but is still accept responses.
      */
     public boolean isInGracePeriod() {
-        Calendar now = TimeHelper.now(timeZone);
-        Calendar end = TimeHelper.dateToCalendar(endTime);
-        Calendar gracedEnd = TimeHelper.dateToCalendar(endTime);
-        gracedEnd.add(Calendar.MINUTE, gracePeriod);
-
-        return now.after(end) && now.before(gracedEnd);
+        if (endTime == null) {
+            return false;
+        }
+        Instant now = Instant.now();
+        Instant gracedEnd = endTime.plus(gracePeriod);
+        return (now.isAfter(endTime) || now.equals(endTime)) && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
     }
 
     /**
@@ -321,10 +297,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * {@code false} if session has opened before.
      */
     public boolean isWaitingToOpen() {
-        Calendar now = TimeHelper.now(timeZone);
-        Calendar start = TimeHelper.dateToCalendar(startTime);
-
-        return now.before(start);
+        if (startTime == null) {
+            return false;
+        }
+        return Instant.now().isBefore(startTime);
     }
 
     /**
@@ -332,7 +308,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      *         Does not care if the session has started or not.
      */
     public boolean isVisible() {
-        Date visibleTime = this.sessionVisibleFromTime;
+        Instant visibleTime = this.sessionVisibleFromTime;
 
         if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             visibleTime = this.startTime;
@@ -340,8 +316,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return false;
         }
 
-        Date now = TimeHelper.now(timeZone).getTime();
-        return visibleTime.before(now);
+        Instant now = Instant.now();
+        return now.isAfter(visibleTime) || now.equals(visibleTime);
     }
 
     /**
@@ -349,20 +325,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      *         Does not care if the session has ended or not.
      */
     public boolean isPublished() {
-        Date now = TimeHelper.now(timeZone).getTime();
-        Date publishTime = this.resultsVisibleFromTime;
+        Instant publishTime = this.resultsVisibleFromTime;
 
         if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             return isVisible();
-        } else if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
-            return false;
-        } else if (publishTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-            return false;
-        } else if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
-            return true;
-        } else {
-            return publishTime.before(now);
         }
+        if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            return false;
+        }
+        if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
+            return true;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(publishTime) || now.equals(publishTime);
     }
 
     /**
@@ -400,7 +376,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", endTime=" + endTime + ", sessionVisibleFromTime="
                + sessionVisibleFromTime + ", resultsVisibleFromTime="
                + resultsVisibleFromTime + ", timeZone=" + timeZone
-               + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
+               + ", gracePeriod=" + getGracePeriodMinutes() + "min, feedbackSessionType="
                + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
@@ -438,12 +414,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     @Override
-    public Date getSessionStartTime() {
+    public Instant getSessionStartTime() {
         return this.startTime;
     }
 
     @Override
-    public Date getSessionEndTime() {
+    public Instant getSessionEndTime() {
         return this.endTime;
     }
 
@@ -476,60 +452,76 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.instructions = instructions;
     }
 
-    public Date getCreatedTime() {
+    public Instant getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public void setCreatedTime(Instant createdTime) {
         this.createdTime = createdTime;
     }
 
-    public Date getStartTime() {
+    public Instant getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public LocalDateTime getStartTimeLocal() {
+        return TimeHelper.convertInstantToLocalDateTime(startTime, timeZone);
+    }
+
+    public void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Instant getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public LocalDateTime getEndTimeLocal() {
+        return TimeHelper.convertInstantToLocalDateTime(endTime, timeZone);
+    }
+
+    public void setEndTime(Instant endTime) {
         this.endTime = endTime;
     }
 
-    public Date getSessionVisibleFromTime() {
+    public Instant getSessionVisibleFromTime() {
         return sessionVisibleFromTime;
     }
 
-    public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
+    public LocalDateTime getSessionVisibleFromTimeLocal() {
+        return TimeHelper.convertInstantToLocalDateTime(sessionVisibleFromTime, timeZone);
+    }
+
+    public void setSessionVisibleFromTime(Instant sessionVisibleFromTime) {
         this.sessionVisibleFromTime = sessionVisibleFromTime;
     }
 
-    public Date getResultsVisibleFromTime() {
+    public Instant getResultsVisibleFromTime() {
         return resultsVisibleFromTime;
     }
 
-    public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
+    public LocalDateTime getResultsVisibleFromTimeLocal() {
+        return TimeHelper.convertInstantToLocalDateTime(resultsVisibleFromTime, timeZone);
+    }
+
+    public void setResultsVisibleFromTime(Instant resultsVisibleFromTime) {
         this.resultsVisibleFromTime = resultsVisibleFromTime;
     }
 
-    public double getTimeZone() {
+    public ZoneId getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(double timeZone) {
+    public void setTimeZone(ZoneId timeZone) {
         this.timeZone = timeZone;
     }
 
-    public int getGracePeriod() {
-        return gracePeriod;
+    public long getGracePeriodMinutes() {
+        return gracePeriod.toMinutes();
     }
 
-    public void setGracePeriod(int gracePeriod) {
-        this.gracePeriod = gracePeriod;
+    public void setGracePeriodMinutes(long gracePeriodMinutes) {
+        this.gracePeriod = Duration.ofMinutes(gracePeriodMinutes);
     }
 
     public FeedbackSessionType getFeedbackSessionType() {
@@ -613,8 +605,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getEndTimeInIso8601Format() {
-        Date endTimeInUtc = TimeHelper.convertLocalDateToUtc(endTime, timeZone);
-        return TimeHelper.formatDateToIso8601Utc(endTimeInUtc);
+        return TimeHelper.formatInstantToIso8601Utc(endTime);
     }
 
     /**
@@ -639,48 +630,48 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return this;
         }
 
-        public Builder withCreatedTime(Date createdTime) {
+        public Builder withCreatedTime(Instant createdTime) {
             if (createdTime != null) {
                 feedbackSessionAttributes.setCreatedTime(createdTime);
             }
             return this;
         }
 
-        public Builder withStartTime(Date startTime) {
+        public Builder withStartTime(Instant startTime) {
             if (startTime != null) {
                 feedbackSessionAttributes.setStartTime(startTime);
             }
             return this;
         }
 
-        public Builder withEndTime(Date endTime) {
+        public Builder withEndTime(Instant endTime) {
             if (endTime != null) {
                 feedbackSessionAttributes.setEndTime(endTime);
             }
             return this;
         }
 
-        public Builder withSessionVisibleFromTime(Date sessionVisibleFromTime) {
+        public Builder withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
             if (sessionVisibleFromTime != null) {
                 feedbackSessionAttributes.setSessionVisibleFromTime(sessionVisibleFromTime);
             }
             return this;
         }
 
-        public Builder withResultsVisibleFromTime(Date resultsVisibleFromTime) {
+        public Builder withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
             if (resultsVisibleFromTime != null) {
                 feedbackSessionAttributes.setResultsVisibleFromTime(resultsVisibleFromTime);
             }
             return this;
         }
 
-        public Builder withTimeZone(double timeZone) {
+        public Builder withTimeZone(ZoneId timeZone) {
             feedbackSessionAttributes.setTimeZone(timeZone);
             return this;
         }
 
-        public Builder withGracePeriod(int gracePeriod) {
-            feedbackSessionAttributes.setGracePeriod(gracePeriod);
+        public Builder withGracePeriodMinutes(long gracePeriodMinutes) {
+            feedbackSessionAttributes.setGracePeriodMinutes(gracePeriodMinutes);
             return this;
         }
 

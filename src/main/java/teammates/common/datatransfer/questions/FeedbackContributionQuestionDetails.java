@@ -14,6 +14,7 @@ import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
@@ -78,7 +79,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails,
+            StudentAttributes student) {
 
         FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) existingResponseDetails;
         int points = frd.getAnswer();
@@ -96,7 +98,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
 
         String optionSelectHtml = getContributionOptionsHtml(Const.INT_UNINITIALIZED);
 
@@ -397,7 +400,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
                     + SanitizationHelper.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx))
-                    + Const.EOL;
+                    + System.lineSeparator();
 
             // Replace all Unset values
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
@@ -414,12 +417,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String csvPointsExplanation =
                 "In the points given below, an equal share is equal to 100 points. "
-                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL
-                + "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL
+                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + System.lineSeparator()
+                + "Claimed Contribution (CC) = the contribution claimed by the student." + System.lineSeparator()
                 + "Perceived Contribution (PC) = the average value of student's contribution "
-                + "as perceived by the team members." + Const.EOL
-                + "Team, Name, Email, CC, PC, Ratings Recieved" + Const.EOL;
-        return csvPointsExplanation + contribFragments + Const.EOL;
+                + "as perceived by the team members." + System.lineSeparator()
+                + "Team, Name, Email, CC, PC, Ratings Recieved" + System.lineSeparator();
+        return csvPointsExplanation + contribFragments + System.lineSeparator();
     }
 
     private List<String> getTeamNames(FeedbackSessionResultsBundle bundle) {
@@ -495,7 +498,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return studentResults;
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD.
     private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
             Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<>();
@@ -657,7 +659,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     private static String getPointsAsColorizedHtml(int points) {
         if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
+            return "<span class=\"color-neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
                    + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
@@ -669,7 +671,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if (points < 100) {
             return "<span class=\"color-negative\">E -" + (100 - points) + "%</span>";
         } else {
-            return "<span class=\"color_neutral\">E</span>";
+            return "<span class=\"color-neutral\">E</span>";
         }
     }
 
@@ -679,7 +681,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int diff = perceived - claimed;
         if (perceived == Const.POINTS_NOT_SUBMITTED || perceived == Const.INT_UNINITIALIZED
                 || claimed == Const.POINTS_NOT_SUBMITTED || claimed == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
+            return "<span class=\"color-neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
                    + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE
                    + "\">N/A</span>";
         } else if (perceived == Const.POINTS_NOT_SURE || claimed == Const.POINTS_NOT_SURE) {
@@ -870,7 +872,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 || points == Const.POINTS_EQUAL_SHARE
                 || points == Const.POINTS_NOT_SUBMITTED) {
             // Not sure, Equal Share, Not Submitted
-            return "color_neutral";
+            return "color-neutral";
         } else if (points < Const.POINTS_EQUAL_SHARE) {
             // Negative share
             return "color-negative";
@@ -906,9 +908,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     static String convertToEqualShareFormatHtml(int i) {
         if (i == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\">N/A</span>";
+            return "<span class=\"color-neutral\">N/A</span>";
         } else if (i == Const.POINTS_NOT_SUBMITTED) {
-            return "<span class=\"color_neutral\"></span>";
+            return "<span class=\"color-neutral\"></span>";
         } else if (i == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\">Not Sure</span>";
         } else if (i == 0) {
@@ -918,7 +920,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if (i < 100) {
             return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
         } else {
-            return "<span class=\"color_neutral\">Equal Share</span>";
+            return "<span class=\"color-neutral\">Equal Share</span>";
         }
     }
 

@@ -1,9 +1,10 @@
 package teammates.test.cases.logic;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,11 +139,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("typical case : 1 non private session closing within time limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
-        session.setTimeZone(0);
+        session.setTimeZone(ZoneId.of("UTC"));
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
 
@@ -177,11 +178,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("case : 1 open session with mail unsent");
         FeedbackSessionAttributes session = getNewFeedbackSession();
-        session.setTimeZone(0);
+        session.setTimeZone(ZoneId.of("UTC"));
         session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        session.setSessionVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-47));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session.setSentOpenEmail(false);
         fsLogic.createFeedbackSession(session);
 
@@ -201,7 +202,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         ______TS("case : 1 closed session with mail unsent");
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session);
 
         sessionList = fsLogic
@@ -225,10 +226,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("case : 1 published session with mail unsent");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        session.setTimeZone(0);
-        session.setStartTime(TimeHelper.getDateOffsetToCurrentTime(-2));
-        session.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-1));
-        session.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
 
         session.setSentPublishedEmail(false);
         fsLogic.updateFeedbackSession(session);
@@ -425,7 +426,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes privateSession =
                 newDataBundle.feedbackSessions.get("private.session");
         privateSession.setSessionVisibleFromTime(privateSession.getStartTime());
-        privateSession.setEndTime(TimeHelper.convertToDate("2015-04-01 10:00 PM UTC"));
+        privateSession.setEndTime(TimeHelper.parseInstant("2015-04-01 2:00 PM +0000"));
         privateSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         fsLogic.updateFeedbackSession(privateSession);
 
@@ -535,9 +536,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Student can see sessions 1 and 2. Session 3 has no questions. Session 4 is not yet visible for students.
         String expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + System.lineSeparator();
 
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
@@ -558,12 +559,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Instructors should be able to see all sessions for the course
         expected =
-                dataBundle.feedbackSessions.get("session1InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("empty.session").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("awaiting.session").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("closedSession").toString() + Const.EOL
-                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + Const.EOL;
+                dataBundle.feedbackSessions.get("session1InCourse1").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("session2InCourse1").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("empty.session").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("awaiting.session").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("closedSession").toString() + System.lineSeparator()
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + System.lineSeparator();
 
         for (FeedbackSessionAttributes session : actualSessions) {
             AssertHelper.assertContains(session.toString(), expected);
@@ -1208,7 +1209,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("typical case: get all results with unchecked isMissingResponsesShown");
 
@@ -1262,7 +1263,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("typical case: get results for single question");
         final int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
@@ -1290,7 +1291,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("MCQ results");
 
@@ -1356,7 +1357,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("MSQ results");
 
@@ -1424,7 +1425,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("NUMSCALE results");
 
@@ -1472,7 +1473,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("CONSTSUM results");
 
@@ -1540,7 +1541,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("Instructor without privilege to view responses");
 
@@ -1579,7 +1580,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("CONTRIB results");
 
@@ -1633,7 +1634,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("CONTRIB summary visibility variations");
 
@@ -1682,7 +1683,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         // instructor not allowed to view student responses in section
         session = newDataBundle.feedbackSessions.get("contribSessionInstructorSectionRestricted");
@@ -1721,7 +1722,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("RUBRIC results");
 
@@ -1820,7 +1821,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("RANK results");
 
@@ -1839,11 +1840,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 1,\"Rank the other students.\"",
                 "",
                 "Summary Statistics,",
-                "Team, Recipient, Self Rank, Average Rank, Average Rank Excluding Self, Ranks Received",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",1,2,3,3,1",
-                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",1,1.33,1,1,2,1",
+                "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",1,3,3,3,1",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",1,1,1,1,2,1",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",4,4,-,4",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",1,1.5,2,2,1",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",1,2,2,2,1",
                 "",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
@@ -1860,26 +1861,26 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Question 2,\"Rank the areas of improvement you think your team should make progress in.\"",
                 "",
                 "Summary Statistics,",
-                "Option, Average Rank, Ranks Received",
-                "\"Quality of progress reports\",2.5,2,3",
+                "Option, Overall Rank, Ranks Received",
+                "\"Quality of progress reports\",4,2,3",
                 "\"Time management\",2,3,2,1,2",
-                "\"Quality of work\",2.4,1,4,3,3,1",
-                "\"Teamwork and communication\",1.75,4,1,1,1",
+                "\"Quality of work\",3,1,4,3,3,1",
+                "\"Teamwork and communication\",1,4,1,1,1",
                 "",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Rank 1,Rank 2,Rank 3,Rank 4",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Teamwork and communication\",\"Time management\",\"Quality of progress reports\",\"Quality of work\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Time management, Teamwork and communication\",\"Quality of work\",,",
-                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Teamwork and communication\",\"Time management\",\"Quality of work\",",
-                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",\"Quality of work\",,,",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Teamwork and communication\",\"Time management\",\"Quality of progress reports\",\"Quality of work\",",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Time management, Teamwork and communication\",\"Quality of work\",,,",
+                "\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"\",\"Team 1.1</td></div>'\"\"\",\"Team 1.1</td></div>'\"\"\",\"-\",\"Teamwork and communication\",\"Time management\",\"Quality of work\",,",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",\"Quality of work\",,,,",
                 "",
                 "",
                 ""
                 // CHECKSTYLE.ON:LineLength
         };
 
-        assertEquals(StringUtils.join(expected, Const.EOL), export);
+        assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("MSQ results without statistics");
 
@@ -2096,12 +2097,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.tmt")
                 .withFeedbackSessionType(FeedbackSessionType.STANDARD)
-                .withCreatedTime(new Date())
-                .withStartTime(new Date())
-                .withEndTime(new Date())
-                .withSessionVisibleFromTime(new Date())
-                .withResultsVisibleFromTime(new Date())
-                .withGracePeriod(5)
+                .withCreatedTime(Instant.now())
+                .withStartTime(Instant.now())
+                .withEndTime(Instant.now())
+                .withSessionVisibleFromTime(Instant.now())
+                .withResultsVisibleFromTime(Instant.now())
+                .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
                 .withInstructions(new Text("Give feedback."))

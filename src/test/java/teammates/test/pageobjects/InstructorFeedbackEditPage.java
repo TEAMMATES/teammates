@@ -6,9 +6,9 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -73,9 +73,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
     private WebElement neverSessionVisibleTimeButton;
-
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
-    private WebElement neverResultsVisibleTimeButton;
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_closing")
     private WebElement closingSessionEmailReminderButton;
@@ -294,8 +291,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -318,8 +315,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachOption" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -342,8 +339,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachRecipient" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -462,7 +459,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             subQnIndex++;
         }
 
-        return col.toArray(new String[col.size()]);
+        return col.toArray(new String[0]);
     }
 
     /**
@@ -824,8 +821,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                                    // && "Responses visible from" radio buttons
                                    && defaultResultsVisibleTimeButton.isEnabled()
                                    && customResultsVisibleTimeButton.isEnabled()
-                                   && manualResultsVisibleTimeButton.isEnabled()
-                                   && neverResultsVisibleTimeButton.isEnabled();
+                                   && manualResultsVisibleTimeButton.isEnabled();
         }
 
         return isEditSessionEnabled;
@@ -879,7 +875,8 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Checks if alert class is enabled on the visibility options div for the specified question number.
      */
     public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
-        final String visibilityOptionsDivXPath = "//div[@id='questionTable-" + questionNo + "']//div[@class='panel-body']"
+        final String visibilityOptionsDivXPath =
+                "//div[@id='questionTable-" + questionNo + "']//div[@class='visibility-checkbox-delegate panel-body']"
                 + "//b[@class='visibility-title']/../..";
         return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
                 .getAttribute("class").matches(".*\\balert alert-danger\\b.*");
@@ -947,7 +944,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
         String year = Integer.toString(date.get(Calendar.YEAR));
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM, yyyy");
 
         selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
 
@@ -1136,16 +1133,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
-                      + TimeHelper.formatDate(startTime) + "';");
+                      + TimeHelper.formatDateForSessionsForm(startTime) + "';");
         selectDropdownByVisibleValue(startTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(startTime));
 
         // Select deadline date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
-                      + TimeHelper.formatDate(endTime) + "';");
+                      + TimeHelper.formatDateForSessionsForm(endTime) + "';");
         selectDropdownByVisibleValue(endTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
@@ -1153,7 +1150,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillRichTextEditor("instructions", instructions.getValue());
 
         // Select grace period
-        selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
+        selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
 
         click(fsSaveLink);
         waitForPageToLoad();

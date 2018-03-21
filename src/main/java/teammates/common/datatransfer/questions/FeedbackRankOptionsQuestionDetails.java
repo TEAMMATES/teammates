@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,6 +11,7 @@ import java.util.Set;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -104,7 +104,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public String getQuestionWithExistingResponseSubmissionFormHtml(
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
                         int totalNumRecipients,
-                        FeedbackResponseDetails existingResponseDetails) {
+                        FeedbackResponseDetails existingResponseDetails, StudentAttributes student) {
 
         FeedbackRankOptionsResponseDetails existingResponse = (FeedbackRankOptionsResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
@@ -122,7 +122,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                                     getSubmissionOptionsHtmlForRankingOptions(existingResponse.getAnswerList().get(i)),
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(options.get(i)));
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
 
         }
 
@@ -154,7 +154,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -170,7 +171,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             Slots.OPTIONS, getSubmissionOptionsHtmlForRankingOptions(Const.INT_UNINITIALIZED),
                             Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(options.get(i)));
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
@@ -231,7 +232,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
                             Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(options.get(i)),
                             Slots.RANK_PARAM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION);
 
-            optionListHtml.append(optionFragment).append(Const.EOL);
+            optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
 
         boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
@@ -317,17 +318,16 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> optionOverallRank = generateNormalizedOverallRankMapping(optionRanks);
 
         optionRanks.forEach((option, ranks) -> {
 
-            double average = computeAverage(ranks);
             String ranksReceived = getListOfRanksReceivedAsString(ranks);
-
+            String overallRank = Integer.toString(optionOverallRank.get(option));
             fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                     Slots.RANK_RECIEVED, ranksReceived,
-                    Slots.RANK_AVERAGE, df.format(average)));
+                    Slots.RANK_OVERALL, overallRank));
 
         });
 
@@ -348,18 +348,19 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         StringBuilder fragments = new StringBuilder();
         Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> optionOverallRank = generateNormalizedOverallRankMapping(optionRanks);
 
         optionRanks.forEach((key, ranksAssigned) -> {
             String option = SanitizationHelper.sanitizeForCsv(key);
+            String overallRank = Integer.toString(optionOverallRank.get(key));
 
-            double average = computeAverage(ranksAssigned);
-            String fragment = option + "," + df.format(average) + ","
-                    + StringHelper.join(",", ranksAssigned) + Const.EOL;
+            String fragment = option + "," + overallRank + ","
+                    + StringHelper.join(",", ranksAssigned) + System.lineSeparator();
             fragments.append(fragment);
         });
 
-        return "Option, Average Rank, Ranks Received" + Const.EOL + fragments.toString() + Const.EOL;
+        return "Option, Overall Rank, Ranks Received" + System.lineSeparator()
+                + fragments.toString() + System.lineSeparator();
     }
 
     /**
@@ -475,5 +476,4 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
-
 }
