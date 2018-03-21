@@ -54,6 +54,7 @@ public class AdminActivityLogPageAction extends Action {
 
         String logRoleFromAjax = getRequestParamValue("logRole");
         String logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
+        // logUnixTimeMillis is the number of milliseconds from the Unix epoch, i.e. independent of time zone
         String logUnixTimeMillis = getRequestParamValue("logUnixTimeMillis");
 
         boolean isLoadingLocalTimeAjax = logRoleFromAjax != null
@@ -158,14 +159,14 @@ public class AdminActivityLogPageAction extends Action {
             targetTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_ID;
         }
 
-        ZoneId adminTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_ID;
         String timeInAdminTimeZone =
-                TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime), adminTimeZone);
+                TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime),
+                        Const.SystemParams.ADMIN_TIME_ZONE_ID);
         String timeInUserTimeZone =
                 TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime), targetTimeZone);
 
         status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone ("
-                      + adminTimeZone + ") and ");
+                      + Const.SystemParams.ADMIN_TIME_ZONE_ID.getId() + ") and ");
         if (targetTimeZone == null) {
             status.append(timeInUserTimeZone).append(".<br>");
         } else {

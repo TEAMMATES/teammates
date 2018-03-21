@@ -370,6 +370,10 @@ public final class TimeHelper {
 
     /**
      * Formats {@code instant} in admin's activity log page.
+     *
+     * @param instant   the instant to be formatted
+     * @param zoneId    the time zone to calculate local date and time
+     * @return          the formatted string
      */
     public static String formatActivityLogTime(Instant instant, ZoneId zoneId) {
         return formatInstant(instant, zoneId, "dd/MM/yyyy HH:mm:ss.SSS");
@@ -476,6 +480,10 @@ public final class TimeHelper {
     /**
      * Parses a {@code LocalDateTime} object from a date time string according to a pattern.
      * Returns {@code null} on error.
+     *
+     * @param dateTimeString    the string containing the date and time
+     * @param pattern           the pattern of the date and time string
+     * @return                  the parsed {@code LocalDateTime} object, or {@code null} if there are errors.
      */
     public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
         if (dateTimeString == null || pattern == null) {
