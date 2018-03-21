@@ -70,7 +70,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String pointsPerOptionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        String pointsString =
+        String totalPointsString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
         String pointsForEachOptionString =
@@ -80,9 +80,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
 
-        Assumption.assertNotNull("Null points in total", pointsString);
-        Assumption.assertNotNull("Null points for each option", pointsForEachOptionString);
-        Assumption.assertNotNull("Null points for each recipient", pointsForEachRecipientString);
         String forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
@@ -92,10 +89,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         int points = 0;
         if (pointsPerOption) {
-            points = distributeToRecipients ? Integer.parseInt(pointsForEachRecipientString)
-                                            : Integer.parseInt(pointsForEachOptionString);
-        } else {
+            String pointsString = distributeToRecipients ? pointsForEachRecipientString : pointsForEachOptionString;
+            Assumption.assertNotNull("Null points for each recipient/option", pointsString);
             points = Integer.parseInt(pointsString);
+        } else {
+            Assumption.assertNotNull("Null points in total", totalPointsString);
+            points = Integer.parseInt(totalPointsString);
         }
         boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
 
