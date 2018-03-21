@@ -58,8 +58,8 @@ public class FeedbackSessionResponseStatus {
     }
 
     /**
-     * Returns list of students who did not respond to the feedback session.
-     * sorted by teamName > studentNamelist
+     * Returns list of students who did not respond to the feedback session
+     * sorted by teamName > studentNamelist.
      */
     public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
         noResponse.sort(compareByTeamNameStudentName);
@@ -67,8 +67,8 @@ public class FeedbackSessionResponseStatus {
     }
 
     /**
-     * Returns list of students who did not respond to the feedback session.
-     * sorted by teamName > studentNamelist
+     * Returns list of students who did not respond to the feedback session
+     * sorted by teamName > studentNamelist.
      */
     public List<String> getNoResponse() {
         noResponse.sort(compareByTeamNameStudentName);
@@ -76,8 +76,8 @@ public class FeedbackSessionResponseStatus {
     }
 
     /**
-     * Returns list of students who responded to the feedback session.
-     * sorted by teamName > studentNamelist
+     * Returns list of students who responded to the feedback session
+     * sorted by teamName > studentNamelist.
      */
     public List<String> getStudentsWhoResponded() {
         studentsWhoResponded.sort(compareByTeamNameStudentName);
