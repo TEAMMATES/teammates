@@ -32,10 +32,10 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
-    private LocalDateTime startTimeLocal;
-    private LocalDateTime endTimeLocal;
-    private LocalDateTime visibleTimeLocal;
-    private LocalDateTime publishTimeLocal;
+    protected LocalDateTime inputStartTimeLocal;
+    protected LocalDateTime inputEndTimeLocal;
+    protected LocalDateTime inputVisibleTimeLocal;
+    protected LocalDateTime inputPublishTimeLocal;
 
     /**
      * Creates a feedback session attributes object from the request parameters.
@@ -63,14 +63,14 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             // Leave the attributes time zone field at its default valid value (i.e. UTC)
         }
 
-        startTimeLocal = TimeHelper.combineDateTime(
+        inputStartTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
-        endTimeLocal = TimeHelper.combineDateTime(
+        inputEndTimeLocal = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
-        attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(startTimeLocal, attributes.getTimeZone()));
-        attributes.setEndTime(TimeHelper.convertLocalDateTimeToInstant(endTimeLocal, attributes.getTimeZone()));
+        attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(inputStartTimeLocal, attributes.getTimeZone()));
+        attributes.setEndTime(TimeHelper.convertLocalDateTimeToInstant(inputEndTimeLocal, attributes.getTimeZone()));
 
         String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
@@ -91,11 +91,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            publishTimeLocal = TimeHelper.combineDateTime(
+            inputPublishTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
             attributes.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
-                    publishTimeLocal, attributes.getTimeZone()));
+                    inputPublishTimeLocal, attributes.getTimeZone()));
             break;
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE:
             attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
@@ -113,11 +113,11 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            visibleTimeLocal = TimeHelper.combineDateTime(
+            inputVisibleTimeLocal = TimeHelper.combineDateTime(
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
-                    visibleTimeLocal, attributes.getTimeZone()));
+                    inputVisibleTimeLocal, attributes.getTimeZone()));
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
@@ -165,13 +165,13 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         ZoneId timeZone = attributes.getTimeZone();
 
         // Warn if ambiguity of time fields (brought about by DST) is detected
-        validateLocalDateTimeUnambiguity(startTimeLocal, attributes.getStartTime(), timeZone,
+        validateLocalDateTimeUnambiguity(inputStartTimeLocal, attributes.getStartTime(), timeZone,
                 FieldValidator.SESSION_START_TIME_FIELD_NAME);
-        validateLocalDateTimeUnambiguity(endTimeLocal, attributes.getEndTime(), timeZone,
+        validateLocalDateTimeUnambiguity(inputEndTimeLocal, attributes.getEndTime(), timeZone,
                 FieldValidator.SESSION_END_TIME_FIELD_NAME);
-        validateLocalDateTimeUnambiguity(visibleTimeLocal, attributes.getSessionVisibleFromTime(), timeZone,
+        validateLocalDateTimeUnambiguity(inputVisibleTimeLocal, attributes.getSessionVisibleFromTime(), timeZone,
                 FieldValidator.SESSION_VISIBLE_TIME_FIELD_NAME);
-        validateLocalDateTimeUnambiguity(publishTimeLocal, attributes.getResultsVisibleFromTime(), timeZone,
+        validateLocalDateTimeUnambiguity(inputPublishTimeLocal, attributes.getResultsVisibleFromTime(), timeZone,
                 FieldValidator.RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 

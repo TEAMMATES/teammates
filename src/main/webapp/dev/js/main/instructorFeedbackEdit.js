@@ -296,11 +296,21 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success(result) {
-                for (let i = 0; i < result.statusMessagesToUser.length; i += 1) {
-                    const statusMessageToUser = result.statusMessagesToUser[i];
-                    appendNewStatusMessage(statusMessageToUser.text, statusMessageToUser.color.toLowerCase());
+                const { statusMessagesToUser, resolvedTimeFields, hasError } = result;
+
+                for (let i = 0; i < statusMessagesToUser.length; i += 1) {
+                    const statusMessageToUser = statusMessagesToUser[i];
+                    appendNewStatusMessage(statusMessageToUser.text, BootstrapContextualColors[statusMessageToUser.color]);
                 }
-                if (!result.hasError) {
+
+                const resolvedTimeInputIds = Object.keys(resolvedTimeFields);
+                for (let i = 0; i < resolvedTimeInputIds.length; i += 1) {
+                    const resolvedTimeInputId = resolvedTimeInputIds[i];
+                    const resolvedTimeInputValue = resolvedTimeFields[resolvedTimeInputId];
+                    $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
+                }
+
+                if (!hasError) {
                     disableEditFS();
                 }
             },
