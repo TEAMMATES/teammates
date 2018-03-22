@@ -20,10 +20,10 @@
               <span class="text-muted">
                 <ul>
                   <li>
-                    Session with your own questions
+                    "session with my own questions"
                   </li>
                   <li>
-                    Team peer evaluation session (creates 5 standard questions)
+                    "session using template: team peer evaluation" (creates 5 standard questions)
                   </li>
                 </ul>
               </span>
@@ -171,10 +171,10 @@
                 <div class="col-md-5">
                   <select class="form-control" name="fstype" id="fstype">
                     <option value="STANDARD" selected="">
-                      Session with your own questions
+                      session with my own questions
                     </option>
                     <option value="TEAMEVALUATION">
-                      Team peer evaluation session
+                      session using template: team peer evaluation
                     </option>
                   </select>
                 </div>
