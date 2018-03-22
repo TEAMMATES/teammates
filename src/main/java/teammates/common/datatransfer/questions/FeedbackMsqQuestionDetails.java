@@ -353,7 +353,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Gets the number of MSQ choices for teams excluding self.
-     * Returns zero if the course does not exist.
      * @return number of MSQ choices for teams generated.
      */
     private int generateNumOfChoicesForTeamsExcludingSelf(String courseId) {
