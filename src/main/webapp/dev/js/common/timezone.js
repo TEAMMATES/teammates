@@ -1,5 +1,21 @@
 /* global moment:false */
 
+import {
+    showModalAlert,
+} from './bootboxWrapper';
+
+import {
+    BootstrapContextualColors,
+} from './const';
+
+function isSupportedByJava(name) {
+    // These short timezones are not supported by Java
+    const badZones = {
+        EST: true, 'GMT+0': true, 'GMT-0': true, HST: true, MST: true, ROC: true,
+    };
+    return !badZones[name];
+}
+
 const TimeZone = {
     /**
      * Generate time zone <option>s using time zone IDs from Moment-Timezone library
@@ -19,14 +35,6 @@ const TimeZone = {
             // offset is calculated as the number of minutes needed to get to UTC
             // thus the +/- sign needs to be swapped
             return `UTC${offset < 0 ? '+' : '-'}${addLeadingZeroes(hr)}:${addLeadingZeroes(min)}`;
-        }
-
-        function isSupportedByJava(name) {
-            // These short timezones are not supported by Java
-            const badZones = {
-                EST: true, 'GMT+0': true, 'GMT-0': true, HST: true, MST: true, ROC: true,
-            };
-            return !badZones[name];
         }
 
         moment.tz.names().filter(isSupportedByJava).forEach((name) => {
@@ -50,14 +58,20 @@ const TimeZone = {
 
     /**
      * Updates the specified <select> field with the chosen time zone.
-     * If the chosen time zone is unrecognized, a new option is added for it.
+     * If the chosen time zone is unrecognized, the field is updated with
+     * an auto-detected time zone instead and a modal alert is displayed.
      */
     updateTimeZone($selectElement, timeZone) {
-        if (moment.tz.names().indexOf(timeZone) === -1) {
-            const o = document.createElement('option');
-            o.text = `${timeZone} (please select one of the above options)`;
-            o.value = timeZone;
-            $selectElement.append(o);
+        if (moment.tz.names().filter(isSupportedByJava).indexOf(timeZone) === -1) {
+            const detectedTimeZone = moment.tz.guess();
+            $selectElement.val(detectedTimeZone);
+            showModalAlert('We are switching to geographical time zones',
+                    `This session is using the fixed offset time zone ${timeZone}. TEAMMATES now uses ` +
+                    'time zones based on geographical location, with support for daylight saving time. ' +
+                    `We have detected that your geographical time zone is ${detectedTimeZone}. ` +
+                    'Please verify that this is correct, then save the session.',
+                    null, BootstrapContextualColors.WARNING);
+            return;
         }
         $selectElement.val(timeZone);
     },
