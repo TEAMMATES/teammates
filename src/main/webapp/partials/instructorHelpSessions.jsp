@@ -1134,7 +1134,7 @@
                             <option value="INSTRUCTORS">instructors</option>
                           </select>
                         </div>
-                        <input type="hidden" id="generatedOptions--1" name="generatedOptions" value="NONE">
+                        <input type="hidden" id="mcqGeneratedOptions--1" name="mcqGeneratedOptions" value="NONE">
                       </div>
                       <br>
                     </div>
@@ -2543,7 +2543,7 @@
                               <option value="INSTRUCTORS">instructors</option>
                             </select>
                           </div>
-                          <input type="hidden" id="generatedOptions-6" name="generatedOptions" value="NONE" disabled="">
+                          <input type="hidden" id="mcqGeneratedOptions-6" name="mcqGeneratedOptions" value="NONE" disabled="">
                         </div>
                         <br>
                       </div>
@@ -2968,7 +2968,7 @@
                               <option value="INSTRUCTORS">instructors</option>
                             </select>
                           </div>
-                          <input type="hidden" id="generatedOptions-1" name="generatedOptions" value="TEAMS" disabled="">
+                          <input type="hidden" id="mcqGeneratedOptions-1" name="mcqGeneratedOptions" value="TEAMS" disabled="">
                         </div>
                         <br>
                       </div>
