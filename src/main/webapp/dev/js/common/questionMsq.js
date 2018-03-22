@@ -231,21 +231,9 @@ function bindMsqEvents() {
     });
 }
 
-function bindMsqSelectableOptionsRequiredEvents() {
-    $(`[id^=${ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES}]`
-            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES}]`).change((e) => {
-        const linkedInputId = $(e.currentTarget).data('linkedInputId');
-        const linkedInput = $(`#${linkedInputId}`);
-        const isCheckboxEnabled = $(e.currentTarget).prop('checked');
-        // TODO: Add 'required' to HTML file instead, but redesign form to exclude other questions.
-        // Add 'required' to input for HTML validation when clicked on checkbox
-        $(linkedInput).prop('required', isCheckboxEnabled);
-    });
-}
 export {
     addMsqOption,
     bindMsqEvents,
-    bindMsqSelectableOptionsRequiredEvents,
     changeMsqGenerateFor,
     removeMsqOption,
     toggleMsqGeneratedOptions,

@@ -66,7 +66,6 @@ import {
 import {
     addMsqOption,
     bindMsqEvents,
-    bindMsqSelectableOptionsRequiredEvents,
     removeMsqOption,
     toggleMsqGeneratedOptions,
     toggleMsqMaxSelectableChoices,
@@ -523,16 +522,6 @@ function enableNewQuestion() {
     }
 
     const $newQuestionTable = $(`#questionTable-${NEW_QUESTION}`);
-
-    // Remove 'required' attribute if the MSQ max/min selectable choices field is hidden,
-    // that is if the form is being used by any other question type. This is to avoid
-    // "Invalid form control" in Google Chrome.
-    if ($newQuestionTable.find(`#msqMaxSelectableChoices-${NEW_QUESTION}`).is(':hidden')) {
-        $(`#msqMaxSelectableChoices-${NEW_QUESTION}`).prop('required', false);
-    }
-    if ($newQuestionTable.find(`#msqMinSelectableChoices-${NEW_QUESTION}`).is(':hidden')) {
-        $(`#msqMinSelectableChoices-${NEW_QUESTION}`).prop('required', false);
-    }
 
     $newQuestionTable.find('text,button,textarea,select,input')
             .not('[name="receiverFollowerCheckbox"]')
@@ -1170,7 +1159,6 @@ function readyFeedbackEditPage() {
 
     bindAssignWeightsCheckboxes();
     bindMsqEvents();
-    bindMsqSelectableOptionsRequiredEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
     bindConstSumOptionsRadioButtons();
@@ -1186,6 +1174,17 @@ function readyFeedbackEditPage() {
 function setTooltipTriggerOnFeedbackPathMenuOptions() {
     $('.dropdown-submenu').hover(function () {
         $(this).children('.dropdown-menu').tooltip('toggle');
+    });
+}
+
+/**
+ * If a input field is hidden, remove required attribute when saving changes in new question form.
+ * See issue #8688.
+ * TODO: Remove this function when #8688 is fixed
+ */
+function removeRequiredIfElementHidden() {
+    $('#form_editquestion--1').on("click", "#button_submit_add", (e) => {
+        $("input:hidden").prop('required', false);
     });
 }
 
@@ -1226,6 +1225,9 @@ $(document).ready(() => {
     $(document).on('click', '.btn-delete-qn', (e) => {
         deleteQuestion($(e.currentTarget).data('qnnumber'));
     });
+
+    // TODO: Remove this function call after #8488 is fixed
+    removeRequiredIfElementHidden();
 
     $(document).on('submit', '.tally-checkboxes', (e) => {
         tallyCheckboxes($(e.currentTarget).data('qnnumber'));
