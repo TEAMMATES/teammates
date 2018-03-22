@@ -17,6 +17,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -1134,6 +1135,9 @@ public final class FeedbackSessionsLogic {
         if (newSession.getEndTime() == null) {
             newSession.setEndTime(oldSession.getEndTime());
         }
+        if (newSession.getFeedbackSessionType() == null) {
+            newSession.setFeedbackSessionType(oldSession.getFeedbackSessionType());
+        }
         if (newSession.getSessionVisibleFromTime() == null) {
             newSession.setSessionVisibleFromTime(oldSession.getSessionVisibleFromTime());
         }
@@ -1469,21 +1473,23 @@ public final class FeedbackSessionsLogic {
         details.stats.expectedTotal = 0;
         details.stats.submittedTotal = 0;
 
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
-        List<FeedbackQuestionAttributes> questions =
-                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-        List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
+        if (fsa.getFeedbackSessionType() == FeedbackSessionType.STANDARD) {
+            List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
+            List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
+            List<FeedbackQuestionAttributes> questions =
+                    fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
+            List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
 
-        if (!studentQns.isEmpty()) {
-            details.stats.expectedTotal += students.size();
-        }
+            if (!studentQns.isEmpty()) {
+                details.stats.expectedTotal += students.size();
+            }
 
-        for (InstructorAttributes instructor : instructors) {
-            List<FeedbackQuestionAttributes> instructorQns =
-                    fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
-            if (!instructorQns.isEmpty()) {
-                details.stats.expectedTotal += 1;
+            for (InstructorAttributes instructor : instructors) {
+                List<FeedbackQuestionAttributes> instructorQns =
+                        fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
+                if (!instructorQns.isEmpty()) {
+                    details.stats.expectedTotal += 1;
+                }
             }
 
             details.stats.submittedTotal += fsa.getRespondingStudentList().size() + fsa.getRespondingInstructorList().size();
