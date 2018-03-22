@@ -204,6 +204,20 @@ public class PageData {
         return result;
     }
 
+    /**
+     * Retrieves the link to submit the request for resending feedback links
+     * @param userEmail the user email
+     * @param returnUrl the url to return after submitting the request
+     * @return submit link with return url appended to it
+     */
+    /*public String getFeedbackResendLink(String userEmail, String returnUrl) {
+        String link = Const.ActionURIs.STUDENT_FEEDBACK_LINK_RESEND_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.SUBMISSION_RESEND_LINK_USER, userEmail);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+
+        return link;
+    }*/
+
     //TODO: methods below this point should be made 'protected' and only the
     //  child classes that need them should expose them using public methods
     //  with similar name. That way, we know which child needs which method.
