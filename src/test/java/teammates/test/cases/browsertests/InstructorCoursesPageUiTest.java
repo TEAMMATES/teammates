@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,7 +37,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
     private CourseAttributes validCourse =
             CourseAttributes
-                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore")
+                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", ZoneId.of("Asia/Singapore"))
                     .build();
 
     @Override
@@ -197,7 +199,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("input validation");
 
         //one invalid case
-        coursesPage.addCourse("", "").verifyStatus(
+        coursesPage.addCourse("", "").waitForTextsForAllStatusMessagesToUserEquals(
                 getPopulatedEmptyStringErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
                 + getPopulatedEmptyStringErrorMessage(

@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,15 +87,18 @@ public class EmailGenerator {
      */
     public List<EmailWrapper> generateFeedbackSessionReminderEmails(
             FeedbackSessionAttributes session, List<StudentAttributes> students,
-            List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
+            List<InstructorAttributes> instructorsToRemind, InstructorAttributes instructorToNotify) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+        List<InstructorAttributes> instructorToNotifyAsList = new ArrayList<>();
+        instructorToNotifyAsList.add(instructorToNotify);
+
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
-        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
+        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorToNotifyAsList, template,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                                         FEEDBACK_ACTION_SUBMIT, additionalContactInformation));
 
@@ -157,7 +161,7 @@ public class EmailGenerator {
             linksFragmentValue.append(Templates.populateTemplate(
                     EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
-                    "${deadline}", TimeHelper.formatTime12H(fsa.getEndTime()) + (fsa.isClosed() ? " (Passed)" : ""),
+                    "${deadline}", fsa.getEndTimeString() + (fsa.isClosed() ? " (Passed)" : ""),
                     "${submitUrl}", submitUrlHtml,
                     "${reportUrl}", reportUrlHtml));
         }
@@ -182,7 +186,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code student}.
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
-            FeedbackSessionAttributes session, StudentAttributes student, Calendar timestamp) {
+            FeedbackSessionAttributes session, StudentAttributes student, Instant timestamp) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -198,7 +202,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
-            FeedbackSessionAttributes session, InstructorAttributes instructor, Calendar timestamp) {
+            FeedbackSessionAttributes session, InstructorAttributes instructor, Instant timestamp) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -223,8 +227,7 @@ public class EmailGenerator {
 
     private EmailWrapper generateSubmissionConfirmationEmail(
             CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
-            String userName, String userEmail, Calendar timestamp) {
-        Calendar time = TimeHelper.convertToUserTimeZone(timestamp, session.getTimeZone());
+            String userName, String userEmail, Instant timestamp) {
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
@@ -233,9 +236,10 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                 "${submitUrl}", submitUrl,
-                "${timeStamp}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(time.getTime())),
+                "${timeStamp}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatDateTimeForSessions(timestamp, session.getTimeZone())),
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
@@ -264,7 +268,7 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -482,7 +486,7 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -506,9 +510,9 @@ public class EmailGenerator {
                 + SanitizationHelper.sanitizeForHtml(courseName);
 
         return "<p>The email below has been sent to students of course: "
-            + courseIdentifier + ".<br>" + Const.EOL
-            + "<br>" + Const.EOL
-            + "=== Email message as seen by the students ===</p>" + Const.EOL;
+            + courseIdentifier + ".<br>" + System.lineSeparator()
+            + "<br>" + System.lineSeparator()
+            + "=== Email message as seen by the students ===</p>" + System.lineSeparator();
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
@@ -522,7 +526,7 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                 "${instructorFragment}", instructorFragment,
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",

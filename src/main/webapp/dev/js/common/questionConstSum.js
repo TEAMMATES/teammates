@@ -4,13 +4,13 @@ import {
 
 function updateConstSumPointsValue(questionNum) {
     if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionNum}`).val() < 1) {
-        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionNum}`).val(1);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}-${questionNum}`).val(100);
     }
     if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}-${questionNum}`).val() < 1) {
-        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}-${questionNum}`).val(1);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}-${questionNum}`).val(100);
     }
     if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}-${questionNum}`).val() < 1) {
-        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}-${questionNum}`).val(1);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}-${questionNum}`).val(100);
     }
 }
 
@@ -44,8 +44,12 @@ function addConstSumOption(questionNum) {
     }
 }
 
+function showConstSumOptionTable(questionNum) {
+    $(`#constSumOptionTable-${questionNum}`).show();
+}
+
 function hideConstSumOptionTable(questionNum) {
-    $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE}-${questionNum}`).hide();
+    $(`#constSumOptionTable-${questionNum}`).hide();
 }
 
 function removeConstSumOption(index, questionNum) {
@@ -65,10 +69,34 @@ function removeConstSumOption(index, questionNum) {
         }
     }
 }
+/**
+ * If the radio button is checked, the corresponding number field will be enabled,
+ * otherwise it will be disabled.
+ */
+function toggleConstSumOptionsRadioButton(questionNum) {
+    const isConstSumPointsTotalChecked = $(`#constSumPointsTotal-${questionNum}`).prop('checked');
+    $(`#constSumPoints-${questionNum}`).prop('disabled', !isConstSumPointsTotalChecked);
+
+    const isConstSumPointsPerOptionChecked = $(`#constSumPointsPerOption-${questionNum}`).prop('checked');
+    $(`#constSumPointsForEachOption-${questionNum}`).prop('disabled', !isConstSumPointsPerOptionChecked);
+
+    const isConstSumPointsPerRecipientChecked = $(`#constSumPointsPerRecipient-${questionNum}`).prop('checked');
+    $(`#constSumPointsForEachRecipient-${questionNum}`).prop('disabled', !isConstSumPointsPerRecipientChecked);
+}
+
+function bindConstSumOptionsRadioButtons() {
+    $(document).on('change', 'input[name="constSumPointsPerOption"]', (e) => {
+        const questionNumber = $(e.currentTarget).closest('form').attr('data-qnnumber');
+        toggleConstSumOptionsRadioButton(questionNumber);
+    });
+}
 
 export {
     addConstSumOption,
+    bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
     removeConstSumOption,
+    showConstSumOptionTable,
+    toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
 };

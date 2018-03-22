@@ -1,5 +1,6 @@
 extends: "stylelint-config-standard"
 rules:
     color-hex-case: "upper"
+    no-descending-specificity: null
     number-leading-zero: "never"
     indentation: 4

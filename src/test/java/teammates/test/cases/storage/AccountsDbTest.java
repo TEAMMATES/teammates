@@ -1,7 +1,7 @@
 package teammates.test.cases.storage;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -108,19 +108,19 @@ public class AccountsDbTest extends BaseComponentTestCase {
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case (legacy data)");
-        AccountAttributes a = new AccountAttributes();
+        AccountAttributes a = AccountAttributes.builder()
+                .withGoogleId("test.account")
+                .withName("Test account Name")
+                .withIsInstructor(false)
+                .withEmail("fresh-account@email.com")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .build();
 
-        a.googleId = "test.account";
-        a.name = "Test account Name";
-        a.isInstructor = false;
-        a.email = "fresh-account@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
         a.studentProfile = null;
-
         accountsDb.createAccount(a);
 
         ______TS("success case: duplicate account");
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder(a.googleId).build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
@@ -201,7 +201,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         ______TS("success: profile not modified in the default case");
 
-        Date expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
+        Instant expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
 
         String expectedNationality = actualAccount.studentProfile.nationality;
         actualAccount.studentProfile.nationality = "Andorran";
@@ -305,15 +305,17 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
 
     private AccountAttributes getNewAccountAttributes() {
-        AccountAttributes a = new AccountAttributes();
-        a.googleId = "valid.googleId";
-        a.name = "Valid Fresh Account";
-        a.isInstructor = false;
-        a.email = "valid@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
-        a.studentProfile = StudentProfileAttributes.builder().build();
-        a.studentProfile.googleId = a.googleId;
-        a.studentProfile.institute = "TEAMMATES Test Institute 1";
+        AccountAttributes a = AccountAttributes.builder()
+                .withGoogleId("valid.googleId")
+                .withName("Valid Fresh Account")
+                .withIsInstructor(false)
+                .withEmail("valid@email.com")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .build();
+
+        a.studentProfile = StudentProfileAttributes.builder(a.googleId)
+                .withInstitute(a.institute)
+                .build();
 
         return a;
     }

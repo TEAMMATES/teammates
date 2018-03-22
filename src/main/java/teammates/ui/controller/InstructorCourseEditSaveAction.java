@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -25,12 +24,8 @@ public class InstructorCourseEditSaveAction extends Action {
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
-        CourseAttributes courseToEdit = CourseAttributes
-                .builder(courseId, courseName, courseTimeZone)
-                .build();
-
         try {
-            logic.updateCourse(courseToEdit);
+            logic.updateCourse(courseId, courseName, courseTimeZone);
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Course name for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"

@@ -55,8 +55,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "id";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("id").build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
@@ -64,8 +63,14 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
 
-        AccountAttributes accountToCreate = new AccountAttributes("id", "name",
-                true, "test@email", "dev", spa);
+        AccountAttributes accountToCreate = AccountAttributes.builder()
+                .withGoogleId("id")
+                .withName("name")
+                .withEmail("test@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
 
         accountsLogic.createAccount(accountToCreate);
         verifyPresentInDatastore(accountToCreate);
@@ -74,8 +79,14 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters exception case");
 
-        accountToCreate = new AccountAttributes("", "name",
-                true, "test@email", "dev", spa);
+        accountToCreate = AccountAttributes.builder()
+                .withGoogleId("")
+                .withName("name")
+                .withEmail("test@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
         try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
@@ -113,13 +124,18 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("test updateAccount");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
-        spa.googleId = "idOfInstructor1OfCourse1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("idOfInstructor1OfCourse1").build();
         spa.institute = "dev";
         spa.shortName = "nam";
 
-        AccountAttributes expectedAccount = new AccountAttributes("idOfInstructor1OfCourse1", "name",
-                true, "test2@email", "dev", spa);
+        AccountAttributes expectedAccount = AccountAttributes.builder()
+                .withGoogleId("idOfInstructor1OfCourse1")
+                .withName("name")
+                .withEmail("test2@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
 
         // updates the profile
         accountsLogic.updateAccount(expectedAccount, true);
@@ -136,8 +152,14 @@ public class AccountsLogicTest extends BaseLogicTest {
         // no change in the name
         assertEquals("nam", actualAccount.studentProfile.shortName);
 
-        expectedAccount = new AccountAttributes("id-does-not-exist", "name",
-                true, "test2@email", "dev", spa);
+        expectedAccount = AccountAttributes.builder()
+                .withGoogleId("id-does-not-exist")
+                .withName("name")
+                .withEmail("test2@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
         try {
             accountsLogic.updateAccount(expectedAccount);
             signalFailureToDetectException();
@@ -230,12 +252,18 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        StudentProfileAttributes spa = StudentProfileAttributes.builder()
-                .withGoogleId(correctStudentId).withInstitute("TEAMMATES Test Institute 1")
+        StudentProfileAttributes spa = StudentProfileAttributes.builder(correctStudentId)
+                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        AccountAttributes accountData = new AccountAttributes(correctStudentId,
-                "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);
+        AccountAttributes accountData = AccountAttributes.builder()
+                .withGoogleId(correctStudentId)
+                .withName("nameABC")
+                .withEmail("real@gmail.com")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
 
         accountsLogic.createAccount(accountData);
         accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);

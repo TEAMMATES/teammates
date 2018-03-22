@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -68,9 +69,7 @@ public final class CoursesLogic {
     public void createCourse(String courseId, String courseName, String courseTimeZone)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        CourseAttributes courseToAdd = CourseAttributes
-                .builder(courseId, courseName, courseTimeZone)
-                .build();
+        CourseAttributes courseToAdd = validateAndCreateCourseAttributes(courseId, courseName, courseTimeZone);
         coursesDb.createEntity(courseToAdd);
     }
 
@@ -103,8 +102,8 @@ public final class CoursesLogic {
         } catch (EntityAlreadyExistsException | InvalidParametersException e) {
             //roll back the transaction
             coursesDb.deleteCourse(courseId);
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course " + Const.EOL
-                                  + instructor.toString() + Const.EOL
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course "
+                                  + System.lineSeparator() + instructor.toString() + System.lineSeparator()
                                   + TeammatesException.toStringWithStackTrace(e);
             Assumption.fail(errorMessage);
         }
@@ -519,7 +518,8 @@ public final class CoursesLogic {
             for (CourseAttributes ca : courseList) {
                 courseIdList.remove(ca.getId());
             }
-            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                    + courseIdList.toString());
         }
 
         return courseList;
@@ -567,7 +567,8 @@ public final class CoursesLogic {
             for (CourseAttributes ca : courseList) {
                 courseIdList.remove(ca.getId());
             }
-            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                        + courseIdList.toString());
         }
 
         for (CourseAttributes ca : courseList) {
@@ -593,12 +594,13 @@ public final class CoursesLogic {
 
     /**
      * Updates the course details.
-     * @param newCourse the course object containing new details of the course
+     * @param courseId Id of the course to update
+     * @param courseName new name of the course
+     * @param courseTimeZone new time zone of the course
      */
-    public void updateCourse(CourseAttributes newCourse) throws InvalidParametersException,
-                                                                EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newCourse);
-
+    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes newCourse = validateAndCreateCourseAttributes(courseId, courseName, courseTimeZone);
         CourseAttributes oldCourse = coursesDb.getCourse(newCourse.getId());
 
         if (oldCourse == null) {
@@ -636,7 +638,8 @@ public final class CoursesLogic {
             for (CourseAttributes ca : courseList) {
                 courseIdList.remove(ca.getId());
             }
-            log.severe("Course(s) was deleted but the instructor still exists: " + Const.EOL + courseIdList.toString());
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                    + courseIdList.toString());
         }
 
         for (CourseAttributes ca : courseList) {
@@ -656,12 +659,12 @@ public final class CoursesLogic {
         boolean hasSection = hasIndicatedSections(courseId);
 
         StringBuilder export = new StringBuilder(100);
-        String courseInfo = "Course ID," + SanitizationHelper.sanitizeForCsv(courseId) + Const.EOL
-                      + "Course Name," + SanitizationHelper.sanitizeForCsv(course.course.getName()) + Const.EOL
-                      + Const.EOL + Const.EOL;
+        String courseInfo = "Course ID," + SanitizationHelper.sanitizeForCsv(courseId) + System.lineSeparator()
+                      + "Course Name," + SanitizationHelper.sanitizeForCsv(course.course.getName())
+                      + System.lineSeparator() + System.lineSeparator() + System.lineSeparator();
         export.append(courseInfo);
 
-        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + Const.EOL;
+        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + System.lineSeparator();
         export.append(header);
 
         for (SectionDetailsBundle section : course.sections) {
@@ -682,7 +685,7 @@ public final class CoursesLogic {
                             + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
                             + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
                             + SanitizationHelper.sanitizeForCsv(studentStatus) + ','
-                            + SanitizationHelper.sanitizeForCsv(student.email) + Const.EOL);
+                            + SanitizationHelper.sanitizeForCsv(student.email) + System.lineSeparator());
                 }
             }
         }
@@ -716,4 +719,34 @@ public final class CoursesLogic {
         return archivedCourseIds;
     }
 
+    /**
+     * Checks that {@code courseTimeZone} is valid and then returns a {@link CourseAttributes}.
+     * Field validation is usually done in {@link CoursesDb} by calling {@link CourseAttributes#getInvalidityInfo()}.
+     * However, a {@link CourseAttributes} cannot be created with an invalid time zone string.
+     * Hence, validation of this field is carried out here.
+     *
+     * @throws InvalidParametersException containing error messages for all fields if {@code courseTimeZone} is invalid
+     */
+    private CourseAttributes validateAndCreateCourseAttributes(
+            String courseId, String courseName, String courseTimeZone) throws InvalidParametersException {
+
+        // Imitate `CourseAttributes.getInvalidityInfo`
+        FieldValidator validator = new FieldValidator();
+        String timeZoneErrorMessage = validator.getInvalidityInfoForCourseTimeZone(courseTimeZone);
+        if (!timeZoneErrorMessage.isEmpty()) {
+            // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
+            CourseAttributes dummyCourse = CourseAttributes
+                    .builder(courseId, courseName, Const.DEFAULT_TIME_ZONE)
+                    .build();
+            List<String> errors = dummyCourse.getInvalidityInfo();
+            errors.add(timeZoneErrorMessage);
+            // Imitate exception throwing in `CoursesDb`
+            throw new InvalidParametersException(errors);
+        }
+
+        // If time zone field is valid, leave validation  of other fields to `CoursesDb` like usual
+        return CourseAttributes
+                .builder(courseId, courseName, ZoneId.of(courseTimeZone))
+                .build();
+    }
 }

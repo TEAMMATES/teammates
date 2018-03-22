@@ -1,7 +1,7 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -110,9 +110,9 @@ public final class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
 
-        return fsDb.getAllOpenFeedbackSessions(start, end, zone);
+        return fsDb.getAllOpenFeedbackSessions(startUtc, endUtc);
     }
 
     /**
@@ -134,7 +134,7 @@ public final class FeedbackSessionsLogic {
         copiedFeedbackSession.setCreatorEmail(instructorEmail);
         copiedFeedbackSession.setFeedbackSessionName(newFeedbackSessionName);
         copiedFeedbackSession.setCourseId(newCourseId);
-        copiedFeedbackSession.setCreatedTime(new Date());
+        copiedFeedbackSession.setCreatedTime(Instant.now());
         copiedFeedbackSession.setRespondingInstructorList(new HashSet<String>());
         copiedFeedbackSession.setRespondingStudentList(new HashSet<String>());
         fsDb.createEntity(copiedFeedbackSession);
@@ -822,17 +822,17 @@ public final class FeedbackSessionsLogic {
 
         exportBuilder.append(String.format("Course,%s",
                              SanitizationHelper.sanitizeForCsv(results.feedbackSession.getCourseId())))
-                     .append(Const.EOL)
+                     .append(System.lineSeparator())
                      .append(String.format("Session Name,%s",
                              SanitizationHelper.sanitizeForCsv(results.feedbackSession.getFeedbackSessionName())))
-                     .append(Const.EOL);
+                     .append(System.lineSeparator());
 
         if (section != null) {
             exportBuilder.append(String.format("Section Name,%s", SanitizationHelper.sanitizeForCsv(section)))
-                         .append(Const.EOL);
+                         .append(System.lineSeparator());
         }
 
-        exportBuilder.append(Const.EOL).append(Const.EOL);
+        exportBuilder.append(System.lineSeparator()).append(System.lineSeparator());
 
         Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
                 results.getQuestionResponseMap().entrySet();
@@ -858,13 +858,13 @@ public final class FeedbackSessionsLogic {
 
         exportBuilder.append("Question " + Integer.toString(question.questionNumber) + ","
                 + SanitizationHelper.sanitizeForCsv(questionDetails.getQuestionText())
-                + Const.EOL + Const.EOL);
+                + System.lineSeparator() + System.lineSeparator());
 
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
                                     question, fsrBundle);
         if (!statistics.isEmpty() && isStatsShown) {
-            exportBuilder.append("Summary Statistics,").append(Const.EOL);
-            exportBuilder.append(statistics).append(Const.EOL);
+            exportBuilder.append("Summary Statistics,").append(System.lineSeparator());
+            exportBuilder.append(statistics).append(System.lineSeparator());
         }
 
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGiversInSection(question, section);
@@ -917,7 +917,7 @@ public final class FeedbackSessionsLogic {
                             possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
         }
 
-        exportBuilder.append(Const.EOL + Const.EOL);
+        exportBuilder.append(System.lineSeparator() + System.lineSeparator());
         return exportBuilder;
     }
 
@@ -1021,7 +1021,7 @@ public final class FeedbackSessionsLogic {
                         + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
                         + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
                         + "," + questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)
-                        + Const.EOL);
+                        + System.lineSeparator());
             }
         }
         return exportBuilder;
@@ -1379,13 +1379,8 @@ public final class FeedbackSessionsLogic {
             throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
         }
 
-        sessionToPublish.setResultsVisibleFromTime(currentDateTime(sessionToPublish));
+        sessionToPublish.setResultsVisibleFromTime(Instant.now());
         updateFeedbackSession(sessionToPublish);
-    }
-
-    private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
-        Calendar now = TimeHelper.now(sessionToPublish.getTimeZone());
-        return now.getTime();
     }
 
     /**
@@ -2032,7 +2027,6 @@ public final class FeedbackSessionsLogic {
         responseCommentList.sort(Comparator.comparing(responseComment -> responseComment.createdAt));
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD
     private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,

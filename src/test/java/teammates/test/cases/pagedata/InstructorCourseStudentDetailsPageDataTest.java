@@ -95,6 +95,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     }
 
     private void createStudentProfile(String email, String pictureKey) {
+        String googleId = "valid.googleId";
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "Singaporean";
@@ -109,7 +110,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
                             + Const.ParamsNames.USER_ID + "=null";
         }
 
-        inputStudentProfile = StudentProfileAttributes.builder()
+        inputStudentProfile = StudentProfileAttributes.builder(googleId)
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
@@ -123,8 +124,8 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private InstructorCourseStudentDetailsPageData createData() {
         createCommonData();
 
-        return new InstructorCourseStudentDetailsPageData(new AccountAttributes(), dummySessionToken, inputStudent,
-                inputStudentProfile, hasSection);
+        return new InstructorCourseStudentDetailsPageData(AccountAttributes.builder().build(), dummySessionToken,
+                inputStudent, inputStudentProfile, hasSection);
     }
 
     private void createCommonData() {

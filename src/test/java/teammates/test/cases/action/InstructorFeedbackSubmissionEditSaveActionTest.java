@@ -1,5 +1,7 @@
 package teammates.test.cases.action;
 
+import java.time.Instant;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -156,6 +158,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                      email.getSubject());
         assertEquals(instructor1InCourse1.email, email.getRecipient());
 
+        // delete respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
+
         ______TS("Successful case: skipped question");
 
         submissionParams = new String[] {
@@ -205,6 +210,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+
+        // append respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
 
         ______TS("Successful case: edit response, did not specify recipient");
 
@@ -600,7 +608,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         ______TS("opened");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        fs.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertTrue(fs.isOpened());
@@ -618,7 +626,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         ______TS("during grace period");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        fs.setEndTime(Instant.now());
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -634,7 +642,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         ______TS("after grace period");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-10));
+        fs.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-10));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -684,7 +692,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     }
 
     private void closeSession(FeedbackSessionAttributes fs) throws Exception {
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        fs.setEndTime(Instant.now());
         fsDb.updateFeedbackSession(fs);
     }
 }

@@ -25,6 +25,10 @@
       "username": "ovshake"
     },
     {
+      "name": "Abhishek Satam",
+      "username": "lightt77"
+    },
+    {
       "name": "Abhishek Trivedi",
       "username": "Abhishek-Trivedi"
     },
@@ -55,12 +59,20 @@
       "username": "95adityajain"
     },
     {
+      "name": "Adrian Siwiec",
+      "username": "pierreSquared"
+    },
+    {
       "name": "Ahsan Bagwan",
       "username": "ahsanbagwan"
     },
     {
       "name": "Aishwarya Seth",
       "username": "The-Lady"
+    },
+    {
+      "name": "Akshat Jain",
+      "username": "dabbler011"
     },
     {
       "name": "Akshay Vijayvergia",
@@ -186,6 +198,10 @@
       "username": "aygiz"
     },
     {
+      "name": "Barbara Rodriguez",
+      "username": "bjrodrig"
+    },
+    {
       "multiple": true,
       "name": "Baron Chan",
       "username": "Dartteon"
@@ -219,6 +235,11 @@
     {
       "name": "Bruno Mendes",
       "username": "brnomendes"
+    },
+    {
+      "multiple": true,
+      "name": "Cara Leong",
+      "username": "craaaa"
     },
     {
       "multiple": true,
@@ -258,6 +279,10 @@
       "username": "vertigogarden"
     },
     {
+      "name": "Chng Zhi Xuan",
+      "username": "Chng-Zhi-Xuan"
+    },
+    {
       "name": "Cho Joo Yeong",
       "username": "jujojujoju"
     },
@@ -289,6 +314,11 @@
     {
       "name": "Daniel Esponda",
       "username": "desponda"
+    },
+    {
+      "multiple": true,
+      "name": "Darren Wee",
+      "username": "darrenwee"
     },
     {
       "multiple": true,
@@ -325,6 +355,10 @@
       "username": "dingliheng"
     },
     {
+      "name": "Dishant Sheth",
+      "username": "dishant-sheth"
+    },
+    {
       "multiple": true,
       "name": "Divya Pandilla",
       "username": "pandilladivya"
@@ -351,8 +385,16 @@
       "username": "dustinlapierre"
     },
     {
+      "name": "Ed Kaplonski",
+      "username": "elaborateruse"
+    },
+    {
       "name": "Eliot Wong",
       "username": "eliotw"
+    },
+    {
+      "name": "Fateh Singh Sandhu",
+      "username": "Fatehsandhu"
     },
     {
       "multiple": true,
@@ -377,6 +419,9 @@
       "username": "fairbet"
     },
     {
+      "username": "FritzJo"
+    },
+    {
       "name": "Gable Heng",
       "username": "gableh"
     },
@@ -384,6 +429,10 @@
       "multiple": true,
       "name": "Gan Sie Huai",
       "username": "huai99"
+    },
+    {
+      "name": "Garrett Pement",
+      "username": "GarrettCarrott"
     },
     {
       "name": "Gaurav Khandelwal",
@@ -413,6 +462,10 @@
     {
       "name": "Guga Katsiashvili",
       "username": "gugakatsi"
+    },
+    {
+      "name": "Gustav Krantz",
+      "username": "gkrantz"
     },
     {
       "multiple": true,
@@ -502,6 +555,15 @@
       "username": "said9999"
     },
     {
+      "multiple": true,
+      "name": "Joanne Ong",
+      "username": "joanneong"
+    },
+    {
+      "name": "John Svanberg",
+      "username": "johnsv"
+    },
+    {
       "name": "Jon Vanderlaan",
       "username": "vandy56"
     },
@@ -516,6 +578,10 @@
     {
       "name": "Jordan Niskanen",
       "username": "jnisky"
+    },
+    {
+      "name": "Josemy Duarte",
+      "username": "JosemyDuarte"
     },
     {
       "name": "Josh Archer",
@@ -568,6 +634,10 @@
       "username": "kennyzha"
     },
     {
+      "name": "Kevin Lam",
+      "username": "kevinLamKB"
+    },
+    {
       "name": "Kevin Thich",
       "username": "k-thich"
     },
@@ -596,6 +666,10 @@
     {
       "multiple": true,
       "name": "Kseniia Solodovnik"
+    },
+    {
+      "name": "Kshitij Kulshreshtha",
+      "username": "KshitijKythe"
     },
     {
       "multiple": true,
@@ -661,6 +735,11 @@
     },
     {
       "multiple": true,
+      "name": "Lu Lechuan",
+      "username": "LuLechuan"
+    },
+    {
+      "multiple": true,
       "name": "Luk Ming Kit",
       "username": "lmk1988"
     },
@@ -708,6 +787,10 @@
       "username": "mesternefeld"
     },
     {
+      "name": "Matteus Hast",
+      "username": "matteushast"
+    },
+    {
       "name": "Megan Belle",
       "username": "onealml"
     },
@@ -727,6 +810,10 @@
     {
       "name": "Miguel Araújo",
       "username": "miguelarauj1o"
+    },
+    {
+      "name": "Minsung Joh",
+      "username": "jms5049"
     },
     {
       "multiple": true,
@@ -757,6 +844,10 @@
       "username": "natashagandhi"
     },
     {
+      "name": "Nathan Baihly",
+      "username": "ncbaihly"
+    },
+    {
       "multiple": true,
       "name": "Ng Joon Kiat Steve",
       "username": "steve-ng"
@@ -777,12 +868,22 @@
     },
     {
       "multiple": true,
+      "name": "Nguyen Quoc Bao",
+      "username": "bqnguyen94"
+    },
+    {
+      "multiple": true,
       "name": "Nguyen Quoc Dat",
       "username": "acruis"
     },
     {
       "multiple": true,
       "name": "Nguyen Truong Duy"
+    },
+    {
+      "multiple": true,
+      "name": "Nidhi Gupta",
+      "username": "nidhi98gupta"
     },
     {
       "multiple": true,
@@ -814,8 +915,16 @@
       "username": "nockc"
     },
     {
+      "name": "Olha Hnatik",
+      "username": "OlhaHn"
+    },
+    {
       "name": "Onkar Shedge",
       "username": "onkarshedge"
+    },
+    {
+      "name": "Orinn Williams",
+      "username": "orinn248"
     },
     {
       "name": "P S Narayanan",
@@ -827,7 +936,16 @@
       "username": "pakglen"
     },
     {
+      "multiple": true,
+      "name": "Pan Haozhe",
+      "username": "Haozhe321"
+    },
+    {
       "name": "Paramsothy Sanshayan"
+    },
+    {
+      "name": "Paweł Bąk",
+      "username": "baczus0"
     },
     {
       "multiple": true,
@@ -843,6 +961,10 @@
       "multiple": true,
       "name": "Phan Thi Quynh Trang",
       "username": "quynhtrang"
+    },
+    {
+      "name": "Phang Chun Rong",
+      "username": "Crphang"
     },
     {
       "multiple": true,
@@ -868,6 +990,10 @@
     },
     {
       "name": "Prithviraj Billa"
+    },
+    {
+      "name": "Progyan Bhattacharya",
+      "username": "Progyan1997"
     },
     {
       "name": "Pulasthi Harasgama",
@@ -968,6 +1094,10 @@
       "username": "saav"
     },
     {
+      "name": "Sebastian Stiernborg",
+      "username": "avocadomaster"
+    },
+    {
       "name": "Selvakumar Selvaraj",
       "username": "SELVAKUMAR-S"
     },
@@ -978,6 +1108,10 @@
     {
       "name": "Sharthak Mishra",
       "username": "SharUzumaki"
+    },
+    {
+      "name": "Shashwat Garg",
+      "username": "Shashwat-Garg"
     },
     {
       "multiple": true,
@@ -1012,6 +1146,15 @@
     {
       "name": "Shivang Tripathi",
       "username": "shivangg"
+    },
+    {
+      "name": "Shivansh Soni",
+      "username": "shivanshsoni"
+    },
+    {
+      "multiple": true,
+      "name": "Shradheya Thakre",
+      "username": "tshradheya"
     },
     {
       "name": "Shreya Gupta",
@@ -1107,6 +1250,11 @@
     },
     {
       "multiple": true,
+      "name": "Sukanta Roy",
+      "username": "sukanta-27"
+    },
+    {
+      "multiple": true,
       "name": "Supraja Bhavani Sekhar",
       "username": "supraja2610"
     },
@@ -1130,6 +1278,15 @@
     {
       "multiple": true,
       "name": "Tan Guo Wei"
+    },
+    {
+      "name": "Tan Heng Yeow",
+      "username": "tanhengyeow"
+    },
+    {
+      "multiple": true,
+      "name": "Tan Jun Kiat",
+      "username": "junkiattan"
     },
     {
       "multiple": true,
@@ -1188,6 +1345,11 @@
     },
     {
       "multiple": true,
+      "name": "Tran Tien Dat",
+      "username": "tran-tien-dat"
+    },
+    {
+      "multiple": true,
       "name": "Truong Hoang Phuoc",
       "username": "hoangphuoc25"
     },
@@ -1198,6 +1360,10 @@
     {
       "name": "Umang Borad",
       "username": "umangborad123"
+    },
+    {
+      "name": "Umesh Patidar",
+      "username": "upatidar7"
     },
     {
       "multiple": true,
@@ -1239,6 +1405,11 @@
     {
       "name": "Warren Schrader",
       "username": "wwSchrader"
+    },
+    {
+      "multiple": true,
+      "name": "Wen Xin",
+      "username": "wenmogu"
     },
     {
       "multiple": true,
@@ -1297,8 +1468,16 @@
       "username": "Yogitha6"
     },
     {
+      "name": "Yungang Feng",
+      "username": "ZiChuanBuXiu"
+    },
+    {
       "name": "Zandraa Perjesi",
       "username": "zandraaperjesi"
+    },
+    {
+      "name": "Zhagparov Ali",
+      "username": "Ali96kz"
     },
     {
       "multiple": true,

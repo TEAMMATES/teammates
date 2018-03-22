@@ -7,7 +7,7 @@ import {
 } from '../common/bootboxWrapper';
 
 import {
-    StatusType,
+    BootstrapContextualColors,
 } from '../common/const';
 
 import {
@@ -51,7 +51,7 @@ function bindCoursePanels() {
  * Changes the state of the course panel (collapsed/expanded).
  */
 function toggleCourseVisibility(e) {
-    const $targetElement = $(e.currentTarget);
+    const $targetElement = $(e.target);
     if ($targetElement.is('a') || $targetElement.is('input') || $targetElement.hasClass('dropdown-toggle')) {
         return;
     }
@@ -126,7 +126,7 @@ $(document).ready(() => {
         };
 
         showModalConfirmation('Confirm archiving course', messageText, okCallback, null,
-                null, null, StatusType.INFO);
+                null, null, BootstrapContextualColors.INFO);
     });
 
     // AJAX loading of course panels

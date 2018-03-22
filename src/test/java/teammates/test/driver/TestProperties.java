@@ -94,7 +94,9 @@ public final class TestProperties {
             } else {
                 propertiesFilename = "test.properties";
             }
-            prop.load(new FileInputStream("src/test/resources/" + propertiesFilename));
+            try (FileInputStream testPropStream = new FileInputStream("src/test/resources/" + propertiesFilename)) {
+                prop.load(testPropStream);
+            }
 
             TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
 

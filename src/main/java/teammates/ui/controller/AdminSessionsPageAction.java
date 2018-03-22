@@ -48,8 +48,10 @@ public class AdminSessionsPageAction extends Action {
             return result;
         }
 
+        Date rangeStartUtc = TimeHelper.convertLocalDateToUtc(rangeStart, zone);
+        Date rangeEndUtc = TimeHelper.convertLocalDateToUtc(rangeEnd, zone);
         List<FeedbackSessionAttributes> allOpenFeedbackSessionsList =
-                logic.getAllOpenFeedbackSessions(this.rangeStart, this.rangeEnd, this.zone);
+                logic.getAllOpenFeedbackSessions(rangeStartUtc, rangeEndUtc);
 
         result = createShowPageResultIfNoOngoingSession(allOpenFeedbackSessionsList);
         if (result != null) {
@@ -117,8 +119,10 @@ public class AdminSessionsPageAction extends Action {
 
             zone = Double.parseDouble(timeZone);
 
-            start = TimeHelper.convertToDate(TimeHelper.convertToRequiredFormat(startDate, startHour, startMin));
-            end = TimeHelper.convertToDate(TimeHelper.convertToRequiredFormat(endDate, endHour, endMin));
+            start = TimeHelper.convertLocalDateTimeToDate(
+                    TimeHelper.parseLocalDateTime(startDate, startHour, startMin));
+            end = TimeHelper.convertLocalDateTimeToDate(
+                    TimeHelper.parseLocalDateTime(endDate, endHour, endMin));
 
             if (start.after(end)) {
                 isError = true;
