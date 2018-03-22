@@ -6,9 +6,9 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -73,9 +73,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
     private WebElement neverSessionVisibleTimeButton;
-
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
-    private WebElement neverResultsVisibleTimeButton;
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_closing")
     private WebElement closingSessionEmailReminderButton;
@@ -294,8 +291,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -318,8 +315,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachOption" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -342,8 +339,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachRecipient" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -824,8 +821,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                                    // && "Responses visible from" radio buttons
                                    && defaultResultsVisibleTimeButton.isEnabled()
                                    && customResultsVisibleTimeButton.isEnabled()
-                                   && manualResultsVisibleTimeButton.isEnabled()
-                                   && neverResultsVisibleTimeButton.isEnabled();
+                                   && manualResultsVisibleTimeButton.isEnabled();
         }
 
         return isEditSessionEnabled;
@@ -1137,7 +1133,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
                       + TimeHelper.formatDateForSessionsForm(startTime) + "';");
@@ -1154,7 +1150,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillRichTextEditor("instructions", instructions.getValue());
 
         // Select grace period
-        selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
+        selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
 
         click(fsSaveLink);
         waitForPageToLoad();

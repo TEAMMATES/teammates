@@ -1,11 +1,11 @@
 package teammates.ui.pagedata;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -77,10 +77,6 @@ public class PageData {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
 
-    public static String displayDateTime(Date date) {
-        return TimeHelper.formatTime12H(date);
-    }
-
     public String addUserIdToUrl(String link) {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
@@ -108,10 +104,10 @@ public class PageData {
         return result;
     }
 
-    public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
+    public static List<ElementTag> getTimeZoneOptionsAsElementTags(ZoneId existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
         ArrayList<ElementTag> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
+        if (existingTimeZone == null) {
             ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
             result.add(option);
         }
@@ -120,7 +116,13 @@ public class PageData {
             String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
             String textToDisplay = "(" + utcFormatOption
                                             + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
+
+            boolean isExistingTimeZone = false;
+            if (existingTimeZone != null) {
+                int timeZoneOptionOffsetInSeconds = (int) (timeZoneOption * 60 * 60);
+                int existingZoneOffsetInSeconds = existingTimeZone.getRules().getOffset(Instant.now()).getTotalSeconds();
+                isExistingTimeZone = existingZoneOffsetInSeconds == timeZoneOptionOffsetInSeconds;
+            }
 
             ElementTag option = createOption(textToDisplay,
                                              formatAsString(timeZoneOption), isExistingTimeZone);
@@ -180,7 +182,7 @@ public class PageData {
     /**
      * Returns the grace period options as HTML code.
      */
-    public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
+    public static List<ElementTag> getGracePeriodOptionsAsElementTags(long existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<>();
         for (int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(i + " mins", String.valueOf(i),
@@ -194,7 +196,7 @@ public class PageData {
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
      */
-    public static List<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+    public static List<ElementTag> getTimeOptionsAsElementTags(LocalDateTime timeToShowAsSelected) {
         List<ElementTag> result = new ArrayList<>();
         for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
@@ -632,9 +634,7 @@ public class PageData {
     }
 
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "-";
-        } else if (session.isPublished()) {
+        if (session.isPublished()) {
             return "Published";
         } else {
             return "Not Published";
@@ -670,8 +670,6 @@ public class PageData {
     public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
-        } else if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
         } else if (session.isPublished()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
         } else {
@@ -744,13 +742,11 @@ public class PageData {
         return str.substring(0, str.length() - 2);
     }
 
-    private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
+    private static boolean isTimeToBeSelected(LocalDateTime timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            cal.setTime(timeToShowAsSelected);
-            if (cal.get(Calendar.MINUTE) == 0) {
-                if (cal.get(Calendar.HOUR_OF_DAY) == hourOfTheOption) {
+            if (timeToShowAsSelected.getMinute() == 0) {
+                if (timeToShowAsSelected.getHour() == hourOfTheOption) {
                     return true;
                 }
             } else {
@@ -766,7 +762,7 @@ public class PageData {
         return false;
     }
 
-    private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
+    private static boolean isGracePeriodToBeSelected(long existingGracePeriodValue, long gracePeriodOptionValue) {
         boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;

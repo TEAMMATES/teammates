@@ -41,9 +41,11 @@ import {
 
 import {
     addConstSumOption,
+    bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
+    toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -464,9 +466,10 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Recipient-${questionNum}`).show();
     } else {
         $(`#constSumOptionTable-${questionNum}`).show();
+        $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
-
+    toggleConstSumOptionsRadioButton(questionNum);
     $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
 
     if ($(`#questionTable-${questionNum}`).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
@@ -543,8 +546,8 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
-    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
+    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
@@ -556,6 +559,7 @@ function enableNewQuestion() {
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
+    toggleConstSumOptionsRadioButton(NEW_QUESTION);
 }
 
 /**
@@ -727,10 +731,12 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
+        $(`#constSumOption_Option-${NEW_QUESTION}`).show();
         showConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         break;
     case 'CONSTSUM_RECIPIENT': {
         const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
@@ -743,6 +749,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         $(`#constSum_labelText-${NEW_QUESTION}`).text(optionText.replace('option', 'recipient'));
         $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
@@ -1154,6 +1161,7 @@ function readyFeedbackEditPage() {
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
+    bindConstSumOptionsRadioButtons();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();

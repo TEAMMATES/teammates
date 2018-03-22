@@ -98,7 +98,8 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         AppUrl url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
                 .withParam(Const.ParamsNames.ERROR, NullPostParameterException.class.getSimpleName());
         page.navigateTo(url);
-        page.verifyStatus(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE.replace("<br>", "\n"));
+        page.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE.replace("<br>", "\n"));
         print("This exception is handled by system, make sure you don't receive any emails. ");
     }
 

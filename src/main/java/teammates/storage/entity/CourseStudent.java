@@ -1,6 +1,7 @@
 package teammates.storage.entity;
 
 import java.security.SecureRandom;
+import java.time.Instant;
 import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
@@ -13,6 +14,7 @@ import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 
 /**
  * An association class that represents the association Account -->
@@ -92,7 +94,7 @@ public class CourseStudent extends BaseEntity {
         setTeamName(teamName);
         setSectionName(sectionName);
 
-        setCreatedAt(new Date());
+        setCreatedAt(Instant.now());
 
         this.id = makeId();
         registrationKey = generateRegistrationKey();
@@ -102,22 +104,22 @@ public class CourseStudent extends BaseEntity {
         return getEmail() + '%' + getCourseId();
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Instant getCreatedAt() {
+        return TimeHelper.convertDateToInstant(createdAt);
     }
 
-    public void setCreatedAt(Date created) {
-        this.createdAt = created;
+    public void setCreatedAt(Instant created) {
+        this.createdAt = TimeHelper.convertInstantToDate(created);
         setLastUpdate(created);
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Instant getUpdatedAt() {
+        return TimeHelper.convertDateToInstant(updatedAt);
     }
 
-    public void setLastUpdate(Date updatedAt) {
+    public void setLastUpdate(Instant updatedAt) {
         if (!keepUpdateTimestamp) {
-            this.updatedAt = updatedAt;
+            this.updatedAt = TimeHelper.convertInstantToDate(updatedAt);
         }
     }
 
@@ -202,7 +204,7 @@ public class CourseStudent extends BaseEntity {
 
     @OnSave
     public void updateLastUpdateTimestamp() {
-        this.setLastUpdate(new Date());
+        this.setLastUpdate(Instant.now());
     }
 
     /**

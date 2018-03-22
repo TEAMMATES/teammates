@@ -60,7 +60,8 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
+        assertEquals("session using template: team peer evaluation",
+                formModel.getFeedbackSessionTypeOptions().get(1).getContent());
         assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
         assertEquals("", formModel.getFsEndDate());
@@ -89,7 +90,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
 
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
@@ -257,7 +257,8 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
+        assertEquals("session using template: team peer evaluation",
+                formModel.getFeedbackSessionTypeOptions().get(1).getContent());
         assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
 
@@ -287,7 +288,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertFalse(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
 
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
@@ -344,7 +344,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals("idOfTypicalCourse1", formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
+        assertEquals("session with my own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
         assertNull(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
         assertTrue(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().containsKey("selected"));
 
