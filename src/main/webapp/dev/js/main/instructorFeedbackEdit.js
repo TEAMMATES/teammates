@@ -304,6 +304,17 @@ function bindFeedbackSessionEditFormSubmission() {
 }
 
 /**
+ * If a input field is hidden, remove required attribute when saving changes. See issue #8688.
+ *
+ * TODO: Remove this function when #8688 is fixed.
+ */
+function removeRequiredIfElementHidden() {
+    $('#form_editquestion--1').on('click', '#button_submit_add', () => {
+        $('input:hidden').prop('required', false);
+    });
+}
+
+/**
  * Disable question fields and "save changes" button for the given question number,
  * and shows the edit link.
  * @param questionNum
@@ -519,6 +530,8 @@ function enableNewQuestion() {
         });
         /* eslint-enable camelcase */
     }
+
+    removeRequiredIfElementHidden(); // TODO: Remove this function call when #8688 is fixed.
 
     const $newQuestionTable = $(`#questionTable-${NEW_QUESTION}`);
 

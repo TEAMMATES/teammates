@@ -251,8 +251,6 @@ function bindAutoFillEmptyRankOptionsChangeEvent() {
             if ($(linkedInput).val() === '') {
                 $(linkedInput).val('1');
             }
-            // TODO: Add 'required' to HTML file instead, but redesign form to exclude other questions. See issue #8688.
-            $(linkedInput).prop('required', true); // Add 'required' to input for HTML validation when clicked on checkbox
         }
     });
 }
