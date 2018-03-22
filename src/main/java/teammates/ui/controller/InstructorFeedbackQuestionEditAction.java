@@ -42,18 +42,17 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         String editType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, editType);
 
-        FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData();
-
         try {
             if ("edit".equals(editType)) {
                 String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
                 Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, questionText);
                 Assumption.assertNotEmpty("Empty question text", questionText);
 
+                FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData();
                 editQuestion(updatedQuestion);
             } else if ("delete".equals(editType)) {
                 // branch not tested because if it's not edit or delete, Assumption.fail will cause test failure
-                deleteQuestion(updatedQuestion);
+                deleteQuestion();
             } else {
                 // Assumption.fails are not tested
                 Assumption.fail("Invalid editType");
@@ -68,12 +67,24 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                                             .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 
-    private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
-        logic.deleteFeedbackQuestion(updatedQuestion.getId());
+    private void deleteQuestion() {
+        String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
+
+        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+
+        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+
+        String questionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, questionNumber);
+
+        logic.deleteFeedbackQuestion(questionId);
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber + " for session:<span class=\"bold\">("
-                        + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                        + updatedQuestion.courseId + "]</span> deleted.<br>";
+        statusToAdmin = "Feedback Question " + questionNumber + " for session:<span class=\"bold\">("
+                        + feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                        + courseId + "]</span> deleted.<br>";
     }
 
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException,
