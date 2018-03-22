@@ -41,9 +41,11 @@ import {
 
 import {
     addConstSumOption,
+    bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
+    toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -467,7 +469,7 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
-
+    toggleConstSumOptionsRadioButton(questionNum);
     $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
 
     if ($(`#questionTable-${questionNum}`).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
@@ -557,6 +559,7 @@ function enableNewQuestion() {
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
+    toggleConstSumOptionsRadioButton(NEW_QUESTION);
 }
 
 /**
@@ -733,6 +736,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         break;
     case 'CONSTSUM_RECIPIENT': {
         const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
@@ -745,6 +749,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         $(`#constSum_labelText-${NEW_QUESTION}`).text(optionText.replace('option', 'recipient'));
         $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
@@ -1156,6 +1161,7 @@ function readyFeedbackEditPage() {
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
+    bindConstSumOptionsRadioButtons();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
