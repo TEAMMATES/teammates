@@ -268,7 +268,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 "mcqGenerateForSelect-1",
                 FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
 
     }

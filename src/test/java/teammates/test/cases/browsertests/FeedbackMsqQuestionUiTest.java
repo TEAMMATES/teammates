@@ -262,7 +262,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 "msqGenerateForSelect-1",
                 FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
 
         ______TS("MSQ: min/max selectable options");
