@@ -26,6 +26,7 @@ import {
 } from '../common/helper';
 
 import {
+    initializeTimeZoneOptions,
     prepareInstructorPages,
     setupFsCopyModal,
 } from '../common/instructor';
@@ -35,7 +36,6 @@ import {
     collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
-    initializeTimeZoneOptions,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
 } from '../common/instructorFeedbacks';
@@ -1181,7 +1181,7 @@ function readyFeedbackEditPage() {
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
-    initializeTimeZoneOptions();
+    initializeTimeZoneOptions($(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`));
 
     setupFsCopyModal();
 

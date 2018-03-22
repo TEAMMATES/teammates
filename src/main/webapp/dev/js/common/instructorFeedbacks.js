@@ -2,10 +2,6 @@ import {
     ParamsNames,
 } from './const';
 
-import {
-    TimeZone,
-} from './timezone';
-
 function updateUncommonSettingsSessionVisibilityInfo() {
     const info = 'Session is visible at submission opening time, '
              + 'responses are only visible when you publish the results.';
@@ -130,30 +126,11 @@ function formatSessionVisibilityGroup() {
     });
 }
 
-function initializeTimeZoneOptions() {
-    if (typeof moment !== 'undefined') {
-        const $selectElement = $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`);
-        TimeZone.prepareTimeZoneInput($selectElement);
-
-        const existingTimeZone = $selectElement.data('timeZone');
-        if (existingTimeZone) {
-            TimeZone.updateTimeZone($selectElement, existingTimeZone);
-        } else {
-            TimeZone.autoDetectAndUpdateTimeZone($selectElement);
-        }
-
-        $('#auto-detect-time-zone').on('click', () => {
-            TimeZone.autoDetectAndUpdateTimeZone($selectElement);
-        });
-    }
-}
-
 export {
     bindUncommonSettingsEvents,
     collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
-    initializeTimeZoneOptions,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
 };

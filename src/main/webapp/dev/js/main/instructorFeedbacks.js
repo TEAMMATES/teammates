@@ -16,6 +16,7 @@ import {
     bindPublishButtons,
     bindRemindButtons,
     bindUnpublishButtons,
+    initializeTimeZoneOptions,
     prepareInstructorPages,
     setupFsCopyModal,
 } from '../common/instructor';
@@ -25,7 +26,6 @@ import {
     collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
-    initializeTimeZoneOptions,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
 } from '../common/instructorFeedbacks';
@@ -252,7 +252,7 @@ function readyFeedbackPage() {
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
 
-    initializeTimeZoneOptions();
+    initializeTimeZoneOptions($(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`));
     selectDefaultStartDateTime();
     loadSessionsByAjax();
     bindUncommonSettingsEvents();
