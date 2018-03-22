@@ -154,8 +154,7 @@ public class FieldValidator {
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
     // field-specific error messages
-    public static final String GRACE_PERIOD_NEGATIVE = " Grace period should never be negative i.e. "
-            + " it should always be positive or zero";
+    public static final String GRACE_PERIOD_NEGATIVE = "Grace period should never be negative. ";
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
@@ -325,7 +324,7 @@ public class FieldValidator {
 
     /**
      * Checks if {@code gracePeriod} is not negative.
-     * @return An Explanation why the {@code gracePeriod} not acceptable.
+     * @return An explanation why the {@code gracePeriod} is not acceptable.
      */
     public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
         if (gracePeriod.isNegative()) {

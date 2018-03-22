@@ -121,6 +121,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withCreatedTime(Instant.now())
                 .withResultsVisibleFromTime(Instant.now())
                 .withSessionVisibleFromTime(Instant.now())
+                .withGracePeriodMinutes(-100)
                 .build();
         assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
     }
@@ -134,32 +135,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         String creatorEmailError = "The field 'email' is empty. An email address contains some text followed "
                 + "by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot be empty"
                 + " and cannot contain spaces.";
+        String gracePeriodError = "Grace period should never be negative. ";
 
-        return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError);
-    }
-
-    @Test
-    public void testGracePeriodValidate() {
-        ______TS("check grace period can't be negative");
-
-        FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes
-                .builder("lab session", "cs315", "instructor@gmail.com")
-                .withStartTime(Instant.now())
-                .withEndTime(Instant.now())
-                .withCreatedTime(Instant.now())
-                .withResultsVisibleFromTime(Instant.now())
-                .withSessionVisibleFromTime(Instant.now())
-                .withGracePeriodMinutes(-100)
-                .withInstructions(new Text("Attempt all question"))
-                .build();
-        assertEquals(feedbackSessionAttributes.getInvalidityInfo(), expectedErrorMessages());
-    }
-
-    private List<String> expectedErrorMessages() {
-        String gracePeriodError = " Grace period should never be negative i.e. "
-                + " it should always be positive or zero";
-
-        return Arrays.asList(gracePeriodError);
-
+        return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError);
     }
 }
