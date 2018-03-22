@@ -738,7 +738,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
         public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
-        public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
+        public static final String FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS = "mcqGeneratedOptions";
+        public static final String FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS = "msqGeneratedOptions";
         public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
         public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
