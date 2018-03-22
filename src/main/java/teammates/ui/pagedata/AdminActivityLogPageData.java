@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -260,15 +261,13 @@ public class AdminActivityLogPageData extends PageData {
                 }
 
             } else if ("from".equals(label)) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-                fromDateValue = LocalDate.parse(values[0], formatter)
+                fromDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy"))
                         .atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant().toEpochMilli();
                 isFromDateSpecifiedInQuery = true;
 
             } else if ("to".equals(label)) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-                toDateValue = LocalDate.parse(values[0], formatter).atTime(23, 59)
-                        .atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant().toEpochMilli();
+                toDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy"))
+                        .atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant().toEpochMilli();
             } else {
                 q.add(label, values);
             }

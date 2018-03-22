@@ -483,7 +483,7 @@ public final class TimeHelper {
      *
      * @param dateTimeString    the string containing the date and time
      * @param pattern           the pattern of the date and time string
-     * @return                  the parsed {@code LocalDateTime} object, or {@code null} if there are errors.
+     * @return                  the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
     public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
         if (dateTimeString == null || pattern == null) {

@@ -3,15 +3,13 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPage extends AppPage {
 
@@ -122,11 +120,11 @@ public class AdminActivityLogPage extends AppPage {
         return !elements.isEmpty();
     }
 
-    public Instant getDateOfEarliestLog() throws DateTimeParseException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS");
+    public Instant getDateOfEarliestLog() {
         String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > a")).getText();
 
-        return LocalDateTime.parse(dateTimeString, formatter).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
+        return TimeHelper.parseLocalDateTime(dateTimeString, "dd/MM/yyyy HH:mm:ss.SSS")
+                .atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
 
     }
 }

@@ -3,6 +3,7 @@ package teammates.test.cases.action;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.Instant;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -32,10 +33,10 @@ import teammates.ui.template.AdminActivityLogTableRow;
  * <p>The test will inject predefined GAE logs using {@link teammates.test.driver.GaeSimulation} and
  * then test the correct execution of the action.
  *
- * <p>Logs will be injected to GAE with time relative to now. Typically, today, yesterday
+ * <p>Logs will be injected to GAE with time relative to now. Typically, NOW, YESTERDAY
  * and two days ago are the time. It is possible that when the test is run at
- * midnight(around 12:00 PM) in UTC, some logs that belong to today will become
- * yesterday's logs as each log occupies a period of time. However, this situation
+ * midnight(around 12:00 PM) in UTC, some logs that belong to NOW will become
+ * YESTERDAY's logs as each log occupies a period of time. However, this situation
  * can be solved by rerunning the test cases at a different time.
  */
 public class AdminActivityLogPageActionTest extends BaseActionTest {
@@ -52,11 +53,11 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     // 130 seconds is chosen so that it will be around 50 logs within 2 hours before now.
     private static final int LOG_MESSAGE_INTERVAL_MANY_LOGS = 130;
 
-    private List<List<String>> logMessages;
+    private static final Instant NOW = Instant.now();
+    private static final Instant TWO_DAYS_AGO = TimeHelper.getInstantDaysOffsetFromNow(-2);
+    private static final Instant YESTERDAY = TimeHelper.getInstantDaysOffsetFromNow(-1);
 
-    private Instant twoDaysAgo = TimeHelper.getInstantDaysOffsetFromNow(-2);
-    private Instant yesterday = TimeHelper.getInstantDaysOffsetFromNow(-1);
-    private Instant today = TimeHelper.getInstantDaysOffsetFromNow(0);
+    private List<List<String>> logMessages;
 
     @Override
     protected String getActionUri() {
@@ -106,9 +107,9 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin");
         gaeSimulation.clearLogs();
 
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TWO_DAYS_AGO), twoDaysAgo.toEpochMilli());
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_YESTERDAY), yesterday.toEpochMilli());
-        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TODAY), today.toEpochMilli());
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TWO_DAYS_AGO), TWO_DAYS_AGO.toEpochMilli());
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_YESTERDAY), YESTERDAY.toEpochMilli());
+        insertLogMessagesAtTime(logMessages.get(LOG_MESSAGE_INDEX_TODAY), NOW.toEpochMilli());
     }
 
     @Test(groups = "typicalActivityLogs")
@@ -159,23 +160,23 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     public void filterQuery_validQuery() {
         // from
         int[][] expected = new int[][] { {0, 1, 3, 4, 5}, {0, 1, 2} };
-        String query = String.format(" from:%s", formatAdminDate(yesterday));
+        String query = String.format(" from:%s", formatAdminDate(YESTERDAY));
         verifyActionResult(expected, "filterQuery", query);
 
         // to
         expected = new int[][] { {}, {}, {0, 1} };
-        query = String.format("to :%s", formatAdminDate(twoDaysAgo));
+        query = String.format("to :%s", formatAdminDate(TWO_DAYS_AGO));
         verifyActionResult(expected, "filterQuery", query);
 
         // from-to
         expected = new int[][] { {}, {0, 1, 2}, {0, 1} };
         query = String.format("from: %s  and  to:%s",
-                formatAdminDate(twoDaysAgo), formatAdminDate(yesterday));
+                formatAdminDate(TWO_DAYS_AGO), formatAdminDate(YESTERDAY));
         verifyActionResult(expected, "filterQuery", query);
 
         expected = new int[][] { {0, 1, 3, 4, 5}, {0, 1, 2}, {0, 1} };
         query = String.format("from : %s | to: %s ",
-                formatAdminDate(twoDaysAgo), formatAdminDate(today));
+                formatAdminDate(TWO_DAYS_AGO), formatAdminDate(NOW));
         verifyActionResult(expected, "filterQuery", query);
 
         // person: name
@@ -184,13 +185,13 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyActionResult(expected, "filterQuery", query);
 
         // person: googleId
-        query = String.format("  person:id1@google.com   | to:%s  ", formatAdminDate(yesterday));
+        query = String.format("  person:id1@google.com   | to:%s  ", formatAdminDate(YESTERDAY));
         expected = new int[][] { {}, {0, 1} };
         verifyActionResult(expected, "filterQuery", query);
 
         // person: email
         query = String.format("person:  email2@email.com | from:%s | to:%s",
-                formatAdminDate(twoDaysAgo), formatAdminDate(yesterday));
+                formatAdminDate(TWO_DAYS_AGO), formatAdminDate(YESTERDAY));
         expected = new int[][] { {}, {2}, {0, 1} };
         verifyActionResult(expected, "filterQuery", query);
 
@@ -219,7 +220,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         expected = new int[][] { {0, 3, 5} };
         verifyActionResult(expected, "filterQuery", query);
 
-        query = String.format("info:keyword2   |   from:%s", formatAdminDate(yesterday));
+        query = String.format("info:keyword2   |   from:%s", formatAdminDate(YESTERDAY));
         expected = new int[][] { {0, 1, 4}, {0, 1, 2} };
         verifyActionResult(expected, "filterQuery", query);
 
@@ -239,7 +240,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // another filterQuery with showing all URI
         expected = new int[][] { {0, 1, 3, 7, 8}, {0, 1, 4}, {3} };
         query = String.format("person:Name1 | from:%s and to:%s",
-                formatAdminDate(twoDaysAgo), formatAdminDate(today));
+                formatAdminDate(TWO_DAYS_AGO), formatAdminDate(NOW));
         verifyActionResult(expected, "filterQuery", query, "all", "true");
 
         // filterQuery with showing test data
@@ -250,7 +251,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // filterQuery with showing everything
         expected = new int[][] { {2, 4, 5, 6, 7}, {1, 3, 4}, {0, 1, 2} };
         query = String.format("time:50 | from:%s and to:%s",
-                formatAdminDate(twoDaysAgo), formatAdminDate(today));
+                formatAdminDate(TWO_DAYS_AGO), formatAdminDate(NOW));
         verifyActionResult(expected, "filterQuery", query, "testdata", "true", "all", "true");
     }
 
@@ -273,17 +274,17 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // test statusMessage for default search
         AdminActivityLogPageAction action = getAction();
         String statusMessage = getShowPageResult(action).getStatusMessage();
-        verifyStatusMessage(statusMessage, 11, 5, yesterday);
-        verifyLocalTimeInStatusMessage(statusMessage, yesterday, Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        verifyStatusMessage(statusMessage, 11, 5, YESTERDAY);
+        verifyLocalTimeInStatusMessage(statusMessage, YESTERDAY, Const.SystemParams.ADMIN_TIME_ZONE_ID);
 
         // test statusMessage with filterQuery
         String query = "person:idOfInstructor1OfCourse1";
         action = getAction("filterQuery", query);
         statusMessage = getShowPageResult(action).getStatusMessage();
-        verifyStatusMessage(statusMessage, 11, 1, yesterday);
+        verifyStatusMessage(statusMessage, 11, 1, YESTERDAY);
 
         // test statusMessage with `to`
-        query = "to:" + formatAdminDate(yesterday);
+        query = "to:" + formatAdminDate(YESTERDAY);
         action = getAction("filterQuery", query);
         Instant toDate = getEndOfTheDayOffsetNowInAdminTimeZone(-2);
         statusMessage = getShowPageResult(action).getStatusMessage();
@@ -291,7 +292,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         verifyLocalTimeInStatusMessage(statusMessage, toDate, Const.SystemParams.ADMIN_TIME_ZONE_ID);
 
         // test statusMessage with `from`
-        query = "from:" + formatAdminDate(yesterday);
+        query = "from:" + formatAdminDate(YESTERDAY);
         action = getAction("filterQuery", query);
         Instant fromDate = getBeginOfTheDayOffsetNowInAdminTimeZone(-1);
         statusMessage = getShowPageResult(action).getStatusMessage();
@@ -337,8 +338,8 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
         // default continue search
         int[][] expected = new int[][] { {}, {0, 1, 2} };
-        String[] params = new String[] {"searchTimeOffset", String.valueOf(yesterday.toEpochMilli())};
-        verifyContinueSearch(params, expected, 6, 3, twoDaysAgo);
+        String[] params = new String[] {"searchTimeOffset", String.valueOf(YESTERDAY.toEpochMilli())};
+        verifyContinueSearch(params, expected, 6, 3, TWO_DAYS_AGO);
 
         // continue search and no more logs
         expected = new int[][] {};
@@ -348,16 +349,16 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // with some filters
         expected = new int[][] { {}, {0, 3} };
         params = new String[] {
-                "searchTimeOffset", String.valueOf(yesterday.toEpochMilli()),
+                "searchTimeOffset", String.valueOf(YESTERDAY.toEpochMilli()),
                 "filterQuery", "info:keyword1", "testdata", "true"
         };
-        verifyContinueSearch(params, expected, 6, 2, twoDaysAgo);
+        verifyContinueSearch(params, expected, 6, 2, TWO_DAYS_AGO);
 
         // when `from` is present, will not do continue search
         expected = new int[][] { {0, 1, 3, 4, 5}, {0, 1, 2} };
         params = new String[] {
-                "searchTimeOffset", String.valueOf(yesterday.toEpochMilli()),
-                "filterQuery", String.format("from:%s", formatAdminDate(yesterday))
+                "searchTimeOffset", String.valueOf(YESTERDAY.toEpochMilli()),
+                "filterQuery", String.format("from:%s", formatAdminDate(YESTERDAY))
         };
         Instant yesterdayBegin = getBeginOfTheDayOffsetNowInAdminTimeZone(-1);
         verifyContinueSearch(params, expected, 17, 8, yesterdayBegin);
@@ -367,7 +368,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         Instant toDate = getEndOfTheDayOffsetNowInAdminTimeZone(-2);
         params = new String[] {
                 "searchTimeOffset", String.valueOf(toDate.toEpochMilli()),
-                "filterQuery", String.format("to:%s", formatAdminDate(yesterday))
+                "filterQuery", String.format("to:%s", formatAdminDate(YESTERDAY))
         };
         toDate = getEndOfTheDayOffsetNowInAdminTimeZone(-3);
         verifyContinueSearch(params, expected, 4, 2, toDate);
@@ -379,31 +380,30 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin");
         gaeSimulation.clearLogs();
 
-        Instant today = TimeHelper.getInstantDaysOffsetFromNow(0);
         insertLogMessageAtTimeWithInterval(logMessages.get(LOG_MESSAGE_INDEX_MANY_LOGS),
-                today.toEpochMilli(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
+                Instant.now().toEpochMilli(), LOG_MESSAGE_INTERVAL_MANY_LOGS);
     }
 
     // The two test groups should have different 'priority' so that they can run separately
     // as they depend on different sets of log messages
     @Test(groups = "manyActivityLogs", priority = 2)
     public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
-        Instant today = TimeHelper.getInstantDaysOffsetFromNow(0);
+        Instant now = Instant.now();
         // default search will stop at #logs around 50
         AdminActivityLogPageAction action = getAction();
         ShowPageResult result = getShowPageResult(action);
-        Instant earliestDateInUtc = today.minusMillis(54 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000);
+        Instant earliestDateInUtc = now.minusMillis(54 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000);
         verifyManyLogs(55, 0, 54, result.data, result.getStatusMessage(), earliestDateInUtc);
 
         // continue search will get next #logs around 50
-        long nextSearch = today.toEpochMilli() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
+        long nextSearch = now.toEpochMilli() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("searchTimeOffset", String.valueOf(nextSearch));
         result = getShowPageResult(action);
-        earliestDateInUtc = today.minusMillis(110 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000);
+        earliestDateInUtc = now.minusMillis(110 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000);
         verifyManyLogs(56, 55, 110, result.data, result.getStatusMessage(), earliestDateInUtc);
 
         // continue search will get logs until no logs
-        nextSearch = today.toEpochMilli() - 112 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
+        nextSearch = now.toEpochMilli() - 112 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("searchTimeOffset", String.valueOf(nextSearch));
         result = getShowPageResult(action);
         earliestDateInUtc = Instant.ofEpochMilli(nextSearch - 24 * 60 * 60 * 1000);
@@ -412,11 +412,11 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // default search with filter stop at #logs around 50
         action = getAction("filterQuery", "request:testdata1");
         result = getShowPageResult(action);
-        earliestDateInUtc = today.minusMillis(54 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000);
+        earliestDateInUtc = now.minusMillis(54 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000);
         verifyManyLogs(55, 0, 54, result.data, result.getStatusMessage(), earliestDateInUtc);
 
         // continue search with filter will get logs until no logs
-        nextSearch = today.toEpochMilli() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
+        nextSearch = now.toEpochMilli() - 56 * LOG_MESSAGE_INTERVAL_MANY_LOGS * 1000;
         action = getAction("filterQuery", "request:testdata1", "searchTimeOffset", String.valueOf(nextSearch));
         result = getShowPageResult(action);
         earliestDateInUtc = Instant.ofEpochMilli(nextSearch - 24 * 60 * 60 * 1000);
@@ -550,7 +550,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     private Instant getEndOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
         return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID)
-                .toLocalDate().atTime(23, 59, 59).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
+                .toLocalDate().atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
     }
 
     @Override

@@ -70,9 +70,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
         ______TS("content: ensure default search period is not more than one day");
         Instant yesterday = TimeHelper.getInstantDaysOffsetFromNow(-1);
-
-        assertTrue(logPage.getDateOfEarliestLog()
-                                        .isAfter(yesterday));
+        assertTrue(logPage.getDateOfEarliestLog().isAfter(yesterday));
 
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
         String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
