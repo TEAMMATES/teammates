@@ -140,10 +140,6 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
     $(button).attr('title', tooltipString).tooltip('fixTitle');
 }
 
-function isInExpandMode(button) {
-    return $(button).html().trim().startsWith('Expand');
-}
-
 /**
  * Expands or collapses all panels when collapse/expand panels button is clicked.
  * @param {DOM} expandCollapseButton - The button that was clicked to invoke {@code #expandOrCollapsePanels}.
@@ -157,6 +153,10 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
     const expandCollapseTeamButton = 'a[id^="collapse-panels-button-team-"]';
     const isCollapsePanelsButton = !panels;
     const isCollapseTeamButton = expandCollapseButton === $(expandCollapseTeamButton);
+
+    function isInExpandMode(button) {
+        return $(button).html().trim().startsWith(STRING_EXPAND);
+    }
 
     // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
     // need to define corresponding {@code targetPanels}.
