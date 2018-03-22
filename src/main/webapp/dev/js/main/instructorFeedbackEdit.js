@@ -1183,8 +1183,8 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
  * TODO: Remove this function when #8688 is fixed
  */
 function removeRequiredIfElementHidden() {
-    $('#form_editquestion--1').on("click", "#button_submit_add", (e) => {
-        $("input:hidden").prop('required', false);
+    $('#form_editquestion--1').on('click', '#button_submit_add', () => {
+        $('input:hidden').prop('required', false);
     });
 }
 
