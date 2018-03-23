@@ -81,11 +81,11 @@ public class AdminSessionsPageData extends PageData {
     }
 
     public String getRangeStartString() {
-        return TimeHelper.formatTime12H(rangeStart);
+        return TimeHelper.formatTime12H(TimeHelper.convertDateToLocalDateTime(rangeStart));
     }
 
     public String getRangeEndString() {
-        return TimeHelper.formatTime12H(rangeEnd);
+        return TimeHelper.formatTime12H(TimeHelper.convertDateToLocalDateTime(rangeEnd));
     }
 
     public List<InstitutionPanel> getInstitutionPanels() {
@@ -185,8 +185,9 @@ public class AdminSessionsPageData extends PageData {
     }
 
     private void setFilter() {
-        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart),
-                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd),
+        filter = new AdminFilter(TimeHelper.formatDate(TimeHelper.convertDateToLocalDateTime(rangeStart)),
+                                 getHourOptionsAsHtml(rangeStart), getMinuteOptionsAsHtml(rangeStart),
+                                 TimeHelper.formatDate(TimeHelper.convertDateToLocalDateTime(rangeEnd)),
                                  getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
                                  getTimeZoneOptionsAsHtml());
     }

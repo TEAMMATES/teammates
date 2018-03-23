@@ -251,14 +251,9 @@ public final class TimeHelper {
 
     /**
      * Formats a date in the format dd/MM/yyyy.
-     */
-    @Deprecated
-    public static String formatDate(Date date) {
-        return formatDate(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format dd/MM/yyyy.
+     *
+     * @param localDateTime the LocalDateTime object to be formatted
+     * @return a string in the format {@code dd/MM/yyyy}
      */
     public static String formatDate(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "dd/MM/yyyy");
@@ -266,31 +261,20 @@ public final class TimeHelper {
 
     /**
      * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
-     */
-    @Deprecated
-    public static String formatDateForSessionsForm(Date date) {
-        return formatDateForSessionsForm(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
+     *
+     * @param localDateTime the LocalDateTime object to be formatted
+     * @return a string in the format {@code EEE, dd MMM, yyyy}
      */
     public static String formatDateForSessionsForm(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM, yyyy");
     }
 
     /**
-     * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
-     * 2:04 PM<br>
-     */
-    @Deprecated
-    public static String formatTime12H(Date date) {
-        return formatTime12H(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format dd MMM yyyy, hh:mm a. 12:00 PM is especially formatted as 12:00 NOON
-     * Example: 05 May 2012, 2:04 PM<br>
+     * Formats a date in the format dd MMM yyyy, hh:mm a. 12:00 PM is especially formatted as 12:00 NOON.
+     * Example: 05 May 2012, 2:04 PM
+     *
+     * @param localDateTime the LocalDateTime object to be formatted
+     * @return a string in the format {@code EEE, dd MMM yyyy, hh:mm a}
      */
     public static String formatTime12H(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM yyyy, hh:mm a");
@@ -313,26 +297,22 @@ public final class TimeHelper {
         return zonedDateTime.format(formatter);
     }
 
-    @Deprecated
-    public static String formatDateTimeForSessions(Date dateInUtc, double sessionTimeZone) {
-        return formatDateTimeForSessions(
-                convertDateToInstant(dateInUtc), convertToZoneId(sessionTimeZone));
-    }
-
+    /**
+     * Formats an Instant for a session in a specified ZoneId.
+     *
+     * @param instant the instant to be formatted
+     * @param sessionTimeZone the ZoneId representing the timezone for that session
+     * @return a string in the format {@code EEE, dd MMM yyyy, hh:mm a 'UTC'Z}
+     */
     public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
     }
 
     /**
      * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
-     */
-    @Deprecated
-    public static String formatDateTimeForInstructorHomePage(Date date) {
-        return formatDateTimeForInstructorHomePage(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
+     *
+     * @param localDateTime the java.time.LocalDateTime object to be formatted
+     * @return a string in the format {@code d MMM h:mm a}
      */
     public static String formatDateTimeForInstructorHomePage(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "d MMM h:mm a");
@@ -341,24 +321,8 @@ public final class TimeHelper {
     /**
      * Formats a date in the format d MMM yyyy. Example: 5 May 2017
      */
-    @Deprecated
-    public static String formatDateTimeForInstructorCoursesPage(Date date, String timeZoneId) {
-        return formatDateTimeForInstructorCoursesPage(convertDateToInstant(date), ZoneId.of(timeZoneId));
-    }
-
-    /**
-     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
-     */
     public static String formatDateTimeForInstructorCoursesPage(Instant instant, ZoneId timeZoneId) {
         return formatInstant(instant, timeZoneId, "d MMM yyyy");
-    }
-
-    /**
-     * Formats {@code dateInUtc} according to the ISO8601 format.
-     */
-    @Deprecated
-    public static String formatDateToIso8601Utc(Date dateInUtc) {
-        return formatInstantToIso8601Utc(convertDateToInstant(dateInUtc));
     }
 
     /**

@@ -336,7 +336,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.getTime()));
+        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(
+                TimeHelper.convertDateToLocalDateTime(newValue.getTime())));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {

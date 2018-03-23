@@ -26,7 +26,7 @@ public class AdminEmailTableRow {
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         appCal.setTimeInMillis(emailEntry.getTime());
         appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        return TimeHelper.formatTime12H(appCal.getTime());
+        return TimeHelper.formatTime12H(TimeHelper.convertDateToLocalDateTime(appCal.getTime()));
     }
 
     public String getUnsanitizedContent() {
