@@ -6,9 +6,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 import org.testng.annotations.Test;
 
@@ -60,17 +58,13 @@ public class TimeHelperTest extends BaseTestCase {
 
     @Test
     public void testEndOfYearDates() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.clear();
-        cal.set(2015, 11, 30, 12, 0, 0);
-        Date date = cal.getTime();
-        assertEquals("30/12/2015", TimeHelper.formatDate(TimeHelper.convertDateToLocalDateTime(date)));
-        assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(TimeHelper.convertDateToLocalDateTime(date)));
-        assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(TimeHelper.convertDateToLocalDateTime(date)));
-        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC+0000", TimeHelper.formatDateTimeForSessions(
-                TimeHelper.convertDateToInstant(date), ZoneId.of("UTC")));
-        assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(
-                TimeHelper.convertDateToLocalDateTime(date)));
+        LocalDateTime ldt = LocalDateTime.of(2015, Month.DECEMBER, 30, 12, 0);
+        assertEquals("30/12/2015", TimeHelper.formatDate(ldt));
+        assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(ldt));
+        assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(ldt));
+        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC+0000",
+                TimeHelper.formatDateTimeForSessions(ldt.toInstant(ZoneOffset.UTC), ZoneId.of("UTC")));
+        assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(ldt));
     }
 
     @Test
