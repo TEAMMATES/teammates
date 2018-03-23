@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="adminHome.jsp - Admin home create instructor account form" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="instructorName" required="true" %>
@@ -29,3 +30,4 @@
     <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructor">Add Instructor</button>
   </div>
 </div>
+

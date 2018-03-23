@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseEdit - Instructor Role Modal" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -51,3 +52,4 @@
     </div>
   </div>
 </div>
+

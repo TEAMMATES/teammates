@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Generic TEAMMATES Error Page" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
@@ -54,3 +55,4 @@
   <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
   <script type="text/javascript" src="/js/errorPageEmailComposer.js"></script>
 </html>
+

@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks and instructorHome - Feedback Session publish/unpublish button" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="publishButton" type="teammates.ui.template.FeedbackSessionPublishButton" required="true" %>
@@ -14,3 +15,4 @@
     data-fsname="${publishButton.feedbackSessionName}">
   ${publishButton.actionName} Results
 </a>
+

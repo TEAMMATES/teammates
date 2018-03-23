@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResults - by Giver > Question > Recipient or Recipient > Question > Giver" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -19,3 +20,4 @@
       isGroupedByTeam="${isGroupedByTeam}"/>
   <c:set var="teamIndex" value="${teamIndex + fn:length(sectionPanel.value.participantPanels)}"/>
 </c:forEach>
+

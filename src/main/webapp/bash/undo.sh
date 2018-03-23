@@ -1,11 +1,10 @@
 # run in src/main/webapp
 
-exit
-
 echo "checking tag whitespaceDirective"
-find . -name "*tag" | while read f; do
-    head -n -1 $f > /tmp/pg
+find . -name "*jsp" | while read f; do
+    tail -n +2 $f > /tmp/pg
     mv /tmp/pg $f
+    echo $f
 done;
 
 exit

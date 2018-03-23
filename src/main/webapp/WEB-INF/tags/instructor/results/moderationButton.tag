@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResults - moderation button" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -15,3 +16,4 @@
   </c:if>
   <input type="hidden" name="moderatedperson" value="${fn:escapeXml(moderationButton.giverIdentifier)}">
 </form>
+

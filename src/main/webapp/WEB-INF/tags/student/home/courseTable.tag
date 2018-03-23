@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="studentHome - Course table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/home" prefix="home" %>
@@ -44,3 +45,4 @@
     </c:otherwise>
   </c:choose>
 </table>
+

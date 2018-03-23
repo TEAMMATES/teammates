@@ -3,19 +3,20 @@ import sys
 def process(fname):
     with open(fname) as f:
         content = f.read()
-        """
+        
         content = content.replace('} ${', '}${" "}${')
         content = content.replace('%> <%', '%><%= " " %><%')
-        
+        """ 
         content = content.replace(' ${" "}', '${" "}')
         content = content.replace('${" "} ', '${" "}')
 
         content = content.replace('<a ${', '<a${" "}${')
         content = content.replace('<input ${', '<input${" "}${')
         content = content.replace('<option ${', '<option${" "}${')
-        """
+        
         content = content.replace('> ${', '>${" "}${')
         content = content.replace('} />', '}/>')
+        """
         print content
 
 def main():

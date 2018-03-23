@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Add New Course Panel of Course Page" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -58,3 +59,4 @@
     </form>
   </div>
 </div>
+

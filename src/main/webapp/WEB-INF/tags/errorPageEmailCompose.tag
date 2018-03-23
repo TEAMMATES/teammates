@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Email composer to send feedback for error pages" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Config" %>
@@ -23,3 +24,4 @@
   <input type="hidden" name=<%= Const.ParamsNames.STUDENT_EMAIL %> value="${param.studentemail}">
   <input type="hidden" name=<%= Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED %> value="${param.errorfeedbackrequestedurl}">
 </form>
+

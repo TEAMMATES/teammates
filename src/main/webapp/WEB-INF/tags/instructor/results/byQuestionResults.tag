@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResults - by question" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -12,3 +13,4 @@
   <results:questionPanel questionIndex="${i.index}" isShowingResponses="${isShowingResponses}"
       questionPanel="${questionPanel}"/>
 </c:forEach>
+

@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
