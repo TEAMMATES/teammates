@@ -179,7 +179,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             if (question.giverType == FeedbackParticipantType.TEAMS && isUserPartOfGiverTeam) {
                 displayedGiverName = "Your Team (" + giverName + ")";
             } else if (isUserGiver) {
-                displayedGiverName = "You";
+                displayedGiverName = "(Your own response)";
             } else {
                 displayedGiverName = removeAnonymousHash(giverName);
             }
