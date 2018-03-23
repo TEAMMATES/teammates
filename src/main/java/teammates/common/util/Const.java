@@ -684,7 +684,6 @@ public final class Const {
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_INDEX = "fsindex";
-        public static final String FEEDBACK_SESSION_CREATOR = "fscreator";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_STARTHOUR = "starthour";

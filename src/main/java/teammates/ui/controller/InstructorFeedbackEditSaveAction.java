@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -17,11 +16,8 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -30,14 +26,15 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
-        FeedbackSessionAttributes feedbackSession = extractFeedbackSessionData(false);
 
-        // A session opening reminder email is always sent as students
-        // without accounts need to receive the email to be able to respond
-        feedbackSession.setOpeningEmailEnabled(true);
+        // This is only for validation to pass; it will be overridden with its existing value at the logic layer
+        String dummyCreatorEmail = "dummy@example.com";
+
+        FeedbackSessionAttributes feedbackSession =
+                extractFeedbackSessionData(feedbackSessionName, courseId, dummyCreatorEmail);
 
         try {
-            validateTimeData(feedbackSession, false);
+            validateTimeData(feedbackSession);
             addResolvedTimeFieldsToDataIfRequired(feedbackSession, data);
             logic.updateFeedbackSession(feedbackSession);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS));

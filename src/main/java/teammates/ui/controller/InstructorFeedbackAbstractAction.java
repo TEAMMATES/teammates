@@ -18,19 +18,16 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidPostParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
 
 public abstract class InstructorFeedbackAbstractAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     protected LocalDateTime inputStartTimeLocal;
     protected LocalDateTime inputEndTimeLocal;
@@ -39,61 +36,55 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
     /**
      * Creates a feedback session attributes object from the request parameters.
-     * @param isCreatingNewSession true if creating a new session; false if editing an existing session.
+     * The created time is always set to now, and the opening email enabled flag is always set to true.
+     * @param fsName the name of the feedback session (should be sanitized when creating a new session).
+     * @param courseId the ID of the course the feedback session is in.
+     * @param creatorEmail the email address of the feedback session's creator.
      * @return feedback session attributes object.
+     * @throws InvalidPostParametersException if any of the request parameters are not in the expected format.
      */
-    protected FeedbackSessionAttributes extractFeedbackSessionData(boolean isCreatingNewSession) {
-        // TODO: When creating a new session, assert parameters are not null.
-        // Not necessary when editing an existing session as null values do not affect data integrity.
+    protected FeedbackSessionAttributes extractFeedbackSessionData(String fsName, String courseId, String creatorEmail) {
+        Assumption.assertNotNull(fsName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(creatorEmail);
 
-        String title = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        if (isCreatingNewSession) {
-            title = SanitizationHelper.sanitizeTitle(title);
-        }
-        FeedbackSessionAttributes attributes = FeedbackSessionAttributes
-                .builder(title, getRequestParamValue(Const.ParamsNames.COURSE_ID),
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR))
+        FeedbackSessionAttributes attributes = FeedbackSessionAttributes.builder(fsName, courseId, creatorEmail)
+                // For existing sessions, this will be overridden to its existing value at the logic layer
+                .withCreatedTime(Instant.now())
                 .build();
 
-        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, paramTimeZone);
+        String paramTimeZone = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         try {
             attributes.setTimeZone(ZoneId.of(paramTimeZone));
         } catch (DateTimeException e) {
-            // Leave the attributes time zone field at its default valid value (i.e. UTC)
+            throw new InvalidPostParametersException("Failed to parse time zone parameter: " + paramTimeZone, e);
         }
 
         inputStartTimeLocal = TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
+                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
+                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
         inputEndTimeLocal = TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
+                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
+                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
         attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(inputStartTimeLocal, attributes.getTimeZone()));
         attributes.setEndTime(TimeHelper.convertLocalDateTimeToInstant(inputEndTimeLocal, attributes.getTimeZone()));
 
-        String paramGracePeriod = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
+        String paramGracePeriod = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD);
         try {
             attributes.setGracePeriodMinutes(Integer.parseInt(paramGracePeriod));
         } catch (NumberFormatException nfe) {
-            log.warning("Failed to parse graced period parameter: " + paramGracePeriod);
-        }
-
-        if (isCreatingNewSession) {
-            attributes.setCreatedTime(Instant.now());
-            attributes.setSentOpenEmail(false);
-            attributes.setSentPublishedEmail(false);
+            throw new InvalidPostParametersException("Failed to parse grace period parameter: " + paramGracePeriod, nfe);
         }
 
         attributes.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        attributes.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
+        attributes.setInstructions(new Text(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
 
-        String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
+        String type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
             inputPublishTimeLocal = TimeHelper.combineDateTime(
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
             attributes.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
                     inputPublishTimeLocal, attributes.getTimeZone()));
             break;
@@ -104,18 +95,17 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
             break;
         default:
-            log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
-            break;
+            throw new InvalidPostParametersException("Invalid resultsVisibleFrom setting: " + type);
         }
 
         // Handle session visible after results visible to avoid having a
         // results visible date when session is private (session not visible)
-        type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
+        type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
             inputVisibleTimeLocal = TimeHelper.combineDateTime(
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
                     inputVisibleTimeLocal, attributes.getTimeZone()));
             break;
@@ -129,21 +119,22 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:
-            log.severe("Invalid sessionVisibleFrom setting " + attributes.getIdentificationString());
-            break;
+            throw new InvalidPostParametersException("Invalid sessionVisibleFrom setting: " + type);
         }
 
         String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
-        List<String> sendReminderEmailsList = sendReminderEmailsArray == null ? new ArrayList<String>()
+        List<String> sendReminderEmailsList = sendReminderEmailsArray == null ? new ArrayList<>()
                 : Arrays.asList(sendReminderEmailsArray);
-        attributes.setOpeningEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString()));
         attributes.setClosingEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString()));
         attributes.setPublishedEmailEnabled(sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString()));
+        // A session opening reminder email is always sent as students
+        // without accounts need to receive the email to be able to respond
+        attributes.setOpeningEmailEnabled(true);
 
         return attributes;
     }
 
-    protected void validateTimeData(FeedbackSessionAttributes attributes, boolean isCreatingNewSession)
+    protected void validateTimeData(FeedbackSessionAttributes attributes)
             throws InvalidParametersException {
         FieldValidator validator = new FieldValidator();
 
@@ -152,11 +143,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(paramTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
             // Collect other errors before throwing an exception
-            List<String> errors = new ArrayList<>();
-            // When editing an existing session, this will fail as some fields might be validly set to null
-            if (isCreatingNewSession) {
-                errors.addAll(attributes.getInvalidityInfo());
-            }
+            List<String> errors = new ArrayList<>(attributes.getInvalidityInfo());
             errors.add(timeZoneErrorMessage);
             throw new InvalidParametersException(errors);
         }
