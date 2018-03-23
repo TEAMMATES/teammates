@@ -147,8 +147,12 @@ public class InstructorCourseRemindAction extends Action {
     }
 
     private boolean compareRefererAndCurrentPage(String current) {
-        String referer = isolatePrevPageUrl();
-        return referer.compareTo(current) == 0;
+        //if url is from a page and has a query, then isolate and compare
+        if (currentUrl.contains("?")) {
+            String referer = isolatePrevPageUrl();
+            return referer.compareTo(current) == 0;
+        }
+        return false;
     }
 
     private static class JoinEmailData {
