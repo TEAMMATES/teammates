@@ -19,8 +19,16 @@
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <br>
 
-  <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithResponses">
-    <feedbackResults:questionWithResponses questionWithResponses="${questionWithResponses}"/>
+  <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithOthersResponses">
+    <feedbackResults:questionWithOthersResponses questionWithOthersResponses="${questionWithOthersResponses}"/>
+  </c:forEach>
+  <br>
+
+  <feedbackResults:feedbackSessionSelfResponse />
+  <br>
+
+  <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithSelfResponses">
+    <feedbackResults:questionWithSelfResponses questionWithSelfResponses="${questionWithSelfResponses}"/>
   </c:forEach>
 
   <c:if test="${empty data.feedbackResultsQuestionsWithResponses}">
