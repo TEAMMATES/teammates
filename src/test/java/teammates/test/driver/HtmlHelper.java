@@ -170,12 +170,12 @@ public final class HtmlHelper {
                     return generateDatepickerPlaceholder(indentation);
                 }
             }
-        } else if (currentNode.getNodeName().equalsIgnoreCase("select")) {
-            NamedNodeMap attributes = currentNode.getAttributes();
-            for (int i = 0; i < attributes.getLength(); i++) {
-                Node attribute = attributes.item(i);
-                if (isTimeZoneSelectorAttribute(attribute)) {
-                    return generateTimeZoneSelectorPlaceholder(indentation);
+        } else if (currentNode.getNodeName().equalsIgnoreCase("option")) {
+            NamedNodeMap parentAttributes = currentNode.getParentNode().getAttributes();
+            for (int i = 0; i < parentAttributes.getLength(); i++) {
+                Node parentAttribute = parentAttributes.item(i);
+                if (isTimeZoneSelectorAttribute(parentAttribute)) {
+                    return ignoreNode();
                 }
             }
         } else if (currentNode.getNodeName().equalsIgnoreCase("style")) {
@@ -198,10 +198,6 @@ public final class HtmlHelper {
 
     private static String generateStudentMotdPlaceholder(String indentation) {
         return indentation + "${studentmotd.container}" + System.lineSeparator();
-    }
-
-    private static String generateTimeZoneSelectorPlaceholder(String indentation) {
-        return indentation + "${timezone.options}" + System.lineSeparator();
     }
 
     private static String generateDatepickerPlaceholder(String indentation) {
