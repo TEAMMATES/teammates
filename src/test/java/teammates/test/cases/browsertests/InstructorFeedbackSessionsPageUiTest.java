@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -232,6 +233,25 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         //Remove added session to prevent state leaks.
         assertEquals("[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.deleteFeedbackSession(templateSessionName, newSession.getCourseId()));
+
+        ______TS("success case: Add a session with DST time zone and gap start time");
+
+        String dstSessionName = "DST Session";
+        ZoneId dstTimeZone = ZoneId.of("Pacific/Apia");
+        LocalDateTime gapStart = TimeHelper.parseLocalDateTime("30/12/2011", "7", "0");
+
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        feedbackPage.addFeedbackSessionWithTimeZone(
+                dstSessionName, newSession.getCourseId(),
+                gapStart, newSession.getEndTimeLocal(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriodMinutes(), dstTimeZone);
+
+        String gapWarning = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP,
+                "start time", "Fri, 30 Dec 2011, 07:00 AM", "Sat, 31 Dec 2011, 07:00 AM WSDT (UTC+1400)");
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(gapWarning, Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+
+        assertEquals("[BACKDOOR_STATUS_SUCCESS]",
+                BackDoor.deleteFeedbackSession(dstSessionName, newSession.getCourseId()));
 
         ______TS("failure case: session exists already");
 
