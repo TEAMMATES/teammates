@@ -10,11 +10,15 @@ It is assumed that the team members are familiar with the [development workflow]
 * PR management
   * [Choosing a reviewer](#choosing-a-reviewer)
   * [Closing a PR](#closing-a-pr)
+  * [Reverting a PR](#reverting-a-pr)
 * Release management
   * [Making a release](#making-a-release)
   * [Making a hot patch](#making-a-hot-patch)
 * Other tasks
+  * [Security vulnerabilities](#security-vulnerabilities)
+  * [Dependencies update](#dependencies-update)
   * [Branch management](#branch-management)
+    * [Using a long-lived feature branch](#using-a-long-lived-feature-branch)
   * [Community membership](#community-membership)
   * [Beginner-level issues](#beginner-level-issues)
 
@@ -72,6 +76,19 @@ A PR can be closed without merging if:
 
 In any case, leave a comment to explain why the PR is closed without merging.
 
+### Reverting a PR
+
+There may be situations where a merged PR needs to be reverted, e.g. when the PR has an unintended side effect that is difficult to fix or the PR was incomplete but accidentally merged.
+
+For example, to revert the PR `#3944` (`Remove unnecessary System.out.printlns from Java files #3942`):
+* No issue needs to be opened for this.
+* There should only be one commit, which can be auto-generated with `git revert 1234567` (replace `1234567` with the appropriate commit SHA). A conflict resolution may be necessary.
+* PR title: Duplicate the first line of the reversion commit message. (e.g. `Revert "[#3942] Remove unnecessary System.out.printlns from Java files (#3944)"`).
+* PR description: `Reverts #...` (e.g. `Reverts #3944`).
+* Merge with "Rebase and merge" option.
+* Re-open the issue once the reversion is merged.
+* The reverted PR and the reversion PR should not be included in any milestone if the reverted PR does not belong in any released version.
+
 ## Release management
 
 **Roles: Release Lead (RL), Project Manager (PM)**
@@ -118,6 +135,24 @@ The PM's actions are the same as when [making a release](#making-a-release), min
 
 ## Other tasks
 
+### Security vulnerabilities
+
+Security vulnerabilities, once reported and confirmed, should be treated as a candidate for hot patch (i.e. fixed in the soonest possible time directly on the `release` branch).
+
+Since the detail of such vulnerability cannot be disclosed until it is fixed, an issue can be created just before a PR for the fix is submitted, with minimal information (e.g. simply "Security vulnerability" as an issue with no further description).
+The complete details can be filled in just before merging and/or after the fix is deployed.
+
+### Dependencies update
+
+The third-party dependencies/libraries should be updated periodically (e.g. once every 3-6 months) in order to benefit from fixes developed by the library developers.
+
+The steps to update dependencies can be found in the [dependencies document](dependencies.md).
+To find which dependencies need update, you can use libraries like [`Gradle Versions Plugin`](https://plugins.gradle.org/plugin/com.github.ben-manes.versions) and [`npm-check-updates`](https://www.npmjs.com/package/npm-check-updates).
+
+* Not all updates are important/relevant; it is up to the team's discretion on what needs to be updated and what not, and when to update.
+* Only stable versions (i.e. non-beta and non-alpha) should be considered.
+* Updates with little to no breaking changes should be included in the periodic mass update; otherwise, an issue to update a specific dependency should be created.
+
 ### Branch management
 
 Ideally, only two branches should exist in the main repository:
@@ -126,6 +161,22 @@ Ideally, only two branches should exist in the main repository:
 * `release` to contain the copy of the code running on the live server.
 
 The usage of any other branch should be accounted for, and the branches should be deleted as soon as they are no longer needed.
+
+#### Using a long-lived feature branch
+
+There may be times where a major feature development/refactoring necessitates a long-lived branch to be used to contain all the changes before merging everything to `master` branch in one go.
+
+For the usage of such a branch, the following practices should be observed:
+
+* There should be at least one team member in charge of the branch.
+* The first commit of the branch should be allowing CI to run on that branch. This can be done by modifying `.travis.yml` and `appveyor.yml`.
+* Keep this long-lived branch in sync with `master` periodically. Syncing should be done strictly by rebasing in order to preserve all the individual commits and to keep the commit history linear.
+  * The team member(s) in charge will be responsible for syncing with the `master` branch, including resolving conflicts.
+* When the long-lived branch is ready to be merged to the `master` branch:
+  * Rebase with the latest `master` branch and get rid of the commit which explicitly allows CI run.
+  * Submit a PR and get it merged as per the usual procedure.
+    * The PR title and issue number can be a dummy, but keep the PR title as informative as possible.
+    * Reviews can be skipped if the individual commits/PRs are sufficiently reviewed.
 
 ### Community membership
 
