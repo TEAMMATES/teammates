@@ -65,7 +65,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString()
+
         };
 
         InstructorFeedbackQuestionAddAction action = getAction(params);
@@ -112,7 +113,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.STUDENTS.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS, FeedbackParticipantType.STUDENTS.toString()
+
         };
 
         action = getAction(params);
@@ -161,7 +163,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG, "on"
         };
 
@@ -224,7 +226,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString()
         };
 
         InstructorFeedbackQuestionAddAction action = getAction(params);
@@ -271,7 +273,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.STUDENTS.toString()
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, FeedbackParticipantType.STUDENTS.toString()
         };
 
         action = getAction(params);
@@ -321,7 +323,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on"
         };
 
