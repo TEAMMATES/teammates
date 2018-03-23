@@ -28,4 +28,3 @@
     <jsp:doBody />
   </jsp:body>
 </t:page>
-

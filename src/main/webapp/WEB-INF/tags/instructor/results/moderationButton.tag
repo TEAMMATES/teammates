@@ -16,4 +16,3 @@
   </c:if>
   <input type="hidden" name="moderatedperson" value="${fn:escapeXml(moderationButton.giverIdentifier)}">
 </form>
-

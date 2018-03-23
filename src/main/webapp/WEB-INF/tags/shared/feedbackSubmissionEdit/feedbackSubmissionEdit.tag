@@ -67,4 +67,3 @@
     </ts:studentPage>
   </c:otherwise>
 </c:choose>
-

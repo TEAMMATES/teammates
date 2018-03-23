@@ -39,4 +39,3 @@
     </a>
   </c:otherwise>
 </c:choose>
-

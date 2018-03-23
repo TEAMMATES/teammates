@@ -21,4 +21,3 @@
     </c:forEach>
   </div>
 </div>
-

@@ -25,4 +25,3 @@
     </div>
   </c:otherwise>
 </c:choose>
-

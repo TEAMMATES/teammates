@@ -140,4 +140,3 @@
   <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>
-

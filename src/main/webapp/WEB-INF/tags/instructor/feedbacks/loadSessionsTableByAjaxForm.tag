@@ -23,4 +23,3 @@
         value="${fsList.courseIdForHighlight}">
   </c:if>
 </form>
-

@@ -9,4 +9,3 @@
   <li><a class="pageNumber" href="javascript:;">5</a></li>
   <li class="next"><a href="javascript:;"><span>&raquo;</span></a></li>
 </ul>
-

@@ -46,4 +46,3 @@
     <course:studentTableModal />
   </div>
 </div>
-

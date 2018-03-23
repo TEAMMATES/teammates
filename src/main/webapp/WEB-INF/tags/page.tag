@@ -39,4 +39,3 @@
     <jsp:invoke fragment="jsIncludes" />
   </body>
 </html>
-

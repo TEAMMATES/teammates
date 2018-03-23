@@ -20,4 +20,3 @@
       isGroupedByTeam="${isGroupedByTeam}"/>
   <c:set var="teamIndex" value="${teamIndex + fn:length(sectionPanel.value.participantPanels)}"/>
 </c:forEach>
-

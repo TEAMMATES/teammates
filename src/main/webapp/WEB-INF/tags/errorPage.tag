@@ -55,4 +55,3 @@
   <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
   <script type="text/javascript" src="/js/errorPageEmailComposer.js"></script>
 </html>
-

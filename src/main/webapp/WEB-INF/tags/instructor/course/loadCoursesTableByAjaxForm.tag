@@ -13,4 +13,3 @@
       name="<%= Const.ParamsNames.IS_USING_AJAX %>"
       value="on">
 </form>
-

@@ -21,4 +21,3 @@
         isShowingAll="${isShowingAll}"/>
   </c:otherwise>
 </c:choose>
-

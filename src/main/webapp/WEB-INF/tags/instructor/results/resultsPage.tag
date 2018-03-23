@@ -16,4 +16,3 @@
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM%>" />
   </jsp:body>
 </ti:instructorPage>
-

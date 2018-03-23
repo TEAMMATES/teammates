@@ -30,4 +30,3 @@
     <button class="btn btn-primary addInstructorFormControl addInstructorBtn" id="btnAddInstructor">Add Instructor</button>
   </div>
 </div>
-

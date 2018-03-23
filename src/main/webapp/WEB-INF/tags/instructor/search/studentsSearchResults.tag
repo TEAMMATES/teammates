@@ -16,4 +16,3 @@
     </c:forEach>
   </div>
 </div>
-

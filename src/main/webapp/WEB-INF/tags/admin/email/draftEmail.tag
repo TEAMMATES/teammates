@@ -18,4 +18,3 @@
   <td><input value="${draftEmail.subject}" readonly class="form-control"></td>
   <td>${draftEmail.date}</td>
 </tr>
-

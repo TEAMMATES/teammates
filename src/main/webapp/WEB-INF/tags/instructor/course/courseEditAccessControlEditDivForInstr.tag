@@ -61,4 +61,3 @@
     <course:courseEditTunePermissionsDivForInstructor instructorPanel="${instructorPanel}"/>
   </c:if>
 </div>
-

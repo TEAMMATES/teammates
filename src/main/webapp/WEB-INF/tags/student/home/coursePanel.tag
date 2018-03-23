@@ -19,4 +19,3 @@
   </div>
   <jsp:doBody />
 </div>
-

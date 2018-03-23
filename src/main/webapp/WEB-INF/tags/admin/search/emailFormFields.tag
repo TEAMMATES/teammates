@@ -19,4 +19,3 @@
   <input type="hidden" name="sessionStatus" value="${sessionStatus}">
   <input name="relatedLink" value="${relatedLink}" readonly class="form-control">
 </form>
-

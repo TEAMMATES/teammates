@@ -18,4 +18,3 @@
   <td><input value="${sentEmail.subject}" readonly class="form-control"></td>
   <td>${sentEmail.date}</td>
 </tr>
-

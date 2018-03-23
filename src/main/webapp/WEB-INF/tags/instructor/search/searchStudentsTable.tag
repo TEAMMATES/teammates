@@ -15,4 +15,3 @@
         sections="${studentTable.sections}" fromStudentListPage="${false}" />
   </div>
 </div>
-

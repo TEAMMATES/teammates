@@ -15,4 +15,3 @@
     data-fsname="${publishButton.feedbackSessionName}">
   ${publishButton.actionName} Results
 </a>
-

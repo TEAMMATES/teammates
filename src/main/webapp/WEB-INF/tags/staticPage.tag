@@ -68,4 +68,3 @@
     ${jsIncludes}
   </body>
 </html>
-

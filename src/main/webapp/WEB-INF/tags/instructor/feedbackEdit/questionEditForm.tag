@@ -130,4 +130,3 @@
   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
 </form>
 <br><br>
-

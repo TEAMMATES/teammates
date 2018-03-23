@@ -35,4 +35,3 @@
     </table>
   </c:otherwise>
 </c:choose>
-

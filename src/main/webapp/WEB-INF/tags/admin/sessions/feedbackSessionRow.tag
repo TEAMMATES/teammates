@@ -21,4 +21,3 @@
   <td>${feedbackSessionRow.sessionEndTime}</td>
   <td><a target="_blank" rel="noopener noreferrer" ${feedbackSessionRow.instructorHomePageViewLink}>${feedbackSessionRow.creatorEmail}</a></td>
 </tr>
-

@@ -21,4 +21,3 @@
   <br>
   <br>
 </c:forEach>
-

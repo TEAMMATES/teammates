@@ -13,4 +13,3 @@
   <results:questionPanel questionIndex="${i.index}" isShowingResponses="${isShowingResponses}"
       questionPanel="${questionPanel}"/>
 </c:forEach>
-

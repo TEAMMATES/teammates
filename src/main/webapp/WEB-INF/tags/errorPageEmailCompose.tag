@@ -24,4 +24,3 @@
   <input type="hidden" name="<%= Const.ParamsNames.STUDENT_EMAIL %>" value="${param.studentemail}">
   <input type="hidden" name="<%= Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED %>" value="${param.errorfeedbackrequestedurl}">
 </form>
-

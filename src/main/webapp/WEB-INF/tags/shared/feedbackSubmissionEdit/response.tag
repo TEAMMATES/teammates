@@ -60,4 +60,3 @@
            value="<c:out value="${response.responseId}"/>">
   </c:if>
 </div>
-
