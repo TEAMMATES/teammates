@@ -69,7 +69,7 @@ public class FeedbackSessionResponseStatus {
     /**
      * Returns list of students who did not respond to the feedback session.
      */
-    public List<String> getstudentsWhoDidNotRespond() {
+    public List<String> getStudentsWhoDidNotRespond() {
         return studentsWhoDidNotRespond;
     }
 
