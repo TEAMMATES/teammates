@@ -11,7 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.InvalidPostParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -276,7 +276,7 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             Action c = gaeSimulation.getActionObject(getActionUri(), parameters);
             c.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch (AssertionError | NullPostParameterException e) {
+        } catch (AssertionError | InvalidPostParametersException e) {
             ignoreExpectedException();
         }
     }

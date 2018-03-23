@@ -84,12 +84,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
 
-        ______TS("Error: Invalid parameters (invalid time zone and invalid session name, > 38 characters)");
+        ______TS("Error: Invalid parameters (fixed offset time zone and invalid session name, > 38 characters)");
 
         String longFsName = StringHelperExtension.generateStringOfLength(39);
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, longFsName, 0);
-        params[25] = "invalid time zone";
+        params[25] = "UTC+08:00";
         a = getAction(params);
         pr = getShowPageResult(a);
         expectedString = getPageResultDestination(
@@ -101,7 +101,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.<br>"
-                + "\"invalid time zone\" is not acceptable to TEAMMATES as a/an time zone because it is not "
+                + "\"UTC+08:00\" is not acceptable to TEAMMATES as a/an time zone because it is not "
                 + "available as a choice. The value must be one of the values from the time zone dropdown selector."
                 + "|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());

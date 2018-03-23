@@ -66,15 +66,15 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("failure: Invalid time zone");
+        ______TS("failure: Fixed offset time zone");
 
-        params[25] = "invalid time zone";
+        params[25] = "UTC+08:00";
 
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        expectedString = "\"invalid time zone\" is not acceptable to TEAMMATES as a/an time zone because it is not "
+        expectedString = "\"UTC+08:00\" is not acceptable to TEAMMATES as a/an time zone because it is not "
                 + "available as a choice. The value must be one of the values from the time zone dropdown selector.";
         statusMessage = pageData.getStatusMessagesToUser().get(0);
         verifyStatusMessage(statusMessage, expectedString, StatusMessageColor.DANGER);
@@ -154,14 +154,11 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("success: At open session visible time, custom results visible time, UTC, null grace period");
+        ______TS("success: At open session visible time, custom results visible time, UTC");
 
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, session.getFeedbackSessionName(), 1);
 
-        //remove grace period
-        params = ArrayUtils.remove(params, 26);
-        params = ArrayUtils.remove(params, 26);
         params[25] = "UTC";
 
         a = getAction(params);
@@ -186,7 +183,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("success: Masquerade mode, manual release results, UTC, invalid graceperiod");
+        ______TS("success: Masquerade mode, manual release results, UTC");
 
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
@@ -195,7 +192,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                                                        session.getFeedbackSessionName());
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
         params[25] = "UTC";
-        params[27] = "12dsf";
 
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
@@ -221,7 +217,23 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
 
+        ______TS("failure: Invalid time zone");
+
+        params[27] = "invalid time zone";
+        verifyAssumptionFailure(params);
+
         ______TS("failure: Null time zone");
+
+        params = ArrayUtils.remove(params, 26);
+        params = ArrayUtils.remove(params, 26);
+        verifyAssumptionFailure(params);
+
+        ______TS("failure: Invalid grace period");
+
+        params[25] = "12dsf";
+        verifyAssumptionFailure(params);
+
+        ______TS("failure: Null grace period");
 
         params = ArrayUtils.remove(params, 26);
         params = ArrayUtils.remove(params, 26);
