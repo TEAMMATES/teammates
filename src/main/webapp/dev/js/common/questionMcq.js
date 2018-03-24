@@ -53,20 +53,23 @@ function removeMcqOption(index, questionNum) {
     }
 }
 
+function changeMcqGenerateFor(questionNum) {
+    $(`#mcqGeneratedOptions-${questionNum}`).val($(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
+}
+
 function toggleMcqGeneratedOptions(checkbox, questionNum) {
-    if (checkbox.checked) {
+    if ($(checkbox).prop('checked')) {
         $(`#mcqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', true);
         $(`#mcqChoiceTable-${questionNum}`).hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#generatedOptions-${questionNum}`).attr('value',
-                $(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
+        changeMcqGenerateFor(questionNum);
     } else {
         $(`#mcqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', false);
         $(`#mcqChoiceTable-${questionNum}`).show();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#generatedOptions-${questionNum}`).attr('value', 'NONE');
+        $(`#mcqGeneratedOptions-${questionNum}`).val('NONE');
     }
 }
 
@@ -76,11 +79,6 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
-}
-
-function changeMcqGenerateFor(questionNum) {
-    $(`#generatedOptions-${questionNum}`).attr('value',
-            $(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
 }
 
 export {
