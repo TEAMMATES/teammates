@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -50,7 +49,7 @@ public class InstructorCourseEditSaveAction extends Action {
                                             + "Old time zone: " + prevCourseTimeZone + "<br>"
                                             + "New time zone: " + courseTimeZone;
                 courseStatus.append(timeZoneEdit);
-                isCourseChanged = true;    
+                isCourseChanged = true;
             }
 
             if (!isCourseChanged) {

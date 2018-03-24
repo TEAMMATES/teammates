@@ -38,6 +38,7 @@
   },
   "private": true,
   "dependencies": {
+    "lintspaces": "^0.6.0",
     "npm": "^5.8.0"
   }
 }
