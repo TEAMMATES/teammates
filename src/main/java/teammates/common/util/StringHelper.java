@@ -185,6 +185,7 @@ public final class StringHelper {
         return df.format(doubleVal);
     }
 
+    @Deprecated
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
         if (hourOffsetTimeZone == 0) {

@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedback & instructorFeedbackEdit - feedback session form" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <%@ tag import="teammates.common.util.Const" %>
@@ -7,6 +8,9 @@
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 <%@ attribute name="fsEnableEdit" %>
+<%@ attribute name="courseName" %>
+<%@ attribute name="courseAttributes" type="java.util.List" %>
+<%@ attribute name="fsAttributes" type="teammates.common.datatransfer.attributes.FeedbackSessionAttributes" %>
 
 <div class="well well-plain">
   <form class="form-group" method="post"
@@ -79,17 +83,46 @@
         </div>
         <br class="hidden-xs">
         <div class="row">
-          <div class="col-sm-12"
+          <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+              <h5 class="col-sm-2 col-md-4">
+                <label class="control-label" for="<%= Const.ParamsNames.COURSE_NAME %>">
+                  Course name
+                </label>
+              </h5>
+              <div class="col-sm-10 col-md-8">
+                <c:choose>
+                  <c:when test="${fsForm.courseIdEditable}">
+                    <c:forEach items="${courseAttributes}" var="attributes">
+                      <input class="course-name-data" id="${fn:escapeXml(attributes.id)}"
+                          type="hidden" value="${fn:escapeXml(attributes.name)}">
+                    </c:forEach>
+                    <h5 id="<%= Const.ParamsNames.COURSE_NAME %>" class="form-control-static font-weight-normal">
+                    </h5>
+                  </c:when>
+                  <c:otherwise>
+                    <h5 id="<%= Const.ParamsNames.COURSE_NAME %>" class="form-control-static font-weight-normal">
+                      ${courseName}
+                    </h5>
+                  </c:otherwise>
+                </c:choose>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br class="hidden-xs">
+        <div class="row">
+          <div class="col-sm-12 col-md-6"
               title="<%= Const.Tooltips.FEEDBACK_SESSION_INPUT_NAME %>"
               data-toggle="tooltip"
               data-placement="top">
             <div class="form-group">
-              <h5 class="col-sm-2">
+              <h5 class="col-sm-2 col-md-4">
                 <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>">
                   Session name
                 </label>
               </h5>
-              <div class="col-sm-10">
+              <div class="col-sm-10 col-md-8">
                 <c:choose>
                   <c:when test="${fsForm.fsNameEditable}">
                     <input class="form-control" type="text"
@@ -129,6 +162,37 @@
             </div>
           </div>
         </div>
+        <c:choose>
+          <c:when test="${!fsForm.courseIdEditable}">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                  <h5 class="col-sm-2 col-md-4">
+                    <label class="control-label">
+                      Submission Status
+                    </label>
+                  </h5>
+                  <div class="col-sm-10 col-md-8">
+                    <h5>${fsForm.submissionStatus}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px">
+                <div class="form-group">
+                  <h5 class="col-sm-2 col-md-4">
+                    <label class="control-label">
+                      Published Status
+                    </label>
+                  </h5>
+                  <div class="col-sm-10 col-md-8">
+                    <h5>${fsForm.publishedStatus}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br class="hidden-xs">
+          </c:when>
+        </c:choose>
       </div>
     </div>
     <div class="panel panel-primary" id="timeFramePanel">
