@@ -9,6 +9,12 @@
 <div class="align-center">
   <input value="Add New Instructor" ${addInstructorButton.attributesToString}>
   <input type="hidden" value="${addInstructorPanel.index}" id="new-instructor-index">
+  <a id="button_copy" class="btn btn-primary margin-bottom-7px"
+     data-actionlink="${data.instructorCourseInstructorCopyPageLink}"
+     data-courseid="${courseId}"
+     data-target="#copyModal" data-toggle="modal">
+    Copy Instructor
+  </a>
 </div>
 
 <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">

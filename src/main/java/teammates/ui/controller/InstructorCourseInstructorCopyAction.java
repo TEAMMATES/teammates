@@ -8,7 +8,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
 
-public class InstructorCourseInstructorCopyAction extends Action{
+public class InstructorCourseInstructorCopyAction extends Action {
 
     @Override
     protected ActionResult execute() {
@@ -31,6 +31,9 @@ public class InstructorCourseInstructorCopyAction extends Action{
                 InstructorAttributes instructorCopied =
                         logic.copyInstructor(instructorToBeCopiedEmail, instructorToBeCopiedFromCourse, thisCourseId);
                 index++;
+
+                taskQueuer.scheduleCourseRegistrationInviteToInstructor(
+                        loggedInUser.googleId, instructorToBeCopiedEmail, thisCourseId);
 
                 statusToAdmin += "Added Instructor for Course: <span class=\"bold\">["
                         + instructorCopied.getCourseId() + "]</span>.<br>"

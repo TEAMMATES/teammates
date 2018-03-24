@@ -29,8 +29,11 @@ public class InstructorCourseInstructorCopyPageAction extends Action{
             String courseId = course.getId();
             if (!courseId.equals(thisCourseId)) {
                 List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-                instructors.remove(thisInstructor);
-                copiableInstructors.addAll(instructors);
+                for (InstructorAttributes instructor: instructors) {
+                    if (!instructor.getEmail().equals(thisInstructor.getEmail())) {
+                        copiableInstructors.add(instructor);
+                    }
+                }
             }
         }
 
