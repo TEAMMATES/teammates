@@ -1071,7 +1071,7 @@ function showNewQuestionFrame(type) {
     $(`#questionTable-${NEW_QUESTION}`).show();
     hideInvalidRecipientTypeOptionsForNewlyAddedQuestion();
     enableNewQuestion();
-    
+
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     scrollToElement($(`#questionTable-${NEW_QUESTION}`)[0], { duration: 1000 });
