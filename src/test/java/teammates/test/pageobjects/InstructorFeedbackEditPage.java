@@ -1287,6 +1287,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id(getMsqMinSelectableChoicesBoxId(qnNumber)));
     }
 
+    public WebElement getMsqMaxSelectableChoicesBoxElement(int qnNumber) {
+        return browser.driver.findElement(By.id(getMsqMaxSelectableChoicesBoxId(qnNumber)));
+    }
+
+    public WebElement getMsqMinSelectableChoicesBoxElement(int qnNumber) {
+        return browser.driver.findElement(By.id(getMsqMinSelectableChoicesBoxId(qnNumber)));
+    }
+
     public int getMinOfMsqMaxSelectableChoices(int qnNumber) {
         return Integer.parseInt(getMsqMaxSelectableChoicesBox(qnNumber).getAttribute("min"));
     }

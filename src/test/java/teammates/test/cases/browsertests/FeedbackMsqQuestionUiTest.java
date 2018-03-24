@@ -1,6 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -142,13 +141,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
         feedbackEditPage.fillMsqMaxSelectableChoices(NEW_QUESTION_INDEX, "");
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.isInputElementValid(browser.driver.findElement(By.id("msqMaxSelectableChoices--1")));
+        feedbackEditPage.isInputElementValid(feedbackEditPage.getMsqMaxSelectableChoicesBoxElement(NEW_QUESTION_INDEX));
         feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
 
         feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
         feedbackEditPage.fillMsqMinSelectableChoices(NEW_QUESTION_INDEX, "");
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.isInputElementValid(browser.driver.findElement(By.id("msqMinSelectableChoices--1")));
+        feedbackEditPage.isInputElementValid(feedbackEditPage.getMsqMinSelectableChoicesBoxElement(NEW_QUESTION_INDEX));
         feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
