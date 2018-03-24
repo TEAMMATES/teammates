@@ -26,16 +26,16 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
+    public static final transient int NO_MIN_MAX_CONSTRAINT = -1;
+
     private int numOfConstSumOptions;
     private List<String> constSumOptions;
     private boolean distributeToRecipients;
     private boolean pointsPerOption;
     private boolean forceUnevenDistribution;
-    private boolean requireMin;
-    private boolean requireMax;
     private int points;
-    private int minPoints;
-    private int maxPoints;
+    private int minPointsConstraint;
+    private int maxPointsConstraint;
 
     public FeedbackConstantSumQuestionDetails() {
         super(FeedbackQuestionType.CONSTSUM);
@@ -45,10 +45,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
         this.points = 100;
-        this.minPoints = 0;
-        this.maxPoints = points;
-        this.requireMin = false;
-        this.requireMax = false;
+        this.minPointsConstraint = NO_MIN_MAX_CONSTRAINT;
+        this.maxPointsConstraint = NO_MIN_MAX_CONSTRAINT;
         this.forceUnevenDistribution = false;
     }
 
@@ -109,8 +107,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
         boolean pointsPerOption = "true".equals(pointsPerOptionString);
-        boolean requireMin = "on".equals(requireMinString);
-        boolean requireMax = "on".equals(requireMaxString);
+        boolean hasMinPointConstraint = "on".equals(requireMinString);
+        boolean hasMaxPointConstraint = "on".equals(requireMaxString);
 
         int points = 0;
         if (pointsPerOption) {
@@ -120,21 +118,25 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             points = Integer.parseInt(pointsString);
         }
 
-        int minPoints = 0;
-        int maxPoints = points;
-        if (requireMin) {
+        int minPoints = NO_MIN_MAX_CONSTRAINT;
+        int maxPoints = NO_MIN_MAX_CONSTRAINT;
+        if (hasMinPointConstraint) {
             minPoints = Integer.parseInt(minPointsString);
         }
 
-        if (requireMax) {
+        if (hasMaxPointConstraint) {
             maxPoints = Integer.parseInt(maxPointsString);
+        }
+
+        if (minPoints != NO_MIN_MAX_CONSTRAINT && maxPoints != NO_MIN_MAX_CONSTRAINT) {
+            Assumption.assertTrue(minPoints <= maxPoints);
         }
 
         boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
 
         if (distributeToRecipients) {
             this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution,
-                                               requireMin, minPoints, requireMax, maxPoints);
+                    minPoints, maxPoints);
         } else {
             String numConstSumOptionsCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -152,15 +154,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 }
             }
             this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution,
-                    requireMin, minPoints, requireMax, maxPoints);
+                    minPoints, maxPoints);
         }
         return true;
     }
 
     private void setConstantSumQuestionDetails(
             List<String> constSumOptions, boolean pointsPerOption,
-            int points, boolean unevenDistribution, boolean requireMin,
-            int minPoints, boolean requireMax, int maxPoints) {
+            int points, boolean unevenDistribution, int minPointsConstraint, int maxPointsConstraint) {
 
         this.numOfConstSumOptions = constSumOptions.size();
         this.constSumOptions = constSumOptions;
@@ -168,15 +169,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.pointsPerOption = pointsPerOption;
         this.points = points;
         this.forceUnevenDistribution = unevenDistribution;
-        this.requireMin = requireMin;
-        this.minPoints = minPoints;
-        this.requireMax = requireMax;
-        this.maxPoints = maxPoints;
+        this.minPointsConstraint = minPointsConstraint;
+        this.maxPointsConstraint = maxPointsConstraint;
     }
 
     private void setConstantSumQuestionDetails(boolean pointsPerOption,
-            int points, boolean unevenDistribution, boolean requireMin,
-            int minPoints, boolean requireMax, int maxPoints) {
+            int points, boolean unevenDistribution,
+            int minPointsConstraint, int maxPointsConstraint) {
 
         this.numOfConstSumOptions = 0;
         this.constSumOptions = new ArrayList<>();
@@ -184,10 +183,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.pointsPerOption = pointsPerOption;
         this.points = points;
         this.forceUnevenDistribution = unevenDistribution;
-        this.requireMin = requireMin;
-        this.minPoints = minPoints;
-        this.requireMax = requireMax;
-        this.maxPoints = maxPoints;
+        this.minPointsConstraint = minPointsConstraint;
+        this.maxPointsConstraint = maxPointsConstraint;
     }
 
     @Override
@@ -213,6 +210,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 (FeedbackConstantSumResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
+
+        boolean hasMinPointsConstraint = minPointsConstraint != NO_MIN_MAX_CONSTRAINT;
+        boolean hasMaxPointsConstraint = maxPointsConstraint != NO_MIN_MAX_CONSTRAINT;
 
         if (distributeToRecipients) {
             String optionFragment =
@@ -265,10 +265,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
-                Slots.CONSTSUM_REQUIRE_MIN, requireMin ? "" : "hidden",
-                Slots.CONSTSUM_REQUIRE_MAX, requireMax ? "" : "hidden",
-                Slots.CONSTSUM_POINTS_MIN, requireMin ? Integer.toString(minPoints) : "0",
-                Slots.CONSTSUM_POINTS_MAX, requireMax ? Integer.toString(maxPoints) : "any"
+                Slots.CONSTSUM_REQUIRE_MIN, hasMinPointsConstraint ? "" : "hidden",
+                Slots.CONSTSUM_REQUIRE_MAX, hasMaxPointsConstraint ? "" : "hidden",
+                Slots.CONSTSUM_POINTS_MIN, hasMinPointsConstraint ? Integer.toString(minPointsConstraint) : "0",
+                Slots.CONSTSUM_POINTS_MAX, hasMaxPointsConstraint ? Integer.toString(maxPointsConstraint) : "any"
                 );
     }
 
@@ -278,6 +278,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT;
+
+        boolean hasMinPointsConstraint = minPointsConstraint != NO_MIN_MAX_CONSTRAINT;
+        boolean hasMaxPointsConstraint = maxPointsConstraint != NO_MIN_MAX_CONSTRAINT;
 
         if (distributeToRecipients) {
             String optionFragment =
@@ -329,15 +332,18 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
-                Slots.CONSTSUM_REQUIRE_MIN, requireMin ? "" : "hidden",
-                Slots.CONSTSUM_REQUIRE_MAX, requireMax ? "" : "hidden",
-                Slots.CONSTSUM_POINTS_MIN, requireMin ? Integer.toString(minPoints) : "0",
-                Slots.CONSTSUM_POINTS_MAX, requireMax ? Integer.toString(maxPoints) : "any"
+                Slots.CONSTSUM_REQUIRE_MIN, hasMinPointsConstraint ? "" : "hidden",
+                Slots.CONSTSUM_REQUIRE_MAX, hasMaxPointsConstraint ? "" : "hidden",
+                Slots.CONSTSUM_POINTS_MIN, hasMinPointsConstraint ? Integer.toString(minPointsConstraint) : "0",
+                Slots.CONSTSUM_POINTS_MAX, hasMaxPointsConstraint ? Integer.toString(maxPointsConstraint) : "any"
         );
     }
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
+        boolean hasMinPointsConstraint = minPointsConstraint != NO_MIN_MAX_CONSTRAINT;
+        boolean hasMaxPointsConstraint = maxPointsConstraint != NO_MIN_MAX_CONSTRAINT;
+
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.CONSTSUM_EDIT_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < numOfConstSumOptions; i++) {
@@ -360,8 +366,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_SELECTED_POINTS_PER_OPTION, pointsPerOption ? "selected" : "",
                 Slots.CONSTSUM_OPTION_TABLE_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.CONSTSUM_POINTS, points == 0 ? "100" : Integer.toString(points),
-                Slots.CONSTSUM_POINTS_MIN, minPoints == 0 ? "0" : Integer.toString(minPoints),
-                Slots.CONSTSUM_POINTS_MAX, maxPoints == 0 ? "100" : Integer.toString(maxPoints),
+                Slots.CONSTSUM_POINTS_MIN, minPointsConstraint == 0 ? "0" : Integer.toString(minPointsConstraint),
+                Slots.CONSTSUM_POINTS_MAX, maxPointsConstraint == 0 ? "100" : Integer.toString(maxPointsConstraint),
                 Slots.OPTION_DISPLAY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.RECIPIENT_DISPLAY, distributeToRecipients ? "" : "style=\"display:none\"",
                 Slots.PER_OPTION_CHECKED, !distributeToRecipients && pointsPerOption ? "checked" : "",
@@ -376,8 +382,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_TOOLTIP_POINTS_MIN, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MIN,
                 Slots.CONSTSUM_TOOLTIP_POINTS_MAX, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MAX,
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
-                Slots.CONSTSUM_REQUIRE_MIN, requireMin ? "checked" : "",
-                Slots.CONSTSUM_REQUIRE_MAX, requireMax ? "checked" : "",
+                Slots.CONSTSUM_REQUIRE_MIN, hasMinPointsConstraint ? "checked" : "",
+                Slots.CONSTSUM_REQUIRE_MAX, hasMaxPointsConstraint ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
@@ -805,13 +811,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
             //Check Minimum and Maximum Constraint
             for (Integer i : frd.getAnswerList()) {
-                if (requireMin && i < minPoints) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS + ": " + minPoints);
+                if (minPointsConstraint != NO_MIN_MAX_CONSTRAINT && i < minPointsConstraint) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS + ": " + minPointsConstraint);
                     return errors;
                 }
 
-                if (requireMax && i > maxPoints) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS + ": " + maxPoints);
+                if (maxPointsConstraint != NO_MIN_MAX_CONSTRAINT && i > maxPointsConstraint) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS + ": " + maxPointsConstraint);
                     return errors;
                 }
             }
