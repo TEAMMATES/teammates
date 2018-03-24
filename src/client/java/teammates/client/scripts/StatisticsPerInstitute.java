@@ -120,12 +120,11 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             String institute = getInstituteForInstructor(instructor, allAccounts);
 
-            if (!institutes.containsKey(institute)) {
-                institutes.put(institute, new HashMap<Integer, Set<String>>());
-                institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
-                institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
-            }
-            institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(INSTRUCTOR_INDEX, new HashSet<String>());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(STUDENT_INDEX, new HashSet<String>());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>()).get(INSTRUCTOR_INDEX)
+                    .add(instructor.getEmail().toLowerCase());
+
             allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
             instructorEmailCounter++;
             updateProgressIndicator();
@@ -139,14 +138,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             String institute = getInstituteForStudent(student, allInstructors, allAccounts);
 
-            if (!institutes.containsKey(institute)) {
-                institutes.put(institute, new HashMap<Integer, Set<String>>());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(INSTRUCTOR_INDEX, new HashSet<String>());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>())
+                    .put(STUDENT_INDEX, new HashSet<String>());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>()).get(STUDENT_INDEX)
+                    .add(student.getEmail().toLowerCase());
 
-                institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
-                institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
-            }
-
-            institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
             allStudentEmailSet.add(student.getEmail().toLowerCase());
             studentEmailCounter++;
             updateProgressIndicator();
