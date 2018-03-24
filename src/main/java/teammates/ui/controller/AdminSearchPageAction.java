@@ -87,11 +87,11 @@ public class AdminSearchPageAction extends Action {
                                                      List<InstructorAttributes> instructors,
                                                      AdminSearchPageData data) {
         for (StudentAttributes student : students) {
-            if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)) {
+            if (student.course != null) {
                 CourseAttributes course = logic.getCourse(student.course);
                 if (course != null) {
                     //TODO: [CourseAttribute] remove desanitization after data migration
-                    data.courseIdToCourseNameMap.put(
+                    data.courseIdToCourseNameMap.putIfAbsent(
                             student.course, SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
                 }
             }
