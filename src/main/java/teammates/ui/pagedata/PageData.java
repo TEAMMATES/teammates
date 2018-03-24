@@ -354,6 +354,11 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorCourseInstructorCopyPageLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_COPY_PAGE;
+        return addUserIdToUrl(link);
+    }
+
     public String getInstructorQuestionCopyPageLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE;
         return addUserIdToUrl(link);
