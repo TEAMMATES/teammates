@@ -511,6 +511,17 @@ function enableEdit(questionNum, maxQuestions) {
     return false;
 }
 
+/**
+ * If a input field is hidden, remove required attribute when saving changes in new question form.
+ * See issue #8688.
+ * TODO: Remove this function when #8688 is fixed
+ */
+function removeRequiredIfElementHidden() {
+    $('#form_editquestion--1').on('click', '#button_submit_add', () => {
+        $('input:hidden').prop('required', false);
+    });
+}
+
 function enableNewQuestion() {
     if (typeof richTextEditorBuilder !== 'undefined') {
         destroyEditor(`${ParamsNames.FEEDBACK_QUESTION_DESCRIPTION}-${NEW_QUESTION}`);
@@ -560,6 +571,9 @@ function enableNewQuestion() {
     toggleMinOptionsToBeRanked(NEW_QUESTION);
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
     toggleConstSumOptionsRadioButton(NEW_QUESTION);
+
+    // TODO: Remove this function call after #8688 is fixed
+    removeRequiredIfElementHidden();
 }
 
 /**
@@ -1177,17 +1191,6 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
     });
 }
 
-/**
- * If a input field is hidden, remove required attribute when saving changes in new question form.
- * See issue #8688.
- * TODO: Remove this function when #8688 is fixed
- */
-function removeRequiredIfElementHidden() {
-    $('#form_editquestion--1').on('click', '#button_submit_add', () => {
-        $('input:hidden').prop('required', false);
-    });
-}
-
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -1225,9 +1228,6 @@ $(document).ready(() => {
     $(document).on('click', '.btn-delete-qn', (e) => {
         deleteQuestion($(e.currentTarget).data('qnnumber'));
     });
-
-    // TODO: Remove this function call after #8488 is fixed
-    removeRequiredIfElementHidden();
 
     $(document).on('submit', '.tally-checkboxes', (e) => {
         tallyCheckboxes($(e.currentTarget).data('qnnumber'));
