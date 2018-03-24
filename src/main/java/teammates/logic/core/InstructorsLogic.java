@@ -86,6 +86,13 @@ public final class InstructorsLogic {
         return instructorsDb.createInstructor(instructorToAdd);
     }
 
+    public InstructorAttributes copyInstructor(String instructorEmail, String fromCourseId, String toCourseId)
+            throws InvalidParametersException, EntityAlreadyExistsException{
+        InstructorAttributes instructor = getInstructorForEmail(fromCourseId, instructorEmail);
+        instructor.courseId = toCourseId;
+        return createInstructor(instructor);
+    }
+
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
             throws InvalidParametersException, EntityDoesNotExistException {
 

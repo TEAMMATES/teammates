@@ -275,6 +275,14 @@ public class Logic {
         return instructorsLogic.createInstructor(instructor);
     }
 
+    public InstructorAttributes copyInstructor(String instructorEmail, String fromCourseId, String toCourseId)
+            throws InvalidParametersException, EntityAlreadyExistsException{
+        Assumption.assertNotNull(instructorEmail);
+        Assumption.assertNotNull(fromCourseId);
+        Assumption.assertNotNull(toCourseId);
+        return instructorsLogic.copyInstructor(instructorEmail, fromCourseId, toCourseId);
+    }
+
     /**
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
