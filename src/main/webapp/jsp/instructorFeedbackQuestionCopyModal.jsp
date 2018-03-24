@@ -27,7 +27,7 @@
       <td>${row.fsName}</td>
       <td>${row.qnType}</td>
       <td>${fn:escapeXml(row.qnText)}</td>
-      <input type="hidden" value="${row.qnId}">
+      <input type="hidden" class="questionid" value="${row.qnId}">
       <input type="hidden" class="courseid" value="${row.courseId}">
       <input type="hidden" class="fsname" value="${row.fsName}">
     </tr>

@@ -18,7 +18,7 @@ public class InstructorCourseInstructorCopyPageData extends PageData{
         instructors = copiableInstructors;
     }
 
-    public CourseInstructorCopyTable getCopyQnForm() {
+    public CourseInstructorCopyTable getCopyInstructorForm() {
         List<CourseInstructorCopyTableRow> copyQuestionRows = buildCopyInstructorModalRows(instructors);
         return new CourseInstructorCopyTable(copyQuestionRows);
     }

@@ -34,6 +34,7 @@
       addInstructorPanel="${data.addInstructorPanel}"
   />
   <course:courseEditInstructorRoleModal />
+  <course:copyInstructorModal courseId="${data.course.id}" />
   <br>
   <br>
 </ti:instructorPage>

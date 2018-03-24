@@ -34,7 +34,8 @@ public class InstructorCourseInstructorCopyPageAction extends Action{
             }
         }
 
-        InstructorCourseInstructorCopyPageData data = new InstructorCourseInstructorCopyPageData(account, sessionToken, copiableInstructors);
+        InstructorCourseInstructorCopyPageData data =
+                new InstructorCourseInstructorCopyPageData(account, sessionToken, copiableInstructors);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_INSTRUCTOR_COPY_MODAL, data);
     }
