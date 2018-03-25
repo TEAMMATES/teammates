@@ -20,10 +20,10 @@
               <span class="text-muted">
                 <ul>
                   <li>
-                    Session with your own questions
+                    "session with my own questions"
                   </li>
                   <li>
-                    Team peer evaluation session
+                    "session using template: team peer evaluation" (creates 5 standard questions)
                   </li>
                   <li>
                     session using template: team peer evaluation (optimized)
@@ -174,10 +174,10 @@
                 <div class="col-md-6">
                   <select class="form-control" name="fstype" id="fstype">
                     <option value="STANDARD" selected="">
-                      Session with your own questions
+                      session with my own questions
                     </option>
                     <option value="TEAMEVALUATION">
-                      Team peer evaluation session
+                      session using template: team peer evaluation
                     </option>
                     <option value="OPTIMIZEDTEAMEVALUATION">
                       session using template: team peer evaluation (optimized)
@@ -946,7 +946,9 @@
               <br>
               <div class="col-sm-12 form-inline mobile-align-left">
                 <label for="input" style="text-indent: 24px">
-                  <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">Evaluee/Recipient </span>
+                  <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">
+                    Evaluee/Recipient
+                  </span>
                 </label>
               </div>
 
@@ -1140,7 +1142,7 @@
                             <option value="INSTRUCTORS">instructors</option>
                           </select>
                         </div>
-                        <input type="hidden" id="generatedOptions--1" name="generatedOptions" value="NONE">
+                        <input type="hidden" id="mcqGeneratedOptions--1" name="mcqGeneratedOptions" value="NONE">
                       </div>
                       <br>
                     </div>
@@ -2549,7 +2551,7 @@
                               <option value="INSTRUCTORS">instructors</option>
                             </select>
                           </div>
-                          <input type="hidden" id="generatedOptions-6" name="generatedOptions" value="NONE" disabled="">
+                          <input type="hidden" id="mcqGeneratedOptions-6" name="mcqGeneratedOptions" value="NONE" disabled="">
                         </div>
                         <br>
                       </div>
@@ -2974,7 +2976,7 @@
                               <option value="INSTRUCTORS">instructors</option>
                             </select>
                           </div>
-                          <input type="hidden" id="generatedOptions-1" name="generatedOptions" value="TEAMS" disabled="">
+                          <input type="hidden" id="mcqGeneratedOptions-1" name="mcqGeneratedOptions" value="TEAMS" disabled="">
                         </div>
                         <br>
                       </div>
@@ -6155,12 +6157,22 @@
                   </ul>
 
                   <br>
+                  <div class="col-sm-12 form-inline mobile-align-left">
+                    <label for="input" style="text-indent: 24px">
+                      <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The party being evaluated or given feedback to" class="tool-tip-decorate">
+                        Evaluee/Recipient
+                      </span>
+                    </label>
+                  </div>
+                  <br><br>
                   <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                      <label for="input">To:</label>
-                      <span> Charlie Davis</span>
+                    <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+                      <label>
+                        <span> Charlie Davis</span>
+                      </label>
+                      (Student) :
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                       <div class="row">
                         <div class="col-sm-12 table-responsive">
                           <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-0">
@@ -6238,11 +6250,13 @@
 
                   <br>
                   <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
-                      <label for="input">To:</label>
-                      <span> Francis Gabriel</span>
+                    <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+                      <label>
+                        <span> Francis Gabriel</span>
+                      </label>
+                      (Student) :
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-9">
                       <div class="row">
                         <div class="col-sm-12 table-responsive">
                           <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-10-1">

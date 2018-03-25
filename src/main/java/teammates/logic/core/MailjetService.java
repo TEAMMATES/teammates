@@ -55,7 +55,7 @@ public class MailjetService extends EmailSenderService {
         MailjetRequest email = parseToEmail(wrapper);
         MailjetClient mailjet = new MailjetClient(Config.MAILJET_APIKEY, Config.MAILJET_SECRETKEY);
         MailjetResponse response = mailjet.post(email);
-        if (response.getStatus() != SUCCESS_CODE) {
+        if (isNotSuccessStatus(response.getStatus())) {
             log.severe("Email failed to send: " + response.getData().toString());
         }
     }
