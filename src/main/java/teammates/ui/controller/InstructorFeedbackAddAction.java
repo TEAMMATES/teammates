@@ -65,7 +65,17 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
                 log.severe(TeammatesException.toStringWithStackTrace(e));
             }
 
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ADDED, StatusMessageColor.SUCCESS));
+            String statusMessage;
+
+            if ("STANDARD".equals(feedbackSessionType)) {
+                statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_OWN_QUESTIONS;
+            } else if ("TEAMEVALUATION".equals(feedbackSessionType)) {
+                statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM;
+            } else {
+                statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED;
+            }
+
+            statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             statusToAdmin =
                     "New Feedback Session <span class=\"bold\">(" + fs.getFeedbackSessionName() + ")</span> for Course "
                     + "<span class=\"bold\">[" + fs.getCourseId() + "]</span> created.<br>"

@@ -68,7 +68,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<br><span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED, rr.getStatusMessage());
 
         ______TS("Error: try to add the same session again");
 
@@ -130,7 +130,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED, rr.getStatusMessage());
 
         ______TS("timezone with minute offset");
 
@@ -163,7 +163,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<Text: instructions>|||"
                 + "/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED, rr.getStatusMessage());
 
         ______TS("Masquerade mode");
 
@@ -198,7 +198,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: >|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED, rr.getStatusMessage());
 
         ______TS("Unsuccessful case: test null course ID parameter");
         params = new String[] {};

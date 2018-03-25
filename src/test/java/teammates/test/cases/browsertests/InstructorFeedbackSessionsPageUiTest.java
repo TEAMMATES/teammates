@@ -198,7 +198,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
                 newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
                 instructions, newSession.getGracePeriodMinutes());
-        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_SESSION_ADDED_OWN_QUESTIONS);
 
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
@@ -225,7 +226,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 templateSessionName, newSession.getCourseId(),
                 newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
-        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM);
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackTeamPeerEvalTemplateAddSuccess.html");
         //TODO: check that the questions created match. Maybe do that in action test.
 
@@ -247,7 +248,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 optimizedTemplateSessionName, newSession.getCourseId(),
                 newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
-        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED);
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackOptimizedTeamPeerEvalTemplateAddSuccess.html");
 
         //Remove added session to prevent state leaks.
