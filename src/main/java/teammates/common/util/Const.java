@@ -195,6 +195,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
+                        ActionURIs.STUDENT_FEEDBACK_LINK_RESEND,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
@@ -1006,6 +1007,7 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+        public static final String STUDENT_FEEDBACK_LINK_RESEND = "/page/studentFeedbackResultLinkResend";
         public static final String STUDENT_FEEDBACK_LINK_RESEND_PAGE = "/page/studentFeedbackResultLinkResendPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
@@ -1168,6 +1170,7 @@ public final class Const {
         public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
         public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
+        public static final String STUDENT_FEEDBACK_LINK_RESEND = "/jsp/studentFeedbackLinkResend.jsp";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp";
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT =
                 "/jsp/studentFeedbackQuestionSubmissionEdit.jsp";

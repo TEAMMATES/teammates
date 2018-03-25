@@ -389,16 +389,16 @@ public class EmailGenerator {
     }
 
     public EmailWrapper generateFeedbackSessionResendEmail(String userEmail) {
-        Date startTime = new Date();
+        Date endTime = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
-        Date endTime = calendar.getTime();
+        Date startTime = calendar.getTime();
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         String feedbackAction = FEEDBACK_ACTION_SUBMIT;
         String subject = EmailType.FEEDBACK_TO_RESEND.getSubject();
         String emailBody = "";
 
-        List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime, 0);
+        List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime);
         for (FeedbackSessionAttributes session : sessions) {
             CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
             StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
@@ -421,7 +421,7 @@ public class EmailGenerator {
                         "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                         "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                         "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                        "${deadline}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatTime12H(session.getEndTime())),
+                        "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                         "${instructorFragment}", "",
                         "${sessionInstructions}", session.getInstructionsString(),
                         "${submitUrl}", submitUrl,

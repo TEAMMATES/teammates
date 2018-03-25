@@ -43,6 +43,10 @@ public class PageData {
         this(account, null, sessionToken);
     }
 
+    public PageData(String sessionToken) {
+        this(null, null, sessionToken);
+    }
+
     public PageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
         this.account = account;
         this.student = student;
@@ -50,6 +54,9 @@ public class PageData {
     }
 
     public AccountAttributes getAccount() {
+        if (account == null) {
+            throw new NullPointerException();
+        }
         return account;
     }
 
@@ -58,7 +65,7 @@ public class PageData {
     }
 
     public boolean isUnregisteredStudent() {
-        return account.googleId == null || student != null && !student.isRegistered();
+        return account == null || account.googleId == null || student != null && !student.isRegistered();
     }
 
     /* These util methods simply delegate the work to the matching *Helper
@@ -78,6 +85,9 @@ public class PageData {
     }
 
     public String addUserIdToUrl(String link) {
+        if (account == null) {
+            throw new NullPointerException();
+        }
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
 
@@ -831,7 +841,7 @@ public class PageData {
     }
 
     public String getPictureUrl(String pictureKey) {
-        if (pictureKey == null || pictureKey.isEmpty()) {
+        if (pictureKey == null || pictureKey.isEmpty() || account == null) {
             return Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         }
         return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
