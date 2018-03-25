@@ -169,12 +169,16 @@ public class InstructorCourseEditPageData extends PageData {
     }
 
     private ElementTag createCopyInstructorButton(boolean isDisabled) {
-        ElementTag button = createBasicButton(
-                "Copy Instructors", "button_copy", null, null, isDisabled);
+        ElementTag button = new ElementTag("Copy Instructors");
+        button.setAttribute("class", "btn btn-primary");
         button.setAttribute("data-actionlink", getInstructorCourseInstructorCopyPageLink());
         button.setAttribute("data-courseid", course.getId());
         button.setAttribute("data-target", "#copyModal");
         button.setAttribute("data-toggle", "modal");
+        button.setAttribute("type", "button");
+        if (isDisabled) {
+            button.setAttribute("disabled", null);
+        }
 
         return button;
     }
