@@ -9,8 +9,8 @@
           To quickly set up a feedback session, follow the following steps:
           <ol>
             <li><a href="#fbCreateSession">Create and schedule a new session</a></li>
-            <li>Add questions to the session</li>
-            <li>Preview the session</li>
+            <li><a href="#fbSetupQuestions">Add questions to the session</a></li>
+            <li><a href="#fbPreview">Preview the session</a></li>
           </ol>
         TEAMMATES will automatically open the session at your specified session start time.
       </div>
@@ -727,19 +727,16 @@
       </div>
     </li>
     <li id="fbPreview">
-      <span class="text-bold">
-          <b>3. Previewing a session</b>
-        </a>
-      </span>
+      <div class="helpSectionContent">
+        <h3>How do I preview a session?</h3>
+        <p>To see what the current session looks like to anyone in the course when they are submitting responses, use the <b>Preview</b> feature.<br>
+          You can quickly and easily confirm that the questions and their settings are correct after editing questions.
+        </p>
+        <p>To access the preview panel of a specific session, click the "Edit" button for that session. The preview
+          panel is located at the bottom of the Edit page.
+        </p>
 
-      <p>
-        To see how the session looks like to anyone in the course, we can use the
-        <b>Preview as</b> feature to take a look at how the current session would look like to any student or instructor when they are submitting responses.
-        <br>
-        <br> This allows easy and convenient confirmation that the questions and their settings are correct.
-      </p>
-
-      <div class="bs-example" id="preview">
+        <div class="bs-example" id="preview">
         <div class="well well-plain" id="questionPreviewTable">
           <div class="row">
             <form class="form-horizontal">
@@ -781,6 +778,7 @@
         </div>
         <div>
         </div>
+      </div>
       </div>
     </li>
     <br>
