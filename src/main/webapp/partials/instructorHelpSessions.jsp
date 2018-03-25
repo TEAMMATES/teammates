@@ -1,167 +1,93 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
-<h4 class="text-color-primary" id="sessionTypes">Sessions</h4>
+<h2 class="text-color-primary" id="sessionTypes">Sessions</h2>
 <div id="contentHolder">
-  <br>
-  <ol style="list-style-type: none;">
+  <ol>
     <li id="fbSetupSession">
-      <span class="text-bold">
-          <b>1. Setting up a feedback session</b>
-        <br>
-      </span>
-      <div class="row">
-        <div class="col-lg-6">
-          To quickly create a session,
-          <p></p>
+      <h3>How do I set up a feedback session?</h3>
+      <div class="helpSectionContent">
+          To quickly set up a feedback session, follow the following steps:
+          <ol>
+            <li><a href="#fbCreateSession">Create and schedule a new session</a></li>
+            <li>Add questions to the session</li>
+            <li>Preview the session</li>
+          </ol>
+        TEAMMATES will automatically open the session at your specified session start time.
+      </div>
+    </li>
+
+    <li id="fbCreateSession">
+      <h3>How do I create and schedule a new feedback session?</h3>
+      <div class="helpSectionContent">
+        To create a new feedback session, click the <b>Sessions</b> tab at the top of the page. Then,
+        fill out and submit the <b>Add New Feedback Session</b> form:
           <ol>
             <li>
-              Select a
-              <b>Session type</b>
+              <b>Choose a session type</b>. You can choose between creating a session with your own questions,
+              creating a copy of a session you previously made, or using one of our session templates.
               <br>
-              <span class="text-muted">
                 <ul>
                   <li>
-                    "session with my own questions"
+                    Session with your own questions: you'll start with an empty template to which you can add your own
+                    questions
                   </li>
                   <li>
-                    "session using template: team peer evaluation" (creates 5 standard questions)
+                    Session using template: TEAMMATES will provide you with a template of a typical session that you can
+                    add to and customize to suit your needs
                   </li>
-                </ul>
-              </span>
-            </li>
-            <li>
-              Select a
-              <b>Course ID</b> for which the session will be created
-            </li>
-            <li>
-              Give it a nice
-              <b>Session name</b>
-            </li>
-            <li>
-              Select the
-              <b>Submission opening/closing time</b>
-              <span class="text-muted">
-                <ul>
                   <li>
-                    This is the time period where a student can submit responses.
+                    Copy from previous feedback sessions: you can reuse questions and settings from a survey you created
+                    in the past
                   </li>
                 </ul>
-              </span>
             </li>
             <li>
-              Click
-              <b>Create Feedback Session</b>!
+              <b>Select the course ID</b> of the course for which the session will be created.
+            </li>
+            <li>
+              <b>Give your session a session name</b>. This name will be visible to session respondents.
+            </li>
+            <li>
+              <b>Set the session's submission opening/closing time</b>. This is the time period during which students
+              can submit responses. TEAMMATES will automatically open and close the session at times you specify.
+            </li>
+            <li>
+              (Optional) Set advanced options to best suit your needs:
+            </li>
+            <ul>
+              <li>
+                Set a custom time zone
+              </li>
+              <li>
+                Give students more specific instructions
+              </li>
+              <li>
+                Set a grace period during which students can still submit responses if the session closes
+              </li>
+              <li>
+                Choose when you want this session to be visible to students. After this time, students can see the questions,
+                but they cannot submit their responses until the session is <i>open</i>
+              </li>
+              <li>
+                Choose when you want to make this session's responses visible. At this time, TEAMMATES will automatically
+                publish the results for students to view
+              </li>
+              <li>
+                Choose whether TEAMMATES should send reminder or announcement emails to students about this session
+              </li>
+              <li>
+                Make the session private. A private session is a session that is never visible to others.
+                This is for you to record your feedback about students. If you want to create a private session,
+                set "Make session visible" to <code>Never</code>
+              </li>
+            </ul>
+            <li>
+              <b>Click Create Feedback Session</b>!
             </li>
           </ol>
-          <br>
-          <br>
-          <span class="text-muted">
-            <a href="#fbSetupQuestions">Next step: Setting up questions</a>
-          </span>
-        </div>
-        <div class="col-lg-6">
-            <b>Advanced options:</b>
-          <ul>
-            <li>
-              <b>Copy from previous feedback sessions</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    Copy from previously created feedback sessions to save time creating the same questions!
-                  </li>
-                </ul>
-              </span>
-            </li>
-            <li>
-              <b>Time zone</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    This is auto-detected from your computer and you should not need to change it.
-                  </li>
-                </ul>
-              </span>
-            </li>
-            <li>
-              <b>Instructions</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    Give more specific instructions to students
-                  </li>
-                </ul>
-              </span>
-            </li>
-            <li>
-              <b>Grace period</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    A small amount of time where students can still submit responses if the session closes while they are completing the session.
-                  </li>
-                </ul>
-              </span>
-            </li>
-            <li>
-              <b>Session visible from</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    When the students can see the questions (but cannot submit, until the session is
-                    <i>open</i>)
-                  </li>
-                  <li>
-                    Note the options for making the session private (for you to record your feedback about students, only you can see the session)
-                  </li>
-                </ul>
-              </span>
-            </li>
-            <li>
-              <b>Responses visible from</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    When the students can see results and responses from others.
-                  </li>
-                  <li>
-                    Note the option for publishing the responses automatically at a given time.
-                  </li>
-                </ul>
-              </span>
-            </li>
-            <li>
-              <b>Send emails for</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    When emails are sent to students
-                  </li>
-                </ul>
-              </span>
-            </li>
-            <li>
-              <b>Private session</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    A private session is a session that is never visible to others.
-                    This is for you to record your feedback about students, only you can see this session.
-                    If you want to create a private session then set the "Session visible from" to Never.
-                  </li>
-                </ul>
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <br>
-      <br>
       <p>
         This is the form used to set up sessions.
-        <br>
-        <br>
       </p>
-
       <div class="bs-example">
         <div id="createSessionHtmlCustomizable">
 
@@ -538,7 +464,6 @@
           </div>
 
         </div>
-
       </div>
     </li>
     <br>
@@ -7809,3 +7734,4 @@
     <hr>
   </div>
 </div>
+
