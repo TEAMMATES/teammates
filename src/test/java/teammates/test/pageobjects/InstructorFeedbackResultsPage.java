@@ -585,7 +585,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public boolean isSectionPanelExist(String section) {
-        List<WebElement> panelsWithHeading = browser.driver.findElements(By.cssSelector("div[id^='panelHeading-'] .panel-heading-text"));
+        List<WebElement> panelsWithHeading =
+                browser.driver.findElements(By.cssSelector("div[id^='panelHeading-'] .panel-heading-text"));
         for (WebElement panel : panelsWithHeading) {
             String panelSectionName = panel.getText();
             if (panelSectionName.equals(section)) {

@@ -1786,7 +1786,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Checks if we should show No Specific Section panel
+     * Checks if we should show No Specific Section panel.
      *
      * @return
      * <ul>
@@ -1802,6 +1802,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 || viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION;
         boolean hasTeamsInNoSection = bundle.getTeamsInSectionFromRoster(Const.DEFAULT_SECTION).size() > 0;
 
-        return hasTeamsInNoSection || (viewTypeIsRecipient && (hasFeedbackToInstructorOrGeneral || hasFeedbackFromInstructor));
+        return hasTeamsInNoSection
+                || viewTypeIsRecipient && (hasFeedbackToInstructorOrGeneral || hasFeedbackFromInstructor);
     }
 }
