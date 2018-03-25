@@ -1705,6 +1705,16 @@ public class FeedbackSessionResultsBundle {
         return SanitizationHelper.sanitizeForCsv(comment.toString());
     }
 
+    public boolean containsResponseFromInstructor() {
+        for (FeedbackResponseAttributes response : responses) {
+            String giverIdentifier = response.giver;
+            if (isParticipantIdentifierInstructor(giverIdentifier)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean containsResponsesToInstructorOrGeneral() {
         for (FeedbackResponseAttributes response : responses) {
             String recipientIdentifier = response.recipient;
