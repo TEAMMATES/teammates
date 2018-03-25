@@ -3,17 +3,16 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ attribute name="addInstructorButton" type="teammates.ui.template.ElementTag" required="true" %>
+<%@ attribute name="copyInstructorButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="addInstructorPanel" type="teammates.ui.template.CourseEditInstructorPanel" required="true" %>
 
 <div class="align-center">
   <input value="Add New Instructor" ${addInstructorButton.attributesToString}>
   <input type="hidden" value="${addInstructorPanel.index}" id="new-instructor-index">
-  <a id="button_copy" class="btn btn-primary margin-bottom-7px"
-     data-actionlink="${data.instructorCourseInstructorCopyPageLink}"
-     data-courseid="${courseId}"
-     data-target="#copyModal" data-toggle="modal">
-    Copy Instructor
+
+  <a ${copyInstructorButton.attributesToString}>
+    ${copyInstructorButton.content}
   </a>
 </div>
 

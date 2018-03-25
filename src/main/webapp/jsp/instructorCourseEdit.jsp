@@ -30,6 +30,7 @@
   <course:courseEditInstructorList instructorPanelList="${data.instructorPanelList}" />
   <course:courseEditAddInstructorPanel
       addInstructorButton="${data.addInstructorButton}"
+      copyInstructorButton="${data.copyInstructorButton}"
       courseId="${data.course.id}"
       addInstructorPanel="${data.addInstructorPanel}"
   />

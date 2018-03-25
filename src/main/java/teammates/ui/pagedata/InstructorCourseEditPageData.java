@@ -19,6 +19,7 @@ public class InstructorCourseEditPageData extends PageData {
     private List<CourseEditInstructorPanel> instructorPanelList;
     private CourseEditInstructorPanel addInstructorPanel;
     private ElementTag addInstructorButton;
+    private ElementTag copyInstructorButton;
 
     public InstructorCourseEditPageData(AccountAttributes account, String sessionToken, CourseAttributes course,
                                         List<InstructorAttributes> instructorList,
@@ -89,6 +90,8 @@ public class InstructorCourseEditPageData extends PageData {
         boolean isAddInstructorButtonDisabled = !currentInstructor.isAllowedForPrivilege(
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         addInstructorButton = createAddInstructorButton(isAddInstructorButtonDisabled);
+        //an instructor is not allowed to add other instructors via copying if he is not allowed to add anyone
+        copyInstructorButton = createCopyInstructorButton(isAddInstructorButtonDisabled);
     }
 
     private CourseEditInstructorPanel createInstructorPanel(InstructorAttributes currentInstructor,
@@ -131,6 +134,10 @@ public class InstructorCourseEditPageData extends PageData {
         return addInstructorButton;
     }
 
+    public ElementTag getCopyInstructorButton() {
+        return copyInstructorButton;
+    }
+
     public CourseEditInstructorPanel getAddInstructorPanel() {
         return addInstructorPanel;
     }
@@ -157,6 +164,17 @@ public class InstructorCourseEditPageData extends PageData {
         if (isDisabled) {
             button.setAttribute("disabled", null);
         }
+
+        return button;
+    }
+
+    private ElementTag createCopyInstructorButton(boolean isDisabled) {
+        ElementTag button = createBasicButton(
+                "Copy Instructors", "button_copy", null, null, isDisabled);
+        button.setAttribute("data-actionlink", getInstructorCourseInstructorCopyPageLink());
+        button.setAttribute("data-courseid", course.getId());
+        button.setAttribute("data-target", "#copyModal");
+        button.setAttribute("data-toggle", "modal");
 
         return button;
     }
