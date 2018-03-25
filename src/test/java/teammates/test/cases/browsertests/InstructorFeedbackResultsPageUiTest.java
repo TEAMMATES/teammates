@@ -489,7 +489,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertFalse(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
     }
 
-
     private void testFilterAction() throws Exception {
 
         ______TS("Typical case: filter by section A");
