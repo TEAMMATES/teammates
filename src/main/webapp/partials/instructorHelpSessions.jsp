@@ -781,600 +781,585 @@
       </div>
       </div>
     </li>
-    <br>
-    <br>
     <li id="fbViewResults">
-      <span class="text-bold">
-          <b>4. Viewing results</b>
-        </a>
-      </span>
-
-      <p>
-        You can view results of sessions by clicking the
-        <b>View Results</b> action of a session
-        <br>You can see responses in several different formats using the following controls.
-        <br>
-        <br> There are
-        <b>5</b> different views available, which indicate the order in which responses are grouped. Additionally, there are also options to
-        <b>group the results by team</b> and
-        <b>show/hide statistics</b> (available in some views), as well as options to view responses from a particular section.
-        <br> We can also filter results on the page using the filter function.
-      </p>
-      <div class="bs-example" id="resultsTop">
-        <div class="panel panel-info margin-0">
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-5" data-toggle="tooltip" title="View results in different formats">
-                <div class="form-group">
-                  <label for="viewSelect" class="col-sm-2 control-label">
-                    View:
-                  </label>
-                  <div class="col-sm-10">
-                    <select id="viewSelect" class="form-control" name="frsorttype">
-                      <option value="question" selected="">
-                        Group by - Question
-                      </option>
-                      <option value="giver-recipient-question">
-                        Group by - Giver &gt; Recipient &gt; Question
-                      </option>
-                      <option value="recipient-giver-question">
-                        Group by - Recipient &gt; Giver &gt; Question
-                      </option>
-                      <option value="giver-question-recipient">
-                        Group by - Giver &gt; Question &gt; Recipient
-                      </option>
-                      <option value="recipient-question-giver">
-                        Group by - Recipient &gt; Question &gt; Giver
-                      </option>
-                    </select>
+      <h3>How do I view the results of my session?</h3>
+      <div class=helpSectionContent">
+        <p>
+          View responses to a session by clicking the <b>Results</b> button of a session in the Home or Sessions tab.<br>
+          Click <b>Edit View</b> to sort the results in an order that best suits you.
+        </p>
+        <p>5 different views are available, each denoting the order in which responses are grouped.
+          Additionally, you can group the results by team, show or hide statistics, view missing responses and filter responses from a particular section.
+        </p>
+        <div class="bs-example" id="resultsTop">
+          <div class="panel panel-info margin-0">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-sm-5" data-toggle="tooltip" title="View results in different formats">
+                  <div class="form-group">
+                    <label for="viewSelect" class="col-sm-2 control-label">
+                      View:
+                    </label>
+                    <div class="col-sm-10">
+                      <select id="viewSelect" class="form-control" name="frsorttype">
+                        <option value="question" selected="">
+                          Group by - Question
+                        </option>
+                        <option value="giver-recipient-question">
+                          Group by - Giver &gt; Recipient &gt; Question
+                        </option>
+                        <option value="recipient-giver-question">
+                          Group by - Recipient &gt; Giver &gt; Question
+                        </option>
+                        <option value="giver-question-recipient">
+                          Group by - Giver &gt; Question &gt; Recipient
+                        </option>
+                        <option value="recipient-question-giver">
+                          Group by - Recipient &gt; Question &gt; Giver
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-2 pull-right">
+                  <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
+                    <div class="margin-0 checkbox padding-top-0 min-height-0">
+                      <label class="text-strike">
+                        <input type="checkbox" name="frgroupbyteam" id="frgroupbyteam"> Group by Teams
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
+                    <div class="margin-0 checkbox padding-top-0 min-height-0">
+                      <label>
+                        <input type="checkbox" id="show-stats-checkbox" name="frshowstats"> Show Statistics
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-12" data-toggle="tooltip" title="Indicate missing responses">
+                    <div class="margin-0 checkbox padding-top-0 min-height-0">
+                      <label>
+                        <input type="checkbox" id="show-stats-checkbox" name="frshowstats"> Indicate Missing Responses
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-sm-2 pull-right">
-                <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
-                  <div class="margin-0 checkbox padding-top-0 min-height-0">
-                    <label class="text-strike">
-                      <input type="checkbox" name="frgroupbyteam" id="frgroupbyteam"> Group by Teams
+              <div class="row">
+                <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
+                  <div class="form-group">
+                    <label for="sectionSelect" class="col-sm-2 control-label">
+                      Section:
                     </label>
-                  </div>
-                </div>
-                <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
-                  <div class="margin-0 checkbox padding-top-0 min-height-0">
-                    <label>
-                      <input type="checkbox" id="show-stats-checkbox" name="frshowstats"> Show Statistics
-                    </label>
-                  </div>
-                </div>
-                <div class="col-sm-12" data-toggle="tooltip" title="Indicate missing responses">
-                  <div class="margin-0 checkbox padding-top-0 min-height-0">
-                    <label>
-                      <input type="checkbox" id="show-stats-checkbox" name="frshowstats"> Indicate Missing Responses
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
-                <div class="form-group">
-                  <label for="sectionSelect" class="col-sm-2 control-label">
-                    Section:
-                  </label>
-                  <div class="col-sm-10">
-                    <select id="sectionSelect" class="form-control" name="frgroupbysection">
-                      <option value="All" selected="">
-                        All
-                      </option>
-                      <option value="Tutorial Group 1">
-                        Tutorial Group 1
-                      </option>
-                      <option value="Tutorial Group 2">
-                        Tutorial Group 2
-                      </option>
-                      <option value="No specific section">
-                        No specific section
-                      </option>
-                    </select>
+                    <div class="col-sm-10">
+                      <select id="sectionSelect" class="form-control" name="frgroupbysection">
+                        <option value="All" selected="">
+                          All
+                        </option>
+                        <option value="Tutorial Group 1">
+                          Tutorial Group 1
+                        </option>
+                        <option value="Tutorial Group 2">
+                          Tutorial Group 2
+                        </option>
+                        <option value="No specific section">
+                          No specific section
+                        </option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <p>
+          In the example below, results are sorted by <b>Giver > Recipient > Question</b>. Additionally, missing responses
+          have been recorded.
+        </p>
+        <div class="bs-example" id="responsesSortbyGiver">
+          <div class="well well-plain">
 
-      An example is given below:
-      <br>
-      <br>
-
-      <div class="bs-example" id="responcesSortbyGiver">
-        <div class="well well-plain">
-
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              From:
-              <strong>Alice Betsy (Team 2)</strong>
-              <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
-              <div class="pull-right">
-                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                  <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                </form>
-                &nbsp;
-                <div class="display-icon" style="display:inline;">
-                  <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                From:
+                <strong>Alice Betsy (Team 2)</strong>
+                <a class="link-in-dark-bg" href="#responcesSortbyGiver">[alice.b.tmms@gmail.com]</a>
+                <div class="pull-right">
+                  <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                  </form>
+                  &nbsp;
+                  <div class="display-icon" style="display:inline;">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="panel-body">
+              <div class="panel-body">
 
-              <div class="row ">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <br>
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      <strong>-</strong>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      Alice Betsy (Team 2)
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      Question 6: What do you like about our product?
+                <div class="row ">
+                  <div class="col-md-2">
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                      To:
                       <br>
-                      <small>
-                        <span>Multiple-choice (multiple answers) options:
-                          <ul style="list-style-type: disc;">
-                            <li>It's good
-                            </li>
-                            <li>It's perfect
-                            </li>
-                          </ul>
-                        </span>
-                      </small>
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear: both; overflow: hidden">
-                        <div class="pull-left">
-                          <ul class="selectedOptionsList">
-                            <li>It's good
-                            </li>
-                          </ul>
-                        </div>
-                        <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                        </button>
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        <strong>-</strong>
                       </div>
-
                     </div>
-                  </div>
 
-                </div>
-              </div>
-
-              <div class="row border-top-gray">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <br>
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      <strong>Alice Betsy (Team 2)</strong>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      Alice Betsy (Team 2)
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-
-                  <div class="panel panel-info">
-                    <div class="panel-heading">Question 1: What is the best selling point of your product?
-                    </div>
-                    <div class="panel-body">
-                      <div style="clear: both; overflow: hidden">
-                        <div class="pull-left">My product is light.
-                        </div>
-                        <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                        </button>
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                      From:
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        Alice Betsy (Team 2)
                       </div>
-
                     </div>
                   </div>
+                  <div class="col-md-10">
 
-                </div>
-              </div>
-
-              <div class="row border-top-gray">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <br>
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      <strong>Benny Charles (Team 1)</strong>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      Alice Betsy (Team 2)
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-
-                  <div class="panel panel-info">
-                    <div class="panel-heading">Question 2: Comment about 5 other students</div>
-                    <div class="panel-body">
-                      <div style="clear: both; overflow: hidden">
-                        <div class="pull-left">Benny is a good student.
-                        </div>
-                        <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                        </button>
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        Question 6: What do you like about our product?
+                        <br>
+                        <small>
+                          <span>Multiple-choice (multiple answers) options:
+                            <ul style="list-style-type: disc;">
+                              <li>It's good
+                              </li>
+                              <li>It's perfect
+                              </li>
+                            </ul>
+                          </span>
+                        </small>
                       </div>
+                      <div class="panel-body">
+                        <div style="clear: both; overflow: hidden">
+                          <div class="pull-left">
+                            <ul class="selectedOptionsList">
+                              <li>It's good
+                              </li>
+                            </ul>
+                          </div>
+                          <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
+                            <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                          </button>
+                        </div>
 
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row border-top-gray">
+                  <div class="col-md-2">
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                      To:
+                      <br>
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        <strong>Alice Betsy (Team 2)</strong>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                      From:
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        Alice Betsy (Team 2)
+                      </div>
                     </div>
                   </div>
+                  <div class="col-md-10">
 
+                    <div class="panel panel-info">
+                      <div class="panel-heading">Question 1: What is the best selling point of your product?
+                      </div>
+                      <div class="panel-body">
+                        <div style="clear: both; overflow: hidden">
+                          <div class="pull-left">My product is light.
+                          </div>
+                          <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
+                            <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
-              </div>
 
+                <div class="row border-top-gray">
+                  <div class="col-md-2">
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                      To:
+                      <br>
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        <strong>Benny Charles (Team 1)</strong>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                      From:
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        Alice Betsy (Team 2)
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+
+                    <div class="panel panel-info">
+                      <div class="panel-heading">Question 2: Comment about 5 other students</div>
+                      <div class="panel-body">
+                        <div style="clear: both; overflow: hidden">
+                          <div class="pull-left">Benny is a good student.
+                          </div>
+                          <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
+                            <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
             </div>
-          </div>
 
-          <div class="panel panel-primary" id="benny">
+            <div class="panel panel-primary" id="benny">
+              <div class="panel-heading">
+                From:
+                <strong>Benny Charles (Team 1)</strong>
+                <a class="link-in-dark-bg" href="#benny">[benny.c.tmms@gmail.com]</a>
+                <div class="pull-right">
+                  <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                  </form>
+                  &nbsp;
+                  <div class="display-icon" style="display:inline;">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body">
+
+                <div class="row ">
+                  <div class="col-md-2">
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                      To:
+                      <br>
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        <strong>Charlie Davis (Team 1)</strong>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                      From:
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        Benny Charles (Team 1)
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+
+                    <div class="panel panel-info">
+                      <div class="panel-heading">Question 2: Comment about 5 other students</div>
+                      <div class="panel-body">
+                        <div style="clear: both; overflow: hidden">
+                          <div class="pull-left">Charlie did alot of work.</div>
+                          <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
+                            <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row border-top-gray">
+                  <div class="col-md-2">
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                      To:
+                      <br>
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        <strong>Danny Engrid (Team 2)</strong>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                      From:
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        Benny Charles (Team 1)
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+
+                    <div class="panel panel-info">
+                      <div class="panel-heading">Question 2: Comment about 5 other students</div>
+                      <div class="panel-body">
+                        <div style="clear: both; overflow: hidden">
+                          <div class="pull-left">Danny starts with D.</div>
+                          <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
+                            <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- second -->
+            <div class="panel panel-primary" id="charlie">
+              <div class="panel-heading">
+                From:
+                <strong>Charlie Davis (Team 1)</strong>
+                <a class="link-in-dark-bg" href="#charlie">[charlie.d.tmms@gmail.com]</a>
+                <div class="pull-right">
+                  <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
+                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                  </form>
+                  &nbsp;
+                  <div class="display-icon" style="display:inline;">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body">
+
+                <div class="row ">
+                  <div class="col-md-2">
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding">
+                      To:
+                      <br>
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        <strong>Alice Betsy (Team 2)</strong>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
+                      From:
+                      <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
+                        Charlie Davis (Team 1)
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+
+                    <div class="panel panel-info">
+                      <div class="panel-heading">Question 2: Comment about 5 other students</div>
+                      <div class="panel-body">
+                        <div style="clear: both; overflow: hidden">
+                          <div class="pull-left">Alice is a good coder.
+                          </div>
+                          <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
+                            <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- third -->
+
+            <div class="panel panel-warning">
+              <div class="panel-heading" data-target="#panelBodyCollapse-12" style="cursor: pointer;">
+                <div class="display-icon pull-right">
+                  <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                </div>
+                Participants who have not responded to any question
+              </div>
+              <div class="panel-collapse collapse in" id="panelBodyCollapse-12" style="height: auto;">
+                <div class="panel-body padding-0">
+                  <table class="table table-striped table-bordered margin-0">
+                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                      <tr>
+                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this)" style="width: 30%;">
+                          Team
+                        </th>
+                        <th id="button_sortTo" class="button-sort-ascending" onclick="toggleSort(this)" style="width: 30%;">
+                          Name
+                        </th>
+                        <th class="action-header">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr>
+                        <td>Team 3</td>
+                        <td>Danny Engrid</td>
+                        <td class="action-button-item">
+                          <form class="inline" method="post">
+                            <input type="submit" class="btn btn-default btn-xs" value="Submit Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
+                          </form>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <p>If you choose to publish the results of the session, students will receive an email with a link to access the
+          session's results. What they can see is governed by the visibility levels you set when setting up the session.
+          Here is an example of what a student might see:
+        </p>
+        <div class="bs-example" id="responsesStudentView">
+
+          <div class="panel panel-default">
             <div class="panel-heading">
-              From:
-              <strong>Benny Charles (Team 1)</strong>
-              <a class="link-in-dark-bg" href="#benny">[benny.c.tmms@gmail.com]</a>
-              <div class="pull-right">
-                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                  <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                </form>
-                &nbsp;
-                <div class="display-icon" style="display:inline;">
-                  <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+              <h4>Question 1: Tutor comments about the team presentation</h4>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <b>To:</b> Team 1
                 </div>
-              </div>
-            </div>
-            <div class="panel-body">
-
-              <div class="row ">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <br>
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      <strong>Charlie Davis (Team 1)</strong>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      Benny Charles (Team 1)
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-
-                  <div class="panel panel-info">
-                    <div class="panel-heading">Question 2: Comment about 5 other students</div>
-                    <div class="panel-body">
-                      <div style="clear: both; overflow: hidden">
-                        <div class="pull-left">Charlie did alot of work.</div>
-                        <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                        </button>
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-              <div class="row border-top-gray">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <br>
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      <strong>Danny Engrid (Team 2)</strong>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      Benny Charles (Team 1)
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-
-                  <div class="panel panel-info">
-                    <div class="panel-heading">Question 2: Comment about 5 other students</div>
-                    <div class="panel-body">
-                      <div style="clear: both; overflow: hidden">
-                        <div class="pull-left">Danny starts with D.</div>
-                        <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                        </button>
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <!-- second -->
-          <div class="panel panel-primary" id="charlie">
-            <div class="panel-heading">
-              From:
-              <strong>Charlie Davis (Team 1)</strong>
-              <a class="link-in-dark-bg" href="#charlie">[charlie.d.tmms@gmail.com]</a>
-              <div class="pull-right">
-                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=test%40example.com" target="_blank">
-                  <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                </form>
-                &nbsp;
-                <div class="display-icon" style="display:inline;">
-                  <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                </div>
-              </div>
-            </div>
-            <div class="panel-body">
-
-              <div class="row ">
-                <div class="col-md-2">
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding">
-                    To:
-                    <br>
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      <strong>Alice Betsy (Team 2)</strong>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 tablet-margin-10px tablet-no-padding text-muted small"><br class="hidden-xs hidden-sm">
-                    From:
-                    <div class="tablet-bottom-align profile-pic-icon-hover inline-block">
-                      Charlie Davis (Team 1)
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-10">
-
-                  <div class="panel panel-info">
-                    <div class="panel-heading">Question 2: Comment about 5 other students</div>
-                    <div class="panel-body">
-                      <div style="clear: both; overflow: hidden">
-                        <div class="pull-left">Alice is a good coder.
-                        </div>
-                        <button type="button" class="btn btn-default btn-xs icon-button pull-right" data-toggle="tooltip" data-placement="top" title="Add comment">
-                          <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                        </button>
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <!-- third -->
-
-          <div class="panel panel-warning">
-            <div class="panel-heading" data-target="#panelBodyCollapse-12" style="cursor: pointer;">
-              <div class="display-icon pull-right">
-                <span class="glyphicon pull-right glyphicon-chevron-up"></span>
-              </div>
-              Participants who have not responded to any question
-            </div>
-            <div class="panel-collapse collapse in" id="panelBodyCollapse-12" style="height: auto;">
-              <div class="panel-body padding-0">
-                <table class="table table-striped table-bordered margin-0">
-                  <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                    <tr>
-                      <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this)" style="width: 30%;">
-                        Team
-                      </th>
-                      <th id="button_sortTo" class="button-sort-ascending" onclick="toggleSort(this)" style="width: 30%;">
-                        Name
-                      </th>
-                      <th class="action-header">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
+                <table class="table">
                   <tbody>
 
+                    <tr class="resultSubheader">
+                      <td>
+                        <span class="bold">
+                          <b>From:</b>
+                        </span> Tutor James Hardy
+                      </td>
+                    </tr>
                     <tr>
-                      <td>Team 3</td>
-                      <td>Danny Engrid</td>
-                      <td class="action-button-item">
-                        <form class="inline" method="post">
-                          <input type="submit" class="btn btn-default btn-xs" value="Submit Responses" data-toggle="tooltip" title="" data-original-title="Edit the responses given by this student" disabled="disabled">
-                        </form>
+                      <td class="multiline">The content was good but overran the time limit</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <b>To:</b> Team 1
+                </div>
+                <table class="table">
+                  <tbody>
+
+                    <tr class="resultSubheader">
+                      <td>
+                        <span class="bold">
+                          <b>From:</b>
+                        </span> Dr Lee Davis
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="multiline">Good presentation.Please keep to the time limit
                       </td>
                     </tr>
 
                   </tbody>
                 </table>
               </div>
+
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>
+                Question 2: Was this team member punctual?
+                <br>
+                <small>
+                  Multiple-choice (single answer) options:
+                  <ul style="list-style-type: disc;">
+                    <li>Yes</li>
+                    <li>No</li>
+                  </ul>
+
+                </small>
+
+              </h4>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <b>To:</b> You
+                </div>
+                <table class="table">
+                  <tbody>
+
+                    <tr class="resultSubheader">
+                      <td>
+                        <span class="bold">
+                          <b>From:</b>
+                        </span> anonymous
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="multiline">No</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <b>To:</b> You
+                </div>
+                <table class="table">
+                  <tbody>
+
+                    <tr class="resultSubheader">
+                      <td>
+                        <span class="bold">
+                          <b>From:</b>
+                        </span> anonymous
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="multiline">No</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <b>To:</b> You
+                </div>
+                <table class="table">
+                  <tbody>
+
+                    <tr class="resultSubheader">
+                      <td>
+                        <span class="bold">
+                          <b>From:</b>
+                        </span> anonymous
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="multiline">Yes</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
             </div>
           </div>
 
         </div>
       </div>
-      <br>
-      <br>
-      <br>If you publish results, students receive an email with a link to access responses. What they can see is governed by the visibility levels you set when setting up the session. Here is an example of what a student sees:
-      <br>
-      <br>
-      <br>
-
-      <div class="bs-example">
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4>Question 1: Tutor comments about the team presentation</h4>
-
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <b>To:</b> Team 1
-              </div>
-              <table class="table">
-                <tbody>
-
-                  <tr class="resultSubheader">
-                    <td>
-                      <span class="bold">
-                        <b>From:</b>
-                      </span> Tutor James Hardy
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="multiline">The content was good but overran the time limit</td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <b>To:</b> Team 1
-              </div>
-              <table class="table">
-                <tbody>
-
-                  <tr class="resultSubheader">
-                    <td>
-                      <span class="bold">
-                        <b>From:</b>
-                      </span> Dr Lee Davis
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="multiline">Good presentation.Please keep to the time limit
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4>
-              Question 2: Was this team member punctual?
-              <br>
-              <small>
-                Multiple-choice (single answer) options:
-                <ul style="list-style-type: disc;">
-                  <li>Yes</li>
-                  <li>No</li>
-                </ul>
-
-              </small>
-
-            </h4>
-
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <b>To:</b> You
-              </div>
-              <table class="table">
-                <tbody>
-
-                  <tr class="resultSubheader">
-                    <td>
-                      <span class="bold">
-                        <b>From:</b>
-                      </span> anonymous
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="multiline">No</td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <b>To:</b> You
-              </div>
-              <table class="table">
-                <tbody>
-
-                  <tr class="resultSubheader">
-                    <td>
-                      <span class="bold">
-                        <b>From:</b>
-                      </span> anonymous
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="multiline">No</td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <b>To:</b> You
-              </div>
-              <table class="table">
-                <tbody>
-
-                  <tr class="resultSubheader">
-                    <td>
-                      <span class="bold">
-                        <b>From:</b>
-                      </span> anonymous
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="multiline">Yes</td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-      <br>
-      <br>
-      <br>
     </li>
     <li id="fbQuestionTypes">
       <span class="text-bold">
