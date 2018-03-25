@@ -9,6 +9,7 @@ import {
 import {
     BootstrapContextualColors,
 } from './const';
+import {setStatusMessage} from "./statusMessage";
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
@@ -272,6 +273,75 @@ function bindStudentPhotoHoverLink(elements) {
     });
 }
 
+/**
+ * Triggered when selecting rows to copy in the copy modal table
+ * @param numRowsSelected should be initiated to 0 upon page load
+ */
+function bindCopyEvents(numRowsSelected) {
+    $('body').on('click', '#copyTableModal > tbody > tr', function (e) {
+        e.preventDefault();
+
+        if ($(this).hasClass('row-selected')) {
+            $(this).removeClass('row-selected');
+            $(this).children('td:first').html('<input type="checkbox">');
+            numRowsSelected -= 1;
+        } else {
+            $(this).addClass('row-selected');
+            $(this).children('td:first').html('<input type="checkbox" checked>');
+            numRowsSelected += 1;
+        }
+
+        const $button = $('#button_copy_submit');
+
+        $button.prop('disabled', numRowsSelected <= 0);
+
+        return false;
+    });
+}
+
+/**
+ * Triggered when the copy button in the copy modal is clicked
+ * @param forPage is the name of the js file for the page that uses the copy modal
+ */
+function bindCopyButton(forPage) {
+    $('#button_copy_submit').click((e) => {
+        e.preventDefault();
+
+        let index = 0;
+        let hasRowSelected = false;
+
+        const isFeedbackEditPage = forPage === 'instructorFeedbackEdit';
+        const instructorInput =  isFeedbackEditPage ? 'questionid' : 'instructoremail';
+        const dataTypeToBeCopied = isFeedbackEditPage ? 'questions' : 'instructors';
+
+        $('#copyTableModal > tbody > tr').each(function () {
+            const $this = $(this);
+            const questionIdInput = $this.find(`input.${instructorInput}`);
+            if (!questionIdInput.length) {
+                return;
+            }
+            if ($this.hasClass('row-selected')) {
+                $(questionIdInput).attr('name', `${instructorInput}-${index}`);
+                $this.find('input.courseid').attr('name', `courseid-${index}`);
+                if (isFeedbackEditPage) {
+                    $this.find('input.fsname').attr('name', `fsname-${index}`);
+                }
+                index += 1;
+                hasRowSelected = true;
+            }
+        });
+
+        if (hasRowSelected) {
+            $('#copyModalForm').submit();
+        } else {
+            setStatusMessage(`No ${dataTypeToBeCopied} are selected to be copied`, BootstrapContextualColors.DANGER);
+            $('#copyModal').modal('hide');
+        }
+
+        return false;
+    });
+}
+
 function bindDeleteButtons() {
     $('body').on('click', '.session-delete-for-test', (event) => {
         event.preventDefault();
@@ -484,6 +554,8 @@ function prepareInstructorPages() {
 export {
     attachEventToDeleteStudentLink,
     attachEventToDeleteAllStudentLink,
+    bindCopyEvents,
+    bindCopyButton,
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,

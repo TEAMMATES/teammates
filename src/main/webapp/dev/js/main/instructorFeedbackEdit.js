@@ -26,6 +26,8 @@ import {
 } from '../common/helper';
 
 import {
+    bindCopyEvents,
+    bindCopyButton,
     prepareInstructorPages,
     setupFsCopyModal,
 } from '../common/instructor';
@@ -925,65 +927,6 @@ function setupQuestionCopyModal() {
     });
 }
 
-function bindCopyButton() {
-    $('#button_copy_submit').click((e) => {
-        e.preventDefault();
-
-        let index = 0;
-        let hasRowSelected = false;
-
-        $('#copyTableModal > tbody > tr').each(function () {
-            const $this = $(this);
-            //const questionIdInput = $this.children('input:first');
-            const questionIdInput = $this.find('input.questionid');
-            if (!questionIdInput.length) {
-                return;
-            }
-            if ($this.hasClass('row-selected')) {
-                $(questionIdInput).attr('name', `questionid-${index}`);
-                $this.find('input.courseid').attr('name', `courseid-${index}`);
-                $this.find('input.fsname').attr('name', `fsname-${index}`);
-
-                index += 1;
-                hasRowSelected = true;
-            }
-        });
-
-        if (hasRowSelected) {
-            $('#copyModalForm').submit();
-        } else {
-            setStatusMessage('No questions are selected to be copied', BootstrapContextualColors.DANGER);
-            $('#copyModal').modal('hide');
-        }
-
-        return false;
-    });
-}
-
-let numRowsSelected = 0;
-
-function bindCopyEvents() {
-    $('body').on('click', '#copyTableModal > tbody > tr', function (e) {
-        e.preventDefault();
-
-        if ($(this).hasClass('row-selected')) {
-            $(this).removeClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox">');
-            numRowsSelected -= 1;
-        } else {
-            $(this).addClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox" checked>');
-            numRowsSelected += 1;
-        }
-
-        const $button = $('#button_copy_submit');
-
-        $button.prop('disabled', numRowsSelected <= 0);
-
-        return false;
-    });
-}
-
 function hideOption($containingSelect, value) {
     $containingSelect.find(`option[value="${value}"]`).hide();
 }
@@ -1138,8 +1081,8 @@ function readyFeedbackEditPage() {
     });
 
     // Copy Binding
-    bindCopyButton();
-    bindCopyEvents();
+    bindCopyButton('instructorFeedbackEdit');
+    bindCopyEvents(0);
     setupQuestionCopyModal();
 
     // Additional formatting & bindings.

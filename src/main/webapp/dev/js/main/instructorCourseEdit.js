@@ -8,6 +8,8 @@ import {
 } from '../common/const';
 
 import {
+    bindCopyEvents,
+    bindCopyButton,
     prepareInstructorPages,
 } from '../common/instructor';
 
@@ -397,64 +399,6 @@ function setupInstructorCopyModal() {
     });
 }
 
-function bindCopyButton() {
-    $('#button_copy_submit').click((e) => {
-        e.preventDefault();
-
-        let index = 0;
-        let hasRowSelected = false;
-
-        $('#copyTableModal > tbody > tr').each(function () {
-            const $this = $(this);
-            //const questionIdInput = $this.children('input:first');
-            const instructorEmailInput = $this.find('input.instructoremail');
-            if (!instructorEmailInput.length) {
-                return;
-            }
-            if ($this.hasClass('row-selected')) {
-                $(instructorEmailInput).attr('name', `instructoremail-${index}`);
-                $this.find('input.courseid').attr('name', `courseid-${index}`);
-
-                index += 1;
-                hasRowSelected = true;
-            }
-        });
-
-        if (hasRowSelected) {
-            $('#copyModalForm').submit();
-        } else {
-            setStatusMessage('No instructors are selected to be copied', BootstrapContextualColors.DANGER);
-            $('#copyModal').modal('hide');
-        }
-
-        return false;
-    });
-}
-
-let numRowsSelected = 0;
-
-function bindCopyEvents() {
-    $('body').on('click', '#copyTableModal > tbody > tr', function (e) {
-        e.preventDefault();
-
-        if ($(this).hasClass('row-selected')) {
-            $(this).removeClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox">');
-            numRowsSelected -= 1;
-        } else {
-            $(this).addClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox" checked>');
-            numRowsSelected += 1;
-        }
-
-        const $button = $('#button_copy_submit');
-
-        $button.prop('disabled', numRowsSelected <= 0);
-
-        return false;
-    });
-}
-
 function bindDeleteInstructorLink() {
     $('[id^="instrDeleteLink"]').on('click', (event) => {
         event.preventDefault();
@@ -622,8 +566,8 @@ $(document).ready(() => {
     bindDeleteInstructorLink();
 
     setupInstructorCopyModal();
-    bindCopyButton();
-    bindCopyEvents();
+    bindCopyButton('instructorCourseEdit');
+    bindCopyEvents(0);
 
     const courseTimeZone = $('#course-time-zone').val();
 
