@@ -26,7 +26,7 @@
       <span class="icon-sort unsorted"></span>
     </th>
   </tr>
-  <c:forEach items="${data.responseStatus.noResponse}" var="userToRemindEmail">
+  <c:forEach items="${data.responseStatus.studentsWhoDidNotRespondSorted}" var="userToRemindEmail">
     <tr class="session-remind-particular-not-submitted-user bg-danger">
       <td class="align-center">
         <div class="checkbox">
@@ -52,7 +52,7 @@
       </td>
     </tr>
   </c:forEach>
-  <c:forEach items="${data.responseStatus.studentsWhoResponded}" var="userToRemindEmail">
+  <c:forEach items="${data.responseStatus.studentsWhoRespondedSorted}" var="userToRemindEmail">
     <tr class="session-remind-particular-submitted-user bg-info">
       <td class="align-center">
         <div class="checkbox">
