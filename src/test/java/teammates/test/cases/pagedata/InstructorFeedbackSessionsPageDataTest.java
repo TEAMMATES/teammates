@@ -344,7 +344,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals("idOfTypicalCourse1", formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(3, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
+        assertEquals("session with my own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
         assertNull(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
         assertTrue(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().containsKey("selected"));
 
