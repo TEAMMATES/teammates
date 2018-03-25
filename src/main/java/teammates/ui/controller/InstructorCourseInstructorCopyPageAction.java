@@ -9,6 +9,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorCourseInstructorCopyPageData;
 
+/**
+ * The action to fetch data for copy instructor modal when the copy instructor button is clicked
+ */
 public class InstructorCourseInstructorCopyPageAction extends Action{
 
     @Override
@@ -25,12 +28,14 @@ public class InstructorCourseInstructorCopyPageAction extends Action{
 
         List<CourseAttributes> coursesOfThisInstructor = logic.getCoursesForInstructor(account.googleId);
 
+        List<InstructorAttributes> existingInstructors = logic.getInstructorsForCourse(thisCourseId);
+
         for (CourseAttributes course: coursesOfThisInstructor) {
             String courseId = course.getId();
             if (!courseId.equals(thisCourseId)) {
                 List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
                 for (InstructorAttributes instructor: instructors) {
-                    if (!instructor.getEmail().equals(thisInstructor.getEmail())) {
+                    if (!instructorInThisCourse(instructor, existingInstructors)) {
                         copiableInstructors.add(instructor);
                     }
                 }
@@ -41,5 +46,15 @@ public class InstructorCourseInstructorCopyPageAction extends Action{
                 new InstructorCourseInstructorCopyPageData(account, sessionToken, copiableInstructors);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_INSTRUCTOR_COPY_MODAL, data);
+    }
+
+    private boolean instructorInThisCourse(
+            InstructorAttributes instructorToBeChecked, List<InstructorAttributes> instructorsInTheCourse) {
+        for (InstructorAttributes instructor: instructorsInTheCourse) {
+            if (instructor.getEmail().equals(instructorToBeChecked.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

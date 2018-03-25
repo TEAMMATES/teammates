@@ -8,6 +8,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.ui.template.CourseInstructorCopyTable;
 import teammates.ui.template.CourseInstructorCopyTableRow;
 
+/**
+ * The data model for the table of copiable instructor loaded in the copy instructor modal.
+ */
 public class InstructorCourseInstructorCopyPageData extends PageData{
 
     private final List<InstructorAttributes> instructors;

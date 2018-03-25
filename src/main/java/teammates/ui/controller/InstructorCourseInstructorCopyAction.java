@@ -8,6 +8,9 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
 
+/**
+ * The action to copy selected instructor in the copy instructor modal to the course.
+ */
 public class InstructorCourseInstructorCopyAction extends Action {
 
     @Override
@@ -40,7 +43,13 @@ public class InstructorCourseInstructorCopyAction extends Action {
                         + "<span class=\"bold\">"
                         + instructorCopied.getEmail()
                         + ":</span> "
-                        + instructorCopied.getDisplayedName();
+                        + instructorCopied.getName();
+
+                statusToUser.add(new StatusMessage(
+                                    String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
+                                            instructorCopied.getName(),
+                                            instructorToBeCopiedEmail),
+                                    StatusMessageColor.SUCCESS));
 
                 instructorToBeCopiedEmail =
                         getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL + "-" + index);
@@ -48,10 +57,7 @@ public class InstructorCourseInstructorCopyAction extends Action {
                         getRequestParamValue(Const.ParamsNames.COURSE_ID + "-" + index);
             }
 
-            if (index > 0) {
-                statusToUser.add(
-                        new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, StatusMessageColor.SUCCESS));
-            } else {
+            if (index == 0) {
                 statusToUser.add(
                         new StatusMessage("No instructors are indicated to be copied", StatusMessageColor.DANGER));
                 isError = true;
