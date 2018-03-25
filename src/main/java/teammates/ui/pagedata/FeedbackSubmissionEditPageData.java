@@ -1,6 +1,7 @@
 package teammates.ui.pagedata;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -232,7 +233,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                     FeedbackQuestionAttributes questionAttributes, int qnIndx, int numOfResponseBoxes) {
         List<FeedbackSubmissionEditResponse> responses = new ArrayList<>();
 
-        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
+        List<FeedbackResponseAttributes> existingResponses = getSortedExistingResponses(questionAttributes);
         int responseIndx = 0;
 
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
@@ -267,5 +268,13 @@ public class FeedbackSubmissionEditPageData extends PageData {
         }
 
         return responses;
+    }
+
+    private List<FeedbackResponseAttributes> getSortedExistingResponses(FeedbackQuestionAttributes questionAttributes) {
+        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
+        Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(questionAttributes.getFeedbackQuestionId());
+        existingResponses.sort(Comparator.comparing(existingResponse -> emailNamePair.get(existingResponse.recipient)));
+
+        return existingResponses;
     }
 }
