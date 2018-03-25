@@ -45,12 +45,14 @@ const instructorPrivilegeValues = [
 function showNewInstructorForm() {
     $('#panelAddInstructor').show();
     $('#btnShowNewInstructorForm').hide();
+    $('#btnShowCopyInstructorModal').hide();
     scrollToElement($('#panelAddInstructor')[0], { duration: 1000 });
 }
 
 function hideNewInstructorForm() {
     $('#panelAddInstructor').hide();
     $('#btnShowNewInstructorForm').show();
+    $('#btnShowCopyInstructorModal').show();
 }
 
 function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {

@@ -171,6 +171,7 @@ public class InstructorCourseEditPageData extends PageData {
     private ElementTag createCopyInstructorButton(boolean isDisabled) {
         ElementTag button = new ElementTag("Copy Instructors");
         button.setAttribute("class", "btn btn-primary");
+        button.setAttribute("id", "btnShowCopyInstructorModal");
         button.setAttribute("data-actionlink", getInstructorCourseInstructorCopyPageLink());
         button.setAttribute("data-courseid", course.getId());
         button.setAttribute("data-target", "#copyModal");
