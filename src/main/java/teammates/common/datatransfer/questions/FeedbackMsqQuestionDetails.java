@@ -509,9 +509,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionHelpText);
         }
 
-        if (numOfMsqChoices > 0) {
+        if (msqChoices.size() > 0) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-            for (int i = 0; i < numOfMsqChoices; i++) {
+            for (int i = 0; i < msqChoices.size(); i++) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
                                 Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)));
