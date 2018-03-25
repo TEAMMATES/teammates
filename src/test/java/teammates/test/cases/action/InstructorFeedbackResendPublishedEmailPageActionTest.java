@@ -47,13 +47,13 @@ public class InstructorFeedbackResendPublishedEmailPageActionTest extends BaseAc
 
         InstructorFeedbackAjaxStudentsListPageData pageData =
                 (InstructorFeedbackAjaxStudentsListPageData) r.data;
-        assertEquals(5, pageData.getResponseStatus().noResponse.size());
+        assertEquals(5, pageData.getResponseStatus().studentsWhoDidNotRespond.size());
         assertEquals(0, pageData.getResponseStatus().studentsWhoResponded.size());
 
         assertFalse(pageData.getResponseStatus().studentsWhoResponded.contains("student1InCourse1@gmail.tmt"));
         assertFalse(pageData.getResponseStatus().studentsWhoResponded.contains("student2InCourse1@gmail.tmt"));
-        assertTrue(pageData.getResponseStatus().noResponse.contains("student3InCourse1@gmail.tmt"));
-        assertTrue(pageData.getResponseStatus().noResponse.contains("student4InCourse1@gmail.tmt"));
+        assertTrue(pageData.getResponseStatus().studentsWhoDidNotRespond.contains("student3InCourse1@gmail.tmt"));
+        assertTrue(pageData.getResponseStatus().studentsWhoDidNotRespond.contains("student4InCourse1@gmail.tmt"));
         assertFalse(pageData.getResponseStatus().studentsWhoResponded.contains("student5InCourse1@gmail.tmt"));
     }
 
