@@ -48,7 +48,10 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
 
         questionResponseBundle.put(question, responses);
 
+        StudentAttributes recipient2 = dataBundle.students.get("student2InCourse1");
+
         recipients.put(student.email, Const.USER_NAME_FOR_SELF);
+        recipients.put(recipient2.email, recipient2.name);
         recipientList.put(question.getId(), recipients);
 
         pageData.bundle = new FeedbackSessionQuestionsBundle(feedbackSession, questionResponseBundle, recipientList);
