@@ -33,11 +33,12 @@ public class InstructorCourseInstructorCopyPageData extends PageData{
         for (InstructorAttributes instructor : copiableInstructors) {
             String courseId = instructor.getCourseId();
             String name = instructor.getName();
+            String accessLevel = instructor.getRole();
             String displayedName = instructor.getDisplayedName();
             String email = instructor.getEmail();
 
             CourseInstructorCopyTableRow row =
-                    new CourseInstructorCopyTableRow(courseId, name, displayedName, email);
+                    new CourseInstructorCopyTableRow(courseId, name, accessLevel, displayedName, email);
             copyInstructorRows.add(row);
         }
 

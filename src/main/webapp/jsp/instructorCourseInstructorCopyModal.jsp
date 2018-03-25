@@ -12,6 +12,9 @@
     <th id="button_sortinstrname" class="button-sort-none toggle-sort" style="width:17%;">
       Instructor Name <span class="icon-sort unsorted"></span>
     </th>
+    <th id="button_sortinstraccesslevel" class="button-sort-none toggle-sort" style="width:17%;">
+      Instructor Access Level <span class="icon-sort unsorted"></span>
+    </th>
     <th id="button_sortinstrdisname" class="button-sort-none toggle-sort">
       Instructor Displayed Name <span class="icon-sort unsorted"></span>
     </th>
@@ -25,6 +28,7 @@
       <td><input type="checkbox"></td>
       <td>${row.courseId}</td>
       <td>${row.instructorName}</td>
+      <td>${row.instructorAccessLevel}</td>
       <td>${row.instructorDisplayedName}</td>
       <td>${row.instructorEmail}</td>
       <input type="hidden" class="instructoremail" value="${row.instructorEmail}">
