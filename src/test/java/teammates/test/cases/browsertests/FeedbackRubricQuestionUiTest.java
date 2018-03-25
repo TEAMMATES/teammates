@@ -52,15 +52,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         StudentFeedbackResultsPage simpleResultsPage =
                                         loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
-
         simpleResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
-
-        ______TS("test rubric question: Check functionality of 'Excluding Self` option");
-
-        assertFalse(simpleResultsPage.isExcludingSelfTableVisible());
-        assertTrue(simpleResultsPage.isExcludingSelfOptionVisible());
-        simpleResultsPage.clickExcludingSelfCheckbox();
-        //assertTrue(simpleResultsPage.isExcludingSelfTableVisible());
 
         ______TS("test rubric question extended student results page");
 
