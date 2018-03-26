@@ -1053,7 +1053,8 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns if the input element is valid (satisfies constraint validation).
+     * Returns if the input element is valid (satisfies constraint validation). Note: This method will return false if the
+     * input element is not a candidate for constraint validation (e.g. when input element is disabled).
      */
     public boolean isInputElementValid(WebElement inputElement) {
         checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
