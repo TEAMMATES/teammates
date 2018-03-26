@@ -25,6 +25,12 @@ public class InstructorHomePage extends AppPage {
     @FindBy(id = "sortByDate")
     private WebElement sortByDateButton;
 
+    @FindBy(id = "remindModal")
+    private WebElement remindModal;
+
+    @FindBy(id = "resendPublishedEmailModal")
+    private WebElement resendPublishedEmailModal;
+
     @FindBy(className = "button_sortname")
     private List<WebElement> tablesSortByName;
 
@@ -166,25 +172,18 @@ public class InstructorHomePage extends AppPage {
 
     public void clickResendPublishedEmailLink(String courseId, String evalName) {
         click(getResendPublishedEmailLink(courseId, evalName));
-        waitForResendPublishedEmailModalPresence();
+        waitForElementVisibility(resendPublishedEmailModal);
     }
 
     public void cancelResendPublishedEmailForm() {
-        WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
-        click(resendPublishedEmailModal.findElement(By.tagName("button")));
-        waitForModalToDisappear();
+        cancelModalForm(resendPublishedEmailModal);
     }
 
     public void fillResendPublishedEmailForm() {
-        WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
-        List<WebElement> usersToEmail = resendPublishedEmailModal.findElements(By.name("usersToEmail"));
-        for (WebElement e : usersToEmail) {
-            markCheckBoxAsChecked(e);
-        }
+        fillFormElements(resendPublishedEmailModal, "usersToEmail");
     }
 
     public void submitResendPublishedEmailForm() {
-        WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
         resendPublishedEmailModal.findElement(By.name("form_email_list")).submit();
     }
 
@@ -249,25 +248,18 @@ public class InstructorHomePage extends AppPage {
 
     public void clickRemindParticularUsersLink(String courseId, String evalName) {
         click(getRemindParticularUsersLink(courseId, evalName));
-        waitForRemindModalPresence();
+        waitForElementVisibility(remindModal);
     }
 
     public void cancelRemindParticularUsersForm() {
-        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
-        click(remindModal.findElement(By.tagName("button")));
-        waitForModalToDisappear();
+        cancelModalForm(remindModal);
     }
 
     public void fillRemindParticularUsersForm() {
-        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
-        List<WebElement> usersToRemind = remindModal.findElements(By.name("usersToRemind"));
-        for (WebElement e : usersToRemind) {
-            markCheckBoxAsChecked(e);
-        }
+        fillFormElements(remindModal, "usersToRemind");
     }
 
     public void submitRemindParticularUsersForm() {
-        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
         remindModal.findElement(By.name("form_remind_list")).submit();
     }
 

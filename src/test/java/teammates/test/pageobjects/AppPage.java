@@ -311,6 +311,18 @@ public abstract class AppPage {
         waitForModalToDisappear();
     }
 
+    public void cancelModalForm(WebElement modal) {
+        click(modal.findElement(By.tagName("button")));
+        waitForModalToDisappear();
+    }
+
+    public void fillFormElements(WebElement form, String elementsName) {
+        List<WebElement> formElements = form.findElements(By.name(elementsName));
+        for (WebElement e : formElements) {
+            markCheckBoxAsChecked(e);
+        }
+    }
+
     /**
      * Waits for a confirmation modal to appear and click the cancel button.
      */
@@ -330,16 +342,6 @@ public abstract class AppPage {
     public void waitForModalToDisappear() {
         By modalBackdrop = By.className("modal-backdrop");
         waitForElementToDisappear(modalBackdrop);
-    }
-
-    public void waitForRemindModalPresence() {
-        By remindModal = By.id("remindModal");
-        waitForElementVisibility(remindModal);
-    }
-
-    public void waitForResendPublishedEmailModalPresence() {
-        By resendPublishedEmailModal = By.id("resendPublishedEmailModal");
-        waitForElementVisibility(resendPublishedEmailModal);
     }
 
     /**
