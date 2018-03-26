@@ -119,7 +119,6 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         String searchContent = "\"student2 2 In Course1\"";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2WithExactString.html");
 
         String studentName = testData.students.get("student2.2InCourse1").name;
         String studentEmail = testData.students.get("student2.2InCourse1").email;
@@ -128,7 +127,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickDeleteAndCancel(courseId, studentName);
         assertNotNull(BackDoor.getStudent(courseId, studentEmail));
 
-        String expectedStatus = "The student has been removed from the course";
+        String expectedStatus = Const.StatusMessages.STUDENT_DELETED;
         searchPage.clickDeleteAndConfirm(courseId, studentName);
         InstructorCourseDetailsPage courseDetailsPage = searchPage.changePageType(InstructorCourseDetailsPage.class);
         courseDetailsPage.waitForTextsForAllStatusMessagesToUserEquals(expectedStatus);
