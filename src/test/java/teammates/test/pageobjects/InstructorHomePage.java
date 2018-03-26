@@ -164,18 +164,18 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorHomePage.class);
     }
 
-    public void clickResendPublishedEmailsLink(String courseId, String evalName) {
+    public void clickResendPublishedEmailLink(String courseId, String evalName) {
         click(getResendPublishedEmailLink(courseId, evalName));
         ThreadHelper.waitFor(1000);
     }
 
-    public void cancelResendPublishedEmailsForm() {
+    public void cancelResendPublishedEmailForm() {
         WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
         click(resendPublishedEmailModal.findElement(By.tagName("button")));
         waitForModalToDisappear();
     }
 
-    public void fillResendPublishedEmailsForm() {
+    public void fillResendPublishedEmailForm() {
         WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
         List<WebElement> usersToEmail = resendPublishedEmailModal.findElements(By.name("usersToEmail"));
         for (WebElement e : usersToEmail) {
@@ -183,7 +183,7 @@ public class InstructorHomePage extends AppPage {
         }
     }
 
-    public void submitResendPublishedEmailsForm() {
+    public void submitResendPublishedEmailForm() {
         WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
         resendPublishedEmailModal.findElement(By.name("form_email_list")).submit();
     }
@@ -290,7 +290,7 @@ public class InstructorHomePage extends AppPage {
         return getSessionLinkInRow("session-unpublish-for-test", getEvaluationRowId(courseId, evalName));
     }
 
-    public void verifyResendPublishedEmailsButtonExists(String courseId, String evalName) {
+    public void verifyResendPublishedEmailButtonExists(String courseId, String evalName) {
         int rowId = getEvaluationRowId(courseId, evalName);
         waitForElementPresence(By.id("session" + rowId));
         WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
@@ -298,7 +298,7 @@ public class InstructorHomePage extends AppPage {
         verifyElementContainsElement(sessionRow, By.className(resendLinksClassNamePrefix));
     }
 
-    public void verifyResendPublishedEmailsButtonDoesnNotExist(String courseId, String evalName) {
+    public void verifyResendPublishedEmailButtonDoesNotExist(String courseId, String evalName) {
         int rowId = getEvaluationRowId(courseId, evalName);
         waitForElementPresence(By.id("session" + rowId));
         WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));

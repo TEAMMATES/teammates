@@ -360,7 +360,7 @@ function sendRemindersToStudents(urlLink) {
     });
 }
 
-function resendPublishedEmailsToStudents(urlLink) {
+function resendPublishedEmailToStudents(urlLink) {
     const $statusMessage = $('#statusMessagesToUser');
     $.ajax({
         type: 'POST',
@@ -513,7 +513,7 @@ export {
     bindUnpublishButtons,
     executeCopyCommand,
     prepareInstructorPages,
-    resendPublishedEmailsToStudents,
+    resendPublishedEmailToStudents,
     selectElementContents,
     setupFsCopyModal,
     sendRemindersToStudents,

@@ -353,40 +353,40 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         ______TS("resend links action: PUBLISHED feedback session");
         // Test that the resend published links button exists for this published session
-        homePage.verifyResendPublishedEmailsButtonExists(feedbackSessionPublished.getCourseId(),
+        homePage.verifyResendPublishedEmailButtonExists(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
 
         // Test that the resend published links button can be clicked and the form can be cancelled
         homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
-        homePage.clickResendPublishedEmailsLink(feedbackSessionPublished.getCourseId(),
+        homePage.clickResendPublishedEmailLink(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
-        homePage.cancelResendPublishedEmailsForm();
+        homePage.cancelResendPublishedEmailForm();
 
         // Test the status message when the form is submitted with empty recipient list
         homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
-        homePage.clickResendPublishedEmailsLink(feedbackSessionPublished.getCourseId(),
+        homePage.clickResendPublishedEmailLink(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForAjaxLoaderGifToDisappear();
-        homePage.submitResendPublishedEmailsForm();
+        homePage.submitResendPublishedEmailForm();
         homePage.waitForPageToLoad();
         homePage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
         homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
-        homePage.clickResendPublishedEmailsLink(feedbackSessionPublished.getCourseId(),
+        homePage.clickResendPublishedEmailLink(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForAjaxLoaderGifToDisappear();
-        homePage.fillResendPublishedEmailsForm();
-        homePage.submitResendPublishedEmailsForm();
+        homePage.fillResendPublishedEmailForm();
+        homePage.submitResendPublishedEmailForm();
         homePage.waitForPageToLoad();
         homePage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
 
         ______TS("resend links action: NOT PUBLISHED feedback session");
         // Test that the resend published links button does not exist for this not published session
-        homePage.verifyResendPublishedEmailsButtonDoesnNotExist(feedbackSessionAwaiting.getCourseId(),
+        homePage.verifyResendPublishedEmailButtonDoesNotExist(feedbackSessionAwaiting.getCourseId(),
                 feedbackSessionAwaiting.getFeedbackSessionName());
     }
 

@@ -1,5 +1,5 @@
 import {
-    resendPublishedEmailsToStudents,
+    resendPublishedEmailToStudents,
 } from './instructor';
 
 function bindSelectAllStudentCheckboxEvent() {
@@ -44,7 +44,7 @@ function prepareResendPublishedEmailModal() {
         const action = $form.attr('action');
         const formData = $form.serialize();
         const url = `${action}&${formData}`;
-        resendPublishedEmailsToStudents(url);
+        resendPublishedEmailToStudents(url);
     });
 }
 
