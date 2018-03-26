@@ -87,7 +87,7 @@ public final class InstructorsLogic {
     }
 
     public InstructorAttributes copyInstructor(String instructorEmail, String fromCourseId, String toCourseId)
-            throws InvalidParametersException, EntityAlreadyExistsException{
+            throws InvalidParametersException, EntityAlreadyExistsException {
         InstructorAttributes instructor = getInstructorForEmail(fromCourseId, instructorEmail);
         instructor.courseId = toCourseId;
         return createInstructor(instructor);

@@ -10,9 +10,9 @@ import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorCourseInstructorCopyPageData;
 
 /**
- * The action to fetch data for copy instructor modal when the copy instructor button is clicked
+ * The action to fetch data for copy instructor modal when the copy instructor button is clicked.
  */
-public class InstructorCourseInstructorCopyPageAction extends Action{
+public class InstructorCourseInstructorCopyPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
@@ -30,11 +30,11 @@ public class InstructorCourseInstructorCopyPageAction extends Action{
 
         List<InstructorAttributes> existingInstructors = logic.getInstructorsForCourse(thisCourseId);
 
-        for (CourseAttributes course: coursesOfThisInstructor) {
+        for (CourseAttributes course : coursesOfThisInstructor) {
             String courseId = course.getId();
             if (!courseId.equals(thisCourseId)) {
                 List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-                for (InstructorAttributes instructor: instructors) {
+                for (InstructorAttributes instructor : instructors) {
                     if (!instructorInThisCourse(instructor, existingInstructors)) {
                         copiableInstructors.add(instructor);
                     }
@@ -50,7 +50,7 @@ public class InstructorCourseInstructorCopyPageAction extends Action{
 
     private boolean instructorInThisCourse(
             InstructorAttributes instructorToBeChecked, List<InstructorAttributes> instructorsInTheCourse) {
-        for (InstructorAttributes instructor: instructorsInTheCourse) {
+        for (InstructorAttributes instructor : instructorsInTheCourse) {
             if (instructor.getEmail().equals(instructorToBeChecked.getEmail())) {
                 return true;
             }

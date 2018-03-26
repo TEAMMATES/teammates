@@ -276,7 +276,7 @@ public class Logic {
     }
 
     public InstructorAttributes copyInstructor(String instructorEmail, String fromCourseId, String toCourseId)
-            throws InvalidParametersException, EntityAlreadyExistsException{
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Assumption.assertNotNull(instructorEmail);
         Assumption.assertNotNull(fromCourseId);
         Assumption.assertNotNull(toCourseId);
