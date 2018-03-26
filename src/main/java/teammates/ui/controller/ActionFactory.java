@@ -82,7 +82,6 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_EDIT_COPY, InstructorFeedbackEditCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_EDIT_PAGE, InstructorFeedbackEditPageAction.class);
         map(INSTRUCTOR_FEEDBACK_EDIT_SAVE, InstructorFeedbackEditSaveAction.class);
-        map(INSTRUCTOR_FEEDBACK_REMIND, InstructorFeedbackRemindAction.class);
         map(INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE, InstructorFeedbackRemindParticularStudentsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS, InstructorFeedbackRemindParticularStudentsAction.class);
         map(INSTRUCTOR_FEEDBACK_PUBLISH, InstructorFeedbackPublishAction.class);

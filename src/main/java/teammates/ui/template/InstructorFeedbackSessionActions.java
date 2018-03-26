@@ -18,7 +18,6 @@ public class InstructorFeedbackSessionActions {
     private String editLink;
     private String deleteLink;
     private String submitLink;
-    private String remindLink;
     private String remindParticularStudentsPageLink;
     private String editCopyLink;
 
@@ -43,7 +42,6 @@ public class InstructorFeedbackSessionActions {
         this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName, true);
         this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName, returnUrl);
         this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
-        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName, returnUrl);
         this.remindParticularStudentsPageLink =
                 data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId, feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
@@ -94,10 +92,6 @@ public class InstructorFeedbackSessionActions {
 
     public String getSubmitLink() {
         return submitLink;
-    }
-
-    public String getRemindLink() {
-        return remindLink;
     }
 
     public String getRemindParticularStudentsPageLink() {

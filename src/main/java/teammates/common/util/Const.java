@@ -188,7 +188,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD,
                         ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY,
                         ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_REMIND,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
