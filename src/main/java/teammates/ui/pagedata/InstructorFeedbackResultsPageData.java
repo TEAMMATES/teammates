@@ -696,7 +696,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildSectionPanelsForForAjaxLoading(List<String> sections, InstructorFeedbackResultsPageViewType viewType) {
         sectionPanels = new LinkedHashMap<>();
 
-        if (hasNoSpecificSectionPanel(viewType)) {
+        if (hasEntitiesInNoSpecificSection(viewType)) {
             InstructorFeedbackResultsSectionPanel sectionPanel =
                     new InstructorFeedbackResultsSectionPanel(Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
 
@@ -1795,7 +1795,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * <li>false otherwise</li>
      * </ul>
      */
-    private boolean hasNoSpecificSectionPanel(InstructorFeedbackResultsPageViewType viewType) {
+    private boolean hasEntitiesInNoSpecificSection(InstructorFeedbackResultsPageViewType viewType) {
         boolean hasFeedbackFromInstructor = bundle.containsResponseFromInstructor();
         boolean hasFeedbackToInstructorOrGeneral = bundle.containsResponsesToInstructorOrGeneral();
         boolean viewTypeIsRecipient = viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER
@@ -1803,6 +1803,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean hasTeamsInNoSection = bundle.getTeamsInSectionFromRoster(Const.DEFAULT_SECTION).size() > 0;
 
         return hasTeamsInNoSection
-                || viewTypeIsRecipient && (hasFeedbackToInstructorOrGeneral || hasFeedbackFromInstructor);
+                || viewTypeIsRecipient && hasFeedbackToInstructorOrGeneral
+                || !viewTypeIsRecipient && hasFeedbackFromInstructor;
     }
 }

@@ -558,7 +558,7 @@ public class FeedbackSessionResultsBundle {
             return roster.getStudentForEmail(participantIdentifier)
                     .section;
         } else if (isInstructor || participantIsGeneral) {
-            return Const.NO_SPECIFIC_RECIPIENT;
+            return Const.NO_SPECIFIC_SECTION;
         } else {
             return "";
         }
@@ -1718,7 +1718,7 @@ public class FeedbackSessionResultsBundle {
     public boolean containsResponsesToInstructorOrGeneral() {
         for (FeedbackResponseAttributes response : responses) {
             String recipientIdentifier = response.recipient;
-            if (getSectionFromRoster(recipientIdentifier) == Const.NO_SPECIFIC_RECIPIENT) {
+            if (getSectionFromRoster(recipientIdentifier) == Const.NO_SPECIFIC_SECTION) {
                 return true;
             }
         }
