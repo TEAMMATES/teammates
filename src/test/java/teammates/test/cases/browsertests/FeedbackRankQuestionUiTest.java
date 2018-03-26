@@ -399,18 +399,16 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
         feedbackEditPage.clearMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
 
-        feedbackEditPage.clickAddQuestionButton();
-
         WebElement minOptionsInputElement =
                 feedbackEditPage.getMinOptionsToBeRankedInputElement(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
 
         assertFalse(feedbackEditPage.isInputElementValid(minOptionsInputElement));
 
         ______TS("Rank edit: Invalid letters in number of options a respondent must rank");
+        feedbackEditPage.fillMinOptionsToBeRanked(InstructorFeedbackEditPage.NEW_QUESTION_NUM, "1");
+        assertTrue(feedbackEditPage.isInputElementValid(minOptionsInputElement));
+
         feedbackEditPage.fillMinOptionsToBeRanked(InstructorFeedbackEditPage.NEW_QUESTION_NUM, "invalid letters");
-
-        feedbackEditPage.clickAddQuestionButton();
-
         assertFalse(feedbackEditPage.isInputElementValid(minOptionsInputElement));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
@@ -425,6 +423,12 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
         feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 2");
 
+        // Ensure that rank options is cleared.
+        feedbackEditPage.clickMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+        feedbackEditPage.clearMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+
+        // Unchecks and check to auto-fill with 1
+        feedbackEditPage.clickEnableMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
         feedbackEditPage.clickEnableMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
 
         feedbackEditPage.clickAddQuestionButton();
