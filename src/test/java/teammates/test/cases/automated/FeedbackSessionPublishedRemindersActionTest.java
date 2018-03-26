@@ -37,14 +37,14 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
         // Publish session by moving automated publish time
 
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        session1.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session1.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         fsLogic.updateFeedbackSession(session1);
         verifyPresentInDatastore(session1);
 
         // Publish session by moving automated publish time and disable publish reminder
 
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse1");
-        session2.setResultsVisibleFromTime(TimeHelper.getDateOffsetToCurrentTime(-1));
+        session2.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session2.setPublishedEmailEnabled(false);
         fsLogic.updateFeedbackSession(session2);
         verifyPresentInDatastore(session2);

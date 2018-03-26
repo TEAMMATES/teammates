@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,8 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
+
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents emails composed by Admin.
@@ -52,13 +55,13 @@ public class AdminEmail extends BaseEntity {
      *          html email content
      */
     public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject,
-                      Text content, Date sendDate) {
+                      Text content, Instant sendDate) {
         this.emailId = null;
         this.addressReceiver = addressReceiver == null ? new ArrayList<String>() : addressReceiver;
         this.groupReceiver = groupReceiver == null ? new ArrayList<String>() : groupReceiver;
         this.subject = subject;
         this.content = content;
-        this.sendDate = sendDate;
+        this.sendDate = TimeHelper.convertInstantToDate(sendDate);
         this.createDate = new Date();
         this.isInTrashBin = false;
     }
@@ -83,8 +86,8 @@ public class AdminEmail extends BaseEntity {
         this.isInTrashBin = isInTrashBin;
     }
 
-    public void setSendDate(Date sendDate) {
-        this.sendDate = sendDate;
+    public void setSendDate(Instant sendDate) {
+        this.sendDate = TimeHelper.convertInstantToDate(sendDate);
     }
 
     public String getEmailId() {
@@ -103,8 +106,8 @@ public class AdminEmail extends BaseEntity {
         return this.subject;
     }
 
-    public Date getSendDate() {
-        return this.sendDate;
+    public Instant getSendDate() {
+        return TimeHelper.convertDateToInstant(this.sendDate);
     }
 
     public Text getContent() {
@@ -115,7 +118,7 @@ public class AdminEmail extends BaseEntity {
         return this.isInTrashBin;
     }
 
-    public Date getCreateDate() {
-        return this.createDate;
+    public Instant getCreateDate() {
+        return TimeHelper.convertDateToInstant(this.createDate);
     }
 }

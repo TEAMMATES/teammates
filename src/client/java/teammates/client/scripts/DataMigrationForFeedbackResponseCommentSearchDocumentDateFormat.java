@@ -1,10 +1,8 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 
 import com.google.appengine.api.search.Document;
 import com.google.gson.JsonParser;
@@ -13,20 +11,21 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.util.Const;
 
 /**
- * Script to fix the date format in old {@link FeedbackResponseCommentSearchDocument}s created before V5.93.
+ * Script to fix the date format in old {@link teammates.storage.search.FeedbackResponseCommentSearchDocument}s
+ * created before V6.4.0.
  *
- * <p>Before V5.93, we used GSON's default JSON serializer, which output the dates in en-US format.
- * From V5.93 onwards, we have been using our own JSON serializer which writes dates in our prescribed format.
+ * <p>Before V6.4.0, we used {@link java.util.Date} fields for timestamps. These are serialized using the format
+ * {@link Const.SystemParams#DEFAULT_DATE_TIME_FORMAT}.
+ * From V6.4.0 onwards, these have been migrated to {@link Instant} fields. These are serialized using
+ * {@link java.time.format.DateTimeFormatter#ISO_INSTANT}.
  * Comment search documents now exist in both formats, which the current codebase has to handle.</p>
  *
- * <p>This script migrates all comment search documents to the newer prescribed date format.</p>
+ * <p>This script migrates all comment search documents to the newer instant format.
+ * The @{@link teammates.common.datatransfer.attributes.FeedbackSessionAttributes#timeZone} field is also
+ * automatically migrated.</p>
  */
 public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat
         extends DataMigrationForFeedbackResponseCommentSearchDocument {
-
-    private static final DateFormat oldDateFormat =
-            DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.US);
-    private static final DateFormat newDateFormat = new SimpleDateFormat(Const.SystemParams.DEFAULT_DATE_TIME_FORMAT);
 
     private static final JsonParser jsonParser = new JsonParser();
 
@@ -56,16 +55,11 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat
     @Override
     protected boolean isMigrationNeeded(FeedbackResponseCommentAttributes comment) {
         Document document = index.get(comment.getId().toString());
+        if (document == null) {
+            return false;
+        }
         String sampleDateString = extractSampleDateString(document);
-        if (isInDateFormat(sampleDateString, oldDateFormat)) {
-            return true;
-        }
-
-        if (!isInDateFormat(sampleDateString, newDateFormat)) {
-            println("Unrecognised date format (" + sampleDateString + ") for:\n" + comment);
-        }
-
-        return false;
+        return !isInInstantFormat(sampleDateString);
     }
 
     private String extractSampleDateString(Document document) {
@@ -73,11 +67,11 @@ public class DataMigrationForFeedbackResponseCommentSearchDocumentDateFormat
         return jsonParser.parse(frcaJson).getAsJsonObject().getAsJsonPrimitive("createdAt").getAsString();
     }
 
-    private boolean isInDateFormat(String dateString, DateFormat dateFormat) {
+    private boolean isInInstantFormat(String dateString) {
         try {
-            dateFormat.parse(dateString);
+            Instant.parse(dateString);
             return true;
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
             return false;
         }
     }
