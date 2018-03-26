@@ -471,7 +471,7 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
- 
+
     toggleConstSumOptionsRadioButton(questionNum);
     if ($(`#distributePointsOptionsCheckbox-${questionNum}`).prop('checked')) {
         $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', false);
