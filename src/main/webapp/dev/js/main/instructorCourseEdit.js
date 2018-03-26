@@ -20,7 +20,6 @@ import {
 import {
     TimeZone,
 } from '../common/timezone';
-import {setStatusMessage} from "../common/statusMessage";
 
 // global parameter to remember settings for custom access level
 
@@ -392,7 +391,7 @@ function setupInstructorCopyModal() {
                     $instructorCopyStatusMessage.html('');
                 } else {
                     $instructorCopyStatusMessage.addClass('alert alert-danger');
-                    $instructorCopyStatusMessage.prepend('<br>').html("No instructor to be copied.");
+                    $instructorCopyStatusMessage.prepend('<br>').html('No instructor to be copied.');
                 }
             },
         });

@@ -9,7 +9,9 @@ import {
 import {
     BootstrapContextualColors,
 } from './const';
-import {setStatusMessage} from "./statusMessage";
+import {
+    setStatusMessage,
+} from './statusMessage';
 
 /*
  * This JavaScript file is included in all instructor pages. Functions here
@@ -275,9 +277,10 @@ function bindStudentPhotoHoverLink(elements) {
 
 /**
  * Triggered when selecting rows to copy in the copy modal table
- * @param numRowsSelected should be initiated to 0 upon page load
+ * @param numRowsSelectedStartToBeZero should be initiated to 0 upon page load
  */
-function bindCopyEvents(numRowsSelected) {
+function bindCopyEvents(numRowsSelectedStartToBeZero) {
+    let numRowsSelected = numRowsSelectedStartToBeZero;
     $('body').on('click', '#copyTableModal > tbody > tr', function (e) {
         e.preventDefault();
 
@@ -311,7 +314,7 @@ function bindCopyButton(forPage) {
         let hasRowSelected = false;
 
         const isFeedbackEditPage = forPage === 'instructorFeedbackEdit';
-        const instructorInput =  isFeedbackEditPage ? 'questionid' : 'instructoremail';
+        const instructorInput = isFeedbackEditPage ? 'questionid' : 'instructoremail';
         const dataTypeToBeCopied = isFeedbackEditPage ? 'questions' : 'instructors';
 
         $('#copyTableModal > tbody > tr').each(function () {
