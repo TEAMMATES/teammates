@@ -154,7 +154,6 @@ public class FieldValidator {
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
     // field-specific error messages
-    public static final String GRACE_PERIOD_NEGATIVE = "Grace period should never be negative.";
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
@@ -183,6 +182,9 @@ public class FieldValidator {
             "The value must be one of the values from the time zone dropdown selector.";
     public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
+    public static final String HINT_GRACE_PERIOD =
+            "The value must be one of the options in the grace period dropdown selector.";
+    public static final String GRACE_PERIOD_NEGATIVE = "Grace period should not be negative," + " " + HINT_GRACE_PERIOD;
 
     public static final String HINT_FOR_CORRECT_NATIONALITY =
             "The value must be one of the values from the nationality dropdown selector.";
@@ -325,6 +327,7 @@ public class FieldValidator {
     /**
      * Checks if {@code gracePeriod} is not negative.
      * @return An explanation why the {@code gracePeriod} is not acceptable.
+     *         Returns an empty string if the {@code gracePeriod} is acceptable.
      */
     public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
         if (gracePeriod.isNegative()) {

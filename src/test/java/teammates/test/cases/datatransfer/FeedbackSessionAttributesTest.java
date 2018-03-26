@@ -135,8 +135,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         String creatorEmailError = "The field 'email' is empty. An email address contains some text followed "
                 + "by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot be empty"
                 + " and cannot contain spaces.";
-        String gracePeriodError = "Grace period should never be negative.";
+        String gracePeriodError = "Grace period should not be negative," + " "
+                + "The value must be one of the options in the grace period dropdown selector.";
 
         return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError);
     }
+
 }
