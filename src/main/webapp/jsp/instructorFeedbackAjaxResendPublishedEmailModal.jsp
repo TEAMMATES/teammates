@@ -7,7 +7,7 @@
     <th class="align-center">
       <div class="checkbox">
         <label>
-          <input type="checkbox" id="publish-email-checkall" class="table-column-no-float">
+          <input type="checkbox" id="resend-published-email-checkall" class="table-column-no-float">
         </label>
       </div>
     </th>

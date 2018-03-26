@@ -74,7 +74,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
 
-        // there are 6 sessions in this course
+        // There are 7 sessions in this course
         verifySpecifiedTasksAdded(enrollAction, Const.TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME, 7);
 
         List<TaskWrapper> tasksAdded = enrollAction.getTaskQueuer().getTasksAdded();

@@ -72,18 +72,18 @@
       </div>
     </div>
   </div>
-  <div aria-hidden="true" aria-labelledby="publishEmailModal" class="modal fade" id="publishEmailModal" role="dialog" tabindex="-1">
+  <div aria-hidden="true" aria-labelledby="resendPublishedEmailModal" class="modal fade" id="resendPublishedEmailModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="/page/instructorFeedbackResendPublishEmail?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_email_list" role="form">
+        <form action="/page/instructorFeedbackResendPublishedEmail?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_email_list" role="form">
           <div class="modal-header">
             <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
               ×
             </button>
             <h4 class="modal-title">
-              Email Particular Students
+              Resend Published Email
               <small>
-                (Select the student(s) you want to send email to)
+                (Select the student(s) you want to resend the published email to)
               </small>
             </h4>
           </div>
@@ -95,7 +95,7 @@
             <button class="btn btn-default" data-dismiss="modal" type="button">
               Cancel
             </button>
-            <input class="btn btn-primary publish-email-particular-button" data-dismiss="modal" type="button" value="Send">
+            <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
             <input name="user" type="hidden" value="${test.instructor}">
           </div>
         </form>
@@ -418,7 +418,7 @@
                         </a>
                       </li>
                       <li>
-                        <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishEmailPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="First team feedback session" data-target="#publishEmailModal" data-toggle="modal" href="">
+                        <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="First team feedback session" data-target="#resendPublishedEmailModal" data-toggle="modal" href="">
                           Resend link to view results
                         </a>
                       </li>
@@ -517,7 +517,7 @@
                         </a>
                       </li>
                       <li>
-                        <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishEmailPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-target="#publishEmailModal" data-toggle="modal" href="">
+                        <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-target="#resendPublishedEmailModal" data-toggle="modal" href="">
                           Resend link to view results
                         </a>
                       </li>

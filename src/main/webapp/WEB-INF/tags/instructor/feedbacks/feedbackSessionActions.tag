@@ -74,7 +74,7 @@
             data-courseid="${actions.courseId}"
             data-fsname="${actions.fsName}"
             data-toggle="modal"
-            data-target="#publishEmailModal">
+            data-target="#resendPublishedEmailModal">
           Resend link to view results
         </a>
       </li>

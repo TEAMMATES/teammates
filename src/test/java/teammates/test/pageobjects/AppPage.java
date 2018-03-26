@@ -963,18 +963,18 @@ public abstract class AppPage {
         return this;
     }
 
-    public void verifyContainsElement(By by) {
-        List<WebElement> elements = browser.driver.findElements(by);
+    public void verifyContainsElement(By childBy) {
+        List<WebElement> elements = browser.driver.findElements(childBy);
         assertFalse(elements.isEmpty());
     }
 
-    public void verifyElementContainsElement(WebElement parentElement, By by) {
-        List<WebElement> elements = parentElement.findElements(by);
+    public void verifyElementContainsElement(WebElement parentElement, By childBy) {
+        List<WebElement> elements = parentElement.findElements(childBy);
         assertFalse(elements.isEmpty());
     }
 
-    public void verifyElementNotContainsElement(WebElement parentElement, By by) {
-        List<WebElement> elements = parentElement.findElements(by);
+    public void verifyElementDoesNotContainsElement(WebElement parentElement, By childBy) {
+        List<WebElement> elements = parentElement.findElements(childBy);
         assertTrue(elements.isEmpty());
     }
 

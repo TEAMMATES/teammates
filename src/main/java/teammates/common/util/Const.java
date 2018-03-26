@@ -969,9 +969,9 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
         public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE =
-                "/page/instructorFeedbackResendPublishEmailPage";
+                "/page/instructorFeedbackResendPublishedEmailPage";
         public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL =
-                "/page/instructorFeedbackResendPublishEmail";
+                "/page/instructorFeedbackResendPublishedEmail";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE = "/page/instructorFeedbackEditCopyPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY = "/page/instructorFeedbackEditCopy";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
