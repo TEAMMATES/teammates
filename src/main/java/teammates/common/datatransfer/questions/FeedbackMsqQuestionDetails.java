@@ -509,7 +509,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionHelpText);
         }
 
-        if (msqChoices.size() > 0) {
+        if (!msqChoices.isEmpty()) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
             for (int i = 0; i < msqChoices.size(); i++) {
                 String optionFragment =
