@@ -154,13 +154,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 + dataBundle.feedbackSessions.get("empty.session").toString() + System.lineSeparator()
                 + dataBundle.feedbackSessions.get("awaiting.session").toString() + System.lineSeparator()
                 + dataBundle.feedbackSessions.get("closedSession").toString() + System.lineSeparator()
-                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + System.lineSeparator()
-                + dataBundle.feedbackSessions.get("publishedSession1InCourse1").toString() + System.lineSeparator();
+                + dataBundle.feedbackSessions.get("gracePeriodSession").toString() + System.lineSeparator();
 
         for (FeedbackSessionAttributes session : sessions) {
             AssertHelper.assertContains(session.toString(), expected);
         }
-        assertEquals(7, sessions.size());
+        assertEquals(6, sessions.size());
 
         ______TS("null params");
 

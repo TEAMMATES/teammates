@@ -24,7 +24,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
     @Test
     public void testExecuteAndPostProcess() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("publishedSession1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("closedSession");
         StudentAttributes studentToEmail = typicalBundle.students.get("student1InCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -69,7 +69,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
 
         ______TS("Successful case: Typical case");
 
-        fs = typicalBundle.feedbackSessions.get("publishedSession1InCourse1");
+        fs = typicalBundle.feedbackSessions.get("closedSession");
         String[] paramsTypical = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getSessionName(),
@@ -95,7 +95,7 @@ public class InstructorFeedbackResendPublishedEmailActionTest extends BaseAction
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("publishedSession1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("closedSession");
         StudentAttributes studentNotSubmitFeedback = typicalBundle.students.get("student1InCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),

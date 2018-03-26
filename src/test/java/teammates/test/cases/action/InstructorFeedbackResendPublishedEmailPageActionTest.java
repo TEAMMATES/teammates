@@ -26,7 +26,7 @@ public class InstructorFeedbackResendPublishedEmailPageActionTest extends BaseAc
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
-        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("publishedSession1InCourse1");
+        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("closedSession");
 
         gaeSimulation.loginAsInstructor(instructorId);
 
@@ -47,13 +47,13 @@ public class InstructorFeedbackResendPublishedEmailPageActionTest extends BaseAc
 
         InstructorFeedbackAjaxStudentsListPageData pageData =
                 (InstructorFeedbackAjaxStudentsListPageData) r.data;
-        assertEquals(5, pageData.getResponseStatus().studentsWhoDidNotRespond.size());
+        assertEquals(4, pageData.getResponseStatus().studentsWhoDidNotRespond.size());
         assertEquals(0, pageData.getResponseStatus().studentsWhoResponded.size());
 
         assertFalse(pageData.getResponseStatus().studentsWhoResponded.contains("student1InCourse1@gmail.tmt"));
         assertFalse(pageData.getResponseStatus().studentsWhoResponded.contains("student2InCourse1@gmail.tmt"));
-        assertTrue(pageData.getResponseStatus().studentsWhoDidNotRespond.contains("student3InCourse1@gmail.tmt"));
-        assertTrue(pageData.getResponseStatus().studentsWhoDidNotRespond.contains("student4InCourse1@gmail.tmt"));
+        assertFalse(pageData.getResponseStatus().studentsWhoDidNotRespond.contains("student3InCourse1@gmail.tmt"));
+        assertFalse(pageData.getResponseStatus().studentsWhoDidNotRespond.contains("student4InCourse1@gmail.tmt"));
         assertFalse(pageData.getResponseStatus().studentsWhoResponded.contains("student5InCourse1@gmail.tmt"));
     }
 
@@ -67,7 +67,7 @@ public class InstructorFeedbackResendPublishedEmailPageActionTest extends BaseAc
     @Override
     protected void testAccessControl() throws Exception {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
-        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("publishedSession1InCourse1");
+        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("closedSession");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName()

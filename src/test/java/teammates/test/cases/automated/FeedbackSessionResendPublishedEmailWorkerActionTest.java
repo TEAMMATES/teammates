@@ -32,7 +32,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAut
 
         ______TS("Resend feedback session results published email");
 
-        FeedbackSessionAttributes publishedSession = dataBundle.feedbackSessions.get("publishedSession1InCourse1");
+        FeedbackSessionAttributes publishedSession = dataBundle.feedbackSessions.get("closedSession");
         StudentAttributes student1 = dataBundle.students.get("student1InCourse1");
         InstructorAttributes instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
 

@@ -98,7 +98,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         assertEquals(instructorId, actualData.account.googleId);
         assertEquals(instructor.courseId, actualData.getCourseId());
-        assertEquals(7, actualData.getSessionNames().size());
+        assertEquals(6, actualData.getSessionNames().size());
         assertEquals(student.googleId, actualData.spa.googleId);
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"
