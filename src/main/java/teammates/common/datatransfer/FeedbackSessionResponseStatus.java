@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FeedbackSessionResponseStatus {
-    public List<String> noResponse;
+    public List<String> studentsWhoDidNotRespond;
     public List<String> studentsWhoResponded;
     public Map<String, String> emailNameTable;
     public Map<String, String> emailSectionTable;
@@ -50,7 +50,7 @@ public class FeedbackSessionResponseStatus {
     private Comparator<String> compareByTeamNameStudentName = compareByTeamName.thenComparing(compareByName);
 
     public FeedbackSessionResponseStatus() {
-        noResponse = new ArrayList<>();
+        studentsWhoDidNotRespond = new ArrayList<>();
         studentsWhoResponded = new ArrayList<>();
         emailNameTable = new HashMap<>();
         emailSectionTable = new HashMap<>();
@@ -61,16 +61,25 @@ public class FeedbackSessionResponseStatus {
      * Returns list of students who did not respond to the feedback session
      * sorted by teamName > studentNamelist.
      */
-    public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
-        noResponse.sort(compareByTeamNameStudentName);
-        return noResponse;
+    public List<String> getStudentsWhoDidNotRespondSorted() {
+        studentsWhoDidNotRespond.sort(compareByTeamNameStudentName);
+        return studentsWhoDidNotRespond;
     }
 
     /**
      * Returns list of students who did not respond to the feedback session.
      */
-    public List<String> getNoResponse() {
-        return noResponse;
+    public List<String> getStudentsWhoDidNotRespond() {
+        return studentsWhoDidNotRespond;
+    }
+
+    /**
+     * Returns list of students who responded to the feedback session
+     * sorted by teamName > studentNamelist.
+     */
+    public List<String> getStudentsWhoRespondedSorted() {
+        studentsWhoResponded.sort(compareByTeamNameStudentName);
+        return studentsWhoResponded;
     }
 
     /**

@@ -138,7 +138,7 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
-      "timeZone": "UTC"
+      "timeZone": "UTC+02:00"
     },
     "typicalCourse2": {
       "createdAt": "2012-04-01T23:59:00Z",
