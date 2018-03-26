@@ -6,17 +6,7 @@ def process(fname):
         
         content = content.replace('} ${', '}${" "}${')
         content = content.replace('%> <%', '%><%= " " %><%')
-        """ 
-        content = content.replace(' ${" "}', '${" "}')
-        content = content.replace('${" "} ', '${" "}')
-
-        content = content.replace('<a ${', '<a${" "}${')
-        content = content.replace('<input ${', '<input${" "}${')
-        content = content.replace('<option ${', '<option${" "}${')
-        
-        content = content.replace('> ${', '>${" "}${')
-        content = content.replace('} />', '}/>')
-        """
+        content = content.replace('checked</c:if>', 'checked=""</c:if>')
         print content
 
 def main():

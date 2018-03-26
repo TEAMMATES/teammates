@@ -22,7 +22,7 @@
               value="${courseIdToShow}" data-toggle="tooltip" data-placement="top"
               title="Enter the identifier of the course, e.g.CS3215-2013Semester1."
               tabindex="1" placeholder="e.g. CS3215-2013Semester1"
-              maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%>/>
+              maxlength="<%=FieldValidator.COURSE_ID_MAX_LENGTH%>"/>
         </div>
       </div>
       <div class="form-group">
@@ -33,7 +33,7 @@
               value="${courseNameToShow}" data-toggle="tooltip" data-placement="top"
               title="Enter the name of the course, e.g. Software Engineering."
               tabindex=2 placeholder="e.g. Software Engineering"
-              maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%>/>
+              maxlength="<%=FieldValidator.COURSE_NAME_MAX_LENGTH%>"/>
         </div>
       </div>
       <div class="form-group">
