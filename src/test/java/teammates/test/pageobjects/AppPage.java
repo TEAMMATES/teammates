@@ -1058,7 +1058,7 @@ public abstract class AppPage {
     public boolean isInputElementValid(WebElement inputElement) {
         checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
 
-        return (boolean) executeScript("return arguments[0].checkValidity();", inputElement);
+        return (boolean) executeScript("return arguments[0].willValidate && arguments[0].checkValidity();", inputElement);
     }
 
     public void changeToMobileView() {
