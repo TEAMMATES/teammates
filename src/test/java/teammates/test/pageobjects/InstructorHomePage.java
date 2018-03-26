@@ -169,13 +169,13 @@ public class InstructorHomePage extends AppPage {
         ThreadHelper.waitFor(1000);
     }
 
-    public void cancelResendPublishedLinksForm() {
+    public void cancelResendPublishedEmailsForm() {
         WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
         click(resendPublishedEmailModal.findElement(By.tagName("button")));
         waitForModalToDisappear();
     }
 
-    public void fillResendPublishedLinksForm() {
+    public void fillResendPublishedEmailsForm() {
         WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
         List<WebElement> usersToEmail = resendPublishedEmailModal.findElements(By.name("usersToEmail"));
         for (WebElement e : usersToEmail) {
@@ -183,7 +183,7 @@ public class InstructorHomePage extends AppPage {
         }
     }
 
-    public void submitResendPublishedLinksForm() {
+    public void submitResendPublishedEmailsForm() {
         WebElement resendPublishedEmailModal = browser.driver.findElement(By.id("resendPublishedEmailModal"));
         resendPublishedEmailModal.findElement(By.name("form_email_list")).submit();
     }
@@ -290,7 +290,7 @@ public class InstructorHomePage extends AppPage {
         return getSessionLinkInRow("session-unpublish-for-test", getEvaluationRowId(courseId, evalName));
     }
 
-    public void verifyResendPublishedLinksButtonExists(String courseId, String evalName) {
+    public void verifyResendPublishedEmailsButtonExists(String courseId, String evalName) {
         int rowId = getEvaluationRowId(courseId, evalName);
         waitForElementPresence(By.id("session" + rowId));
         WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
@@ -298,7 +298,7 @@ public class InstructorHomePage extends AppPage {
         verifyElementContainsElement(sessionRow, By.className(resendLinksClassNamePrefix));
     }
 
-    public void verifyResendPublishedLinksButtonDoesnNotExist(String courseId, String evalName) {
+    public void verifyResendPublishedEmailsButtonDoesnNotExist(String courseId, String evalName) {
         int rowId = getEvaluationRowId(courseId, evalName);
         waitForElementPresence(By.id("session" + rowId));
         WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
