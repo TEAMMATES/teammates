@@ -821,17 +821,17 @@ public final class FeedbackSessionsLogic {
 
         exportBuilder.append(String.format("Course,%s",
                              SanitizationHelper.sanitizeForCsv(results.feedbackSession.getCourseId())))
-                     .append(Const.EOL)
+                     .append(System.lineSeparator())
                      .append(String.format("Session Name,%s",
                              SanitizationHelper.sanitizeForCsv(results.feedbackSession.getFeedbackSessionName())))
-                     .append(Const.EOL);
+                     .append(System.lineSeparator());
 
         if (section != null) {
             exportBuilder.append(String.format("Section Name,%s", SanitizationHelper.sanitizeForCsv(section)))
-                         .append(Const.EOL);
+                         .append(System.lineSeparator());
         }
 
-        exportBuilder.append(Const.EOL).append(Const.EOL);
+        exportBuilder.append(System.lineSeparator()).append(System.lineSeparator());
 
         Set<Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> entrySet =
                 results.getQuestionResponseMap().entrySet();
@@ -857,13 +857,13 @@ public final class FeedbackSessionsLogic {
 
         exportBuilder.append("Question " + Integer.toString(question.questionNumber) + ","
                 + SanitizationHelper.sanitizeForCsv(questionDetails.getQuestionText())
-                + Const.EOL + Const.EOL);
+                + System.lineSeparator() + System.lineSeparator());
 
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
                                     question, fsrBundle);
         if (!statistics.isEmpty() && isStatsShown) {
-            exportBuilder.append("Summary Statistics,").append(Const.EOL);
-            exportBuilder.append(statistics).append(Const.EOL);
+            exportBuilder.append("Summary Statistics,").append(System.lineSeparator());
+            exportBuilder.append(statistics).append(System.lineSeparator());
         }
 
         List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGiversInSection(question, section);
@@ -916,7 +916,7 @@ public final class FeedbackSessionsLogic {
                             possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
         }
 
-        exportBuilder.append(Const.EOL + Const.EOL);
+        exportBuilder.append(System.lineSeparator() + System.lineSeparator());
         return exportBuilder;
     }
 
@@ -1020,7 +1020,7 @@ public final class FeedbackSessionsLogic {
                         + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
                         + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
                         + "," + questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)
-                        + Const.EOL);
+                        + System.lineSeparator());
             }
         }
         return exportBuilder;

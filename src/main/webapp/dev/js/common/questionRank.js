@@ -172,6 +172,10 @@ function addRankOption(questionNum) {
     adjustMinMaxOptionsToBeRanked(questionNum);
 }
 
+function showRankOptionTable(questionNum) {
+    $(`#rankOptionTable-${questionNum}`).show();
+}
+
 function hideRankOptionTable(questionNum) {
     $(`#rankOptionTable-${questionNum}`).hide();
 }
@@ -237,6 +241,7 @@ export {
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
     removeRankOption,
+    showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
 };

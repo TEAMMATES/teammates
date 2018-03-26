@@ -13,6 +13,9 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  *      specifically for multiple choice (multiple answers) questions.
  */
 public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
+
+    private static final int NEW_QUESTION_INDEX = -1;
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -59,6 +62,23 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
+
+        ______TS("MSQ: Check UI after cancelling and add new MSQ question again");
+
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX);
+        assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
+        assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
+        assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect--1"));
+
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX); //Make the generate options checkbox unchecked
+
     }
 
     @Override
@@ -249,7 +269,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq generated options");
-        feedbackEditPage.clickGenerateMsqOptionsCheckbox(-1);
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX);
         checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(-1);
 
         feedbackEditPage.clickAddQuestionButton();
