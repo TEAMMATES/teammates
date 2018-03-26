@@ -333,8 +333,13 @@ public abstract class AppPage {
     }
 
     public void waitForRemindModalPresence() {
-        By modalBackdrop = By.className("modal-backdrop");
-        waitForElementPresence(modalBackdrop);
+        By remindModal = By.id("remindModal");
+        waitForElementVisibility(remindModal);
+    }
+
+    public void waitForResendPublishedEmailModalPresence() {
+        By resendPublishedEmailModal = By.id("resendPublishedEmailModal");
+        waitForElementVisibility(resendPublishedEmailModal);
     }
 
     /**

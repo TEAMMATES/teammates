@@ -166,7 +166,7 @@ public class InstructorHomePage extends AppPage {
 
     public void clickResendPublishedEmailLink(String courseId, String evalName) {
         click(getResendPublishedEmailLink(courseId, evalName));
-        ThreadHelper.waitFor(1000);
+        waitForResendPublishedEmailModalPresence();
     }
 
     public void cancelResendPublishedEmailForm() {
@@ -249,7 +249,7 @@ public class InstructorHomePage extends AppPage {
 
     public void clickRemindParticularUsersLink(String courseId, String evalName) {
         click(getRemindParticularUsersLink(courseId, evalName));
-        ThreadHelper.waitFor(1000);
+        waitForRemindModalPresence();
     }
 
     public void cancelRemindParticularUsersForm() {
