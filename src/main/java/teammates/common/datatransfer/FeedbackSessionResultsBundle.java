@@ -1708,7 +1708,7 @@ public class FeedbackSessionResultsBundle {
     public boolean containsResponseFromInstructor() {
         for (FeedbackResponseAttributes response : responses) {
             String giverIdentifier = response.giver;
-            if (isParticipantIdentifierInstructor(giverIdentifier)) {
+            if (isParticipantIdentifierInstructor(giverIdentifier) && !isParticipantIdentifierStudent(giverIdentifier)) {
                 return true;
             }
         }

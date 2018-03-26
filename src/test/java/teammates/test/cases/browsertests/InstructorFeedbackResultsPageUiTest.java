@@ -179,7 +179,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
-        resultsPage.loadResultSectionPanel(0, 1);
+        resultsPage.loadResultSectionPanel(1, 2);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
         String additionalInfoId = "section-1-giver-1-recipient-1";
@@ -201,7 +201,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by giver > question > recipient");
 
         resultsPage.displayByGiverQuestionRecipient();
-        resultsPage.loadResultSectionPanel(0, 1);
+        resultsPage.loadResultSectionPanel(1, 2);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
 
         ______TS("test sort by recipient > question > giver");
@@ -216,7 +216,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test order in giver > recipient > question team");
 
         resultsPage.displayByGiverRecipientQuestion();
-        resultsPage.loadResultSectionPanel(0, 1);
+        resultsPage.loadResultSectionPanel(1, 2);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
         ______TS("test order in recipient > giver > question team");
@@ -228,7 +228,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test order in giver > question > recipient team");
 
         resultsPage.displayByGiverQuestionRecipient();
-        resultsPage.loadResultSectionPanel(0, 1);
+        resultsPage.loadResultSectionPanel(1, 2);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipient.html");
 
         ______TS("test order in recipient > question > giver team");
@@ -407,31 +407,31 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "giver-recipient-question");
-        resultsPage.loadResultSectionPanel(0, 1);
+        resultsPage.loadResultSectionPanel(1, 2);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGRQ.html");
 
         ______TS("Typical case: test view photo for view by giver > recipient > question");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("0-2",
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverAndViewStudentPhotoOnBody("0-2",
+        resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("0-3", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by giver > question > recipient");
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
                                                                        "giver-question-recipient");
-        resultsPage.loadResultSectionPanel(0, 1);
+        resultsPage.loadResultSectionPanel(1, 2);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAjaxByGQR.html");
 
         ______TS("Typical case: test view photo for view by giver > question > recipient");
 
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewStudentPhotoOnHeading("0-2",
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink("0-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
+        resultsPage.clickViewPhotoLink("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
 
         ______TS("Typical case: ajax for view by recipient > question > giver");
 
@@ -475,9 +475,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
 
-        ______TS("No Specific Section not shown giver > question > recipient with General Feedback");
+        ______TS("No Specific Section shown giver > question > recipient with Feedback from Instructor");
         resultsPage.displayByGiverQuestionRecipient();
-        assertFalse(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
 
         ______TS("No Specific Section not shown for recipient > question > giver with no General Feedback");
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",

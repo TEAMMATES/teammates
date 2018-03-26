@@ -1791,6 +1791,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * @return
      * <ul>
      * <li>true if the course has teams in Default Section</li>
+     * <li>true if view is GRQ or GQR and there is feedback from Instructors</li>
      * <li>true if view is RGQ or RQG and there is General Feedback or Feedback to or from Instructors</li>
      * <li>false otherwise</li>
      * </ul>
@@ -1800,10 +1801,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean hasFeedbackToInstructorOrGeneral = bundle.containsResponsesToInstructorOrGeneral();
         boolean viewTypeIsRecipient = viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER
                 || viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION;
+        boolean viewTypeIsGiver = viewType == InstructorFeedbackResultsPageViewType.GIVER_QUESTION_RECIPIENT
+                || viewType == InstructorFeedbackResultsPageViewType.GIVER_RECIPIENT_QUESTION;
         boolean hasTeamsInNoSection = bundle.getTeamsInSectionFromRoster(Const.DEFAULT_SECTION).size() > 0;
 
         return hasTeamsInNoSection
-                || viewTypeIsRecipient && hasFeedbackToInstructorOrGeneral
-                || !viewTypeIsRecipient && hasFeedbackFromInstructor;
+                || viewTypeIsGiver && hasFeedbackFromInstructor
+                || viewTypeIsRecipient && hasFeedbackToInstructorOrGeneral;
     }
 }
