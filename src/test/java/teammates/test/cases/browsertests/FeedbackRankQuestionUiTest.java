@@ -419,10 +419,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
         feedbackEditPage.waitForPageToScroll();
 
-        feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
-        feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
-        feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 2");
-
         // Ensure that rank options is cleared.
         feedbackEditPage.clickMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
         feedbackEditPage.clearMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
