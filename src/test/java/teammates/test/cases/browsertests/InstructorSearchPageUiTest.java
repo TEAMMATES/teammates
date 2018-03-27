@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
+import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorSearchPage;
 
@@ -41,7 +42,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         testSearch();
 
         testViewAction();
-//        testEditAction();
+        testEditAction();
 //        testAllRecordsAction();
 
         testSanitization();
@@ -132,6 +133,26 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
                 .changePageType(InstructorCourseStudentDetailsViewPage.class);
         studentDetailsViewPage.verifyIsCorrectPage(studentEmail);
         studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    private void testEditAction() throws Exception {
+
+        ______TS("action: edit");
+
+        searchPage.clearSearchBox();
+        String searchContent = "\"student2 2 In Course1\"";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String studentEmail = testData.students.get("student2.2InCourse1").email;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickEdit(courseId, studentName);
+        InstructorCourseStudentDetailsEditPage studentDetailsEditPage = searchPage
+                .changePageType(InstructorCourseStudentDetailsEditPage.class);
+        studentDetailsEditPage.verifyIsCorrectPage(studentEmail);
+        studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     private void testSanitization() throws IOException {
