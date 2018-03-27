@@ -16,14 +16,14 @@ QUnit.test('toggleExcludingSelfResultsForRubricStatistics(checkbox)', (assert) =
     isExcludingSelfTableVisible = $('.table-body-excluding-self').is(':visible');
     isIncludingSelfTableVisible = $('.table-body-including-self').is(':visible');
 
-    assert.equal(isExcludingSelfTableVisible, false, 'Not visible');
-    assert.equal(isIncludingSelfTableVisible, true, 'Visible');
+    assert.ok(isIncludingSelfTableVisible, 'Visible');
+    assert.notOk(isExcludingSelfTableVisible, 'Should not be visible');
 
     $(className).prop('checked', true);
     toggleExcludingSelfResultsForRubricStatistics(className);
     isExcludingSelfTableVisible = $('.table-body-excluding-self').is(':visible');
     isIncludingSelfTableVisible = $('.table-body-including-self').is(':visible');
 
-    assert.equal(isExcludingSelfTableVisible, true, 'Visible');
-    assert.equal(isIncludingSelfTableVisible, false, 'Not visible');
+    assert.ok(isExcludingSelfTableVisible, 'Visible');
+    assert.notOk(isIncludingSelfTableVisible, 'Should not be visible');
 });

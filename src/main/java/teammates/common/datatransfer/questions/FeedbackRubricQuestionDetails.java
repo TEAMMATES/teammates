@@ -590,8 +590,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         RubricStatistics statistics = new RubricStatistics(responsesForStatistics, fqd);
 
         FeedbackParticipantType recipientType = question.getRecipientType();
-        boolean isExcludingSelfOptionAvailable = recipientType.equals(FeedbackParticipantType.SELF)
-                || recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        boolean isExcludingSelfOptionAvailable =
+                recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
         DecimalFormat weightFormat = new DecimalFormat("#.##");
 
@@ -666,6 +666,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Returns the rendered HTMl body of Rubric statistics.
+     * @param fqd has the details of Rubric Question
+     * @param responseFrequency contains the response details
+     * @param rubricStats represents the stats
      */
     private StringBuilder getQuestionResultsStatisticsBodyHtml(FeedbackRubricQuestionDetails fqd,
                                                                int[][] responseFrequency, float[][] rubricStats) {
