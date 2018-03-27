@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.File;
 import java.io.IOException;
@@ -359,6 +360,14 @@ public abstract class AppPage {
     public void waitForTextContainedInElementAbsence(By by, String text) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
+    }
+
+    /**
+     * Waits for page to scroll for 1 second.
+     * Temporary solution until we can detect specifically when page scrolling.
+     */
+    public void waitForPageToScroll() {
+        ThreadHelper.waitFor(1000);
     }
 
     /**
@@ -1041,6 +1050,16 @@ public abstract class AppPage {
         assertEquals(TestProperties.TEAMMATES_URL + Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH,
                 browser.driver.getCurrentUrl());
         browser.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    /**
+     * Returns if the input element is valid (satisfies constraint validation). Note: This method will return false if the
+     * input element is not a candidate for constraint validation (e.g. when input element is disabled).
+     */
+    public boolean isInputElementValid(WebElement inputElement) {
+        checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
+
+        return (boolean) executeScript("return arguments[0].willValidate && arguments[0].checkValidity();", inputElement);
     }
 
     public void changeToMobileView() {
