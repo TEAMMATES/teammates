@@ -114,7 +114,6 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         assertEquals(student1InCourse1.email, paramMap.get(ParamsNames.STUDENT_EMAIL)[0]);
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
-        
         gaeSimulation.loginAsAdmin(adminUserId);
         StudentAttributes unregisteredStudent1 = StudentAttributes
                 .builder(courseId, "Unregistered student 1", "unregistered1@email.com")
