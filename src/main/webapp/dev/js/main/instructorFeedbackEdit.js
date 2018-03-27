@@ -41,9 +41,11 @@ import {
 
 import {
     addConstSumOption,
+    bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
+    toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -85,6 +87,7 @@ import {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
+    bindAutoFillEmptyRankOptionsChangeEvent,
 } from '../common/questionRank';
 
 import {
@@ -303,6 +306,17 @@ function bindFeedbackSessionEditFormSubmission() {
 }
 
 /**
+ * If an input field is hidden, removes required attribute when saving changes. See issue #8688.
+ *
+ * TODO: Remove this function when #8688 is fixed.
+ */
+function removeRequiredIfElementHidden() {
+    $('#form_editquestion--1').on('click', '#button_submit_add', () => {
+        $('input:hidden').prop('required', false);
+    });
+}
+
+/**
  * Disable question fields and "save changes" button for the given question number,
  * and shows the edit link.
  * @param questionNum
@@ -467,7 +481,7 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
-
+    toggleConstSumOptionsRadioButton(questionNum);
     $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
 
     if ($(`#questionTable-${questionNum}`).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
@@ -490,7 +504,7 @@ function enableQuestion(questionNum) {
 }
 
 /**
-* Enables editing of question fields and enables the "save changes" button for
+ *Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
  */
@@ -519,6 +533,8 @@ function enableNewQuestion() {
         /* eslint-enable camelcase */
     }
 
+    removeRequiredIfElementHidden(); // TODO: Remove this function call when #8688 is fixed.
+
     const $newQuestionTable = $(`#questionTable-${NEW_QUESTION}`);
 
     $newQuestionTable.find('text,button,textarea,select,input')
@@ -544,8 +560,8 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
-    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
+    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
@@ -557,6 +573,7 @@ function enableNewQuestion() {
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
+    toggleConstSumOptionsRadioButton(NEW_QUESTION);
 }
 
 /**
@@ -733,6 +750,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         break;
     case 'CONSTSUM_RECIPIENT': {
         const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
@@ -745,6 +763,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         $(`#constSum_labelText-${NEW_QUESTION}`).text(optionText.replace('option', 'recipient'));
         $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
@@ -1156,6 +1175,9 @@ function readyFeedbackEditPage() {
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
+    bindConstSumOptionsRadioButtons();
+
+    bindAutoFillEmptyRankOptionsChangeEvent();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();

@@ -12,20 +12,21 @@ import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
+    static final transient int NO_VALUE = Integer.MIN_VALUE;
     protected int minOptionsToBeRanked;
     protected int maxOptionsToBeRanked;
     private boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
-        minOptionsToBeRanked = Integer.MIN_VALUE;
-        maxOptionsToBeRanked = Integer.MIN_VALUE;
+        minOptionsToBeRanked = NO_VALUE;
+        maxOptionsToBeRanked = NO_VALUE;
     }
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         super(questionType, questionText);
-        minOptionsToBeRanked = Integer.MIN_VALUE;
-        maxOptionsToBeRanked = Integer.MIN_VALUE;
+        minOptionsToBeRanked = NO_VALUE;
+        maxOptionsToBeRanked = NO_VALUE;
     }
 
     @Override
