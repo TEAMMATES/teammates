@@ -45,7 +45,6 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         };
 
         InstructorCourseRemindAction remindAction = getAction(submissionParams);
-        remindAction.setCurrentUrl("/page/instructorCourseEditPage?");
         RedirectResult redirectResult = getRedirectResult(remindAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, redirectResult.destination);
@@ -67,7 +66,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
         assertEquals(anotherInstructorOfCourse1.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
 
-        ______TS("Typical case: Send email to remind a student to register for the course");
+        ______TS("Typical case: Send email to remind a student to register for the course from course details page");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         submissionParams = new String[] {
@@ -76,13 +75,30 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         };
 
         remindAction = getAction(submissionParams);
-        remindAction.setCurrentUrl("/page/instructorCourseDetailsPage?");
+        remindAction.setCurrentUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
         redirectResult = getRedirectResult(remindAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
                      redirectResult.getStatusMessage());
+
+        expectedLogSegment = "Registration Key sent to the following users "
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
+                + student1InCourse1.name + "<span class=\"bold\"> ("
+                + student1InCourse1.email + ")" + "</span>.<br>";
+        AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
+
+        ______TS("Typical case: Send email to remind a student to register for the course from student list page");
+
+        remindAction = getAction(submissionParams);
+        remindAction.setCurrentUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
+        redirectResult = getRedirectResult(remindAction);
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE, redirectResult.destination);
+        assertFalse(redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
+                redirectResult.getStatusMessage());
 
         expectedLogSegment = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
@@ -122,7 +138,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        remindAction.setCurrentUrl("/page/instructorCourseDetailsPage?");
+        remindAction.setCurrentUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
         redirectResult = getRedirectResult(remindAction);
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
@@ -159,7 +175,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        remindAction.setCurrentUrl("/page/instructorCourseDetailsPage?");
+        remindAction.setCurrentUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
         redirectResult = getRedirectResult(remindAction);
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
