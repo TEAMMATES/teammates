@@ -41,7 +41,7 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
 
     @Override
     protected void printPreviewInformation(InstructorAttributes instructor) {
-        println("Checking student having email: " + instructor.email);
+        println("Checking instructor having email: " + instructor.email);
 
         if (isSanitizedString(instructor.displayedName)) {
             println("displayName: " + instructor.displayedName);
