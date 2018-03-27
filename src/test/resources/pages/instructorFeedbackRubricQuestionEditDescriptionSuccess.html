@@ -1683,7 +1683,7 @@
                       </option>
                     </select>
                   </div>
-                  <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
+                  <input id="mcqGeneratedOptions--1" name="mcqGeneratedOptions" type="hidden" value="NONE">
                 </div>
                 <br>
               </div>
@@ -1786,7 +1786,7 @@
                   <div class="col-md-3">
                     <input class="form-control" disabled="" id="msqMinSelectableChoices--1" min="1" name="msqMinSelectableChoices" type="number" value="1">
                   </div>
-                  <input id="generatedOptions--1" name="generatedOptions" type="hidden" value="NONE">
+                  <input id="msqGeneratedOptions--1" name="msqGeneratedOptions" type="hidden" value="NONE">
                 </div>
                 <br>
               </div>
@@ -2205,14 +2205,14 @@
                     <div class="col-sm-9 col-xs-12">
                       <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at least the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
                         <label class="bold-label">
-                          <input id="minOptionsToBeRankedEnabled--1" name="minOptionsToBeRankedEnabled" type="checkbox">
+                          <input data-linked-input-id="minOptionsToBeRanked--1" id="minOptionsToBeRankedEnabled--1" name="minOptionsToBeRankedEnabled" type="checkbox">
                           Minimum number of options a respondent must rank
                         </label>
                       </div>
                     </div>
                     <div class="col-sm-3 col-xs-12">
                       <div class="pull-right">
-                        <input class="form-control" id="minOptionsToBeRanked--1" min="1" name="minOptionsToBeRanked" step="any" type="number" value="1">
+                        <input class="form-control" id="minOptionsToBeRanked--1" min="1" name="minOptionsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
                       </div>
                     </div>
                   </div>
@@ -2221,14 +2221,14 @@
                     <div class="col-sm-9 col-xs-12">
                       <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at most the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
                         <label class="bold-label">
-                          <input id="maxOptionsToBeRankedEnabled--1" name="maxOptionsToBeRankedEnabled" type="checkbox">
+                          <input data-linked-input-id="maxOptionsToBeRanked--1" id="maxOptionsToBeRankedEnabled--1" name="maxOptionsToBeRankedEnabled" type="checkbox">
                           Maximum number of options a respondent can rank
                         </label>
                       </div>
                     </div>
                     <div class="col-sm-3 col-xs-12">
                       <div class="pull-right">
-                        <input class="form-control" id="maxOptionsToBeRanked--1" min="1" name="maxOptionsToBeRanked" step="any" type="number" value="1">
+                        <input class="form-control" id="maxOptionsToBeRanked--1" min="1" name="maxOptionsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
                       </div>
                     </div>
                   </div>
@@ -2250,14 +2250,14 @@
                     <div class="col-sm-6 col-xs-12">
                       <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at least the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
                         <label class="bold-label">
-                          <input id="minRecipientsToBeRankedEnabled--1" name="minRecipientsToBeRankedEnabled" type="checkbox">
+                          <input data-linked-input-id="minRecipientsToBeRanked--1" id="minRecipientsToBeRankedEnabled--1" name="minRecipientsToBeRankedEnabled" type="checkbox">
                           Minimum number of options a respondent must rank
                         </label>
                       </div>
                     </div>
                     <div class="col-sm-6 col-xs-12">
                       <div class="pull-left">
-                        <input class="form-control" id="minRecipientsToBeRanked--1" min="1" name="minRecipientsToBeRanked" step="any" type="number" value="1">
+                        <input class="form-control" id="minRecipientsToBeRanked--1" min="1" name="minRecipientsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
                       </div>
                     </div>
                   </div>
@@ -2266,14 +2266,14 @@
                     <div class="col-sm-6 col-xs-12">
                       <div class="checkbox" data-container="body" data-original-title="Ticking this will ensure respondent ranks at most the mentioned number of options." data-placement="top" data-toggle="tooltip" title="">
                         <label class="bold-label">
-                          <input id="maxRecipientsToBeRankedEnabled--1" name="maxRecipientsToBeRankedEnabled" type="checkbox">
+                          <input data-linked-input-id="maxRecipientsToBeRanked--1" id="maxRecipientsToBeRankedEnabled--1" name="maxRecipientsToBeRankedEnabled" type="checkbox">
                           Maximum number of options a respondent can rank
                         </label>
                       </div>
                     </div>
                     <div class="col-sm-6 col-xs-12">
                       <div class="pull-left">
-                        <input class="form-control" id="maxRecipientsToBeRanked--1" min="1" name="maxRecipientsToBeRanked" step="any" type="number" value="1">
+                        <input class="form-control" id="maxRecipientsToBeRanked--1" min="1" name="maxRecipientsToBeRanked" placeholder="e.g. 1" required="" step="any" type="number" value="">
                       </div>
                     </div>
                   </div>
@@ -2621,7 +2621,6 @@
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="user" type="hidden" value="FRubricQnUiT.instructor">
-    <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE">
     <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">

@@ -1,7 +1,8 @@
 package teammates.ui.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,16 +54,17 @@ public class AdminActivityLogPageAction extends Action {
 
         String logRoleFromAjax = getRequestParamValue("logRole");
         String logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
-        String logTimeInAdminTimeZoneFromAjax = getRequestParamValue("logTimeInAdminTimeZone");
+        // logUnixTimeMillis is the number of milliseconds from the Unix epoch, i.e. independent of time zone
+        String logUnixTimeMillis = getRequestParamValue("logUnixTimeMillis");
 
         boolean isLoadingLocalTimeAjax = logRoleFromAjax != null
                                          && logGoogleIdFromAjax != null
-                                         && logTimeInAdminTimeZoneFromAjax != null;
+                                         && logUnixTimeMillis != null;
 
         if (isLoadingLocalTimeAjax) {
             data.setLogLocalTime(getLocalTimeInfo(logGoogleIdFromAjax,
                                                   logRoleFromAjax,
-                                                  logTimeInAdminTimeZoneFromAjax));
+                                                  logUnixTimeMillis));
             return createAjaxResult(data);
         }
 
@@ -144,26 +146,28 @@ public class AdminActivityLogPageAction extends Action {
             earliestSearchTime = earliestLogChecked.getLogTime();
         }
 
-        double targetTimeZone = Const.DOUBLE_UNINITIALIZED;
+        ZoneId targetTimeZone = null;
         if (data.isPersonSpecified()) {
             String targetUserGoogleId = data.getPersonSpecified();
             targetTimeZone = getLocalTimeZoneForRequest(targetUserGoogleId, "");
 
-            if (targetTimeZone == Const.DOUBLE_UNINITIALIZED && courseId != null && !courseId.isEmpty()) {
+            if (targetTimeZone == null && courseId != null && !courseId.isEmpty()) {
                 // if the user is unregistered, try finding the timezone by course id passed from Search page
                 targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(courseId);
             }
         } else {
-            targetTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
+            targetTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_ID;
         }
 
-        double adminTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
-        String timeInAdminTimeZone = computeTimeWithOffset(adminTimeZone, earliestSearchTime);
-        String timeInUserTimeZone = computeTimeWithOffset(targetTimeZone, earliestSearchTime);
+        String timeInAdminTimeZone =
+                TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime),
+                        Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        String timeInUserTimeZone =
+                TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime), targetTimeZone);
 
         status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone ("
-                      + adminTimeZone + ") and ");
-        if (targetTimeZone == Const.DOUBLE_UNINITIALIZED) {
+                      + Const.SystemParams.ADMIN_TIME_ZONE_ID.getId() + ") and ");
+        if (targetTimeZone == null) {
             status.append(timeInUserTimeZone).append(".<br>");
         } else {
             status.append("on <b>" + timeInUserTimeZone + "</b> in Local Time Zone (" + targetTimeZone + ").<br>");
@@ -270,67 +274,66 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
 
-    private double getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
+    private ZoneId getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
 
         if (userRole != null && (userRole.contentEquals("Admin") || userRole.contains("(M)"))) {
-            return Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
+            return Const.SystemParams.ADMIN_TIME_ZONE_ID;
         }
 
-        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
-        if (userGoogleId != null && !userGoogleId.isEmpty()) {
-            localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
-
-            if (localTimeZone != Const.DOUBLE_UNINITIALIZED) {
-                return localTimeZone;
-            }
-
-            try {
-                localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForStudentAccount(userGoogleId));
-            } catch (EntityDoesNotExistException e) {
-                localTimeZone = Const.DOUBLE_UNINITIALIZED;
-            }
-
-            if (localTimeZone != Const.DOUBLE_UNINITIALIZED) {
-                return localTimeZone;
-            }
+        if (userGoogleId == null || userGoogleId.isEmpty()) {
+            return null;
         }
 
-        return localTimeZone;
+        ZoneId localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
+        if (localTimeZone != null) {
+            return localTimeZone;
+        }
+
+        try {
+            return findAvailableTimeZoneFromCourses(logic.getCoursesForStudentAccount(userGoogleId));
+        } catch (EntityDoesNotExistException e) {
+            return null;
+        }
     }
 
-    private double findAvailableTimeZoneFromCourses(List<CourseAttributes> courses) {
-        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
-
-        if (courses == null) {
-            return localTimeZone;
+    private ZoneId findAvailableTimeZoneFromCourses(List<CourseAttributes> courses) {
+        if (courses == null || courses.isEmpty()) {
+            return null;
         }
 
         for (CourseAttributes course : courses) {
-            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId());
-            if (!fsl.isEmpty()) {
-                return TimeHelper.convertToOffset(fsl.get(0).getTimeZone());
+            if (!course.getTimeZone().equals(Const.DEFAULT_TIME_ZONE)) {
+                // non default time zone must be set by user, i.e. reliable
+                return course.getTimeZone();
             }
         }
 
-        return localTimeZone;
+        // course time zones are all default values, look up in the course's session
+        for (CourseAttributes course : courses) {
+            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.getId());
+            if (!fsl.isEmpty()) {
+                return fsl.get(0).getTimeZone();
+            }
+        }
+
+        // use course's default time zone
+        return Const.DEFAULT_TIME_ZONE;
     }
 
-    private double getLocalTimeZoneForUnregisteredUserRequest(String courseId) {
-        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
-
+    private ZoneId getLocalTimeZoneForUnregisteredUserRequest(String courseId) {
         if (courseId == null || courseId.isEmpty()) {
-            return localTimeZone;
+            return null;
         }
 
-        List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(courseId);
-        if (!fsl.isEmpty()) {
-            return TimeHelper.convertToOffset(fsl.get(0).getTimeZone());
+        CourseAttributes course = logic.getCourse(courseId);
+        if (course == null) {
+            return null;
         }
 
-        return localTimeZone;
+        return findAvailableTimeZoneFromCourses(Arrays.asList(course));
     }
 
-    private double getLocalTimeZoneInfo(String logGoogleId, String logRole) {
+    private ZoneId getLocalTimeZoneInfo(String logGoogleId, String logRole) {
         if (!logGoogleId.contentEquals("Unknown") && !logGoogleId.contentEquals("Unregistered")) {
             return getLocalTimeZoneForRequest(logGoogleId, logRole);
         }
@@ -339,24 +342,16 @@ public class AdminActivityLogPageAction extends Action {
             return getLocalTimeZoneForUnregisteredUserRequest(courseId);
         }
 
-        return Const.DOUBLE_UNINITIALIZED;
+        return null;
     }
 
-    private String getLocalTimeInfo(String logGoogleId, String logRole, String logTimeInAdminTimeZone) {
-        double timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
-        if (timeZone == Const.DOUBLE_UNINITIALIZED) {
+    private String getLocalTimeInfo(String logGoogleId, String logRole, String logUnixTimeMillis) {
+        ZoneId timeZone = getLocalTimeZoneInfo(logGoogleId, logRole);
+        if (timeZone == null) {
             return "Local Time Unavailable";
         }
-        double timeZoneOffset = timeZone - Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE;
-        return computeTimeWithOffset(timeZoneOffset, Long.parseLong(logTimeInAdminTimeZone));
-    }
-
-    private String computeTimeWithOffset(double timeZoneOffset, long logTime) {
-        Calendar appCal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        appCal.setTimeInMillis(logTime);
-        appCal = TimeHelper.convertToUserTimeZone(appCal, timeZoneOffset);
-        return sdf.format(appCal.getTime());
+        Instant logInstant = Instant.ofEpochMilli(Long.parseLong(logUnixTimeMillis));
+        return TimeHelper.formatActivityLogTime(logInstant, timeZone) + " [" + timeZone.getId() + "]";
     }
 
 }
