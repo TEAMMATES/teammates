@@ -84,7 +84,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.minSelectableChoices = msqMinSelectableChoices;
         String generatedMsqOptions =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS);
         if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
             String numMsqChoicesCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -430,7 +430,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
                 Slots.MSQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
                 Slots.MSQ_CHECKED_GENERATED_OPTIONS, generateOptionsFor == FeedbackParticipantType.NONE ? "" : "checked",
-                Slots.GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+                Slots.MSQ_GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS,
                 Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
                 Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
                 Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),

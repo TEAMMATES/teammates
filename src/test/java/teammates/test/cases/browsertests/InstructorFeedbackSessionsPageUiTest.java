@@ -178,7 +178,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
-        feedbackPage.selectSessionType("Session with your own questions");
+        feedbackPage.selectSessionType("session with my own questions");
 
         feedbackPage.clickEditUncommonSettingsButtons();
 
@@ -218,7 +218,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickEditUncommonSettingsButtons();
         feedbackPage.clickManualPublishTimeButton();
 
-        feedbackPage.selectSessionType("Team peer evaluation session");
+        feedbackPage.selectSessionType("session using template: team peer evaluation");
 
         String templateSessionName = "Team Peer Evaluation Session";
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
@@ -923,7 +923,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
-        feedbackPage.selectSessionType("Session with your own questions");
+        feedbackPage.selectSessionType("session with my own questions");
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 templateSessionName, newSession.getCourseId(),
@@ -942,7 +942,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
-        feedbackPage.selectSessionType("Team peer evaluation session");
+        feedbackPage.selectSessionType("session using template: team peer evaluation");
         templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSessionWithTimeZone(
                 templateSessionName, newSession.getCourseId(),
