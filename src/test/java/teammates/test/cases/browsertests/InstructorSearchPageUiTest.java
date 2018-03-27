@@ -129,7 +129,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         String studentEmail = testData.students.get("student2.2InCourse1").email;
         String courseId = testData.courses.get("typicalCourse1").getId();
 
-        searchPage.clickView(courseId, studentName);
+        searchPage.clickViewStudent(courseId, studentName);
         InstructorCourseStudentDetailsViewPage studentDetailsViewPage = searchPage
                 .changePageType(InstructorCourseStudentDetailsViewPage.class);
         studentDetailsViewPage.verifyIsCorrectPage(studentEmail);
@@ -149,7 +149,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         String studentEmail = testData.students.get("student2.2InCourse1").email;
         String courseId = testData.courses.get("typicalCourse1").getId();
 
-        searchPage.clickEdit(courseId, studentName);
+        searchPage.clickEditStudent(courseId, studentName);
         InstructorCourseStudentDetailsEditPage studentDetailsEditPage = searchPage
                 .changePageType(InstructorCourseStudentDetailsEditPage.class);
         studentDetailsEditPage.verifyIsCorrectPage(studentEmail);
@@ -168,7 +168,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         String studentName = testData.students.get("student2.2InCourse1").name;
         String courseId = testData.courses.get("typicalCourse1").getId();
 
-        searchPage.clickAllRecords(courseId, studentName);
+        searchPage.clickAllRecordsLink(courseId, studentName);
         InstructorStudentRecordsPage studentRecordsPage = searchPage
                 .changePageType(InstructorStudentRecordsPage.class);
         studentRecordsPage.verifyIsCorrectPage(studentName);

@@ -41,7 +41,7 @@ public class InstructorSearchPage extends AppPage {
         click(getStudentCheckBox());
     }
 
-    public InstructorSearchPage clickView(String courseId, String studentName) {
+    public InstructorSearchPage clickViewStudent(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         click(getViewLink(rowId));
         waitForPageToLoad();
@@ -49,7 +49,7 @@ public class InstructorSearchPage extends AppPage {
         return this;
     }
 
-    public InstructorSearchPage clickEdit(String courseId, String studentName) {
+    public InstructorSearchPage clickEditStudent(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         click(getEditLink(rowId));
         waitForPageToLoad();
@@ -57,7 +57,7 @@ public class InstructorSearchPage extends AppPage {
         return this;
     }
 
-    public InstructorSearchPage clickAllRecords(String courseId, String studentName) {
+    public InstructorSearchPage clickAllRecordsLink(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
         click(getAllRecordsLink(rowId));
         waitForPageToLoad();
