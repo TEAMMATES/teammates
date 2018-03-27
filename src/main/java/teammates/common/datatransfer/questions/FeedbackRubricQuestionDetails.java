@@ -1243,7 +1243,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         /**
          * Returns the frequency of being selected for each choice of each sub-question
-         * and the total number of responses for each sub-question for excluding self
+         * and the total number of responses for each sub-question for excluding self.
          */
         public static int[][] calculateResponseFrequencyExcludingSelf(List<FeedbackResponseAttributes> responses,
                                                          FeedbackRubricQuestionDetails questionDetails) {
@@ -1267,12 +1267,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
-         * Returns the calculated percentage frequencies for each choice and average value for each sub-question.
-         * Precondition: responseFrequency has been calculated.
-         *
+         * Returns the calculated percentage frequencies for each choice and average value for each sub-question
          * The percentage value between [0,1] of each choice being selected for the sub-question.
-         *
-         * @param responseFrequency decides whether the value returned is for excluding-self or including-self
          *
          * <p>Values are set to 0 if there are no responses to that sub-question.
          * Average value is set to 0 if there are no assigned weights.
@@ -1282,6 +1278,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          * -> is the percentage choiceIndex is chosen for subQuestionIndex.<br>
          * percentageFrequencyAndAverageValue[subQuestionIndex][numOfRubricChoices]
          * -> is the average weight of the responses for the given sub-question.
+         *
+         * @param responseFrequency decides whether the value returned is for excluding-self or including-self.
          */
         public static float[][] calculatePercentageFrequencyAndAverage(FeedbackRubricQuestionDetails questionDetails,
                                                          int [][] responseFrequency) {
