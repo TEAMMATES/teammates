@@ -69,9 +69,9 @@ public class InstructorCourseRemindAction extends Action {
 
             /*see and compare if the request is coming from instructorCourseDetails
             or instructorStudentList and redirect accordingly */
-            if (compareRefererAndCurrentPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
+            if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else if (compareRefererAndCurrentPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
+            } else if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
             }
         } else if (isSendingToInstructor) {
@@ -102,9 +102,9 @@ public class InstructorCourseRemindAction extends Action {
 
             /*see and compare if the request is coming from instructorCourseDetails
             or instructorStudentList and redirect accordingly */
-            if (compareRefererAndCurrentPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
+            if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else if (compareRefererAndCurrentPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
+            } else if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
             }
         }
@@ -139,20 +139,9 @@ public class InstructorCourseRemindAction extends Action {
         return joinLink.substring(startIndex);
     }
 
-    private String isolatePrevPageUrl() {
-        String stringTillLastSlash = currentUrl.substring(0, currentUrl.lastIndexOf('/'));
-        int indexOfSecondLastSlash = stringTillLastSlash.lastIndexOf('/');
-
-        return currentUrl.substring(indexOfSecondLastSlash, currentUrl.indexOf('?'));
-    }
-
-    private boolean compareRefererAndCurrentPage(String current) {
-        //if url is from a page and has a query, then isolate and compare
-        if (currentUrl.contains("?")) {
-            String referer = isolatePrevPageUrl();
-            return referer.compareTo(current) == 0;
-        }
-        return false;
+    private boolean isRequestedFromPage(String requestorUrl) {
+        //if Url contains the requestor's url, then return true
+        return currentUrl.contains(requestorUrl);
     }
 
     private static class JoinEmailData {
