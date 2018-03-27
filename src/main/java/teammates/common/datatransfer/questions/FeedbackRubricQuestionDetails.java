@@ -665,7 +665,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Returns the rendered HTMl body of Rubric statistics.
+     * Returns the rendered HTML body of Rubric statistics.
      * @param fqd has the details of Rubric Question
      * @param responseFrequency contains the response details
      * @param rubricStats represents the stats
