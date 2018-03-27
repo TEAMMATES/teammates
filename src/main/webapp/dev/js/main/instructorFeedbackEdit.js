@@ -574,7 +574,6 @@ function enableNewQuestion() {
     toggleMinOptionsToBeRanked(NEW_QUESTION);
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
     toggleConstSumOptionsRadioButton(NEW_QUESTION);
-
 }
 
 /**
