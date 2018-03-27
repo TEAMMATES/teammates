@@ -437,21 +437,21 @@ public final class Templates {
             public static final String RANK_PARAM_NUMBER_OF_CHOICE_CREATED =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
             public static final String RANK_PARAM_MIN_OPTIONS_CHECKBOX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}";
             public static final String RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}";
             public static final String RANK_PARAM_MAX_OPTIONS_CHECKBOX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}";
             public static final String RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}";
             public static final String RANK_PARAM_MIN_RECIPIENTS_CHECKBOX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSCHECKBOX}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}";
             public static final String RANK_PARAM_MIN_RECIPIENTS_TO_BE_RANKED =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSTOBERANKED}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED}";
             public static final String RANK_PARAM_MAX_RECIPIENTS_CHECKBOX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSCHECKBOX}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}";
             public static final String RANK_PARAM_MAX_RECIPIENTS_TO_BE_RANKED =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSTOBERANKED}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED}";
 
             // Rubric
             public static final String CURRENT_ROWS = "${currRows}";
