@@ -1210,6 +1210,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * Class to calculate the statistics of responses for a rubric question.
      */
     private static class RubricStatistics {
+        
+        private RubricStatistics() {
+            // empty
+        }
 
         /**
          * Returns the frequency of being selected for each choice of each sub-question
