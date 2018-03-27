@@ -66,9 +66,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         String questionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
         String questionNumber = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
 
         logic.deleteFeedbackQuestion(questionId);
