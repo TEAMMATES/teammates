@@ -25,7 +25,6 @@ const babel = {
 
 module.exports = {
     entry,
-    mode: 'production',
     output: {
         filename: '[name].js',
         path: OUTPUT_JS_FOLDER,
@@ -36,4 +35,7 @@ module.exports = {
         ],
     },
     stats: 'errors-only',
+    optimization: {
+        minimize: false
+    }
 };
