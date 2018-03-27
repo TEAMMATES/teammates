@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
+import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorSearchPage;
 
 /**
@@ -38,6 +39,10 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
 
         testContent();
         testSearch();
+
+        testViewAction();
+//        testEditAction();
+//        testAllRecordsAction();
 
         testSanitization();
 
@@ -107,6 +112,25 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickSearchButton();
         searchPage.clickAndHoverPicture("studentphoto-c0.1");
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
+    }
+
+    private void testViewAction() throws Exception {
+
+        ______TS("action: view");
+
+        searchPage.clearSearchBox();
+        String searchContent = "\"student2 2 In Course1\"";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String studentEmail = testData.students.get("student2.2InCourse1").email;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickView(courseId, studentName);
+        InstructorCourseStudentDetailsViewPage studentDetailsViewPage = searchPage
+                .changePageType(InstructorCourseStudentDetailsViewPage.class);
+        studentDetailsViewPage.verifyIsCorrectPage(studentEmail);
     }
 
     private void testSanitization() throws IOException {
