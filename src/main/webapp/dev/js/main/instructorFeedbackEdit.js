@@ -306,7 +306,7 @@ function bindFeedbackSessionEditFormSubmission() {
 }
 
 /**
- * If a input field is hidden, remove required attribute when saving changes. See issue #8688.
+ * If an input field is hidden, removes required attribute when saving changes. See issue #8688.
  *
  * TODO: Remove this function when #8688 is fixed.
  */
