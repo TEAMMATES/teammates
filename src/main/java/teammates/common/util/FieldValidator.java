@@ -184,7 +184,7 @@ public class FieldValidator {
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
     public static final String HINT_FOR_CORRECT_GRACE_PERIOD =
             "The value must be one of the options in the grace period dropdown selector.";
-    public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative," + " "
+    public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative." + " "
             + HINT_FOR_CORRECT_GRACE_PERIOD;
 
     public static final String HINT_FOR_CORRECT_NATIONALITY =
