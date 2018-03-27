@@ -1,7 +1,9 @@
 package teammates.ui.pagedata;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +23,9 @@ public class AdminSessionsPageData extends PageData {
     private int totalClosedStatusSessions;
     private int totalWaitToOpenStatusSessions;
     private int totalInstitutes;
-    private Date rangeStart;
-    private Date rangeEnd;
-    private double zone;
+    private Instant rangeStart;
+    private Instant rangeEnd;
+    private ZoneId timeZone;
     private boolean isShowAll;
     private List<InstitutionPanel> institutionPanels;
     private AdminFilter filter;
@@ -36,8 +38,8 @@ public class AdminSessionsPageData extends PageData {
     public void init(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap,
             int totalOngoingSessions, int totalOpenStatusSessions, int totalClosedStatusSessions,
-            int totalWaitToOpenStatusSessions, int totalInstitutes, Date rangeStart, Date rangeEnd,
-            double zone, boolean isShowAll) {
+            int totalWaitToOpenStatusSessions, int totalInstitutes, Instant rangeStart, Instant rangeEnd,
+            ZoneId timeZone, boolean isShowAll) {
 
         this.totalOngoingSessions = totalOngoingSessions;
         this.totalOpenStatusSessions = totalOpenStatusSessions;
@@ -46,7 +48,7 @@ public class AdminSessionsPageData extends PageData {
         this.totalInstitutes = totalInstitutes;
         this.rangeStart = rangeStart;
         this.rangeEnd = rangeEnd;
-        this.zone = zone;
+        this.timeZone = timeZone;
         this.isShowAll = isShowAll;
         setFilter();
         setInstitutionPanels(map, sessionToInstructorIdMap);
@@ -81,11 +83,19 @@ public class AdminSessionsPageData extends PageData {
     }
 
     public String getRangeStartString() {
-        return TimeHelper.formatTime12H(rangeStart);
+        return TimeHelper.formatTime12H(getRangeStartLocal());
     }
 
     public String getRangeEndString() {
-        return TimeHelper.formatTime12H(rangeEnd);
+        return TimeHelper.formatTime12H(getRangeEndLocal());
+    }
+
+    public LocalDateTime getRangeStartLocal() {
+        return TimeHelper.convertInstantToLocalDateTime(rangeStart, timeZone);
+    }
+
+    public LocalDateTime getRangeEndLocal() {
+        return TimeHelper.convertInstantToLocalDateTime(rangeEnd, timeZone);
     }
 
     public List<InstitutionPanel> getInstitutionPanels() {
@@ -99,33 +109,33 @@ public class AdminSessionsPageData extends PageData {
     }
 
     @SuppressWarnings("deprecation")
-    public List<String> getHourOptionsAsHtml(Date date) {
+    public List<String> getHourOptionsAsHtml(LocalDateTime ldt) {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i <= 23; i++) {
             result.add("<option value=\"" + i + "\"" + " "
-                       + (date.getHours() == i ? "selected" : "")
+                       + (ldt.getHour() == i ? "selected" : "")
                        + ">" + String.format("%02dH", i) + "</option>");
         }
         return result;
     }
 
     @SuppressWarnings("deprecation")
-    public List<String> getMinuteOptionsAsHtml(Date date) {
+    public List<String> getMinuteOptionsAsHtml(LocalDateTime ldt) {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i <= 59; i++) {
             result.add("<option value=\"" + i + "\"" + " "
-                       + (date.getMinutes() == i ? "selected" : "")
+                       + (ldt.getMinute() == i ? "selected" : "")
                        + ">" + String.format("%02d", i) + "</option>");
         }
         return result;
     }
 
     public List<String> getTimeZoneOptionsAsHtml() {
-        return getTimeZoneOptionsAsHtml(zone);
+        return getTimeZoneOptionsAsHtml(TimeHelper.convertToOffset(timeZone));
     }
 
     public String getTimeZoneAsString() {
-        return StringHelper.toUtcFormat(zone);
+        return StringHelper.toUtcFormat(TimeHelper.convertToOffset(timeZone));
     }
 
     public String getFeedbackSessionStatsLink(String courseId, String feedbackSessionName, String user) {
@@ -187,10 +197,10 @@ public class AdminSessionsPageData extends PageData {
     }
 
     private void setFilter() {
-        filter = new AdminFilter(
-                TimeHelper.formatDateForSessionsForm(rangeStart), getHourOptionsAsHtml(rangeStart),
-                getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDateForSessionsForm(rangeEnd),
-                getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd), getTimeZoneOptionsAsHtml());
+        filter = new AdminFilter(TimeHelper.formatDate(getRangeStartLocal()), getHourOptionsAsHtml(getRangeEndLocal()),
+                                 getMinuteOptionsAsHtml(getRangeStartLocal()), TimeHelper.formatDate(getRangeEndLocal()),
+                                 getHourOptionsAsHtml(getRangeEndLocal()), getMinuteOptionsAsHtml(getRangeEndLocal()),
+                                 getTimeZoneOptionsAsHtml());
     }
 
     public void setInstitutionPanels(
