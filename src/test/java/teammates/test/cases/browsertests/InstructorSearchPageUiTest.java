@@ -131,6 +131,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         InstructorCourseStudentDetailsViewPage studentDetailsViewPage = searchPage
                 .changePageType(InstructorCourseStudentDetailsViewPage.class);
         studentDetailsViewPage.verifyIsCorrectPage(studentEmail);
+        studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     private void testSanitization() throws IOException {
