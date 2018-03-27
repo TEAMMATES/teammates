@@ -507,14 +507,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     "<br>The options for this question is automatically generated from the list of all %s in this course.",
                     generateOptionsFor.toString().toLowerCase());
             optionListHtml.append(optionHelpText);
-        }
-
-        if (!msqChoices.isEmpty()) {
+        }else if (!msqChoices.isEmpty()) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-            for (int i = 0; i < msqChoices.size(); i++) {
+            for (String msqChoice : msqChoices){
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoices.get(i)));
+                                Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoice));
 
                 optionListHtml.append(optionFragment);
             }
