@@ -14,6 +14,7 @@ import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorSearchPage;
+import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_SEARCH_PAGE}.
@@ -43,7 +44,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
 
         testViewAction();
         testEditAction();
-//        testAllRecordsAction();
+        testAllRecordsAction();
 
         testSanitization();
 
@@ -153,6 +154,25 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
                 .changePageType(InstructorCourseStudentDetailsEditPage.class);
         studentDetailsEditPage.verifyIsCorrectPage(studentEmail);
         studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    private void testAllRecordsAction() throws Exception {
+
+        ______TS("action: all records");
+
+        searchPage.clearSearchBox();
+        String searchContent = "\"student2 2 In Course1\"";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickAllRecords(courseId, studentName);
+        InstructorStudentRecordsPage studentRecordsPage = searchPage
+                .changePageType(InstructorStudentRecordsPage.class);
+        studentRecordsPage.verifyIsCorrectPage(studentName);
+        studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     private void testSanitization() throws IOException {
