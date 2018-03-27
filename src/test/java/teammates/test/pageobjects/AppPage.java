@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
@@ -360,6 +360,14 @@ public abstract class AppPage {
     public void waitForTextContainedInElementAbsence(By by, String text) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
+    }
+
+    /**
+     * Waits for page to scroll for 1 second.
+     * Temporary solution until we can detect specifically when page scrolling.
+     */
+    public void waitForPageToScroll() {
+        ThreadHelper.waitFor(1000);
     }
 
     /**
@@ -1045,12 +1053,13 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns if the input element is valid (satisfies constraint validation).
+     * Returns if the input element is valid (satisfies constraint validation). Note: This method will return false if the
+     * input element is not a candidate for constraint validation (e.g. when input element is disabled).
      */
     public boolean isInputElementValid(WebElement inputElement) {
-        Preconditions.checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
+        checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
 
-        return (boolean) executeScript("return arguments[0].checkValidity();", inputElement);
+        return (boolean) executeScript("return arguments[0].willValidate && arguments[0].checkValidity();", inputElement);
     }
 
     public void changeToMobileView() {
