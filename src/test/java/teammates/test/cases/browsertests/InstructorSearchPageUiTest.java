@@ -116,7 +116,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
     }
 
-    private void testViewAction() throws Exception {
+    private void testViewAction() {
 
         ______TS("action: view");
 
@@ -136,7 +136,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    private void testEditAction() throws Exception {
+    private void testEditAction() {
 
         ______TS("action: edit");
 
@@ -156,7 +156,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    private void testAllRecordsAction() throws Exception {
+    private void testAllRecordsAction() {
 
         ______TS("action: all records");
 
