@@ -49,6 +49,14 @@ public class InstructorSearchPage extends AppPage {
         return this;
     }
 
+    public InstructorSearchPage clickEdit(String courseId, String studentName) {
+        String rowId = getStudentRowId(courseId, studentName);
+        click(getEditLink(rowId));
+        waitForPageToLoad();
+        switchToNewWindow();
+        return this;
+    }
+
     private WebElement getSearchBox() {
         return browser.driver.findElement(By.id("searchBox"));
     }
@@ -99,6 +107,11 @@ public class InstructorSearchPage extends AppPage {
     private WebElement getViewLink(String rowId) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));
+    }
+
+    private WebElement getEditLink(String rowId) {
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(2)"));
     }
 
     public void clickAndHoverPicture(String cellId) {
