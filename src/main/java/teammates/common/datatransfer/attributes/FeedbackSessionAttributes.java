@@ -194,6 +194,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         addNonEmptyError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
 
+        addNonEmptyError(validator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
+
         // Skip time frame checks if session type is private.
         if (this.isPrivateSession()) {
             return errors;
