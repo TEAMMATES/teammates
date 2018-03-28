@@ -1210,7 +1210,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * Class to calculate the statistics of responses for a rubric question.
      */
     private static class RubricStatistics {
-        
+
         private RubricStatistics() {
             // empty
         }
