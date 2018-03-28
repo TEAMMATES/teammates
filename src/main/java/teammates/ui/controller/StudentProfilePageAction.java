@@ -25,8 +25,10 @@ public class StudentProfilePageAction extends Action {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
 
+        String whole_message = SanitizationHelper.sanitizeForHtmlTag(account.studentProfile.toString());
         StudentProfilePageData data = new StudentProfilePageData(account, sessionToken, isEditingPhoto);
-        statusToAdmin = "studentProfile Page Load <br> Profile: test";
+        statusToAdmin = "studentProfile Page Load <br> Profile: "
+                + whole_message.substring(17,33);
 
         return createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);
     }
