@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
@@ -26,9 +28,24 @@ public class StudentProfilePageAction extends Action {
         }
 
         String whole_message = SanitizationHelper.sanitizeForHtmlTag(account.studentProfile.toString());
+        String part_of_message = null;
+        String googleId = null;
+        String pattern = "(googleId\")(.*)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(whole_message);
+        if (m.find()) {
+            part_of_message = m.group(2);
+            Pattern ptrn = Pattern.compile("\\B(:.*?\")\\B");
+            Matcher matcher = ptrn.matcher(part_of_message);
+            if (matcher.find()) {
+                googleId = matcher.group();
+                googleId = googleId.substring(3, googleId.length() - 1);
+            }
+        }
+
         StudentProfilePageData data = new StudentProfilePageData(account, sessionToken, isEditingPhoto);
         statusToAdmin = "studentProfile Page Load <br> Profile: "
-                + whole_message.substring(17,33);
+                + googleId;
 
         return createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);
     }
