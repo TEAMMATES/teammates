@@ -620,8 +620,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableBodyHtml;
         StringBuilder tableBodyExcludingSelfHtml;
 
-        int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responses, fqd);
-        int[][] responseFrequencyExcludingSelf = RubricStatistics.calculateResponseFrequencyExcludingSelf(responses, fqd);
+        int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responsesForStatistics, fqd);
+        int[][] responseFrequencyExcludingSelf =
+                RubricStatistics.calculateResponseFrequencyExcludingSelf(responsesForStatistics, fqd);
 
         float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd, responseFrequency);
         float[][] rubricStatsExcludingSelf = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd,
