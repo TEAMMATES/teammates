@@ -629,7 +629,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd, responseFrequency);
         float[][] rubricStatsExcludingSelf = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd,
-                responseFrequency);
+                responseFrequencyExcludingSelf);
 
         tableBodyHtml = getQuestionResultsStatisticsBodyHtml(fqd, responseFrequency, rubricStats);
         tableBodyExcludingSelfHtml = getQuestionResultsStatisticsBodyHtml(fqd,
@@ -668,7 +668,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString(),
                 Slots.TABLE_BODY_EXCLUDING_SELF_HTML, tableBodyExcludingSelfHtml.toString(),
-                Slots.EXCULDING_SELF_OPTION_VISIBLE, isExcludingSelfOptionAvailable ? "" : "hidden",
+                Slots.EXCLUDING_SELF_OPTION_VISIBLE, isExcludingSelfOptionAvailable ? "" : "hidden",
                 Slots.RUBRIC_RECIPIENT_STATS_HTML, recipientStatsHtml);
     }
 
