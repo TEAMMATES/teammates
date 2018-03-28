@@ -72,8 +72,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         logic.deleteFeedbackQuestion(questionId);
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, StatusMessageColor.SUCCESS));
         statusToAdmin = "Feedback Question " + questionNumber + " for session:<span class=\"bold\">("
-                        + feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                        + courseId + "]</span> deleted.<br>";
+                + feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                + courseId + "]</span> deleted.<br>";
     }
 
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException,
