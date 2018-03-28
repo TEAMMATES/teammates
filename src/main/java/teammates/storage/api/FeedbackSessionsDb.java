@@ -33,13 +33,13 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
 
         Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startUtc);
+        startCal.setTime(TimeHelper.convertInstantToDate(rangeStart));
         Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endUtc);
+        endCal.setTime(TimeHelper.convertInstantToDate(rangeEnd));
 
         // To retrieve legacy data where local dates are stored instead of UTC
         // TODO: remove after all legacy data has been converted
@@ -63,17 +63,15 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         startTimeEntities.removeAll(endTimeEntities);
         endTimeEntities.addAll(startTimeEntities);
 
-        Instant start = startUtc.toInstant();
-        Instant end = endUtc.toInstant();
-
         // TODO: remove after all legacy data has been converted
         for (FeedbackSession feedbackSession : endTimeEntities) {
             FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
             Instant fsStart = fs.getStartTime();
             Instant fsEnd = fs.getEndTime();
 
-            boolean isStartTimeWithinRange = (fsStart.isAfter(start) || fsStart.equals(start)) && fsStart.isBefore(end);
-            boolean isEndTimeWithinRange = fsEnd.isAfter(start) && (fsEnd.isBefore(end) || fsEnd.equals(end));
+            boolean isStartTimeWithinRange = (fsStart.isAfter(rangeStart) || fsStart.equals(rangeStart))
+                    && fsStart.isBefore(rangeEnd);
+            boolean isEndTimeWithinRange = fsEnd.isAfter(rangeStart) && (fsEnd.isBefore(rangeEnd) || fsEnd.equals(rangeEnd));
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);

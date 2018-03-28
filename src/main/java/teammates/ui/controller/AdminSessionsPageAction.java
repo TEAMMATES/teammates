@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +49,8 @@ public class AdminSessionsPageAction extends Action {
             return result;
         }
 
-        Date rangeStartUtc = TimeHelper.convertInstantToDate(rangeStart);
-        Date rangeEndUtc = TimeHelper.convertInstantToDate(rangeEnd);
         List<FeedbackSessionAttributes> allOpenFeedbackSessionsList =
-                logic.getAllOpenFeedbackSessions(rangeStartUtc, rangeEndUtc);
+                logic.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
 
         result = createShowPageResultIfNoOngoingSession(allOpenFeedbackSessionsList);
         if (result != null) {
