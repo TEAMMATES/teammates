@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -181,6 +182,10 @@ public class FieldValidator {
             "The value must be one of the values from the time zone dropdown selector.";
     public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
+    public static final String HINT_FOR_CORRECT_GRACE_PERIOD =
+            "The value must be one of the options in the grace period dropdown selector.";
+    public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative." + " "
+            + HINT_FOR_CORRECT_GRACE_PERIOD;
 
     public static final String HINT_FOR_CORRECT_NATIONALITY =
             "The value must be one of the values from the nationality dropdown selector.";
@@ -316,6 +321,18 @@ public class FieldValidator {
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
                                             REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code gracePeriod} is not negative.
+     * @return An explanation why the {@code gracePeriod} is not acceptable.
+     *         Returns an empty string if the {@code gracePeriod} is acceptable.
+     */
+    public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
+        if (gracePeriod.isNegative()) {
+            return GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE;
         }
         return "";
     }
