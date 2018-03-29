@@ -35,6 +35,5 @@
     <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
         <property name="isPublishedEmailEnabled" direction="asc"/>
         <property name="sentPublishedEmail" direction="asc"/>
-        <property name="feedbackSessionType" direction="asc"/>
     </datastore-index>
 </datastore-indexes>
