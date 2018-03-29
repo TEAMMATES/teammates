@@ -12,8 +12,14 @@
 
     <c:if test="${questionWithResponses.questionDetails.individualResponsesShownToStudents}">
 
-      <c:forEach items="${questionWithResponses.responseTables}" var="responseTable">
-        <feedbackResults:responseTable responseTable="${responseTable}"/>
+      <c:forEach items="${questionWithResponses.othersResponseTables}" var="othersResponseTable">
+        <feedbackResults:responseTable responseTable="${othersResponseTable}"/>
+      </c:forEach>
+
+      <h4>Your own responses:</h4>
+
+      <c:forEach items="${questionWithResponses.selfResponseTables}" var="selfResponseTable">
+        <feedbackResults:responseTable responseTable="${selfResponseTable}"/>
       </c:forEach>
 
     </c:if>
