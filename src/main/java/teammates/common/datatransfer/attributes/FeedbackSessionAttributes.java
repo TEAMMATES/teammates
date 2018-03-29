@@ -194,6 +194,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         addNonEmptyError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
 
+        addNonEmptyError(validator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
+
         addNonEmptyError(validator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
 
         addNonEmptyError(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);

@@ -2094,9 +2094,9 @@ public final class FeedbackSessionsLogic {
         }
         instructorNoResponses.removeAll(fsa.getRespondingInstructorList());
 
-        responseStatus.noResponse.addAll(studentNoResponses);
+        responseStatus.studentsWhoDidNotRespond.addAll(studentNoResponses);
         responseStatus.studentsWhoResponded.addAll(studentResponded);
-        responseStatus.noResponse.addAll(instructorNoResponses);
+        responseStatus.studentsWhoDidNotRespond.addAll(instructorNoResponses);
 
         return responseStatus;
     }

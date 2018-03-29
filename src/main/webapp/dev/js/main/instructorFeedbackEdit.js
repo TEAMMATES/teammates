@@ -86,6 +86,7 @@ import {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
+    bindAutoFillEmptyRankOptionsChangeEvent,
 } from '../common/questionRank';
 
 import {
@@ -304,6 +305,17 @@ function bindFeedbackSessionEditFormSubmission() {
 }
 
 /**
+ * If an input field is hidden, removes required attribute when saving changes. See issue #8688.
+ *
+ * TODO: Remove this function when #8688 is fixed.
+ */
+function removeRequiredIfElementHidden() {
+    $('#form_editquestion--1').on('click', '#button_submit_add', () => {
+        $('input:hidden').prop('required', false);
+    });
+}
+
+/**
  * Disable question fields and "save changes" button for the given question number,
  * and shows the edit link.
  * @param questionNum
@@ -491,7 +503,7 @@ function enableQuestion(questionNum) {
 }
 
 /**
-* Enables editing of question fields and enables the "save changes" button for
+ *Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
  */
@@ -520,6 +532,8 @@ function enableNewQuestion() {
         /* eslint-enable camelcase */
     }
 
+    removeRequiredIfElementHidden(); // TODO: Remove this function call when #8688 is fixed.
+
     const $newQuestionTable = $(`#questionTable-${NEW_QUESTION}`);
 
     $newQuestionTable.find('text,button,textarea,select,input')
@@ -545,8 +559,8 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
-    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
+    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
@@ -1160,6 +1174,8 @@ function readyFeedbackEditPage() {
     bindMoveRubricColButtons();
     bindRankEvents();
     bindConstSumOptionsRadioButtons();
+
+    bindAutoFillEmptyRankOptionsChangeEvent();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();
