@@ -377,12 +377,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             int sizeOfStudentlist = studentList.size();
 
             return generatedOption == FeedbackParticipantType.STUDENTS ? sizeOfStudentlist : sizeOfStudentlist - 1;
-        } else if (generatedOption == FeedbackParticipantType.TEAMS) {
+        } else if (generatedOption == FeedbackParticipantType.TEAMS ||
+                generatedOption == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
             try {
                 List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
                 int sizeOfTeamlist = teamList.size();
 
-                return sizeOfTeamlist;
+                return generatedOption == FeedbackParticipantType.TEAMS ? sizeOfTeamlist : sizeOfTeamlist - 1;
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
             }
