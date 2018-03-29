@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentFeedbackResultsQuestionWithResponses {
@@ -19,6 +20,26 @@ public class StudentFeedbackResultsQuestionWithResponses {
 
     public List<FeedbackResultsResponseTable> getResponseTables() {
         return responseTables;
+    }
+
+    public List<FeedbackResultsResponseTable> getSelfResponseTables() {
+        List<FeedbackResultsResponseTable> selfResponseTables = new ArrayList<>();
+        for (int i = 0; i < responseTables.size(); i++) {
+            if (responseTables.get(i).isGiverNameYou()) {
+                selfResponseTables.add(responseTables.get(i));
+            }
+        }
+        return selfResponseTables;
+    }
+
+    public List<FeedbackResultsResponseTable> getOthersResponseTables() {
+        List<FeedbackResultsResponseTable> othersResponseTables = new ArrayList<>();
+        for (int i = 0; i < responseTables.size(); i++) {
+            if (!responseTables.get(i).isGiverNameYou()) {
+                othersResponseTables.add(responseTables.get(i));
+            }
+        }
+        return othersResponseTables;
     }
 
 }
