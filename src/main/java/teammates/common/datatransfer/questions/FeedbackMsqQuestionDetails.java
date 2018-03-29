@@ -30,7 +30,7 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
-    private int numOfMsqChoices;
+    private transient int numOfMsqChoices;
     private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
@@ -369,6 +369,29 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return 0;
     }
 
+    private int numOfChoicesForGeneratedOptions(String courseId, FeedbackParticipantType generatedOption) {
+        if(generatedOption == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF ||
+                generatedOption == FeedbackParticipantType.STUDENTS) {
+            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
+            int sizeOfStudentlist = studentList.size();
+            return generatedOption == FeedbackParticipantType.STUDENTS ? sizeOfStudentlist : sizeOfStudentlist - 1;
+        } else if (generatedOption == FeedbackParticipantType.TEAMS) {
+            try {
+                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
+
+                int sizeOfTeamlist = teamList.size();
+                return sizeOfTeamlist;
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail("Course disappeared");
+            }
+        } else {
+            List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(courseId);
+            int sizeOfInstructorlist = instructorList.size();
+            return sizeOfInstructorlist;
+        }
+        return 0;
+    }
+
     private List<String> generateOptionList(String courseId) {
         List<String> optionList = new ArrayList<>();
 
@@ -609,10 +632,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
-                && numOfMsqChoices < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES) {
+                && msqChoices.size() < Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES) {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES
                        + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
         }
@@ -623,10 +646,19 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
 
         if (isMaxSelectableChoicesEnabled) {
-            if (numOfMsqChoices < maxSelectableChoices) {
-                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
-            } else if (maxSelectableChoices < 2) {
-                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
+            if(generateOptionsFor == FeedbackParticipantType.NONE) {
+                if (msqChoices.size() < maxSelectableChoices) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
+                } else if (maxSelectableChoices < 2) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
+                }
+            } else {
+                int numOfMsqChoicesForGeneratedOptions = numOfChoicesForGeneratedOptions(courseId, generateOptionsFor);
+                if (numOfMsqChoicesForGeneratedOptions < maxSelectableChoices) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
+                } else if (maxSelectableChoices < 2) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
+                }
             }
         }
 
