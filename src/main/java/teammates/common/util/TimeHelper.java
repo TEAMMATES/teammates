@@ -28,8 +28,8 @@ public final class TimeHelper {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<>();
-    private static final List<Double> TIME_ZONE_VALUES = new ArrayList<>();
+    private static final Map<ZoneId, String> TIME_ZONE_CITIES_MAP = new HashMap<>();
+    private static final List<ZoneId> TIME_ZONE_VALUES = new ArrayList<>();
 
     /*
      *This time zone - city map was created by selecting major cities from each time zone.
@@ -39,45 +39,46 @@ public final class TimeHelper {
      */
 
     static {
-        map("-12.0", "Baker Island, Howland Island");
-        map("-11.0", "American Samoa, Niue");
-        map("-10.0", "Hawaii, Cook Islands");
-        map("-9.5", "Marquesas Islands");
-        map("-9.0", "Gambier Islands, Alaska");
-        map("-8.0", "Los Angeles, Vancouver, Tijuana");
-        map("-7.0", "Phoenix, Calgary, Ciudad Juárez");
-        map("-6.0", "Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg");
-        map("-5.0", "New York, Lima, Toronto, Bogotá, Havana, Kingston");
-        map("-4.5", "Caracas");
-        map("-4.0", "Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax");
-        map("-3.5", "St. John's");
-        map("-3.0", "Buenos Aires, Montevideo, São Paulo");
-        map("-2.0", "Fernando de Noronha, South Georgia and the South Sandwich Islands");
-        map("-1.0", "Cape Verde, Greenland, Azores islands");
-        map("0.0", "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
-        map("1.0", "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
-        map("2.0", "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
-        map("3.0", "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
-        map("3.5", "Tehran");
-        map("4.0", "Baku, Dubai, Moscow");
-        map("4.5", "Kabul");
-        map("5.0", "Karachi, Tashkent");
-        map("5.5", "Colombo, Delhi");
-        map("5.75", "Kathmandu");
-        map("6.0", "Almaty, Dhaka, Yekaterinburg");
-        map("6.5", "Yangon");
-        map("7.0", "Jakarta, Bangkok, Novosibirsk, Hanoi");
-        map("8.0", "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
-        map("8.75", "Eucla");
-        map("9.0", "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
-        map("9.5", "Adelaide");
-        map("10.0", "Canberra, Yakutsk, Port Moresby");
-        map("10.5", "Lord Howe Islands");
-        map("11.0", "Vladivostok, Noumea");
-        map("12.0", "Auckland, Suva");
-        map("12.75", "Chatham Islands");
-        map("13.0", "Phoenix Islands, Tokelau, Tonga");
-        map("14.0", "Line Islands");
+        map(ZoneId.of("UTC-12:00"), "Baker Island, Howland Island");
+        map(ZoneId.of("UTC-11:00"), "American Samoa, Niue");
+        map(ZoneId.of("UTC-10:00"), "Hawaii, Cook Islands");
+        map(ZoneId.of("UTC-09:30"), "Marquesas Islands");
+        map(ZoneId.of("UTC-09:00"), "Gambier Islands, Alaska");
+        map(ZoneId.of("UTC-08:00"), "Los Angeles, Vancouver, Tijuana");
+        map(ZoneId.of("UTC-07:00"), "Phoenix, Calgary, Ciudad Juárez");
+        map(ZoneId.of("UTC-06:00"), "Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg");
+        map(ZoneId.of("UTC-05:00"), "New York, Lima, Toronto, Bogotá, Havana, Kingston");
+        map(ZoneId.of("UTC-04:30"), "Caracas");
+        map(ZoneId.of("UTC-04:00"), "Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax");
+        map(ZoneId.of("UTC-03:30"), "St. John's");
+        map(ZoneId.of("UTC-03:00"), "Buenos Aires, Montevideo, São Paulo");
+        map(ZoneId.of("UTC-02:00"), "Fernando de Noronha, South Georgia and the South Sandwich Islands");
+        map(ZoneId.of("UTC-01:00"), "Cape Verde, Greenland, Azores islands");
+        map(ZoneId.of("UTC"), "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
+        map(ZoneId.of("UTC+01:00"), "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
+        map(ZoneId.of("UTC+02:00"),
+                "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
+        map(ZoneId.of("UTC+03:00"), "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
+        map(ZoneId.of("UTC+03:30"), "Tehran");
+        map(ZoneId.of("UTC+04:00"), "Baku, Dubai, Moscow");
+        map(ZoneId.of("UTC+04:30"), "Kabul");
+        map(ZoneId.of("UTC+05:00"), "Karachi, Tashkent");
+        map(ZoneId.of("UTC+05:30"), "Colombo, Delhi");
+        map(ZoneId.of("UTC+05:45"), "Kathmandu");
+        map(ZoneId.of("UTC+06:00"), "Almaty, Dhaka, Yekaterinburg");
+        map(ZoneId.of("UTC+06:30"), "Yangon");
+        map(ZoneId.of("UTC+07:00"), "Jakarta, Bangkok, Novosibirsk, Hanoi");
+        map(ZoneId.of("UTC+08:00"), "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
+        map(ZoneId.of("UTC+08:45"), "Eucla");
+        map(ZoneId.of("UTC+09:00"), "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
+        map(ZoneId.of("UTC+09:30"), "Adelaide");
+        map(ZoneId.of("UTC+10:00"), "Canberra, Yakutsk, Port Moresby");
+        map(ZoneId.of("UTC+10:30"), "Lord Howe Islands");
+        map(ZoneId.of("UTC+11:00"), "Vladivostok, Noumea");
+        map(ZoneId.of("UTC+12:00"), "Auckland, Suva");
+        map(ZoneId.of("UTC+12:45"), "Chatham Islands");
+        map(ZoneId.of("UTC+13:00"), "Phoenix Islands, Tokelau, Tonga");
+        map(ZoneId.of("UTC+14:00"), "Line Islands");
 
     }
 
@@ -127,9 +128,9 @@ public final class TimeHelper {
         // utility class
     }
 
-    private static void map(String timeZone, String cities) {
+    private static void map(ZoneId timeZone, String cities) {
         TIME_ZONE_CITIES_MAP.put(timeZone, cities);
-        TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
+        TIME_ZONE_VALUES.add(timeZone);
     }
 
     /**
@@ -179,11 +180,11 @@ public final class TimeHelper {
         log.info("Time zone set to " + SystemParams.TIME_ZONE.getID() + " (was " + originalTimeZone.getID() + ")");
     }
 
-    public static String getCitiesForTimeZone(String zone) {
+    public static String getCitiesForTimeZone(ZoneId zone) {
         return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
-    public static List<Double> getTimeZoneValues() {
+    public static List<ZoneId> getTimeZoneValues() {
         return new ArrayList<>(TIME_ZONE_VALUES);
     }
 

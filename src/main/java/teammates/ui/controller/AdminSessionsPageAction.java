@@ -111,7 +111,7 @@ public class AdminSessionsPageAction extends Action {
             SanitizationHelper.sanitizeForHtml(endMin);
             SanitizationHelper.sanitizeForHtml(timeZone);
 
-            zone = TimeHelper.convertToZoneId(Double.parseDouble(timeZone));
+            zone = ZoneId.of(timeZone);
 
             start = TimeHelper.parseLocalDateTimeForSessionsForm(startDate, startHour, startMin);
             end = TimeHelper.parseLocalDateTimeForSessionsForm(endDate, endHour, endMin);
