@@ -39,7 +39,7 @@ public class AdminSearchPageAction extends Action {
         if (searchKey == null || searchKey.trim().isEmpty()) {
 
             if (searchButtonHit == null) {
-                statusToAdmin = "AdminSearchPaga Page Load";
+                statusToAdmin = "AdminSearchPage Page Load";
             } else {
                 statusToUser.add(new StatusMessage("Search key cannot be empty", StatusMessageColor.WARNING));
                 statusToAdmin = "Invalid Search: Search key cannot be empty";

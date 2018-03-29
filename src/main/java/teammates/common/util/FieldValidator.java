@@ -1,15 +1,15 @@
 package teammates.common.util;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import org.joda.time.DateTimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -182,6 +182,10 @@ public class FieldValidator {
             "The value must be one of the values from the time zone dropdown selector.";
     public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
+    public static final String HINT_FOR_CORRECT_GRACE_PERIOD =
+            "The value must be one of the options in the grace period dropdown selector.";
+    public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative." + " "
+            + HINT_FOR_CORRECT_GRACE_PERIOD;
 
     public static final String HINT_FOR_CORRECT_NATIONALITY =
             "The value must be one of the values from the nationality dropdown selector.";
@@ -317,6 +321,18 @@ public class FieldValidator {
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
                                             REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code gracePeriod} is not negative.
+     * @return An explanation why the {@code gracePeriod} is not acceptable.
+     *         Returns an empty string if the {@code gracePeriod} is acceptable.
+     */
+    public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
+        if (gracePeriod.isNegative()) {
+            return GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE;
         }
         return "";
     }
@@ -496,14 +512,14 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if the given string is a non-null string contained in {@link DateTimeZone}'s
-     * list of time zone IDs.
+     * Checks if the given string is a non-null string contained in Java's list of
+     * regional time zone IDs.
      * @return An explanation of why the {@code timeZoneValue} is not acceptable.
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
     public String getInvalidityInfoForCourseTimeZone(String timeZoneValue) {
         Assumption.assertNotNull("Non-null value expected", timeZoneValue);
-        if (!DateTimeZone.getAvailableIDs().contains(timeZoneValue)) {
+        if (!ZoneId.getAvailableZoneIds().contains(timeZoneValue)) {
             return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
                                             REASON_UNAVAILABLE_AS_CHOICE);
         }
@@ -607,7 +623,7 @@ public class FieldValidator {
      * @return Error string if {@code sessionStart} is before {@code sessionEnd}
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
-    public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
+    public String getInvalidityInfoForTimeForSessionStartAndEnd(Instant sessionStart, Instant sessionEnd) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 sessionStart, sessionEnd, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
     }
@@ -617,8 +633,8 @@ public class FieldValidator {
      * @return Error string if {@code visibilityStart} is before {@code sessionStart}
      *         Empty string if {@code visibilityStart} is after {@code sessionStart}
      */
-    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart,
-                                                                            Date sessionStart) {
+    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+            Instant visibilityStart, Instant sessionStart) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
     }
@@ -628,20 +644,20 @@ public class FieldValidator {
      * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
      *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
      */
-    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(Date visibilityStart,
-                                                                              Date resultsPublish) {
+    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+            Instant visibilityStart, Instant resultsPublish) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
     private String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
-            Date earlierTime, Date laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
+            Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
         Assumption.assertNotNull("Non-null value expected", earlierTime);
         Assumption.assertNotNull("Non-null value expected", laterTime);
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
-        if (laterTime.before(earlierTime)) {
+        if (laterTime.isBefore(earlierTime)) {
             return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName, earlierTimeFieldName);
         }
         return "";

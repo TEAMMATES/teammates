@@ -3,22 +3,20 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
-<a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px"
-    href="${actions.editLink}"
+<a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px<c:if test="${not actions.allowedToEdit}"> disabled</c:if>"
+    href="${actions.allowedToEdit ? actions.editLink : 'javascript:;'}"
     title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
     data-toggle="tooltip"
-    data-placement="top"
-    <c:if test="${not actions.allowedToEdit}">disabled</c:if>>
+    data-placement="top">
   Edit
 </a>
-<a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px"
-    href="${actions.deleteLink}"
+<a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
+    href="${actions.allowedToDelete ? actions.deleteLink : 'javascript:;'}"
     title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
     data-toggle="tooltip"
     data-placement="top"
     data-courseid="${actions.courseId}"
-    data-fsname="${actions.fsName}"
-    <c:if test="${not actions.allowedToDelete}">disabled</c:if>>
+    data-fsname="${actions.fsName}">
   Delete
 </a>
 <div title="<%= Const.Tooltips.FEEDBACK_SESSION_COPY %>"
@@ -40,9 +38,8 @@
     data-toggle="tooltip"
     data-placement="top"
     style="display: inline-block; padding-right: 5px;">
-  <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px"
-      href="${actions.submitLink}"
-      <c:if test="${not actions.allowedToSubmit}">disabled</c:if>>
+  <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test margin-bottom-7px<c:if test="${not actions.allowedToSubmit}"> disabled</c:if>"
+      href="${actions.allowedToSubmit ? actions.submitLink : 'javascript:;'}">
     Submit
   </a>
 </div>
@@ -59,7 +56,7 @@
         class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-results-options"
         data-toggle="dropdown"
         aria-expanded="false"
-        <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}"> disabled</c:if>>
+        <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}">disabled</c:if>>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
@@ -77,10 +74,9 @@
     data-placement="top"
     style="display: inline-block; padding-right: 5px;">
   <div class="btn-group margin-bottom-7px">
-    <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test"
-        href="${actions.remindLink}"
-        data-fsname="${actions.fsName}"
-        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
+    <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test<c:if test="${not actions.allowedToRemind || actions.privateSession}"> disabled</c:if>"
+        href="${actions.allowedToRemind && not actions.privateSession ? actions.remindLink : 'javascript:;'}"
+        data-fsname="${actions.fsName}">
       Remind
     </a>
     <button type="button"
