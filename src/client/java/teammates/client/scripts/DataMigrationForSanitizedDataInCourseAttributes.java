@@ -20,7 +20,7 @@ import teammates.storage.api.CoursesDb;
  * <p>This script desanitizes the field of existing CourseAttributes if it is sanitized so that
  * all courses will have unsanitized values in these fields.</p>
  */
-public class DataMigrationForSanitizedDataInCourseAttributes extends DataMigrationBaseScript<CourseAttributes> {
+public class DataMigrationForSanitizedDataInCourseAttributes extends DataMigrationForEntities<CourseAttributes> {
 
     private CoursesDb coursesDb = new CoursesDb();
 
