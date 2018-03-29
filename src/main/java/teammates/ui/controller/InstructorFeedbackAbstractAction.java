@@ -11,7 +11,6 @@ import java.util.Map;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -73,7 +72,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             attributes.setSentPublishedEmail(false);
         }
 
-        attributes.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         attributes.setInstructions(new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
 
         String type = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);

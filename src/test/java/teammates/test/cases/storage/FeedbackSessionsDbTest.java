@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -284,7 +283,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.com")
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withCreatedTime(Instant.now())
                 .withStartTime(Instant.now())
                 .withEndTime(Instant.now())

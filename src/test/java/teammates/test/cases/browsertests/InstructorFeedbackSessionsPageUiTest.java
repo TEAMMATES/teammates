@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -52,7 +51,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .withSentOpenEmail(false)
                 .withSentPublishedEmail(false)
                 .withTimeZone(ZoneId.of("UTC+08:00"))
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withClosingEmailEnabled(true)
                 .withPublishedEmailEnabled(true)
                 .build();
@@ -260,7 +258,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setSessionVisibleFromTime(TimeHelper.parseInstant("2004-03-01 9:30 PM +0000"));
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
 
         newSession.setInstructions(new Text(""));
 

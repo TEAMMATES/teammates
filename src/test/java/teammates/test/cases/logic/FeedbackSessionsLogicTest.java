@@ -20,7 +20,6 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.FeedbackSessionStats;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -140,7 +139,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("typical case : 1 standard session closing within time limit");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(ZoneId.of("UTC"));
-        session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
@@ -171,7 +169,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("case : 1 open session with mail unsent");
         FeedbackSessionAttributes session = getNewFeedbackSession();
         session.setTimeZone(ZoneId.of("UTC"));
-        session.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
@@ -1770,7 +1767,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsa.setInstructions(null);
         fsa.setStartTime(null);
         fsa.setEndTime(null);
-        fsa.setFeedbackSessionType(null);
         fsa.setSessionVisibleFromTime(null);
         fsa.setResultsVisibleFromTime(null);
 
@@ -1879,7 +1875,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.tmt")
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withCreatedTime(Instant.now())
                 .withStartTime(Instant.now())
                 .withEndTime(Instant.now())

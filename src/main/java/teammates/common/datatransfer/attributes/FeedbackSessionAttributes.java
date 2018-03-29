@@ -12,7 +12,6 @@ import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -35,7 +34,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Instant resultsVisibleFromTime;
     private ZoneId timeZone;
     private Duration gracePeriod;
-    private FeedbackSessionType feedbackSessionType;
     private boolean sentOpenEmail;
     private boolean sentClosingEmail;
     private boolean sentClosedEmail;
@@ -69,7 +67,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 .withResultsVisibleFromTime(fs.getResultsVisibleFromTime())
                 .withTimeZone(ZoneId.of(fs.getTimeZone()))
                 .withGracePeriodMinutes(fs.getGracePeriod())
-                .withFeedbackSessionType(fs.getFeedbackSessionType())
                 .withSentOpenEmail(fs.isSentOpenEmail())
                 .withSentClosingEmail(fs.isSentClosingEmail())
                 .withSentClosedEmail(fs.isSentClosedEmail())
@@ -136,7 +133,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public FeedbackSession toEntity() {
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions,
                 createdTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                timeZone.getId(), getGracePeriodMinutes(), feedbackSessionType,
+                timeZone.getId(), getGracePeriodMinutes(),
                 sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
                 respondingInstructorList, respondingStudentList);
@@ -362,8 +359,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", endTime=" + endTime + ", sessionVisibleFromTime="
                + sessionVisibleFromTime + ", resultsVisibleFromTime="
                + resultsVisibleFromTime + ", timeZone=" + timeZone
-               + ", gracePeriod=" + getGracePeriodMinutes() + "min, feedbackSessionType="
-               + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
+               + ", gracePeriod=" + getGracePeriodMinutes() + "min"
+               + ", sentOpenEmail=" + sentOpenEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
@@ -510,14 +507,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.gracePeriod = Duration.ofMinutes(gracePeriodMinutes);
     }
 
-    public FeedbackSessionType getFeedbackSessionType() {
-        return feedbackSessionType;
-    }
-
-    public void setFeedbackSessionType(FeedbackSessionType feedbackSessionType) {
-        this.feedbackSessionType = feedbackSessionType;
-    }
-
     public boolean isSentOpenEmail() {
         return sentOpenEmail;
     }
@@ -658,13 +647,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public Builder withGracePeriodMinutes(long gracePeriodMinutes) {
             feedbackSessionAttributes.setGracePeriodMinutes(gracePeriodMinutes);
-            return this;
-        }
-
-        public Builder withFeedbackSessionType(FeedbackSessionType feedbackSessionType) {
-            if (feedbackSessionType != null) {
-                feedbackSessionAttributes.setFeedbackSessionType(feedbackSessionType);
-            }
             return this;
         }
 
