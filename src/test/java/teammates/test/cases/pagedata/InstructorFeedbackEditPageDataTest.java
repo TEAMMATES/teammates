@@ -74,9 +74,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(fs.getCourseId(), fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
-        assertFalse(fsForm.isFeedbackSessionTypeEditable());
+        assertFalse(fsForm.isSessionTemplateTypeEditable());
         assertTrue(fsForm.isEditFsButtonsVisible());
-        assertNull(fsForm.getFeedbackSessionTypeOptions());
+        assertNull(fsForm.getSessionTemplateTypeOptions());
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(),
                      fsForm.getFormSubmitAction());
 
@@ -227,9 +227,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(fs.getCourseId(), fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
-        assertFalse(fsForm.isFeedbackSessionTypeEditable());
+        assertFalse(fsForm.isSessionTemplateTypeEditable());
         assertTrue(fsForm.isEditFsButtonsVisible());
-        assertNull(fsForm.getFeedbackSessionTypeOptions());
+        assertNull(fsForm.getSessionTemplateTypeOptions());
 
         additionalSettings = data.getFsForm().getAdditionalSettings();
         assertEquals(TimeHelper.formatDateForSessionsForm(fs.getResultsVisibleFromTimeLocal()),

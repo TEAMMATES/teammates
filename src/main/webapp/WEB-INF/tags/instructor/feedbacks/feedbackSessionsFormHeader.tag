@@ -5,7 +5,7 @@
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 
-<c:if test="${fsForm.feedbackSessionTypeEditable}">
+<c:if test="${fsForm.sessionTemplateTypeEditable}">
   <div class="row">
     <h4 class="label-control col-md-2 text-md">Create new </h4>
     <div class="col-md-5">
@@ -14,7 +14,7 @@
         <select class="form-control"
             name="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>"
             id="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>">
-          <c:forEach items="${fsForm.feedbackSessionTypeOptions}" var="option">
+          <c:forEach items="${fsForm.sessionTemplateTypeOptions}" var="option">
             <option ${option.attributesToString}>
               ${option.content}
             </option>
