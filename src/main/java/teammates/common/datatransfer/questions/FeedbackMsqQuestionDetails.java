@@ -104,8 +104,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
         } else {
-            String courseId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.COURSE_ID);
-            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions), courseId);
+            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
         }
         return true;
     }
@@ -117,7 +116,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
-    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor, String courseId) {
+    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
@@ -335,16 +334,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private int numOfChoicesForMsq(String courseId, FeedbackParticipantType generatedOption) {
-        if(generatedOption == FeedbackParticipantType.NONE) {
+        if (generatedOption == FeedbackParticipantType.NONE) {
             return msqChoices.size();
-        } else if (generatedOption == FeedbackParticipantType.STUDENTS ||
-                generatedOption == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+        } else if (generatedOption == FeedbackParticipantType.STUDENTS
+                || generatedOption == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
             List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
             int sizeOfStudentlist = studentList.size();
 
             return generatedOption == FeedbackParticipantType.STUDENTS ? sizeOfStudentlist : sizeOfStudentlist - 1;
-        } else if (generatedOption == FeedbackParticipantType.TEAMS ||
-                generatedOption == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
+        } else if (generatedOption == FeedbackParticipantType.TEAMS
+                || generatedOption == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
             try {
                 List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
                 int sizeOfTeamlist = teamList.size();
@@ -355,9 +354,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
         } else {
             List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(courseId);
-            int sizeOfInstructorlist = instructorList.size();
 
-            return sizeOfInstructorlist;
+            return instructorList.size();
         }
         return 0;
     }
@@ -500,9 +498,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     "<br>The options for this question is automatically generated from the list of all %s in this course.",
                     generateOptionsFor.toString().toLowerCase());
             optionListHtml.append(optionHelpText);
-        }else if (!msqChoices.isEmpty()) {
+        } else if (!msqChoices.isEmpty()) {
             optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-            for (String msqChoice : msqChoices){
+            for (String msqChoice : msqChoices) {
                 String optionFragment =
                         Templates.populateTemplate(optionFragmentTemplate,
                                 Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoice));
