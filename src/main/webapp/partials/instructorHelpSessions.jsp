@@ -522,7 +522,6 @@
                           <input type="radio" name="resultsVisibleFromButton" id="resultsVisibleFromButton_later" value="later">
                         </div>
                       </div>
-                      </div>
                     </div>
                   </div>
                 </div>
