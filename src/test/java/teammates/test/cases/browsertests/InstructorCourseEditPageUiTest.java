@@ -45,6 +45,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         testInviteInstructorAction();
         testAddInstructorAction();
+        testCopyInstructorAction();
         testEditInstructorAction();
         testCancelEditInstructorAction();
         testDeleteInstructorAction();
@@ -158,6 +159,65 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickInviteInstructorLink(unregisteredInstructorIndex);
         courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
+    }
+
+    private void testCopyInstructorAction() throws Exception {
+
+        ______TS("success: add an instructor from another course");
+
+        courseEditPage.clickCopyButton();
+
+        courseEditPage.waitForCopyTableToLoad();
+
+        assertFalse("Unable to submit when there are no instructors selected",
+                courseEditPage.isCopySubmitButtonEnabled());
+
+        courseEditPage.verifyHtmlPart(By.id("copyModal"), "/instructorCourseCopyInstructorModal.html");
+        courseEditPage.clickCopyTableAtRow(0);
+
+        assertTrue("Can click after selecting", courseEditPage.isCopySubmitButtonEnabled());
+
+        courseEditPage.clickCopySubmitButton();
+        courseEditPage.verifyHtmlMainContent("/instructorCourseCopyInstructorSuccess.html");
+
+        // delete two instructors who are in both this course and another course
+        // for testing copying multiple instructors
+        // delete InsCrsEdit.instructor1OftestingCopyInstructorCourse
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(5);
+        // delete InsCrsEdit.HelperCopy
+        courseEditPage.clickDeleteInstructorLinkAndConfirm(3);
+
+        ______TS("Success case: copy multiple instructors successfully");
+
+        int numQuestionEditForms = courseEditPage.getNumberOfInstructorEditForms();
+        courseEditPage.clickCopyButton();
+
+        courseEditPage.waitForCopyTableToLoad();
+        courseEditPage.clickCopyTableAtRow(0);
+        courseEditPage.clickCopyTableAtRow(1);
+
+        courseEditPage.clickCopySubmitButton();
+
+        assertEquals(numQuestionEditForms + 2, courseEditPage.getNumberOfInstructorEditForms());
+
+        ______TS("No copiable instructors");
+
+        courseEditPage.clickCopyButton();
+
+        String infoType = "instructor";
+
+        courseEditPage.waitForCopyErrorMessageToLoad(infoType);
+        courseEditPage.waitForCopyErrorMessageToLoad(infoType);
+        assertEquals("No instructor to be copied.",
+                courseEditPage.getCopyErrorMessageText(infoType));
+        assertFalse("Should not be able to submit if there are no instructors",
+                courseEditPage.isCopySubmitButtonEnabled());
+
+        ______TS("Enable copy submit button illegally");
+        courseEditPage.enableCopySubmitButton();
+        courseEditPage.clickCopySubmitButton();
+        assertEquals("No instructors are selected to be copied", courseEditPage.getStatusMessageOnPage());
+        assertTrue(1 == 2);
     }
 
     private void testAddInstructorAction() throws Exception {
@@ -723,7 +783,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         InstructorCoursesPage coursesPage = courseEditPage.changePageType(InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, Const.StatusMessages.COURSE_EMPTY);
+                Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
 
         // Restore own instructor role to ensure remaining test cases work properly
         BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.test"));

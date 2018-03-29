@@ -28,6 +28,13 @@
       "email": "InsCrsEdit.Helper@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "InsCrsEdit.instructor1OftestingCopyInstructorCourse" : {
+      "googleId": "InsCrsEdit.instructor1OftestingCopyInstructorCourse",
+      "name":"Teammates Instructor",
+      "isInstructor": true,
+      "email": "InsCrsEdit.instructor1OftestingCopyInstructorCourse@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "InsCrsEdit.instructor1OfTestingSanitizationCourse": {
       "googleId": "InsCrsEdit.idOfInstructor1OfTestingSanitizationCourse",
       "name": "Instructor<script> alert('hi!'); </script>",
@@ -40,6 +47,11 @@
     "InsCrsEdit.CS2104": {
       "id": "InsCrsEdit.CS2104",
       "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "InsCrsEdit.testingCopyInstructorCourse": {
+      "id": "InsCrsEdit.testingCopyInstructorCourse",
+      "name": "Testing Copy Instructor Course",
       "timeZone": "UTC"
     },
     "InsCrsEdit.testingSanitizationCourse": {
@@ -192,6 +204,76 @@
       "googleId": "InsCrsEdit.Helper",
       "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates New Instructor",
+      "email": "InsCrsEdit.Helper@gmail.tmt",
+      "key": "InsCrsEdit.Helper@gmail.tmt%InsCrsEdit.CS2104",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.instructor1OftestingCopyInstructorCourse": {
+      "googleId": "InsCrsEdit.instructor1OftestingCopyInstructorCourse",
+      "courseId": "InsCrsEdit.testingCopyInstructorCourse",
+      "name": "Teammates Instructor To Be Copied",
+      "email": "InsCrsEdit.instructor1OftestingCopyInstructorCourse@gmail.tmt",
+      "role": "Tutor",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.testCopy": {
+      "googleId": "InsCrsEdit.test",
+      "courseId": "InsCrsEdit.testingCopyInstructorCourse",
+      "name": "Teammates Instructor Which Copies",
+      "email": "InsCrsEdit.test@gmail.tmt",
+      "role": "Tutor",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "InsCrsEdit.HelperCopy": {
+      "googleId": "InsCrsEdit.Helper",
+      "courseId": "InsCrsEdit.testingCopyInstructorCourse",
+      "name": "Teammates Instructor Not Shown In Copy Instructor Modal",
       "email": "InsCrsEdit.Helper@gmail.tmt",
       "key": "InsCrsEdit.Helper@gmail.tmt%InsCrsEdit.CS2104",
       "role": "Custom",

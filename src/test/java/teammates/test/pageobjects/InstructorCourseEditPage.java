@@ -56,6 +56,9 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "btnShowNewInstructorForm")
     private WebElement showNewInstructorFormButton;
 
+    @FindBy(id = "btnShowCopyInstructorModal")
+    private WebElement showCopyInstructorModalButton;
+
     @FindBy(id = "instructorname")
     private WebElement newInstructorNameTextBox;
 
@@ -64,6 +67,9 @@ public class InstructorCourseEditPage extends AppPage {
 
     @FindBy(id = "btnAddInstructor")
     private WebElement addInstructorButton;
+
+    @FindBy(id = "button_copy_submit")
+    private WebElement copyInstructorSubmitButton;
 
     public InstructorCourseEditPage(Browser browser) {
         super(browser);
@@ -331,6 +337,30 @@ public class InstructorCourseEditPage extends AppPage {
         return newInstructorNameTextBox.isEnabled()
                 && newInstructorEmailTextBox.isEnabled()
                 && addInstructorButton.isDisplayed();
+    }
+
+    public void clickCopyButton() {
+        click(showCopyInstructorModalButton);
+    }
+
+    /**
+     * Returns true if submission button of the 'copy question' modal is enabled.
+     */
+    public boolean isCopySubmitButtonEnabled() {
+        return copyInstructorSubmitButton.isEnabled();
+    }
+
+    public void clickCopySubmitButton() {
+        click(copyInstructorSubmitButton);
+        waitForPageToLoad();
+    }
+
+
+    /**
+     * Returns number of question edit forms + question add form.
+     */
+    public int getNumberOfInstructorEditForms() {
+        return browser.driver.findElements(By.className("editForm")).size();
     }
 
     public boolean isInstructorListSortedByName() {

@@ -11,11 +11,11 @@
           </span>
         </button>
         <h4 class="modal-title" id="copyModalTitle">
-          Copy Questions
+          Copy Instructors
         </h4>
       </div>
       <div class="modal-body">
-        <form action="/page/instructorFeedbackQuestionCopy" class="form" id="copyModalForm" method="post" role="form">
+        <form action="/page/instructorCourseInstructorCopy" class="form" id="copyModalForm" method="post" role="form">
           <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
             <thead class="fill-primary">
               <tr>
@@ -27,18 +27,23 @@
                   <span class="icon-sort sorted-ascending">
                   </span>
                 </th>
-                <th class="button-sort-none toggle-sort" id="button_sortfsname" style="width:17%;">
-                  Session Name
+                <th class="button-sort-none toggle-sort" id="button_sortinstrname" style="width:17%;">
+                  Instructor Name
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th class="button-sort-none toggle-sort" id="button_sortfqtype">
-                  Question Type
+                <th class="button-sort-none toggle-sort" id="button_sortinstraccesslevel" style="width:17%;">
+                  Instructor Access Level
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th class="button-sort-none toggle-sort" id="button_sortfqtext">
-                  Question Text
+                <th class="button-sort-none toggle-sort" id="button_sortinstrdisname">
+                  Instructor Displayed Name
+                  <span class="icon-sort unsorted">
+                  </span>
+                </th>
+                <th class="button-sort-none toggle-sort" id="button_sortinstremail">
+                  Instructor Email
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
@@ -50,29 +55,30 @@
                   <input type="checkbox">
                 </td>
                 <td>
-                  CFeedbackEditUiT.CS2104
+                  InsCrsEdit.testingCopyInstructorCourse
                 </td>
                 <td>
-                  First Session
+                  Teammates Instructor To Be Copied
                 </td>
                 <td>
-                  Essay question
+                  Tutor
                 </td>
                 <td>
-                  filled qn
+                  Instructor
                 </td>
-                <input class="questionid" type="hidden" value="${question.id}">
-                <input class="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
-                <input class="fsname" type="hidden" value="First Session">
+                <td>
+                  InsCrsEdit.instructor1OftestingCopyInstructorCourse@gmail.tmt
+                </td>
+                <input class="instructoremail" type="hidden" value="InsCrsEdit.instructor1OftestingCopyInstructorCourse@gmail.tmt">
+                <input class="courseid" type="hidden" value="InsCrsEdit.testingCopyInstructorCourse">
               </tr>
             </tbody>
           </table>
-          <input name="fsname" type="hidden" value="First Session">
-          <input name="user" type="hidden" value="CFeedbackEditUiT.instructor">
-          <input name="courseid" type="hidden" value="CFeedbackEditUiT.CS2104">
+          <input name="user" type="hidden" value="InsCrsEdit.test">
+          <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
           <input name="token" type="hidden" value="${sessionToken}">
         </form>
-        <div id="question-copy-modal-status">
+        <div id="instructor-copy-modal-status">
         </div>
       </div>
       <div class="modal-footer margin-0">

@@ -362,6 +362,48 @@ public abstract class AppPage {
     }
 
     /**
+     * Changes the value of actionlink of the copy question button.
+     * @param actionLink value to change to
+     */
+    public void changeActionLinkOnCopyButton(String actionLink) {
+        String selector = "$('#button_copy')";
+        String action = ".data('actionlink', '" + actionLink + "')";
+        executeScript(selector + action);
+    }
+
+    public void enableCopySubmitButton() {
+        String selector = "$('#button_copy_submit')";
+        String action = ".prop('disabled', false)";
+        executeScript(selector + action);
+    }
+
+    public void clickCopyTableAtRow(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal"))
+                .findElements(By.tagName("tr"))
+                .get(rowIndex + 1);
+        click(row);
+    }
+
+    public void waitForCopyTableToLoad() {
+        By tableRowSelector = By.cssSelector("#copyTableModal tr");
+        waitForElementPresence(tableRowSelector);
+        waitForElementVisibility(browser.driver.findElement(tableRowSelector));
+    }
+
+    public void waitForCopyErrorMessageToLoad(String infoType) {
+        String selector = "#" + infoType + "-copy-modal-status.alert-danger";
+        By errorMessageSelector = By.cssSelector(selector);
+        waitForElementPresence(errorMessageSelector);
+        waitForElementVisibility(browser.driver.findElement(errorMessageSelector));
+    }
+
+    public String getCopyErrorMessageText(String infoType) {
+        String selector = "#" + infoType + "-copy-modal-status.alert-danger";
+        return browser.driver.findElement(
+                By.cssSelector(selector)).getText();
+    }
+
+    /**
      * Switches to the new browser window just opened.
      */
     protected void switchToNewWindow() {

@@ -658,15 +658,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(fscopyButton);
     }
 
-    /**
-     * Changes the value of actionlink of the copy question button.
-     * @param actionLink value to change to
-     */
-    public void changeActionLinkOnCopyButton(String actionLink) {
-        String selector = "$('#button_copy')";
-        String action = ".data('actionlink', '" + actionLink + "')";
-        executeScript(selector + action);
-    }
 
     public void clickCopyButton() {
         click(copyQuestionLoadButton);
@@ -1753,29 +1744,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(FeedbackSubmitPage.class);
     }
 
-    public void clickCopyTableAtRow(int rowIndex) {
-        WebElement row = browser.driver.findElement(By.id("copyTableModal"))
-                                                      .findElements(By.tagName("tr"))
-                                                      .get(rowIndex + 1);
-        click(row);
-    }
 
-    public void waitForCopyTableToLoad() {
-        By tableRowSelector = By.cssSelector("#copyTableModal tr");
-        waitForElementPresence(tableRowSelector);
-        waitForElementVisibility(browser.driver.findElement(tableRowSelector));
-    }
-
-    public void waitForCopyErrorMessageToLoad() {
-        By errorMessageSelector = By.cssSelector("#question-copy-modal-status.alert-danger");
-        waitForElementPresence(errorMessageSelector);
-        waitForElementVisibility(browser.driver.findElement(errorMessageSelector));
-    }
-
-    public String getCopyErrorMessageText() {
-        return browser.driver.findElement(
-                By.cssSelector("#question-copy-modal-status.alert-danger")).getText();
-    }
 
     public boolean isVisibilityDropdownOptionHidden(String optionValue, int qnNumber) {
         return browser.driver.findElement(By.id("questionTable-" + qnNumber))

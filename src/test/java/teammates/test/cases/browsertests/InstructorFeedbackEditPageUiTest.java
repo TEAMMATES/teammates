@@ -543,9 +543,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPageOfCourseWithoutQuestions();
         feedbackEditPage.clickCopyButton();
 
-        feedbackEditPage.waitForCopyErrorMessageToLoad();
+        String infoType = "question";
+
+        feedbackEditPage.waitForCopyErrorMessageToLoad(infoType);
         assertEquals("There are no questions to be copied.",
-                     feedbackEditPage.getCopyErrorMessageText());
+                     feedbackEditPage.getCopyErrorMessageText(infoType));
 
         assertFalse("Should not be able to submit if there are no questions",
                     feedbackEditPage.isCopySubmitButtonEnabled());
@@ -556,9 +558,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.changeActionLinkOnCopyButton("INVALID URL");
         feedbackEditPage.clickCopyButton();
 
-        feedbackEditPage.waitForCopyErrorMessageToLoad();
+        feedbackEditPage.waitForCopyErrorMessageToLoad(infoType);
         assertEquals("Error retrieving questions. Please close the dialog window and try again.",
-                     feedbackEditPage.getCopyErrorMessageText());
+                     feedbackEditPage.getCopyErrorMessageText(infoType));
 
         assertFalse("Should not be able to submit if loading failed",
                     feedbackEditPage.isCopySubmitButtonEnabled());

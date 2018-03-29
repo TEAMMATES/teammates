@@ -1320,6 +1320,9 @@
   <div class="align-center">
     <input class="btn btn-primary" id="btnShowNewInstructorForm" type="button" value="Add New Instructor">
     <input id="new-instructor-index" type="hidden" value="9">
+    <a class="btn btn-primary" data-actionlink="/page/instructorCourseInstructorCopyPage?user=InsCrsEdit.test" data-courseid="InsCrsEdit.CS2104" data-target="#copyModal" data-toggle="modal" id="btnShowCopyInstructorModal" type="button">
+      Copy Instructors
+    </a>
   </div>
   <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
     <div class="panel-heading">
@@ -1834,6 +1837,42 @@
               <br>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+              ×
+            </span>
+            <span class="sr-only">
+              Close
+            </span>
+          </button>
+          <h4 class="modal-title" id="copyModalTitle">
+            Copy Instructors
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form action="/page/instructorCourseInstructorCopy" class="form" id="copyModalForm" method="post" role="form">
+            <input name="user" type="hidden" value="InsCrsEdit.test">
+            <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+            <input name="token" type="hidden" value="${sessionToken}">
+          </form>
+          <div id="instructor-copy-modal-status">
+          </div>
+        </div>
+        <div class="modal-footer margin-0">
+          <button class="btn btn-primary" disabled="" id="button_copy_submit" type="button">
+            Copy
+          </button>
+          <button class="btn btn-default" data-dismiss="modal" type="button">
+            Cancel
+          </button>
         </div>
       </div>
     </div>

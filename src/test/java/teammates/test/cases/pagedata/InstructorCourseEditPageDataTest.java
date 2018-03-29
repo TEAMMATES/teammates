@@ -60,6 +60,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         assertEquals(-1, pageData.getInstructorToShowIndex());
         assertNotNull(pageData.getDeleteCourseButton());
         assertNotNull(pageData.getAddInstructorButton());
+        assertNotNull(pageData.getCopyInstructorButton());
 
         assertNotNull(pageData.getInstructorPanelList());
         assertEquals(instructorList.size(), pageData.getInstructorPanelList().size());
@@ -114,6 +115,8 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         assertTrue(pageData.getDeleteCourseButton().getAttributes().containsKey("disabled"));
         assertNull(pageData.getAddInstructorButton().getAttributes().get("disabled"));
         assertTrue(pageData.getAddInstructorButton().getAttributes().containsKey("disabled"));
+        assertNull(pageData.getCopyInstructorButton().getAttributes().get("disabled"));
+        assertTrue(pageData.getCopyInstructorButton().getAttributes().containsKey("disabled"));
 
         ______TS("test showing only one instructor");
         offset = 1;
