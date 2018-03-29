@@ -343,7 +343,7 @@
               <ul>
                 <li>Provides 5 standard questions for team peer evaluations, with the first question being a distribute points question</li>
                 <li>Allows you to modify/remove the given questions and add your own questions as required</li>
-                <li>Recommended template for new users (distribute points questions are generally easier to use)</li>
+                <li>Recommended template for new users (<a href="#fbConstSumOptions">distribute points questions</a> are generally easier to use than <a href="#fbContrib">contribution questions</a>)</li>
               </ul>
             </div>
             <br>
