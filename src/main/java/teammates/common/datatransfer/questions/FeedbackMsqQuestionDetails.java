@@ -121,13 +121,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = generateOptionsFor;
-        if (generateOptionsFor.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)) {
-            this.numOfMsqChoices = generateNumOfChoicesForStudentsExcludingSelf(courseId);
-        } else if (generateOptionsFor.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF)) {
-            this.numOfMsqChoices = generateNumOfChoicesForTeamsExcludingSelf(courseId);
-        } else {
-            this.numOfMsqChoices = generateOptionList(courseId).size();
-        }
         Assumption.assertTrue(
                 "Can only generate students, students (excluding self), teams, teams (excluding self) or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS
@@ -339,33 +332,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         isMaxSelectableChoicesEnabled ? Integer.toString(maxSelectableChoices) : "-1",
                 Slots.MSQ_MIN_SELECTABLE_CHOICES,
                         isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1");
-    }
-
-    /**
-     * Gets the number of MSQ choices for students excluding self.
-     * @return number of MSQ choices for students generated.
-     */
-    private int generateNumOfChoicesForStudentsExcludingSelf(String courseId) {
-        List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
-
-        return studentList.size() - 1;
-    }
-    /**
-     * Gets the number of MSQ choices for teams excluding self.
-     * @return number of MSQ choices for teams generated.
-     */
-    private int generateNumOfChoicesForTeamsExcludingSelf(String courseId) {
-        List<TeamDetailsBundle> teamList;
-
-        try {
-            teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
-
-            return teamList.size() - 1;
-        } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Course disappeared");
-        }
-
-        return 0;
     }
 
     private int numOfChoicesForMsq(String courseId, FeedbackParticipantType generatedOption) {
