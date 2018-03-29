@@ -17,10 +17,10 @@
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
 
-  <c:if test="${not data.commentsForResponsesEmpty}">
-    <search:commentsForResponsesSearchResults commentsForResponsesTables="${data.searchCommentsForResponsesTables}">
-      Comments for responses
-    </search:commentsForResponsesSearchResults>
+  <c:if test="${not data.feedbackSessionDataEmpty}">
+    <search:feedbackSessionDataSearchResults feedbackSessionDataTables="${data.searchFeedbackSessionDataTables}">
+      Questions, responses, comments on responses
+    </search:feedbackSessionDataSearchResults>
   </c:if>
 
   <c:if test="${not data.studentsEmpty}">
