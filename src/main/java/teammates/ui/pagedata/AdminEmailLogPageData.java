@@ -1,10 +1,8 @@
 package teammates.ui.pagedata;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -276,21 +274,14 @@ public class AdminEmailLogPageData extends PageData {
         public void add(String label, String[] values) throws ParseException, InvalidParametersException {
             if ("after".equals(label)) {
                 isFromDateInQuery = true;
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 0:00");
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-                fromDateValue = cal.getTime().getTime();
-
+                LocalDateTime localDateTime = TimeHelper.parseLocalDateTime(values[0] + " 00:00", "dd/MM/yyyy HH:mm");
+                fromDateValue = TimeHelper.convertLocalDateTimeToInstant(
+                        localDateTime, Const.SystemParams.ADMIN_TIME_ZONE_ID).toEpochMilli();
             } else if ("before".equals(label)) {
                 isToDateInQuery = true;
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 23:59");
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-                toDateValue = cal.getTime().getTime();
+                LocalDateTime localDateTime = TimeHelper.parseLocalDateTime(values[0] + " 23:59", "dd/MM/yyyy HH:mm");
+                toDateValue = TimeHelper.convertLocalDateTimeToInstant(
+                        localDateTime, Const.SystemParams.ADMIN_TIME_ZONE_ID).toEpochMilli();
             } else if ("receiver".equals(label)) {
                 isReceiverInQuery = true;
                 receiverValues = values;
