@@ -362,7 +362,7 @@ public final class TimeHelper {
     }
 
     public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
-        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
+        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }
 
     public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
