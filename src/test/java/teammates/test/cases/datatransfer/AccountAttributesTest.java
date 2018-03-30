@@ -315,6 +315,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                     .withGender(gender)
                     .withMoreInfo(moreInfo)
                     .withPictureKey(pictureKey)
+                    .withModifiedDate(Instant.parse("2018-03-30T13:23:42.663Z"))
                     .build())
                 .build();
 
