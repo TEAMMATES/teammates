@@ -114,7 +114,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Test
     public void testSanitizeForSaving() {
         AccountAttributes actualAccount = createAccountAttributesToSanitize();
-        AccountAttributes expectedAccount = createAccountAttributesToSanitize();
+        AccountAttributes expectedAccount = actualAccount.getCopy();
         actualAccount.sanitizeForSaving();
 
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
