@@ -120,9 +120,9 @@ public class AdminSessionsPageAction extends Action {
             zone = Double.parseDouble(timeZone);
 
             start = TimeHelper.convertLocalDateTimeToDate(
-                    TimeHelper.parseLocalDateTime(startDate, startHour, startMin));
+                    TimeHelper.parseLocalDateTimeForSessionsForm(startDate, startHour, startMin));
             end = TimeHelper.convertLocalDateTimeToDate(
-                    TimeHelper.parseLocalDateTime(endDate, endHour, endMin));
+                    TimeHelper.parseLocalDateTimeForSessionsForm(endDate, endHour, endMin));
 
             if (start.after(end)) {
                 isError = true;
