@@ -91,6 +91,127 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         removeIrrelevantVisibilityOptions();
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static FeedbackQuestionAttributes valueOf(FeedbackQuestion fq) {
+        return builder().
+                withFeedbackSessionName(fq.getFeedbackSessionName())
+                .withCourseId(fq.getCourseId())
+                .withCreatorEmail(fq.getCreatorEmail())
+                .withQuestionMetaData(fq.getQuestionMetaData())
+                .withQuestionDescription(fq.getQuestionDescription())
+                .withQuestionNumber(fq.getQuestionNumber())
+                .withQuestionType(fq.getQuestionType())
+                .withGiverType(fq.getGiverType())
+                .withRecipientType(fq.getRecipientType())
+                .withNumOfEntitiesToGiveFeedbackTo(fq.getNumberOfEntitiesToGiveFeedbackTo())
+                .withShowResponseTo(fq.getShowResponsesTo())
+                .withShowGiverNameTo(fq.getShowGiverNameTo())
+                .withShowRecipientNameTo(fq.getShowRecipientNameTo())
+                .withCreatedAt(fq.getCreatedAt())
+                .withUpdatedAt(fq.getUpdatedAt())
+                .withFeedbackQuestionId(fq.getId())
+                .build();
+
+    }
+    /**
+     * A Builder class for {@link FeedbackQuestionAttributes}.
+     */
+    public static class Builder {
+
+        private final FeedbackQuestionAttributes feedbackQuestionAttributes;
+
+        public Builder() {
+            feedbackQuestionAttributes = new FeedbackQuestionAttributes();
+        }
+
+        public Builder withFeedbackSessionName(String feedbackSessionName) {
+            feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
+            return this;
+        }
+
+        public Builder withCourseId(String courseId) {
+            feedbackQuestionAttributes.setId(courseId);
+            return this;
+        }
+
+        public Builder withCreatorEmail(String creatorEmail) {
+            feedbackQuestionAttributes.creatorEmail = creatorEmail;
+            return this;
+        }
+
+        public Builder withQuestionMetaData(Text questionMetaData) {
+            feedbackQuestionAttributes.questionMetaData = questionMetaData;
+            return this;
+        }
+
+        public Builder withQuestionDescription(Text questionDescription) {
+            feedbackQuestionAttributes.setQuestionDescription(questionDescription);
+            return this;
+        }
+
+        public Builder withQuestionNumber(int questionNumber) {
+            feedbackQuestionAttributes.questionNumber = questionNumber;
+            return this;
+        }
+
+        public Builder withQuestionType(FeedbackQuestionType questionType) {
+            feedbackQuestionAttributes.questionType = questionType;
+            return this;
+        }
+
+        public Builder withGiverType(FeedbackParticipantType giverType) {
+            feedbackQuestionAttributes.giverType = giverType;
+            return this;
+        }
+
+        public Builder withRecipientType(FeedbackParticipantType recipientType) {
+            feedbackQuestionAttributes.recipientType = recipientType;
+            return this;
+        }
+
+        public Builder withNumOfEntitiesToGiveFeedbackTo(int numOfEntitiesToGiveFeedbackTo) {
+            feedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo = numOfEntitiesToGiveFeedbackTo;
+            return this;
+        }
+
+        public Builder withShowResponseTo(List<FeedbackParticipantType> showResponseTo) {
+            feedbackQuestionAttributes.showResponsesTo = showResponseTo;
+            return this;
+        }
+
+        public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+            feedbackQuestionAttributes.showGiverNameTo = showGiverNameTo;
+            return this;
+        }
+
+        public Builder withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
+            feedbackQuestionAttributes.showRecipientNameTo = showRecipientNameTo;
+            return this;
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            feedbackQuestionAttributes.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder withUpdatedAt(Instant updatedAt) {
+            feedbackQuestionAttributes.updatedAt = updatedAt;
+            return this;
+        }
+
+        public Builder withFeedbackQuestionId(String feedbackQuestionId) {
+            feedbackQuestionAttributes.feedbackQuestionId = feedbackQuestionId;
+            return this;
+        }
+
+        public FeedbackQuestionAttributes build() {
+            return feedbackQuestionAttributes;
+        }
+    }
+
     public FeedbackQuestionAttributes getCopy() {
         return new FeedbackQuestionAttributes(this);
     }
@@ -639,5 +760,4 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public String getQuestionAdditionalInfoHtml() {
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
-
 }
