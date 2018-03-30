@@ -67,8 +67,6 @@ public class InstructorCourseRemindAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
 
-            /*see and compare if the request is coming from instructorCourseDetails
-            or instructorStudentList and redirect accordingly */
             if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
             } else if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
@@ -100,13 +98,7 @@ public class InstructorCourseRemindAction extends Action {
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDERS_SENT, StatusMessageColor.SUCCESS));
 
-            /*see and compare if the request is coming from instructorCourseDetails
-            or instructorStudentList and redirect accordingly */
-            if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
-                redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
-                redirectUrl = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
-            }
+            redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         }
 
         statusToAdmin = generateStatusToAdmin(emailDataMap, courseId);
@@ -139,9 +131,8 @@ public class InstructorCourseRemindAction extends Action {
         return joinLink.substring(startIndex);
     }
 
-    private boolean isRequestedFromPage(String requestorUrl) {
-        //if Url contains the requestor's url, then return true
-        return currentUrl.contains(requestorUrl);
+    private boolean isRequestedFromPage(String urlToVerify) {
+        return currentUrl.contains(urlToVerify);
     }
 
     private static class JoinEmailData {

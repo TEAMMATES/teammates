@@ -138,7 +138,6 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        remindAction.setCurrentUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
         redirectResult = getRedirectResult(remindAction);
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
@@ -175,7 +174,6 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, courseId
         };
         remindAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        remindAction.setCurrentUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
         redirectResult = getRedirectResult(remindAction);
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
         assertFalse(redirectResult.isError);
