@@ -172,7 +172,7 @@ public final class TimeHelper {
         } else {
             dateTimeString = inputDate + " " + inputTimeHours + ".00";
         }
-        return parseLocalDateTime(dateTimeString, "EEE, dd MMM, yyyy H.mm");
+        return parseLocalDateTimeForSessionsForm(dateTimeString, "EEE, dd MMM, yyyy H.mm");
     }
 
     /**
@@ -485,7 +485,7 @@ public final class TimeHelper {
      * @param pattern           the pattern of the date and time string
      * @return                  the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
-    public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
+    public static LocalDateTime parseLocalDateTimeForSessionsForm(String dateTimeString, String pattern) {
         if (dateTimeString == null || pattern == null) {
             return null;
         }
@@ -499,17 +499,20 @@ public final class TimeHelper {
     }
 
     /**
-     * Parses a `LocalDateTime` object from separated date, hour and minute strings.
+     * Parses a {@code LocalDateTime} object for session form from separated date, hour and minute strings.
+     * Example: If date is Tue, 01 Apr, 2014, hour is 23, min is 59.
+     * Returns {@code null} on error.
      *
-     * <p>required parameter format:
-     * date: EEE, dd MMM, yyyy  hour: H   min:m
-     * Example: If date is 01/04/2014, hour is 23, min is 59.
+     * @param date  date in format "EEE, dd MMM, yyy"
+     * @param hour  hour-of-day (0-23)
+     * @param min   minute-of-hour (0-59)
+     * @return      the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
-    public static LocalDateTime parseLocalDateTime(String date, String hour, String min) {
+    public static LocalDateTime parseLocalDateTimeForSessionsForm(String date, String hour, String min) {
         if (date == null || hour == null || min == null) {
             return null;
         }
-        return parseLocalDateTime(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
+        return parseLocalDateTimeForSessionsForm(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
     }
 
 }
