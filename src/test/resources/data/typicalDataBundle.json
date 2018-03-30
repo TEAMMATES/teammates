@@ -1356,7 +1356,7 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
-    "response1ForQ1S2C2": {
+    "response1ForQ1S1C2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "feedbackQuestionId": "1",
@@ -1369,7 +1369,7 @@
       "giverSection": "None",
       "recipientSection": "None"
     },
-    "response1ForQ3S2C2": {
+    "response1ForQ3S1C2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "feedbackQuestionId": "3",
@@ -1447,7 +1447,7 @@
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
       }
     },
-    "comment1FromT1C1ToR1Q3S2C2": {
+    "comment1FromT1C1ToR1Q3S1C2": {
       "courseId": "idOfTypicalCourse2",
       "feedbackSessionName": "Instructor feedback session",
       "feedbackQuestionId": "3",

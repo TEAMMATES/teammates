@@ -595,7 +595,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 getQuestionFromDatastore("qn1InSession1InCourse2");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
-        String expectedResponsesString = getResponseFromDatastore("response1ForQ1S2C2", dataBundle).toString();
+        String expectedResponsesString = getResponseFromDatastore("response1ForQ1S1C2", dataBundle).toString();
         List<String> actualResponses = new ArrayList<>();
         for (FeedbackResponseAttributes responsesForQn : actual.questionResponseBundle.get(expectedQuestion)) {
             actualResponses.add(responsesForQn.toString());

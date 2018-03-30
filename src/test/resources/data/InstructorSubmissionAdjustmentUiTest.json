@@ -855,7 +855,7 @@
         "value": "Response from student 1 to team member (student 4)."
       }
     },
-    "response1ForQ1S2C2": {
+    "response1ForQ1S1C2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "feedbackQuestionId": "1",
