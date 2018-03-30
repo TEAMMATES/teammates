@@ -110,10 +110,10 @@
                 <div class="col-xs-10 tablet-no-padding" title="" data-toggle="tooltip" data-placement="top" data-original-title="Select a session type here.">
                   <select class="form-control" name="fstype" id="fstype">
                     <option value="STANDARD" selected="">
-                      Session with your own questions
+                      session with my own questions
                     </option>
                     <option value="TEAMEVALUATION" selected>
-                      Team peer evaluation session
+                      session using template: team peer evaluation
                     </option>
                   </select>
                 </div>
@@ -320,7 +320,7 @@
         <div class="helpSectionContent">
 
           <ul>
-            <li>Session with your own questions</li>
+            <li>"session with my own questions"</li>
             <div style="margin: 0 auto; padding: 0 50px;">
               <ul>
                 <li>Creates an empty feedback session</li>
@@ -329,7 +329,7 @@
             </div>
           </ul>
           <ul>
-            <li>Team peer evaluation session</li>
+            <li>"session using template: team peer evaluation"</li>
             <div style="margin: 0 auto; padding: 0 50px;">
               <ul>
                 <li>Provides 5 standard questions for team peer evaluations</li>

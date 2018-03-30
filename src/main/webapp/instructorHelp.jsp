@@ -157,7 +157,7 @@
               <a href="#searchStudents">Searching for students</a>
             </li>
             <li>
-              <a href="#searchCommentForResponses">Searching for comments on responses</a>
+              <a href="#searchFeedbackSessionData">Searching for questions, responses and comments on responses</a>
             </li>
           </ul>
         </div>
