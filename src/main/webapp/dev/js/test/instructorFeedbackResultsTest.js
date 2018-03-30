@@ -17,5 +17,4 @@ QUnit.test('toggleExcludingSelfResultsForRubricStatistics(checkbox)', (assert) =
     toggleExcludingSelfResultsForRubricStatistics(excludingSelfResponseCheckbox);
     assert.ok($('.table-body-including-self').is(':visible'), 'table-body-including-self should be visible');
     assert.notOk($('.table-body-excluding-self').is(':visible'), 'table-body-excluding-self should not be visible');
-
 });
