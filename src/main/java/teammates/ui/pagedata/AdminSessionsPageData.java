@@ -1,6 +1,5 @@
 package teammates.ui.pagedata;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -22,8 +21,8 @@ public class AdminSessionsPageData extends PageData {
     private int totalClosedStatusSessions;
     private int totalWaitToOpenStatusSessions;
     private int totalInstitutes;
-    private Instant rangeStart;
-    private Instant rangeEnd;
+    private LocalDateTime rangeStart;
+    private LocalDateTime rangeEnd;
     private ZoneId timeZone;
     private boolean isShowAll;
     private List<InstitutionPanel> institutionPanels;
@@ -37,7 +36,7 @@ public class AdminSessionsPageData extends PageData {
     public void init(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap,
             int totalOngoingSessions, int totalOpenStatusSessions, int totalClosedStatusSessions,
-            int totalWaitToOpenStatusSessions, int totalInstitutes, Instant rangeStart, Instant rangeEnd,
+            int totalWaitToOpenStatusSessions, int totalInstitutes, LocalDateTime rangeStart, LocalDateTime rangeEnd,
             ZoneId timeZone, boolean isShowAll) {
 
         this.totalOngoingSessions = totalOngoingSessions;
@@ -82,19 +81,11 @@ public class AdminSessionsPageData extends PageData {
     }
 
     public String getRangeStartString() {
-        return TimeHelper.formatTime12H(getRangeStartLocal());
+        return TimeHelper.formatTime12H(rangeStart);
     }
 
     public String getRangeEndString() {
-        return TimeHelper.formatTime12H(getRangeEndLocal());
-    }
-
-    public LocalDateTime getRangeStartLocal() {
-        return TimeHelper.convertInstantToLocalDateTime(rangeStart, timeZone);
-    }
-
-    public LocalDateTime getRangeEndLocal() {
-        return TimeHelper.convertInstantToLocalDateTime(rangeEnd, timeZone);
+        return TimeHelper.formatTime12H(rangeEnd);
     }
 
     public List<InstitutionPanel> getInstitutionPanels() {
@@ -196,9 +187,9 @@ public class AdminSessionsPageData extends PageData {
     }
 
     private void setFilter() {
-        filter = new AdminFilter(TimeHelper.formatDate(getRangeStartLocal()), getHourOptionsAsHtml(getRangeEndLocal()),
-                                 getMinuteOptionsAsHtml(getRangeStartLocal()), TimeHelper.formatDate(getRangeEndLocal()),
-                                 getHourOptionsAsHtml(getRangeEndLocal()), getMinuteOptionsAsHtml(getRangeEndLocal()),
+        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeEnd),
+                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd),
+                                 getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
                                  getTimeZoneOptionsAsHtml());
     }
 

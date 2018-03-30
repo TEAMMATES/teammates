@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -31,8 +30,8 @@ public class AdminSessionsPageAction extends Action {
     private int totalClosedStatusSessions;
     private int totalWaitToOpenStatusSessions;
     private int totalInstitutes;
-    private Instant rangeStart;
-    private Instant rangeEnd;
+    private LocalDateTime rangeStart;
+    private LocalDateTime rangeEnd;
     private ZoneId timeZone;
     private boolean isShowAll;
 
@@ -50,7 +49,8 @@ public class AdminSessionsPageAction extends Action {
         }
 
         List<FeedbackSessionAttributes> allOpenFeedbackSessionsList =
-                logic.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
+                logic.getAllOpenFeedbackSessions(TimeHelper.convertLocalDateTimeToInstant(rangeStart, timeZone),
+                        TimeHelper.convertLocalDateTimeToInstant(rangeEnd, timeZone));
 
         result = createShowPageResultIfNoOngoingSession(allOpenFeedbackSessionsList);
         if (result != null) {
@@ -74,7 +74,7 @@ public class AdminSessionsPageAction extends Action {
         }
     }
 
-    private void prepareDefaultPageData(Instant start, Instant end) {
+    private void prepareDefaultPageData(LocalDateTime start, LocalDateTime end) {
         this.map = new HashMap<>();
         this.totalOngoingSessions = 0;
         this.totalOpenStatusSessions = 0;
@@ -123,8 +123,7 @@ public class AdminSessionsPageAction extends Action {
                 statusToAdmin = "Admin Sessions Page Load<br>"
                               + "<span class=\"bold\"> Error: invalid filter range</span>";
 
-                prepareDefaultPageData(TimeHelper.convertLocalDateTimeToInstant(start, zone),
-                        TimeHelper.convertLocalDateTimeToInstant(end, zone));
+                prepareDefaultPageData(start, end);
                 data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
                           this.totalOpenStatusSessions, this.totalClosedStatusSessions,
                           this.totalWaitToOpenStatusSessions, this.totalInstitutes, this.rangeStart,
@@ -139,8 +138,7 @@ public class AdminSessionsPageAction extends Action {
             statusToAdmin = "Admin Sessions Page Load<br>"
                           + "<span class=\"bold\"> Error: Missing Parameters</span>";
 
-            prepareDefaultPageData(TimeHelper.convertLocalDateTimeToInstant(start, zone),
-                    TimeHelper.convertLocalDateTimeToInstant(end, zone));
+            prepareDefaultPageData(start, end);
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
                       this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions,
                       this.totalInstitutes, this.rangeStart, this.rangeEnd, this.timeZone, this.isShowAll);
@@ -148,8 +146,8 @@ public class AdminSessionsPageAction extends Action {
 
         }
 
-        this.rangeStart = TimeHelper.convertLocalDateTimeToInstant(start, zone);
-        this.rangeEnd = TimeHelper.convertLocalDateTimeToInstant(end, zone);
+        this.rangeStart = start;
+        this.rangeEnd = end;
         this.timeZone = zone;
 
         return null;
