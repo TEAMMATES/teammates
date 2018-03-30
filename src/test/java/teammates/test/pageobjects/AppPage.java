@@ -1163,7 +1163,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlPart(By by, String filePathParam) throws IOException {
-        String filePath = (filePathParam.startsWith("/") ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
+        String filePath = (filePathParam.charAt(0) == '/' ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
         boolean isPart = by != null;
         String actual = getPageSource(by);
         try {

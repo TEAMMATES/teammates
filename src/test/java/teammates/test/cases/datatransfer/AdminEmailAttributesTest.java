@@ -165,7 +165,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
         ______TS("failure: subject must start with alphanumeric character");
 
         attributes.subject = "_InvalidSubject";
-        assertTrue(attributes.subject.startsWith("_"));
+        assertEquals('_', attributes.subject.charAt(0));
         String expectedSubjectCharsError = getInvalidityInfoForSubject(attributes.subject);
 
         assertEquals("Invalid subject input should return appropriate error string",

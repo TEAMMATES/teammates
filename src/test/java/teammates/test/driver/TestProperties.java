@@ -2,8 +2,10 @@ package teammates.test.driver;
 
 import static org.testng.AssertJUnit.fail;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import teammates.common.util.Config;
@@ -98,7 +100,7 @@ public final class TestProperties {
             } else {
                 propertiesFilename = "test.properties";
             }
-            try (FileInputStream testPropStream = new FileInputStream("src/test/resources/" + propertiesFilename)) {
+            try (InputStream testPropStream = Files.newInputStream(Paths.get("src/test/resources/" + propertiesFilename))) {
                 prop.load(testPropStream);
             }
 

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -488,11 +489,9 @@ public final class StringHelper {
             return null;
         }
 
-        if (!str.startsWith("[") || !str.endsWith("]")) {
-            return str;
-        }
-
-        return str.substring(1, str.length() - 1);
+        Pattern p = Pattern.compile("^\\[(.*)]$");
+        Matcher m = p.matcher(str);
+        return m.find() ? m.group(1) : str;
     }
 
     /**

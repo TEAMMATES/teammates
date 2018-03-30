@@ -129,25 +129,11 @@
     <rule ref="category/java/multithreading.xml/UnsynchronizedStaticDateFormatter"/>
     <rule ref="category/java/multithreading.xml/UseNotifyAllInsteadOfNotify"/>
 
-    <rule ref="category/java/performance.xml/AddEmptyString"/>
-    <rule ref="category/java/performance.xml/AppendCharacterWithChar"/>
-    <rule ref="category/java/performance.xml/AvoidArrayLoops"/>
-    <rule ref="category/java/performance.xml/BigIntegerInstantiation"/>
-    <rule ref="category/java/performance.xml/BooleanInstantiation"/>
-    <rule ref="category/java/performance.xml/ConsecutiveAppendsShouldReuse"/>
-    <rule ref="category/java/performance.xml/ConsecutiveLiteralAppends"/>
-    <rule ref="category/java/performance.xml/InefficientStringBuffering"/>
-    <rule ref="category/java/performance.xml/InsufficientStringBufferDeclaration"/>
-    <rule ref="category/java/performance.xml/OptimizableToArrayCall"/>
-    <rule ref="category/java/performance.xml/RedundantFieldInitializer"/>
-    <rule ref="category/java/performance.xml/StringInstantiation"/>
-    <rule ref="category/java/performance.xml/StringToString"/>
-    <rule ref="category/java/performance.xml/TooFewBranchesForASwitchStatement"/>
-    <rule ref="category/java/performance.xml/UnnecessaryWrapperObjectCreation"/>
-    <rule ref="category/java/performance.xml/UseArrayListInsteadOfVector"/>
-    <rule ref="category/java/performance.xml/UseArraysAsList"/>
-    <rule ref="category/java/performance.xml/UseIndexOfChar"/>
-    <rule ref="category/java/performance.xml/UselessStringValueOf"/>
-    <rule ref="category/java/performance.xml/UseStringBufferForStringAppends"/>
-    <rule ref="category/java/performance.xml/UseStringBufferLength"/>
+    <rule ref="category/java/performance.xml">
+        <!-- Inevitably occur -->
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="InefficientEmptyStringCheck"/>
+    </rule>
 </ruleset>
