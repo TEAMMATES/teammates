@@ -801,7 +801,7 @@
       "courseId": "CFResultsUiT.CS2104",
       "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"questionText\":\"Which teams do you like?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",numOfMsqChoices:8,\"otherEnabled\":false}"
+        "value": "{\"questionText\":\"Which teams do you like?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
       },
       "questionNumber": 3,
       "questionType": "MSQ",
