@@ -927,8 +927,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSessionWithStandardTimeZone(
                 templateSessionName, newSession.getCourseId(),
-                TimeHelper.parseLocalDateTime("01/04/2035", "22", "00"),
-                TimeHelper.parseLocalDateTime("30/04/2035", "22", "00"),
+                TimeHelper.parseLocalDateTime("Sun, 01 Apr, 2035", "22", "00"),
+                TimeHelper.parseLocalDateTime("Mon, 30 Apr, 2035", "22", "00"),
                 null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
@@ -946,8 +946,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSessionWithTimeZone(
                 templateSessionName, newSession.getCourseId(),
-                TimeHelper.parseLocalDateTime("01/04/2035", "10", "00"),
-                TimeHelper.parseLocalDateTime("30/04/2035", "22", "00"),
+                TimeHelper.parseLocalDateTime("Sun, 01 Apr, 2035", "10", "00"),
+                TimeHelper.parseLocalDateTime("Mon, 30 Apr, 2035", "22", "00"),
                 null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes(), ZoneId.of("UTC-02:00"));
 
