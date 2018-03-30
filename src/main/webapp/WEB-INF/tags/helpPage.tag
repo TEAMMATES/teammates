@@ -39,5 +39,9 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
   </body>
 </html>
