@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -619,21 +620,26 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableHeaderFragmentHtml.append(tableHeaderAverageCell).append(System.lineSeparator());
         }
 
-        // Create table body
-        StringBuilder tableBodyHtml;
-        StringBuilder tableBodyExcludingSelfHtml;
 
         int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responsesForStatistics, fqd);
-        int[][] responseFrequencyExcludingSelf =
-                RubricStatistics.calculateResponseFrequencyExcludingSelf(responsesForStatistics, fqd);
-
         float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd, responseFrequency);
-        float[][] rubricStatsExcludingSelf = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd,
-                responseFrequencyExcludingSelf);
 
-        tableBodyHtml = getQuestionResultsStatisticsBodyHtml(fqd, responseFrequency, rubricStats);
-        tableBodyExcludingSelfHtml = getQuestionResultsStatisticsBodyHtml(fqd,
-                responseFrequencyExcludingSelf, rubricStatsExcludingSelf);
+        StringBuilder tableBodyHtml = getQuestionResultsStatisticsBodyHtml(fqd, responseFrequency, rubricStats);
+
+        StringBuilder tableBodyExcludingSelfHtml;
+
+        if (isExcludingSelfOptionAvailable) {
+
+            int[][] responseFrequencyExcludingSelf =
+                    RubricStatistics.calculateResponseFrequencyExcludingSelf(responsesForStatistics, fqd);
+            float[][] rubricStatsExcludingSelf = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd,
+                    responseFrequencyExcludingSelf);
+            tableBodyExcludingSelfHtml = getQuestionResultsStatisticsBodyHtml(fqd,
+                    responseFrequencyExcludingSelf, rubricStatsExcludingSelf);
+        } else {
+            tableBodyExcludingSelfHtml = new StringBuilder();
+            tableBodyExcludingSelfHtml.append("").append(System.lineSeparator());
+        }
 
         String statsTitle = "Response Summary";
 
@@ -674,9 +680,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Returns the rendered HTML body of Rubric statistics.
-     * @param fqd has the details of Rubric Question
-     * @param responseFrequency contains the response details
-     * @param rubricStats represents the stats
+     *
+     * @param fqd the details of Rubric Question
+     * @param responseFrequency the frequency of the responses for each sub question
+     * @param rubricStats the percentage frequency and average for each sub question
      */
     private StringBuilder getQuestionResultsStatisticsBodyHtml(FeedbackRubricQuestionDetails fqd,
                                                                int[][] responseFrequency, float[][] rubricStats) {
@@ -1213,7 +1220,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private static class RubricStatistics {
 
         private RubricStatistics() {
-            // empty
+            // utility class
         }
 
         /**
@@ -1255,23 +1262,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          */
         public static int[][] calculateResponseFrequencyExcludingSelf(List<FeedbackResponseAttributes> responses,
                                                          FeedbackRubricQuestionDetails questionDetails) {
-            int numOfRubricSubQuestions = questionDetails.getNumOfRubricSubQuestions();
-            int numOfRubricChoices = questionDetails.getNumOfRubricChoices();
-            int responseTotalIndex = numOfRubricChoices;
 
-            int[][] responseFrequencyExcludingSelf = new int[numOfRubricSubQuestions][numOfRubricChoices + 1];
-            // count frequencies
-            for (FeedbackResponseAttributes response : responses) {
-                FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
-                for (int i = 0; i < numOfRubricSubQuestions; i++) {
-                    int chosenChoice = frd.getAnswer(i);
-                    if (chosenChoice != -1 && !response.giver.equals(response.recipient)) {
-                        responseFrequencyExcludingSelf[i][chosenChoice] += 1;
-                        responseFrequencyExcludingSelf[i][responseTotalIndex] += 1;
-                    }
-                }
-            }
-            return responseFrequencyExcludingSelf;
+            List<FeedbackResponseAttributes> responsesExcludingSelf = responses.stream()
+                    .filter(response -> !response.giver.equals(response.recipient)).collect(Collectors.toList());
+            return calculateResponseFrequency(responsesExcludingSelf, questionDetails);
         }
 
         /**

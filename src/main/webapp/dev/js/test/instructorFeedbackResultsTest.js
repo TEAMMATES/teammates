@@ -6,24 +6,15 @@ QUnit.module('instructorFeedbackResults.js');
 
 QUnit.test('toggleExcludingSelfResultsForRubricStatistics(checkbox)', (assert) => {
     // Tests that the toggling of checkbox for `excluding self option` in Rubric question works properly
-    let isExcludingSelfTableVisible;
-    let isIncludingSelfTableVisible;
+    const excludingSelfResponseCheckbox = 'resultStatistics > .excluding-self-response-checkbox';
 
-    const className = '.excluding-self-check';
+    $(excludingSelfResponseCheckbox).prop('checked', false);
+    toggleExcludingSelfResultsForRubricStatistics(excludingSelfResponseCheckbox);
+    assert.ok($('.table-body-including-self').is(':visible'), 'table-body-including-self should be visible');
+    assert.notOk($('.table-body-excluding-self').is(':visible'), 'table-body-excluding-self should not be visible');
 
-    $(className).prop('checked', false);
-    toggleExcludingSelfResultsForRubricStatistics(className);
-    isExcludingSelfTableVisible = $('.table-body-excluding-self').is(':visible');
-    isIncludingSelfTableVisible = $('.table-body-including-self').is(':visible');
-
-    assert.ok(isIncludingSelfTableVisible, 'Visible');
-    assert.notOk(isExcludingSelfTableVisible, 'Should not be visible');
-
-    $(className).prop('checked', true);
-    toggleExcludingSelfResultsForRubricStatistics(className);
-    isExcludingSelfTableVisible = $('.table-body-excluding-self').is(':visible');
-    isIncludingSelfTableVisible = $('.table-body-including-self').is(':visible');
-
-    assert.ok(isExcludingSelfTableVisible, 'Visible');
-    assert.notOk(isIncludingSelfTableVisible, 'Should not be visible');
+    $(excludingSelfResponseCheckbox).prop('checked', true);
+    toggleExcludingSelfResultsForRubricStatistics(excludingSelfResponseCheckbox);
+    assert.ok($('.table-body-excluding-self').is(':visible'), 'table-body-excluding-self should be visible');
+    assert.notOk($('.table-body-including-self').is(':visible'), 'table-body-including-self should not be visible');
 });

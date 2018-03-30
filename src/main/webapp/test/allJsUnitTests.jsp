@@ -27,7 +27,7 @@
     <div class="resultStatistics" >
       <div class="panel-body">
         <div class="col-sm-4 text-right ">
-          <input class="excluding-self-check" onclick="toggleExcludingSelfResultsForRubricStatistics(this)" type="checkbox">
+          <input class="excluding-self-response-checkbox" onclick="toggleExcludingSelfResultsForRubricStatistics(this)" type="checkbox">
           <span class="text-nowrap tool-tip-decorate">
                 Excluding self evaluation
           </span>
