@@ -17,7 +17,7 @@ import com.google.gson.GsonBuilder;
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
  */
 // Inner classes and their fields are only used for JSON object generation.
-@SuppressWarnings({"PMD.UnusedPrivateField", "unused"})
+@SuppressWarnings("unused")
 public class InstructorFeedbackResultsPageDataGenerator {
     private Map<String, Question> feedbackQuestions = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();

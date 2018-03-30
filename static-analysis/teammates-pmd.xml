@@ -11,29 +11,34 @@
     <exclude-pattern>.*.js</exclude-pattern>
     <exclude-pattern>.*.xml</exclude-pattern>
 
-    <rule ref="category/java/bestpractices.xml/AbstractClassWithoutAbstractMethod"/>
-    <rule ref="category/java/bestpractices.xml/AccessorClassGeneration"/>
-    <rule ref="category/java/bestpractices.xml/AvoidReassigningParameters"/>
-    <rule ref="category/java/bestpractices.xml/AvoidStringBufferField"/>
-    <rule ref="category/java/bestpractices.xml/AvoidUsingHardCodedIP"/>
-    <rule ref="category/java/bestpractices.xml/CheckResultSet"/>
-    <rule ref="category/java/bestpractices.xml/ConstantsInInterface"/>
-    <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt"/>
-    <rule ref="category/java/bestpractices.xml/JUnitTestsShouldIncludeAssert"/>
-    <rule ref="category/java/bestpractices.xml/LooseCoupling"/>
-    <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInCaseInsensitiveComparisons"/>
-    <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInComparisons"/>
-    <rule ref="category/java/bestpractices.xml/PreserveStackTrace"/>
-    <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault"/>
-    <rule ref="category/java/bestpractices.xml/UnusedFormalParameter"/>
-    <rule ref="category/java/bestpractices.xml/UnusedLocalVariable"/>
-    <rule ref="category/java/bestpractices.xml/UnusedPrivateField"/>
-    <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod"/>
-    <rule ref="category/java/bestpractices.xml/UseAssertEqualsInsteadOfAssertTrue"/>
-    <rule ref="category/java/bestpractices.xml/UseAssertNullInsteadOfAssertTrue"/>
-    <rule ref="category/java/bestpractices.xml/UseAssertSameInsteadOfAssertTrue"/>
-    <rule ref="category/java/bestpractices.xml/UseAssertTrueInsteadOfAssertEquals"/>
-    <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty"/>
+    <rule ref="category/java/bestpractices.xml">
+        <!-- May consider enforcing -->
+        <exclude name="ArrayIsStoredDirectly"/>
+        <exclude name="MethodReturnsInternalArray"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="AccessorClassGeneration"/>
+        <exclude name="AccessorMethodGeneration"/>
+        <exclude name="GuardLogStatement"/>
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <exclude name="UseVarargs"/>
+
+        <!-- Not relevant as we use TestNG -->
+        <exclude name="JUnit4SuitesShouldUseSuiteAnnotation"/>
+        <exclude name="JUnit4TestShouldUseAfterAnnotation"/>
+        <exclude name="JUnit4TestShouldUseBeforeAnnotation"/>
+        <exclude name="JUnit4TestShouldUseTestAnnotation"/>
+
+        <!-- Handled by CheckStyle -->
+        <exclude name="DefaultLabelNotLastInSwitchStmt"/>
+        <exclude name="OneDeclarationPerLine"/>
+        <exclude name="UnusedImports"/>
+
+        <!-- Enforced for production code only -->
+        <exclude name="AvoidPrintStackTrace"/>
+        <exclude name="SystemPrintln"/>
+    </rule>
 
     <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass"/>
     <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending"/>

@@ -199,6 +199,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
                 validAdminEmailAttributesObject.getIdentificationString());
     }
 
+    @Override
     @Test
     public void testToEntity() {
         AdminEmail adminEmail = validAdminEmailAttributesObject.toEntity();

@@ -205,8 +205,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         if (rubricDescriptions.size() != numOfRubricSubQuestions) {
             return false;
         }
-        for (int i = 0; i < rubricDescriptions.size(); i++) {
-            if (rubricDescriptions.get(i).size() != numOfRubricChoices) {
+        for (List<String> rubricDescription : rubricDescriptions) {
+            if (rubricDescription.size() != numOfRubricChoices) {
                 return false;
             }
         }
@@ -590,8 +590,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder headerBuilder = new StringBuilder(100);
         StringBuilder choicesHtmlBuilder = new StringBuilder(100);
 
-        for (int i = 0; i < rubricChoices.size(); i++) {
-            String html = getRecipientStatsHeaderFragmentHtml(rubricChoices.get(i));
+        for (String rubricChoice : rubricChoices) {
+            String html = getRecipientStatsHeaderFragmentHtml(rubricChoice);
             choicesHtmlBuilder.append(html);
         }
 
@@ -814,10 +814,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder csv = new StringBuilder();
 
         // table header
-        for (int i = 0; i < rubricChoices.size(); i++) {
-
-            String header = rubricChoices.get(i);
-
+        for (String header : rubricChoices) {
             csv.append(',').append(SanitizationHelper.sanitizeForCsv(header));
         }
 

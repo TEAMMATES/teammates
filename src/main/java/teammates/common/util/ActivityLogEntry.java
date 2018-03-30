@@ -285,7 +285,6 @@ public final class ActivityLogEntry {
         }
 
         // use builder to build ActivityLogEntry
-        @SuppressWarnings({"PMD.AccessorMethodGeneration", "PMD.AccessorClassGeneration"})
         public ActivityLogEntry build() {
             ActivityLogEntry entry = new ActivityLogEntry();
 
