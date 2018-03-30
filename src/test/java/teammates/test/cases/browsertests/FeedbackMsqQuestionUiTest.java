@@ -139,7 +139,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
 
         feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
-        feedbackEditPage.fillMsqMaxSelectableChoices(NEW_QUESTION_INDEX, "");
+        feedbackEditPage.fillTextBox(feedbackEditPage.getMsqMaxSelectableChoicesBox(NEW_QUESTION_INDEX), "");
         assertFalse(feedbackEditPage.isInputElementValid(
                 feedbackEditPage.getMsqMaxSelectableChoicesBox(NEW_QUESTION_INDEX)));
         feedbackEditPage.setMsqMaxSelectableChoices(NEW_QUESTION_INDEX, 2);
@@ -148,7 +148,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
 
         feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
-        feedbackEditPage.fillMsqMinSelectableChoices(NEW_QUESTION_INDEX, "");
+        feedbackEditPage.fillTextBox(feedbackEditPage.getMsqMinSelectableChoicesBox(NEW_QUESTION_INDEX), "");
         assertFalse(feedbackEditPage.isInputElementValid(
                 feedbackEditPage.getMsqMinSelectableChoicesBox(NEW_QUESTION_INDEX)));
         feedbackEditPage.setMsqMinSelectableChoices(NEW_QUESTION_INDEX, 1);
