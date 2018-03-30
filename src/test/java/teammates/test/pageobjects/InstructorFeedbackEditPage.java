@@ -1311,13 +1311,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
     }
 
-    public void fillMsqMinSelectableChoices(int qnNumber, String value) {
-        assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
-
-        WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
-        fillTextBox(inputBox, value);
-    }
-
     public void setMsqMaxSelectableChoices(int qnNumber, int value) {
         assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
 
@@ -1325,13 +1318,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         String id = inputBox.getAttribute("id");
 
         executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
-    }
-
-    public void fillMsqMaxSelectableChoices(int qnNumber, String value) {
-        assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
-
-        WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
-        fillTextBox(inputBox, value);
     }
 
     public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
