@@ -1223,8 +1223,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(StringUtils.join(expected, System.lineSeparator()), export);
 
         ______TS("typical case: get results for single question");
-        final int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
-        final String questionId = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
+        int questionNum = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
+        String questionId = fqLogic.getFeedbackQuestion(session.getFeedbackSessionName(),
                 session.getCourseId(), questionNum).getId();
 
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(

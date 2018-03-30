@@ -577,9 +577,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
              + "</div>";
     }
 
-    // Confusing Ternary flagged for the `else if` condition below.
-    // Note: Exclusion to this rule will be added in future PMD patch.
-    @SuppressWarnings("PMD.ConfusingTernary")
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder(200);

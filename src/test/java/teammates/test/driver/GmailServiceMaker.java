@@ -97,7 +97,7 @@ final class GmailServiceMaker {
     private GoogleAuthorizationCodeFlow buildFlow(GoogleClientSecrets clientSecrets) throws IOException {
         // if the scopes need to change, the user will need to manually delete
         // <TestProperties.TEST_GMAIL_API_FOLDER>/StoredCredential
-        final List<String> scopes = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_MODIFY);
+        List<String> scopes = Arrays.asList(GmailScopes.GMAIL_READONLY, GmailScopes.GMAIL_MODIFY);
         FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(new File(TestProperties.TEST_GMAIL_API_FOLDER));
         return new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes)

@@ -67,7 +67,7 @@ public final class SearchManager {
      */
     private static void putDocumentWithRetry(String indexName, final Document document)
             throws PutException, MaximumRetriesExceededException {
-        final Index index = getIndex(indexName);
+        Index index = getIndex(indexName);
 
         /*
          * The GAE Search API signals put document failure in two ways: it either
@@ -135,7 +135,7 @@ public final class SearchManager {
      */
     private static void putDocumentsWithRetry(String indexName, final List<Document> documents)
             throws PutException, MaximumRetriesExceededException {
-        final Index index = getIndex(indexName);
+        Index index = getIndex(indexName);
 
         /*
          * The GAE Search API allows batch putting a List of Documents.

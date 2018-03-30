@@ -96,7 +96,7 @@ public final class StringHelper {
      * @return String with at most maximumStringLength length
      */
     public static String truncateHead(String inputString, final int maximumStringLength) {
-        final int inputStringLength = inputString.length();
+        int inputStringLength = inputString.length();
         if (inputStringLength <= maximumStringLength) {
             return inputString;
         }

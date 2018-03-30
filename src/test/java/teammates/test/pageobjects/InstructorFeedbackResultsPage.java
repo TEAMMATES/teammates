@@ -404,7 +404,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private void deleteFeedbackResponseComment(String commentIdSuffix, boolean hasParentCommentModal) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        final WebElement deleteCommentButton =
+        WebElement deleteCommentButton =
                 commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix));
 
         WebElement modalBackdrop = null;

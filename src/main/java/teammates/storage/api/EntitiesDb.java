@@ -83,7 +83,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
      *
      * @return list of created entities.
      */
-    @SuppressWarnings("PMD.UnnecessaryLocalBeforeReturn") // Needs to flush before returning
     public List<E> createEntitiesWithoutExistenceCheck(Collection<A> entitiesToAdd) throws InvalidParametersException {
         List<E> createdEntities = createEntitiesDeferred(entitiesToAdd);
         flush();
