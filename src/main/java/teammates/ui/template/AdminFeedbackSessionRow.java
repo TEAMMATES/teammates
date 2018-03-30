@@ -5,20 +5,25 @@ public class AdminFeedbackSessionRow {
     private String sessionStatusForShow;
     private String feedbackSessionStatsLink;
     private String sessionStartTime;
+    private String sessionStartTimeDateStamp;
     private String sessionEndTime;
+    private String sessionEndTimeDateStamp;
     private String instructorHomePageViewLink;
     private String creatorEmail;
     private String courseId;
     private String feedbackSessionName;
 
     public AdminFeedbackSessionRow(String sessionStatusForShow, String feedbackSessionStatsLink,
-                                    String sessionStartTime, String sessionEndTime,
+                                    String sessionStartTime, String sessionStartTimeDateStamp,
+                                    String sessionEndTime, String sessionEndTimeDateStamp,
                                     String instructorHomePageViewLink, String creatorEmail,
                                     String courseId, String feedbackSessionName) {
         this.sessionStatusForShow = sessionStatusForShow;
         this.feedbackSessionStatsLink = feedbackSessionStatsLink;
         this.sessionStartTime = sessionStartTime;
+        this.sessionStartTimeDateStamp = sessionStartTimeDateStamp;
         this.sessionEndTime = sessionEndTime;
+        this.sessionEndTimeDateStamp = sessionEndTimeDateStamp;
         this.instructorHomePageViewLink = instructorHomePageViewLink;
         this.creatorEmail = creatorEmail;
         this.courseId = courseId;
@@ -59,5 +64,13 @@ public class AdminFeedbackSessionRow {
 
     public boolean isEndsWithTmt() {
         return creatorEmail.endsWith(".tmt");
+    }
+
+    public String getSessionStartTimeDateStamp() {
+        return sessionStartTimeDateStamp;
+    }
+
+    public String getSessionEndTimeDateStamp() {
+        return sessionEndTimeDateStamp;
     }
 }
