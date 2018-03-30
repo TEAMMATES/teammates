@@ -245,6 +245,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     protected FeedbackQuestionAttributes makeAttributes(FeedbackQuestion entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return new FeedbackQuestionAttributes(entity);
+        return FeedbackQuestionAttributes.valueOf(entity);
     }
 }

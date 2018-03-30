@@ -208,6 +208,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public FeedbackQuestionAttributes build() {
+            feedbackQuestionAttributes.questionDescription =
+                    SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
+            feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
             return feedbackQuestionAttributes;
         }
     }
