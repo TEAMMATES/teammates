@@ -494,7 +494,6 @@ public final class TimeHelper {
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("-------------------excecption");
             return null;
         }
     }
