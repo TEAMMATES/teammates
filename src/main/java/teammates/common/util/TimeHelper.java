@@ -172,7 +172,7 @@ public final class TimeHelper {
         } else {
             dateTimeString = inputDate + " " + inputTimeHours + ".00";
         }
-        return parseLocalDateTimeForSessionsForm(dateTimeString, "EEE, dd MMM, yyyy H.mm");
+        return parseLocalDateTime(dateTimeString, "EEE, dd MMM, yyyy H.mm");
     }
 
     /**
@@ -485,7 +485,7 @@ public final class TimeHelper {
      * @param pattern           the pattern of the date and time string
      * @return                  the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
-    public static LocalDateTime parseLocalDateTimeForSessionsForm(String dateTimeString, String pattern) {
+    public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
         if (dateTimeString == null || pattern == null) {
             return null;
         }
@@ -500,8 +500,7 @@ public final class TimeHelper {
 
     /**
      * Parses a {@code LocalDateTime} object for session form from separated date, hour and minute strings.
-     * Example: If date is Tue, 01 Apr, 2014, hour is 23, min is 59.
-     * Returns {@code null} on error.
+     * Example: date "Tue, 01 Apr, 2014", hour "23", min "59"
      *
      * @param date  date in format "EEE, dd MMM, yyy"
      * @param hour  hour-of-day (0-23)
@@ -512,7 +511,7 @@ public final class TimeHelper {
         if (date == null || hour == null || min == null) {
             return null;
         }
-        return parseLocalDateTimeForSessionsForm(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
+        return parseLocalDateTime(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
     }
 
 }
