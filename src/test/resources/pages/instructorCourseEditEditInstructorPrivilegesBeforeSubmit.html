@@ -94,7 +94,7 @@
         </div>
         <form action="/page/instructorCourseEditPage" class="editForm" id="edit-1" style="display:none;">
           <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
-          <input name="instructoremail" type="hidden" value="new_email@email.tmt">
+          <input name="instructoremail" type="hidden" value="InsCrsEdit.instructor@gmail.tmt">
           <input name="courseeditmainindex" type="hidden" value="1">
           <input name="user" type="hidden" value="InsCrsEdit.test">
         </form>
@@ -108,7 +108,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="New name" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=new_email%40email.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrDeleteLink1" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="New name" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrDeleteLink1" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -118,7 +118,7 @@
     <div class="panel-body">
       <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor1" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
-        <input name="instructorid" type="hidden" value="InsCrsEdit.coord">
+        <input name="instructorid" type="hidden" value="InsCrsEdit.Helper">
         <input name="user" type="hidden" value="InsCrsEdit.test">
         <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable1">
@@ -127,7 +127,7 @@
               Google ID:
             </label>
             <div class="col-sm-9">
-              <input class="form-control immutable" disabled="" id="instructorid1" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.coord">
+              <input class="form-control immutable" disabled="" id="instructorid1" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.Helper">
             </div>
           </div>
           <div class="form-group">
@@ -143,7 +143,7 @@
               Email:
             </label>
             <div class="col-sm-9">
-              <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" id="instructoremail1" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="new_email@email.tmt">
+              <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" id="instructoremail1" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.instructor@gmail.tmt">
             </div>
           </div>
           <div class="form-group">
@@ -608,14 +608,9 @@
       <div class="pull-right">
         <div class="display-icon" style="display:inline;">
         </div>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="New name" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrRemindLink2" title="" type="button">
-          <span class="glyphicon glyphicon-envelope">
-          </span>
-          Resend Invite
-        </a>
         <form action="/page/instructorCourseEditPage" class="editForm" id="edit-2" style="display:none;">
           <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
-          <input name="instructoremail" type="hidden" value="InsCrsEdit.instructor@gmail.tmt">
+          <input name="instructoremail" type="hidden" value="new_email@email.tmt">
           <input name="courseeditmainindex" type="hidden" value="2">
           <input name="user" type="hidden" value="InsCrsEdit.test">
         </form>
@@ -629,7 +624,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="New name" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrDeleteLink2" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="New name" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=new_email%40email.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrDeleteLink2" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -639,6 +634,7 @@
     <div class="panel-body">
       <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor2" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
+        <input name="instructorid" type="hidden" value="InsCrsEdit.coord">
         <input name="user" type="hidden" value="InsCrsEdit.test">
         <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable2">
@@ -647,11 +643,7 @@
               Google ID:
             </label>
             <div class="col-sm-9">
-              <p class="form-control-static">
-                <span class="text-warning">
-                  Not available. Instructor is yet to join this course.
-                </span>
-              </p>
+              <input class="form-control immutable" disabled="" id="instructorid2" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.coord">
             </div>
           </div>
           <div class="form-group">
@@ -667,7 +659,7 @@
               Email:
             </label>
             <div class="col-sm-9">
-              <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructoremail2" maxlength="254" name="instructoremail" readonly="" tabindex="5" title="" type="text" value="InsCrsEdit.instructor@gmail.tmt">
+              <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructoremail2" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="new_email@email.tmt">
             </div>
           </div>
           <div class="form-group">
@@ -717,6 +709,11 @@
       <div class="pull-right">
         <div class="display-icon" style="display:inline;">
         </div>
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Instructor" data-original-title="Send invitation email to the instructor" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrRemindLink3" title="" type="button">
+          <span class="glyphicon glyphicon-envelope">
+          </span>
+          Resend Invite
+        </a>
         <form action="/page/instructorCourseEditPage" class="editForm" id="edit-3" style="display:none;">
           <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
           <input name="instructoremail" type="hidden" value="InsCrsEdit.instructor@gmail.tmt">
@@ -733,7 +730,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="New name" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrDeleteLink3" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Instructor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.instructor%40gmail.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrDeleteLink3" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -743,7 +740,6 @@
     <div class="panel-body">
       <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor3" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
-        <input name="instructorid" type="hidden" value="InsCrsEdit.manager">
         <input name="user" type="hidden" value="InsCrsEdit.test">
         <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable3">
@@ -752,7 +748,11 @@
               Google ID:
             </label>
             <div class="col-sm-9">
-              <input class="form-control immutable" disabled="" id="instructorid3" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.manager">
+              <p class="form-control-static">
+                <span class="text-warning">
+                  Not available. Instructor is yet to join this course.
+                </span>
+              </p>
             </div>
           </div>
           <div class="form-group">
@@ -760,7 +760,7 @@
               Name:
             </label>
             <div class="col-sm-9">
-              <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructorname3" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="New name">
+              <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructorname3" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Instructor">
             </div>
           </div>
           <div class="form-group">
@@ -768,16 +768,16 @@
               Email:
             </label>
             <div class="col-sm-9">
-              <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructoremail3" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.instructor@gmail.tmt">
+              <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructoremail3" maxlength="254" name="instructoremail" readonly="" tabindex="5" title="" type="text" value="InsCrsEdit.instructor@gmail.tmt">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label">
-              <input data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="" name="instructorisdisplayed" title="" type="checkbox" value="true">
+              <input checked="" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" data-placement="top" data-toggle="tooltip" disabled="" name="instructorisdisplayed" title="" type="checkbox" value="true">
               Display to students as:
             </label>
             <div class="col-sm-9">
-              <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="" name="instructordisplayname" placeholder="(This instructor will NOT be displayed to students)" title="" type="text">
+              <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
             </div>
           </div>
           <div id="accessControlInfoForInstr3">
@@ -788,11 +788,8 @@
               <div class="col-sm-9">
                 <p class="form-control-static">
                   <span>
-                    Co-owner
+                    Custom
                   </span>
-                  <a class="view-role-details" data-role="Co-owner" href="javascript:;">
-                     View Details
-                  </a>
                 </p>
               </div>
             </div>
@@ -820,7 +817,7 @@
         </div>
         <form action="/page/instructorCourseEditPage" class="editForm" id="edit-4" style="display:none;">
           <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
-          <input name="instructoremail" type="hidden" value="InsCrsEdit.Helper@gmail.tmt">
+          <input name="instructoremail" type="hidden" value="InsCrsEdit.manager@gmail.tmt">
           <input name="courseeditmainindex" type="hidden" value="4">
           <input name="user" type="hidden" value="InsCrsEdit.test">
         </form>
@@ -834,7 +831,7 @@
           </span>
           Cancel
         </a>
-        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates New Instructor" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.Helper%40gmail.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrDeleteLink4" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="InsCrsEdit.CS2104" data-instructor-name="Teammates Manager" data-is-delete-self="false" data-original-title="Delete the instructor from the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&instructoremail=InsCrsEdit.manager%40gmail.tmt&user=InsCrsEdit.test&token=${sessionToken}" id="instrDeleteLink4" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -844,7 +841,7 @@
     <div class="panel-body">
       <form action="/page/instructorCourseInstructorEditSave" class="form form-horizontal" id="formEditInstructor4" method="post" name="formEditInstructors">
         <input name="courseid" type="hidden" value="InsCrsEdit.CS2104">
-        <input name="instructorid" type="hidden" value="InsCrsEdit.Helper">
+        <input name="instructorid" type="hidden" value="InsCrsEdit.manager">
         <input name="user" type="hidden" value="InsCrsEdit.test">
         <input name="token" type="hidden" value="${sessionToken}">
         <div id="instructorTable4">
@@ -853,7 +850,7 @@
               Google ID:
             </label>
             <div class="col-sm-9">
-              <input class="form-control immutable" disabled="" id="instructorid4" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.Helper">
+              <input class="form-control immutable" disabled="" id="instructorid4" maxlength="254" tabindex="3" type="text" value="InsCrsEdit.manager">
             </div>
           </div>
           <div class="form-group">
@@ -861,7 +858,7 @@
               Name:
             </label>
             <div class="col-sm-9">
-              <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructorname4" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates New Instructor">
+              <input class="form-control" data-original-title="Enter the name of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructorname4" maxlength="100" name="instructorname" tabindex="4" title="" type="text" value="Teammates Manager">
             </div>
           </div>
           <div class="form-group">
@@ -869,7 +866,7 @@
               Email:
             </label>
             <div class="col-sm-9">
-              <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructoremail4" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.Helper@gmail.tmt">
+              <input class="form-control" data-original-title="Enter the Email of the instructor." data-placement="top" data-toggle="tooltip" disabled="" id="instructoremail4" maxlength="254" name="instructoremail" tabindex="5" title="" type="text" value="InsCrsEdit.manager@gmail.tmt">
             </div>
           </div>
           <div class="form-group">
@@ -889,8 +886,11 @@
               <div class="col-sm-9">
                 <p class="form-control-static">
                   <span>
-                    Custom
+                    Manager
                   </span>
+                  <a class="view-role-details" data-role="Manager" href="javascript:;">
+                     View Details
+                  </a>
                 </p>
               </div>
             </div>
