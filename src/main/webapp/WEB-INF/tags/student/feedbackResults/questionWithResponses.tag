@@ -16,11 +16,15 @@
         <feedbackResults:responseTable responseTable="${othersResponseTable}"/>
       </c:forEach>
 
-      <h4>Your own responses:</h4>
+      <c:if test="${!questionWithResponses.selfResponseTablesEmpty}">
 
-      <c:forEach items="${questionWithResponses.selfResponseTables}" var="selfResponseTable">
-        <feedbackResults:responseTable responseTable="${selfResponseTable}"/>
-      </c:forEach>
+        <h5><b>Your own responses:</b></h5>
+
+        <c:forEach items="${questionWithResponses.selfResponseTables}" var="selfResponseTable">
+          <feedbackResults:responseTable responseTable="${selfResponseTable}"/>
+        </c:forEach>
+
+      </c:if>
 
     </c:if>
   </div>

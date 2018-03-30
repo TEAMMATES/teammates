@@ -42,4 +42,8 @@ public class StudentFeedbackResultsQuestionWithResponses {
         return othersResponseTables;
     }
 
+    public boolean isSelfResponseTablesEmpty() {
+        return getSelfResponseTables().isEmpty();
+    }
+
 }
