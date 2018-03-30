@@ -2,16 +2,16 @@ package teammates.ui.template;
 
 public class StudentHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
     private String endTime;
-    private String endTimeDateStamp;
+    private String endTimeIso8601Utc;
     private StudentFeedbackSessionActions actions;
     private int index;
 
     public StudentHomeFeedbackSessionRow(String name, String submissionsTooltip, String publishedTooltip,
-            String submissionStatus, String publishedStatus, String endTime, String endTimeDateStamp,
+            String submissionStatus, String publishedStatus, String endTime, String endTimeIso8601Utc,
             StudentFeedbackSessionActions actions, int index) {
         super(name, submissionsTooltip, publishedTooltip, submissionStatus, publishedStatus);
         this.endTime = endTime;
-        this.endTimeDateStamp = endTimeDateStamp;
+        this.endTimeIso8601Utc = endTimeIso8601Utc;
         this.actions = actions;
         this.index = index;
     }
@@ -24,8 +24,8 @@ public class StudentHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
         return actions;
     }
 
-    public String getEndTimeDateStamp() {
-        return endTimeDateStamp;
+    public String getEndTimeIso8601Utc() {
+        return endTimeIso8601Utc;
     }
 
     public int getIndex() {
