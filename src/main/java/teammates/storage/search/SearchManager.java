@@ -65,7 +65,7 @@ public final class SearchManager {
      * @throws MaximumRetriesExceededException with final {@link OperationResult}'s message as final message,
      *         if operation fails after maximum retries.
      */
-    private static void putDocumentWithRetry(String indexName, final Document document)
+    private static void putDocumentWithRetry(String indexName, Document document)
             throws PutException, MaximumRetriesExceededException {
         Index index = getIndex(indexName);
 
@@ -133,7 +133,7 @@ public final class SearchManager {
      * @throws MaximumRetriesExceededException with list of failed {@link Document}s as final data and
      *         final {@link OperationResult}'s message as final message, if operation fails after maximum retries.
      */
-    private static void putDocumentsWithRetry(String indexName, final List<Document> documents)
+    private static void putDocumentsWithRetry(String indexName, List<Document> documents)
             throws PutException, MaximumRetriesExceededException {
         Index index = getIndex(indexName);
 

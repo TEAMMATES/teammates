@@ -239,7 +239,7 @@ public abstract class AppPage {
     /**
      * Waits until TinyMCE editor is fully loaded.
      */
-    public void waitForRichTextEditorToLoad(final String id) {
+    public void waitForRichTextEditorToLoad(String id) {
         waitFor(driver -> {
             String script = "return tinymce.get('" + id + "') !== null";
             JavascriptExecutor javascriptExecutor = (JavascriptExecutor) checkNotNull(driver);
@@ -250,7 +250,7 @@ public abstract class AppPage {
     /**
      * Waits until the element is not covered by any other element.
      */
-    public void waitForElementNotCovered(final WebElement element) {
+    public void waitForElementNotCovered(WebElement element) {
         waitFor(d -> !isElementCovered(element));
     }
 
@@ -1230,7 +1230,7 @@ public abstract class AppPage {
         return verifyHtmlPart(MAIN_CONTENT, filePath);
     }
 
-    public AppPage verifyHtmlMainContentWithReloadRetry(final String filePath)
+    public AppPage verifyHtmlMainContentWithReloadRetry(String filePath)
             throws IOException, MaximumRetriesExceededException {
         return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPage, IOException>(
                 "HTML verification") {
