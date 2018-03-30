@@ -620,7 +620,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableHeaderFragmentHtml.append(tableHeaderAverageCell).append(System.lineSeparator());
         }
 
-
         int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responsesForStatistics, fqd);
         float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(fqd, responseFrequency);
 
