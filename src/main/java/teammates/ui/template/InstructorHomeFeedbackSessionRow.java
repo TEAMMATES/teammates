@@ -3,24 +3,24 @@ package teammates.ui.template;
 public class InstructorHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
     private String startTime;
     private String startTimeToolTip;
-    private String startTimeDateStamp;
+    private String startTimeIso8601Utc;
     private String endTime;
     private String endTimeToolTip;
-    private String endTimeDateStamp;
+    private String endTimeIso8601Utc;
     private String href;
     private InstructorFeedbackSessionActions actions;
 
     public InstructorHomeFeedbackSessionRow(String name, String submissionsTooltip, String publishedTooltip,
-            String submissionStatus, String publishedStatus, String startTime, String startTimeDateStamp,
-            String startTimeToolTip, String endTime, String endTimeDateStamp, String endTimeToolTip,
-            String href, InstructorFeedbackSessionActions actions) {
+                                            String submissionStatus, String publishedStatus, String startTime, String startTimeIso8601Utc,
+                                            String startTimeToolTip, String endTime, String endTimeIso8601Utc, String endTimeToolTip,
+                                            String href, InstructorFeedbackSessionActions actions) {
         super(name, submissionsTooltip, publishedTooltip, submissionStatus, publishedStatus);
         this.startTime = startTime;
         this.startTimeToolTip = startTimeToolTip;
-        this.startTimeDateStamp = startTimeDateStamp;
+        this.startTimeIso8601Utc = startTimeIso8601Utc;
         this.endTime = endTime;
         this.endTimeToolTip = endTimeToolTip;
-        this.endTimeDateStamp = endTimeDateStamp;
+        this.endTimeIso8601Utc = endTimeIso8601Utc;
         this.href = href;
         this.actions = actions;
     }
@@ -49,11 +49,11 @@ public class InstructorHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
         return endTimeToolTip;
     }
 
-    public String getStartTimeDateStamp() {
-        return startTimeDateStamp;
+    public String getStartTimeIso8601Utc() {
+        return startTimeIso8601Utc;
     }
 
-    public String getEndTimeDateStamp() {
-        return endTimeDateStamp;
+    public String getEndTimeIso8601Utc() {
+        return endTimeIso8601Utc;
     }
 }

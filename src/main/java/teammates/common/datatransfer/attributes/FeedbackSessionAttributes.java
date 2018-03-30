@@ -606,11 +606,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.respondingStudentList = respondingStudentList;
     }
 
-    public String getEndTimeInIso8601Format() {
+    public String getEndTimeInIso8601UtcFormat() {
         return TimeHelper.formatInstantToIso8601Utc(endTime);
     }
 
-    public String getStartTimeInIso8601Format() {
+    public String getStartTimeInIso8601UtcFormat() {
         return TimeHelper.formatInstantToIso8601Utc(startTime);
     }
 

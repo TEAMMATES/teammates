@@ -5,25 +5,25 @@ public class AdminFeedbackSessionRow {
     private String sessionStatusForShow;
     private String feedbackSessionStatsLink;
     private String sessionStartTime;
-    private String sessionStartTimeDateStamp;
+    private String sessionStartTimeIso8601Utc;
     private String sessionEndTime;
-    private String sessionEndTimeDateStamp;
+    private String sessionEndTimeIso8601Utc;
     private String instructorHomePageViewLink;
     private String creatorEmail;
     private String courseId;
     private String feedbackSessionName;
 
     public AdminFeedbackSessionRow(String sessionStatusForShow, String feedbackSessionStatsLink,
-                                    String sessionStartTime, String sessionStartTimeDateStamp,
-                                    String sessionEndTime, String sessionEndTimeDateStamp,
+                                    String sessionStartTime, String sessionStartTimeIso8601Utc,
+                                    String sessionEndTime, String sessionEndTimeIso8601Utc,
                                     String instructorHomePageViewLink, String creatorEmail,
                                     String courseId, String feedbackSessionName) {
         this.sessionStatusForShow = sessionStatusForShow;
         this.feedbackSessionStatsLink = feedbackSessionStatsLink;
         this.sessionStartTime = sessionStartTime;
-        this.sessionStartTimeDateStamp = sessionStartTimeDateStamp;
+        this.sessionStartTimeIso8601Utc = sessionStartTimeIso8601Utc;
         this.sessionEndTime = sessionEndTime;
-        this.sessionEndTimeDateStamp = sessionEndTimeDateStamp;
+        this.sessionEndTimeIso8601Utc = sessionEndTimeIso8601Utc;
         this.instructorHomePageViewLink = instructorHomePageViewLink;
         this.creatorEmail = creatorEmail;
         this.courseId = courseId;
@@ -66,11 +66,11 @@ public class AdminFeedbackSessionRow {
         return creatorEmail.endsWith(".tmt");
     }
 
-    public String getSessionStartTimeDateStamp() {
-        return sessionStartTimeDateStamp;
+    public String getSessionStartTimeIso8601Utc() {
+        return sessionStartTimeIso8601Utc;
     }
 
-    public String getSessionEndTimeDateStamp() {
-        return sessionEndTimeDateStamp;
+    public String getSessionEndTimeIso8601Utc() {
+        return sessionEndTimeIso8601Utc;
     }
 }
