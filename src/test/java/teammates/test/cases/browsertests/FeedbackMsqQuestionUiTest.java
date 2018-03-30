@@ -141,19 +141,19 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
         feedbackEditPage.fillMsqMaxSelectableChoices(NEW_QUESTION_INDEX, "");
         assertFalse(feedbackEditPage.isInputElementValid(
-                feedbackEditPage.getMsqMaxSelectableChoicesBoxElement(NEW_QUESTION_INDEX)));
+                feedbackEditPage.getMsqMaxSelectableChoicesBox(NEW_QUESTION_INDEX)));
         feedbackEditPage.setMsqMaxSelectableChoices(NEW_QUESTION_INDEX, 2);
         assertTrue(feedbackEditPage.isInputElementValid(
-                feedbackEditPage.getMsqMaxSelectableChoicesBoxElement(NEW_QUESTION_INDEX)));
+                feedbackEditPage.getMsqMaxSelectableChoicesBox(NEW_QUESTION_INDEX)));
         feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
 
         feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
         feedbackEditPage.fillMsqMinSelectableChoices(NEW_QUESTION_INDEX, "");
         assertFalse(feedbackEditPage.isInputElementValid(
-                feedbackEditPage.getMsqMinSelectableChoicesBoxElement(NEW_QUESTION_INDEX)));
+                feedbackEditPage.getMsqMinSelectableChoicesBox(NEW_QUESTION_INDEX)));
         feedbackEditPage.setMsqMinSelectableChoices(NEW_QUESTION_INDEX, 1);
         assertTrue(feedbackEditPage.isInputElementValid(
-                feedbackEditPage.getMsqMinSelectableChoicesBoxElement(NEW_QUESTION_INDEX)));
+                feedbackEditPage.getMsqMinSelectableChoicesBox(NEW_QUESTION_INDEX)));
         feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
