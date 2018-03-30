@@ -73,55 +73,65 @@
     <rule ref="category/java/documentation.xml/UncommentedEmptyConstructor"/>
     <rule ref="category/java/documentation.xml/UncommentedEmptyMethodBody"/>
 
-    <rule ref="category/java/errorprone.xml/AssignmentToNonFinalStatic"/>
-    <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop"/>
-    <rule ref="category/java/errorprone.xml/AvoidCatchingNPE"/>
-    <rule ref="category/java/errorprone.xml/AvoidCatchingThrowable"/>
-    <rule ref="category/java/errorprone.xml/AvoidDecimalLiteralsInBigDecimalConstructor"/>
-    <rule ref="category/java/errorprone.xml/AvoidInstanceofChecksInCatchClause"/>
-    <rule ref="category/java/errorprone.xml/AvoidLosingExceptionInformation"/>
-    <rule ref="category/java/errorprone.xml/AvoidMultipleUnaryOperators"/>
-    <rule ref="category/java/errorprone.xml/AvoidUsingOctalValues"/>
-    <rule ref="category/java/errorprone.xml/BadComparison"/>
-    <rule ref="category/java/errorprone.xml/BrokenNullCheck"/>
-    <rule ref="category/java/errorprone.xml/CheckSkipResult"/>
-    <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray"/>
-    <rule ref="category/java/errorprone.xml/CloseResource"/>
-    <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals"/>
-    <rule ref="category/java/errorprone.xml/DoNotThrowExceptionInFinally"/>
-    <rule ref="category/java/errorprone.xml/DontUseFloatTypeForLoopIndices"/>
-    <rule ref="category/java/errorprone.xml/EmptyFinallyBlock"/>
-    <rule ref="category/java/errorprone.xml/EmptyInitializer"/>
-    <rule ref="category/java/errorprone.xml/EmptyStatementBlock"/>
-    <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop"/>
-    <rule ref="category/java/errorprone.xml/EmptySwitchStatements"/>
-    <rule ref="category/java/errorprone.xml/EmptySynchronizedBlock"/>
-    <rule ref="category/java/errorprone.xml/EmptyTryBlock"/>
-    <rule ref="category/java/errorprone.xml/EmptyWhileStmt"/>
-    <rule ref="category/java/errorprone.xml/EqualsNull"/>
-    <rule ref="category/java/errorprone.xml/IdempotentOperations"/>
-    <rule ref="category/java/errorprone.xml/InstantiationToGetClass"/>
-    <rule ref="category/java/errorprone.xml/JumbledIncrementer"/>
-    <rule ref="category/java/errorprone.xml/JUnitSpelling"/>
-    <rule ref="category/java/errorprone.xml/MisplacedNullCheck"/>
-    <rule ref="category/java/errorprone.xml/MissingBreakInSwitch"/>
-    <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass"/>
-    <rule ref="category/java/errorprone.xml/NonCaseLabelInSwitchStatement"/>
-    <rule ref="category/java/errorprone.xml/NonStaticInitializer"/>
-    <rule ref="category/java/errorprone.xml/OverrideBothEqualsAndHashcode"/>
-    <rule ref="category/java/errorprone.xml/ReturnEmptyArrayRatherThanNull"/>
-    <rule ref="category/java/errorprone.xml/ReturnFromFinallyBlock"/>
-    <rule ref="category/java/errorprone.xml/SingleMethodSingleton"/>
-    <rule ref="category/java/errorprone.xml/SingletonClassReturningNewInstance"/>
-    <rule ref="category/java/errorprone.xml/StringBufferInstantiationWithChar"/>
-    <rule ref="category/java/errorprone.xml/TestClassWithoutTestCases"/>
-    <rule ref="category/java/errorprone.xml/UnconditionalIfStatement"/>
-    <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion"/>
-    <rule ref="category/java/errorprone.xml/UnnecessaryCaseChange"/>
-    <rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary"/>
-    <rule ref="category/java/errorprone.xml/UnusedNullCheckInEquals"/>
-    <rule ref="category/java/errorprone.xml/UseEqualsToCompareStrings"/>
-    <rule ref="category/java/errorprone.xml/UselessOperationOnImmutable"/>
+    <rule ref="category/java/errorprone.xml">
+        <!-- May consider enforcing -->
+        <exclude name="AvoidFieldNameMatchingTypeName"/>
+        <exclude name="AvoidFieldNameMatchingMethodName"/>
+
+        <!-- Very difficult to enforce -->
+        <exclude name="AvoidDuplicateLiterals"/>
+        <exclude name="AvoidLiteralsInIfCondition"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="ConstructorCallsOverridableMethod"/>
+        <exclude name="JUnitSpelling"/>
+        <exclude name="JUnitStaticSuite"/>
+        <exclude name="NullAssignment"/>
+        <exclude name="UseLocaleWithCaseConversions"/>
+
+        <!--  Unnecessary as they will cause compile error if violated -->
+        <exclude name="AvoidAssertAsIdentifier"/>
+        <exclude name="AvoidEnumAsIdentifier"/>
+
+        <!-- Handled by CheckStyle -->
+        <exclude name="DontImportSun"/>
+        <exclude name="ImportFromSamePackage"/>
+
+        <!-- Prefer Checkstyle's which allows commented empty block -->
+        <exclude name="EmptyCatchBlock"/>
+        <exclude name="EmptyIfStmt"/>
+
+        <!-- Finalizer rules; irrelevant -->
+        <exclude name="AvoidCallingFinalize"/>
+        <exclude name="EmptyFinalizer"/>
+        <exclude name="FinalizeDoesNotCallSuperFinalize"/>
+        <exclude name="FinalizeOnlyCallsSuperFinalize"/>
+        <exclude name="FinalizeOverloaded"/>
+        <exclude name="FinalizeShouldBeProtected"/>
+
+        <!-- Clone Implementation rules; irrelevant -->
+        <exclude name="CloneMethodMustBePublic"/>
+        <exclude name="CloneMethodMustImplementCloneable"/>
+        <exclude name="CloneMethodReturnTypeMustMatchClassName"/>
+        <exclude name="CloneThrowsCloneNotSupportedException"/>
+        <exclude name="ProperCloneImplementation"/>
+
+        <!-- Android rules; irrelevant -->
+        <exclude name="CallSuperFirst"/>
+        <exclude name="CallSuperLast"/>
+        <exclude name="DoNotHardCodeSDCard"/>
+
+        <!-- Java Beans rules; irrelevant -->
+        <exclude name="BeanMembersShouldSerialize"/>
+        <exclude name="MissingSerialVersionUID"/>
+        <exclude name="StaticEJBFieldShouldBeFinal"/>
+
+        <!-- Irrelevant logging rules -->
+        <exclude name="InvalidSlf4jMessageFormat"/>
+        <exclude name="ProperLogger"/>
+        <exclude name="UseCorrectExceptionLogging"/>
+    </rule>
 
     <rule ref="category/java/multithreading.xml/AvoidThreadGroup"/>
     <rule ref="category/java/multithreading.xml/DontCallThreadRun"/>
