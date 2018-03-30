@@ -1,5 +1,14 @@
-&nbsp;<span style=" white-space: normal;">
-  <a href="javascript:;" id="questionAdditionalInfoButton-${questionNumber}-${additionalInfoId}" class="small link-in-dark-bg" onclick="toggleAdditionalQuestionInfo('${questionNumber}-${additionalInfoId}')" data-more="${more}" data-less="${less}">${more}</a>
-  <br>
-  <span id="questionAdditionalInfo-${questionNumber}-${additionalInfoId}" style="display:none;">${questionAdditionalInfo}</span>
-</span>
+&nbsp; <a href="javascript:;" id="more-info-contrib-calculation-modal-link" data-toggle="modal" data-target="#more-info-contrib-calculation-modal"><span class="glyphicon glyphicon-info-sign glyphicon-flipped"></span></a>
+<div id="more-info-contrib-calculation-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">More info about contribution questions</h4>
+      </div>
+      <div class="modal-body">
+        ${questionAdditionalInfo}
+      </div>
+    </div>
+  </div>
+</div>
