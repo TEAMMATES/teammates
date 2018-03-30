@@ -494,6 +494,7 @@ public final class TimeHelper {
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException e) {
+            System.out.println("-------------------excecption");
             return null;
         }
     }
@@ -502,14 +503,14 @@ public final class TimeHelper {
      * Parses a `LocalDateTime` object from separated date, hour and minute strings.
      *
      * <p>required parameter format:
-     * date: dd/MM/yyyy  hour: H   min:m
+     * date: EEE, dd MMM, yyyy  hour: H   min:m
      * Example: If date is 01/04/2014, hour is 23, min is 59.
      */
     public static LocalDateTime parseLocalDateTime(String date, String hour, String min) {
         if (date == null || hour == null || min == null) {
             return null;
         }
-        return parseLocalDateTime(date + " " + hour + " " + min, "dd/MM/yyyy H m");
+        return parseLocalDateTime(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
     }
 
 }
