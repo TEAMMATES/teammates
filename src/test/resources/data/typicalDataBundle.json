@@ -768,7 +768,7 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
     },
-    "session2InCourse2": {
+    "session1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
@@ -1120,7 +1120,7 @@
         "RECEIVER"
       ]
     },
-    "qn1InSession2InCourse2": {
+    "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
@@ -1138,7 +1138,7 @@
       "showGiverNameTo": [],
       "showRecipientNameTo": []
     },
-    "qn2InSession2InCourse2": {
+    "qn2InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
@@ -1160,7 +1160,7 @@
         "INSTRUCTORS"
       ]
     },
-    "qn3InSession2InCourse2": {
+    "qn3InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",

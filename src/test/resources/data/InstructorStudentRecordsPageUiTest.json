@@ -429,7 +429,7 @@
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
     },
-    "session2InCourse2": {
+    "session1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "ISR.CS1101",
       "creatorEmail": "teammates.test@gmail.tmt",
@@ -574,7 +574,7 @@
         "RECEIVER"
       ]
     },
-    "qn1InSession2InCourse2": {
+    "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "ISR.CS1101",
       "creatorEmail": "teammates.test@gmail.tmt",

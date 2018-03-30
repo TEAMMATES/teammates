@@ -467,7 +467,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.tmt");
 
         assertEquals(actualSessions.get(0).toString(),
-                dataBundle.feedbackSessions.get("session2InCourse2").toString());
+                dataBundle.feedbackSessions.get("session1InCourse2").toString());
         assertEquals(1, actualSessions.size());
     }
 
@@ -583,7 +583,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         "Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
 
         // We just test this once.
-        assertEquals(dataBundle.feedbackSessions.get("session2InCourse2").toString(),
+        assertEquals(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
                 actual.feedbackSession.toString());
 
         // There should be 2 question for students to do in session 1.
@@ -592,7 +592,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // Question 1
         FeedbackQuestionAttributes expectedQuestion =
-                getQuestionFromDatastore("qn1InSession2InCourse2");
+                getQuestionFromDatastore("qn1InSession1InCourse2");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
 
         String expectedResponsesString = getResponseFromDatastore("response1ForQ1S2C2", dataBundle).toString();
@@ -604,7 +604,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
 
         // Question 2
-        expectedQuestion = getQuestionFromDatastore("qn2InSession2InCourse2");
+        expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse2");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
         assertTrue(actual.questionResponseBundle.get(expectedQuestion).isEmpty());
 
@@ -1730,7 +1730,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session = dataBundle.feedbackSessions.get("archiveCourse.session1");
         assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
 
-        session = dataBundle.feedbackSessions.get("session2InCourse2");
+        session = dataBundle.feedbackSessions.get("session1InCourse2");
         assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
 
         ______TS("empty session");
