@@ -66,27 +66,29 @@ public class GaeSimulation {
     /**
      * Sets up the GAE simulation.
      */
-    public synchronized void setup() {
-        System.out.println("Setting up GAE simulation");
+    public void setup() {
+        synchronized (this) {
+            System.out.println("Setting up GAE simulation");
 
-        LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-        localTasks.setQueueXmlPath(QUEUE_XML_PATH);
+            LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
+            localTasks.setQueueXmlPath(QUEUE_XML_PATH);
 
-        LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
-        LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
-        LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-        LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
-        localSearch.setPersistent(false);
-        LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-        LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
-        helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
-                                            localTasks, localSearch, localModules, localLog);
+            LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
+            LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
+            LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
+            LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
+            localSearch.setPersistent(false);
+            LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
+            LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
+            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
+                                                localTasks, localSearch, localModules, localLog);
 
-        helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
-        helper.setUp();
+            helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
+            helper.setUp();
 
-        sc = new ServletRunner().newClient();
-        localLogService = LocalLogServiceTestConfig.getLocalLogService();
+            sc = new ServletRunner().newClient();
+            localLogService = LocalLogServiceTestConfig.getLocalLogService();
+        }
     }
 
     /**

@@ -147,11 +147,13 @@
         <exclude name="UseCorrectExceptionLogging"/>
     </rule>
 
-    <rule ref="category/java/multithreading.xml/AvoidThreadGroup"/>
-    <rule ref="category/java/multithreading.xml/DontCallThreadRun"/>
-    <rule ref="category/java/multithreading.xml/DoubleCheckedLocking"/>
-    <rule ref="category/java/multithreading.xml/UnsynchronizedStaticDateFormatter"/>
-    <rule ref="category/java/multithreading.xml/UseNotifyAllInsteadOfNotify"/>
+    <rule ref="category/java/multithreading.xml">
+        <!-- Not applicable -->
+        <exclude name="DoNotUseThreads"/>
+
+        <!-- Not worth the benefit -->
+        <exclude name="UseConcurrentHashMap"/>
+    </rule>
 
     <rule ref="category/java/performance.xml">
         <!-- Inevitably occur -->
