@@ -56,7 +56,7 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "btnShowNewInstructorForm")
     private WebElement showNewInstructorFormButton;
 
-    @FindBy(id = "btnShowCopyInstructorModal")
+    @FindBy(id = "btnShowCopyModal")
     private WebElement showCopyInstructorModalButton;
 
     @FindBy(id = "instructorname")

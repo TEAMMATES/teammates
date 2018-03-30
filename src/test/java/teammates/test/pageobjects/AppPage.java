@@ -366,14 +366,8 @@ public abstract class AppPage {
      * @param actionLink value to change to
      */
     public void changeActionLinkOnCopyButton(String actionLink) {
-        String selector = "$('#button_copy')";
+        String selector = "$('#btnShowCopyModal')";
         String action = ".data('actionlink', '" + actionLink + "')";
-        executeScript(selector + action);
-    }
-
-    public void enableCopySubmitButton() {
-        String selector = "$('#button_copy_submit')";
-        String action = ".prop('disabled', false)";
         executeScript(selector + action);
     }
 

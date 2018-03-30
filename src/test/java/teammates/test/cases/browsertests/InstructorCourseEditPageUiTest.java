@@ -207,17 +207,30 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         String infoType = "instructor";
 
         courseEditPage.waitForCopyErrorMessageToLoad(infoType);
-        courseEditPage.waitForCopyErrorMessageToLoad(infoType);
         assertEquals("No instructor to be copied.",
                 courseEditPage.getCopyErrorMessageText(infoType));
         assertFalse("Should not be able to submit if there are no instructors",
                 courseEditPage.isCopySubmitButtonEnabled());
 
-        ______TS("Enable copy submit button illegally");
-        courseEditPage.enableCopySubmitButton();
-        courseEditPage.clickCopySubmitButton();
-        assertEquals("No instructors are selected to be copied", courseEditPage.getStatusMessageOnPage());
-        assertTrue(1 == 2);
+        ______TS("Fails gracefully with an error message");
+
+        courseEditPage = getCourseEditPage();
+
+        courseEditPage.changeActionLinkOnCopyButton("INVALID URL");
+        courseEditPage.clickCopyButton();
+
+        courseEditPage.waitForCopyErrorMessageToLoad(infoType);
+        assertEquals("Error retrieving instructors. Please close the dialog window and try again.",
+                courseEditPage.getCopyErrorMessageText(infoType));
+
+        assertFalse("Should not be able to submit if loading failed",
+                courseEditPage.isCopySubmitButtonEnabled());
+
+        // delete the instructor copied from another course to restore the expected state of the test after this test
+        // courseEditPage.clickDeleteInstructorLinkAndConfirm(4);
+        BackDoor.deleteInstructor(
+                "InsCrsEdit.CS2104",
+                "InsCrsEdit.instructor1OftestingCopyInstructorCourse@gmail.tmt");
     }
 
     private void testAddInstructorAction() throws Exception {
