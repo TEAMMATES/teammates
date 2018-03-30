@@ -152,7 +152,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
         if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices

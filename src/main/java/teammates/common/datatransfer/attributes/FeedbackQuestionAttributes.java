@@ -298,7 +298,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return true;
         }
 
-        return this.getQuestionDetails().isChangesRequiresResponseDeletion(newAttributes.getQuestionDetails());
+        return this.getQuestionDetails().shouldChangesRequireResponseDeletion(newAttributes.getQuestionDetails());
     }
 
     @Override

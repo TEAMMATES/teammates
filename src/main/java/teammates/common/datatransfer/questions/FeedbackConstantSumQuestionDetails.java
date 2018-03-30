@@ -614,7 +614,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(
+    public boolean shouldChangesRequireResponseDeletion(
             FeedbackQuestionDetails newDetails) {
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 

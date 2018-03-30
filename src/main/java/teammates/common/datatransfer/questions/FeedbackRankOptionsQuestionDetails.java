@@ -402,7 +402,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackRankOptionsQuestionDetails newRankQuestionDetails = (FeedbackRankOptionsQuestionDetails) newDetails;
 
         return this.options.size() != newRankQuestionDetails.options.size()
