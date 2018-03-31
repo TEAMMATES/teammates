@@ -70,7 +70,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     /**
-     * A Builder class for {@link FeedbackResponseAttributes}
+     * A Builder class for {@link FeedbackResponseAttributes}.
      */
 
     public static class Builder {
@@ -128,6 +128,11 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
         public Builder withResponseMetaData(Text responseMetaData) {
             feedbackResponseAttributes.responseMetaData = responseMetaData;
+            return this;
+        }
+
+        public Builder withReponseMetaDataFromFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+            feedbackResponseAttributes.setResponseDetails(responseDetails);
             return this;
         }
 
