@@ -9,6 +9,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -822,16 +824,16 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     private FeedbackResponseAttributes getNewFeedbackResponseAttributes() {
-        FeedbackResponseAttributes fra = new FeedbackResponseAttributes();
-
-        fra.feedbackSessionName = "fsTest1";
-        fra.courseId = "testCourse";
-        fra.feedbackQuestionType = FeedbackQuestionType.TEXT;
-        fra.giver = "giver@email.tmt";
-        fra.giverSection = "None";
-        fra.recipient = "recipient@email.tmt";
-        fra.recipientSection = "None";
-        fra.feedbackQuestionId = "testFeedbackQuestionId";
+        FeedbackResponseAttributes fra = FeedbackResponseAttributes.builder()
+                .withFeedbackSessionName("fsTest1")
+                .withCourseId("testCourse")
+                .withFeedbackQuestionId("testFeedbackQuestionId")
+                .withFeedbackQuestionType(FeedbackQuestionType.TEXT)
+                .withGiver("giver@email.tmt")
+                .withGiverSection("None")
+                .withRecipient("recipient@email.tmt")
+                .withRecipientSection("None")
+                .build();
 
         FeedbackResponseDetails responseDetails = new FeedbackTextResponseDetails("Text response");
         fra.setResponseDetails(responseDetails);
@@ -841,10 +843,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
     private FeedbackResponseAttributes getResponseAttributes(String id) {
         FeedbackResponseAttributes result = fras.get(id);
-        return new FeedbackResponseAttributes(result.feedbackSessionName,
-                result.courseId, result.feedbackQuestionId,
-                result.feedbackQuestionType, result.giver, result.giverSection,
-                result.recipient, result.recipientSection, result.responseMetaData);
+        return result.getCopy();
     }
 
     @AfterClass

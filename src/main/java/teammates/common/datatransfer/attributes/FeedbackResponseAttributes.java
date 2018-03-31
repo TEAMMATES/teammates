@@ -42,55 +42,125 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public String recipientSection;
     protected transient Instant createdAt;
     protected transient Instant updatedAt;
-    private String feedbackResponseId;
+    protected String feedbackResponseId;
 
     public FeedbackResponseAttributes() {
-        // attributes to be set after construction
+        // Empty constructor for builder to construct object
     }
 
-    public FeedbackResponseAttributes(String feedbackSessionName,
-            String courseId, String feedbackQuestionId,
-            FeedbackQuestionType feedbackQuestionType, String giver, String giverSection,
-            String recipient, String recipientSection, Text responseMetaData) {
-        this.feedbackSessionName = feedbackSessionName;
-        this.courseId = courseId;
-        this.feedbackQuestionId = feedbackQuestionId;
-        this.feedbackQuestionType = feedbackQuestionType;
-        this.giver = giver;
-        this.giverSection = giverSection;
-        this.recipient = recipient;
-        this.recipientSection = recipientSection;
-        this.responseMetaData = responseMetaData;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public FeedbackResponseAttributes(FeedbackResponse fr) {
-        this.feedbackResponseId = fr.getId();
-        this.feedbackSessionName = fr.getFeedbackSessionName();
-        this.courseId = fr.getCourseId();
-        this.feedbackQuestionId = fr.getFeedbackQuestionId();
-        this.feedbackQuestionType = fr.getFeedbackQuestionType();
-        this.giver = fr.getGiverEmail();
-        this.giverSection = fr.getGiverSection() == null ? Const.DEFAULT_SECTION : fr.getGiverSection();
-        this.recipient = fr.getRecipientEmail();
-        this.recipientSection = fr.getRecipientSection() == null ? Const.DEFAULT_SECTION : fr.getRecipientSection();
-        this.responseMetaData = fr.getResponseMetaData();
-        this.createdAt = fr.getCreatedAt();
-        this.updatedAt = fr.getUpdatedAt();
+    public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
+        return builder()
+                .withFeedbackResponseId(fr.getId())
+                .withFeedbackSessionName(fr.getFeedbackSessionName())
+                .withCourseId(fr.getCourseId())
+                .withFeedbackQuestionId(fr.getFeedbackQuestionId())
+                .withFeedbackQuestionType(fr.getFeedbackQuestionType())
+                .withGiver(fr.getGiverEmail())
+                .withGiverSection(fr.getGiverSection())
+                .withRecipient(fr.getRecipientEmail())
+                .withRecipientSection(fr.getRecipientSection())
+                .withCreatedAt(fr.getCreatedAt())
+                .withUpdatedAt(fr.getUpdatedAt())
+                .withResponseMetaData(fr.getResponseMetaData())
+                .build();
     }
 
-    public FeedbackResponseAttributes(FeedbackResponseAttributes copy) {
-        this.feedbackResponseId = copy.getId();
-        this.feedbackSessionName = copy.feedbackSessionName;
-        this.courseId = copy.courseId;
-        this.feedbackQuestionId = copy.feedbackQuestionId;
-        this.feedbackQuestionType = copy.feedbackQuestionType;
-        this.giver = copy.giver;
-        this.giverSection = copy.giverSection;
-        this.recipient = copy.recipient;
-        this.recipientSection = copy.recipientSection;
-        this.responseMetaData = copy.responseMetaData;
-        this.createdAt = copy.createdAt;
-        this.updatedAt = copy.updatedAt;
+    /**
+     * A Builder class for {@link FeedbackResponseAttributes}
+     */
+
+    public static class Builder {
+
+        private final FeedbackResponseAttributes feedbackResponseAttributes;
+
+        public Builder() {
+            feedbackResponseAttributes = new FeedbackResponseAttributes();
+        }
+
+        public Builder withFeedbackResponseId(String feedbackResponseId) {
+            feedbackResponseAttributes.feedbackResponseId = feedbackResponseId;
+            return this;
+        }
+
+        public Builder withFeedbackSessionName(String feedbackSessionName) {
+            feedbackResponseAttributes.feedbackSessionName = feedbackSessionName;
+            return this;
+        }
+
+        public Builder withCourseId(String courseId) {
+            feedbackResponseAttributes.courseId = courseId;
+            return this;
+        }
+
+        public Builder withFeedbackQuestionId(String feedbackQuestionId) {
+            feedbackResponseAttributes.feedbackQuestionId = feedbackQuestionId;
+            return this;
+        }
+
+        public Builder withFeedbackQuestionType(FeedbackQuestionType feedbackQuestionType) {
+            feedbackResponseAttributes.feedbackQuestionType = feedbackQuestionType;
+            return this;
+        }
+
+        public Builder withGiver(String giver) {
+            feedbackResponseAttributes.giver = giver;
+            return this;
+        }
+
+        public Builder withGiverSection(String giverSection) {
+            feedbackResponseAttributes.giverSection = giverSection;
+            return this;
+        }
+
+        public Builder withRecipient(String recipient) {
+            feedbackResponseAttributes.recipient = recipient;
+            return this;
+        }
+
+        public Builder withRecipientSection(String recipientSection) {
+            feedbackResponseAttributes.recipientSection = recipientSection;
+            return this;
+        }
+
+        public Builder withResponseMetaData(Text responseMetaData) {
+            feedbackResponseAttributes.responseMetaData = responseMetaData;
+            return this;
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            feedbackResponseAttributes.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder withUpdatedAt(Instant updatedAt) {
+            feedbackResponseAttributes.updatedAt = updatedAt;
+            return this;
+        }
+
+        public FeedbackResponseAttributes build() {
+            return feedbackResponseAttributes;
+        }
+    }
+
+    public FeedbackResponseAttributes getCopy() {
+        return builder()
+                .withFeedbackResponseId(feedbackResponseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .withCourseId(courseId)
+                .withFeedbackQuestionId(feedbackQuestionId)
+                .withFeedbackQuestionType(feedbackQuestionType)
+                .withGiver(giver)
+                .withGiverSection(giverSection)
+                .withRecipient(recipient)
+                .withRecipientSection(recipientSection)
+                .withResponseMetaData(responseMetaData)
+                .withCreatedAt(createdAt)
+                .withUpdatedAt(updatedAt)
+                .build();
     }
 
     public String getId() {

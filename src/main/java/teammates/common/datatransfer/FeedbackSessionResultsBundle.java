@@ -313,7 +313,7 @@ public class FeedbackSessionResultsBundle {
                 response.giver = emailNameTable.get(response.giver + Const.TEAM_OF_EMAIL_OWNER);
             }
             // Copy the data before hiding response recipient and giver.
-            FeedbackResponseAttributes fraCopy = new FeedbackResponseAttributes(response);
+            FeedbackResponseAttributes fraCopy = response.getCopy();
             actualResponses.add(fraCopy);
         }
         this.isComplete = isComplete;

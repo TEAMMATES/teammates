@@ -266,22 +266,23 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
     @Test
     public void testCreateFeedbackResponse() {
 
-        FeedbackResponseAttributes fr = new FeedbackResponseAttributes();
         FeedbackQuestionAttributes fq = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         StudentAttributes student = dataBundle.students.get("student3InCourse1");
 
         fq = BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
 
-        fr.feedbackSessionName = fq.feedbackSessionName;
-        fr.courseId = fq.courseId;
-        fr.feedbackQuestionId = fq.getId();
-        fr.feedbackQuestionType = fq.questionType;
-        fr.giver = student.email;
-        fr.giverSection = student.section;
-        fr.recipient = student.email;
-        fr.recipientSection = student.section;
-        fr.responseMetaData = new Text("Student 3 self feedback");
-        fr.setId(fq.getId() + "%" + fr.giver + "%" + fr.recipient);
+        FeedbackResponseAttributes fr = FeedbackResponseAttributes.builder()
+                .withFeedbackResponseId(fq.getId() + "%" + student.email + "%" + student.email)
+                .withFeedbackSessionName(fq.feedbackSessionName)
+                .withCourseId(fq.courseId)
+                .withFeedbackQuestionId(fq.getId())
+                .withFeedbackQuestionType(fq.questionType)
+                .withGiver(student.email)
+                .withGiverSection(student.section)
+                .withRecipient(student.email)
+                .withRecipientSection(student.section)
+                .withResponseMetaData(new Text("Student 3 self feedback"))
+                .build();
 
         // Make sure not already inside
         BackDoor.deleteFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);

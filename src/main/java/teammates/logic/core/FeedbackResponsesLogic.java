@@ -385,8 +385,7 @@ public final class FeedbackResponsesLogic {
             EntityAlreadyExistsException {
 
         // Create a copy.
-        FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(
-                responseToUpdate);
+        FeedbackResponseAttributes newResponse = responseToUpdate.getCopy();
         FeedbackResponse oldResponseEntity = null;
         if (newResponse.getId() == null) {
             oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.feedbackQuestionId,
@@ -397,7 +396,7 @@ public final class FeedbackResponsesLogic {
 
         FeedbackResponseAttributes oldResponse = null;
         if (oldResponseEntity != null) {
-            oldResponse = new FeedbackResponseAttributes(oldResponseEntity);
+            oldResponse = FeedbackResponseAttributes.valueOf(oldResponseEntity);
         }
 
         if (oldResponse == null) {
@@ -423,8 +422,8 @@ public final class FeedbackResponsesLogic {
         Assumption.assertNotNull(oldResponseEntity);
 
         // Create a copy.
-        FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(updatedResponse);
-        FeedbackResponseAttributes oldResponse = new FeedbackResponseAttributes(oldResponseEntity);
+        FeedbackResponseAttributes newResponse = updatedResponse.getCopy();
+        FeedbackResponseAttributes oldResponse = FeedbackResponseAttributes.valueOf(oldResponseEntity);
 
         // Copy values that cannot be changed to defensively avoid invalid
         // parameters.
