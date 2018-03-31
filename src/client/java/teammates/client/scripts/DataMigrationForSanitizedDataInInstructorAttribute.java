@@ -40,18 +40,19 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
 
     @Override
     protected boolean isMigrationNeeded(InstructorAttributes instructor) {
-        return isSanitizedString(instructor.displayedName) || isSanitizedString(instructor.role);
+        return SanitizationHelper.isSanitizedHtml(instructor.displayedName)
+                || SanitizationHelper.isSanitizedHtml(instructor.role);
     }
 
     @Override
     protected void printPreviewInformation(InstructorAttributes instructor) {
         println("Checking instructor having email: " + instructor.email);
 
-        if (isSanitizedString(instructor.displayedName)) {
+        if (SanitizationHelper.isSanitizedHtml(instructor.displayedName)) {
             println("displayName: " + instructor.displayedName);
             println("new displayName: " + fixSanitization(instructor.displayedName));
         }
-        if (isSanitizedString(instructor.role)) {
+        if (SanitizationHelper.isSanitizedHtml(instructor.role)) {
             println("role: " + instructor.role);
             println("new role: " + fixSanitization(instructor.role));
         }
@@ -67,20 +68,6 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
     @Override
     protected void postAction() {
         // nothing to do
-    }
-
-    private boolean isSanitizedString(String s) {
-        if (s == null) {
-            return false;
-        }
-        if (s.indexOf('<') >= 0 || s.indexOf('>') >= 0 || s.indexOf('\"') >= 0
-                || s.indexOf('/') >= 0 || s.indexOf('\'') >= 0) {
-            return false;
-        } else if (s.indexOf("&lt;") >= 0 || s.indexOf("&gt;") >= 0 || s.indexOf("&quot;") >= 0
-                   || s.indexOf("&#x2f;") >= 0 || s.indexOf("&#39;") >= 0 || s.indexOf("&amp;") >= 0) {
-            return true;
-        }
-        return false;
     }
 
     private String fixSanitization(String s) {
