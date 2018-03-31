@@ -396,7 +396,7 @@ public class EmailGenerator {
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         String feedbackAction = FEEDBACK_ACTION_SUBMIT;
         String subject = EmailType.FEEDBACK_LINK_TO_RESEND.getSubject();
-        String emailBody = "";
+        StringBuffer buffer = new StringBuffer();
 
         List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime);
         for (FeedbackSessionAttributes session : sessions) {
@@ -418,20 +418,23 @@ public class EmailGenerator {
                         .withStudentEmail(userEmail)
                         .toAbsoluteString();
 
-                emailBody += "<br>" + Templates.populateTemplate(template,
-                        "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                        "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                        "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                        "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
-                        "${instructorFragment}", "",
-                        "${sessionInstructions}", session.getInstructionsString(),
-                        "${submitUrl}", submitUrl,
-                        "${reportUrl}", reportUrl,
-                        "${feedbackAction}", feedbackAction,
-                        "${additionalContactInformation}", additionalContactInformation);
+                buffer.append("<br>")
+                        .append(Templates.populateTemplate(template,
+                                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                                "${feedbackSessionName}",
+                                SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                                "${instructorFragment}", "",
+                                "${sessionInstructions}", session.getInstructionsString(),
+                                "${submitUrl}", submitUrl,
+                                "${reportUrl}", reportUrl,
+                                "${feedbackAction}", feedbackAction,
+                                "${additionalContactInformation}", additionalContactInformation));
             }
         }
 
+        String emailBody = buffer.toString();
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(subject);
         email.setContent(emailBody);
