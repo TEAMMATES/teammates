@@ -104,6 +104,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testDeleteQuestionAction(2);
         testEditWithEmptyQuestionTextThenDeleteQuestionAction(1);
+        testEditWithInvalidNumericalTextThenDeleteQuestionAction();
 
         testEditNonExistentQuestion();
 
@@ -891,6 +892,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
+    }
+
+    private void testEditWithInvalidNumericalTextThenDeleteQuestionAction()
+            throws MaximumRetriesExceededException {
+        ______TS("qn 1 edit the question with invalid input without saving then delete question");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("NUMSCALE");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillMinNumScaleBox("", 1);
+        feedbackEditPage.fillMaxNumScaleBox("", 1);
+        feedbackEditPage.fillStepNumScaleBox("", 1);
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        assertNull(getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
     private void testEditNonExistentQuestion() throws MaximumRetriesExceededException {
