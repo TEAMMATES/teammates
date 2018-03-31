@@ -53,8 +53,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     }
 
     public static FeedbackQuestionAttributes valueOf(FeedbackQuestion fq) {
-        return builder().
-                withFeedbackSessionName(fq.getFeedbackSessionName())
+        return builder()
+                .withFeedbackSessionName(fq.getFeedbackSessionName())
                 .withCourseId(fq.getCourseId())
                 .withCreatorEmail(fq.getCreatorEmail())
                 .withQuestionMetaData(fq.getQuestionMetaData())
@@ -76,6 +76,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     /**
      * A Builder class for {@link FeedbackQuestionAttributes}.
      */
+
     public static class Builder {
 
         private final FeedbackQuestionAttributes feedbackQuestionAttributes;
@@ -179,8 +180,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     }
 
     public FeedbackQuestionAttributes getCopy() {
-        return builder().
-                withFeedbackSessionName(feedbackSessionName)
+        return builder()
+                .withFeedbackSessionName(feedbackSessionName)
                 .withCourseId(courseId)
                 .withCreatorEmail(creatorEmail)
                 .withQuestionMetaData(questionMetaData)

@@ -142,9 +142,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                 .withShowResponseTo(new ArrayList<>(showResponseToList))
                 .buildWithoutRemovingIrrelevantVisibilityOptions();
 
-
-
-
         assertFalse(fq.isValid());
 
         String errorMessage = getPopulatedEmptyStringErrorMessage(
@@ -182,7 +179,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                                               FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
-
 
         fq.feedbackSessionName = "First Feedback Session";
         fq.courseId = "CS1101";

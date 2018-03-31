@@ -3,8 +3,9 @@ package teammates.test.cases.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
 import org.testng.annotations.Test;
+
+import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -351,7 +352,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
 
-        FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.builder()
+        return FeedbackQuestionAttributes.builder()
                 .withCourseId("testCourse")
                 .withCreatorEmail("instructor@email.com")
                 .withFeedbackSessionName("testFeedbackSession")
@@ -366,8 +367,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowResponseTo(new ArrayList<>())
                 .buildWithoutRemovingIrrelevantVisibilityOptions();
-
-        return fqa;
     }
 
     private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
