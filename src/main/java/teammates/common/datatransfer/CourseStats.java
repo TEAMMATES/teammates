@@ -12,19 +12,19 @@ public class CourseStats {
     public int teamsTotal;
     public int studentsTotal;
     public int unregisteredTotal;
-    
+
     public int getSectionsTotal() {
         return sectionsTotal;
     }
-    
+
     public int getTeamsTotal() {
         return teamsTotal;
     }
-    
+
     public int getStudentsTotal() {
         return studentsTotal;
     }
-    
+
     public int getUnregisteredTotal() {
         return unregisteredTotal;
     }

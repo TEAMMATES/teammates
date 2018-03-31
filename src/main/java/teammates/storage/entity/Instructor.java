@@ -2,67 +2,62 @@ package teammates.storage.entity;
 
 import java.security.SecureRandom;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 
 /**
  * An association class that represents the association Account
  * --> [is an instructor for] --> Course.
  */
-@PersistenceCapable
-public class Instructor {
+@Entity
+@Index
+public class Instructor extends BaseEntity {
+
     /**
      * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
      */
-    @PrimaryKey
-    @Persistent
+    @Id
     private String id;
 
     /**
      * The Google id of the instructor, used as the foreign key to locate the Account object.
      */
-    @Persistent
     private String googleId;
 
     /** The foreign key to locate the Course object. */
-    @Persistent
     private String courseId;
-    
+
     /** new attribute. Default value: Old Entity--null  New Entity--false*/
-    @Persistent
     private Boolean isArchived;
 
     /** The instructor's name used for this course. */
-    @Persistent
     private String name;
 
     /** The instructor's email used for this course. */
-    @Persistent
     private String email;
-    
-    /** The instructor's registration key used for joining */
-    @Persistent
+
+    /** The instructor's registration key used for joining. */
     private String registrationKey;
-    
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+
+    @Unindex
     private String role;
-    
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+
+    @Unindex
     private Boolean isDisplayedToStudents;
-    
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+
+    @Unindex
     private String displayedName;
 
-    @Persistent
     private Text instructorPrivilegesAsText;
-    
+
+    @SuppressWarnings("unused")
+    private Instructor() {
+        // required by Objectify
+    }
+
     public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
                       String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
@@ -83,11 +78,12 @@ public class Instructor {
     /**
      * Constructor used for testing purpose only.
      */
-    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail,
-                      String key, String role, boolean isDisplayedToStudents, String displayedName,
-                      String instructorPrivilegesAsText) {
+    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
+                      String instructorEmail, String key, String role, boolean isDisplayedToStudents,
+                      String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
+        this.setIsArchived(isArchived);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
@@ -100,13 +96,15 @@ public class Instructor {
     }
 
     /**
-     * @return The unique ID of the entity (format: googleId%courseId).
+     * Returns the unique ID of the entity (format: googleId%courseId).
      */
     public String getUniqueId() {
         return id;
     }
 
     /**
+     * Sets the unique ID for the instructor entity.
+     *
      * @param uniqueId
      *          The unique ID of the entity (format: googleId%courseId).
      */
@@ -133,7 +131,7 @@ public class Instructor {
     public Boolean getIsArchived() {
         return isArchived;
     }
-    
+
     public void setIsArchived(Boolean isArchived) {
         this.isArchived = isArchived;
     }
@@ -153,33 +151,30 @@ public class Instructor {
     public void setEmail(String instructorEmail) {
         this.email = instructorEmail;
     }
-    
+
     public String getRegistrationKey() {
         return registrationKey;
     }
-    
+
     public void setRegistrationKey(String key) {
         this.registrationKey = key;
     }
-    
+
     public void setGeneratedKeyIfNull() {
         if (this.registrationKey == null) {
             setRegistrationKey(generateRegistrationKey());
         }
     }
-    
+
     /**
      * Generate unique registration key for the instructor.
      * The key contains random elements to avoid being guessed.
-     * @return
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
         SecureRandom prng = new SecureRandom();
-        
-        String key = uniqueId + prng.nextInt();
-        
-        return key;
+
+        return uniqueId + prng.nextInt();
     }
 
     public String getRole() {
@@ -194,11 +189,11 @@ public class Instructor {
         if (this.isDisplayedToStudents == null) {
             return true;
         }
-        return isDisplayedToStudents.booleanValue();
+        return isDisplayedToStudents;
     }
 
     public void setIsDisplayedToStudents(boolean shouldDisplayToStudents) {
-        this.isDisplayedToStudents = Boolean.valueOf(shouldDisplayToStudents);
+        this.isDisplayedToStudents = shouldDisplayToStudents;
     }
 
     public String getDisplayedName() {

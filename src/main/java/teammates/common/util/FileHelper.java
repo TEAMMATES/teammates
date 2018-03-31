@@ -3,14 +3,15 @@ package teammates.common.util;
 import java.io.InputStream;
 import java.util.Scanner;
 
-/** Holds file-related functions
+/**
+ * Holds file-related functions.
  */
 public final class FileHelper {
 
     private FileHelper() {
         // utility class
     }
-    
+
     /**
      * Reads the contents of a file in the {@code resources} folder
      * as an {@link InputStream}.
@@ -25,11 +26,10 @@ public final class FileHelper {
      * @param file The file name, which must be in the {@code resources} folder.
      */
     public static String readResourceFile(String file) {
-        InputStream is = getResourceAsStream(file);
-        Scanner scanner = new Scanner(is, Const.SystemParams.ENCODING);
-        String content = scanner.useDelimiter("\\Z").next();
-        scanner.close();
-        return content;
+
+        try (Scanner scanner = new Scanner(getResourceAsStream(file), Const.SystemParams.ENCODING)) {
+            return scanner.useDelimiter("\\Z").next();
+        }
     }
 
 }

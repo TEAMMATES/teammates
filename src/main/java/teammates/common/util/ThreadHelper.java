@@ -8,7 +8,7 @@ import teammates.common.exception.TeammatesException;
 public final class ThreadHelper {
     public static final int WAIT_DURATION = 20;
     private static final Logger log = Logger.getLogger();
-    
+
     private ThreadHelper() {
         // utility class
     }
@@ -31,11 +31,13 @@ public final class ThreadHelper {
             log.severe(TeammatesException.toStringWithStackTrace(e));
         }
     }
-    
+
     public static String getCurrentThreadStack() {
         StringWriter sw = new StringWriter();
-        new Throwable("").printStackTrace(new PrintWriter(sw));
-        return "\n" + sw.toString();
+        try (PrintWriter pw = new PrintWriter(sw)) {
+            new Throwable("").printStackTrace(pw);
+            return "\n" + sw.toString();
+        }
     }
 
 }

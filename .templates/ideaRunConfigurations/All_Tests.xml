@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All Tests" type="CompoundRunConfigurationType" factoryName="Compound Run Configuration">
+    <toRun type="TestNG" name="CI Tests" />
+    <toRun type="TestNG" name="Local Tests" />
+    <method />
+  </configuration>
+</component>

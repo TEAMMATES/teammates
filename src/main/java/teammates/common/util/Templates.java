@@ -1,36 +1,39 @@
 package teammates.common.util;
 
 public final class Templates {
-    
+
     public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");
-    
+
     private Templates() {
         // utility class
     }
-    
+
     /**
      * Populates the HTML templates by replacing variables in the template string
-     * with the given value string.
+     * with the given value strings.
      * @param template The template html to be populated
-     * @param values Array of a variable, even number of key-value pairs:
+     * @param keyValuePairs Array of a variable, even number of key-value pairs:
      *                   { "key1", "val1", "key2", "val2", ... }
      * @return The populated template
      */
-    public static String populateTemplate(String template, String... values) {
-        Assumption.assertTrue("The number of values passed in must be even", values.length % 2 == 0);
+    public static String populateTemplate(String template, String... keyValuePairs) {
+        Assumption.assertTrue("The number of elements in keyValuePairs passed in must be even",
+                keyValuePairs.length % 2 == 0);
         String populatedTemplate = template;
-        for (int i = 0; i < values.length; i += 2) {
-            populatedTemplate = populatedTemplate.replace(values[i], values[i + 1]);
+        for (int i = 0; i < keyValuePairs.length; i += 2) {
+            populatedTemplate = populatedTemplate.replace(keyValuePairs[i], keyValuePairs[i + 1]);
         }
         return populatedTemplate;
     }
-    
+
     /**
      * Collection of templates of emails to be sent by the system.
      */
     public static class EmailTemplates {
         public static final String USER_COURSE_JOIN =
                 FileHelper.readResourceFile("userEmailTemplate-courseJoin.html");
+        public static final String USER_COURSE_REGISTER =
+                FileHelper.readResourceFile("userEmailTemplate-userRegisterForCourse.html");
         public static final String FRAGMENT_STUDENT_COURSE_JOIN =
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
@@ -39,26 +42,24 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
-        public static final String USER_FEEDBACK_SESSION_CLOSING =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosing.html");
-        public static final String USER_FEEDBACK_SESSION_CLOSED =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosed.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSubmissionConfirmation.html");
         public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
-        public static final String USER_PENDING_COMMENTS_CLEARED =
-                FileHelper.readResourceFile("userEmailTemplate-pendingCommentsCleared.html");
-        public static final String SYSTEM_ERROR =
-                FileHelper.readResourceFile("systemErrorEmailTemplate.html");
+        public static final String FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS =
+                FileHelper.readResourceFile("userEmailTemplateFragment-feedbackSessionResendAllLinks.html");
+        public static final String USER_FEEDBACK_SESSION_RESEND_ALL_LINKS =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionResendAllLinks.html");
         public static final String SEVERE_ERROR_LOG_LINE =
                 FileHelper.readResourceFile("severeErrorLogLine.html");
         public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
+        public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
+                FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
     }
-    
+
     public static class FeedbackQuestion {
 
         public static class FormTemplates {
@@ -173,6 +174,10 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionRubricEditFormBodyFragment.html");
             public static final String RUBRIC_EDIT_FORM_BODY =
                     FileHelper.readResourceFile("feedbackQuestionRubricEditFormBody.html");
+            public static final String RUBRIC_EDIT_FORM_TABLE_OPTIONS =
+                    FileHelper.readResourceFile("feedbackQuestionRubricEditFormTableOptions.html");
+            public static final String RUBRIC_EDIT_FORM_TABLE_OPTIONS_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricEditFormTableOptionsFragment.html");
             public static final String RUBRIC_RESULT_STATS =
                     FileHelper.readResourceFile("feedbackQuestionRubricResultStatsTemplate.html");
             public static final String RUBRIC_RESULT_STATS_HEADER_FRAGMENT =
@@ -181,6 +186,14 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionRubricResultStatsBodyFragment.html");
             public static final String RUBRIC_RESULT_STATS_BODY =
                     FileHelper.readResourceFile("feedbackQuestionRubricResultStatsBody.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsTemplate.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsHeaderFragment.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_BODY_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsBodyFragment.html");
+            public static final String RUBRIC_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsBodyRowFragment.html");
             public static final String RUBRIC_ADDITIONAL_INFO =
                     FileHelper.readResourceFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
 
@@ -203,9 +216,9 @@ public final class Templates {
             public static final String RANK_RESULT_STATS_RECIPIENTFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionRankResultStatsRecipientFragment.html");
         }
-        
+
         public static class Slots {
-            
+
             public static final String QUESTION_INDEX = "${questionIndex}";
             public static final String RESPONSE_INDEX = "${responseIndex}";
             public static final String DISABLED = "${disabled}";
@@ -217,13 +230,23 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
             public static final String QUESTION_NUMBER = "${questionNumber}";
             public static final String CHECKED_OTHER_OPTION_ENABLED = "${checkedOtherOptionEnabled}";
-            public static final String GENERATED_OPTIONS = "${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}";
+            public static final String MCQ_GENERATED_OPTIONS =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS}";
+            public static final String MSQ_GENERATED_OPTIONS =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS}";
+
             public static final String GENERATE_OPTIONS_FOR_VALUE = "${generateOptionsForValue}";
             public static final String STUDENT_SELECTED = "${studentSelected}";
+            public static final String STUDENT_EXCLUDING_SELF_SELECTED = "${studentExcludingSelfSelected}";
             public static final String TEAM_SELECTED = "${teamSelected}";
+            public static final String TEAM_EXCLUDING_SELF_SELECTED = "${teamExcludingSelfSelected}";
             public static final String INSTRUCTOR_SELECTED = "${instructorSelected}";
             public static final String STUDENTS_TO_STRING = "${FeedbackParticipantType.STUDENTS.toString()}";
+            public static final String STUDENTS_EXCLUDING_SELF_TO_STRING =
+                    "${FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString()}";
             public static final String TEAMS_TO_STRING = "${FeedbackParticipantType.TEAMS.toString()}";
+            public static final String TEAMS_EXCLUDING_SELF_TO_STRING =
+                    "${FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString()}";
             public static final String INSTRUCTORS_TO_STRING = "${FeedbackParticipantType.INSTRUCTORS.toString()}";
             public static final String QUESTION_ADDITIONAL_INFO = "${questionAdditionalInfo}";
             public static final String ADDITIONAL_INFO_ID = "${additionalInfoId}";
@@ -251,10 +274,11 @@ public final class Templates {
             public static final String MOBILE_HTML = "${mobileHtml}";
             public static final String PANEL_BODY = "${panelBody}";
             public static final String ITERATOR = "${i}";
+            public static final String IS_SESSION_OPEN = "${isSessionOpen}";
 
             // TEXT
             public static final String TEXT_EXISTING_RESPONSE = "${existingResponse}";
-            
+
             // MCQ
             public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
             public static final String MCQ_OTHER_OPTION_ANSWER = "${mcqOtherOptionAnswer}";
@@ -278,6 +302,24 @@ public final class Templates {
             public static final String MSQ_NUMBER_OF_CHOICES = "${numOfMsqChoices}";
             public static final String MSQ_CHECKED_GENERATED_OPTIONS = "${checkedGeneratedOptions}";
             public static final String MSQ_ADDITIONAL_INFO_FRAGMENTS = "${msqAdditionalInfoFragments}";
+            public static final String MSQ_MAX_SELECTABLE_CHOICES = "${msqMaxSelectableChoices}";
+            public static final String MSQ_MIN_SELECTABLE_CHOICES = "${msqMinSelectableChoices}";
+            public static final String MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED =
+                    "${isMaxSelectableChoicesEnabled}";
+            public static final String MSQ_IS_MIN_SELECTABLE_CHOICES_ENABLED =
+                    "${isMinSelectableChoicesEnabled}";
+            public static final String MSQ_DISPLAY_MAX_SELECTABLE_CHOICES_HINT =
+                    "${displayMaxSelectableChoicesHint}";
+            public static final String MSQ_DISPLAY_MIN_SELECTABLE_CHOICES_HINT =
+                    "${displayMinSelectableChoicesHint}";
+            public static final String MSQ_PARAM_ENABLED_MAX_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES}";
+            public static final String MSQ_PARAM_ENABLED_MIN_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES}";
+            public static final String MSQ_PARAM_MAX_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}";
+            public static final String MSQ_PARAM_MIN_SELECTABLE_CHOICES =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}";
             public static final String MSQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}";
             public static final String MSQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION}";
             public static final String MSQ_PARAM_OTHER_OPTION_FLAG =
@@ -325,6 +367,7 @@ public final class Templates {
             public static final String CONSTSUM_POINTS = "${constSumPoints}";
             public static final String CONSTSUM_POINTS_RECEIVED = "${pointsReceived}";
             public static final String CONSTSUM_AVERAGE_POINTS = "${averagePoints}";
+            public static final String CONSTSUM_TOTAL_POINTS = "${totalPoints}";
             public static final String CONSTSUM_PARAM_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}";
             public static final String CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
@@ -339,7 +382,7 @@ public final class Templates {
             public static final String RECIPIENT_DISPLAY = "${recipientDisplay}";
             public static final String PER_OPTION_CHECKED = "${perOptionChecked}";
             public static final String PER_RECIPIENT_CHECKED = "${perRecipientChecked}";
-            
+
             // Contribution
             public static final String CONTRIB_SELECT_FRAGMENTS_HTML = "${contribSelectFragmentsHtml}";
             public static final String CONTRIB_IS_NOT_SURE_ALLOWED_CHECKED = "${isNotSureAllowedChecked}";
@@ -363,6 +406,7 @@ public final class Templates {
             public static final String CONTRIB_TOOLTIPS_POINTS_RECEIVED =
                     "${Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED}";
             public static final String CONTRIB_PARAM_STUDENT_NAME = "${Const.ParamsNames.STUDENT_NAME}";
+            public static final String CONTRIB_EQUAL_SHARE_HELP = "${equalShareHelp}";
 
             // Rank
             public static final String RANK_OPTION_VISIBILITY = "${rankOptionVisibility}";
@@ -371,12 +415,22 @@ public final class Templates {
             public static final String RANK_NUM_OPTION_VALUE = "${rankNumOptionValue}";
             public static final String RANK_NUM_OPTIONS = "${numOfRankOptions}";
             public static final String RANK_RECIEVED = "${ranksReceived}";
-            public static final String RANK_AVERAGE = "${averageRank}";
+            public static final String RANK_SELF = "${selfRank}";
+            public static final String RANK_OVERALL = "${overallRank}";
+            public static final String RANK_EXCLUDING_SELF_OVERALL = "${overallRankExcludingSelf}";
             public static final String RANK_EDIT_FORM_OPTION_FRAGMENTS = "${rankEditFormOptionFragments}";
             public static final String RANK_ARE_DUPLICATES_ALLOWED_VALUE = "${areDuplicatesAllowedValue}";
             public static final String RANK_ARE_DUPLICATES_ALLOWED_CHECKED = "${areDuplicatesAllowedChecked}";
             public static final String RANK_SUBMISSION_FORM_OPTION_FRAGMENTS = "${rankSubmissionFormOptionFragments}";
             public static final String RANK_OPTION_RECIPIENT_DISPLAY_NAME = "${optionRecipientDisplayName}";
+            public static final String RANK_MIN_OPTIONS_TO_BE_RANKED = "${minOptionsToBeRanked}";
+            public static final String RANK_MAX_OPTIONS_TO_BE_RANKED = "${maxOptionsToBeRanked}";
+            public static final String RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED = "${isMinOptionsToBeRankedEnabled}";
+            public static final String RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED = "${isMaxOptionsToBeRankedEnabled}";
+            public static final String RANK_MIN_RECIPIENTS_TO_BE_RANKED = "${minRecipientsToBeRanked}";
+            public static final String RANK_MAX_RECIPIENTS_TO_BE_RANKED = "${maxRecipientsToBeRanked}";
+            public static final String RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED = "${isMinRecipientsToBeRankedEnabled}";
+            public static final String RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED = "${isMaxRecipientsToBeRankedEnabled}";
             public static final String RANK_PARAM_TO_RECIPIENT = "${Const.ParamsNames.FEEDBACK_QUESTION_RANKTORECIPIENTS}";
             public static final String RANK_PARAM_NUM_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTION}";
@@ -385,7 +439,23 @@ public final class Templates {
             public static final String RANK_PARAM_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION}";
             public static final String RANK_PARAM_NUMBER_OF_CHOICE_CREATED =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
-            
+            public static final String RANK_PARAM_MIN_OPTIONS_CHECKBOX =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}";
+            public static final String RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}";
+            public static final String RANK_PARAM_MAX_OPTIONS_CHECKBOX =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}";
+            public static final String RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}";
+            public static final String RANK_PARAM_MIN_RECIPIENTS_CHECKBOX =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}";
+            public static final String RANK_PARAM_MIN_RECIPIENTS_TO_BE_RANKED =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED}";
+            public static final String RANK_PARAM_MAX_RECIPIENTS_CHECKBOX =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}";
+            public static final String RANK_PARAM_MAX_RECIPIENTS_TO_BE_RANKED =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED}";
+
             // Rubric
             public static final String CURRENT_ROWS = "${currRows}";
             public static final String CURRENT_COLS = "${currCols}";
@@ -401,6 +471,9 @@ public final class Templates {
             public static final String RUBRIC_CHOICE_VALUE = "${rubricChoiceValue}";
             public static final String RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML = "${tableWeightRowFragmentHtml}";
             public static final String RUBRIC_ADDITIONAL_INFO_FRAGMENTS = "${rubricAdditionalInfoFragments}";
+            public static final String RUBRIC_RECIPIENT_STAT_CELL = "${recipientStatCell}";
+            public static final String RUBRIC_RECIPIENT_STATS_HTML = "${perRecipientStatsHtml}";
+            public static final String RUBRIC_RECIPIENT_STAT_ROW = "${recipientStatRow}";
             public static final String RUBRIC_TOOLTIPS_ASSIGN_WEIGHTS =
                     "${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}";
             public static final String RUBRIC_PARAM_ASSIGN_WEIGHTS =
@@ -412,9 +485,11 @@ public final class Templates {
             public static final String RUBRIC_PARAM_DESCRIPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}";
             public static final String RUBRIC_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}";
             public static final String RUBRIC_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}";
+            public static final String RUBRIC_TABLE_OPTIONS = "${tableOptionsHtml}";
+            public static final String RUBRIC_TABLE_OPTIONS_FRAGMENT = "${rubricColumnOptionsFragments}";
         }
     }
-    
+
     // TODO: Consider adding instructions for the feedback session into template?
     // TODO: Or simply use static strings here?
     public static class FeedbackSessionTemplates {

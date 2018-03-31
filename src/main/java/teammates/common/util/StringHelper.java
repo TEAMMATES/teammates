@@ -2,43 +2,55 @@ package teammates.common.util;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.google.common.base.CharMatcher;
 
-/** Holds String-related helper functions
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
+
+/**
+ * Holds String-related helper functions.
  */
+
 public final class StringHelper {
-    
+    private static final Logger log = Logger.getLogger();
+
     private StringHelper() {
         // utility class
     }
 
-    public static String generateStringOfLength(int length) {
-        return StringHelper.generateStringOfLength(length, 'a');
+    /**
+     * Checks whether the input string is empty or equals {@code null}.
+     * @param s The string to be checked
+     */
+    public static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
     }
 
     public static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append(character);
-        }
-        return sb.toString();
+        return String.join("", Collections.nCopies(length, String.valueOf(character)));
     }
 
     public static boolean isWhiteSpace(String string) {
         return string.trim().isEmpty();
     }
-    
+
     /**
-     * Check whether the input string matches the regex
+     * Checks whether the input string matches the regex.
      * @param input The string to be matched
      * @param regex The regex  used for the matching
      */
@@ -47,21 +59,15 @@ public final class StringHelper {
         // such as é is correctly matched regardless of single/double code point encoding
         return Pattern.compile(regex, Pattern.CANON_EQ).matcher(input).matches();
     }
-    
+
     /**
-     * Check whether any substring of the input string matches any of the group of given regex expressions
-     * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
-     * Case Insensitive
+     * Checks whether any substring of the input string matches any of the group of given regex expressions.
      * @param input The string to be matched
-     * @param regexArray The regex array used for the matching
+     * @param regexList The regex list used for the matching
      */
-    public static boolean isAnyMatching(String input, String[] regexArray) {
-        for (String regex : regexArray) {
-            if (isMatching(input.trim().toLowerCase(), regex)) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean isAnyMatching(String input, List<String> regexList) {
+        return regexList.stream()
+                .anyMatch(r -> isMatching(input.trim().toLowerCase(), r));
     }
 
     public static String getIndent(int length) {
@@ -78,17 +84,13 @@ public final class StringHelper {
         if (inputString.length() <= truncateLength) {
             return inputString;
         }
-        String result = inputString;
-        if (inputString.length() > truncateLength) {
-            result = inputString.substring(0, truncateLength - 3) + "...";
-        }
-        return result;
+
+        return inputString.substring(0, truncateLength - 3) + "...";
     }
-    
+
     /**
      * Trims head of the String if it is longer than specified Length.
      *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
-     * @param inputString
      * @param maximumStringLength - maximum required length of the string
      * @return String with at most maximumStringLength length
      */
@@ -109,13 +111,10 @@ public final class StringHelper {
     public static String truncateLongId(String longId) {
         return truncate(longId, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH);
     }
-    
+
     /**
      * Substitutes the middle third of the given string with dots
-     * and returns the "obscured" string
-     * 
-     * @param inputString
-     * @return
+     * and returns the "obscured" string.
      */
     public static String obscure(String inputString) {
         Assumption.assertNotNull(inputString);
@@ -127,61 +126,66 @@ public final class StringHelper {
     public static String encrypt(String value) {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return byteArrayToHexString(encrypted);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            return null;
         }
     }
 
-    public static String decrypt(String message) {
+    /*
+     * Decrypts the supplied string.
+     *
+     * @param message the ciphertext as a hexadecimal string
+     * @return the plaintext
+     * @throws InvalidParameterException if the ciphertext is invalid.
+     * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
+     */
+    public static String decrypt(String message) throws InvalidParametersException {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
             return new String(decrypted);
+        } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
+            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+            throw new InvalidParametersException(e);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            return null;
         }
     }
-    
+
     /**
      * Converts and concatenates a list of objects to a single string, separated by line breaks.
-     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
+     * The conversion is done by using the {@link Object#toString()} method.
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list) {
-        return toString(list, Const.EOL);
+        return toString(list, System.lineSeparator());
     }
 
     /**
      * Converts and concatenates a list of objects to a single string, separated by the given delimiter.
-     * The conversion is done by using the {@link String Java.lang.Object#toString()} method.
+     * The conversion is done by using the {@link Object#toString()} method.
      * @return Concatenated string.
      */
     public static <T> String toString(List<T> list, String delimiter) {
-        if (list.isEmpty()) {
-            return "";
-        }
-        
-        StringBuilder returnValue = new StringBuilder();
-        for (int i = 0; i < list.size() - 1; i++) {
-            returnValue.append(list.get(i)).append(delimiter);
-        }
-        //append the last item
-        returnValue.append(list.get(list.size() - 1));
-        
-        return returnValue.toString();
+        return list.stream()
+                .map(s -> s.toString())
+                .collect(Collectors.joining(delimiter));
     }
-    
+
     public static String toDecimalFormatString(double doubleVal) {
         DecimalFormat df = new DecimalFormat("0.###");
         return df.format(doubleVal);
     }
 
+    @Deprecated
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
         if (hourOffsetTimeZone == 0) {
@@ -191,38 +195,13 @@ public final class StringHelper {
         if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
             return utcFormatTimeZone + String.format(" %+03d:00", (int) hourOffsetTimeZone);
         }
-        
+
         return utcFormatTimeZone + String.format(
                                     " %+03d:%02d",
                                     (int) hourOffsetTimeZone,
                                     (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
     }
-    
-    //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
-    public static int countWords(String s) {
-        int wordCount = 0;
-        boolean word = false;
-        int endOfLine = s.length() - 1;
-        for (int i = 0; i < s.length(); i++) {
-            // if the char is a letter, word = true.
-            if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
-                word = true;
-                // if char isn't a letter and there have been letters before,
-                // counter goes up.
-            } else if (!Character.isLetter(s.charAt(i)) && word) {
-                wordCount++;
-                word = false;
-                // last word of String; if it doesn't end with a non letter, it
-                // wouldn't count without this.
-            } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
-                wordCount++;
-            }
-        }
-        return wordCount;
-    }
-    
-    
-    
+
     /**
      * split a full name string into first and last names
      * <br>
@@ -247,20 +226,20 @@ public final class StringHelper {
      * first name: "Danny" <br>
      * last name: "Tim Lin" <br>
      * processed full name: "Danny Tim Lin" <br>
-     * 
-     * 
+     *
+     *
      * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
-    
+
     public static String[] splitName(String fullName) {
-        
+
         if (fullName == null) {
-            return null;
+            return new String[] {};
         }
-           
+
         String lastName;
         String firstName;
-        
+
         if (fullName.contains("{") && fullName.contains("}")) {
             int startIndex = fullName.indexOf('{');
             int endIndex = fullName.indexOf('}');
@@ -269,46 +248,68 @@ public final class StringHelper {
                                 .replace("}", "")
                                 .replace(lastName, "")
                                 .trim();
-            
+
         } else {
             lastName = fullName.substring(fullName.lastIndexOf(' ') + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
-        
+
         String processedfullName = fullName.replace("{", "")
                                            .replace("}", "");
-        
+
         return new String[] {firstName, lastName, processedfullName};
     }
-    
-    
+
     /**
-     * trims the string and reduces consecutive white spaces to only one space
-     * Example: " a   a  " --> "a a"
+     * Trims the string and reduces consecutive white spaces to only one space.
+     * Example: " a   a  " --> "a a".
      * @return processed string, returns null if parameter is null
      */
     public static String removeExtraSpace(String str) {
         if (str == null) {
             return null;
         }
-        return str.trim().replaceAll("\\s+", " ");
+        return CharMatcher.whitespace().trimFrom(str).replaceAll("\\s+", " ");
     }
-    
+
     /**
-     * trims all strings in the set and reduces consecutive white spaces to only one space
+     * Trims all strings in the set and reduces consecutive white spaces to only one space.
      */
     public static Set<String> removeExtraSpace(Set<String> strSet) {
         if (strSet == null) {
             return null;
         }
-        Set<String> result = new TreeSet<String>();
+        Set<String> result = new TreeSet<>();
         for (String s : strSet) {
             result.add(removeExtraSpace(s));
         }
         return result;
     }
-    
-    private static String byteArrayToHexString(byte[] bytes) {
+
+    /**
+     * Replaces every character in {@code str} that does not match
+     * {@code regex} with the character {@code replacement}.
+     *
+     * @param str String to be replaced.
+     * @param regex Pattern that every character is to be matched against.
+     * @param replacement Character unmatching characters should be replaced with.
+     * @return String with all unmatching characters replaced; null if input is null.
+     */
+    public static String replaceIllegalChars(String str, String regex, char replacement) {
+        if (str == null) {
+            return null;
+        }
+
+        char[] charArray = str.toCharArray();
+
+        IntStream.range(0, charArray.length)
+                .filter(i -> !isMatching(Character.toString(charArray[i]), regex))
+                .forEach(i -> charArray[i] = replacement);
+
+        return String.valueOf(charArray);
+    }
+
+    public static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) {
             int v = b & 0xff;
@@ -320,79 +321,38 @@ public final class StringHelper {
         return sb.toString().toUpperCase();
     }
 
-    private static byte[] hexStringToByteArray(String s) {
+    public static byte[] hexStringToByteArray(String s) {
         byte[] b = new byte[s.length() / 2];
-        for (int i = 0; i < b.length; i++) {
-            int index = i * 2;
-            int v = Integer.parseInt(s.substring(index, index + 2), 16);
-            b[i] = (byte) v;
-        }
+        IntStream.range(0, b.length)
+                .forEach(i -> b[i] = (byte) Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16));
         return b;
     }
-    
-    
-    
+
     /**
-     * This recovers a html-sanitized string to original encoding for appropriate display in files such as csv file <br>
-     * It restores encoding for < > \ / ' &  <br>
-     * @param sanitized string
-     * @return recovered string
-     */
-    public static String recoverFromSanitizedText(String str) {
-        
-        if (str == null) {
-            return null;
-        }
-        
-        return str.replace("&lt;", "<")
-                  .replace("&gt;", ">")
-                  .replace("&quot;", "\"")
-                  .replace("&#x2f;", "/")
-                  .replace("&#39;", "'")
-                  .replaceAll("&amp;", "&");
-    }
-    
-    /**
-     * This recovers a set of html-sanitized string to original encoding for appropriate display in files
-     * such as csv file <br>
-     * It restores encoding for < > \ / ' &  <br>
-     * @param sanitized string set
-     * @return recovered string set
-     */
-    public static Set<String> recoverFromSanitizedText(Set<String> textSet) {
-        Set<String> textSetTemp = new HashSet<String>();
-        for (String text : textSet) {
-            textSetTemp.add(StringHelper.recoverFromSanitizedText(text));
-        }
-        return textSetTemp;
-    }
-    
-    /**
-     * Convert a csv string to a html table string for displaying
-     * @param str
+     * Converts a csv string to a html table string for displaying.
      * @return html table string
      */
     public static String csvToHtmlTable(String str) {
-        String[] lines = handleNewLine(str).split(Const.EOL);
+        String[] lines = handleNewLine(str).split(System.lineSeparator());
 
         StringBuilder result = new StringBuilder();
 
         for (String line : lines) {
-            
+
             List<String> rowData = getTableData(line);
-            
+
             if (checkIfEmptyRow(rowData)) {
                 continue;
             }
-            
+
             result.append("<tr>");
             for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", Sanitizer.sanitizeForHtml(td)));
+                result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
             }
             result.append("</tr>");
         }
 
-        return String.format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
+        return String.format("<table class=\"table table-bordered table-striped table-condensed\">%s</table>",
                              result.toString());
     }
 
@@ -401,14 +361,14 @@ public final class StringHelper {
         StringBuilder buffer = new StringBuilder();
         char[] chars = str.toCharArray();
 
-        boolean inquote = false;
+        boolean isInQuote = false;
 
         for (char c : chars) {
             if (c == '"') {
-                inquote = !inquote;
+                isInQuote = !isInQuote;
             }
 
-            if (c == '\n' && inquote) {
+            if (c == '\n' && isInQuote) {
                 buffer.append("<br>");
             } else {
                 buffer.append(c);
@@ -419,12 +379,12 @@ public final class StringHelper {
     }
 
     private static List<String> getTableData(String str) {
-        List<String> data = new ArrayList<String>();
-        
+        List<String> data = new ArrayList<>();
+
         boolean inquote = false;
         StringBuilder buffer = new StringBuilder();
         char[] chars = str.toCharArray();
-        
+
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"') {
                 if (i + 1 < chars.length && chars[i + 1] == '"') {
@@ -434,7 +394,7 @@ public final class StringHelper {
                     continue;
                 }
             }
-            
+
             if (chars[i] == ',') {
                 if (inquote) {
                     buffer.append(chars[i]);
@@ -445,25 +405,19 @@ public final class StringHelper {
             } else {
                 buffer.append(chars[i]);
             }
-            
+
         }
-        
+
         data.add(buffer.toString().trim());
-        
+
         return data;
     }
-    
+
     private static boolean checkIfEmptyRow(List<String> rowData) {
-           
-        for (String td : rowData) {
-            if (!td.isEmpty()) {
-                return false;
-            }
-        }
-        
-        return true;
+        return rowData.stream()
+                .allMatch(r -> r.isEmpty());
     }
-    
+
     /**
      * From: http://stackoverflow.com/questions/11969840/how-to-convert-a-base-10-number-to-alphabetic-like-ordered-list-in-html
      * Converts an integer to alphabetical form (base26)
@@ -474,7 +428,7 @@ public final class StringHelper {
      * 27 - aa
      * 28 - ab
      * ...
-     * 
+     *
      * @param n - number to convert
      */
     public static String integerToLowerCaseAlphabeticalIndex(int n) {
@@ -489,49 +443,41 @@ public final class StringHelper {
         }
         return result.reverse().toString();
     }
-    
+
     /**
-     * Trim the given string if it is not equals to null
+     * Trims the string if it is not null.
+     *
+     * @return the trimmed string or null (if the parameter was null).
      */
-    public static String trimIfNotNull(String untrimmedString) {
-        if (untrimmedString != null) {
-            return untrimmedString.trim();
-        }
-        return untrimmedString;
+    public static String trimIfNotNull(String string) {
+        return string == null ? null : string.trim();
     }
 
     /**
      * Counts the number of empty strings passed as the argument. Null is
      * considered an empty string, while whitespace is not.
-     * 
-     * @param String...
+     *
      * @return number of empty strings passed
      */
     public static int countEmptyStrings(String... strings) {
-        int numOfEmptyStrings = 0;
-        for (String s : strings) {
-            if (s == null || s.isEmpty()) {
-                numOfEmptyStrings += 1;
-            }
-        }
-        return numOfEmptyStrings;
+        return Math.toIntExact(Arrays.stream(strings)
+                .filter(s -> isEmpty(s))
+                .count());
     }
-    
+
     /**
      * Converts null input to empty string. Non-null inputs will be left as is.
      * This method is for displaying purpose.
-     * 
-     * @param String
+     *
      * @return empty string if null, the string itself otherwise
      */
     public static String convertToEmptyStringIfNull(String str) {
         return str == null ? "" : str;
     }
-    
+
     /**
      * Removes the outermost enclosing square brackets surrounding a string.
-     * 
-     * @param str
+     *
      * @return the string without the outermost enclosing square brackets
      *         if the given string is enclosed by square brackets <br>
      *         the string itself if the given string is not enclosed by square brackets <br>
@@ -541,24 +487,83 @@ public final class StringHelper {
         if (str == null) {
             return null;
         }
-        
+
         if (!str.startsWith("[") || !str.endsWith("]")) {
             return str;
         }
-        
+
         return str.substring(1, str.length() - 1);
     }
-    
+
     /**
      * Returns a String array after removing white spaces leading and
      * trailing any string in the input array.
      */
     public static String[] trim(String[] stringsToTrim) {
-        String[] stringsAfterTrim = new String[stringsToTrim.length];
-        int i = 0;
-        for (String stringToTrim : stringsToTrim) {
-            stringsAfterTrim[i++] = stringToTrim.trim();
+        return Arrays.stream(stringsToTrim)
+                .map(s -> s.trim())
+                .toArray(size -> new String[size]);
+    }
+
+    /**
+     * Returns text with all non-ASCII characters removed.
+     */
+    public static String removeNonAscii(String text) {
+        return text.replaceAll("[^\\x00-\\x7F]", "");
+    }
+
+    /**
+     * Returns a new String composed of copies of the String elements joined together
+     * with a copy of the specified delimiter.
+     */
+    public static String join(String delimiter, List<Integer> elements) {
+        return String.join(delimiter, toStringArray(elements));
+    }
+
+    /**
+     * Converts list of integer to array of strings.
+     */
+    private static String[] toStringArray(List<Integer> elements) {
+        if (elements == null) {
+            throw new IllegalArgumentException("Provided arguments cannot be null");
         }
-        return stringsAfterTrim;
+
+        return elements.stream()
+                .map(s -> String.valueOf(s))
+                .toArray(size -> new String[size]);
+    }
+
+    /**
+     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * If {@code text} is null, false is returned.
+     */
+    public static boolean isTextContainingAny(String text, String... strings) {
+        if (text == null) {
+            return false;
+        }
+
+        if (strings.length == 0) {
+            return true;
+        }
+
+        return Arrays.stream(strings)
+                .anyMatch(s -> text.contains(s));
+    }
+
+    /**
+     * Extract data from quoted string.
+     *
+     * @param quotedString string to extract data from
+     * @return string without quotes
+     */
+    public static String extractContentFromQuotedString(String quotedString) {
+        if (quotedString == null) {
+            return null;
+        }
+
+        if (quotedString.matches("^\".*\"$")) {
+            return quotedString.substring(1, quotedString.length() - 1);
+        }
+        return quotedString;
     }
 }

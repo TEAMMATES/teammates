@@ -1,30 +1,28 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
 
     @Override
-    protected void verifyAccesibleForSpecificUser() {
+    protected void verifyAccessibleForSpecificUser() {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        boolean creatorOnly = false;
-        new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
+        boolean isCreatorOnly = false;
+        gateKeeper.verifyAccessible(instructor, session, isCreatorOnly);
         boolean shouldEnableSubmit =
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        
+
         if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
             shouldEnableSubmit = true;
         }
-        
+
         if (!shouldEnableSubmit) {
             throw new UnauthorizedAccessException("Feedback session [" + session.getFeedbackSessionName()
                                                   + "] is not accessible to instructor ["
@@ -34,27 +32,19 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected void appendRespondent() {
-        try {
-            logic.addInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append instructor respondent");
-        }
+        taskQueuer.scheduleUpdateRespondentForSession(courseId, feedbackSessionName, getUserEmailForCourse(), true, false);
     }
 
     @Override
     protected void removeRespondent() {
-        try {
-            logic.deleteInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove instructor respondent");
-        }
+        taskQueuer.scheduleUpdateRespondentForSession(courseId, feedbackSessionName, getUserEmailForCourse(), true, true);
     }
 
     @Override
     protected String getUserEmailForCourse() {
         return logic.getInstructorForGoogleId(courseId, account.googleId).email;
     }
-    
+
     @Override
     protected String getUserTeamForCourse() {
         return Const.USER_TEAM_FOR_INSTRUCTOR;
@@ -90,7 +80,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected void setAdditionalParameters() {
-        isSendEmail = true;
+        isSendSubmissionEmail = true;
     }
 
     @Override

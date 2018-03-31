@@ -24,7 +24,7 @@ public class QUnitPage extends AppPage {
     @Override
     public void waitForPageToLoad() {
         // This is not a web page and thus document.readyState is not relevant here.
-        // Instead, wait for the number of total cases to appear.
+        // Instead, wait for the number of test cases to appear.
         waitForElementVisibility(totalCase);
     }
 
@@ -47,6 +47,10 @@ public class QUnitPage extends AppPage {
      */
     public float getCoverage() {
         return Float.parseFloat(coverage.getText().replace(" %", ""));
+    }
+
+    public void waitForCoverageVisibility() {
+        waitForElementVisibility(coverage);
     }
 
     @Override

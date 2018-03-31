@@ -1,7 +1,7 @@
 package teammates.ui.template;
 
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Url;
 
 public class StudentListStudentData {
@@ -17,15 +17,17 @@ public class StudentListStudentData {
     private String courseStudentRemindLink;
     private String courseStudentDeleteLink;
     private String courseStudentRecordsLink;
+    private String sessionToken;
 
     public StudentListStudentData(String googleId, String studentName, String studentEmail, String course,
-                                  String studentStatus, String photoUrl) {
+                                  String studentStatus, String photoUrl, String sessionToken) {
         this.studentName = studentName;
         this.studentEmail = studentEmail;
         this.studentStatus = studentStatus;
-        this.studentNameForJs = Sanitizer.sanitizeForJs(studentName);
-        this.courseIdForJs = Sanitizer.sanitizeForJs(course);
+        this.studentNameForJs = SanitizationHelper.sanitizeForJs(studentName);
+        this.courseIdForJs = SanitizationHelper.sanitizeForJs(course);
         this.photoUrl = photoUrl;
+        this.sessionToken = sessionToken;
         this.courseStudentDetailsLink =
                 furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
                                                     course, studentEmail, googleId);
@@ -46,6 +48,7 @@ public class StudentListStudentData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.SESSION_TOKEN, sessionToken);
         return link;
     }
 

@@ -46,14 +46,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -72,14 +69,11 @@
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
           "canmodifycourse": true,
           "canviewsessioninsection": true,
           "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -130,12 +124,12 @@
       "instructions": {
         "value": "Please fill in the edited feedback session."
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-05-01 10:00 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2026-05-01 10:00 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2026-05-01T20:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T20:00:00Z",
+      "timeZone": "UTC+02:00",
       "gracePeriod": 30,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -150,6 +144,5 @@
   "feedbackQuestions": {},
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "comments": {},
   "profiles": {}
 }

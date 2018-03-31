@@ -7,9 +7,9 @@ public class ArchivedCoursesTable {
     private List<ArchivedCoursesTableRow> rows;
 
     public ArchivedCoursesTable() {
-        rows = new ArrayList<ArchivedCoursesTableRow>();
+        rows = new ArrayList<>();
     }
-    
+
     public List<ArchivedCoursesTableRow> getRows() {
         return rows;
     }

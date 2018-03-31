@@ -4,7 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
 
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 
 public class StudentProfilePicturePage extends AppPage {
 
@@ -19,8 +19,8 @@ public class StudentProfilePicturePage extends AppPage {
     }
 
     public void verifyHasPicture() {
-        assertEquals(Sanitizer.sanitizeForHtml(browser.driver.findElement(By.tagName("img")).getAttribute("src")),
-                     Sanitizer.sanitizeForHtml(browser.driver.getCurrentUrl()));
+        assertEquals(SanitizationHelper.sanitizeForHtml(browser.driver.findElement(By.tagName("img")).getAttribute("src")),
+                     SanitizationHelper.sanitizeForHtml(browser.driver.getCurrentUrl()));
     }
 
 }

@@ -4,6 +4,9 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.W3CDom;
@@ -13,25 +16,36 @@ import org.w3c.dom.NodeList;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
+/**
+ * Provides mechanism for HTML comparison during testing.
+ * GodMode is also configured here.
+ */
 public final class HtmlHelper {
-    
+
     private static final String INDENTATION_STEP = "  ";
-    
+
+    private static final String REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI = "[A-F0-9]{32,}";
+    private static final String REGEX_UPPERCASE_HEXADECIMAL_CHAR_32 = "[A-F0-9]{32}";
+
     private static final String REGEX_CONTINUE_URL = ".*?";
-    private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_COURSE_ID = "[A-F0-9]{32,}";
-    private static final String REGEX_ENCRYPTED_REGKEY = "[A-F0-9]{32,}";
+    private static final String REGEX_ENCRYPTED_STUDENT_EMAIL = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
+    private static final String REGEX_ENCRYPTED_COURSE_ID = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
+    private static final String REGEX_ENCRYPTED_REGKEY = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32_MULTI;
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
     private static final String REGEX_BLOB_KEY = "(encoded_gs_key:)?[a-zA-Z0-9-_]{10,}";
     private static final String REGEX_QUESTION_ID = "[a-zA-Z0-9-_]{40,}";
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
-    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] [AP]M( UTC)?";
+    private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] ([AP]M|NOON)";
+    private static final String REGEX_DISPLAY_TIME_ISO_8601_UTC =
+            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.([0-9]{3}|[0-9]{6}))?Z";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
-    
+    private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
+    private static final String REGEX_TIMEZONE_OFFSET = "UTC([+-]\\d{4})";
+
     private HtmlHelper() {
         // utility class
     }
@@ -40,27 +54,27 @@ public final class HtmlHelper {
      * Verifies that two HTML files are logically equivalent, e.g. ignores
      * differences in whitespace and attribute order. If the assertion fails,
      * <code>AssertionError</code> will be thrown and the difference can then be traced.
-     * @param expectedString the expected string for comparison
-     * @param actualString the actual string for comparison
+     * @param expected the expected string for comparison
+     * @param actual the actual string for comparison
      * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
      *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
      */
     public static boolean assertSameHtml(String expected, String actual, boolean isPart) {
         return assertSameHtml(expected, actual, isPart, true);
     }
-    
+
     /**
      * Verifies that two HTML files are logically equivalent, e.g. ignores
      * differences in whitespace and attribute order.
-     * @param expectedString the expected string for comparison
-     * @param actualString the actual string for comparison
+     * @param expected the expected string for comparison
+     * @param actual the actual string for comparison
      * @param isPart if true, ignores top-level HTML tags, i.e <code>&lt;html&gt;</code>,
      *               <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>
      */
     public static boolean areSameHtml(String expected, String actual, boolean isPart) {
         return assertSameHtml(expected, actual, isPart, false);
     }
-    
+
     private static boolean assertSameHtml(String expected, String actual, boolean isPart,
                                           boolean isDifferenceToBeShown) {
         String processedActual = convertToStandardHtml(actual, isPart);
@@ -68,27 +82,27 @@ public final class HtmlHelper {
         if (areSameHtmls(expected, processedActual)) {
             return true;
         }
-        
+
         // the first failure might be caused by non-standardized conversion
         String processedExpected = convertToStandardHtml(expected, isPart);
 
         if (areSameHtmls(processedExpected, processedActual)) {
             return true;
         }
-        
+
         // if it still fails, then it is a failure after all
         if (isDifferenceToBeShown) {
-            assertEquals("<expected>" + Const.EOL + processedExpected + "</expected>",
-                         "<actual>" + Const.EOL + processedActual + "</actual>");
+            assertEquals("<expected>" + System.lineSeparator() + processedExpected + "</expected>",
+                         "<actual>" + System.lineSeparator() + processedActual + "</actual>");
         }
         return false;
     }
-    
+
     private static boolean areSameHtmls(String expected, String actual) {
         // accounts for the variations in line breaks
         return expected.replaceAll("[\r\n]", "").equals(actual.replaceAll("[\r\n]", ""));
     }
-    
+
     /**
      * Transform the HTML text to follow a standard format.
      * Element attributes are reordered in alphabetical order.
@@ -125,14 +139,14 @@ public final class HtmlHelper {
             return convertElementNode(currentNode, indentation, isPart);
         }
     }
-    
+
     private static String generateNodeTextContent(Node currentNode, String indentation) {
         String text = currentNode.getNodeValue().trim();
         text = text.replaceAll("[ ]*(\\r?\\n[ ]*)+[ ]*", " ");
-        text = Sanitizer.sanitizeForHtmlTag(text);
+        text = SanitizationHelper.sanitizeForHtmlTag(text);
         // line breaks in text are removed as they are ignored in HTML
         // the lines separated by line break will be joined with a single whitespace character
-        return text.isEmpty() ? "" : indentation + text + Const.EOL;
+        return text.isEmpty() ? "" : indentation + text + System.lineSeparator();
     }
 
     private static String convertElementNode(Node currentNode, String indentation, boolean isPart) {
@@ -145,9 +159,15 @@ public final class HtmlHelper {
                         || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
+                } else if (isTinymceStyleDiv(attribute)) {
+                    // ignore as the style definition differs across browsers
+                    return ignoreNode();
                 } else if (isMotdContainerAttribute(attribute)) {
                     // replace MOTD content with placeholder
                     return generateStudentMotdPlaceholder(indentation);
+                } else if (isDatepickerAttribute(attribute)) {
+                    // replace datepicker with placeholder
+                    return generateDatepickerPlaceholder(indentation);
                 }
             }
         } else if (currentNode.getNodeName().equalsIgnoreCase("select")) {
@@ -163,32 +183,31 @@ public final class HtmlHelper {
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 if (isTinymceStyleAttribute(attribute)) {
-                    // the style definition differs across browsers; replace with placeholder
-                    // return generateTinymceStylePlaceholder(indentation);
+                    // ignore as the style definition differs across browsers
                     return ignoreNode();
                 }
             }
         }
-        
+
         return generateNodeStringRepresentation(currentNode, indentation, isPart);
     }
-    
+
     private static String ignoreNode() {
         return "";
     }
-    
+
     private static String generateStudentMotdPlaceholder(String indentation) {
-        return indentation + "${studentmotd.container}" + Const.EOL;
+        return indentation + "${studentmotd.container}" + System.lineSeparator();
     }
-    
+
     private static String generateTimeZoneSelectorPlaceholder(String indentation) {
-        return indentation + "${timezone.options}" + Const.EOL;
+        return indentation + "${timezone.options}" + System.lineSeparator();
     }
-    
-    // private static String generateTinymceStylePlaceholder(String indentation) {
-    //     return indentation + "${tinymce.style}" + Const.EOL;
-    // }
-    
+
+    private static String generateDatepickerPlaceholder(String indentation) {
+        return indentation + "${datepicker}" + System.lineSeparator();
+    }
+
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
         StringBuilder currentHtmlText = new StringBuilder();
         String currentNodeName = currentNode.getNodeName().toLowerCase();
@@ -198,7 +217,7 @@ public final class HtmlHelper {
             String nodeOpeningTag = indentation + getNodeOpeningTag(currentNode);
             currentHtmlText.append(nodeOpeningTag);
         }
-        
+
         if (!isVoidElement(currentNodeName)) {
             String newIndentation = indentation + (shouldIndent(currentNodeName) ? INDENTATION_STEP : "");
             String nodeContent = getNodeContent(currentNode, newIndentation, isPart);
@@ -209,7 +228,7 @@ public final class HtmlHelper {
                 currentHtmlText.append(nodeClosingTag);
             }
         }
-        
+
         return currentHtmlText.toString();
     }
 
@@ -223,7 +242,7 @@ public final class HtmlHelper {
                             || "head".equals(currentNodeName)
                             || "body".equals(currentNodeName)));
     }
-    
+
     private static boolean shouldIndent(String currentNodeName) {
         // Indentation is not necessary for top level elements
         return !("html".equals(currentNodeName)
@@ -231,24 +250,33 @@ public final class HtmlHelper {
                  || "body".equals(currentNodeName));
     }
 
+    private static boolean isTinymceStyleDiv(Node attribute) {
+        if (!"style".equalsIgnoreCase(attribute.getNodeName())) {
+            return false;
+        }
+        String value = attribute.getNodeValue();
+        return value.contains("position: static") && value.contains("height: 0px") && value.contains("width: 0px")
+                && value.contains("padding: 0px") && value.contains("margin: 0px");
+    }
+
     private static boolean isTinymceStyleAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "mceDefaultStyles");
     }
-    
+
     /**
-     * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it)
+     * Checks for tooltips (i.e any <code>div</code> with class <code>tooltip</code> in it).
      */
     private static boolean isTooltipAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "class", "tooltip");
     }
-    
+
     /**
-     * Checks for popovers (i.e any <code>div</code> with class <code>popover</code> in it)
+     * Checks for popovers (i.e any <code>div</code> with class <code>popover</code> in it).
      */
     private static boolean isPopoverAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "class", "popover");
     }
-    
+
     /**
      * Checks for Message of the Day (MOTD) wrapper (i.e a <code>div</code> with id
      * <code>student-motd-wrapper</code>).
@@ -256,7 +284,7 @@ public final class HtmlHelper {
     private static boolean isMotdWrapperAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-wrapper");
     }
-    
+
     /**
      * Checks for Message of the Day (MOTD) container (i.e a <code>div</code> with id
      * <code>student-motd-container</code>).
@@ -264,14 +292,21 @@ public final class HtmlHelper {
     private static boolean isMotdContainerAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "student-motd-container");
     }
-    
+
     /**
-     * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>)
+     * Checks for datepicker (i.e a <code>div</code> with id <code>ui-datepicker-div</code>).
+     */
+    private static boolean isDatepickerAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "ui-datepicker-div");
+    }
+
+    /**
+     * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>).
      */
     private static boolean isTimeZoneSelectorAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "coursetimezone");
     }
-    
+
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
         if (attribute.getNodeName().equalsIgnoreCase(attrType)) {
             return "class".equals(attrType) ? isClassContainingValue(attrValue, attribute.getNodeValue())
@@ -279,7 +314,7 @@ public final class HtmlHelper {
         }
         return false;
     }
-    
+
     private static boolean isClassContainingValue(String expected, String actual) {
         return actual.equals(expected)
                 || actual.startsWith(expected + " ")
@@ -291,7 +326,7 @@ public final class HtmlHelper {
         StringBuilder openingTag = new StringBuilder();
         // add the start of opening tag
         openingTag.append('<').append(currentNode.getNodeName().toLowerCase());
-        
+
         // add the attributes of the tag (getAttributes() returns the attributes sorted alphabetically)
         NamedNodeMap attributes = currentNode.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {
@@ -299,12 +334,12 @@ public final class HtmlHelper {
             openingTag.append(" " + attribute.getNodeName().toLowerCase() + "="
                                   + "\"" + attribute.getNodeValue().replace("\"", "&quot;") + "\"");
         }
-        
+
         // close the tag
-        openingTag.append('>').append(Const.EOL);
+        openingTag.append('>').append(System.lineSeparator());
         return openingTag.toString();
     }
-    
+
     private static String getNodeContent(Node currentNode, String indentation, boolean isPart) {
         StringBuilder nodeContent = new StringBuilder();
         NodeList childNodes = currentNode.getChildNodes();
@@ -315,9 +350,9 @@ public final class HtmlHelper {
         }
         return nodeContent.toString();
     }
-    
+
     private static String getNodeClosingTag(String currentNodeName) {
-        return "</" + currentNodeName + ">" + Const.EOL;
+        return "</" + currentNodeName + ">" + System.lineSeparator();
     }
 
     private static boolean isVoidElement(String elementName) {
@@ -328,19 +363,20 @@ public final class HtmlHelper {
                 || "link".equals(elementName)
                 || "meta".equals(elementName);
     }
-    
+
     /**
      * Injects values specified in configuration files to the appropriate placeholders.
      */
     public static String injectTestProperties(String content) {
         return content.replace("${studentmotd.url}", Config.STUDENT_MOTD_URL)
+                      .replace("${support.email}", Config.SUPPORT_EMAIL)
                       .replace("${version}", TestProperties.TEAMMATES_VERSION)
                       .replace("${test.admin}", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("${test.student1}", TestProperties.TEST_STUDENT1_ACCOUNT)
                       .replace("${test.student2}", TestProperties.TEST_STUDENT2_ACCOUNT)
                       .replace("${test.instructor}", TestProperties.TEST_INSTRUCTOR_ACCOUNT);
     }
-    
+
     /**
      * Processes the string from web page source for HTML comparison.
      */
@@ -348,7 +384,7 @@ public final class HtmlHelper {
         return replaceUnpredictableValuesWithPlaceholders(
                       suppressVariationsInInjectedValues(content));
     }
-    
+
     /**
      * Processes the string from web page source for regeneration of expected HTML.<br>
      * Pre-condition: {@code content} has previously been processed with the
@@ -357,7 +393,7 @@ public final class HtmlHelper {
     public static String processPageSourceForExpectedHtmlRegeneration(String content, boolean isPart) {
         return convertToStandardHtml(replaceInjectedValuesWithPlaceholders(content), isPart);
     }
-    
+
     private static String suppressVariationsInInjectedValues(String content) {
         return content // replace truncated long accounts with their original counterparts
                       .replace(StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT),
@@ -369,7 +405,7 @@ public final class HtmlHelper {
                       .replace(StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT),
                                TestProperties.TEST_ADMIN_ACCOUNT);
     }
-    
+
     /**
      * Substitutes values that are different across various test runs with placeholders.
      * These values are identified using their known, unique formats.
@@ -377,8 +413,14 @@ public final class HtmlHelper {
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
+        // get session's time zone from content.
+        // this method is not applicable for pages with multiple time zones like InstructorSearchPage
+        sdf.setTimeZone(getTimeZone(content));
         String dateTimeNow = sdf.format(now);
-        String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
+        SimpleDateFormat sdfForIso8601 = new SimpleDateFormat("yyyy-MM-dd'T'");
+        String dateTimeNowInIso8601 = sdfForIso8601.format(now);
+        SimpleDateFormat sdfForCoursesPage = new SimpleDateFormat("d MMM yyyy");
+        String dateTimeNowInCoursesPageFormat = sdfForCoursesPage.format(now);
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
                       .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
                       // logout URL generated by Google
@@ -412,8 +454,9 @@ public final class HtmlHelper {
                                   " name=\"" + Const.ParamsNames.REGKEY + "\""
                                   + " type=\"hidden\" value=\"\\${regkey\\.enc}\"")
                       // anonymous student identifier on results page
-                      .replaceAll("Anonymous (student|instructor|team) " + REGEX_ANONYMOUS_PARTICIPANT_HASH,
-                                  "Anonymous $1 \\${participant\\.hash}")
+                      .replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
+                                  + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT
+                                  + " $1 \\${participant\\.hash}")
                       // questionid as value
                       .replaceAll("value=\"" + REGEX_QUESTION_ID + "\"", "value=\"\\${question\\.id}\"")
                       // questionid as part of responseid
@@ -426,26 +469,23 @@ public final class HtmlHelper {
                       .replaceAll("responseCommentRow-" + REGEX_COMMENT_ID, "responseCommentRow-\\${comment\\.id}")
                       .replaceAll("commentBar-" + REGEX_COMMENT_ID, "commentBar-\\${comment\\.id}")
                       .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
-                      // date of next hour (datepicker's date is generated based on next hour's date)
-                      .replace(dateOfNextHour, "${date.nexthour}")
-                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM] or [Thu, 07 May 2015, 07:52 PM UTC]
+                      // date/time now e.g [Thu, 07 May 2015, 07:52 PM]
                       .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
-                      // jQuery js file
-                      .replace(Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()),
-                               "${lib.path}/jquery.min.js")
-                      // jQuery-ui js file
-                      .replace(Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()),
-                               "${lib.path}/jquery-ui.min.js")
-                      // TinyMCE CSS skin
-                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css",
-                               "${lib.path}/skins/lightgray/skin.min.css")
-                      // TinyMCE CSS skin
-                      .replace(TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css",
-                               "${lib.path}/skins/lightgray/content.inline.min.css")
+                      .replaceAll(dateTimeNowInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
+                      .replaceAll(dateTimeNowInCoursesPageFormat, "\\${datetime\\.now\\.courses}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
                                   "\\${admin\\.institute}")
+                      // sessionToken in form inputs
+                      .replaceAll("( type=\"hidden\"|"
+                                   + " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\"|"
+                                   + " value=\"" + REGEX_SESSION_TOKEN + "\"){3}",
+                                   " name=\"" + Const.ParamsNames.SESSION_TOKEN + "\""
+                                   + " type=\"hidden\" value=\"\\${sessionToken}\"")
+                      // sessionToken in URL parameters
+                      .replaceAll("(\\&amp;|\\?)" + Const.ParamsNames.SESSION_TOKEN + "=" + REGEX_SESSION_TOKEN,
+                                  "$1" + Const.ParamsNames.SESSION_TOKEN + "=\\${sessionToken}")
                       // top HTML tag with xmlns defined
                       // TODO check if this is necessary
                       .replace("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>")
@@ -453,17 +493,19 @@ public final class HtmlHelper {
                       // TODO check if wildcarding this is better; better yet, check if not removing at all works
                       .replaceFirst("(?s)<noscript>.*</noscript>", "");
     }
-    
+
     private static String replaceInjectedValuesWithPlaceholders(String content) {
-        return content.replace("window.location.origin + '/" + Config.STUDENT_MOTD_URL + "';",
-                               "window.location.origin + '/${studentmotd.url}';")
+        return content.replaceAll("( type=\"hidden\"| id=\"motd-url\"|"
+                                      + " value=\"" + Config.STUDENT_MOTD_URL + "\"){3}",
+                                  " id=\"motd-url\" type=\"hidden\" value=\"\\${studentmotd\\.url}\"")
                       .replace("V" + TestProperties.TEAMMATES_VERSION, "V${version}")
                       .replace(TestProperties.TEST_STUDENT1_ACCOUNT, "${test.student1}")
                       .replace(TestProperties.TEST_STUDENT2_ACCOUNT, "${test.student2}")
                       .replace(TestProperties.TEST_INSTRUCTOR_ACCOUNT, "${test.instructor}")
-                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}");
+                      .replace(TestProperties.TEST_ADMIN_ACCOUNT, "${test.admin}")
+                      .replace(Config.SUPPORT_EMAIL, "${support.email}");
     }
-    
+
     /**
      * This method is only used for testing.
      */
@@ -471,6 +513,7 @@ public final class HtmlHelper {
         Date now = new Date();
         return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                       .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
+                      .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
                       .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
                       .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
                       .replace("<!-- test.student1.truncated -->",
@@ -484,17 +527,23 @@ public final class HtmlHelper {
                       .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("<!-- test.admin.truncated -->",
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
-                      .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
-                      .replace("<!-- now.datetime.comments -->", TimeHelper.formatDateTimeForComments(now))
-                      .replace("<!-- filepath.jquery -->",
-                               Const.SystemParams.getjQueryFilePath(TestProperties.isDevServer()))
-                      .replace("<!-- filepath.jquery-ui -->",
-                               Const.SystemParams.getjQueryUiFilePath(TestProperties.isDevServer()))
-                      .replace("<!-- tinymce.skin.min -->",
-                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/skin.min.css")
-                      .replace("<!-- tinymce.skin.inline -->",
-                               TestProperties.TEAMMATES_URL + "/js/lib/skins/lightgray/content.inline.min.css");
+                      .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
+                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
+                      .replace("<!-- now.datetime.courses -->",
+                              TimeHelper.formatDateTimeForInstructorCoursesPage(now, "UTC"));
+    }
+
+    private static TimeZone getTimeZone(String content) {
+        // searches for first String of pattern "UTC+xxxx" in the content.
+        Pattern pattern = Pattern.compile(REGEX_TIMEZONE_OFFSET);
+        Matcher matcher = pattern.matcher(content);
+        // set default time zone offset.
+        String timeZoneOffset = "+0000";
+        if (matcher.find()) {
+            timeZoneOffset = matcher.group(1);
+        }
+        return TimeZone.getTimeZone("GMT" + timeZoneOffset);
     }
 
 }

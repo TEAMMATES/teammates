@@ -7,7 +7,7 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     private List<FeedbackSubmissionEditResponse> responses;
     private int numOfResponseBoxes;
     private int maxResponsesPossible;
-    
+
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
                                     List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes,
                                     int maxResponsesPossible) {
@@ -24,11 +24,11 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     public List<FeedbackSubmissionEditResponse> getResponses() {
         return responses;
     }
-    
+
     public int getNumOfResponseBoxes() {
         return numOfResponseBoxes;
     }
-    
+
     public int getMaxResponsesPossible() {
         return maxResponsesPossible;
     }

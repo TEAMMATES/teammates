@@ -3,32 +3,31 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.AdminAccountDetailsPageData;
 
 public class AdminAccountDetailsPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        
-        new GateKeeper().verifyAdminPrivileges(account);
-        
+
+        gateKeeper.verifyAdminPrivileges(account);
+
         String googleId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         AccountAttributes accountInformation = logic.getAccount(googleId);
 
         List<CourseDetailsBundle> instructorCourseList;
         try {
-            instructorCourseList =
-                    new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(googleId).values());
+            instructorCourseList = new ArrayList<>(logic.getCourseSummariesForInstructor(googleId).values());
         } catch (EntityDoesNotExistException e) {
             //Not an instructor of any course
             instructorCourseList = null;
         }
-        
+
         List<CourseAttributes> studentCourseList;
         try {
             studentCourseList = logic.getCoursesForStudentAccount(googleId);
@@ -36,12 +35,12 @@ public class AdminAccountDetailsPageAction extends Action {
             //Not a student of any course
             studentCourseList = null;
         }
-        
-        AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, accountInformation,
+
+        AdminAccountDetailsPageData data = new AdminAccountDetailsPageData(account, sessionToken, accountInformation,
                                                                            instructorCourseList, studentCourseList);
         statusToAdmin = "adminAccountDetails Page Load<br>"
                 + "Viewing details for " + data.getAccountInformation().name + "(" + googleId + ")";
-        
+
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_DETAILS, data);
     }
 

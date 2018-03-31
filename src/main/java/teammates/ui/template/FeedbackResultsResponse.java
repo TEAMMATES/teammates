@@ -6,7 +6,7 @@ public class FeedbackResultsResponse {
     private String giverName;
     private String answer;
     private List<FeedbackResponseCommentRow> comments;
-    
+
     public FeedbackResultsResponse(String giverName, String answer,
                                    List<FeedbackResponseCommentRow> comments) {
         this.giverName = giverName;

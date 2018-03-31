@@ -1,107 +1,89 @@
 package teammates.storage.entity;
 
 import java.security.SecureRandom;
+import java.time.Instant;
 import java.util.Date;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-import javax.jdo.listener.StoreCallback;
+import com.google.gson.annotations.SerializedName;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnSave;
+import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
-
-import com.google.gson.annotations.SerializedName;
+import teammates.common.util.TimeHelper;
 
 /**
  * An association class that represents the association Account -->
  * [enrolled in] --> Course.
  */
-@PersistenceCapable
-public class CourseStudent implements StoreCallback {
+@Entity
+@Index
+public class CourseStudent extends BaseEntity {
+
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp.
      * Set to true when using scripts to update entities when you want to
      * preserve the lastUpdate time stamp.
      **/
-    @NotPersistent
+    @Ignore
     public transient boolean keepUpdateTimestamp;
 
     /**
+     * ID of the student.
+     *
      * @see #makeId()
      */
-    @PrimaryKey
-    @Persistent
+    @Id
     private String id;
-    
-    @Persistent
+
     private Date createdAt;
-    
-    @Persistent
+
     private Date updatedAt;
 
-    @Persistent
     private transient String registrationKey;
 
     /**
      * The student's Google ID. Links to the Account object.
      * This can be null if the student hasn't joined the course yet.
      */
-    @Persistent
     @SerializedName("google_id")
     private String googleId;
 
-    @Persistent
     @SerializedName("email")
     private String email;
 
     /**
      * The student's Course ID. References the primary key of the course.
      */
-    @Persistent
     @SerializedName("coursename")
     private String courseId;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     @SerializedName("name")
     private String name;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     @SerializedName("lastName")
     private String lastName;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private String comments;
 
-    @Persistent
     @SerializedName("teamname")
     private String teamName;
 
-    @Persistent
     @SerializedName("sectionname")
     private String sectionName;
 
-    /**
-     * 
-     * @param email
-     *            Student's email used for this course.
-     * @param name
-     *            Student name.
-     * @param lastName
-     *            Student last name
-     * @param googleId
-     *            Student's Google Id. Can be null/empty if the student hasn't
-     *            registered yet.
-     * @param comments
-     *            Comments about the student.
-     * @param courseId
-     * @param teamName
-     */
+    @SuppressWarnings("unused")
+    private CourseStudent() {
+        // required by Objectify
+    }
+
     public CourseStudent(String email, String name, String googleId, String comments, String courseId,
                          String teamName, String sectionName) {
         setEmail(email);
@@ -111,40 +93,40 @@ public class CourseStudent implements StoreCallback {
         setCourseId(courseId);
         setTeamName(teamName);
         setSectionName(sectionName);
-        
-        setCreatedAt(new Date());
+
+        setCreatedAt(Instant.now());
 
         this.id = makeId();
         registrationKey = generateRegistrationKey();
     }
-    
+
     private String makeId() {
         return getEmail() + '%' + getCourseId();
     }
-    
-    public Date getCreatedAt() {
-        return createdAt;
+
+    public Instant getCreatedAt() {
+        return TimeHelper.convertDateToInstant(createdAt);
     }
-    
-    public void setCreatedAt(Date created) {
-        this.createdAt = created;
+
+    public void setCreatedAt(Instant created) {
+        this.createdAt = TimeHelper.convertInstantToDate(created);
         setLastUpdate(created);
     }
-    
-    public Date getUpdatedAt() {
-        return updatedAt;
+
+    public Instant getUpdatedAt() {
+        return TimeHelper.convertDateToInstant(updatedAt);
     }
-    
-    public void setLastUpdate(Date updatedAt) {
+
+    public void setLastUpdate(Instant updatedAt) {
         if (!keepUpdateTimestamp) {
-            this.updatedAt = updatedAt;
+            this.updatedAt = TimeHelper.convertInstantToDate(updatedAt);
         }
     }
-    
+
     public String getUniqueId() {
         return this.id;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -191,11 +173,11 @@ public class CourseStudent implements StoreCallback {
     public void setComments(String comments) {
         this.comments = comments == null ? null : comments.trim();
     }
-    
+
     public String getRegistrationKey() {
         return registrationKey;
     }
- 
+
     public String getCourseId() {
         return courseId;
     }
@@ -220,21 +202,18 @@ public class CourseStudent implements StoreCallback {
         this.sectionName = sectionName == null ? null : sectionName.trim();
     }
 
-    /**
-     * Called by jdo before storing takes place.
-     */
-    @Override
-    public void jdoPreStore() {
-        this.setLastUpdate(new Date());
+    @OnSave
+    public void updateLastUpdateTimestamp() {
+        this.setLastUpdate(Instant.now());
     }
-    
+
     /**
      * Returns unique registration key for the student.
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
         Assumption.assertNotNull(uniqueId);
-        
+
         SecureRandom prng = new SecureRandom();
         return uniqueId + "%" + prng.nextInt();
     }

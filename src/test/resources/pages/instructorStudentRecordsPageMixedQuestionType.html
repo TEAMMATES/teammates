@@ -114,7 +114,9 @@
             <span class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer" data-target="#studentProfileMoreInfo" data-toggle="modal">
             </span>
             <h5>
-              More Info
+              <strong>
+                More Info:
+              </strong>
             </h5>
             <p class="text-preserve-space height-fixed-md">
               <i class="text-muted">
@@ -127,180 +129,8 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div class="panel panel-primary student-comments-panel">
-          <div class="panel-heading cursor-pointer" data-target="#panelBodyCollapse" data-toggle="collapse" onclick="toggleChevron(this)">
-            <div class="display-icon pull-right">
-              <span class="glyphicon glyphicon-chevron-up pull-right">
-              </span>
-            </div>
-            <strong>
-              Comments for student1 In Course1&lt;/td&gt;&lt;/div&gt;'"
-            </strong>
-          </div>
-          <div class="panel-collapse collapse in" id="panelBodyCollapse">
-            <div class="panel-body">
-              <div class="panel panel-info student-record-comments">
-                <div class="panel-heading">
-                  From
-                  <b>
-                    You (FSQTT.idOfTypicalCourse1)
-                  </b>
-                  <button class="btn btn-default btn-xs icon-button pull-right" data-original-title="Add comment" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showAddCommentBox();" title="" type="button">
-                    <span class="glyphicon glyphicon-comment glyphicon-primary">
-                    </span>
-                  </button>
-                </div>
-                <ul class="list-group comments">
-                  <li class="list-group-item text-muted">
-                    <i>
-                      You don't have any comments on this student.
-                    </i>
-                  </li>
-                  <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
-                    <form action="/page/instructorStudentCommentAdd" class="form_comment" method="post" name="form_commentadd">
-                      <div class="form-group form-inline">
-                        <div class="form-group text-muted">
-                          <p>
-                            Comment about student1 In Course1&lt;/td&gt;&lt;/div&gt;'":
-                          </p>
-                          The default visibility for your comment is private. You may change it using the visibility options.
-                        </div>
-                        <a class="btn btn-sm btn-info pull-right" id="visibility-options-trigger1">
-                          <span class="glyphicon glyphicon-eye-close">
-                          </span>
-                          Show Visibility Options
-                        </a>
-                      </div>
-                      <div class="panel panel-default" id="visibility-options1" style="display: none;">
-                        <div class="panel-heading">
-                          Visibility Options
-                        </div>
-                        <table class="table text-center" style="color: #000;">
-                          <tbody>
-                            <tr>
-                              <th class="text-center">
-                                User/Group
-                              </th>
-                              <th class="text-center">
-                                Can see this comment
-                              </th>
-                              <th class="text-center">
-                                Can see comment giver's name
-                              </th>
-                              <th class="text-center">
-                                Can see comment recipient's name
-                              </th>
-                            </tr>
-                            <tr id="recipient-person1">
-                              <td class="text-left">
-                                <div data-original-title="Control what comment recipient(s) can view" data-placement="top" data-toggle="tooltip" title="">
-                                  Recipient(s)
-                                </div>
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="PERSON">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="PERSON">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox recipientCheckbox" disabled="" name="receiverFollowerCheckbox" type="checkbox" value="PERSON">
-                              </td>
-                            </tr>
-                            <tr id="recipient-team1">
-                              <td class="text-left">
-                                <div data-original-title="Control what team members of comment recipients can view" data-placement="top" data-toggle="tooltip" title="">
-                                  Recipient's Team
-                                </div>
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="TEAM">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="TEAM">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="TEAM">
-                              </td>
-                            </tr>
-                            <tr id="recipient-section1">
-                              <td class="text-left">
-                                <div data-original-title="Control what other students in the same section can view" data-placement="top" data-toggle="tooltip" title="">
-                                  Recipient's Section
-                                </div>
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="SECTION">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="SECTION">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="SECTION">
-                              </td>
-                            </tr>
-                            <tr id="recipient-course1">
-                              <td class="text-left">
-                                <div data-original-title="Control what other students in this course can view" data-placement="top" data-toggle="tooltip" title="">
-                                  Other students in this course
-                                </div>
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE">
-                              </td>
-                            </tr>
-                            <tr>
-                              <td class="text-left">
-                                <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
-                                  Instructors
-                                </div>
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR">
-                              </td>
-                              <td>
-                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR">
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="form-group">
-                        <div id="rich-text-toolbar-comment-container">
-                        </div>
-                        <div class="panel panel-default panel-body" id="commenttext">
-                        </div>
-                      </div>
-                      <div class="col-sm-offset-5">
-                        <input class="btn btn-primary" id="button_save_comment" type="submit" value="Save">
-                        <input class="btn btn-default" onclick="hideAddCommentBox();" type="button" value="Cancel">
-                        <input name="courseid" type="hidden" value="FSQTT.idOfTypicalCourse1">
-                        <input name="studentemail" type="hidden" value="student1InCourse1@gmail.tmt">
-                        <input name="recipienttype" type="hidden" value="PERSON">
-                        <input name="recipients" type="hidden" value="student1InCourse1@gmail.tmt">
-                        <input name="showcommentsto" type="hidden" value="">
-                        <input name="showgiverto" type="hidden" value="">
-                        <input name="showrecipientto" type="hidden" value="">
-                        <input name="user" type="hidden" value="FSQTT.idOfInstructor1OfCourse1">
-                      </div>
-                    </form>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
         <br>
-        <div class="student_feedback panel panel-default" id="studentFeedback-0">
+        <div class="student_feedback panel panel-default" data-courseid="FSQTT.idOfTypicalCourse1" data-fsname="CONSTSUM Session" data-googleid="FSQTT.idOfInstructor1OfCourse1" data-studentemail="student1InCourse1@gmail.tmt" id="studentFeedback-0">
           <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-0" style="cursor: pointer;">
             <div class="display-icon pull-right">
               <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -481,7 +311,7 @@
           </div>
         </div>
         <br>
-        <div class="student_feedback panel panel-default" id="studentFeedback-1">
+        <div class="student_feedback panel panel-default" data-courseid="FSQTT.idOfTypicalCourse1" data-fsname="CONTRIB Session" data-googleid="FSQTT.idOfInstructor1OfCourse1" data-studentemail="student1InCourse1@gmail.tmt" id="studentFeedback-1">
           <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-1" style="cursor: pointer;">
             <div class="display-icon pull-right">
               <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -538,7 +368,7 @@
                               </span>
                               <span>
                                   [Perceived Contribution:
-                                <span class="color_neutral">
+                                <span class="color-neutral">
                                   N/A
                                 </span>
                                 ]
@@ -588,7 +418,7 @@
                         <div class="panel-body">
                           <div style="clear:both; overflow: hidden">
                             <div class="pull-left text-preserve-space">
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 Equal Share
                               </span>
                             </div>
@@ -715,7 +545,7 @@
           </div>
         </div>
         <br>
-        <div class="student_feedback panel panel-default" id="studentFeedback-2">
+        <div class="student_feedback panel panel-default" data-courseid="FSQTT.idOfTypicalCourse1" data-fsname="CONTRIB Session Student Anonymised" data-googleid="FSQTT.idOfInstructor1OfCourse1" data-studentemail="student1InCourse1@gmail.tmt" id="studentFeedback-2">
           <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-2" style="cursor: pointer;">
             <div class="display-icon pull-right">
               <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -773,7 +603,7 @@
                         <div class="panel-body">
                           <div style="clear:both; overflow: hidden">
                             <div class="pull-left text-preserve-space">
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 Equal Share
                               </span>
                             </div>
@@ -789,7 +619,7 @@
           </div>
         </div>
         <br>
-        <div class="student_feedback panel panel-default" id="studentFeedback-3">
+        <div class="student_feedback panel panel-default" data-courseid="FSQTT.idOfTypicalCourse1" data-fsname="MCQ Session" data-googleid="FSQTT.idOfInstructor1OfCourse1" data-studentemail="student1InCourse1@gmail.tmt" id="studentFeedback-3">
           <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-3" style="cursor: pointer;">
             <div class="display-icon pull-right">
               <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -987,7 +817,7 @@
           </div>
         </div>
         <br>
-        <div class="student_feedback panel panel-default" id="studentFeedback-4">
+        <div class="student_feedback panel panel-default" data-courseid="FSQTT.idOfTypicalCourse1" data-fsname="MSQ Session" data-googleid="FSQTT.idOfInstructor1OfCourse1" data-studentemail="student1InCourse1@gmail.tmt" id="studentFeedback-4">
           <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-4" style="cursor: pointer;">
             <div class="display-icon pull-right">
               <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -1231,7 +1061,7 @@
           </div>
         </div>
         <br>
-        <div class="student_feedback panel panel-default" id="studentFeedback-5">
+        <div class="student_feedback panel panel-default" data-courseid="FSQTT.idOfTypicalCourse1" data-fsname="NUMSCALE Session" data-googleid="FSQTT.idOfInstructor1OfCourse1" data-studentemail="student1InCourse1@gmail.tmt" id="studentFeedback-5">
           <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-5" style="cursor: pointer;">
             <div class="display-icon pull-right">
               <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -1347,7 +1177,7 @@
           </div>
         </div>
         <br>
-        <div class="student_feedback panel panel-default" id="studentFeedback-6">
+        <div class="student_feedback panel panel-default" data-courseid="FSQTT.idOfTypicalCourse1" data-fsname="RANK Session" data-googleid="FSQTT.idOfInstructor1OfCourse1" data-studentemail="student1InCourse1@gmail.tmt" id="studentFeedback-6">
           <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-6" style="cursor: pointer;">
             <div class="display-icon pull-right">
               <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -1451,6 +1281,9 @@
                                   </li>
                                   <li>
                                     Teamwork and communication
+                                  </li>
+                                  <li>
+                                    Friendliness of teammates
                                   </li>
                                 </ul>
                               </span>
@@ -1631,7 +1464,7 @@
           </div>
         </div>
         <br>
-        <div class="student_feedback panel panel-default" id="studentFeedback-7">
+        <div class="student_feedback panel panel-default" data-courseid="FSQTT.idOfTypicalCourse1" data-fsname="RUBRIC Session" data-googleid="FSQTT.idOfInstructor1OfCourse1" data-studentemail="student1InCourse1@gmail.tmt" id="studentFeedback-7">
           <div class="panel-heading student_feedback" data-target="#collapse-target-feedback-7" style="cursor: pointer;">
             <div class="display-icon pull-right">
               <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -1690,14 +1523,14 @@
                           <div style="clear:both; overflow: hidden">
                             <div class="pull-left text-preserve-space">
                               a) Yes
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 1)
                                 </i>
                               </span>
                               <br>
                               b) No
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 2)
                                 </i>
@@ -1755,14 +1588,14 @@
                           <div style="clear:both; overflow: hidden">
                             <div class="pull-left text-preserve-space">
                               a) Yes
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 1)
                                 </i>
                               </span>
                               <br>
                               b) No
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 2)
                                 </i>
@@ -1809,16 +1642,59 @@
                           <div style="clear:both; overflow: hidden">
                             <div class="pull-left text-preserve-space">
                               a) No
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 2)
                                 </i>
                               </span>
                               <br>
                               b) Yes
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 1)
+                                </i>
+                              </span>
+                              <br>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-info">
+                        <div class="panel-heading">
+                          Question 2:
+                          <span class="text-preserve-space">
+                            Please choose the best choice for the following sub-questions. Only first subquestion has responses 
+                            <span style=" white-space: normal;">
+                              <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-2-recipient-2-session-0" onclick="toggleAdditionalQuestionInfo('2-recipient-2-session-0')">
+                                [more]
+                              </a>
+                              <br>
+                              <span id="questionAdditionalInfo-2-recipient-2-session-0" style="display:none;">
+                                Rubric question sub-questions:
+                                <p>
+                                  a) This student has done a good job.
+                                  <br>
+                                  b) This student has tried his/her best.
+                                  <br>
+                                </p>
+                              </span>
+                            </span>
+                          </span>
+                        </div>
+                        <div class="panel-body">
+                          <div style="clear:both; overflow: hidden">
+                            <div class="pull-left text-preserve-space">
+                              a) Yes
+                              <span class="color-neutral">
+                                <i>
+                                  (Choice 1)
+                                </i>
+                              </span>
+                              <br>
+                              b)
+                              <span class="color-neutral">
+                                <i>
+                                  No Response
                                 </i>
                               </span>
                               <br>
@@ -1863,14 +1739,14 @@
                           <div style="clear:both; overflow: hidden">
                             <div class="pull-left text-preserve-space">
                               a) Yes
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 1)
                                 </i>
                               </span>
                               <br>
                               b) Yes
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 1)
                                 </i>
@@ -1917,14 +1793,14 @@
                           <div style="clear:both; overflow: hidden">
                             <div class="pull-left text-preserve-space">
                               a)
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   No Response
                                 </i>
                               </span>
                               <br>
                               b) Yes
-                              <span class="color_neutral">
+                              <span class="color-neutral">
                                 <i>
                                   (Choice 1)
                                 </i>

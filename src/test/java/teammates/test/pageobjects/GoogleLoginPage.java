@@ -2,22 +2,31 @@ package teammates.test.pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.base.Function;
+
+import teammates.test.driver.TestProperties;
 
 public class GoogleLoginPage extends LoginPage {
-    
-    @FindBy(id = "Email")
-    private WebElement usernameTextBox;
-    
-    @FindBy(id = "Passwd")
-    private WebElement passwordTextBox;
-    
-    @FindBy(id = "signIn")
-    private WebElement loginButton;
 
-    @FindBy(id = "PersistentCookie")
-    private WebElement staySignedCheckbox;
+    private static final String EXPECTED_SNIPPET_SIGN_IN = "Sign in - Google Accounts";
+    private static final String EXPECTED_SNIPPET_APPROVAL = "requesting permission to access your Google Account";
+
+    @FindBy(id = "identifierId")
+    private WebElement identifierTextBox;
+
+    @FindBy(id = "identifierNext")
+    private WebElement identifierNextButton;
+
+    @FindBy(css = "#password input[type=password]")
+    private WebElement passwordTextBox;
+
+    @FindBy(id = "passwordNext")
+    private WebElement passwordNextButton;
 
     public GoogleLoginPage(Browser browser) {
         super(browser);
@@ -25,15 +34,19 @@ public class GoogleLoginPage extends LoginPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Sign in with your Google Account");
+        return getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN);
     }
 
     @Override
     public InstructorHomePage loginAsInstructor(String username, String password) {
+        return loginAsInstructor(username, password, InstructorHomePage.class);
+    }
+
+    @Override
+    public <T extends AppPage> T loginAsInstructor(String username, String password, Class<T> typeOfPage) {
         completeGoogleLoginSteps(username, password);
-        InstructorHomePage homePage = changePageType(InstructorHomePage.class);
         browser.isAdminLoggedIn = false;
-        return homePage;
+        return changePageType(typeOfPage);
     }
 
     @Override
@@ -58,9 +71,8 @@ public class GoogleLoginPage extends LoginPage {
     @Override
     public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         completeGoogleLoginSteps(username, password);
-        T page = changePageType(typeOfPage);
         browser.isAdminLoggedIn = false;
-        return page;
+        return changePageType(typeOfPage);
     }
 
     private void completeGoogleLoginSteps(String username, String password) {
@@ -79,26 +91,61 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     private void handleApprovalPageIfAny() {
-        boolean isPageRequestingAccessApproval = isElementPresent(By.id("approve_button"));
+        waitForPageToLoad();
+        waitForRedirectIfAny();
+        boolean isPageRequestingAccessApproval = getPageSource().contains(EXPECTED_SNIPPET_APPROVAL);
         if (isPageRequestingAccessApproval) {
-            click(By.id("persist_checkbox"));
+            markCheckBoxAsChecked(browser.driver.findElement(By.id("persist_checkbox")));
             click(By.id("approve_button"));
             waitForPageToLoad();
         }
     }
 
+    private void waitForRedirectIfAny() {
+        String loginRedirectUrl = TestProperties.TEAMMATES_URL + "/_ah/conflogin";
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        wait.until((Function<WebDriver, Boolean>) d -> {
+            String url = d.getCurrentUrl();
+            boolean isTeammatesPage = url.startsWith(TestProperties.TEAMMATES_URL) && !url.startsWith(loginRedirectUrl);
+            boolean isApprovalPage = d.getPageSource().contains(EXPECTED_SNIPPET_APPROVAL);
+            return isTeammatesPage || isApprovalPage;
+        });
+    }
+
     private void submitCredentials(String username, String password) {
-        fillTextBox(usernameTextBox, username);
-        click(By.id("next"));
+        completeFillIdentifierSteps(username);
+        click(identifierNextButton);
+
         waitForElementVisibility(passwordTextBox);
         fillTextBox(passwordTextBox, password);
-        
-        if (staySignedCheckbox.isSelected()) {
-            click(staySignedCheckbox);
-        }
-        
-        click(loginButton);
+
+        click(passwordNextButton);
         waitForPageToLoad();
+    }
+
+    private void completeFillIdentifierSteps(String identifier) {
+        By oldUiSignInWithDifferentAccountBy = By.id("account-chooser-link");
+        By oldUiAddAccountBy = By.id("account-chooser-add-account");
+        By switchAccountButtonBy = By.cssSelector("*[aria-label='Switch account']");
+        By useAnotherAccountButtonBy = By.id("identifierLink");
+
+        if (isElementPresent(oldUiSignInWithDifferentAccountBy)) {
+            click(oldUiSignInWithDifferentAccountBy);
+            waitForPageToLoad();
+            click(waitForElementPresence(oldUiAddAccountBy));
+            waitForPageToLoad();
+        }
+
+        if (isElementPresent(switchAccountButtonBy)) {
+            click(switchAccountButtonBy);
+            click(waitForElementPresence(useAnotherAccountButtonBy));
+
+        } else if (isElementPresent(useAnotherAccountButtonBy)) {
+            click(useAnotherAccountButtonBy);
+        }
+
+        waitForElementVisibility(identifierTextBox);
+        fillTextBox(identifierTextBox, identifier);
     }
 
     @Override
@@ -116,7 +163,7 @@ public class GoogleLoginPage extends LoginPage {
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorCourseJoinConfirmationPage.class);
     }
-    
+
     @Override
     public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(
             String username, String password) {

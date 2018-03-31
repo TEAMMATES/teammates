@@ -1,21 +1,19 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.SessionAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.SessionAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.logic.api.GateKeeper;
+import teammates.ui.pagedata.InstructorStudentRecordsAjaxPageData;
 
 public class InstructorStudentRecordsAjaxPageAction extends Action {
 
@@ -23,17 +21,17 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Assumption.assertNotNull(studentEmail);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
 
         String targetSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(targetSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, targetSessionName);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 
-        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
+        gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId));
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
@@ -43,15 +41,15 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
 
-        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
+        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId, false);
 
         filterFeedbackSessions(courseId, feedbacks, instructor, student);
 
-        List<SessionAttributes> sessions = new ArrayList<SessionAttributes>();
+        List<SessionAttributes> sessions = new ArrayList<>();
         sessions.addAll(feedbacks);
-        Collections.sort(sessions, SessionAttributes.DESCENDING_ORDER);
+        sessions.sort(SessionAttributes.DESCENDING_ORDER);
 
-        List<FeedbackSessionResultsBundle> results = new ArrayList<FeedbackSessionResultsBundle>();
+        List<FeedbackSessionResultsBundle> results = new ArrayList<>();
         for (SessionAttributes session : sessions) {
             if (session instanceof FeedbackSessionAttributes) {
                 if (!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())) {
@@ -69,22 +67,17 @@ public class InstructorStudentRecordsAjaxPageAction extends Action {
                       + "in course <span class=\"bold\">[" + courseId + "]</span>";
 
         InstructorStudentRecordsAjaxPageData data =
-                                        new InstructorStudentRecordsAjaxPageData(account, student, results);
+                                        new InstructorStudentRecordsAjaxPageData(account, student, sessionToken, results);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
     }
 
     private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks,
                                         InstructorAttributes currentInstructor, StudentAttributes student) {
-        Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
-        while (iterFs.hasNext()) {
-            FeedbackSessionAttributes tempFs = iterFs.next();
-            if (!tempFs.getCourseId().equals(courseId)
+        feedbacks.removeIf(tempFs -> !tempFs.getCourseId().equals(courseId)
                     || !currentInstructor.isAllowedForPrivilege(student.section, tempFs.getSessionName(),
-                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
-                iterFs.remove();
-            }
-        }
+                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+
     }
 
 }

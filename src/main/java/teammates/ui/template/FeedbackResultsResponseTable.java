@@ -14,11 +14,11 @@ public class FeedbackResultsResponseTable {
     public String getRecipientName() {
         return recipientName;
     }
-    
+
     public List<FeedbackResultsResponse> getResponses() {
         return responses;
     }
-    
+
     public boolean isGiverNameYou() {
         return !responses.isEmpty() && "You".equals(responses.get(0).getGiverName());
     }

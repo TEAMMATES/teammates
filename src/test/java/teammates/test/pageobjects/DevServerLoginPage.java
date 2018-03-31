@@ -4,13 +4,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class DevServerLoginPage extends LoginPage {
-    
+
     @FindBy(id = "email")
     private WebElement emailTextBox;
-    
+
     @FindBy(id = "isAdmin")
     private WebElement isAdminCheckBox;
-    
+
     @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
     private WebElement loginButton;
 
@@ -25,11 +25,16 @@ public class DevServerLoginPage extends LoginPage {
 
     @Override
     public InstructorHomePage loginAsInstructor(String username, String password) {
+        return loginAsInstructor(username, password, InstructorHomePage.class);
+    }
+
+    @Override
+    public <T extends AppPage> T loginAsInstructor(String username, String password, Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
         click(loginButton);
         waitForPageToLoad();
         browser.isAdminLoggedIn = false;
-        return changePageType(InstructorHomePage.class);
+        return changePageType(typeOfPage);
     }
 
     @Override
@@ -73,7 +78,7 @@ public class DevServerLoginPage extends LoginPage {
         browser.isAdminLoggedIn = false;
         return changePageType(StudentCourseJoinConfirmationPage.class);
     }
-    
+
     @Override
     public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(String username, String password) {
         fillTextBox(emailTextBox, username);
@@ -82,7 +87,7 @@ public class DevServerLoginPage extends LoginPage {
         browser.isAdminLoggedIn = false;
         return changePageType(InstructorCourseJoinConfirmationPage.class);
     }
-    
+
     @Override
     public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(String username, String password) {
         fillTextBox(emailTextBox, username);

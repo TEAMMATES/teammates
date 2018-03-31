@@ -5,11 +5,13 @@ import static teammates.common.util.Const.ActionURIs.*;
 // CHECKSTYLE.ON:AvoidStarImport
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 
 /**
@@ -17,9 +19,9 @@ import teammates.common.util.Logger;
  */
 public class ActionFactory {
     private static final Logger log = Logger.getLogger();
-    
-    private static HashMap<String, Class<? extends Action>> actionMappings = new HashMap<String, Class<? extends Action>>();
-    
+
+    private static Map<String, Class<? extends Action>> actionMappings = new HashMap<>();
+
     static {
         map(ADMIN_HOME_PAGE, AdminHomePageAction.class);
         map(ADMIN_ACCOUNT_DELETE, AdminAccountDeleteAction.class);
@@ -45,7 +47,7 @@ public class ActionFactory {
         map(ADMIN_EMAIL_MOVE_TO_TRASH, AdminEmailTrashAction.class);
         map(ADMIN_EMAIL_MOVE_OUT_TRASH, AdminEmailTrashAction.class);
         map(ADMIN_EMAIL_LOG_PAGE, AdminEmailLogPageAction.class);
-        
+
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_STATS_PAGE, CourseStatsPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
@@ -63,6 +65,7 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_SAVE, InstructorCourseEnrollSaveAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DELETE, InstructorCourseStudentDeleteAction.class);
+        map(INSTRUCTOR_COURSE_STUDENT_DELETE_ALL, InstructorCourseStudentDeleteAllAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD, InstructorCourseStudentListDownloadAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE, InstructorCourseStudentDetailsPageAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT, InstructorCourseStudentDetailsEditPageAction.class);
@@ -71,7 +74,7 @@ public class ActionFactory {
         map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE, InstructorEditStudentFeedbackSaveAction.class);
         map(INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_PAGE, InstructorEditInstructorFeedbackPageAction.class);
         map(INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE, InstructorEditInstructorFeedbackSaveAction.class);
-        map(INSTRUCTOR_FEEDBACKS_PAGE, InstructorFeedbacksPageAction.class);
+        map(INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, InstructorFeedbackSessionsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
         map(INSTRUCTOR_FEEDBACK_COPY, InstructorFeedbackCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_DELETE, InstructorFeedbackDeleteAction.class);
@@ -94,7 +97,6 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD, InstructorFeedbackResponseCommentAddAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT, InstructorFeedbackResponseCommentEditAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE, InstructorFeedbackResponseCommentDeleteAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, InstructorFeedbackResponseCommentsLoadAction.class);
         map(INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT, InstructorFeedbackPreviewAsStudentAction.class);
         map(INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR, InstructorFeedbackPreviewAsInstructorAction.class);
         map(INSTRUCTOR_FEEDBACK_STATS_PAGE, FeedbackSessionStatsPageAction.class);
@@ -106,12 +108,7 @@ public class ActionFactory {
         map(INSTRUCTOR_STUDENT_LIST_AJAX_PAGE, InstructorStudentListAjaxPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_PAGE, InstructorStudentRecordsPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
-        map(INSTRUCTOR_STUDENT_COMMENT_ADD, InstructorStudentCommentAddAction.class);
-        map(INSTRUCTOR_STUDENT_COMMENT_EDIT, InstructorStudentCommentEditAction.class);
-        map(INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING, InstructorStudentCommentClearPendingAction.class);
-        map(INSTRUCTOR_COMMENTS_PAGE, InstructorCommentsPageAction.class);
-        
-        map(STUDENT_COMMENTS_PAGE, StudentCommentsPageAction.class);
+
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
         map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
         map(STUDENT_COURSE_JOIN_NEW, StudentCourseJoinAction.class);
@@ -126,19 +123,21 @@ public class ActionFactory {
         map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
         map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
         map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
+
+        map(CREATE_IMAGE_UPLOAD_URL, CreateImageUploadUrlAction.class);
+        map(IMAGE_UPLOAD, ImageUploadAction.class);
+
+        map(ERROR_FEEDBACK_SUBMIT, ErrorUserReportLogAction.class);
     }
 
-
-
     /**
-     * @return the matching {@link Action} object for the URI in the {@code req}.
-     *   The returned {@code Action} is already initialized using the {@code req}.
+     * Returns the matching {@link Action} object for the URI in the {@code req}.
      */
     public Action getAction(HttpServletRequest req) {
-        
+
         String url = req.getRequestURL().toString();
         log.info("URL received : [" + req.getMethod() + "] " + url);
-        
+
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
@@ -146,23 +145,25 @@ public class ActionFactory {
         Action c = getAction(uri);
         c.init(req);
         return c;
-        
+
     }
 
     private static Action getAction(String uri) {
         Class<? extends Action> controllerClass = actionMappings.get(uri);
-        
+
         if (controllerClass == null) {
             throw new PageNotFoundException(uri);
         }
-        
+
         try {
             return controllerClass.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Could not create the action for " + uri + ": "
-                                       + TeammatesException.toStringWithStackTrace(e));
+            Assumption.fail("Could not create the action for " + uri + ": "
+                            + TeammatesException.toStringWithStackTrace(e));
+            return null;
+
         }
-        
+
     }
 
     private static void map(String actionUri, Class<? extends Action> actionClass) {

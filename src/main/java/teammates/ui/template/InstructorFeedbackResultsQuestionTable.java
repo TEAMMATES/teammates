@@ -1,22 +1,21 @@
 package teammates.ui.template;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
 public class InstructorFeedbackResultsQuestionTable {
 
     private String courseId;
     private String feedbackSessionName;
-    
+
     private String panelClass;
     private String ajaxClass;
-    
+
     private List<InstructorFeedbackResultsResponseRow> responses;
-    
+
     // store the attributes of the question for the non-display purposes
     // such as form inputs
     private FeedbackQuestionAttributes question;
@@ -24,10 +23,10 @@ public class InstructorFeedbackResultsQuestionTable {
     private String questionText;
     private String additionalInfoText;
     private String questionStatisticsTable;
-    
+
     private boolean isHasResponses;
     private boolean isShowResponseRows;
-    
+
     private boolean isCollapsible;
     private boolean isBoldQuestionNumber;
 
@@ -45,22 +44,22 @@ public class InstructorFeedbackResultsQuestionTable {
                                           Map<String, Boolean> isColumnSortable) {
         this.courseId = question.courseId;
         this.feedbackSessionName = question.feedbackSessionName;
-        
+
         this.questionStatisticsTable = questionStatisticsHtml;
         this.responses = responseRows;
-        
+
         this.isHasResponses = isHasResponses;
-        
+
         this.question = question;
-        
+
         this.questionText = questionText;
-        
+
         this.panelClass = "panel-info";
-        
+
         this.additionalInfoText = additionalInfoText;
-        
+
         this.columns = columns;
-        
+
         this.isBoldQuestionNumber = true;
         this.isColumnSortable = isColumnSortable;
     }
@@ -112,11 +111,11 @@ public class InstructorFeedbackResultsQuestionTable {
     public boolean isCollapsible() {
         return isCollapsible;
     }
-    
+
     public boolean isBoldQuestionNumber() {
         return isBoldQuestionNumber;
     }
-    
+
     public Map<String, Boolean> getIsColumnSortable() {
         return isColumnSortable;
     }
@@ -146,13 +145,7 @@ public class InstructorFeedbackResultsQuestionTable {
     }
 
     public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {
-        Collections.sort(questionTables, new Comparator<InstructorFeedbackResultsQuestionTable>() {
-            @Override
-            public int compare(InstructorFeedbackResultsQuestionTable questionTable1,
-                               InstructorFeedbackResultsQuestionTable questionTable2) {
-                return questionTable1.question.questionNumber - questionTable2.question.questionNumber;
-            }
-        });
+        questionTables.sort(Comparator.comparing(questionTable -> questionTable.question.questionNumber));
     }
-    
+
 }

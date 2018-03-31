@@ -1,10 +1,11 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
@@ -23,7 +24,8 @@ public class StudentProfileEditSaveAction extends Action {
             logic.updateStudentProfile(account.studentProfile);
             statusToUser.add(new StatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId
-                          + ")</span> edited.<br>" + account.studentProfile.toString();
+                          + ")</span> edited.<br>"
+                          + SanitizationHelper.sanitizeForHtmlTag(account.studentProfile.toString());
         } catch (InvalidParametersException ipe) {
             setStatusForException(ipe);
         }
@@ -40,13 +42,15 @@ public class StudentProfileEditSaveAction extends Action {
     }
 
     private StudentProfileAttributes extractProfileData() {
-        StudentProfileAttributes editedProfile = new StudentProfileAttributes();
+        StudentProfileAttributes editedProfile = StudentProfileAttributes.builder(account.googleId).build();
 
-        editedProfile.googleId = account.googleId;
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
         editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
         editedProfile.institute = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION);
         editedProfile.nationality = getRequestParamValue(Const.ParamsNames.STUDENT_NATIONALITY);
+        if ("".equals(editedProfile.nationality)) {
+            editedProfile.nationality = getRequestParamValue("existingNationality");
+        }
         editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";

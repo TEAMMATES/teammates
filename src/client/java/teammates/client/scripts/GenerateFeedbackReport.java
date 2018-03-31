@@ -9,7 +9,6 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.logic.api.Logic;
-import teammates.storage.datastore.Datastore;
 
 /**
  * Generates the feedback report as a csv.
@@ -20,23 +19,22 @@ public class GenerateFeedbackReport extends RemoteApiClient {
         GenerateFeedbackReport reportGenerator = new GenerateFeedbackReport();
         reportGenerator.doOperationRemotely();
     }
-    
+
     @Override
     protected void doOperation() {
-        Datastore.initialize(); //TODO: push to parent class
         Logic logic = new Logic();
-        
+
         try {
             String fileContent =
                     logic.getFeedbackSessionResultSummaryAsCsv(
-                            "CourseID", "Session Name", "instructor@email.com", null, true, true);
+                            "CourseID", "Session Name", "instructor@email.com", true, true, null);
             writeToFile("result.csv", fileContent);
         } catch (EntityDoesNotExistException | ExceedingRangeException e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     private void writeToFile(String fileName, String fileContent) {
         try {
 
@@ -47,14 +45,12 @@ public class GenerateFeedbackReport extends RemoteApiClient {
                 file.createNewFile();
             }
 
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(fileContent);
-            bw.close();
-
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()))) {
+                bw.write(fileContent);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
 }

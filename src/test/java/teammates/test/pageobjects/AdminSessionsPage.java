@@ -13,7 +13,7 @@ public class AdminSessionsPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("Ongoing Sessions");
     }
-    
+
     public void clickDetailButton() {
         click(getDetailButton());
         waitForPageToLoad();

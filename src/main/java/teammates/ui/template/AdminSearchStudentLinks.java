@@ -4,7 +4,7 @@ public class AdminSearchStudentLinks {
     private String detailsPageLink;
     private String homePageLink;
     private String courseJoinLink;
-    
+
     public AdminSearchStudentLinks(String detailsPageLink, String homePageLink, String courseJoinLink) {
         this.detailsPageLink = detailsPageLink;
         this.homePageLink = homePageLink;

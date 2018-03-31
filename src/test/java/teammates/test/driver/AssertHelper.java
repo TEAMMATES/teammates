@@ -3,41 +3,37 @@ package teammates.test.driver;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import teammates.common.util.ActivityLogEntry;
-import teammates.common.util.TimeHelper;
+import com.google.common.base.Joiner;
 
-import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
+import teammates.common.util.Const;
 
+/**
+ * Provides additional assertion methods that are often used during testing.
+ */
 public final class AssertHelper {
-    
+
     private AssertHelper() {
         // utility class
     }
-    
+
     /**
-     * Assert date is now +- 1 min
+     * Assert instant is now +- 1 min.
      */
-    public static void assertDateIsNow(Date date) {
-        assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),
-                                    TimeHelper.getMsOffsetToCurrentTime(1000 * 60));
+    public static void assertInstantIsNow(Instant instant) {
+        assertInstantWithinRange(instant, TimeHelperExtension.getInstantMinutesOffsetFromNow(-1),
+                TimeHelperExtension.getInstantMinutesOffsetFromNow(1));
     }
-    
-    public static void assertDateWithinRange(Date date, Date startDate, Date endDate) {
-        assertTrue(!(date.before(startDate) || date.after(endDate)));
+
+    private static void assertInstantWithinRange(Instant instant, Instant start, Instant end) {
+        assertTrue(!(instant.isBefore(start) || instant.isAfter(end)));
     }
-    
-    public static void assertSameDates(Date expected, Date actual) {
-        assertEquals(TimeHelper.calendarToString(TimeHelper.dateToCalendar(expected)),
-                TimeHelper.calendarToString(TimeHelper.dateToCalendar(actual)));
-    }
-    
+
     /**
      * Asserts that the {@link String} {@code superstringActual} contains the exact occurrence of
      * <b>every</b> String in the {@link List} of Strings {@code substringsExpected}.
@@ -128,46 +124,74 @@ public final class AssertHelper {
                 .replaceAll("[\t\r\n]", "");
         return processedActual.matches("(?s)(?m).*?" + processedRegex + ".*?");
     }
-    
+
     /**
-     * Asserts that the actual log message, excluding its id, is equal to the expected log message,
-     * and that the actual log message's id contains the expected google id.
-     * @param expected
-     * @param actual
+     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
+     * and that the actual log message's ID contains the expected google ID.
      */
     public static void assertLogMessageEquals(String expected, String actual) {
-        String expectedGoogleId = expected.split("\\|\\|\\|")[ActivityLogEntry.POSITION_OF_GOOGLEID];
+        String expectedGoogleId =
+                expected.split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR))[6]; // GoogleId is at position 6
 
-        assertLogMessageEquals(expected, actual, expectedGoogleId);
+        assertLogMessageEqualsIgnoreLogId(expected, actual);
+        assertLogIdContainsUserId(actual, expectedGoogleId);
     }
-    
-    private static void assertLogMessageEquals(String expected, String actual, String userIdentifier) {
-        int endIndex = actual.lastIndexOf("|||");
-        String actualLogWithoutId = actual.substring(0, endIndex);
-        
-        assertEquals(expected, actualLogWithoutId);
-        
-        String actualId = actual.substring(endIndex + "|||".length());
+
+    /**
+     * Assert that the actual log message contains userId in its id field.
+     */
+    public static void assertLogIdContainsUserId(String actualMessage, String userIdentifier) {
+        int endIndex = actualMessage.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
+        String actualId = actualMessage.substring(endIndex + Const.ActivityLog.FIELD_SEPARATOR.length());
         assertTrue("expected actual message's id to contain " + userIdentifier
                    + " but was " + actualId,
                    actualId.contains(userIdentifier));
     }
-    
+
+    /**
+     * Assert that the actual log message, excluding its ID, is equal to the expected log message.
+     */
+    public static void assertLogMessageEqualsIgnoreLogId(String expected, String actual) {
+        int endIndex = actual.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
+        String actualLogWithoutId = actual.substring(0, endIndex);
+
+        assertEquals(expected, actualLogWithoutId);
+    }
+
+    /**
+     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
+     * and that the actual log message's ID contains information of the google id of admin.
+     */
+    public static void assertLogMessageEqualsInMasqueradeMode(String expected,
+            String actual, String adminGoogleId) {
+        assertLogMessageEqualsIgnoreLogId(expected, actual);
+        assertLogIdContainsUserId(actual, adminGoogleId);
+    }
+
+    /**
+     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
+     * and that the actual log message's ID contains information of the specified student email and course ID.
+     */
     public static void assertLogMessageEqualsForUnregisteredStudentUser(
             String expected, String actual, String studentEmail, String courseId) {
-        assertLogMessageEquals(expected, actual, studentEmail + "%" + courseId);
+        assertLogMessageEqualsIgnoreLogId(expected, actual);
+        assertLogIdContainsUserId(actual,
+                String.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
     }
-    
+
+    /**
+     * Asserts that the two given lists have the same contents, ignoring their order.
+     */
     public static void assertSameContentIgnoreOrder(List<?> a, List<?> b) {
 
         String expectedListAsString = Joiner.on("\t").join(a);
         String actualListAsString = Joiner.on("\t").join(b);
 
-        List<String> expectedStringTypeList = new ArrayList<String>(Arrays.asList(expectedListAsString.split("\t")));
-        List<String> actualStringTypeList = new ArrayList<String>(Arrays.asList(actualListAsString.split("\t")));
+        List<String> expectedStringTypeList = new ArrayList<>(Arrays.asList(expectedListAsString.split("\t")));
+        List<String> actualStringTypeList = new ArrayList<>(Arrays.asList(actualListAsString.split("\t")));
 
-        Collections.sort(expectedStringTypeList);
-        Collections.sort(actualStringTypeList);
+        expectedStringTypeList.sort(null);
+        actualStringTypeList.sort(null);
 
         assertEquals(expectedStringTypeList, actualStringTypeList);
 

@@ -1,73 +1,63 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.Date;
-
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Parent;
+import com.googlecode.objectify.annotation.Unindex;
+
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents profile details for student entities associated with an
- * account entity
+ * account entity.
  */
-@PersistenceCapable
-public class StudentProfile {
+@Entity
+@Unindex
+public class StudentProfile extends BaseEntity {
 
-    // PMD.UnusedPrivateField is suppressed as profileId is persisted to the database
-    @SuppressWarnings("PMD.UnusedPrivateField")
-    @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-    private String profileId;
+    @Parent
+    private Key<Account> account; // NOPMD - specifies parent as Account; used by Objectify
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.pk-name", value = "true")
+    @Id
     private String googleId;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String shortName;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String email;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String institute;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String nationality;
 
-    @Persistent
     /* only accepts "male", "female" or "other" */
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private String gender;
 
-    @Persistent
     /* must be html sanitized before saving */
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Text moreInfo;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private BlobKey pictureKey;
 
-    @Persistent
+    @Index
     private Date modifiedDate;
+
+    @SuppressWarnings("unused")
+    private StudentProfile() {
+        // required by Objectify
+    }
 
     /**
      * Instantiates a new account.
-     * 
+     *
      * @param googleId
      *            the Google ID of the user.
-     * @param name
+     * @param shortName
      *            The shortened name of the user.
      * @param email
      *            The long-term (personal) email of the user.
@@ -91,7 +81,7 @@ public class StudentProfile {
         this.setNationality(nationality);
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
-        this.setModifiedDate(new Date());
+        this.setModifiedDate(Instant.now());
         this.setPictureKey(pictureKey);
     }
 
@@ -104,7 +94,7 @@ public class StudentProfile {
         this.setGender("other");
         this.setMoreInfo(new Text(""));
         this.setPictureKey(new BlobKey(""));
-        this.setModifiedDate(new Date());
+        this.setModifiedDate(Instant.now());
     }
 
     public String getGoogleId() {
@@ -113,6 +103,7 @@ public class StudentProfile {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
+        this.account = Key.create(Account.class, googleId);
     }
 
     public String getShortName() {
@@ -171,12 +162,12 @@ public class StudentProfile {
         this.pictureKey = pictureKey;
     }
 
-    public Date getModifiedDate() {
-        return this.modifiedDate;
+    public Instant getModifiedDate() {
+        return TimeHelper.convertDateToInstant(this.modifiedDate);
     }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setModifiedDate(Instant modifiedDate) {
+        this.modifiedDate = TimeHelper.convertInstantToDate(modifiedDate);
     }
 
 }

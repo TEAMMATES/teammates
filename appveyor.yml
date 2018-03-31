@@ -1,0 +1,45 @@
+environment:
+  JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+
+init:
+  - git config --global core.autocrlf true
+
+install:
+  - ps: Install-Product node ''
+
+branches:
+  only:
+    - master
+    - release
+
+skip_commits:
+  files:
+    - '**/*.md'
+    - '**/*.txt'
+    - '**/*.png'
+    - '**/*.jpg'
+    - '**/*.gif'
+    - LICENSE
+    - docs/**/*
+    - .templates/**/*
+
+build_script:
+  - set PATH=C:\google-cloud-sdk\bin;%PATH%
+
+  - curl -fsS -o C:\google-cloud-sdk.zip https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip
+  - cd C:\
+  - 7z x google-cloud-sdk.zip
+  - google-cloud-sdk/install.bat --usage-reporting false --path-update false --command-completion false
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - gcloud -q components install app-engine-java
+
+  - gradlew.bat createConfigs testClasses
+  - gradlew.bat downloadStaticAnalysisTools
+  - gradlew.bat lint --continue
+  - npm install
+  - npm run lint
+
+test_script:
+  - npm run build
+  - gradlew.bat appengineStart
+  - gradlew.bat ciTests

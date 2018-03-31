@@ -1,16 +1,15 @@
 <html>
-    <head>
-    </head>
     <body>
         <div id="mainContent">
             <h2>Injected values</h2>
             <ul>
-                <li>window.location.origin + '/${studentmotd.url}';</li>
+                <li><input id="motd-url" type="hidden" value="${studentmotd.url}"></li>
                 <li>V${version}</li>
                 <li>${test.student1}</li>
                 <li>${test.student2}</li>
                 <li>${test.instructor}</li>
                 <li>${test.admin}</li>
+                <li>${support.email}</li>
             </ul>
             <h2>Variations in injected values</h2>
             <ul>
@@ -38,15 +37,16 @@
                 <li>responseCommentRow-${comment.id}</li>
                 <li>commentBar-${comment.id}</li>
                 <li>plainCommentText-${comment.id}</li>
-                <li>${date.nexthour}</li>
                 <li>${datetime.now}</li>
-                <li>${datetime.now}</li>
-                <li>${lib.path}/jquery.min.js</li>
-                <li>${lib.path}/jquery-ui.min.js</li>
-                <li>${lib.path}/skins/lightgray/skin.min.css</li>
-                <li>${lib.path}/skins/lightgray/content.inline.min.css</li>
+                <li>${datetime.now} UTC+0000</li>
+                <li>${datetime.now.iso8601utc}</li>
+                <li>${datetime.now.courses}</li>
+                <li>${datepicker}</li>
                 <li>${admin.institute}</li>
                 <li>${admin.institute}</li>
+                <li><input name="token" type="hidden" value="${sessionToken}"></li>
+                <li>/page/instructorCourseDelete?courseid=abcdef&amp;token=${sessionToken}</li>
+                <li>/page/instructorCourseDelete?token=${sessionToken}</li>
             </ul>
         </div>
     </body>

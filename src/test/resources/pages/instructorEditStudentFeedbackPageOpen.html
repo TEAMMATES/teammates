@@ -8,6 +8,7 @@
   <form action="/page/instructorEditStudentFeedbackSave" method="post" name="form_submit_response">
     <input name="fsname" type="hidden" value="First feedback session">
     <input name="courseid" type="hidden" value="IESFPTCourse">
+    <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IESFPTCourseinstr">
     <div id="statusMessagesToUser" style="display: none;">
     </div>
@@ -41,7 +42,7 @@
               </label>
               <div class="col-sm-10">
                 <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                  Sun, 01 Apr 2012, 11:59 PM UTC+0200
                 </p>
               </div>
             </div>
@@ -50,8 +51,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Fri, 30 Apr 2027, 11:59 PM
+                <p class="form-control-static" data-end-time="2027-04-30T21:59:00Z" id="end-time">
+                  Fri, 30 Apr 2027, 11:59 PM UTC+0200
                 </p>
               </div>
             </div>
@@ -70,11 +71,6 @@
       </div>
     </div>
     <br>
-    <div class="row">
-      <span class="help-block align-center">
-        Some questions may be hidden due to visibility options
-      </span>
-    </div>
     <input name="questiontype-1" type="hidden" value="TEXT">
     <input name="questionid-1" type="hidden" value="${question.id}">
     <input name="questionresponsetotal-1" type="hidden" value="1">
@@ -98,25 +94,23 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student) :
             </div>
             <div class="col-sm-12">
-              <div id="rich-text-toolbar-response-text-container-1-0">
-              </div>
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
+              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
                 <p>
                   Student 1 self feedback.
                 </p>
@@ -138,8 +132,8 @@
                   words
                 </div>
               </div>
-              <input name="responseid-1-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
             </div>
+            <input name="responseid-1-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
           </div>
         </div>
       </div>
@@ -172,20 +166,20 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="student1InIESFPTCourse@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="student1InIESFPTCourse@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student) :
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
@@ -208,7 +202,9 @@
       <input name="moderatedperson" type="hidden" value="student1InIESFPTCourse@gmail.tmt">
       <input name="sendsubmissionemail" type="checkbox">
       Send me a confirmation email
-      <input class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit" value="Submit Feedback">
+      <button class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" id="response_submit_button" title="" type="submit">
+        Submit Feedback
+      </button>
     </div>
     <br>
     <br>

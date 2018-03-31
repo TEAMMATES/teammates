@@ -2,19 +2,17 @@ package teammates.ui.template;
 
 import java.util.List;
 
-
 /**
- * Data model for the form for previewing a feedback session as a student or instructor
- *
+ * Data model for the form for previewing a feedback session as a student or instructor.
  */
 public class FeedbackSessionPreviewForm {
 
     private String courseId;
     private String fsName;
-    
+
     private List<ElementTag> studentToPreviewAsOptions;
     private List<ElementTag> instructorToPreviewAsOptions;
-    
+
     public FeedbackSessionPreviewForm(String courseId, String fsName, List<ElementTag> studentList,
                                       List<ElementTag> instructorList) {
         this.courseId = courseId;

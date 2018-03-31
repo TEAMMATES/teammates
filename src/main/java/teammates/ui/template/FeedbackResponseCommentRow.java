@@ -1,15 +1,17 @@
 package teammates.ui.template;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 
 public class FeedbackResponseCommentRow {
     private Long commentId;
-    private String extraClass = "";
     private String giverDisplay;
     private String createdAt;
     private String editedAt;
@@ -20,75 +22,71 @@ public class FeedbackResponseCommentRow {
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
+    private String commentGiverName;
 
     private String showCommentToString;
     private String showGiverNameToString;
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
+    private Map<String, String> instructorEmailNameTable;
 
     private String whoCanSeeComment;
-    private boolean withVisibilityIcon;
-    private boolean withNotificationIcon;
-    private boolean withLinkToCommentsPage;
-    private String linkToCommentsPage;
-    
-    private boolean editDeleteEnabled;
-    private boolean editDeleteEnabledOnlyOnHover;
-    private boolean instructorAllowedToDelete;
-    private boolean instructorAllowedToEdit;
-    
-    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay) {
+    private ZoneId sessionTimeZone;
+
+    private boolean hasVisibilityIcon;
+
+    private boolean isEditDeleteEnabled;
+
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
+            Map<String, String> instructorEmailNameTable, ZoneId sessionTimeZone) {
+        this.instructorEmailNameTable = instructorEmailNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
-        this.createdAt = TimeHelper.formatDateTimeForComments(frc.createdAt);
-        this.editedAt = frc.getEditedAtText("Anonymous".equals(giverDisplay));
+        this.sessionTimeZone = sessionTimeZone;
+        this.createdAt = TimeHelper.formatDateTimeForSessions(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
+        this.commentGiverName = getCommentGiverNameFromEmail(giverDisplay);
+        this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }
 
-    // for editing / deleting comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                      String giverName, String recipientName, String showCommentToString,
-                                      String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
-        this(frc, giverDisplay);
+            String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> instructorEmailNameTable,
+            ZoneId sessionTimeZone) {
+        this(frc, giverDisplay, instructorEmailNameTable, sessionTimeZone);
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisiblities);
+                showCommentToString, showGiverNameToString, responseVisibilities);
     }
-    
+
     // for adding comments
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
-                                      String giverName, String recipientName, String showCommentToString,
-                                      String showGiverNameToString,
-                                      Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+            String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities, ZoneId sessionTimeZone) {
         setDataForAddEditDelete(frc, giverName, recipientName,
-                                showCommentToString, showGiverNameToString, responseVisiblities);
+                showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
+        this.sessionTimeZone = sessionTimeZone;
     }
-    
-    private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc,
-            String giverName, String recipientName,
+
+    private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc, String giverName, String recipientName,
             String showCommentToString, String showGiverNameToString,
-            Map<FeedbackParticipantType, Boolean> responseVisiblities) {
+            Map<FeedbackParticipantType, Boolean> responseVisibilities) {
         this.responseGiverName = giverName;
         this.responseRecipientName = recipientName;
-        
+
         this.showCommentTo = frc.showCommentTo;
         this.showGiverNameTo = frc.showGiverNameTo;
-        
-        this.responseVisibilities = responseVisiblities;
-        
+
+        this.responseVisibilities = responseVisibilities;
+
         // meta data for form
         this.feedbackResponseId = frc.feedbackResponseId;
         this.courseId = frc.courseId;
         this.feedbackSessionName = frc.feedbackSessionName;
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
-        
-    }
 
-    public String getExtraClass() {
-        return extraClass;
     }
 
     public Long getCommentId() {
@@ -111,10 +109,6 @@ public class FeedbackResponseCommentRow {
         return commentText;
     }
 
-    public String getLinkToCommentsPage() {
-        return linkToCommentsPage;
-    }
-
     public String getFeedbackResponseId() {
         return feedbackResponseId;
     }
@@ -122,7 +116,7 @@ public class FeedbackResponseCommentRow {
     public String getCourseId() {
         return courseId;
     }
-    
+
     public String getQuestionId() {
         return questionId;
     }
@@ -152,41 +146,21 @@ public class FeedbackResponseCommentRow {
     }
 
     public boolean isWithVisibilityIcon() {
-        return withVisibilityIcon;
-    }
-
-    public boolean isWithNotificationIcon() {
-        return withNotificationIcon;
-    }
-
-    public boolean isWithLinkToCommentsPage() {
-        return withLinkToCommentsPage;
+        return hasVisibilityIcon;
     }
 
     public boolean isEditDeleteEnabled() {
-        return editDeleteEnabled;
+        return isEditDeleteEnabled;
     }
 
-    public boolean isEditDeleteEnabledOnlyOnHover() {
-        return editDeleteEnabledOnlyOnHover;
-    }
-    
-    public boolean isInstructorAllowedToDelete() {
-        return instructorAllowedToDelete;
-    }
-
-    public boolean isInstructorAllowedToEdit() {
-        return instructorAllowedToEdit;
-    }
-    
     private boolean isResponseVisibleTo(FeedbackParticipantType type) {
         return responseVisibilities.containsKey(type) && responseVisibilities.get(type);
     }
-    
+
     private boolean isShowCommentTo(FeedbackParticipantType type) {
         return showCommentTo.contains(type);
     }
-    
+
     private boolean isShowGiverNameTo(FeedbackParticipantType type) {
         return showGiverNameTo.contains(type);
     }
@@ -259,40 +233,34 @@ public class FeedbackResponseCommentRow {
         return isShowGiverNameTo(FeedbackParticipantType.INSTRUCTORS);
     }
 
-    public void setExtraClass(String extraClass) {
-        this.extraClass = extraClass;
-    }
-    
-    private void enableEditDelete() {
-        this.editDeleteEnabled = true;
-    }
-    
-    public void enableEdit() {
-        enableEditDelete();
-        this.instructorAllowedToEdit = true;
-    }
-    
-    public void enableDelete() {
-        enableEditDelete();
-        this.instructorAllowedToDelete = true;
-    }
-    
-    public void enableEditDeleteOnHover() {
-        this.editDeleteEnabledOnlyOnHover = true;
-    }
-    
-    public void enableVisibilityIcon(String whoCanSeeComment) {
-        this.withVisibilityIcon = true;
-        this.whoCanSeeComment = whoCanSeeComment;
-    }
-    
-    public void enableNotificationIcon() {
-        this.withNotificationIcon = true;
+    public void enableEditDelete() {
+        this.isEditDeleteEnabled = true;
     }
 
-    public FeedbackResponseCommentRow setLinkToCommentsPage(String linkToCommentsPage) {
-        this.withLinkToCommentsPage = true;
-        this.linkToCommentsPage = linkToCommentsPage;
-        return this;
+    public void setVisibilityIcon(boolean hasVisibilityIcon, String whoCanSeeComment) {
+        this.hasVisibilityIcon = hasVisibilityIcon;
+        this.whoCanSeeComment = whoCanSeeComment;
+    }
+
+    public String getCommentGiverName() {
+        return commentGiverName;
+    }
+
+    private String getCommentGiverNameFromEmail(String giverEmail) {
+        if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverEmail)) {
+            return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
+        }
+        return instructorEmailNameTable.get(giverEmail);
+    }
+
+    private String getEditedAtText(String lastEditorEmail, Instant createdAt, Instant lastEditedAt) {
+        if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
+            return "";
+        }
+        boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(commentGiverName);
+        return "(last edited "
+                + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
+                + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone)
+                + ")";
     }
 }
