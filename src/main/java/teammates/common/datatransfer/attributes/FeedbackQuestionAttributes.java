@@ -45,50 +45,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     private String feedbackQuestionId;
 
     public FeedbackQuestionAttributes() {
-        // attributes to be set after construction
-    }
-
-    public FeedbackQuestionAttributes(FeedbackQuestion fq) {
-        this.feedbackQuestionId = fq.getId();
-        this.feedbackSessionName = fq.getFeedbackSessionName();
-        this.courseId = fq.getCourseId();
-        this.creatorEmail = fq.getCreatorEmail();
-        this.questionMetaData = fq.getQuestionMetaData();
-        this.questionDescription = SanitizationHelper.sanitizeForRichText(fq.getQuestionDescription());
-        this.questionNumber = fq.getQuestionNumber();
-        this.questionType = fq.getQuestionType();
-        this.giverType = fq.getGiverType();
-        this.recipientType = fq.getRecipientType();
-        this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = new ArrayList<>(fq.getShowResponsesTo());
-        this.showGiverNameTo = new ArrayList<>(fq.getShowGiverNameTo());
-        this.showRecipientNameTo = new ArrayList<>(fq.getShowRecipientNameTo());
-
-        this.createdAt = fq.getCreatedAt();
-        this.updatedAt = fq.getUpdatedAt();
-
-        removeIrrelevantVisibilityOptions();
-    }
-
-    private FeedbackQuestionAttributes(FeedbackQuestionAttributes other) {
-        this.feedbackQuestionId = other.getId();
-        this.feedbackSessionName = other.getFeedbackSessionName();
-        this.courseId = other.getCourseId();
-        this.creatorEmail = other.getCreatorEmail();
-        this.questionMetaData = other.getQuestionMetaData();
-        this.questionNumber = other.getQuestionNumber();
-        this.questionType = other.getQuestionType();
-        this.giverType = other.getGiverType();
-        this.recipientType = other.getRecipientType();
-        this.numberOfEntitiesToGiveFeedbackTo = other.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = new ArrayList<>(other.getShowResponsesTo());
-        this.showGiverNameTo = new ArrayList<>(other.getShowGiverNameTo());
-        this.showRecipientNameTo = new ArrayList<>(other.getShowRecipientNameTo());
-
-        this.createdAt = other.getCreatedAt();
-        this.updatedAt = other.getUpdatedAt();
-
-        removeIrrelevantVisibilityOptions();
+        // Empty constructor for builder to construct object
     }
 
     public static Builder builder() {
@@ -216,7 +173,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     }
 
     public FeedbackQuestionAttributes getCopy() {
-        return new FeedbackQuestionAttributes(this);
+        return builder().
+                withFeedbackSessionName(feedbackSessionName)
+                .withCourseId(courseId)
+                .withCreatorEmail(creatorEmail)
+                .withQuestionMetaData(questionMetaData)
+                .withQuestionDescription(questionDescription)
+                .withQuestionNumber(questionNumber)
+                .withQuestionType(questionType)
+                .withGiverType(giverType)
+                .withRecipientType(recipientType)
+                .withNumOfEntitiesToGiveFeedbackTo(numberOfEntitiesToGiveFeedbackTo)
+                .withShowResponseTo(showResponsesTo)
+                .withShowGiverNameTo(showGiverNameTo)
+                .withShowRecipientNameTo(showRecipientNameTo)
+                .withCreatedAt(createdAt)
+                .withUpdatedAt(updatedAt)
+                .withFeedbackQuestionId(feedbackQuestionId)
+                .build();
     }
 
     public Instant getCreatedAt() {
