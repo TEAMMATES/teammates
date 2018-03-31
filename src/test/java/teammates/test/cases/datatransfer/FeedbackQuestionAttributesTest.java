@@ -59,26 +59,33 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
     @Test
     public void testValidate() throws Exception {
-        FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
 
-        fq.feedbackSessionName = "";
-        fq.courseId = "";
-        fq.creatorEmail = "";
-        fq.questionType = FeedbackQuestionType.TEXT;
-        fq.giverType = FeedbackParticipantType.NONE;
-        fq.recipientType = FeedbackParticipantType.RECEIVER;
+        List<FeedbackParticipantType> showGiverNameToList = new ArrayList<>();
+        showGiverNameToList.add(FeedbackParticipantType.SELF);
+        showGiverNameToList.add(FeedbackParticipantType.STUDENTS);
 
-        fq.showGiverNameTo = new ArrayList<>();
-        fq.showGiverNameTo.add(FeedbackParticipantType.SELF);
-        fq.showGiverNameTo.add(FeedbackParticipantType.STUDENTS);
+        List<FeedbackParticipantType> showRecipientNameToList = new ArrayList<>();
+        showRecipientNameToList.add(FeedbackParticipantType.SELF);
+        showRecipientNameToList.add(FeedbackParticipantType.STUDENTS);
 
-        fq.showRecipientNameTo = new ArrayList<>();
-        fq.showRecipientNameTo.add(FeedbackParticipantType.SELF);
-        fq.showRecipientNameTo.add(FeedbackParticipantType.STUDENTS);
+        List<FeedbackParticipantType> showResponseToList = new ArrayList<>();
+        showResponseToList.add(FeedbackParticipantType.NONE);
+        showResponseToList.add(FeedbackParticipantType.SELF);
 
-        fq.showResponsesTo = new ArrayList<>();
-        fq.showResponsesTo.add(FeedbackParticipantType.NONE);
-        fq.showResponsesTo.add(FeedbackParticipantType.SELF);
+        FeedbackQuestionAttributes fq = FeedbackQuestionAttributes.builder()
+                .withFeedbackSessionName("")
+                .withCourseId("")
+                .withCreatorEmail("")
+                .withQuestionType(FeedbackQuestionType.TEXT)
+                .withGiverType(FeedbackParticipantType.NONE)
+                .withRecipientType(FeedbackParticipantType.RECEIVER)
+                .withShowGiverNameTo(new ArrayList<>(showGiverNameToList))
+                .withShowRecipientNameTo(new ArrayList<>(showRecipientNameToList))
+                .withShowResponseTo(new ArrayList<>(showResponseToList))
+                .buildWithoutRemovingIrrelevantVisibilityOptions();
+
+
+
 
         assertFalse(fq.isValid());
 
@@ -117,6 +124,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                                               FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
+
 
         fq.feedbackSessionName = "First Feedback Session";
         fq.courseId = "CS1101";
@@ -203,27 +211,26 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         ______TS("test teams->none");
 
-        FeedbackQuestionAttributes question = new FeedbackQuestionAttributes();
         List<FeedbackParticipantType> participants = new ArrayList<>();
-
-        question.feedbackSessionName = "test session";
-        question.courseId = "some course";
-        question.creatorEmail = "test@case.com";
-        question.questionMetaData = new Text("test qn from teams->none.");
-        question.questionNumber = 1;
-        question.questionType = FeedbackQuestionType.TEXT;
-        question.giverType = FeedbackParticipantType.TEAMS;
-        question.recipientType = FeedbackParticipantType.NONE;
-        question.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<>(participants);
-        question.showRecipientNameTo = new ArrayList<>(participants);
-        participants.add(FeedbackParticipantType.STUDENTS);
-        question.showResponsesTo = new ArrayList<>(participants);
+        List<FeedbackParticipantType> participantsForShowResponseTo = new ArrayList<>(participants);
+        participantsForShowResponseTo.add(FeedbackParticipantType.STUDENTS);
 
-        question.removeIrrelevantVisibilityOptions();
+        FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
+                .withFeedbackSessionName("test session")
+                .withCourseId("some course")
+                .withCreatorEmail("test@case.com")
+                .withQuestionMetaData(new Text("test qn from teams->none."))
+                .withQuestionNumber(1)
+                .withQuestionType(FeedbackQuestionType.TEXT)
+                .withGiverType(FeedbackParticipantType.TEAMS)
+                .withRecipientType(FeedbackParticipantType.NONE)
+                .withShowGiverNameTo(new ArrayList<>(participants))
+                .withShowRecipientNameTo(new ArrayList<>(participants))
+                .withShowResponseTo(new ArrayList<>(participantsForShowResponseTo))
+                .build();
 
         assertTrue(question.showGiverNameTo.isEmpty());
         assertTrue(question.showRecipientNameTo.isEmpty());

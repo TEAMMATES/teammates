@@ -90,7 +90,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public Builder withCourseId(String courseId) {
-            feedbackQuestionAttributes.setId(courseId);
+            feedbackQuestionAttributes.courseId = courseId;
             return this;
         }
 
@@ -168,6 +168,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             feedbackQuestionAttributes.questionDescription =
                     SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
             feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
+            return feedbackQuestionAttributes;
+        }
+
+        public FeedbackQuestionAttributes buildWithoutRemovingIrrelevantVisibilityOptions() {
+            feedbackQuestionAttributes.questionDescription =
+                    SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
             return feedbackQuestionAttributes;
         }
     }
