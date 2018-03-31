@@ -44,8 +44,9 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     protected transient Instant updatedAt;
     protected String feedbackResponseId;
 
-    public FeedbackResponseAttributes() {
-        // Empty constructor for builder to construct object
+    protected FeedbackResponseAttributes() {
+        this.giverSection = Const.DEFAULT_SECTION;
+        this.recipientSection = Const.DEFAULT_SECTION;
     }
 
     public static Builder builder() {
@@ -112,7 +113,9 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         }
 
         public Builder withGiverSection(String giverSection) {
-            feedbackResponseAttributes.giverSection = giverSection;
+            if (giverSection != null) {
+                feedbackResponseAttributes.giverSection = giverSection;
+            }
             return this;
         }
 
@@ -122,7 +125,9 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         }
 
         public Builder withRecipientSection(String recipientSection) {
-            feedbackResponseAttributes.recipientSection = recipientSection;
+            if (recipientSection != null) {
+                feedbackResponseAttributes.recipientSection = recipientSection;
+            }
             return this;
         }
 
