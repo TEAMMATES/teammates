@@ -169,6 +169,14 @@ const DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID =
         'Please enter valid options. The interval is not divisible by the specified increment.';
 const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible date must not be empty';
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
+const FEEDBACK_QUESTION_CONSTSUMPOINTS_OPTION =
+    "Respondents will have to distribute the total points specified here among the options, "
+    + "e.g. if you specify 100 points here and there are 3 options, "
+    + "respondents will have to distribute 100 points among 3 options.";
+const FEEDBACK_QUESTION_CONSTSUMPOINTS_RECIPIENT =
+    "Respondents will have to distribute the total points specified here among the recipients, "
+    + "e.g. if you specify 100 points here and there are 3 recipients, "
+    + "respondents will have to distribute 100 points among 3 recipients.";
 
 const questionsBeforeEdit = [];
 
@@ -742,6 +750,7 @@ function prepareQuestionForm(type) {
                 'placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
         break;
     case 'CONSTSUM_OPTION':
+        $('#FeedbackConstsumpointsTooltip').attr('data-original-title', FEEDBACK_QUESTION_CONSTSUMPOINTS_OPTION);
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
@@ -753,6 +762,7 @@ function prepareQuestionForm(type) {
         $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         break;
     case 'CONSTSUM_RECIPIENT': {
+        $('#FeedbackConstsumpointsTooltip').attr('data-original-title', FEEDBACK_QUESTION_CONSTSUMPOINTS_RECIPIENT);
         const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
         const tooltipText = $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title');
 
