@@ -26,7 +26,9 @@
       <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
         <a class="btn btn-success btn-block" href="request.jsp">Request a Free Instructor Account</a>
       </div>
-      <div class="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-0 col-md-4 col-lg-3">
+    </div>
+    <div class="row">
+      <div class="margin-bottom-10px col-xs-10 col-sm-5 col-xs-offset-2 col-md-4 col-md-offset-3 col-lg-4 col-lg-offset-4">
         <a class="btn btn-success btn-block" href="requestResendLink.jsp">Request for Resending of Feedback Links</a>
       </div>
     </div>

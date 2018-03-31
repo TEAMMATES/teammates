@@ -1378,6 +1378,8 @@ public final class Const {
         public static final String FEEDBACK_SESSION_LINK_RESENT =
                 "Recent feedback session links has been sent out to the student who requested for a resent. "
                 + "Please allow up to 1 hour for the notification email to be sent out.";
+        public static final String FEEDBACK_SESSION_RESENDING_LINK_EMAIL_INVALID =
+                "Invalid email address!";
         public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
                 "The feedback session is not open for submissions. "
                 + "You cannot send reminders for a session that is not open.";

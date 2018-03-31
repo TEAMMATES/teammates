@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,8 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 
@@ -25,6 +28,7 @@ public class FeedbackLinkResendServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger();
 
     private EmailSender emailSender;
+    private StatusMessage statusMessage;
 
     @Override
     public final void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -38,12 +42,22 @@ public class FeedbackLinkResendServlet extends HttpServlet {
         setEmailSender(new EmailSender());
 
         try {
-            if (!isValidEmailAddress(userEmailToResend)) {
+            if (isValidEmailAddress(userEmailToResend)) {
                 emailSender.sendEmail(email);
+                statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_LINK_RESENT,
+                        StatusMessageColor.SUCCESS);
+            } else {
+                statusMessage =
+                        new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESENDING_LINK_EMAIL_INVALID,
+                                StatusMessageColor.DANGER);
             }
+            resp.getWriter().write(statusMessage.getText());
+            resp.sendRedirect("/RequestResendLinkSuccess.jsp");
         } catch (EmailSendingException e) {
             log.severe("Email of feedback session links failed to send: "
                     + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
