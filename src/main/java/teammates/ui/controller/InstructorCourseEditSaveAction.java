@@ -15,11 +15,6 @@ public class InstructorCourseEditSaveAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
-        // Restore previous attributes of the course
-        CourseAttributes course = logic.getCourse(courseId);
-        String prevCourseName = course.getName();
-        String prevCourseTimeZone = course.getTimeZone().toString();
-
         String courseName = getRequestParamValue(Const.ParamsNames.COURSE_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_NAME, courseName);
 
@@ -34,28 +29,9 @@ public class InstructorCourseEditSaveAction extends Action {
             logic.updateCourse(courseId, courseName, courseTimeZone);
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EDITED, StatusMessageColor.SUCCESS));
-
-            StringBuilder courseStatus = new StringBuilder(100);
-            Boolean isCourseChanged = false;
-            if (!courseName.equals(prevCourseName)) {
-                String nameEdit = "Course name for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
-                                        + "Old name: " + prevCourseName + "<br>"
-                                        + "New name: " + courseName + "<br><br>";
-                courseStatus.append(nameEdit);
-                isCourseChanged = true;
-            }
-            if (!courseTimeZone.equals(prevCourseTimeZone)) {
-                String timeZoneEdit = "Time zone for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
-                                            + "Old time zone: " + prevCourseTimeZone + "<br>"
-                                            + "New time zone: " + courseTimeZone;
-                courseStatus.append(timeZoneEdit);
-                isCourseChanged = true;
-            }
-
-            if (!isCourseChanged) {
-                courseStatus.append("Nothing edited for Course <span class=\"bold\">[" + courseId + "]</span>");
-            }
-            statusToAdmin = courseStatus.toString();
+            statusToAdmin = "Updated Course <span class=\"bold\">[" + courseId + "]</span> details:<br>"
+                            + "Name: " + courseName + "<br>"
+                            + "Time zone: " + courseTimeZone;
 
         } catch (InvalidParametersException e) {
             setStatusForException(e);
