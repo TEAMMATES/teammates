@@ -3,9 +3,7 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -360,29 +358,12 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                 .keys();
     }
 
+    // TODO change this method to protected after data Migration
     @Override
-    protected InstructorAttributes makeAttributes(Instructor entity) {
+    public InstructorAttributes makeAttributes(Instructor entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return InstructorAttributes.valueOf(entity);
-    }
-
-    public List<InstructorAttributes> getAllInstructor() {
-        Map<String, InstructorAttributes> result = new LinkedHashMap<>();
-
-        for (InstructorAttributes instructor : getAllCourseInstructor()) {
-            result.put(instructor.getIdentificationString(), instructor);
-        }
-        return new ArrayList<>(result.values());
-    }
-
-    @Deprecated
-    public List<InstructorAttributes> getAllCourseInstructor() {
-        return makeAttributes(getCourseInstructorEntities());
-    }
-
-    public List<Instructor> getCourseInstructorEntities() {
-        return load().list();
     }
 
 }

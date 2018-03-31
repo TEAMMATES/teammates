@@ -295,7 +295,9 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         return null;
     }
 
-    protected List<A> makeAttributes(Collection<E> entities) {
+    // TODO change to protected after Data migration
+
+    public List<A> makeAttributes(Collection<E> entities) {
         List<A> attributes = new LinkedList<>();
         for (E entity : entities) {
             attributes.add(makeAttributes(entity));

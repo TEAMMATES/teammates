@@ -1,13 +1,17 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.entity.Instructor;
 
 /**
  * Script to desanitize content of {@link InstructorAttribute} if it is sanitized.
@@ -30,7 +34,7 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
 
     @Override
     protected List<InstructorAttributes> getEntities() {
-        return instructorDb.getAllInstructor();
+        return getAllInstructor();
 
     }
 
@@ -80,9 +84,7 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
     }
 
     private String fixSanitization(String s) {
-        if (isSanitizedString(s)) {
-            return SanitizationHelper.desanitizeFromHtml(s);
-        }
+        SanitizationHelper.desanitizeIfHtmlSanitized(s);
         return s;
     }
 
@@ -99,5 +101,26 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
         }
 
         instructorDb.updateInstructorByEmail(instructor);
+    }
+
+    /**
+     * TODO remove after data Migration.
+     */
+    public List<InstructorAttributes> getAllInstructor() {
+        Map<String, InstructorAttributes> result = new LinkedHashMap<>();
+
+        for (InstructorAttributes instructor : getAllCourseInstructor()) {
+            result.put(instructor.getIdentificationString(), instructor);
+        }
+        return new ArrayList<>(result.values());
+    }
+
+    @Deprecated
+    public List<InstructorAttributes> getAllCourseInstructor() {
+        return instructorDb.makeAttributes(getCourseInstructorEntities());
+    }
+
+    public List<Instructor> getCourseInstructorEntities() {
+        return ofy().load().type(Instructor.class).list();
     }
 }
