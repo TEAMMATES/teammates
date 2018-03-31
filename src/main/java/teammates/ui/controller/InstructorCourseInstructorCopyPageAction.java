@@ -30,6 +30,8 @@ public class InstructorCourseInstructorCopyPageAction extends Action {
 
         List<InstructorAttributes> existingInstructors = logic.getInstructorsForCourse(thisCourseId);
 
+        // get all instructors who work together with thisInstructor in other courses and
+        // prevent the existing instructors in this course from appearing in the modal
         for (CourseAttributes course : coursesOfThisInstructor) {
             String courseId = course.getId();
             if (!courseId.equals(thisCourseId)) {

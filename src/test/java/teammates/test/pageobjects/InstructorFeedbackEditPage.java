@@ -121,7 +121,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_fscopy")
     private WebElement fscopyButton;
 
-    @FindBy(id = "button_copy")
+    @FindBy(id = "btnShowCopyModal")
     private WebElement copyQuestionLoadButton;
 
     @FindBy(id = "button_copy_submit")
