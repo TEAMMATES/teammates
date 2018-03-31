@@ -3,6 +3,7 @@ package teammates.test.cases.storage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Text;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -14,6 +15,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -347,23 +349,23 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
-        FeedbackQuestionAttributes fqa = new FeedbackQuestionAttributes();
-
-        fqa.courseId = "testCourse";
-        fqa.creatorEmail = "instructor@email.com";
-        fqa.feedbackSessionName = "testFeedbackSession";
-        fqa.giverType = FeedbackParticipantType.INSTRUCTORS;
-        fqa.recipientType = FeedbackParticipantType.SELF;
-        fqa.numberOfEntitiesToGiveFeedbackTo = 1;
-        fqa.questionNumber = 1;
-
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
-        fqa.questionType = FeedbackQuestionType.TEXT;
-        fqa.setQuestionDetails(questionDetails);
 
-        fqa.showGiverNameTo = new ArrayList<>();
-        fqa.showRecipientNameTo = new ArrayList<>();
-        fqa.showResponsesTo = new ArrayList<>();
+        FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.builder()
+                .withCourseId("testCourse")
+                .withCreatorEmail("instructor@email.com")
+                .withFeedbackSessionName("testFeedbackSession")
+                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withRecipientType(FeedbackParticipantType.SELF)
+                .withNumOfEntitiesToGiveFeedbackTo(1)
+                .withQuestionNumber(1)
+                .withQuestionType(FeedbackQuestionType.TEXT)
+                .withQuestionMetaData(new Text(JsonUtils.toJson(questionDetails,
+                        FeedbackQuestionType.TEXT.getQuestionDetailsClass())))
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .withShowResponseTo(new ArrayList<>())
+                .buildWithoutRemovingIrrelevantVisibilityOptions();
 
         return fqa;
     }
