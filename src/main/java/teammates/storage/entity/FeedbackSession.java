@@ -71,6 +71,9 @@ public class FeedbackSession extends BaseEntity {
     @IgnoreSave
     private Double timeZoneDouble;
 
+    @IgnoreSave
+    private String feedbackSessionType;
+
     @Unindex
     private long gracePeriod;
 
@@ -197,6 +200,14 @@ public class FeedbackSession extends BaseEntity {
         }
         if (getEndTime() == null) {
             setEndTime(TimeHelper.parseInstant("2118-01-01 12:00 AM +0000"));
+        }
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void adjustSessionVisibleTimeForPrivateSessions() {
+        if ("PRIVATE".equals(feedbackSessionType)) {
+            setSessionVisibleFromTime(TimeHelper.parseInstant("2118-01-01 12:00 AM +0000"));
         }
     }
 
