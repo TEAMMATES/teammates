@@ -4,6 +4,9 @@ environment:
 init:
   - git config --global core.autocrlf true
 
+install:
+  - ps: Install-Product node ''
+
 branches:
   only:
     - master

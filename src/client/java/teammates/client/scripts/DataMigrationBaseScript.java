@@ -4,19 +4,32 @@ import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.client.scripts.util.LoopHelper;
-import teammates.common.datatransfer.attributes.EntityAttributes;
 
 /**
  * Base script to be used as template for all data migration scripts.
  *
  * @param <T> The entity type to be migrated by the script.
  */
-public abstract class DataMigrationBaseScript<T extends EntityAttributes<?>> extends RemoteApiClient {
+public abstract class DataMigrationBaseScript<T> extends RemoteApiClient {
 
     /**
      * If true, the script will not perform actual data migration.
      */
     protected abstract boolean isPreview();
+
+    /**
+     * Gets the entity type for logging purposes.
+     */
+    protected String getEntityType(T entity) {
+        return entity.getClass().getSimpleName().toLowerCase();
+    }
+
+    /**
+     * Gets entity info for logging purposes.
+     */
+    protected String getEntityInfo(T entity) {
+        return entity.toString();
+    }
 
     /**
      * Gets all the entities that are to be filtered for migration.
@@ -41,7 +54,7 @@ public abstract class DataMigrationBaseScript<T extends EntityAttributes<?>> ext
     /**
      * Performs any post-migration action.
      *
-     * <p>This can also be used for batch migration, i.e. in that case {@link #migrate(EntityAttributes)}
+     * <p>This can also be used for batch migration, i.e. in that case {@link #migrate(T)}
      * will only be used to queue up the entities that need to be migrated.
      */
     protected abstract void postAction();
@@ -56,7 +69,7 @@ public abstract class DataMigrationBaseScript<T extends EntityAttributes<?>> ext
 
         int numberOfAffectedEntities = 0;
         int numberOfUpdatedEntities = 0;
-        String entityType = entities.get(0).getEntityTypeAsString().toLowerCase();
+        String entityType = getEntityType(entities.get(0));
 
         LoopHelper loopHelper = new LoopHelper(100, entityType + "s processed.");
         println("Running " + getClass().getName() + "...");
@@ -76,7 +89,7 @@ public abstract class DataMigrationBaseScript<T extends EntityAttributes<?>> ext
                 migrate(entity);
                 numberOfUpdatedEntities++;
             } catch (Exception e) {
-                println("Problem migrating " + entityType + " with ID " + entity.getIdentificationString());
+                println("Problem migrating " + getEntityInfo(entity));
                 println(e.getMessage());
             }
         }
