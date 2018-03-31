@@ -395,7 +395,7 @@ public class EmailGenerator {
         Date startTime = calendar.getTime();
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         String feedbackAction = FEEDBACK_ACTION_SUBMIT;
-        String subject = EmailType.FEEDBACK_TO_RESEND.getSubject();
+        String subject = EmailType.FEEDBACK_LINK_TO_RESEND.getSubject();
         String emailBody = "";
 
         List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime);
@@ -403,7 +403,8 @@ public class EmailGenerator {
             CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
             StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
             if (student != null) {
-                String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+                String additionalContactInformation = HTML_NO_ACTION_REQUIRED
+                        + getAdditionalContactInformationFragment(course);
 
                 String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                         .withCourseId(course.getId())

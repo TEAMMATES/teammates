@@ -45,6 +45,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>FeedbackLinkResendServlet</servlet-name>
+        <servlet-class>teammates.ui.controller.FeedbackLinkResendServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackLinkResendServlet</servlet-name>
+        <url-pattern>/requestResendLinkSuccess.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>BackDoorServlet</servlet-name>
         <servlet-class>teammates.logic.backdoor.BackDoorServlet</servlet-class>
     </servlet>
