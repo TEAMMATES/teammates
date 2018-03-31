@@ -135,17 +135,17 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public Builder withShowResponseTo(List<FeedbackParticipantType> showResponseTo) {
-            feedbackQuestionAttributes.showResponsesTo = showResponseTo;
+            feedbackQuestionAttributes.showResponsesTo = new ArrayList<>(showResponseTo);
             return this;
         }
 
         public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            feedbackQuestionAttributes.showGiverNameTo = showGiverNameTo;
+            feedbackQuestionAttributes.showGiverNameTo = new ArrayList<>(showGiverNameTo);
             return this;
         }
 
         public Builder withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
-            feedbackQuestionAttributes.showRecipientNameTo = showRecipientNameTo;
+            feedbackQuestionAttributes.showRecipientNameTo = new ArrayList<>(showRecipientNameTo);
             return this;
         }
 
