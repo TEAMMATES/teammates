@@ -38,6 +38,26 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testBuilderWithDefaultValues() {
+        FeedbackQuestionAttributes observedFeedbackQuestionAttributes =
+                FeedbackQuestionAttributes.builder().buildWithoutRemovingIrrelevantVisibilityOptions();
+
+        assertEquals(0, observedFeedbackQuestionAttributes.questionNumber);
+        assertNull(observedFeedbackQuestionAttributes.recipientType);
+        assertNull(observedFeedbackQuestionAttributes.giverType);
+        assertNull(observedFeedbackQuestionAttributes.courseId);
+        assertNull(observedFeedbackQuestionAttributes.feedbackSessionName);
+        assertNull(observedFeedbackQuestionAttributes.showResponsesTo);
+        assertNull(observedFeedbackQuestionAttributes.showGiverNameTo);
+        assertNull(observedFeedbackQuestionAttributes.showRecipientNameTo);
+        assertNull(observedFeedbackQuestionAttributes.questionDescription);
+        assertNull(observedFeedbackQuestionAttributes.questionType);
+        assertNull(observedFeedbackQuestionAttributes.questionMetaData);
+        assertNull(observedFeedbackQuestionAttributes.creatorEmail);
+        assertEquals(0, observedFeedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo);
+    }
+
+    @Test
     public void testBuilderCopy() {
         List<FeedbackParticipantType> participants = new ArrayList<>();
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
