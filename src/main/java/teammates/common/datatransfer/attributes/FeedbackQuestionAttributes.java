@@ -179,7 +179,23 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     }
 
     public FeedbackQuestionAttributes getCopy() {
-        return valueOf(toEntity());
+        return builder().
+                withFeedbackSessionName(feedbackSessionName)
+                .withCourseId(courseId)
+                .withCreatorEmail(creatorEmail)
+                .withQuestionMetaData(questionMetaData)
+                .withQuestionDescription(questionDescription)
+                .withQuestionNumber(questionNumber)
+                .withQuestionType(questionType)
+                .withGiverType(giverType)
+                .withRecipientType(recipientType)
+                .withNumOfEntitiesToGiveFeedbackTo(numberOfEntitiesToGiveFeedbackTo)
+                .withShowResponseTo(showResponsesTo)
+                .withShowGiverNameTo(showGiverNameTo)
+                .withShowRecipientNameTo(showRecipientNameTo)
+                .withCreatedAt(createdAt)
+                .withUpdatedAt(updatedAt)
+                .build();
     }
 
     public Instant getCreatedAt() {
