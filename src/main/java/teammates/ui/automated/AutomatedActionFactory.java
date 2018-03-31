@@ -37,8 +37,6 @@ public class AutomatedActionFactory {
         map(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL,
                 FeedbackSessionRemindParticularUsersEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, FeedbackSessionUnpublishedEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_RESEND_PARTICULAR_USER_EMAIL_WORKER_URL,
-                FeedbackSessionResendEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL, FeedbackSessionUpdateRespondentWorkerAction.class);
         map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, SendEmailWorkerAction.class);

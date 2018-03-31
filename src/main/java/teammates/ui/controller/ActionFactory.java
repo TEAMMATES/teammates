@@ -113,8 +113,6 @@ public class ActionFactory {
         map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
         map(STUDENT_COURSE_JOIN_NEW, StudentCourseJoinAction.class);
         map(STUDENT_COURSE_JOIN_AUTHENTICATED, StudentCourseJoinAuthenticatedAction.class);
-        map(STUDENT_FEEDBACK_LINK_RESEND, StudentFeedbackLinkResendAction.class);
-        map(STUDENT_FEEDBACK_LINK_RESEND_PAGE, StudentFeedbackLinkResendPageAction.class);
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);

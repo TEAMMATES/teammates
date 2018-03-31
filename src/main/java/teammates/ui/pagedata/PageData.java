@@ -43,10 +43,6 @@ public class PageData {
         this(account, null, sessionToken);
     }
 
-    public PageData(String sessionToken) {
-        this(null, null, sessionToken);
-    }
-
     public PageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
         this.account = account;
         this.student = student;
@@ -54,9 +50,6 @@ public class PageData {
     }
 
     public AccountAttributes getAccount() {
-        if (account == null) {
-            throw new NullPointerException();
-        }
         return account;
     }
 
@@ -65,7 +58,7 @@ public class PageData {
     }
 
     public boolean isUnregisteredStudent() {
-        return account == null || account.googleId == null || student != null && !student.isRegistered();
+        return account.googleId == null || student != null && !student.isRegistered();
     }
 
     /* These util methods simply delegate the work to the matching *Helper
@@ -85,9 +78,6 @@ public class PageData {
     }
 
     public String addUserIdToUrl(String link) {
-        if (account == null) {
-            throw new NullPointerException();
-        }
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
 
@@ -215,20 +205,6 @@ public class PageData {
         }
         return result;
     }
-
-    /**
-     * Retrieves the link to submit the request for resending feedback links
-     * @param userEmail the user email
-     * @param returnUrl the url to return after submitting the request
-     * @return submit link with return url appended to it
-     */
-    /*public String getFeedbackResendLink(String userEmail, String returnUrl) {
-        String link = Const.ActionURIs.STUDENT_FEEDBACK_LINK_RESEND_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.SUBMISSION_RESEND_LINK_USER, userEmail);
-        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
-
-        return link;
-    }*/
 
     //TODO: methods below this point should be made 'protected' and only the
     //  child classes that need them should expose them using public methods
@@ -841,7 +817,7 @@ public class PageData {
     }
 
     public String getPictureUrl(String pictureKey) {
-        if (pictureKey == null || pictureKey.isEmpty() || account == null) {
+        if (pictureKey == null || pictureKey.isEmpty()) {
             return Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         }
         return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"

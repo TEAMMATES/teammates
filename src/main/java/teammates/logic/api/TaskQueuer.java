@@ -205,19 +205,6 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedule for feedback sessions that are created in recent one month to a particular user.
-     *
-     * @param userEmailToResend the user email in which the email will be sent to
-     */
-    public void scheduleFeedbackSessionResendEmail(String userEmailToResend) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.SUBMISSION_RESEND_LINK_USER, userEmailToResend);
-
-        addTask(TaskQueue.FEEDBACK_SESSION_RESEND_PARTICULAR_USER_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_RESEND_PARTICULAR_USER_EMAIL_WORKER_URL, paramMap);
-    }
-
-    /**
      * Schedules for course registration to be sent to the specified instructor.
      *
      * @param inviterGoogleId googleId of instructor or administrator who sends the invitation
