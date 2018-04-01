@@ -1194,7 +1194,6 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
 }
 
 $(document).ready(() => {
-    console.log('hello');
     prepareInstructorPages();
 
     prepareDatepickers();
