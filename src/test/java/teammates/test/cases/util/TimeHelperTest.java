@@ -64,7 +64,7 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals("30/12/2015", TimeHelper.formatDate(date));
         assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(date));
-        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC+0000", TimeHelper.formatDateTimeForSessions(date, 0));
+        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(date, 0));
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
 
@@ -74,27 +74,27 @@ public class TimeHelperTest extends BaseTestCase {
         cal.clear();
         cal.set(2015, 10, 30, 12, 0, 0);
         Date date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC+0000", TimeHelper.formatDateTimeForSessions(date, 0));
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(date, 0));
 
         cal.clear();
         cal.set(2015, 10, 30, 4, 0, 0);
         date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC+0800", TimeHelper.formatDateTimeForSessions(date, 8));
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC+08:00", TimeHelper.formatDateTimeForSessions(date, 8));
 
         cal.clear();
         cal.set(2015, 10, 30, 4, 0, 0);
         date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 04:00 PM UTC+1200", TimeHelper.formatDateTimeForSessions(date, 12));
+        assertEquals("Mon, 30 Nov 2015, 04:00 PM UTC+12:00", TimeHelper.formatDateTimeForSessions(date, 12));
 
         cal.clear();
         cal.set(2015, 10, 30, 16, 0, 0);
         date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC-0400", TimeHelper.formatDateTimeForSessions(date, -4));
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC-04:00", TimeHelper.formatDateTimeForSessions(date, -4));
 
         cal.clear();
         cal.set(2015, 10, 30, 16, 0, 0);
         date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 11:45 AM UTC-0415", TimeHelper.formatDateTimeForSessions(date, -4.25));
+        assertEquals("Mon, 30 Nov 2015, 11:45 AM UTC-04:15", TimeHelper.formatDateTimeForSessions(date, -4.25));
     }
 
     @Test
