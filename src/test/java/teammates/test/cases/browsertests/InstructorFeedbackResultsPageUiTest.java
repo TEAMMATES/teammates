@@ -37,13 +37,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
     }
 
-//    @Test
+    @Test
     public void testHtmlContent() throws Exception {
         testContent();
         testModerateResponsesButton();
     }
 
-//    @Test
+    @Test
     public void testFrontEndActions() throws Exception {
         testSortAction();
         testFilterAction();
@@ -52,7 +52,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testRemindAllAction();
     }
 
-//    @Test
+    @Test
     public void testBackEndActions() throws Exception {
         testFeedbackResponseCommentActions();
         testDownloadAction();
@@ -90,7 +90,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-//    @Test
+    @Test
     public void testExceptionalCases() throws Exception {
         ______TS("Case where more than 1 question with same question number");
         // results page should be able to load incorrect data and still display it gracefully
@@ -287,7 +287,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     }
 
-//    @Test
+    @Test
     public void testVisibilityOptions() throws Exception {
         ______TS("test sort by giver > recipient > question for second session");
 
@@ -352,7 +352,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionFilteredBySectionATeam.html");
     }
 
-//    @Test
+    @Test
     public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
 
         // Mouseover actions do not work on Selenium-Chrome
@@ -474,7 +474,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("No Specific Section shown for recipient > giver > recipient with General Feedback");
         resultsPage.displayByRecipientGiverQuestion();
         assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
-        
+
         ______TS("No Specific Section shown giver > question > recipient with Feedback from Instructor");
         resultsPage.displayByGiverQuestionRecipient();
         assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
@@ -615,7 +615,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
     }
 
-//    @Test
+    @Test
     public void testIndicateMissingResponses() {
 
         ______TS("Typical case: Hide Missing Responses");
@@ -842,7 +842,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
     }
 
-//    @Test
+    @Test
     public void testLink() {
         ______TS("action: test that edit link leads to correct edit page");
 

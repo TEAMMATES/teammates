@@ -1706,7 +1706,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Checks if bundle contains response from Instructor
+     * Checks if bundle contains response from Instructor.
      *
      * @return
      * <ul>
@@ -1726,7 +1726,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Checks if bundle contains response to Instructor or General
+     * Checks if bundle contains response to Instructor or General.
      *
      * @return
      * <ul>
