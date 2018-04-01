@@ -359,8 +359,9 @@ public final class Const {
                 "This feedback session is not published as it is private and only visible to you.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
-                "You should not need to change this as your time zone is auto-detected. "
-                + "Daylight saving time is supported.";
+                "You should not need to change this as your time zone is auto-detected. <br><br>"
+                + "TEAMMATES automatically adjusts to match the current time offset in your area, "
+                + "including clock changes due to daylight saving time.";
 
         public static final String FEEDBACK_SESSION_INPUT_GRACEPERIOD =
                 "Please select the amount of time that the system will continue accepting <br>"
