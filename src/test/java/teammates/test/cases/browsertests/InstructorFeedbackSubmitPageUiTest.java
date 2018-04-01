@@ -137,7 +137,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                fqConstSum.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
 
         submitPage.submitWithoutConfirmationEmail();
-        assertFalse(submitPage.isConfirmationEmailBoxTicked());
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
@@ -240,8 +239,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(21, 0, "Team 3");
         submitPage.toggleMsqOption(21, 0, "");
 
-        submitPage.submitWithoutConfirmationEmail();
         assertFalse(submitPage.isConfirmationEmailBoxTicked());
+        submitPage.submitWithoutConfirmationEmail();
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         assertEquals("<p>" + editedResponse + "</p>",
