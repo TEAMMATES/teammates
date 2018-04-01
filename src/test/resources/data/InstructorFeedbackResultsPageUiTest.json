@@ -1771,7 +1771,22 @@
       "recipient": "CFResultsUiT.benny.no@gmail.tmt",
       "responseMetaData": {
         "value": "Benny self feedback."
-      }
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "Response to Instructors": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "CFResultsUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "CFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "CFResultsUiT.instr@gmail.tmt",
+      "responseMetaData": {
+        "value": "You are a great instructor."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "None"
     }
   },
   "feedbackResponseComments": {

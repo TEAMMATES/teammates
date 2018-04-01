@@ -1705,9 +1705,19 @@ public class FeedbackSessionResultsBundle {
         return SanitizationHelper.sanitizeForCsv(comment.toString());
     }
 
+    /**
+     * Checks if bundle contains response from Instructor
+     *
+     * @return
+     * <ul>
+     * <li>true if the bundle contains response from Instructor</li>
+     * <li>false otherwise</li>
+     * </ul>
+     */
     public boolean containsResponseFromInstructor() {
         for (FeedbackResponseAttributes response : responses) {
             String giverIdentifier = response.giver;
+            // Some parts of the code handles a participant as a Student if participant is both Student and Instructor
             if (isParticipantIdentifierInstructor(giverIdentifier) && !isParticipantIdentifierStudent(giverIdentifier)) {
                 return true;
             }
@@ -1715,6 +1725,15 @@ public class FeedbackSessionResultsBundle {
         return false;
     }
 
+    /**
+     * Checks if bundle contains response to Instructor or General
+     *
+     * @return
+     * <ul>
+     * <li>true if the bundle contains response to Instructor or General</li>
+     * <li>false otherwise</li>
+     * </ul>
+     */
     public boolean containsResponsesToInstructorOrGeneral() {
         for (FeedbackResponseAttributes response : responses) {
             String recipientIdentifier = response.recipient;

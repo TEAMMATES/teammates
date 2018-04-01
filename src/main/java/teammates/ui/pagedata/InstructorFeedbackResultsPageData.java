@@ -1792,7 +1792,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * <ul>
      * <li>true if the course has teams in Default Section</li>
      * <li>true if view is GRQ or GQR and there is feedback from Instructors</li>
-     * <li>true if view is RGQ or RQG and there is General Feedback or Feedback to or from Instructors</li>
+     * <li>true if view is RGQ or RQG and there is General Feedback or Feedback to Instructors</li>
      * <li>false otherwise</li>
      * </ul>
      */

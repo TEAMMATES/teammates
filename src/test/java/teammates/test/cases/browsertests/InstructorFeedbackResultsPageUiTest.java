@@ -475,6 +475,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
 
+        ______TS("No Specific Section shown for recipient > question > giver with Instructor Feedback");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Second Session",
+                true, "recipient-question-giver");
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
         ______TS("No Specific Section shown giver > question > recipient with Feedback from Instructor");
         resultsPage.displayByGiverQuestionRecipient();
         assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
@@ -487,6 +492,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("No Specific Section not shown giver > question > recipient with no General Feedback");
         resultsPage.displayByGiverQuestionRecipient();
         assertFalse(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section shown for giver > question > recipient with student in No Section");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "NoSections Session",
+                true, "giver-question-recipient");
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section shown for recipient > question > giver with student in No Section");
+        resultsPage.displayByRecipientQuestionGiver();
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
     }
 
     private void testFilterAction() throws Exception {
