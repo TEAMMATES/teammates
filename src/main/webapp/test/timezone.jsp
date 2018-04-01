@@ -42,7 +42,7 @@
       var d = new Date();
       var text = moment.tz.dataVersion + '<br>';
       moment.tz.names().filter(isSupportedByJava).forEach(function(timeZone) {
-        var offset = moment.tz.zone(timeZone).offset(d) * -1;
+        var offset = moment.tz.zone(timeZone).utcOffset(d) * -1;
         text += timeZone + ' ' + offset + '<br>';
       });
       document.getElementById('momentjs').innerHTML = text;

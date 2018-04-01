@@ -165,7 +165,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 session.getFeedbackSessionName());
         verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
 
-        setTimeZoneButMaintainLocalDate(session, ZoneId.of("UTC-09:30"));
+        setTimeZoneButMaintainLocalDate(session, ZoneId.of("Pacific/Marquesas"));
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());
