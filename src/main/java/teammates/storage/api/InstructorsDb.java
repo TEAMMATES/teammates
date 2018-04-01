@@ -358,9 +358,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                 .keys();
     }
 
-    // TODO change this method to protected after data Migration
     @Override
-    public InstructorAttributes makeAttributes(Instructor entity) {
+    protected InstructorAttributes makeAttributes(Instructor entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return InstructorAttributes.valueOf(entity);

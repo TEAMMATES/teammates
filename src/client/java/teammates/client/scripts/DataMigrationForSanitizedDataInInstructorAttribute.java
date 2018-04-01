@@ -32,7 +32,7 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
 
     @Override
     protected List<InstructorAttributes> getEntities() {
-        return getAllInstructor();
+        return getAllCourseInstructor();
 
     }
 
@@ -86,22 +86,19 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
 
         instructorDb.updateInstructorByEmail(instructor);
     }
-
     /**
-     * To extract all the Instructor.
+     * To extract the Instructor data.
      */
-    public List<InstructorAttributes> getAllInstructor() {
-        ArrayList<InstructorAttributes> result = new ArrayList<>();
-
-        for (InstructorAttributes instructor : getAllCourseInstructor()) {
-            result.add(instructor);
-        }
-        return result;
-    }
 
     @Deprecated
     public List<InstructorAttributes> getAllCourseInstructor() {
-        return instructorDb.makeAttributes(getCourseInstructorEntities());
+        ArrayList<InstructorAttributes> result = new ArrayList<>();
+
+        for (Instructor instructor : getCourseInstructorEntities()) {
+            result.add(InstructorAttributes.valueOf(instructor));
+
+        }
+        return result;
     }
 
     public List<Instructor> getCourseInstructorEntities() {
