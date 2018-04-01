@@ -209,6 +209,11 @@ public class FeedbackSubmitPage extends AppPage {
         clickSubmitButton();
     }
 
+    public boolean isConfirmationEmailBoxTicked() {
+        WebElement sendEmailChecbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        return sendEmailChecbox.isSelected();
+    }
+
     public void clickSubmitButton() {
         WebElement submitButton = browser.driver.findElement(By.id("response_submit_button"));
         click(submitButton);
