@@ -730,7 +730,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         FeedbackResponseAttributes existingResponse =
                 BackDoor.getFeedbackResponse(question.getId(), alice.team, "Team 2");
         FeedbackResponseAttributes response = new FeedbackResponseAttributes(existingResponse);
-        response.recipient = "invalidRecipient";
 
         String backDoorStatusForCreatingResponse = BackDoor.createFeedbackResponse(response);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorStatusForCreatingResponse);
