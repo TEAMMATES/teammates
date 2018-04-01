@@ -57,7 +57,8 @@ public class FeedbackLinkResendServlet extends HttpServlet {
             log.severe("Email of feedback session links failed to send: "
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.severe("Email of feedback session links failed to send: "
+                    + TeammatesException.toStringWithStackTrace(e));
         }
     }
 
