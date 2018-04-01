@@ -69,6 +69,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals("", formModel.getFsName());
         assertEquals("", formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
+        assertEquals("", formModel.getFsTimeZone());
 
         assertEquals(7, formModel.getGracePeriodOptions().size());
 
@@ -85,7 +86,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
         assertEquals("", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
-        assertEquals(40, formModel.getTimezoneSelectField().size());
 
         assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
