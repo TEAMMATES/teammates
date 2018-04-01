@@ -85,6 +85,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("create new responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        assertTrue(submitPage.isConfirmationEmailBoxTicked());
 
         submitPage.fillResponseRichTextEditor(1, 0, "Test Self Feedback");
         submitPage.selectRecipient(2, 0, "Alice Betsy</option></td></div>'\"");
@@ -136,6 +137,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                fqConstSum.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.instr@gmail.tmt"));
 
         submitPage.submitWithoutConfirmationEmail();
+        assertFalse(submitPage.isConfirmationEmailBoxTicked());
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
@@ -239,6 +241,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(21, 0, "");
 
         submitPage.submitWithoutConfirmationEmail();
+        assertFalse(submitPage.isConfirmationEmailBoxTicked());
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         assertEquals("<p>" + editedResponse + "</p>",
