@@ -657,7 +657,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(fscopyButton);
     }
 
-
     public void clickCopyButton() {
         click(copyQuestionLoadButton);
     }
@@ -1732,8 +1731,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
     }
-
-
 
     public boolean isVisibilityDropdownOptionHidden(String optionValue, int qnNumber) {
         return browser.driver.findElement(By.id("questionTable-" + qnNumber))

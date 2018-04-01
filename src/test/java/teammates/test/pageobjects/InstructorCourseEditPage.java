@@ -355,7 +355,6 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-
     /**
      * Returns number of question edit forms + question add form.
      */

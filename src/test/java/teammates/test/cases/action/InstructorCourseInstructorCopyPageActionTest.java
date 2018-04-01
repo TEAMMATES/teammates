@@ -1,17 +1,14 @@
 package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
+
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.storage.entity.Instructor;
 import teammates.ui.controller.InstructorCourseInstructorCopyPageAction;
-import teammates.ui.controller.InstructorFeedbackQuestionCopyPageAction;
 import teammates.ui.controller.ShowPageResult;
 
 /**
- * SUT: {@link teammates.ui.controller.InstructorCourseInstructorCopyPageAction}
+ * SUT: {@link teammates.ui.controller.InstructorCourseInstructorCopyPageAction}.
  */
 public class InstructorCourseInstructorCopyPageActionTest extends BaseActionTest {
 
@@ -74,7 +71,6 @@ public class InstructorCourseInstructorCopyPageActionTest extends BaseActionTest
         gaeSimulation.loginAsInstructor(typicalBundle.accounts.get("helperOfCourse1").googleId);
 
         submissionParams = new String[] { Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1" };
-
 
         action = getAction(submissionParams);
         try {

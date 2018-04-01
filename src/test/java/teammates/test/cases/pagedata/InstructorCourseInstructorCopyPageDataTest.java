@@ -30,7 +30,4 @@ public class InstructorCourseInstructorCopyPageDataTest extends BaseTestCase {
         CourseInstructorCopyTable copyForm = data.getCopyInstructorForm();
         assertEquals(dataBundle.instructors.size(), copyForm.getInstructorRows().size());
     }
-
 }
-
-
