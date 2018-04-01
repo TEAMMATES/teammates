@@ -23,7 +23,7 @@ import teammates.storage.search.SearchManager;
  * Describes common operations for data migration for FeedbackResponseCommentSearchDocument class.
  */
 public abstract class DataMigrationForFeedbackResponseCommentSearchDocument
-        extends DataMigrationBaseScript<FeedbackResponseCommentAttributes> {
+        extends DataMigrationForEntities<FeedbackResponseCommentAttributes> {
 
     protected static final Index index = SearchServiceFactory.getSearchService()
             .getIndex(IndexSpec.newBuilder().setName(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT));

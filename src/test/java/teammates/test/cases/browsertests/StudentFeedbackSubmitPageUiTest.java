@@ -613,6 +613,18 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
+        ______TS("cannot choose self when generating choices from teams (excluding self)");
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        assertFalse(submitPage.checkIfMcqOrMsqChoiceExists(26, 0, "Team 1"));
+        assertTrue(submitPage.checkIfMcqOrMsqChoiceExists(26, 0, "Team 2"));
+
+        assertFalse(submitPage.checkIfMcqOrMsqChoiceExists(27, 0, "Team 1"));
+        assertTrue(submitPage.checkIfMcqOrMsqChoiceExists(27, 0, "Team 2"));
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+
     }
 
     private void testResponsiveSubmission() {
