@@ -637,7 +637,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     responseFrequencyExcludingSelf, rubricStatsExcludingSelf);
         } else {
             tableBodyExcludingSelfHtml = new StringBuilder();
-            tableBodyExcludingSelfHtml.append("").append(System.lineSeparator());
+            tableBodyExcludingSelfHtml.append(System.lineSeparator());
         }
 
         String statsTitle = "Response Summary";
