@@ -40,7 +40,23 @@
         There are no questions for you to answer here!
       </c:when>
       <c:otherwise>
-        <input type="checkbox" name="sendsubmissionemail">
+        <c:set var="isResponsePresent" value="false" scope="page"/>
+        <c:forEach items="${data.questionsWithResponses}" var="questionWithResponses">
+          <c:forEach items="${questionWithResponses.responses}" var="response">
+            <c:if test="${response.existingResponse}">
+              <c:set var="isResponsePresent" value="true"/>
+            </c:if>
+          </c:forEach>
+        </c:forEach>
+
+        <c:choose>
+          <c:when test="${isResponsePresent}">
+            <input type="checkbox" name="sendsubmissionemail">
+          </c:when>
+          <c:otherwise>
+            <input type="checkbox" name="sendsubmissionemail" checked>
+          </c:otherwise>
+        </c:choose>
         Send me a confirmation email
         <button type="submit" class="btn btn-primary center-block margin-top-7px"
             id="response_submit_button" data-toggle="tooltip"
