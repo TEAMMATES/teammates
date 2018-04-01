@@ -273,7 +273,17 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private List<FeedbackResponseAttributes> getSortedExistingResponses(FeedbackQuestionAttributes questionAttributes) {
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(questionAttributes.getFeedbackQuestionId());
-        existingResponses.sort(Comparator.comparing(existingResponse -> emailNamePair.get(existingResponse.recipient)));
+
+        Comparator<FeedbackResponseAttributes> responsesComparator = (response1, response2) -> {
+            if (emailNamePair.containsKey(response1.recipient) && emailNamePair.containsKey(response2.recipient)) {
+                return emailNamePair.get(response1.recipient).compareTo(emailNamePair.get(response2.recipient));
+            } else {
+                // if the recipients list does not contain the recipient, compare recipients by email
+                // this only could happen due to failures in the test data, should never happen in production
+                return response1.recipient.compareTo(response2.recipient);
+            }
+        };
+        existingResponses.sort(responsesComparator);
 
         return existingResponses;
     }
