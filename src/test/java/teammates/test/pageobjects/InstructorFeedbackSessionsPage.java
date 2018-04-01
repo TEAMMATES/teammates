@@ -250,21 +250,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
             Text instructions, long gracePeriod) {
 
         addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime,
-                instructions, gracePeriod, ZoneId.of("UTC+08:00"));
+                instructions, gracePeriod, ZoneId.of("Asia/Singapore"));
     }
 
     private void selectTimeZone(ZoneId timeZone) {
-        double offset = TimeHelper.convertToOffset(timeZone);
-
-        String timeZoneString = Double.toString(offset);
-
-        double fractionalPart = offset % 1;
-
-        if (fractionalPart == 0.0) {
-            timeZoneString = Integer.toString((int) offset);
-        }
-
-        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
+        selectDropdownByActualValue(timezoneDropdown, timeZone.getId());
     }
 
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
@@ -403,7 +393,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public String getClientTimeZone() {
-        return (String) executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
+        return (String) executeScript("return moment.tz.guess()");
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {

@@ -270,6 +270,21 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                          .withCourseId(fs.getCourseId())
                          .withSessionName(fs.getFeedbackSessionName()).toString(),
                      newQuestionForm.getDoneEditingLink());
+
+        ______TS("Resolved time fields map");
+        data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken);
+
+        assertNotNull("Should be empty map if unused", data.getResolvedTimeFields());
+        assertTrue(data.getResolvedTimeFields().isEmpty());
+
+        Map<String, String> expected = new HashMap<>();
+        String startDate = "start date";
+        String startTime = "start time";
+        expected.put(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startDate);
+        expected.put(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, startTime);
+        data.putResolvedTimeField(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startDate);
+        data.putResolvedTimeField(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, startTime);
+        assertEquals(expected, data.getResolvedTimeFields());
     }
 
     private InstructorAttributes getInstructorFromBundle(String instructor) {

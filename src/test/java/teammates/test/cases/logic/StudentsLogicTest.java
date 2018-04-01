@@ -681,7 +681,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(ZoneId.of("UTC+08:00"))
+                .withTimeZone(ZoneId.of("Asia/Singapore"))
                 .withGracePeriodMinutes(0)
                 .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false)

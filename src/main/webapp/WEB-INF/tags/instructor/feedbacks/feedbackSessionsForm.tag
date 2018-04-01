@@ -1,6 +1,7 @@
 <%@ tag description="instructorFeedback & instructorFeedbackEdit - feedback session form" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <%@ tag import="teammates.common.util.Const" %>
@@ -63,20 +64,13 @@
             <div class="form-group">
               <h5 class="col-sm-2 col-md-4">
                 <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
-                  Timezone
+                  Time Zone
                 </label>
               </h5>
               <div class="col-sm-10 col-md-8">
-                <select class="form-control"
-                    name="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>"
-                    id="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
-                  <c:forEach items="${fsForm.timezoneSelectField}" var="option">
-                    <option ${option.attributesToString}>
-                      ${option.content}
-                    </option>
-                  </c:forEach>
-
-                </select>
+                <ti:timeZoneInput nameId="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
+                    selectedTimeZone="${fsForm.fsTimeZone}">
+                </ti:timeZoneInput>
               </div>
             </div>
           </div>
