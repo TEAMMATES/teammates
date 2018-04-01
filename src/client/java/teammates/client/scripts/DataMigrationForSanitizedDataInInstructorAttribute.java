@@ -2,9 +2,7 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -71,8 +69,7 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
     }
 
     private String fixSanitization(String s) {
-        SanitizationHelper.desanitizeIfHtmlSanitized(s);
-        return s;
+        return SanitizationHelper.desanitizeIfHtmlSanitized(s);
     }
 
     private void fixSanitizationForInstructor(InstructorAttributes instructor) {
@@ -91,15 +88,15 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
     }
 
     /**
-     * TODO remove after data Migration.
+     * To extract all the Instructor.
      */
     public List<InstructorAttributes> getAllInstructor() {
-        Map<String, InstructorAttributes> result = new LinkedHashMap<>();
+        ArrayList<InstructorAttributes> result = new ArrayList<>();
 
         for (InstructorAttributes instructor : getAllCourseInstructor()) {
-            result.put(instructor.getIdentificationString(), instructor);
+            result.add(instructor);
         }
-        return new ArrayList<>(result.values());
+        return result;
     }
 
     @Deprecated
