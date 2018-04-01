@@ -732,7 +732,7 @@ public final class CoursesLogic {
 
         // Imitate `CourseAttributes.getInvalidityInfo`
         FieldValidator validator = new FieldValidator();
-        String timeZoneErrorMessage = validator.getInvalidityInfoForCourseTimeZone(courseTimeZone);
+        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
             // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
             CourseAttributes dummyCourse = CourseAttributes

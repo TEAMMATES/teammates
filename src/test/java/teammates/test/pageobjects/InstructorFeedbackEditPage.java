@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -1132,6 +1133,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
+    public void selectTimeZone(ZoneId timeZone) {
+        selectDropdownByActualValue(timezoneDropDown, timeZone.getId());
+    }
+
+    public void editFeedbackSession(
+            LocalDateTime startTime, LocalDateTime endTime, ZoneId timeZone, Text instructions, long gracePeriod) {
+        selectTimeZone(timeZone);
+        editFeedbackSession(startTime, endTime, instructions, gracePeriod);
+    }
+
     public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
@@ -1153,6 +1164,10 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         click(fsSaveLink);
         waitForPageToLoad();
+    }
+
+    public String getFeedbackSessionEndTimeValue() {
+        return getDropdownSelectedValue(endTimeDropdown);
     }
 
     public InstructorFeedbackSessionsPage deleteSession() {
