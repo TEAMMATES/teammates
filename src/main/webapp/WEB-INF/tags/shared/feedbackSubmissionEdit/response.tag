@@ -43,16 +43,7 @@
         <c:when test="${recipientType == 'TEAM'}"> (Team)</c:when>
       </c:choose>:
   </div>
-  <c:choose>
-    <c:when test="${questionWithResponses.question.questionTypeConstsum}">
-      ${response.submissionFormHtml}
-    </c:when>
-    <c:otherwise>
-      <div class="${divClassType}">
-        ${response.submissionFormHtml}
-      </div>
-    </c:otherwise>
-  </c:choose>
+  ${response.submissionFormHtml}
   <c:if test="${response.existingResponse}">
     <input type="hidden"
            name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
