@@ -1,10 +1,12 @@
 package teammates.test.cases.action;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessageColor;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
@@ -82,11 +84,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
 
-        ______TS("Error: Invalid parameter (invalid sesssion name, > 38 characters)");
+        ______TS("Error: Invalid parameters (fixed offset time zone and invalid session name, > 38 characters)");
 
         String longFsName = StringHelperExtension.generateStringOfLength(39);
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, longFsName, 0);
+        params[25] = "UTC+08:00";
         a = getAction(params);
         pr = getShowPageResult(a);
         expectedString = getPageResultDestination(
@@ -94,11 +97,47 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertEquals(expectedString, pr.getDestinationWithParams());
         assertTrue(pr.isError);
 
-        expectedString =
-                teammatesLog + "Servlet Action Failure : " + "\"" + longFsName + "\" "
+        expectedString = teammatesLog + "Servlet Action Failure : " + "\"" + longFsName + "\" "
                 + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackAdd";
+                + "It should not be empty.<br>"
+                + "\"UTC+08:00\" is not acceptable to TEAMMATES as a/an time zone because it is not "
+                + "available as a choice. The value must be one of the values from the time zone dropdown selector."
+                + "|||/page/instructorFeedbackAdd";
+        AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
+
+        ______TS("Error: Overlap publish time with invalid parameters (invalid session name, > 38 characters)");
+
+        longFsName = StringHelperExtension.generateStringOfLength(39);
+        params = createParamsCombinationForFeedbackSession(
+                instructor1ofCourse1.courseId, longFsName, 1);
+        params[25] = "Asia/Jerusalem";
+        // After Sun, 25 Oct 2015, 01:59:59 AM: clocks fell back to Sun, 25 Oct 2015, 01:00:00 AM
+        params[21] = "Sun, 25 Oct, 2015";
+        params[23] = "1";
+        a = getAction(params);
+        pr = getShowPageResult(a);
+        expectedString = getPageResultDestination(
+                Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, true, "idOfInstructor1OfCourse1");
+        assertEquals(expectedString, pr.getDestinationWithParams());
+        assertTrue(pr.isError);
+
+        String overlapWarning = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP,
+                "time when the results will be visible",
+                "Sun, 25 Oct 2015, 01:00 AM",
+                "Sun, 25 Oct 2015, 01:00 AM IDT (UTC+0300)",
+                "Sun, 25 Oct 2015, 01:00 AM IST (UTC+0200)",
+                "Sun, 25 Oct 2015, 01:00 AM IDT (UTC+0300)");
+
+        String lengthError = "\"" + longFsName + "\" "
+                + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
+                + "The value of a/an feedback session name should be no longer than 38 characters. "
+                + "It should not be empty.";
+
+        verifyStatusMessage(pr.getStatusToUser().get(0), overlapWarning, StatusMessageColor.WARNING);
+        verifyStatusMessage(pr.getStatusToUser().get(1), lengthError, StatusMessageColor.DANGER);
+
+        expectedString = teammatesLog + "Servlet Action Failure : " + lengthError + "|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Add course with extra space (in middle and trailing)");
@@ -132,11 +171,14 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
 
-        ______TS("timezone with minute offset");
+        ______TS("DST time zone, gap end time");
 
-        params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, "Course with minute offset timezone", 2);
-        params[25] = "5.5";
+        params = createParamsForTypicalFeedbackSession(
+                         instructor1ofCourse1.courseId, "Course with DST time zone");
+        params[25] = "Asia/Jerusalem";
+        // After Fri, 28 Mar 2014, 01:59:59 AM: clocks sprang forward to Fri, 28 Mar 2014, 03:00:00 AM
+        params[9] = "Fri, 28 Mar, 2014";
+        params[11] = "2";
 
         a = getAction(params);
         rr = getRedirectResult(a);
@@ -144,7 +186,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         expectedString = getPageResultDestination(
                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
                 instructor1ofCourse1.courseId,
-                "Course+with+minute+offset+timezone",
+                "Course+with+DST+time+zone",
                 instructor1ofCourse1.googleId,
                 false);
         assertEquals(expectedString, rr.getDestinationWithParams());
@@ -153,17 +195,20 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||New Feedback Session "
-                + "<span class=\"bold\">(Course with minute offset timezone)</span> for Course "
+                + "<span class=\"bold\">(Course with DST time zone)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> 2012-01-31T18:30:00Z"
-                + "<span class=\"bold\"> to</span> 2014-12-31T18:30:00Z<br>"
-                + "<span class=\"bold\">Session visible from:</span> 1970-11-27T00:00:00Z<br>"
-                + "<span class=\"bold\">Results visible from:</span> 1970-01-01T00:00:00Z<br><br>"
+                + "<span class=\"bold\">From:</span> 2012-01-31T22:00:00Z"
+                + "<span class=\"bold\"> to</span> 2014-03-28T00:00:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 2011-12-31T22:00:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 1970-06-22T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||"
                 + "/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
+        expectedString = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP,
+                "end time", "Fri, 28 Mar 2014, 02:00 AM", "Fri, 28 Mar 2014, 03:00 AM IDT (UTC+0300)") + "<br>"
+                + Const.StatusMessages.FEEDBACK_SESSION_ADDED;
+        assertEquals(expectedString, rr.getStatusMessage());
 
         ______TS("Masquerade mode");
 
@@ -199,6 +244,18 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<Text: >|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
+
+        ______TS("Unsuccessful case: test null time zone parameter");
+        params = ArrayUtils.remove(params, 26);
+        params = ArrayUtils.remove(params, 26);
+
+        try {
+            a = getAction(params);
+            getRedirectResult(a);
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE),
+                    e.getMessage());
+        }
 
         ______TS("Unsuccessful case: test null course ID parameter");
         params = new String[] {};
