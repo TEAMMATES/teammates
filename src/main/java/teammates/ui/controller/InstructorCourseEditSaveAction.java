@@ -28,8 +28,10 @@ public class InstructorCourseEditSaveAction extends Action {
             logic.updateCourse(courseId, courseName, courseTimeZone);
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EDITED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Course name for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
-                          + "New name: " + courseName;
+            statusToAdmin = "Updated Course <span class=\"bold\">[" + courseId + "]</span> details:<br>"
+                            + "Name: " + courseName + "<br>"
+                            + "Time zone: " + courseTimeZone;
+
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }

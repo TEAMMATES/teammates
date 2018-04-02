@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,7 +52,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .withInstructions(new Text("Please fill in the new feedback session."))
                 .withSentOpenEmail(false)
                 .withSentPublishedEmail(false)
-                .withTimeZone(ZoneId.of("UTC+08:00"))
+                .withTimeZone(ZoneId.of("Asia/Singapore"))
                 .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withClosingEmailEnabled(true)
                 .withPublishedEmailEnabled(true)
@@ -233,6 +234,25 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         assertEquals("[BACKDOOR_STATUS_SUCCESS]",
                      BackDoor.deleteFeedbackSession(templateSessionName, newSession.getCourseId()));
 
+        ______TS("success case: Add a session with DST time zone and gap start time");
+
+        String dstSessionName = "DST Session";
+        ZoneId dstTimeZone = ZoneId.of("Pacific/Apia");
+        LocalDateTime gapStart = TimeHelper.parseLocalDateTime("30/12/2011", "7", "0");
+
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        feedbackPage.addFeedbackSessionWithTimeZone(
+                dstSessionName, newSession.getCourseId(),
+                gapStart, newSession.getEndTimeLocal(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriodMinutes(), dstTimeZone);
+
+        String gapWarning = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP,
+                "start time", "Fri, 30 Dec 2011, 07:00 AM", "Sat, 31 Dec 2011, 07:00 AM WSDT (UTC+1400)");
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(gapWarning, Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+
+        assertEquals("[BACKDOOR_STATUS_SUCCESS]",
+                BackDoor.deleteFeedbackSession(dstSessionName, newSession.getCourseId()));
+
         ______TS("failure case: session exists already");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
@@ -297,13 +317,13 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setFeedbackSessionName("Allow Early Viewing Session #");
         newSession.setCourseId("CFeedbackUiT.CS1101");
-        newSession.setTimeZone(ZoneId.of("UTC-04:30"));
+        newSession.setTimeZone(ZoneId.of("America/Caracas"));
 
-        newSession.setStartTime(TimeHelper.parseInstant("2004-05-01 12:30 PM +0000"));
+        newSession.setStartTime(TimeHelper.parseInstant("2008-05-01 12:30 PM +0000"));
         newSession.setEndTime(newSession.getStartTime());
         newSession.setGracePeriodMinutes(30);
 
-        newSession.setSessionVisibleFromTime(TimeHelper.parseInstant("2004-03-01 9:30 PM +0000"));
+        newSession.setSessionVisibleFromTime(TimeHelper.parseInstant("2008-03-01 9:30 PM +0000"));
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
         newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
 
@@ -344,7 +364,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriodMinutes(25);
         newSession.setInstructions(instructions);
-        newSession.setTimeZone(ZoneId.of("UTC-02:00"));
+        newSession.setTimeZone(ZoneId.of("America/Noronha"));
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
 
@@ -935,7 +955,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         assertEquals("STANDARD", feedbackPage.getSessionType());
         assertEquals("22", feedbackPage.getStartTime());
         assertEquals("22", feedbackPage.getEndTime());
-        assertEquals("8", feedbackPage.getTimeZone());
+        assertEquals("Asia/Singapore", feedbackPage.getTimeZone());
 
         ______TS("form fields do not reset on form validation failure when session type is TEAMEVALUATION, "
                  + "timezone is changed");
@@ -949,12 +969,12 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 TimeHelper.parseLocalDateTime("01/04/2035", "10", "00"),
                 TimeHelper.parseLocalDateTime("30/04/2035", "22", "00"),
                 null, null,
-                newSession.getInstructions(), newSession.getGracePeriodMinutes(), ZoneId.of("UTC-02:00"));
+                newSession.getInstructions(), newSession.getGracePeriodMinutes(), ZoneId.of("Atlantic/South_Georgia"));
 
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
         assertEquals("22", feedbackPage.getEndTime());
-        assertEquals("-2", feedbackPage.getTimeZone());
+        assertEquals("Atlantic/South_Georgia", feedbackPage.getTimeZone());
 
         ______TS("failure case: test that advanced options are still available after input is rejected");
 
