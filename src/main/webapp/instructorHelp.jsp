@@ -102,34 +102,34 @@
               <a href="#fbQuestionTypes">Question Types</a>
               <ul>
                 <li>
-                  <a href="#fbEssay">Essay question</a>
+                  <a data-toggle="collapse" data-target="#fbEssayBody" href="#fbEssay">Essay question</a>
                 </li>
                 <li>
-                  <a href="#fbMcq">Multiple-choice (single answer) question</a>
+                  <a data-toggle="collapse" data-target="#fbMcqBody" href="#fbMcq">Multiple-choice (single answer) question</a>
                 </li>
                 <li>
-                  <a href="#fbMsq">Multiple-choice (multiple answers) question</a>
+                  <a data-toggle="collapse" data-target="#fbMsqBody" href="#fbMsq">Multiple-choice (multiple answers) question</a>
                 </li>
                 <li>
-                  <a href="#fbNumscale">Numerical-scale question</a>
+                  <a data-toggle="collapse" data-target="#fbNumscaleBody" href="#fbNumscale">Numerical-scale question</a>
                 </li>
                 <li>
-                  <a href="#fbConstSumOptions">Distribute points (among options) question</a>
+                  <a data-toggle="collapse" data-target="#fbConstSumOptionsBody" href="#fbConstSumOptions">Distribute points (among options) question</a>
                 </li>
                 <li>
-                  <a href="#fbConstSumRecipients">Distribute points (among recipients) question</a>
+                  <a data-toggle="collapse" data-target="#fbConstSumRecipientsBody" href="#fbConstSumRecipients">Distribute points (among recipients) question</a>
                 </li>
                 <li>
-                  <a href="#fbContrib">Team contribution question</a>
+                  <a data-toggle="collapse" data-target="#fbContribBody" href="#fbContrib">Team contribution question</a>
                 </li>
                 <li>
-                  <a href="#fbRubric">Rubric question</a>
+                  <a data-toggle="collapse" data-target="#fbRubricBody" href="#fbRubric">Rubric question</a>
                 </li>
                 <li>
-                  <a href="#fbRankOptions">Rank (Options) question</a>
+                  <a data-toggle="collapse" data-target="#fbRankOptionsBody" href="#fbRankOptions">Rank (Options) question</a>
                 </li>
                 <li>
-                  <a href="#fbRankRecipients">Rank (Recipients) question</a>
+                  <a data-toggle="collapse" data-target="#fbRankRecipientsBody" href="#fbRankRecipients">Rank (Recipients) question</a>
                 </li>
               </ul>
             </li>
