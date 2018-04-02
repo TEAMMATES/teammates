@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditSaveAction;
@@ -29,7 +31,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         String expectedString = "";
 
-        ______TS("Not enough parameters");
+        ______TS("failure: Not enough parameters");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         verifyAssumptionFailure();
@@ -46,7 +48,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         AjaxResult ar = getAjaxResult(a);
         InstructorFeedbackEditPageData pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
+        StatusMessage statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS);
         assertFalse(pageData.getHasError());
 
         expectedString =
@@ -63,9 +66,24 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("failure: invalid parameters");
+        ______TS("failure: Fixed offset time zone");
+
+        params[25] = "UTC+08:00";
+
+        a = getAction(params);
+        ar = getAjaxResult(a);
+        pageData = (InstructorFeedbackEditPageData) ar.data;
+
+        expectedString = "\"UTC+08:00\" is not acceptable to TEAMMATES as a/an time zone because it is not "
+                + "available as a choice. The value must be one of the values from the time zone dropdown selector.";
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, expectedString, StatusMessageColor.DANGER);
+        assertTrue(pageData.getHasError());
+
+        ______TS("failure: Invalid parameters");
 
         params[15] = "Thu, 01 Mar, 2012";
+        params[25] = "UTC";
 
         a = getAction(params);
         ar = getAjaxResult(a);
@@ -73,24 +91,53 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         expectedString = "The start time for this feedback session cannot be "
                          + "earlier than the time when the session will be visible.";
-        assertEquals(expectedString, pageData.getStatusForAjax());
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, expectedString, StatusMessageColor.DANGER);
         assertTrue(pageData.getHasError());
 
-        ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
+        ______TS("success: Time zone with DST, gap start time, overlap end time");
 
-        params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
-                                                       session.getFeedbackSessionName());
-        params[25] = "5.75";
-        params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
-        params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-
-        //remove instructions, grace period, start time to test null conditions
+        params[25] = "Europe/Andorra";
+        // After Sun, 25 Mar 2012, 01:59:59 AM: clocks sprang forward to Sun, 25 Mar 2012, 03:00:00 AM
+        params[5] = "Sun, 25 Mar, 2012";
+        params[7] = "2";
+        // After Sun, 28 Oct 2012, 02:59:59 AM: clocks fell back to Sun, 28 Oct 2012, 02:00:00 AM
+        params[9] = "Sun, 28 Oct, 2012";
+        params[11] = "2";
 
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
+        expectedString = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP,
+                "start time", "Sun, 25 Mar 2012, 02:00 AM", "Sun, 25 Mar 2012, 03:00 AM CEST (UTC+0200)");
+        verifyStatusMessage(pageData.getStatusMessagesToUser().get(0), expectedString, StatusMessageColor.WARNING);
+
+        expectedString = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP,
+                "end time", "Sun, 28 Oct 2012, 02:00 AM",
+                "Sun, 28 Oct 2012, 02:00 AM CEST (UTC+0200)", "Sun, 28 Oct 2012, 02:00 AM CET (UTC+0100)",
+                "Sun, 28 Oct 2012, 02:00 AM CEST (UTC+0200)");
+        verifyStatusMessage(pageData.getStatusMessagesToUser().get(1), expectedString, StatusMessageColor.WARNING);
+
+        expectedString = Const.StatusMessages.FEEDBACK_SESSION_EDITED;
+        verifyStatusMessage(pageData.getStatusMessagesToUser().get(2), expectedString, StatusMessageColor.SUCCESS);
+
+        assertFalse(pageData.getHasError());
+
+        ______TS("success: Custom time zone, 'never' show session, 'custom' show results");
+
+        params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
+                                                       session.getFeedbackSessionName());
+        params[25] = "Asia/Kathmandu";
+        params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
+        params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
+
+        a = getAction(params);
+        ar = getAjaxResult(a);
+        pageData = (InstructorFeedbackEditPageData) ar.data;
+
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS);
         assertFalse(pageData.getHasError());
 
         expectedString =
@@ -107,22 +154,19 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
+        ______TS("success: At open session visible time, custom results visible time, UTC");
 
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, session.getFeedbackSessionName(), 1);
 
-        //remove grace period (first) and then time zone
-        params = ArrayUtils.remove(params, 26);
-        params = ArrayUtils.remove(params, 26);
-        params = ArrayUtils.remove(params, 24);
-        params = ArrayUtils.remove(params, 24);
+        params[25] = "UTC";
 
         a = getAction(params);
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS);
         assertFalse(pageData.getHasError());
 
         expectedString =
@@ -139,7 +183,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("success: Masquerade mode, manual release results, invalid timezone and graceperiod");
+        ______TS("success: Masquerade mode, manual release results, UTC");
 
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
@@ -147,8 +191,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-        params[25] = " ";
-        params[27] = "12dsf";
+        params[25] = "UTC";
 
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
@@ -156,7 +199,8 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         ar = getAjaxResult(a);
         pageData = (InstructorFeedbackEditPageData) ar.data;
 
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, pageData.getStatusForAjax());
+        statusMessage = pageData.getStatusMessagesToUser().get(0);
+        verifyStatusMessage(statusMessage, Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS);
         assertFalse(pageData.getHasError());
 
         expectedString =
@@ -172,6 +216,28 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
+
+        ______TS("failure: Invalid time zone");
+
+        params[27] = "invalid time zone";
+        verifyAssumptionFailure(params);
+
+        ______TS("failure: Null time zone");
+
+        params = ArrayUtils.remove(params, 26);
+        params = ArrayUtils.remove(params, 26);
+        verifyAssumptionFailure(params);
+
+        ______TS("failure: Invalid grace period");
+
+        params[25] = "12dsf";
+        verifyAssumptionFailure(params);
+
+        ______TS("failure: Null grace period");
+
+        params = ArrayUtils.remove(params, 26);
+        params = ArrayUtils.remove(params, 26);
+        verifyAssumptionFailure(params);
     }
 
     @Override
