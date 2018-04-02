@@ -462,6 +462,8 @@ public final class Templates {
             public static final String RUBRIC_ROW_BODY_FRAGMENTS = "${rubricRowBodyFragments}";
             public static final String TABLE_HEADER_ROW_FRAGMENT_HTML = "${tableHeaderRowFragmentHtml}";
             public static final String TABLE_BODY_HTML = "${tableBodyHtml}";
+            public static final String TABLE_BODY_EXCLUDING_SELF_HTML = "${tableBodyExcludingSelfHtml}";
+            public static final String EXCLUDING_SELF_OPTION_VISIBLE = "${isExcludingSelfOptionAvailable}";
             public static final String SUB_QUESTION = "${subQuestion}";
             public static final String ROW = "${row}";
             public static final String COL = "${col}";
