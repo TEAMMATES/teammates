@@ -129,9 +129,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         }
 
         public Builder withGiverSection(String giverSection) {
-            if (giverSection != null) {
-                feedbackResponseAttributes.giverSection = giverSection;
-            }
+            feedbackResponseAttributes.giverSection = giverSection;
             return this;
         }
 
