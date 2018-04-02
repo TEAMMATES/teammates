@@ -49,7 +49,7 @@ QUnit.test('isWithinView()', (assert) => {
     }
     assertWithStyle('top: 0%;', true);
     assertWithStyle('top: 100%;', false);
-    assertWithStyle('bottom: 0%;', false);
+    assertWithStyle('bottom: 0%;', true);
     assertWithStyle('bottom: 100%;', false);
     assertWithStyle('top: 0%; left: 0%;', true);
     assertWithStyle('top: 0%; left: -100%;', false);
