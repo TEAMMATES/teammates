@@ -10,7 +10,7 @@
     "lintspaces-cli": "0.6.0",
     "stylelint": "9.1.1",
     "stylelint-config-standard": "18.2.0",
-    "webpack": "4.3.0",
+    "webpack": "4.4.1",
     "webpack-cli": "2.0.13",
     "webpack-merge": "4.1.2"
   },
