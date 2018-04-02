@@ -53,6 +53,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         FeedbackResponseAttributes observedFeedbackResponseAttributes =
                 FeedbackResponseAttributes.builder().build();
 
+        assertNull(observedFeedbackResponseAttributes.getId());
         assertNull(observedFeedbackResponseAttributes.feedbackSessionName);
         assertNull(observedFeedbackResponseAttributes.courseId);
         assertNull(observedFeedbackResponseAttributes.feedbackQuestionId);
@@ -68,21 +69,23 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilderWithPopulatedFieldValues() {
-        String expectedFeedbackSessionName = "dummyName";
+        String expectedSessionName = "dummyName";
         String expectedCourseId = "dummyCourseId";
-        String expectedFeedbackQuestionId = "dummyId";
-        FeedbackQuestionType expectedFeedbackQuestionType = FeedbackQuestionType.TEXT;
+        String expectedQuestionId = "dummyQuestionId";
+        FeedbackQuestionType expectedQuestionType = FeedbackQuestionType.TEXT;
         String expectedGiver = "dummyGiver";
         String expectedRecipient = "dummyRecipient";
         String expectedGiverSection = Const.DEFAULT_SECTION;
         String expectedRecipientSection = Const.DEFAULT_SECTION;
         Text expectedResponseMetaData = new Text("dummy meta data");
+        String expectedId = expectedQuestionId + "%" + expectedGiver + "%" + expectedRecipient;
 
         FeedbackResponseAttributes observedFeedbackResponseAttributes = FeedbackResponseAttributes.builder()
-                .withFeedbackSessionName(expectedFeedbackSessionName)
+                .withFeedbackResponseId(expectedId)
+                .withFeedbackSessionName(expectedSessionName)
                 .withCourseId(expectedCourseId)
-                .withFeedbackQuestionId(expectedFeedbackQuestionId)
-                .withFeedbackQuestionType(expectedFeedbackQuestionType)
+                .withFeedbackQuestionId(expectedQuestionId)
+                .withFeedbackQuestionType(expectedQuestionType)
                 .withGiver(expectedGiver)
                 .withGiverSection(expectedGiverSection)
                 .withRecipient(expectedRecipient)
@@ -90,10 +93,11 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .withResponseMetaData(expectedResponseMetaData)
                 .build();
 
-        assertEquals(expectedFeedbackSessionName, observedFeedbackResponseAttributes.feedbackSessionName);
+        assertEquals(expectedId, observedFeedbackResponseAttributes.getId());
+        assertEquals(expectedSessionName, observedFeedbackResponseAttributes.feedbackSessionName);
         assertEquals(expectedCourseId, observedFeedbackResponseAttributes.courseId);
-        assertEquals(expectedFeedbackQuestionId, observedFeedbackResponseAttributes.feedbackQuestionId);
-        assertEquals(expectedFeedbackQuestionType, observedFeedbackResponseAttributes.feedbackQuestionType);
+        assertEquals(expectedQuestionId, observedFeedbackResponseAttributes.feedbackQuestionId);
+        assertEquals(expectedQuestionType, observedFeedbackResponseAttributes.feedbackQuestionType);
         assertEquals(expectedGiver, observedFeedbackResponseAttributes.giver);
         assertEquals(expectedRecipient, observedFeedbackResponseAttributes.recipient);
         assertEquals(expectedGiverSection, observedFeedbackResponseAttributes.giverSection);
@@ -103,19 +107,26 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilderCopy() {
+        String originalGiver = "giver";
+        String originalRecipient = "recipient";
+        String originalQuestionId = "someQuestionId";
+        String originalId = originalQuestionId + "%" + originalGiver + "%" + originalRecipient;
         FeedbackResponseAttributes original = FeedbackResponseAttributes.builder()
+                .withFeedbackResponseId(originalId)
+                .withFeedbackResponseId("originalFeedbackQuestionId%originalGiver%")
                 .withFeedbackSessionName("originalName")
                 .withCourseId("originalCourseId")
-                .withFeedbackQuestionId("originalFeedbackQuestionId")
+                .withFeedbackQuestionId(originalQuestionId)
                 .withFeedbackQuestionType(FeedbackQuestionType.TEXT)
-                .withGiver("originalGiver")
-                .withRecipient("originalRecipient")
+                .withGiver(originalGiver)
+                .withRecipient(originalRecipient)
                 .withResponseMetaData(new Text("original meta data"))
                 .build();
 
         FeedbackResponseAttributes copy = original.getCopy();
 
-        assertNotSame(original, copy);
+        assertNotSame(copy, original);
+        assertEquals(copy.getId(), original.getId());
         assertEquals(copy.feedbackSessionName, original.feedbackSessionName);
         assertEquals(copy.courseId, original.courseId);
         assertEquals(copy.feedbackQuestionId, original.feedbackQuestionId);
@@ -135,6 +146,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
 
         FeedbackResponseAttributes observedResponse = FeedbackResponseAttributes.valueOf(genericResponse);
 
+        assertEquals(genericResponse.getId(), observedResponse.getId());
         assertEquals(genericResponse.getFeedbackSessionName(), observedResponse.feedbackSessionName);
         assertEquals(genericResponse.getCourseId(), observedResponse.courseId);
         assertEquals(genericResponse.getFeedbackQuestionId(), observedResponse.feedbackQuestionId);
