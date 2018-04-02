@@ -1,4 +1,4 @@
-<%@ tag description="instructorHome - Publish email modal" pageEncoding="UTF-8" %>
+<%@ tag description="instructorHome - Resend published email modal" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="sessionResendPublishedEmailLink" required="true" %>
 

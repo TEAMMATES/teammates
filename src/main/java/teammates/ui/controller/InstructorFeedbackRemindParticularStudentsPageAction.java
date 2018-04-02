@@ -25,9 +25,8 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
         FeedbackSessionResponseStatus fsResponseStatus =
                 logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
 
-        InstructorFeedbackAjaxStudentsListPageData data =
-                new InstructorFeedbackAjaxStudentsListPageData(account, sessionToken, fsResponseStatus,
-                                                                       courseId, feedbackSessionName);
+        InstructorFeedbackAjaxStudentsListPageData data = new InstructorFeedbackAjaxStudentsListPageData(
+                account, sessionToken, fsResponseStatus, courseId, feedbackSessionName);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL, data);
     }

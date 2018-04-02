@@ -68,7 +68,7 @@
       </li>
       <c:if test="${actions.allowedToResendPublishedEmail}">
       <li>
-        <a href=""
+        <a href="javascript:;"
             data-actionlink="${actions.sessionResendPublishedEmailPageLink}"
             class="session-resend-published-email-for-test"
             data-courseid="${actions.courseId}"

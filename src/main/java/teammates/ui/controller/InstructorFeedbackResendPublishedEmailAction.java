@@ -9,8 +9,8 @@ public class InstructorFeedbackResendPublishedEmailAction extends Action {
 
     @Override
     protected ActionResult execute() {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
 
         if (nextUrl == null) {
@@ -27,7 +27,7 @@ public class InstructorFeedbackResendPublishedEmailAction extends Action {
         if (!feedbackSession.isPublished()) {
             statusToUser.add(new StatusMessage(
                     Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_NOT_PUBLISHED, StatusMessageColor.DANGER));
-            statusToAdmin = "Reminder email could not be sent out as the feedback session is not published.";
+            statusToAdmin = "Published email could not be resent as the feedback session is not published.";
             return createRedirectResult(nextUrl);
         }
 
@@ -42,7 +42,7 @@ public class InstructorFeedbackResendPublishedEmailAction extends Action {
 
         statusToUser.add(new StatusMessage(
                 Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_SENT, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Email sent out to the selected user(s): ";
+        statusToAdmin = "Email resent to the selected user(s): ";
         for (String user : usersToEmail) {
             statusToAdmin += "<br>" + user;
         }

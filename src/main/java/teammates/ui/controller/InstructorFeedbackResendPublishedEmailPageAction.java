@@ -12,11 +12,9 @@ public class InstructorFeedbackResendPublishedEmailPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);

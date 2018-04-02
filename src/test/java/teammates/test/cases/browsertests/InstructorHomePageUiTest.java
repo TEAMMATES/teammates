@@ -61,7 +61,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testSearchAction();
         testSortAction();
         testRemindActions();
-        testPublishUnpublishResendLinksActions();
+        testPublishUnpublishResendLinkActions();
         testArchiveCourseAction();
         testCopyToFsAction();
         testDeleteCourseAction();
@@ -319,25 +319,25 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testPublishUnpublishResendLinksActions() {
+    private void testPublishUnpublishResendLinkActions() {
         ______TS("publish action: AWAITING feedback session");
 
         homePage.verifyUnclickable(homePage.getSessionResultsOptionsCaretElement(feedbackSessionAwaiting.getCourseId(),
-                feedbackSessionAwaiting.getFeedbackSessionName()));
+                                                            feedbackSessionAwaiting.getFeedbackSessionName()));
 
         ______TS("publish action: OPEN feedback session");
 
         homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionOpen.getCourseId(),
-                feedbackSessionOpen.getFeedbackSessionName()));
+                                                        feedbackSessionOpen.getFeedbackSessionName()));
 
         ______TS("publish action: CLOSED feedback session");
 
         homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionClosed.getCourseId(),
-                feedbackSessionClosed.getFeedbackSessionName()));
+                                                        feedbackSessionClosed.getFeedbackSessionName()));
 
         ______TS("unpublish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionUnpublishLink(feedbackSessionPublished.getCourseId(),
-                feedbackSessionPublished.getFeedbackSessionName());
+                                                   feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForPageToLoad();
         homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
         assertFalse(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),
@@ -345,18 +345,18 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         ______TS("publish action: PUBLISHED feedback session");
         homePage.clickFeedbackSessionPublishLink(feedbackSessionPublished.getCourseId(),
-                feedbackSessionPublished.getFeedbackSessionName());
+                                                 feedbackSessionPublished.getFeedbackSessionName());
         homePage.waitForPageToLoad();
         homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
         assertTrue(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),
-                feedbackSessionPublished.getFeedbackSessionName()).isPublished());
+                                               feedbackSessionPublished.getFeedbackSessionName()).isPublished());
 
-        ______TS("resend links action: PUBLISHED feedback session");
-        // Test that the resend published links button exists for this published session
+        ______TS("resend link action: PUBLISHED feedback session");
+        // Test that the resend published link button exists for this published session
         homePage.verifyResendPublishedEmailButtonExists(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
 
-        // Test that the resend published links button can be clicked and the form can be cancelled
+        // Test that the resend published link button can be clicked and the form can be cancelled
         homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
                 feedbackSessionPublished.getFeedbackSessionName());
         homePage.clickResendPublishedEmailLink(feedbackSessionPublished.getCourseId(),
@@ -384,8 +384,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
 
-        ______TS("resend links action: NOT PUBLISHED feedback session");
-        // Test that the resend published links button does not exist for this not published session
+        ______TS("resend link action: NOT PUBLISHED feedback session");
+        // Test that the resend published link button does not exist for this not published session
         homePage.verifyResendPublishedEmailButtonDoesNotExist(feedbackSessionAwaiting.getCourseId(),
                 feedbackSessionAwaiting.getFeedbackSessionName());
     }

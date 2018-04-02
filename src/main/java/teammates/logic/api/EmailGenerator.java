@@ -351,12 +351,12 @@ public class EmailGenerator {
     public List<EmailWrapper> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session) {
 
         boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToStudents(session);
-        List<StudentAttributes> students = isEmailNeeded
-                                                 ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                                                 : new ArrayList<>();
         List<InstructorAttributes> instructors = isEmailNeeded
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<>();
+        List<StudentAttributes> students = isEmailNeeded 
+                                           ? studentsLogic.getStudentsForCourse(session.getCourseId())
+                                           : new ArrayList<>();
         return generateFeedbackSessionPublishedEmails(session, students, instructors);
     }
 

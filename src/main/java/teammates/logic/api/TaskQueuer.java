@@ -205,7 +205,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, usersToEmail);
 
         addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
-                             TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, paramMap);
+                TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, paramMap);
     }
 
     /**

@@ -524,7 +524,7 @@ public class PageData {
      * Retrieves the link to load data for the resend session published email modal.
      * @param courseId the course ID
      * @param feedbackSessionName the name of the feedback session
-     * @return the link to load email modal
+     * @return the link to load data for the modal
      */
     public String getInstructorFeedbackResendPublishedEmailPageLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE;
