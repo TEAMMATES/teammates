@@ -1717,7 +1717,7 @@ public class FeedbackSessionResultsBundle {
     public boolean containsResponseFromInstructor() {
         for (FeedbackResponseAttributes response : responses) {
             String giverIdentifier = response.giver;
-            // Some parts of the code handles a participant as a Student if participant is both Student and Instructor
+            // If a instructor is also a student, the response should be considered as student's response.
             if (isParticipantIdentifierInstructor(giverIdentifier) && !isParticipantIdentifierStudent(giverIdentifier)) {
                 return true;
             }
@@ -1737,6 +1737,7 @@ public class FeedbackSessionResultsBundle {
     public boolean containsResponsesToInstructorOrGeneral() {
         for (FeedbackResponseAttributes response : responses) {
             String recipientIdentifier = response.recipient;
+            // getSectionFromRoster will return NO_SPECIFIC_SECTION for recipient who is Instructor or Nobody specific.
             if (getSectionFromRoster(recipientIdentifier) == Const.NO_SPECIFIC_SECTION) {
                 return true;
             }
