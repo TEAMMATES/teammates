@@ -33,12 +33,12 @@ public class InstructorFeedbackEditPageData extends PageData {
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
     private FeedbackSessionPreviewForm previewForm;
-    private String statusForAjax;
     private boolean shouldLoadInEditMode;
     private boolean hasError;
     private CourseDetailsBundle courseDetails;
     private int numOfInstructors;
     private FeedbackSessionAttributes feedbackSession;
+    private Map<String, String> resolvedTimeFields = new HashMap<>();
 
     public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -358,14 +358,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         return previewForm;
     }
 
-    public String getStatusForAjax() {
-        return statusForAjax;
-    }
-
-    public void setStatusForAjax(String statusForAjax) {
-        this.statusForAjax = statusForAjax;
-    }
-
     /**
      * Retrieves the link to submit the request for copy of session.
      * Also contains feedback page link to return after the action.
@@ -389,5 +381,13 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public FeedbackSessionAttributes getFeedbackSession() {
         return feedbackSession;
+    }
+
+    public void putResolvedTimeField(String fieldInputId, String fieldInputValue) {
+        resolvedTimeFields.put(fieldInputId, fieldInputValue);
+    }
+
+    public Map<String, String> getResolvedTimeFields() {
+        return resolvedTimeFields;
     }
 }
