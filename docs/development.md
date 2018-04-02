@@ -27,7 +27,7 @@ To resolve this, we need to *bundle and transpile* ("build" afterwards) them int
 
 Run the following command to build the JavaScript files for the application's use in development mode:
 ```sh
-npm start
+npm run dev
 ```
 
 This command needs to be run before starting the dev server if there are updates to the JavaScript files.
