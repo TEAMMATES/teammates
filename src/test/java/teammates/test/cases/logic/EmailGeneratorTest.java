@@ -96,11 +96,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
         // Verify the student reminder email
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionReminderEmailForStudent.html");
         // Verify the Student email copy send to the instructor
-        verifyEmailWithSpecifiedLineReceivedCorrectly(emails, instructor1.email, subject,
+        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
                 "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
         // Verify the instructor reminder email
-        verifyEmailWithoutSpecifiedLineReceivedCorrectly(emails, instructor1.email, subject,
-                "/sessionReminderEmailForInstructor.html", lineInEmailCopyToInstructor);
+        String lineInEmailToInstructor =
+                "/page/instructorFeedbackSubmissionEditPage?courseid=idOfTypicalCourse1&fsname=First+feedback+session";
+        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
+                "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
 
         ______TS("feedback session closing alerts");
 
@@ -507,30 +509,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
     private void verifyEmailReceivedCorrectly(
             List<EmailWrapper> actualEmails, String recipient, String subject, String emailContentFilePath)
             throws IOException {
-        verifyEmailWithSpecifiedLineReceivedCorrectly(actualEmails, recipient, subject, emailContentFilePath, "");
+        verifyEmailReceivedCorrectly(actualEmails, recipient, subject, emailContentFilePath, "");
     }
 
-    private void verifyEmailWithSpecifiedLineReceivedCorrectly(
+    private void verifyEmailReceivedCorrectly(
             List<EmailWrapper> actualEmails, String recipient, String subject,
             String emailContentFilePath, String containsString)
             throws IOException {
         boolean hasReceivedEmailCorrectly = false;
         for (EmailWrapper email : actualEmails) {
             if (email.getRecipient().equals(recipient) && email.getContent().contains(containsString)) {
-                verifyEmail(email, recipient, subject, emailContentFilePath);
-                hasReceivedEmailCorrectly = true;
-            }
-        }
-        assertTrue(hasReceivedEmailCorrectly);
-    }
-
-    private void verifyEmailWithoutSpecifiedLineReceivedCorrectly(
-            List<EmailWrapper> actualEmails, String recipient, String subject,
-            String emailContentFilePath, String containsString)
-            throws IOException {
-        boolean hasReceivedEmailCorrectly = false;
-        for (EmailWrapper email : actualEmails) {
-            if (email.getRecipient().equals(recipient) && !email.getContent().contains(containsString)) {
                 verifyEmail(email, recipient, subject, emailContentFilePath);
                 hasReceivedEmailCorrectly = true;
             }
