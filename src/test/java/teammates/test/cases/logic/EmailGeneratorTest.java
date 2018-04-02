@@ -93,9 +93,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 course.getName(), session.getFeedbackSessionName());
 
         String lineInEmailCopyToInstructor = "The email below has been sent to students of course:";
+        // Verify the student reminder email
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionReminderEmailForStudent.html");
+        // Verify the Student email copy send to the instructor
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
-                "/sessionReminderEmailForInstructor.html", lineInEmailCopyToInstructor);
+                "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
+        // Verify the instructor reminder email
+        String lineInEmailToInstructor =
+                "/page/instructorFeedbackSubmissionEditPage?courseid=idOfTypicalCourse1&fsname=First+feedback+session";
+        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
+                "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
 
         ______TS("feedback session closing alerts");
 
