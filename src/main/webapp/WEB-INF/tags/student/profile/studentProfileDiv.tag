@@ -29,7 +29,12 @@
           type="button"
           data-toggle="modal"
           data-target="#studentPhotoUploader">
-        Upload/Edit Photo
+        <div class=""
+             data-toggle="tooltip"
+             data-placement="top"
+             title="Upload a profile picture. Max size 5MB. .jpg or .png extensions.">
+          Upload/Edit Photo
+        </div>
       </button>
     </div>
   </div>

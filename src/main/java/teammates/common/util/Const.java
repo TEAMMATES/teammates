@@ -428,7 +428,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS =
                 "Assign weights to the columns for calculating statistics.";
 
-        public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
+        public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture. Max size 5MB. "
+                + ".jpg or .png extensions";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
         public static final String STUDENT_PROFILE_EMAIL = "This is a long term contact email";
         public static final String STUDENT_PROFILE_INSTITUTION = "This is the institution that you represent";
