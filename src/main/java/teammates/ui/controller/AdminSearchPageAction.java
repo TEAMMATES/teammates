@@ -87,22 +87,22 @@ public class AdminSearchPageAction extends Action {
                                                      List<InstructorAttributes> instructors,
                                                      AdminSearchPageData data) {
         for (StudentAttributes student : students) {
-            if (student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)) {
+            if (student.course != null) {
                 CourseAttributes course = logic.getCourse(student.course);
                 if (course != null) {
                     //TODO: [CourseAttribute] remove desanitization after data migration
-                    data.courseIdToCourseNameMap.put(
+                    data.courseIdToCourseNameMap.putIfAbsent(
                             student.course, SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
                 }
             }
         }
 
         for (InstructorAttributes instructor : instructors) {
-            if (instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)) {
+            if (instructor.courseId != null) {
                 CourseAttributes course = logic.getCourse(instructor.courseId);
                 if (course != null) {
                     //TODO: [CourseAttribute] remove desanitization after data migration
-                    data.courseIdToCourseNameMap.put(
+                    data.courseIdToCourseNameMap.putIfAbsent(
                             instructor.courseId, SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
                 }
             }
