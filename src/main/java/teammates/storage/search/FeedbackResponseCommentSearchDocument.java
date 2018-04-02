@@ -263,11 +263,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frcDb.deleteDocument(comment);
                 continue;
             }
-            List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
-            if (commentList == null) {
-                commentList = new ArrayList<>();
-                bundle.comments.put(comment.feedbackResponseId, commentList);
-            }
+            List<FeedbackResponseCommentAttributes> commentList = bundle.comments.computeIfAbsent(
+                    comment.feedbackResponseId, k -> new ArrayList<>());
             commentList.add(comment);
 
             // get related response from results
@@ -278,11 +275,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frcDb.deleteDocument(comment);
                 continue;
             }
-            List<FeedbackResponseAttributes> responseList = bundle.responses.get(response.feedbackQuestionId);
-            if (responseList == null) {
-                responseList = new ArrayList<>();
-                bundle.responses.put(response.feedbackQuestionId, responseList);
-            }
+            List<FeedbackResponseAttributes> responseList = bundle.responses.computeIfAbsent(
+                    response.feedbackQuestionId, k -> new ArrayList<>());
             if (!isAdded.contains(response.getId())) {
                 isAdded.add(response.getId());
                 responseList.add(response);
@@ -296,11 +290,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 frcDb.deleteDocument(comment);
                 continue;
             }
-            List<FeedbackQuestionAttributes> questionList = bundle.questions.get(question.feedbackSessionName);
-            if (questionList == null) {
-                questionList = new ArrayList<>();
-                bundle.questions.put(question.feedbackSessionName, questionList);
-            }
+            List<FeedbackQuestionAttributes> questionList = bundle.questions.computeIfAbsent(
+                    question.feedbackSessionName, k -> new ArrayList<>());
             if (!isAdded.contains(question.getId())) {
                 isAdded.add(question.getId());
                 questionList.add(question);

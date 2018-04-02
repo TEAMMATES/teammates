@@ -2,11 +2,12 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -74,8 +75,8 @@ public class FeedbackSessionQuestionsBundle {
 
         List<Map.Entry<String, String>> sortedList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
 
-        sortedList.sort(Comparator.comparing((Map.Entry<String, String> obj) -> obj.getValue())
-                .thenComparing(obj -> obj.getKey()));
+        sortedList.sort(Comparator.comparing((Function<Map.Entry<String, String>, String>) Map.Entry::getValue)
+                .thenComparing(Map.Entry::getKey));
 
         Map<String, String> result = new LinkedHashMap<>();
 
@@ -87,15 +88,7 @@ public class FeedbackSessionQuestionsBundle {
     }
 
     public Set<String> getRecipientEmails(String feedbackQuestionId) {
-        List<Map.Entry<String, String>> emailList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
-
-        HashSet<String> result = new HashSet<>();
-
-        for (Map.Entry<String, String> entry : emailList) {
-            result.add(entry.getKey());
-        }
-
-        return result;
+        return recipientList.get(feedbackQuestionId).entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet());
     }
 
     /**

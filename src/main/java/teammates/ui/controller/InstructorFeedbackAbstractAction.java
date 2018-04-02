@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -198,7 +200,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
 
         List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
 
-        courses.sort(Comparator.comparing(course -> course.getId()));
+        courses.sort(Comparator.comparing(CourseAttributes::getId));
 
         return courses;
     }
@@ -208,10 +210,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      */
     protected Map<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId, omitArchived);
-        for (InstructorAttributes instructor : instructors) {
-            courseInstructorMap.put(instructor.courseId, instructor);
-        }
+        courseInstructorMap.putAll(logic.getInstructorsForGoogleId(account.googleId, omitArchived).stream()
+                .collect(Collectors.toMap(x -> x.courseId, Function.identity())));
         return courseInstructorMap;
     }
 
