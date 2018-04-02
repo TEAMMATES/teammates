@@ -1,6 +1,9 @@
 package teammates.test.cases.browsertests;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -212,6 +215,53 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
+
+        ______TS("test fixed offset modal warning");
+        savedSession = getFeedbackSessionWithRetry(
+                editedSession.getCourseId(), editedSession.getFeedbackSessionName());
+        ZoneId originalTimeZone = savedSession.getTimeZone();
+        ZoneId fixedOffsetTimeZone = originalTimeZone.getRules().getOffset(Instant.now());
+
+        // Backdoor set to fixed offset time zone to simulate legacy data
+        savedSession.setTimeZone(fixedOffsetTimeZone);
+        status = BackDoor.editFeedbackSession(savedSession);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+
+        // Check for modal
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        // Restore defaults
+        feedbackEditPage.selectTimeZone(editedSession.getTimeZone());
+        feedbackEditPage.clickSaveSessionButton();
+
+        ______TS("test ambiguous date times");
+        ZoneId dstTimeZone = ZoneId.of("Australia/Victoria");
+        LocalDateTime overlapStartTime = TimeHelper.parseLocalDateTime("05/04/2015", "2", "0");
+        LocalDateTime gapEndTime = TimeHelper.parseLocalDateTime("01/10/2017", "2", "0");
+
+        feedbackEditPage.clickEditSessionButton();
+        feedbackEditPage.editFeedbackSession(overlapStartTime, gapEndTime, dstTimeZone,
+                editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
+
+        String overlapStartWarning = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP,
+                "start time", "Sun, 05 Apr 2015, 02:00 AM", "Sun, 05 Apr 2015, 02:00 AM AEDT (UTC+1100)",
+                "Sun, 05 Apr 2015, 02:00 AM AEST (UTC+1000)", "Sun, 05 Apr 2015, 02:00 AM AEDT (UTC+1100)");
+        String gapEndWarning = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP,
+                "end time", "Sun, 01 Oct 2017, 02:00 AM", "Sun, 01 Oct 2017, 03:00 AM AEDT (UTC+1100)");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                overlapStartWarning, gapEndWarning, Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+
+        assertEquals("End time on form should be updated to 3am",
+                "3", feedbackEditPage.getFeedbackSessionEndTimeValue());
+
+        savedSession = getFeedbackSessionWithRetry(editedSession.getCourseId(), editedSession.getFeedbackSessionName());
+        assertEquals("Saved end time should be 3am", 3, savedSession.getEndTimeLocal().getHour());
+
+        // Restore defaults
+        feedbackEditPage.clickEditSessionButton();
+        feedbackEditPage.editFeedbackSession(editedSession.getStartTimeLocal(), editedSession.getEndTimeLocal(),
+                editedSession.getTimeZone(), editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
 
         ______TS("test end time earlier than start time");
         feedbackEditPage.clickEditSessionButton();

@@ -150,8 +150,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         courseEditSaveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(courseEditSaveAction);
 
-        statusMessage = getPopulatedErrorMessage(FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE,
-                            courseTimeZone, FieldValidator.COURSE_TIME_ZONE_FIELD_NAME,
+        statusMessage = getPopulatedErrorMessage(FieldValidator.TIME_ZONE_ERROR_MESSAGE,
+                            courseTimeZone, FieldValidator.TIME_ZONE_FIELD_NAME,
                             FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
