@@ -34,7 +34,7 @@ public class FeedbackSessionsForm {
     // options for selecting which course to make a fs in
     private List<ElementTag> coursesSelectField;
 
-    private List<ElementTag> timezoneSelectField;
+    private String fsTimeZone;
 
     // List of course ids to populate the dropdown with
     private List<String> courses;
@@ -79,7 +79,7 @@ public class FeedbackSessionsForm {
 
         fsForm.isEditFsButtonsVisible = true;
 
-        fsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(existingFs.getTimeZone());
+        fsForm.fsTimeZone = existingFs.getTimeZone().getId();
 
         fsForm.instructions = SanitizationHelper.sanitizeForRichText(existingFs.getInstructions().getValue());
 
@@ -128,9 +128,7 @@ public class FeedbackSessionsForm {
         newFsForm.isFeedbackSessionTypeEditable = true;
         newFsForm.feedbackSessionTypeOptions = fsTypeOptions;
 
-        newFsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(feedbackSession == null
-                                                                            ? null
-                                                                            : feedbackSession.getTimeZone());
+        newFsForm.fsTimeZone = feedbackSession == null ? null : feedbackSession.getTimeZone().getId();
 
         newFsForm.instructions = feedbackSession == null
                                ? "Please answer all the given questions."
@@ -222,8 +220,8 @@ public class FeedbackSessionsForm {
         return coursesSelectField;
     }
 
-    public List<ElementTag> getTimezoneSelectField() {
-        return timezoneSelectField;
+    public String getFsTimeZone() {
+        return fsTimeZone == null ? "" : fsTimeZone;
     }
 
     public FeedbackSessionsAdditionalSettingsFormSegment getAdditionalSettings() {

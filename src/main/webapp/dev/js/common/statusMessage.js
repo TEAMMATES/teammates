@@ -8,6 +8,20 @@ import {
 
 const DIV_STATUS_MESSAGE = '#statusMessagesToUser';
 
+function buildNewStatusMessageDiv(message, bootstrapContextualColor) {
+    const $newStatusMessageDivContent = $('<div></div>');
+
+    // Default the status type to info if any invalid status is passed in
+    const contextualColor = BootstrapContextualColors.isValidType(bootstrapContextualColor)
+            ? bootstrapContextualColor : BootstrapContextualColors.INFO;
+
+    $newStatusMessageDivContent.addClass(
+            `overflow-auto alert alert-${contextualColor} icon-${contextualColor} statusMessage`);
+    $newStatusMessageDivContent.html(message);
+
+    return $newStatusMessageDivContent;
+}
+
 /**
  * Populates the status div with the message and the message status.
  * Default message type is info.
@@ -18,19 +32,24 @@ const DIV_STATUS_MESSAGE = '#statusMessagesToUser';
  */
 function populateStatusMessageDiv(message, bootstrapContextualColor) {
     const $statusMessageDivToUser = $(DIV_STATUS_MESSAGE);
-    const $statusMessageDivContent = $('<div></div>');
-
-    // Default the status type to info if any invalid status is passed in
-    const contextualColor = BootstrapContextualColors.isValidType(bootstrapContextualColor)
-            ? bootstrapContextualColor : BootstrapContextualColors.INFO;
-
-    $statusMessageDivContent.addClass(
-            `overflow-auto alert alert-${contextualColor} icon-${contextualColor} statusMessage`);
-    $statusMessageDivContent.html(message);
-
+    const $statusMessageDivContent = buildNewStatusMessageDiv(message, bootstrapContextualColor);
     $statusMessageDivToUser.empty();
     $statusMessageDivToUser.append($statusMessageDivContent);
     return $statusMessageDivToUser;
+}
+
+/**
+ * Appends a new message to the status div, leaving existing messages intact.
+ * Default message type is info.
+ *
+ * @param message the text message to be shown to the user
+ * @param {BootstrapContextualColors} bootstrapContextualColor the contextual color to apply to the status messsage
+ */
+function appendNewStatusMessage(message, bootstrapContextualColor) {
+    const $statusMessagesDivToUser = $(DIV_STATUS_MESSAGE);
+    $statusMessagesDivToUser.append(buildNewStatusMessageDiv(message, bootstrapContextualColor));
+    $statusMessagesDivToUser.show();
+    scrollToElement($statusMessagesDivToUser[0], { offset: -window.innerHeight / 2 });
 }
 
 /**
@@ -95,6 +114,7 @@ function clearStatusMessages() {
 }
 
 export {
+    appendNewStatusMessage,
     appendStatusMessage,
     clearStatusMessages,
     setStatusMessage,
