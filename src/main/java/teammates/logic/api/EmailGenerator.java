@@ -354,7 +354,7 @@ public class EmailGenerator {
         List<InstructorAttributes> instructors = isEmailNeeded
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<>();
-        List<StudentAttributes> students = isEmailNeeded 
+        List<StudentAttributes> students = isEmailNeeded
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<>();
         return generateFeedbackSessionPublishedEmails(session, students, instructors);
