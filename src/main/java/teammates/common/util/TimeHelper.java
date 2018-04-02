@@ -502,7 +502,7 @@ public final class TimeHelper {
      * Parses a {@code LocalDateTime} object for session form from separated date, hour and minute strings.
      * Example: date "Tue, 01 Apr, 2014", hour "23", min "59"
      *
-     * @param date  date in format "EEE, dd MMM, yyy"
+     * @param date  date in format "EEE, dd MMM, yyyy"
      * @param hour  hour-of-day (0-23)
      * @param min   minute-of-hour (0-59)
      * @return      the parsed {@code LocalDateTime} object, or {@code null} if there are errors
