@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.base.MoreObjects;
@@ -272,10 +273,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             String overallRank = Integer.toString(recipientOverallRank.get(participantIdentifier));
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
-            String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(participantIdentifier)
-                    ? Integer.toString(recipientOverallRankExceptSelf.get(participantIdentifier)) : "-";
-            String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
-                    ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
+            String overallRankExceptSelf = getRecipientInfo(recipientOverallRankExceptSelf, participantIdentifier);
+            String selfRank = getRecipientInfo(recipientSelfRanks, participantIdentifier);
 
             fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
@@ -323,19 +322,17 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                             + ","
                             + SanitizationHelper.sanitizeForCsv(recipientName);
 
-            String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(participantIdentifier)
-                    ? Integer.toString(recipientOverallRankExceptSelf.get(participantIdentifier)) : "-";
+            String selfRank = getRecipientInfo(recipientSelfRanks, participantIdentifier);
             String overallRank = Integer.toString(recipientOverallRank.get(participantIdentifier));
-            String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
-                    ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
+            String overallRankExceptSelf = getRecipientInfo(recipientOverallRankExceptSelf, participantIdentifier);
 
-            fragments.append(option);
-            fragments.append(',').append(selfRank);
-            fragments.append(',').append(overallRank);
-            fragments.append(',').append(overallRankExceptSelf);
-            fragments.append(',');
-            fragments.append(StringHelper.join(",", ranks));
-            fragments.append(System.lineSeparator());
+            fragments.append(option)
+                    .append(',').append(selfRank)
+                    .append(',').append(overallRank)
+                    .append(',').append(overallRankExceptSelf)
+                    .append(',')
+                    .append(StringHelper.join(",", ranks))
+                    .append(System.lineSeparator());
         });
 
         return "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received"
@@ -434,6 +431,19 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     private Map<String, List<Integer>> getRecipientRanksExcludingSelf(List<FeedbackResponseAttributes> responses) {
         List<FeedbackResponseAttributes> responsesExcludingSelf = getResponsesExcludingSelf(responses);
         return generateOptionRanksMapping(responsesExcludingSelf);
+    }
+
+    /**
+     * Returns value converted to string or dash.
+     *
+     * @param map original map with recipient information
+     * @param key recipient identifier to get from map
+     * @return value converted to string or dash if there is no value associated with key
+     */
+    private String getRecipientInfo(Map<String, Integer> map, String key) {
+        return Optional.ofNullable(map.get(key))
+                       .map(val -> Integer.toString(val))
+                       .orElse("-");
     }
 
     @Override
