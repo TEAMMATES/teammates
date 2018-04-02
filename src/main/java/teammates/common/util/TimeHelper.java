@@ -81,6 +81,48 @@ public final class TimeHelper {
 
     }
 
+    /**
+     * Represents the ambiguity status for a {@link LocalDateTime} at a given time {@code zone},
+     * brought about by Daylight Saving Time (DST).
+     */
+    public enum LocalDateTimeAmbiguityStatus {
+        /**
+         * The local date time can be unambiguously resolved to a single instant.
+         * It has only one valid interpretation.
+         */
+        UNAMBIGUOUS,
+
+        /**
+         * The local date time falls within the gap period when clocks spring forward at the start of DST.
+         * Strictly speaking, it is non-existent, and needs to be readjusted to be valid.
+         */
+        GAP,
+
+        /**
+         * The local date time falls within the overlap period when clocks fall back at the end of DST.
+         * It has more than one valid interpretation.
+         */
+        OVERLAP;
+
+        /**
+         * Gets the ambiguity status for a {@link LocalDateTime} at a given time {@code zone}.
+         */
+        public static LocalDateTimeAmbiguityStatus of(LocalDateTime localDateTime, ZoneId zone) {
+            if (localDateTime == null || zone == null) {
+                return null;
+            }
+
+            List<ZoneOffset> offsets = zone.getRules().getValidOffsets(localDateTime);
+            if (offsets.size() == 1) {
+                return UNAMBIGUOUS;
+            }
+            if (offsets.isEmpty()) {
+                return GAP;
+            }
+            return OVERLAP;
+        }
+    }
+
     private TimeHelper() {
         // utility class
     }
@@ -319,8 +361,20 @@ public final class TimeHelper {
                 convertDateToInstant(dateInUtc), convertToZoneId(sessionTimeZone));
     }
 
-    public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
+    @Deprecated // Temporary workaround to allow instructor home sort. Use formatDateTimeForSessions once #7919 is fixed.
+    public static String formatDateTimeForSessionsFixedOffset(Instant instant, ZoneId sessionTimeZone) {
+        if (instant == null) {
+            return "-";
+        }
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
+    }
+
+    public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
+        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
+    }
+
+    public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
+        return formatInstant(instant, zone, "EEE, dd MMM yyyy, hh:mm a z ('UTC'Z)");
     }
 
     /**
