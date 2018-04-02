@@ -11,10 +11,9 @@ public class InstructorHomeFeedbackSessionRow extends HomeFeedbackSessionRow {
     private InstructorFeedbackSessionActions actions;
 
     public InstructorHomeFeedbackSessionRow(String name, String submissionsTooltip, String publishedTooltip,
-                                            String submissionStatus, String publishedStatus, String startTime,
-                                            String startTimeIso8601Utc, String startTimeToolTip, String endTime,
-                                            String endTimeIso8601Utc, String endTimeToolTip,
-                                            String href, InstructorFeedbackSessionActions actions) {
+            String submissionStatus, String publishedStatus, String startTime, String startTimeIso8601Utc,
+            String startTimeToolTip, String endTime, String endTimeIso8601Utc, String endTimeToolTip,
+            String href, InstructorFeedbackSessionActions actions) {
         super(name, submissionsTooltip, publishedTooltip, submissionStatus, publishedStatus);
         this.startTime = startTime;
         this.startTimeToolTip = startTimeToolTip;

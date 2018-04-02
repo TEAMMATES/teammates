@@ -14,10 +14,9 @@ public class AdminFeedbackSessionRow {
     private String feedbackSessionName;
 
     public AdminFeedbackSessionRow(String sessionStatusForShow, String feedbackSessionStatsLink,
-                                    String sessionStartTime, String sessionStartTimeIso8601Utc,
-                                    String sessionEndTime, String sessionEndTimeIso8601Utc,
-                                    String instructorHomePageViewLink, String creatorEmail,
-                                    String courseId, String feedbackSessionName) {
+            String sessionStartTime, String sessionStartTimeIso8601Utc, String sessionEndTime,
+            String sessionEndTimeIso8601Utc, String instructorHomePageViewLink, String creatorEmail,
+            String courseId, String feedbackSessionName) {
         this.sessionStatusForShow = sessionStatusForShow;
         this.feedbackSessionStatsLink = feedbackSessionStatsLink;
         this.sessionStartTime = sessionStartTime;
