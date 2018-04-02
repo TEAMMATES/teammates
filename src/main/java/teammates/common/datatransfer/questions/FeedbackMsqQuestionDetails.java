@@ -30,7 +30,11 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
+    /*numOfMsqChoices is not persisted to datastore. It is used previously to store
+    the number of msqChoices. The same purpose is now achieved with msqChoices.size() */
+    @SuppressWarnings("PMD.UnusedPrivateField")
     private transient int numOfMsqChoices;
+
     private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
@@ -488,6 +492,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
              + "</div>";
     }
 
+    //Confusing Ternary flagged for the `else if` condition below.
+    //Note: Exclusion to this rule will be added in future PMD patch.
+    @SuppressWarnings("PMD.ConfusingTernary")
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder(200);
