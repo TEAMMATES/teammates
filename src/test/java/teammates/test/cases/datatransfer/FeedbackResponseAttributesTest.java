@@ -79,6 +79,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         String expectedRecipientSection = Const.DEFAULT_SECTION;
         Text expectedResponseMetaData = new Text("dummy meta data");
         String expectedId = expectedQuestionId + "%" + expectedGiver + "%" + expectedRecipient;
+        Instant expectedCreatedAt = Instant.now();
+        Instant expectedUpdatedAt = Instant.now();
 
         FeedbackResponseAttributes observedFeedbackResponseAttributes = FeedbackResponseAttributes.builder()
                 .withFeedbackResponseId(expectedId)
@@ -91,6 +93,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .withRecipient(expectedRecipient)
                 .withRecipientSection(expectedRecipientSection)
                 .withResponseMetaData(expectedResponseMetaData)
+                .withCreatedAt(expectedCreatedAt)
+                .withUpdatedAt(expectedUpdatedAt)
                 .build();
 
         assertEquals(expectedId, observedFeedbackResponseAttributes.getId());
@@ -103,6 +107,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(expectedGiverSection, observedFeedbackResponseAttributes.giverSection);
         assertEquals(expectedRecipientSection, observedFeedbackResponseAttributes.recipientSection);
         assertEquals(expectedResponseMetaData, observedFeedbackResponseAttributes.responseMetaData);
+        assertEquals(expectedCreatedAt, observedFeedbackResponseAttributes.getCreatedAt());
+        assertEquals(expectedUpdatedAt, observedFeedbackResponseAttributes.getUpdatedAt());
     }
 
     @Test
@@ -121,6 +127,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .withGiver(originalGiver)
                 .withRecipient(originalRecipient)
                 .withResponseMetaData(new Text("original meta data"))
+                .withCreatedAt(Instant.now())
+                .withUpdatedAt(Instant.now())
                 .build();
 
         FeedbackResponseAttributes copy = original.getCopy();
@@ -136,6 +144,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(copy.giverSection, original.giverSection);
         assertEquals(copy.recipientSection, original.recipientSection);
         assertEquals(copy.responseMetaData, original.responseMetaData);
+        assertEquals(copy.getCreatedAt(), original.getCreatedAt());
+        assertEquals(copy.getUpdatedAt(), original.getUpdatedAt());
     }
 
     @Test
@@ -156,6 +166,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(genericResponse.getGiverSection(), observedResponse.giverSection);
         assertEquals(genericResponse.getRecipientSection(), observedResponse.recipientSection);
         assertEquals(genericResponse.getResponseMetaData(), observedResponse.responseMetaData);
+        assertEquals(genericResponse.getCreatedAt(), observedResponse.getCreatedAt());
+        assertEquals(genericResponse.getUpdatedAt(), observedResponse.getUpdatedAt());
     }
 
 }
