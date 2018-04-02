@@ -27,13 +27,13 @@
     <div class="panel-body rubricStatistics">
       <div class="col-sm-4 text-right ">
         <input class="excluding-self-response-checkbox" onclick="toggleExcludingSelfResultsForRubricStatistics(this)" type="checkbox">
-        <span class="text-nowrap tool-tip-decorate"> Excluding self evaluation </span>
+        <span class="text-nowrap tool-tip-decorate">Excluding self evaluation</span>
       </div>
       <div class="col-sm-12 table-responsive">
         <table class="table table-striped table-bordered margin-0">
-          <thead> </thead>
-          <tbody class="table-body-including-self"> </tbody>
-          <tbody class="table-body-excluding-self hidden"> </tbody>
+          <thead></thead>
+          <tbody class="table-body-including-self"></tbody>
+          <tbody class="table-body-excluding-self hidden"></tbody>
         </table>
       </div>
     </div>
