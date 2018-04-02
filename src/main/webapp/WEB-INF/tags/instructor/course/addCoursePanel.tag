@@ -2,6 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ attribute name="googleId" required="true" %>
 <%@ attribute name="courseIdToShow" required="true" %>
 <%@ attribute name="courseNameToShow" required="true" %>
@@ -38,16 +39,9 @@
       <div class="form-group">
         <label class="col-sm-3 control-label">Time Zone:</label>
         <div class="col-sm-9">
-          <select class="form-control"
-              name="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
-              id="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
-              tabindex="3" placeholder="Select a time zone...">
-            <option value="">Select a time zone...</option>
-          </select>
-          <div class="alert alert-info time-zone-info-box">
-            <span class="glyphicon glyphicon-info-sign"></span>
-            Time zone is auto-detected based on your device settings.
-          </div>
+          <ti:timeZoneInput nameId="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
+              tooltip="The time zone for the course. This is auto-detected based on your device settings.">
+          </ti:timeZoneInput>
         </div>
       </div>
       <div class="form-group">
