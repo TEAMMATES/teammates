@@ -27,7 +27,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
     @BeforeClass
     public void classSetup() {
-        ZoneId timeZone = ZoneId.of("UTC+08:00");
+        ZoneId timeZone = ZoneId.of("Asia/Singapore");
         startTime = TimeHelper.convertLocalDateTimeToInstant(
                 TimeHelper.combineDateTime("Mon, 09 May, 2016", "1000"), timeZone);
         endTime = TimeHelper.convertLocalDateTimeToInstant(
@@ -71,7 +71,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(ZoneId.of("UTC+08:00")).withGracePeriodMinutes(0)
+                .withTimeZone(ZoneId.of("Asia/Singapore")).withGracePeriodMinutes(0)
                 .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
                 .build();
@@ -121,6 +121,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withCreatedTime(Instant.now())
                 .withResultsVisibleFromTime(Instant.now())
                 .withSessionVisibleFromTime(Instant.now())
+                .withGracePeriodMinutes(-100)
                 .build();
         assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
     }
@@ -134,8 +135,10 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         String creatorEmailError = "The field 'email' is empty. An email address contains some text followed "
                 + "by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot be empty"
                 + " and cannot contain spaces.";
+        String gracePeriodError = "Grace period should not be negative." + " "
+                + "The value must be one of the options in the grace period dropdown selector.";
 
-        return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError);
+        return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError);
     }
 
 }

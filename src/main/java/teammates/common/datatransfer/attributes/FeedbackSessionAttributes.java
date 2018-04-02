@@ -179,6 +179,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(validator.getValidityInfoForNonNullField(
                 "time for the session to become visible", sessionVisibleFromTime), errors);
 
+        addNonEmptyError(validator.getValidityInfoForNonNullField("session time zone", timeZone), errors);
+
         addNonEmptyError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
 
         addNonEmptyError(validator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
@@ -193,6 +195,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
         addNonEmptyError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
+
+        addNonEmptyError(validator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
 
         // Skip time frame checks if session type is private.
         if (this.isPrivateSession()) {
