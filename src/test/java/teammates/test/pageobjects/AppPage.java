@@ -317,7 +317,7 @@ public abstract class AppPage {
         waitForModalToDisappear();
     }
 
-    public void fillFormElements(WebElement form, String elementsName) {
+    public void checkCheckboxesInForm(WebElement form, String elementsName) {
         List<WebElement> formElements = form.findElements(By.name(elementsName));
         for (WebElement e : formElements) {
             markCheckBoxAsChecked(e);
@@ -980,18 +980,15 @@ public abstract class AppPage {
     }
 
     public void verifyContainsElement(By childBy) {
-        List<WebElement> elements = browser.driver.findElements(childBy);
-        assertFalse(elements.isEmpty());
+        assertFalse(browser.driver.findElements(childBy).isEmpty());
     }
 
     public void verifyElementContainsElement(WebElement parentElement, By childBy) {
-        List<WebElement> elements = parentElement.findElements(childBy);
-        assertFalse(elements.isEmpty());
+        assertFalse(parentElement.findElements(childBy).isEmpty());
     }
 
-    public void verifyElementDoesNotContainsElement(WebElement parentElement, By childBy) {
-        List<WebElement> elements = parentElement.findElements(childBy);
-        assertTrue(elements.isEmpty());
+    public void verifyElementDoesNotContainElement(WebElement parentElement, By childBy) {
+        assertTrue(parentElement.findElements(childBy).isEmpty());
     }
 
     /**

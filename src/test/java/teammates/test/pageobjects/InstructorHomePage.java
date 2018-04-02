@@ -180,7 +180,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     public void fillResendPublishedEmailForm() {
-        fillFormElements(resendPublishedEmailModal, "usersToEmail");
+        checkCheckboxesInForm(resendPublishedEmailModal, "usersToEmail");
     }
 
     public void submitResendPublishedEmailForm() {
@@ -256,7 +256,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     public void fillRemindParticularUsersForm() {
-        fillFormElements(remindModal, "usersToRemind");
+        checkCheckboxesInForm(remindModal, "usersToRemind");
     }
 
     public void submitRemindParticularUsersForm() {
@@ -283,19 +283,13 @@ public class InstructorHomePage extends AppPage {
     }
 
     public void verifyResendPublishedEmailButtonExists(String courseId, String evalName) {
-        int rowId = getEvaluationRowId(courseId, evalName);
-        waitForElementPresence(By.id("session" + rowId));
-        WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
-        String resendLinksClassNamePrefix = "session-resend-published-email-for-test";
-        verifyElementContainsElement(sessionRow, By.className(resendLinksClassNamePrefix));
+        WebElement sessionRow = waitForElementPresence(By.id("session" + getEvaluationRowId(courseId, evalName)));
+        verifyElementContainsElement(sessionRow, By.className("session-resend-published-email-for-test"));
     }
 
     public void verifyResendPublishedEmailButtonDoesNotExist(String courseId, String evalName) {
-        int rowId = getEvaluationRowId(courseId, evalName);
-        waitForElementPresence(By.id("session" + rowId));
-        WebElement sessionRow = browser.driver.findElement(By.id("session" + rowId));
-        String resendLinksClassNamePrefix = "session-resend-published-email-for-test";
-        verifyElementDoesNotContainsElement(sessionRow, By.className(resendLinksClassNamePrefix));
+        WebElement sessionRow = waitForElementPresence(By.id("session" + getEvaluationRowId(courseId, evalName)));
+        verifyElementDoesNotContainElement(sessionRow, By.className("session-resend-published-email-for-test"));
     }
 
     public WebElement getResendPublishedEmailLink(String courseId, String evalName) {
