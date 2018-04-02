@@ -37,10 +37,8 @@ public class AdminSessionsPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
-
         gateKeeper.verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account, sessionToken);
-
         isShowAll = getRequestParamAsBoolean("all");
 
         ActionResult result = createShowPageResultIfParametersInvalid();
@@ -48,30 +46,28 @@ public class AdminSessionsPageAction extends Action {
             return result;
         }
 
-        List<FeedbackSessionAttributes> allOpenFeedbackSessionsList =
-                logic.getAllOpenFeedbackSessions(TimeHelper.convertLocalDateTimeToInstant(rangeStart, timeZone),
-                        TimeHelper.convertLocalDateTimeToInstant(rangeEnd, timeZone));
+        List<FeedbackSessionAttributes> allOpenFeedbackSessionsList = logic.getAllOpenFeedbackSessions(
+                TimeHelper.convertLocalDateTimeToInstant(rangeStart, timeZone),
+                TimeHelper.convertLocalDateTimeToInstant(rangeEnd, timeZone)
+        );
 
         result = createShowPageResultIfNoOngoingSession(allOpenFeedbackSessionsList);
         if (result != null) {
             return result;
         }
 
-        result = createAdminSessionPageResult(allOpenFeedbackSessionsList);
-
-        return result;
-
+        return createAdminSessionPageResult(allOpenFeedbackSessionsList);
     }
 
-    private void putIntoUnknownList(
-            Map<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs) {
-        if (map.get("Unknown") == null) {
-            List<FeedbackSessionAttributes> newList = new ArrayList<>();
-            newList.add(fs);
-            map.put("Unknown", newList);
-        } else {
+    private void putIntoUnknownList(Map<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs) {
+        if (map.get("Unknown") != null) {
             map.get("Unknown").add(fs);
+            return;
         }
+
+        List<FeedbackSessionAttributes> newList = new ArrayList<>();
+        newList.add(fs);
+        map.put("Unknown", newList);
     }
 
     private void prepareDefaultPageData(LocalDateTime start, LocalDateTime end) {
@@ -99,10 +95,8 @@ public class AdminSessionsPageAction extends Action {
         LocalDateTime end = LocalDateTime.now(zone).plusDays(4);
 
         if (checkAllParameters("null")) {
-            start = LocalDateTime.now(zone).minusDays(3);
-            end = LocalDateTime.now(zone).plusDays(4);
+            // do nothing
         } else if (checkAllParameters("notNull")) {
-
             SanitizationHelper.sanitizeForHtml(startDate);
             SanitizationHelper.sanitizeForHtml(endDate);
             SanitizationHelper.sanitizeForHtml(startHour);
@@ -119,31 +113,20 @@ public class AdminSessionsPageAction extends Action {
             if (start.isAfter(end)) {
                 isError = true;
                 statusToUser.add(new StatusMessage("The filter range is not valid."
-                                 + " End time should be after start time.", StatusMessageColor.DANGER));
+                        + " End time should be after start time.", StatusMessageColor.DANGER));
                 statusToAdmin = "Admin Sessions Page Load<br>"
-                              + "<span class=\"bold\"> Error: invalid filter range</span>";
-
-                prepareDefaultPageData(start, end);
-                data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
-                          this.totalOpenStatusSessions, this.totalClosedStatusSessions,
-                          this.totalWaitToOpenStatusSessions, this.totalInstitutes, this.rangeStart,
-                          this.rangeEnd, this.timeZone, this.isShowAll);
-                return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
+                        + "<span class=\"bold\"> Error: invalid filter range</span>";
             }
-
         } else {
-
             isError = true;
             statusToUser.add(new StatusMessage("Error: Missing Parameters", StatusMessageColor.DANGER));
             statusToAdmin = "Admin Sessions Page Load<br>"
-                          + "<span class=\"bold\"> Error: Missing Parameters</span>";
+                    + "<span class=\"bold\"> Error: Missing Parameters</span>";
+        }
 
+        if (isError) {
             prepareDefaultPageData(start, end);
-            data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
-                      this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions,
-                      this.totalInstitutes, this.rangeStart, this.rangeEnd, this.timeZone, this.isShowAll);
-            return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
-
+            return createShowPageResultWithDataInitialization();
         }
 
         this.rangeStart = start;
@@ -153,10 +136,16 @@ public class AdminSessionsPageAction extends Action {
         return null;
     }
 
+    private ActionResult createShowPageResultWithDataInitialization() {
+        data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
+                this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions,
+                this.totalInstitutes, this.rangeStart, this.rangeEnd, this.timeZone, this.isShowAll);
+        return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
+    }
+
     private ActionResult createShowPageResultIfNoOngoingSession(
             List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
         if (allOpenFeedbackSessionsList.isEmpty()) {
-
             isError = false;
             statusToUser.add(new StatusMessage("Currently No Ongoing Sessions", StatusMessageColor.WARNING));
             statusToAdmin = "Admin Sessions Page Load<br>"
@@ -168,14 +157,10 @@ public class AdminSessionsPageAction extends Action {
             this.totalClosedStatusSessions = 0;
             this.totalWaitToOpenStatusSessions = 0;
             this.totalInstitutes = 0;
-            data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
-                      this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions,
-                      this.totalInstitutes, this.rangeStart, this.rangeEnd, this.timeZone, this.isShowAll);
-            return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
+            return createShowPageResultWithDataInitialization();
         }
 
         return null;
-
     }
 
     private ActionResult createAdminSessionPageResult(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
@@ -186,29 +171,28 @@ public class AdminSessionsPageAction extends Action {
         this.totalWaitToOpenStatusSessions = getTotalNumOfWaitToOpenStatusSession(allOpenFeedbackSessionsList);
 
         for (FeedbackSessionAttributes fs : allOpenFeedbackSessionsList) {
-
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(fs.getCourseId());
 
             if (instructors.isEmpty()) {
                 putIntoUnknownList(map, fs);
+                continue;
+            }
+
+            AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
+            if (account == null) {
+                putIntoUnknownList(map, fs);
+                continue;
+            }
+
+            if (map.get(account.institute) == null) {
+                List<FeedbackSessionAttributes> newList = new ArrayList<>();
+                newList.add(fs);
+                map.put(account.institute, newList);
             } else {
-                AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
-
-                if (account == null) {
-                    putIntoUnknownList(map, fs);
-                    continue;
-                }
-
-                if (map.get(account.institute) == null) {
-                    List<FeedbackSessionAttributes> newList = new ArrayList<>();
-                    newList.add(fs);
-                    map.put(account.institute, newList);
-                } else {
-                    map.get(account.institute).add(fs);
-                }
-
+                map.get(account.institute).add(fs);
             }
         }
+
         this.map = map;
         this.totalInstitutes = getTotalInstitutes(map);
         statusToAdmin = "Admin Sessions Page Load<br>"
@@ -218,10 +202,7 @@ public class AdminSessionsPageAction extends Action {
                       + this.totalOpenStatusSessions;
 
         constructSessionToInstructorIdMap();
-        data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
-                  this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions,
-                  this.totalInstitutes, this.rangeStart, this.rangeEnd, this.timeZone, this.isShowAll);
-        return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
+        return createShowPageResultWithDataInitialization();
     }
 
     private void constructSessionToInstructorIdMap() {
@@ -239,9 +220,7 @@ public class AdminSessionsPageAction extends Action {
      * @return empty string if no available instructor google id is found
      */
     private String findAvailableInstructorGoogleIdForCourse(String courseId) {
-
         for (InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)) {
-
             if (instructor.googleId != null) {
                 return instructor.googleId;
             }
@@ -251,7 +230,6 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors) {
-
         for (InstructorAttributes instructor : instructors) {
             if (instructor.googleId != null) {
                 return logic.getAccount(instructor.googleId);
@@ -309,7 +287,6 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private boolean checkAllParameters(String condition) {
-
         String startDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
         String endDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
         String startHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTHOUR);
@@ -319,22 +296,18 @@ public class AdminSessionsPageAction extends Action {
         String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
 
         if (condition.contentEquals("null")) {
-
             return startDate == null && endDate == null && startHour == null
                    && endHour == null && startMin == null && endMin == null && timeZone == null;
+        }
 
-        } else if (condition.contentEquals("notNull")) {
-
+        if (condition.contentEquals("notNull")) {
             return startDate != null && endDate != null && startHour != null
                    && endHour != null && startMin != null && endMin != null && timeZone != null
                    && !startDate.trim().isEmpty() && !endDate.trim().isEmpty() && !startHour.trim().isEmpty()
                    && !endHour.trim().isEmpty() && !startMin.trim().isEmpty()
                    && !endMin.trim().isEmpty() && !timeZone.trim().isEmpty();
-
-        } else {
-            return false;
         }
 
+        return false;
     }
-
 }
