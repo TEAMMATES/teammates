@@ -41,7 +41,7 @@ public class AdminSessionsPageAction extends Action {
         data = new AdminSessionsPageData(account, sessionToken);
         isShowAll = getRequestParamAsBoolean("all");
 
-        ActionResult result = createShowPageResultIfParametersInvalid();
+        ActionResult result = validateParametersAndCreateShowPageResultIfInvalid();
         if (result != null) {
             return result;
         }
@@ -81,7 +81,7 @@ public class AdminSessionsPageAction extends Action {
         this.rangeEnd = end;
     }
 
-    private ActionResult createShowPageResultIfParametersInvalid() {
+    private ActionResult validateParametersAndCreateShowPageResultIfInvalid() {
         String startDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
         String endDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
         String startHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTHOUR);
