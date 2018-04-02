@@ -108,16 +108,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getStartTimeString() {
-        if (startTime == null) {
-            return "-";
-        }
         return TimeHelper.formatDateTimeForSessions(startTime, timeZone);
     }
 
     public String getEndTimeString() {
-        if (endTime == null) {
-            return "-";
-        }
         return TimeHelper.formatDateTimeForSessions(endTime, timeZone);
     }
 
@@ -259,9 +253,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns {@code true} if it is after the closing time of this feedback session; {@code false} if not.
      */
     public boolean isClosed() {
-        if (endTime == null) {
-            return false;
-        }
         return Instant.now().isAfter(endTime.plus(gracePeriod));
     }
 
@@ -269,9 +260,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the session is currently open and accepting responses.
      */
     public boolean isOpened() {
-        if (startTime == null || endTime == null) {
-            return false;
-        }
         Instant now = Instant.now();
         return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(endTime);
     }
@@ -280,9 +268,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * Returns true if the session is currently close but is still accept responses.
      */
     public boolean isInGracePeriod() {
-        if (endTime == null) {
-            return false;
-        }
         Instant now = Instant.now();
         Instant gracedEnd = endTime.plus(gracePeriod);
         return (now.isAfter(endTime) || now.equals(endTime)) && (now.isBefore(gracedEnd) || now.equals(gracedEnd));
@@ -293,9 +278,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      * {@code false} if session has opened before.
      */
     public boolean isWaitingToOpen() {
-        if (startTime == null) {
-            return false;
-        }
         return Instant.now().isBefore(startTime);
     }
 
