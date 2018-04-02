@@ -60,8 +60,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertNull(observedFeedbackResponseAttributes.feedbackQuestionType);
         assertNull(observedFeedbackResponseAttributes.giver);
         assertNull(observedFeedbackResponseAttributes.recipient);
-        assertEquals(Const.DEFAULT_SECTION, observedFeedbackResponseAttributes.giverSection);
-        assertEquals(Const.DEFAULT_SECTION, observedFeedbackResponseAttributes.recipientSection);
+        assertNull(observedFeedbackResponseAttributes.giverSection);
+        assertNull(observedFeedbackResponseAttributes.recipientSection);
         assertNull(observedFeedbackResponseAttributes.getResponseDetails());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, observedFeedbackResponseAttributes.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, observedFeedbackResponseAttributes.getUpdatedAt());
