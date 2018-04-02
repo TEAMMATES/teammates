@@ -87,19 +87,22 @@
         <div style="margin: 0 auto; padding: 0 50px;">
           <ul>
             <li>
-              <a href="#fbSetupSession">Setting up a feedback session</a>
+              <a data-toggle="collapse" data-target="#fbSetupSessionBody" href="#fbSetupSession">Setting up a feedback session</a>
             </li>
             <li>
-              <a href="#fbSetupQuestions">Setting up questions</a>
+              <a data-toggle="collapse" data-target="#fbCreateSessionBody" href="#fbCreateSession">Creating and scheduling a feedback session</a>
             </li>
             <li>
-              <a href="#fbPreview">Previewing a session</a>
+              <a data-toggle="collapse" data-target="#fbSetupQuestionsBody" href="#fbSetupQuestions">Setting up questions</a>
             </li>
             <li>
-              <a href="#fbViewResults">Viewing results</a>
+              <a data-toggle="collapse" data-target="#fbPreviewBody" href="#fbPreview">Previewing a session</a>
             </li>
             <li>
-              <a href="#fbQuestionTypes">Question Types</a>
+              <a data-toggle="collapse" data-target="#fbViewResultsBody" href="#fbViewResults">Viewing results</a>
+            </li>
+            <li>
+              <a data-toggle="collapse" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes">Question Types</a>
               <ul>
                 <li>
                   <a data-toggle="collapse" data-target="#fbEssayBody" href="#fbEssay">Essay question</a>
