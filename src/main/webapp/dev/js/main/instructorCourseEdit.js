@@ -559,7 +559,7 @@ $(document).ready(() => {
     setupInstructorCopyModal();
     bindCopyButton('instructorCourseEdit');
     bindCopyEvents(0);
-    
+
     initializeTimeZoneOptions($(`#${ParamsNames.COURSE_TIME_ZONE}`));
 
     const editLinks = $('a[id^=instrEditLink]');
