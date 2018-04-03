@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ page import="teammates.common.util.Const"%>

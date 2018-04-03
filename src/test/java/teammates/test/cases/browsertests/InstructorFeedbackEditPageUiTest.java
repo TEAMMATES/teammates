@@ -237,8 +237,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("test ambiguous date times");
         ZoneId dstTimeZone = ZoneId.of("Australia/Victoria");
-        LocalDateTime overlapStartTime = TimeHelper.parseLocalDateTime("05/04/2015", "2", "0");
-        LocalDateTime gapEndTime = TimeHelper.parseLocalDateTime("01/10/2017", "2", "0");
+        LocalDateTime overlapStartTime = TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 05 Apr, 2015", "2", "0");
+        LocalDateTime gapEndTime = TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 01 Oct, 2017", "2", "0");
 
         feedbackEditPage.clickEditSessionButton();
         feedbackEditPage.editFeedbackSession(overlapStartTime, gapEndTime, dstTimeZone,
