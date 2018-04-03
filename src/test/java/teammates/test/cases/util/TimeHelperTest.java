@@ -3,9 +3,8 @@ package teammates.test.cases.util;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Calendar;
+import java.time.ZoneId;
 import java.util.Date;
-import java.util.TimeZone;
 
 import org.testng.annotations.Test;
 
@@ -57,44 +56,29 @@ public class TimeHelperTest extends BaseTestCase {
 
     @Test
     public void testEndOfYearDates() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.clear();
-        cal.set(2015, 11, 30, 12, 0, 0);
-        Date date = cal.getTime();
+        LocalDateTime date = LocalDateTime.of(2015, 12, 30, 12, 0, 0);
         assertEquals("30/12/2015", TimeHelper.formatDate(date));
         assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(date));
-        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(date, 0));
+        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(
+                        date.atZone(Const.DEFAULT_TIME_ZONE).toInstant(), Const.DEFAULT_TIME_ZONE));
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
 
     @Test
     public void testFormatDateTimeForSessions() {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.clear();
-        cal.set(2015, 10, 30, 12, 0, 0);
-        Date date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(date, 0));
+        ZoneId zoneId = Const.DEFAULT_TIME_ZONE;
+        Instant instant = LocalDateTime.of(2015, 11, 30, 12, 0, 0).atZone(zoneId).toInstant();
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(instant, zoneId));
 
-        cal.clear();
-        cal.set(2015, 10, 30, 4, 0, 0);
-        date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC+08:00", TimeHelper.formatDateTimeForSessions(date, 8));
+        zoneId = ZoneId.of("Asia/Singapore");
+        instant = LocalDateTime.of(2015, 11, 30, 16, 0, 0).atZone(zoneId).toInstant();
+        assertEquals("Mon, 30 Nov 2015, 04:00 PM SGT",
+                TimeHelper.formatDateTimeForSessions(instant, zoneId));
 
-        cal.clear();
-        cal.set(2015, 10, 30, 4, 0, 0);
-        date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 04:00 PM UTC+12:00", TimeHelper.formatDateTimeForSessions(date, 12));
-
-        cal.clear();
-        cal.set(2015, 10, 30, 16, 0, 0);
-        date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC-04:00", TimeHelper.formatDateTimeForSessions(date, -4));
-
-        cal.clear();
-        cal.set(2015, 10, 30, 16, 0, 0);
-        date = cal.getTime();
-        assertEquals("Mon, 30 Nov 2015, 11:45 AM UTC-04:15", TimeHelper.formatDateTimeForSessions(date, -4.25));
+        instant = LocalDateTime.of(2015, 11, 30, 4, 0, 0).atZone(zoneId).toInstant();
+        assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT",
+                TimeHelper.formatDateTimeForSessions(instant, zoneId));
     }
 
     @Test
