@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackEdit - feedback question feedback path settings" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -94,7 +95,7 @@
         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
           <input class="nonDestructive" type="radio"
               name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
-              <c:if test="${fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked</c:if>
+              <c:if test="${fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked=""</c:if>
               value="custom" <c:if test="${!fqForm.editable}">disabled</c:if>>
           <input class="nonDestructive numberOfEntitiesBox width-75-pc" type="number"
               name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
@@ -104,7 +105,7 @@
         <div class="col-sm-4 col-md-3 col-lg-2 margin-bottom-7px">
           <input class="nonDestructive" type="radio"
               name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
-              <c:if test="${!fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked</c:if>
+              <c:if test="${!fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked=""</c:if>
               value="max" <c:if test="${!fqForm.editable}">disabled</c:if>>
           <span class="">Unlimited</span>
         </div>

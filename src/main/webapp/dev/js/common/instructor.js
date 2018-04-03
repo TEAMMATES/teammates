@@ -13,6 +13,10 @@ import {
     setStatusMessage,
 } from './statusMessage';
 
+import {
+    TimeZone,
+} from './timezone';
+
 /*
  * This JavaScript file is included in all instructor pages. Functions here
  * should be common to some/all instructor pages.
@@ -88,6 +92,23 @@ function setupFsCopyModal() {
             },
         });
     });
+}
+
+function initializeTimeZoneOptions($selectElement) {
+    if (typeof moment !== 'undefined') {
+        TimeZone.prepareTimeZoneInput($selectElement);
+
+        const existingTimeZone = $selectElement.data('timeZone');
+        if (existingTimeZone) {
+            TimeZone.updateTimeZone($selectElement, existingTimeZone);
+        } else {
+            TimeZone.autoDetectAndUpdateTimeZone($selectElement);
+        }
+
+        $('#auto-detect-time-zone').on('click', () => {
+            TimeZone.autoDetectAndUpdateTimeZone($selectElement);
+        });
+    }
 }
 
 // Student Profile Picture
@@ -515,6 +536,7 @@ export {
     bindStudentPhotoLink,
     bindUnpublishButtons,
     executeCopyCommand,
+    initializeTimeZoneOptions,
     prepareInstructorPages,
     selectElementContents,
     setupFsCopyModal,
