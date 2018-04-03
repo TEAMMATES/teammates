@@ -361,14 +361,6 @@ public final class TimeHelper {
                 convertDateToInstant(dateInUtc), convertToZoneId(sessionTimeZone));
     }
 
-    @Deprecated // Temporary workaround to allow instructor home sort. Use formatDateTimeForSessions once #7919 is fixed.
-    public static String formatDateTimeForSessionsFixedOffset(Instant instant, ZoneId sessionTimeZone) {
-        if (instant == null) {
-            return "-";
-        }
-        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
-    }
-
     public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }

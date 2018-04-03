@@ -169,17 +169,19 @@ public class AdminSessionsPageData extends PageData {
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             String googleId = sessionToInstructorIdMap.get(feedbackSession.getIdentificationString());
             feedbackSessionRows.add(new AdminFeedbackSessionRow(
-                                            getSessionStatusForShow(feedbackSession),
-                                            getFeedbackSessionStatsLink(
-                                                    feedbackSession.getCourseId(),
-                                                    feedbackSession.getFeedbackSessionName(),
-                                                    googleId),
-                                            TimeHelper.formatTime12H(feedbackSession.getStartTimeLocal()),
-                                            TimeHelper.formatTime12H(feedbackSession.getEndTimeLocal()),
-                                            getInstructorHomePageViewLink(googleId),
-                                            feedbackSession.getCreatorEmail(),
-                                            feedbackSession.getCourseId(),
-                                            feedbackSession.getFeedbackSessionName()));
+                    getSessionStatusForShow(feedbackSession),
+                    getFeedbackSessionStatsLink(
+                            feedbackSession.getCourseId(),
+                            feedbackSession.getFeedbackSessionName(),
+                            googleId),
+                    TimeHelper.formatTime12H(feedbackSession.getStartTimeLocal()),
+                    feedbackSession.getStartTimeInIso8601UtcFormat(),
+                    TimeHelper.formatTime12H(feedbackSession.getEndTimeLocal()),
+                    feedbackSession.getEndTimeInIso8601UtcFormat(),
+                    getInstructorHomePageViewLink(googleId),
+                    feedbackSession.getCreatorEmail(),
+                    feedbackSession.getCourseId(),
+                    feedbackSession.getFeedbackSessionName()));
         }
         return feedbackSessionRows;
     }
