@@ -506,6 +506,60 @@
         </div>
       </div>
     </div>
+    <div class="panel panel-primary" id="sectionsWhatIsItMeantFor">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#sectionsWhatIsItMeantForBody">What are sections meant for?</a>
+        </h3>
+      </div>
+      <div id="sectionsWhatIsItMeantForBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            Sections are used to organize students in courses with significantly large numbers of students.
+            It is mandatory for courses with more than 100 students to organize students into sections.
+            You are allowed to have sections for courses with less than 100 students, but it is not mandatory.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary" id="sectionsEnrollingStudents">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#sectionsEnrollingStudentsBody">How do I enroll students into sections?</a>
+        </h3>
+      </div>
+      <div id="sectionsEnrollingStudentsBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            To specify a section for each student at the time of enrollment, include a <b>'Section'</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
+            To view more information, go to the
+            <b>'Courses'</b> page, click on the
+            <b>'Enroll'</b> button for any course and scroll down to the
+            <b>'More Info'</b> section.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary" id="sectionsEditing">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#sectionsEditingBody">How do I change a student's section?</a>
+        </h3>
+      </div>
+      <div id="sectionsEditingBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+
+            Go to the
+            <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click the
+            <b>'View'</b> button in the last column of the row corresponding to the student whose section you want to edit.
+            <br>A new page will open containing the student's profile and including a field to edit the student's section. It should look something
+            <a href="#studentEditProfile">like this</a>.
+            <br>After editing the section name, click on <b>'Save Changes'</b>.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
   <p align="right">
     <a href="#Top">Back to Top</a>
