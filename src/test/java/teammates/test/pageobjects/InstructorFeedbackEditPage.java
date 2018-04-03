@@ -158,6 +158,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.name("fsname")).getAttribute("value");
     }
 
+    public String getDetectedTimeZone() {
+        return (String) executeScript("return moment.tz.guess()");
+    }
+
     /**
      * Returns number of question edit forms + question add form.
      */

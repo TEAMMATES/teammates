@@ -91,13 +91,14 @@ function setupFsCopyModal() {
     });
 }
 
-function initializeTimeZoneOptions($selectElement) {
+function initializeTimeZoneOptions($selectElement, unrecognizedZoneOkCallback, unrecognizedZoneCancelCallback) {
     if (typeof moment !== 'undefined') {
         TimeZone.prepareTimeZoneInput($selectElement);
 
         const existingTimeZone = $selectElement.data('timeZone');
         if (existingTimeZone) {
-            TimeZone.updateTimeZone($selectElement, existingTimeZone);
+            TimeZone.updateTimeZone(
+                    $selectElement, existingTimeZone, unrecognizedZoneOkCallback, unrecognizedZoneCancelCallback);
         } else {
             TimeZone.autoDetectAndUpdateTimeZone($selectElement);
         }

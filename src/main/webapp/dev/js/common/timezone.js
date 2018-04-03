@@ -1,7 +1,7 @@
 /* global moment:false */
 
 import {
-    showModalAlert,
+    showModalConfirmation,
 } from './bootboxWrapper';
 
 import {
@@ -59,18 +59,20 @@ const TimeZone = {
     /**
      * Updates the specified <select> field with the chosen time zone.
      * If the chosen time zone is unrecognized, the field is updated with
-     * an auto-detected time zone instead and a modal alert is displayed.
+     * an auto-detected time zone instead and a modal confirmation is displayed.
      */
-    updateTimeZone($selectElement, timeZone) {
+    updateTimeZone($selectElement, timeZone, unrecognizedZoneOkCallback, unrecognizedZoneCancelCallback) {
         if (moment.tz.names().filter(isSupportedByJava).indexOf(timeZone) === -1) {
             const detectedTimeZone = moment.tz.guess();
             $selectElement.val(detectedTimeZone);
-            showModalAlert('We are switching to geographical time zones',
+            showModalConfirmation('We are switching to geographical time zones',
                     `This session is using the fixed offset time zone ${timeZone}. TEAMMATES now uses ` +
                     'time zones based on geographical location, with support for daylight saving time. ' +
                     `We have detected that your geographical time zone is ${detectedTimeZone}. ` +
-                    'Please verify that this is correct, then save the session.',
-                    null, BootstrapContextualColors.WARNING);
+                    'If this is not correct, please modify it manually then save the session.',
+                    unrecognizedZoneOkCallback, unrecognizedZoneCancelCallback,
+                    'Correct', 'Not correct. I will modify it manually',
+                    BootstrapContextualColors.WARNING);
             return;
         }
         $selectElement.val(timeZone);
