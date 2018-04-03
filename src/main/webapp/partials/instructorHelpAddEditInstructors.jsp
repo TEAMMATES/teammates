@@ -1,16 +1,16 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
-<h4 class="text-color-primary" id="editCourse">Add/Edit instructors</h4>
+<h4 class="text-color-primary" id="editCourse">Courses</h4>
 <div id="contentHolder">
   <br>
   <ul>
     <li id="editCourseAddInstructor">
       <b>How do I add instructors to my course?</b>
       <div class="helpSectionContent">
-        After pressing 'edit' link of the course, you can go to course edit page, where you can add new instructors and edit existing instructors in the course. However, depending on your privilege setting, you may or may not perform certain actions.
-        <br> For example, edit/delete instructors, add instructor links will be disabled for those who do not have the privilege.
-        <br>
-        <br>
+        <p>
+          From the <b>Courses</b> tab, click the <b>Edit</b> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page.<br>
+          Here, you can add new instructors to the course, edit existing instructors' details, and delete instructors from the course, depending on your access privileges.
+        </p>
         <div class="bs-example">
           <div class="panel panel-primary">
             <div class="panel-heading">
@@ -93,10 +93,17 @@
             <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" disabled="">
           </div>
         </div>
-        <br>
-        <br> If the links are not disabled for you, you can press the 'Add New Instructor' link, a form will show up, containing all the necessary information that you need to provide.
-        <br>
-        <br>
+        <ol>
+          <li>
+            Click 'Add New Instructor' to add a new instructor. A form will appear for you to specify the necessary information about the new instructor.
+          </li>
+          <li>
+            Fill in the name, email, role, and access level of the instructor you want to add. If you are not clear about certain input field, you can simply hover the input field and see the tooltip for explanation of the field.<br>
+          </li>
+          <li>
+            Click 'Add Instructor' button to add the instructor.
+          </li>
+        </ol>
         <div class="bs-example">
           <div class="panel panel-primary" id="panelAddInstructor" style="">
             <div class="panel-heading">
@@ -169,46 +176,68 @@
             </div>
           </div>
         </div>
-        <br>
-        <br> Fill in the form with the information of the instructor you want to add and press 'Add Instructor' button to add the instructor. If you are not clear about certain input field, you can simply hover the input field and see the tooltip for explanation of the field.
-        <br>
-        <br>
-        <br>
       </div>
     </li>
-    <br>
     <li id="editCourseEditInstructor">
       <b>How do I edit instructors in my course?</b>
       <div class="helpSectionContent">
-        In course edit page, you can edit instructors in this course by pressing the 'edit' link for an instructor. After pressing the link, a form will appear for editing the instructor.
-        <br> Fill in the form with the updated information of the instructor and press "Save changes" button to save the changes.
-        <br>
-        <br>
+        <p>
+          To edit the name, email and visible role of Instructor A from Course B, first go to the <b>Edit Course</b> page of Course B.<br>
+        </p>
+        <ol>
+          <li>
+            Scroll to the card showing Instructor A's information.<br>
+          </li>
+          <li>
+            Click the 'edit' button in the top right hand corner of Instructor A's information card. <br>
+          </li>
+          <li>
+            Update the relevant fields with Instructor A's new information.
+          </li>
+          <li>
+            Press "Save changes" button to save the changes and complete the edit process.
+          </li>
+        </ol>
       </div>
     </li>
     <br>
     <li id="editCourseSetAccessLevel">
-      <b>How do I set different access level for an instructor?</b>
+      <b>How do I set different access levels for an instructor?</b>
       <div class="helpSectionContent">
-        When adding/editing an instructor, you can set the access level for an instructor. There are 5 options for you to choose from: Co-owner, Manager, Observer, Tutor and Custom.
-        <br>
-        <b>Co-owner</b> has the highest access level and will be able to perform any action to the course. When you create a new course, your access level is Co-owner.
-        <b>Manager</b> is like Co-owner except that s/he is not allowed to delete the course.
-        <b>Observer</b> can only view information of this course.
-        <b>Tutor</b> can view student details, give/view comments, submit/view responses for sessions. All the access levels listed above have pre-defined privileges and you can view the settings by clicking the 'View details' link next to the access level description. You can also use '
-        <b>Custom</b>' to give customized privileges to an instructor.
-        <br>
-        <br>
-        <br>
+        When adding an  instructor or editing an instructor's information, you can set the instructor's access level. There are 4 pre-defined privilege options for you to choose from:
+        <ul>
+          <li>
+            <b>Co-owner</b>: is able to perform any action on the course, including deleting the course. When you create a new course, your access level is Co-owner. This is the highest access level.
+          </li>
+          <li>
+            <b>Manager</b>: has the same privileges as a Co-owner except that s/he is not allowed to delete the course.
+          </li>
+          <li>
+            <b>Observer</b>: can view the course's information, but cannot edit or submit information
+          </li>
+          <li>
+            <b>Tutor</b>: can view student details, give/view comments, and submit/view responses for sessions.
+          </li>
+        </ul>
+        <p>
+          All the access levels listed above have pre-defined privileges which you can view by clicking the 'View details' link next to the access level description.<br>
+          To set custom privileges for an instructor, select the <b>Custom</b> access level, and specify which privileges the instructor should get.
+        </p>
       </div>
     </li>
     <br>
     <li id="editCourseSetCustom">
       <b>How do I set custom privileges for an instructor?</b>
       <div class="helpSectionContent">
-        When setting the access level for an instructor as 'Custom', detailed privilege settings will be available for you.
-        <br>
-        <br>
+        <p>
+          When you set the access level for an instructor to 'Custom', detailed privilege settings will appear.<br>
+          Use the checkboxes to give instructors specific privileges.<br>
+        </p>
+        <p>
+          If a course has sections, you can also customize an instructor's permissions for each section by clicking 'Give different permissions for a specific section'.<br>
+          In the panel for section-level privilege settings, you can choose more than one section to apply the same set of settings.<br>
+          You can also change the degree of access the instructor has to specific sessions in that section by clicking 'Give different permissions for sessions in this section'.
+        </p>
         <div class="bs-example">
           <div class="panel panel-primary">
             <div class="panel-heading">
@@ -452,9 +481,6 @@
             </div>
           </div>
         </div>
-        <br>
-        <br> If a course does have sections, the link 'Give different permissions for a specific section' will be shown for customization for different sections. In the panel for section-level privilege settings, you can choose more than one section to apply the same set of settings. You can also set settings for different sessions for student in that section by click the link 'Give different permissions for sessions in this section'.
-        <br>
       </div>
     </li>
     <br>
