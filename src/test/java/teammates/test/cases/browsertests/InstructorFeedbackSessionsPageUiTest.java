@@ -238,7 +238,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         String dstSessionName = "DST Session";
         ZoneId dstTimeZone = ZoneId.of("Pacific/Apia");
-        LocalDateTime gapStart = TimeHelper.parseLocalDateTimeForSessionsForm("30/12/2011", "7", "0");
+        LocalDateTime gapStart = TimeHelper.parseLocalDateTimeForSessionsForm("Fri, 30 Dec, 2011", "7", "0");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.addFeedbackSessionWithTimeZone(
