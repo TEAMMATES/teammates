@@ -102,7 +102,6 @@ public class AdminSessionsPageAction extends Action {
             String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
 
             zone = ZoneId.of(timeZone);
-
             start = TimeHelper.parseLocalDateTimeForSessionsForm(startDate, startHour, startMin);
             end = TimeHelper.parseLocalDateTimeForSessionsForm(endDate, endHour, endMin);
 

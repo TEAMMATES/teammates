@@ -39,46 +39,46 @@ public final class TimeHelper {
      */
 
     static {
-        map(ZoneId.of("UTC-12:00"), "Baker Island, Howland Island");
-        map(ZoneId.of("UTC-11:00"), "American Samoa, Niue");
-        map(ZoneId.of("UTC-10:00"), "Hawaii, Cook Islands");
-        map(ZoneId.of("UTC-09:30"), "Marquesas Islands");
-        map(ZoneId.of("UTC-09:00"), "Gambier Islands, Alaska");
-        map(ZoneId.of("UTC-08:00"), "Los Angeles, Vancouver, Tijuana");
-        map(ZoneId.of("UTC-07:00"), "Phoenix, Calgary, Ciudad Juárez");
-        map(ZoneId.of("UTC-06:00"), "Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg");
-        map(ZoneId.of("UTC-05:00"), "New York, Lima, Toronto, Bogotá, Havana, Kingston");
-        map(ZoneId.of("UTC-04:30"), "Caracas");
-        map(ZoneId.of("UTC-04:00"), "Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax");
-        map(ZoneId.of("UTC-03:30"), "St. John's");
-        map(ZoneId.of("UTC-03:00"), "Buenos Aires, Montevideo, São Paulo");
-        map(ZoneId.of("UTC-02:00"), "Fernando de Noronha, South Georgia and the South Sandwich Islands");
-        map(ZoneId.of("UTC-01:00"), "Cape Verde, Greenland, Azores islands");
-        map(ZoneId.of("UTC"), "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
-        map(ZoneId.of("UTC+01:00"), "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
-        map(ZoneId.of("UTC+02:00"),
+        map("UTC-12:00", "Baker Island, Howland Island");
+        map("UTC-11:00", "American Samoa, Niue");
+        map("UTC-10:00", "Hawaii, Cook Islands");
+        map("UTC-09:30", "Marquesas Islands");
+        map("UTC-09:00", "Gambier Islands, Alaska");
+        map("UTC-08:00", "Los Angeles, Vancouver, Tijuana");
+        map("UTC-07:00", "Phoenix, Calgary, Ciudad Juárez");
+        map("UTC-06:00", "Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg");
+        map("UTC-05:00", "New York, Lima, Toronto, Bogotá, Havana, Kingston");
+        map("UTC-04:30", "Caracas");
+        map("UTC-04:00", "Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax");
+        map("UTC-03:30", "St. John's");
+        map("UTC-03:00", "Buenos Aires, Montevideo, São Paulo");
+        map("UTC-02:00", "Fernando de Noronha, South Georgia and the South Sandwich Islands");
+        map("UTC-01:00", "Cape Verde, Greenland, Azores islands");
+        map("UTC", "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
+        map("UTC+01:00", "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
+        map("UTC+02:00",
                 "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
-        map(ZoneId.of("UTC+03:00"), "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
-        map(ZoneId.of("UTC+03:30"), "Tehran");
-        map(ZoneId.of("UTC+04:00"), "Baku, Dubai, Moscow");
-        map(ZoneId.of("UTC+04:30"), "Kabul");
-        map(ZoneId.of("UTC+05:00"), "Karachi, Tashkent");
-        map(ZoneId.of("UTC+05:30"), "Colombo, Delhi");
-        map(ZoneId.of("UTC+05:45"), "Kathmandu");
-        map(ZoneId.of("UTC+06:00"), "Almaty, Dhaka, Yekaterinburg");
-        map(ZoneId.of("UTC+06:30"), "Yangon");
-        map(ZoneId.of("UTC+07:00"), "Jakarta, Bangkok, Novosibirsk, Hanoi");
-        map(ZoneId.of("UTC+08:00"), "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
-        map(ZoneId.of("UTC+08:45"), "Eucla");
-        map(ZoneId.of("UTC+09:00"), "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
-        map(ZoneId.of("UTC+09:30"), "Adelaide");
-        map(ZoneId.of("UTC+10:00"), "Canberra, Yakutsk, Port Moresby");
-        map(ZoneId.of("UTC+10:30"), "Lord Howe Islands");
-        map(ZoneId.of("UTC+11:00"), "Vladivostok, Noumea");
-        map(ZoneId.of("UTC+12:00"), "Auckland, Suva");
-        map(ZoneId.of("UTC+12:45"), "Chatham Islands");
-        map(ZoneId.of("UTC+13:00"), "Phoenix Islands, Tokelau, Tonga");
-        map(ZoneId.of("UTC+14:00"), "Line Islands");
+        map("UTC+03:00", "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
+        map("UTC+03:30", "Tehran");
+        map("UTC+04:00", "Baku, Dubai, Moscow");
+        map("UTC+04:30", "Kabul");
+        map("UTC+05:00", "Karachi, Tashkent");
+        map("UTC+05:30", "Colombo, Delhi");
+        map("UTC+05:45", "Kathmandu");
+        map("UTC+06:00", "Almaty, Dhaka, Yekaterinburg");
+        map("UTC+06:30", "Yangon");
+        map("UTC+07:00", "Jakarta, Bangkok, Novosibirsk, Hanoi");
+        map("UTC+08:00", "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
+        map("UTC+08:45", "Eucla");
+        map("UTC+09:00", "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
+        map("UTC+09:30", "Adelaide");
+        map("UTC+10:00", "Canberra, Yakutsk, Port Moresby");
+        map("UTC+10:30", "Lord Howe Islands");
+        map("UTC+11:00", "Vladivostok, Noumea");
+        map("UTC+12:00", "Auckland, Suva");
+        map("UTC+12:45", "Chatham Islands");
+        map("UTC+13:00", "Phoenix Islands, Tokelau, Tonga");
+        map("UTC+14:00", "Line Islands");
 
     }
 
@@ -128,9 +128,10 @@ public final class TimeHelper {
         // utility class
     }
 
-    private static void map(ZoneId timeZone, String cities) {
-        TIME_ZONE_CITIES_MAP.put(timeZone, cities);
-        TIME_ZONE_VALUES.add(timeZone);
+    private static void map(String timeZone, String cities) {
+        ZoneId zone = ZoneId.of(timeZone);
+        TIME_ZONE_CITIES_MAP.put(zone, cities);
+        TIME_ZONE_VALUES.add(zone);
     }
 
     /**
