@@ -132,7 +132,7 @@ public class StudentHomePageDataTest extends BaseTestCase {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
         assertEquals(session.getFeedbackSessionName(), studentRow.getName());
         assertEquals(TimeHelper.formatDateTimeForSessions(session.getEndTime(), session.getTimeZone()),
-                     studentRow.getEndTime());
+                studentRow.getEndTime());
         assertEquals(session.getEndTimeInIso8601UtcFormat(), studentRow.getEndTimeIso8601Utc());
         assertEquals(expectedSubmissionsTooltip, studentRow.getSubmissionsTooltip());
         assertEquals(expectedPublishedTooltip, studentRow.getPublishedTooltip());
