@@ -101,6 +101,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return this;
         }
 
+        public Builder withQuestionMetaData(FeedbackQuestionDetails questionDetails) {
+            feedbackQuestionAttributes.setQuestionDetails(questionDetails);
+            return this;
+        }
+
+
         public Builder withQuestionDescription(Text questionDescription) {
             feedbackQuestionAttributes.setQuestionDescription(questionDescription);
             return this;
