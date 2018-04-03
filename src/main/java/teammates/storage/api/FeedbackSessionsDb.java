@@ -2,11 +2,10 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,24 +35,19 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
 
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(TimeHelper.convertInstantToDate(rangeStart));
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(TimeHelper.convertInstantToDate(rangeEnd));
-
         // To retrieve legacy data where local dates are stored instead of UTC
         // TODO: remove after all legacy data has been converted
-        Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
-        Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
+        Instant start = rangeStart.minus(Duration.ofHours(25));
+        Instant end = rangeEnd.plus(Duration.ofHours(25));
 
         List<FeedbackSession> endEntities = load()
-                .filter("endTime >", curStart)
-                .filter("endTime <=", curEnd)
+                .filter("endTime >", TimeHelper.convertInstantToDate(start))
+                .filter("endTime <=", TimeHelper.convertInstantToDate(end))
                 .list();
 
         List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", curStart)
-                .filter("startTime <", curEnd)
+                .filter("startTime >=", TimeHelper.convertInstantToDate(start))
+                .filter("startTime <", TimeHelper.convertInstantToDate(end))
                 .list();
 
         List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
