@@ -1,6 +1,7 @@
 package teammates.ui.pagedata;
 
 import java.text.ParseException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class AdminEmailLogPageData extends PageData {
      */
     public long getToDate() {
         if (this.q == null || !this.q.isToDateInQuery) {
-            return TimeHelper.now(0.0).getTimeInMillis();
+            return Instant.now().toEpochMilli();
         }
         return this.q.toDateValue;
     }

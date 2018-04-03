@@ -13,12 +13,10 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
@@ -166,34 +164,12 @@ public final class TimeHelper {
         }
     }
 
-    /**
-     * Sets the system time zone if it differs from the standard one defined in {@link SystemParams#TIME_ZONE}.
-     */
-    public static void setSystemTimeZoneIfRequired() {
-        TimeZone originalTimeZone = TimeZone.getDefault();
-        if (SystemParams.TIME_ZONE.equals(originalTimeZone)) {
-            return;
-        }
-
-        TimeZone.setDefault(SystemParams.TIME_ZONE);
-        log.info("Time zone set to " + SystemParams.TIME_ZONE.getID() + " (was " + originalTimeZone.getID() + ")");
-    }
-
     public static String getCitiesForTimeZone(ZoneId zone) {
         return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
     public static List<ZoneId> getTimeZoneValues() {
         return new ArrayList<>(TIME_ZONE_CITIES_MAP.keySet());
-    }
-
-    /**
-     * Returns the current date and time as a {@code Calendar} object for the given timezone.
-     */
-    @Deprecated
-    public static Calendar now(double timeZone) {
-        return TimeHelper.convertToUserTimeZone(
-                Calendar.getInstance(SystemParams.TIME_ZONE), timeZone);
     }
 
     /**
@@ -218,31 +194,12 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns the date object with specified offset in number of days from now.
-     * @deprecated Use {@link TimeHelper#getInstantDaysOffsetFromNow(long)} instead.
-     */
-    @Deprecated
-    public static Date getDateOffsetToCurrentTime(long offsetInDays) {
-        return Date.from(getInstantDaysOffsetFromNow(offsetInDays));
-    }
-
-    /**
      * Returns an java.time.Instant object that is offset by a number of days from now.
      * @param offsetInDays number of days offset by (integer).
      * @return java.time.Instant offset by offsetInDays days.
      */
     public static Instant getInstantDaysOffsetFromNow(long offsetInDays) {
         return Instant.now().plus(Duration.ofDays(offsetInDays));
-    }
-
-    // User time zone is just a view of an Instant/ZonedDateTime,
-    // which should be handled in formatting methods.
-    // TODO: Remove this method and refactor where it is used.
-    @Deprecated
-    public static Calendar convertToUserTimeZone(Calendar time, double timeZone) {
-        Calendar newTime = (Calendar) time.clone();
-        newTime.add(Calendar.MILLISECOND, (int) (60 * 60 * 1000 * timeZone));
-        return newTime; // for chaining
     }
 
     /**
@@ -294,24 +251,8 @@ public final class TimeHelper {
     /**
      * Formats a date in the format dd/MM/yyyy.
      */
-    @Deprecated
-    public static String formatDate(Date date) {
-        return formatDate(convertDateToLocalDateTime(date));
-    }
-
-    /**
-     * Formats a date in the format dd/MM/yyyy.
-     */
     public static String formatDate(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "dd/MM/yyyy");
-    }
-
-    /**
-     * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
-     */
-    @Deprecated
-    public static String formatDateForSessionsForm(Date date) {
-        return formatDateForSessionsForm(convertDateToLocalDateTime(date));
     }
 
     /**
@@ -366,15 +307,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
-     * 2:04 PM<br>
-     */
-    @Deprecated
-    public static String formatTime12H(Date date) {
-        return formatTime12H(convertDateToLocalDateTime(date));
-    }
-
-    /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. 12:00 PM is especially formatted as 12:00 NOON
      * Example: 05 May 2012, 2:04 PM<br>
      */
@@ -399,26 +331,12 @@ public final class TimeHelper {
         return zonedDateTime.format(formatter);
     }
 
-    @Deprecated
-    public static String formatDateTimeForSessions(Date dateInUtc, double sessionTimeZone) {
-        return formatDateTimeForSessions(
-                convertDateToInstant(dateInUtc), convertToZoneId(sessionTimeZone));
-    }
-
     public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }
 
     public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
         return formatInstant(instant, zone, "EEE, dd MMM yyyy, hh:mm a z ('UTC'Z)");
-    }
-
-    /**
-     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
-     */
-    @Deprecated
-    public static String formatDateTimeForInstructorHomePage(Date date) {
-        return formatDateTimeForInstructorHomePage(convertDateToLocalDateTime(date));
     }
 
     /**
@@ -431,24 +349,8 @@ public final class TimeHelper {
     /**
      * Formats a date in the format d MMM yyyy. Example: 5 May 2017
      */
-    @Deprecated
-    public static String formatDateTimeForInstructorCoursesPage(Date date, String timeZoneId) {
-        return formatDateTimeForInstructorCoursesPage(convertDateToInstant(date), ZoneId.of(timeZoneId));
-    }
-
-    /**
-     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
-     */
     public static String formatDateTimeForInstructorCoursesPage(Instant instant, ZoneId timeZoneId) {
         return formatInstant(instant, timeZoneId, "d MMM yyyy");
-    }
-
-    /**
-     * Formats {@code dateInUtc} according to the ISO8601 format.
-     */
-    @Deprecated
-    public static String formatDateToIso8601Utc(Date dateInUtc) {
-        return formatInstantToIso8601Utc(convertDateToInstant(dateInUtc));
     }
 
     /**
@@ -509,23 +411,6 @@ public final class TimeHelper {
     @Deprecated
     public static ZoneId convertToZoneId(double timeZone) {
         return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (timeZone * 60 * 60)));
-    }
-
-    /**
-     * Inverse of {@link #convertToZoneId}.
-     */
-    @Deprecated
-    public static double convertToOffset(ZoneId timeZone) {
-        return ((double) timeZone.getRules().getOffset(Instant.now()).getTotalSeconds()) / 60 / 60;
-    }
-
-    /**
-     * Temporary method for transition from java.util.Date.
-     * @param localDateTime will be assumed to be in UTC
-     */
-    @Deprecated
-    public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
-        return localDateTime == null ? null : Date.from(localDateTime.atZone(ZoneId.of("UTC")).toInstant());
     }
 
     /**
