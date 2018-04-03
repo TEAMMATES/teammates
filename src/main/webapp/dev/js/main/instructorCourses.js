@@ -4,6 +4,7 @@ import {
 } from '../common/const';
 
 import {
+    initializeTimeZoneOptions,
     prepareInstructorPages,
 } from '../common/instructor';
 
@@ -16,10 +17,6 @@ import {
     clearStatusMessages,
     setStatusMessage,
 } from '../common/statusMessage';
-
-import {
-    TimeZone,
-} from '../common/timezone';
 
 let isFetchingCourses = false;
 let needsRetrying = false;
@@ -115,9 +112,5 @@ $(document).ready(() => {
     $('#ajaxForCourses').submit(ajaxRequest);
     $('#ajaxForCourses').trigger('submit');
 
-    if (typeof moment !== 'undefined') {
-        const $selectElement = $(`#${ParamsNames.COURSE_TIME_ZONE}`);
-        TimeZone.prepareTimeZoneInput($selectElement);
-        TimeZone.autoDetectAndUpdateTimeZone($selectElement);
-    }
+    initializeTimeZoneOptions($(`#${ParamsNames.COURSE_TIME_ZONE}`));
 });

@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const webpack = require('webpack');
 
 const MAIN_JS_FOLDER = path.resolve(__dirname, 'src/main/webapp/dev/js/main');
 const COMMON_JS_FOLDER = path.resolve(__dirname, 'src/main/webapp/dev/js/common');
@@ -46,7 +45,4 @@ module.exports = {
         ],
     },
     stats: 'errors-only',
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin(),
-    ],
 };

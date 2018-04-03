@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h4 class="text-color-primary" id="search">Search</a>
 </h4>
@@ -36,21 +37,15 @@
                   </span>
                 </li>
                 <li>
-                  <input id="comments-for-student-check" type="checkbox">
-                  <label for="comments-for-student-check">
-                    Comments for students
-                  </label>
-                </li>
-                <li>
-                  <input id="comments-for-responses-check" type="checkbox">
-                  <label for="comments-for-responses-check">
-                    Comments for responses
-                  </label>
-                </li>
-                <li>
                   <input id="students-check" type="checkbox" checked>
                   <label for="students-check">
                     Students
+                  </label>
+                </li>
+                <li>
+                  <input id="search-feedback-sessions-data-check" type="checkbox">
+                  <label for="search-feedback-sessions-data-check">
+                    Questions, responses, comments on responses
                   </label>
                 </li>
               </ul>
@@ -293,19 +288,19 @@
       </div>
     </li>
     <br>
-    <li id="searchCommentForResponses">
+    <li id="searchFeedbackSessionData">
       <span class="text-bold">
-          <b>2. Searching for comments on responses</b>
+          <b>2. Searching for questions, responses and comments on responses</b>
       </span>
       <div>
-        You can search for comments on responses given by students. To do this check
-        <b>'Comments for responses'</b> below the search box, type your keywords, then hit <b>'Search'</b>.
+        You can search for questions, responses and comments on responses given by students. To do this check
+        <b>'Questions, responses, comments on responses'</b> below the search box, type your keywords, then hit <b>'Search'</b>.
         <br>Suppose you search for 'good'. Assuming the relevant data exists, the search results would look something similar to this:
         <br><br>
         <div class="bs-example">
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <strong>Comments for responses</strong>
+              <strong>Questions, responses, comments on responses</strong>
             </div>
             <div class="panel-body">
               <div class="row">

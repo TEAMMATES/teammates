@@ -12,7 +12,7 @@ import teammates.storage.api.StudentsDb;
 /**
  * Script to desanitize content of {@link StudentAttributes} if it is sanitized.
  */
-public class DataMigrationForSanitizedDataInStudentAttributes extends DataMigrationBaseScript<StudentAttributes> {
+public class DataMigrationForSanitizedDataInStudentAttributes extends DataMigrationForEntities<StudentAttributes> {
 
     private StudentsDb studentsDb = new StudentsDb();
 

@@ -316,6 +316,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                     .withGender(gender)
                     .withMoreInfo(moreInfo)
                     .withPictureKey(pictureKey)
+                    .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
                     .build())
                 .build();
 

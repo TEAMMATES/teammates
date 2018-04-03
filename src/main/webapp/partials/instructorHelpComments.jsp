@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h4 class="text-color-primary" id="editComments">Comments</h4>
 <div id="contentHolder">
@@ -186,12 +187,12 @@
                   <span data-toggle="tooltip" class="glyphicon glyphicon-info-sign" title="Tick the checkboxes to limit your search to certain categories"></span>
                 </li>
                 <li>
-                  <input id="comments-for-responses-check" type="checkbox" name="searchcommentforresponses" value="true" checked="">
-                  <label for="comments-for-responses-check">Comments for responses</label>
-                </li>
-                <li>
                   <input id="students-check" type="checkbox" name="searchstudents" value="true">
                   <label for="students-check">Students</label>
+                </li>
+                <li>
+                  <input id="search-feedback-sessions-data-check" type="checkbox" name="searchfeedbacksessiondata" value="true" checked="">
+                  <label for="search-feedback-sessions-data-check">Questions, responses, comments on responses</label>
                 </li>
               </ul>
             </div>

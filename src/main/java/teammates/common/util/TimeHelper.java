@@ -81,6 +81,48 @@ public final class TimeHelper {
 
     }
 
+    /**
+     * Represents the ambiguity status for a {@link LocalDateTime} at a given time {@code zone},
+     * brought about by Daylight Saving Time (DST).
+     */
+    public enum LocalDateTimeAmbiguityStatus {
+        /**
+         * The local date time can be unambiguously resolved to a single instant.
+         * It has only one valid interpretation.
+         */
+        UNAMBIGUOUS,
+
+        /**
+         * The local date time falls within the gap period when clocks spring forward at the start of DST.
+         * Strictly speaking, it is non-existent, and needs to be readjusted to be valid.
+         */
+        GAP,
+
+        /**
+         * The local date time falls within the overlap period when clocks fall back at the end of DST.
+         * It has more than one valid interpretation.
+         */
+        OVERLAP;
+
+        /**
+         * Gets the ambiguity status for a {@link LocalDateTime} at a given time {@code zone}.
+         */
+        public static LocalDateTimeAmbiguityStatus of(LocalDateTime localDateTime, ZoneId zone) {
+            if (localDateTime == null || zone == null) {
+                return null;
+            }
+
+            List<ZoneOffset> offsets = zone.getRules().getValidOffsets(localDateTime);
+            if (offsets.size() == 1) {
+                return UNAMBIGUOUS;
+            }
+            if (offsets.isEmpty()) {
+                return GAP;
+            }
+            return OVERLAP;
+        }
+    }
+
     private TimeHelper() {
         // utility class
     }
@@ -166,18 +208,13 @@ public final class TimeHelper {
             return null;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM, yyyy H.mm");
         String dateTimeString;
         if ("24".equals(inputTimeHours)) {
             dateTimeString = inputDate + " 23.59";
         } else {
             dateTimeString = inputDate + " " + inputTimeHours + ".00";
         }
-        try {
-            return LocalDateTime.parse(dateTimeString, formatter);
-        } catch (DateTimeParseException e) {
-            return null;
-        }
+        return parseLocalDateTime(dateTimeString, "EEE, dd MMM, yyyy H.mm");
     }
 
     /**
@@ -243,7 +280,7 @@ public final class TimeHelper {
      * PM is especially formatted as NOON if it's 12:00 PM, if present
      */
     private static String formatLocalDateTime(LocalDateTime localDateTime, String pattern) {
-        if (localDateTime == null) {
+        if (localDateTime == null || pattern == null) {
             return "";
         }
         String processedPattern = pattern;
@@ -306,7 +343,7 @@ public final class TimeHelper {
      * PM is especially formatted as NOON if it's 12:00 PM, if present.
      */
     private static String formatInstant(Instant instant, ZoneId timeZone, String pattern) {
-        if (instant == null) {
+        if (instant == null || timeZone == null || pattern == null) {
             return "";
         }
         ZonedDateTime zonedDateTime = instant.atZone(timeZone);
@@ -325,7 +362,11 @@ public final class TimeHelper {
     }
 
     public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
-        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
+        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
+    }
+
+    public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
+        return formatInstant(instant, zone, "EEE, dd MMM yyyy, hh:mm a z ('UTC'Z)");
     }
 
     /**
@@ -373,19 +414,15 @@ public final class TimeHelper {
         return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
-    public static String formatActivityLogTime(Instant instant, ZoneId adminTimeZone) {
-        return formatInstant(instant, adminTimeZone, "MM/dd/yyyy HH:mm:ss SSS");
-    }
-
     /**
-     * Converts the date string to a Date object.
+     * Formats {@code instant} in admin's activity log page.
      *
-     * @param dateInStringFormat should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
-     * @deprecated Use {@link TimeHelper#parseInstant(String)} instead
+     * @param instant   the instant to be formatted
+     * @param zoneId    the time zone to calculate local date and time
+     * @return          the formatted string
      */
-    @Deprecated
-    public static Date convertToDate(String dateInStringFormat) {
-        return convertInstantToDate(parseInstant(dateInStringFormat));
+    public static String formatActivityLogTime(Instant instant, ZoneId zoneId) {
+        return formatInstant(instant, zoneId, "dd/MM/yyyy HH:mm:ss.SSS");
     }
 
     /**
@@ -401,17 +438,6 @@ public final class TimeHelper {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
-    }
-
-    // TODO: both Date and Calendar will become Instant so this should be removed totally
-    @Deprecated
-    public static Calendar dateToCalendar(Date date) {
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        if (date == null) {
-            return c;
-        }
-        c.setTime(date);
-        return c;
     }
 
     /**
@@ -498,23 +524,40 @@ public final class TimeHelper {
     }
 
     /**
-     * Parse a `LocalDateTime` object from separated date, hour and minute strings.
+     * Parses a {@code LocalDateTime} object from a date time string according to a pattern.
+     * Returns {@code null} on error.
      *
-     * <p>required parameter format:
-     * date: dd/MM/yyyy  hour: H   min:m
-     * Example: If date is 01/04/2014, hour is 23, min is 59.
+     * @param dateTimeString    the string containing the date and time
+     * @param pattern           the pattern of the date and time string
+     * @return                  the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
-    public static LocalDateTime parseLocalDateTime(String date, String hour, String min) {
+    public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
+        if (dateTimeString == null || pattern == null) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        try {
+            return LocalDateTime.parse(dateTimeString, formatter);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Parses a {@code LocalDateTime} object from separated date, hour and minute strings.
+     * Example: date "Tue, 01 Apr, 2014", hour "23", min "59"
+     *
+     * @param date  date in format "EEE, dd MMM, yyyy"
+     * @param hour  hour-of-day (0-23)
+     * @param min   minute-of-hour (0-59)
+     * @return      the parsed {@code LocalDateTime} object, or {@code null} if there are errors
+     */
+    public static LocalDateTime parseLocalDateTimeForSessionsForm(String date, String hour, String min) {
         if (date == null || hour == null || min == null) {
             return null;
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy H m");
-        try {
-            return LocalDateTime.parse(date + " " + hour + " " + min, formatter);
-        } catch (DateTimeParseException e) {
-            Assumption.fail("Date in String is in wrong format.");
-            return null;
-        }
+        return parseLocalDateTime(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
     }
 
 }

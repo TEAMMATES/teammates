@@ -76,6 +76,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
         assertFalse(feedbackEditPage.isElementVisible("mcqChoiceTable--1"));
         assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect--1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMcqOptionsCheckbox--1"));
 
         feedbackEditPage.clickGenerateMcqOptionsCheckbox(NEW_QUESTION_INDEX); //Make the generate options checkbox unchecked
 
@@ -205,13 +206,13 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementVisible("mcqAddOptionLink-1"));
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.NONE.toString());
         assertFalse(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.clickGenerateMcqOptionsCheckbox(1);
         assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
         assertFalse(feedbackEditPage.isElementVisible("mcqAddOptionLink-1"));
 
@@ -225,7 +226,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 "mcqGenerateForSelect-1",
                 FeedbackParticipantType.STUDENTS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
 
         ______TS("MCQ: change generated type to students (excluding self)");
@@ -239,7 +240,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 "mcqGenerateForSelect-1",
                 FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString());
 
         ______TS("MCQ: change generated type to teams");
@@ -253,8 +254,22 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 "mcqGenerateForSelect-1",
                 FeedbackParticipantType.TEAMS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.TEAMS.toString());
+
+        ______TS("MCQ: change generated type to teams (excluding self)");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isElementEnabled("generateMcqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMcqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
+        feedbackEditPage.selectMcqGenerateOptionsFor("teams (excluding self)", 1);
+        feedbackEditPage.verifyFieldValue(
+                "mcqGenerateForSelect-1",
+                FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS + "-1",
+                FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
 
     }
 

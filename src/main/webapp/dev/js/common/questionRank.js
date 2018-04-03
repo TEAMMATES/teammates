@@ -235,6 +235,26 @@ function hideInvalidRankRecipientFeedbackPaths(qnNum) {
     }
 }
 
+/**
+ * Auto fills the min and max options to 1 if empty when the corresponding checkbox is checked
+ * in Rank options and Rank recipients questions
+ */
+function bindAutoFillEmptyRankOptionsChangeEvent() {
+    $(`[id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED}]`
+            + `, [id^=${ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED}]`).change((e) => {
+        const linkedInputId = $(e.currentTarget).data('linkedInputId');
+        const linkedInput = $(`#${linkedInputId}`);
+
+        if ($(e.currentTarget).prop('checked')) {
+            if ($(linkedInput).val() === '') {
+                $(linkedInput).val('1');
+            }
+        }
+    });
+}
+
 export {
     addRankOption,
     bindRankEvents,
@@ -244,4 +264,5 @@ export {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
+    bindAutoFillEmptyRankOptionsChangeEvent,
 };

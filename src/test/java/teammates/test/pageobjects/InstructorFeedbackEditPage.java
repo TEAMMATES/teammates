@@ -7,13 +7,13 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,7 +30,7 @@ import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
 
-    private static final int NEW_QUESTION_NUM = -1;
+    public static final int NEW_QUESTION_NUM = -1;
 
     @FindBy(id = "starttime")
     private WebElement startTimeDropdown;
@@ -291,8 +291,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -315,8 +315,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachOption" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -339,8 +339,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachRecipient" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -1133,6 +1133,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
+    public void selectTimeZone(ZoneId timeZone) {
+        selectDropdownByActualValue(timezoneDropDown, timeZone.getId());
+    }
+
+    public void editFeedbackSession(
+            LocalDateTime startTime, LocalDateTime endTime, ZoneId timeZone, Text instructions, long gracePeriod) {
+        selectTimeZone(timeZone);
+        editFeedbackSession(startTime, endTime, instructions, gracePeriod);
+    }
+
     public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
@@ -1154,6 +1164,10 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         click(fsSaveLink);
         waitForPageToLoad();
+    }
+
+    public String getFeedbackSessionEndTimeValue() {
+        return getDropdownSelectedValue(endTimeDropdown);
     }
 
     public InstructorFeedbackSessionsPage deleteSession() {
@@ -1621,7 +1635,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(getMaxOptionsToBeRankedCheckbox(qnNumber));
     }
 
-    private WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
+    public WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
         if (isRankOptionsQuestion(qnNumber)) {
             return browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
         }
@@ -1629,7 +1643,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id("minRecipientsToBeRanked-" + qnNumber));
     }
 
-    private WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
+    public WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
         if (isRankOptionsQuestion(qnNumber)) {
             return browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
         }
@@ -1685,24 +1699,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         return Integer.parseInt(elem.getAttribute("value"));
     }
 
-    public void setMinOptionsToBeRanked(int qnNumber, int value) {
-        assertTrue(isMinOptionsToBeRankedEnabled(qnNumber));
-
-        WebElement inputBox = getMinOptionsToBeRankedInputElement(qnNumber);
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
-        String id = inputBox.getAttribute("id");
-
-        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    public void fillMinOptionsToBeRanked(int qnNumber, String value) {
+        WebElement rankMinOption = getMinOptionsToBeRankedInputElement(qnNumber);
+        fillTextBox(rankMinOption, value);
     }
 
-    public void setMaxOptionsToBeRanked(int qnNumber, int value) {
-        assertTrue(isMaxOptionsToBeRankedEnabled(qnNumber));
-
-        WebElement inputBox = getMaxOptionsToBeRankedInputElement(qnNumber);
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
-        String id = inputBox.getAttribute("id");
-
-        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    public void fillMaxOptionsToBeRanked(int qnNumber, String value) {
+        WebElement rankMaxOption = getMaxOptionsToBeRankedInputElement(qnNumber);
+        fillTextBox(rankMaxOption, value);
     }
 
     public void verifyMinMaxOptionsToBeSelectedRestrictions(int qnNumber) {
@@ -1924,5 +1928,23 @@ public class InstructorFeedbackEditPage extends AppPage {
                                                        + "']." + checkboxClass);
         WebElement checkbox = browser.driver.findElement(checkboxSelector);
         return checkbox.isSelected();
+    }
+
+    public void clickEnableMinRankOptions(int questionNumber) {
+        WebElement minNumberOfOptionsToRankCheckbox = getMinOptionsToBeRankedCheckbox(questionNumber);
+
+        minNumberOfOptionsToRankCheckbox.click();
+    }
+
+    public void clickMinRankOptions(int questionNumber) {
+        WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
+
+        minRecipientsToBeRankedInput.click();
+    }
+
+    public void clearMinRankOptions(int questionNumber) {
+        WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
+
+        minRecipientsToBeRankedInput.clear();
     }
 }
