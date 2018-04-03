@@ -75,7 +75,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         };
 
         remindAction = getAction(submissionParams);
-        remindAction.setCurrentUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
+        remindAction.setReferrer(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
         redirectResult = getRedirectResult(remindAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
@@ -92,7 +92,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         ______TS("Typical case: Send email to remind a student to register for the course from student list page");
 
         remindAction = getAction(submissionParams);
-        remindAction.setCurrentUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
+        remindAction.setReferrer(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
         redirectResult = getRedirectResult(remindAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE, redirectResult.destination);

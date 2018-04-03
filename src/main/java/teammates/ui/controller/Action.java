@@ -70,7 +70,7 @@ public abstract class Action {
     protected List<StatusMessage> statusToUser = new ArrayList<>();
 
     /** This is for keeping track of where req is coming from. */
-    protected String currentUrl;
+    protected String referrer;
 
     /**
      * Whether the execution completed without any errors or
@@ -105,7 +105,7 @@ public abstract class Action {
     protected void initialiseAttributes(HttpServletRequest req) {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
-        currentUrl = request.getHeader("referer");
+        referrer = request.getHeader("referer");
         logic = new Logic();
         gateKeeper = new GateKeeper();
         setTaskQueuer(new TaskQueuer());
@@ -163,7 +163,6 @@ public abstract class Action {
             return;
         }
 
-        String referrer = request.getHeader("referer");
         if (referrer == null) {
             // Requests with missing referrer information are given the benefit of the doubt to
             // accommodate users who choose to disable the HTTP referrer setting in their browser
@@ -708,7 +707,7 @@ public abstract class Action {
         regkey = null;
     }
 
-    public void setCurrentUrl(String newCurrentUrl) {
-        currentUrl = newCurrentUrl;
+    public void setReferrer(String newReferrer) {
+        referrer = newReferrer;
     }
 }

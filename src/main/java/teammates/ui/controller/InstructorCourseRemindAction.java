@@ -132,7 +132,7 @@ public class InstructorCourseRemindAction extends Action {
     }
 
     private boolean isRequestedFromPage(String urlToVerify) {
-        return currentUrl.contains(urlToVerify);
+        return referrer.contains(urlToVerify);
     }
 
     private static class JoinEmailData {
