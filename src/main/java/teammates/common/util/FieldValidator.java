@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -83,7 +84,7 @@ public class FieldValidator {
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
-    public static final String COURSE_TIME_ZONE_FIELD_NAME = "course time zone";
+    public static final String TIME_ZONE_FIELD_NAME = "time zone";
 
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
@@ -116,7 +117,7 @@ public class FieldValidator {
     public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
     public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
     public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
-    public static final String REASON_UNAVAILABLE_AS_CHOICE = "not available as a choice";
+    public static final String REASON_UNAVAILABLE_AS_CHOICE = "is not available as a choice";
 
     // error message components
     public static final String EMPTY_STRING_ERROR_INFO =
@@ -177,10 +178,15 @@ public class FieldValidator {
     public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
             EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
 
-    public static final String HINT_FOR_CORRECT_COURSE_TIME_ZONE =
+    public static final String HINT_FOR_CORRECT_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";
-    public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
+    public static final String TIME_ZONE_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_TIME_ZONE;
+
+    public static final String HINT_FOR_CORRECT_GRACE_PERIOD =
+            "The value must be one of the options in the grace period dropdown selector.";
+    public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative." + " "
+            + HINT_FOR_CORRECT_GRACE_PERIOD;
 
     public static final String HINT_FOR_CORRECT_NATIONALITY =
             "The value must be one of the values from the nationality dropdown selector.";
@@ -316,6 +322,18 @@ public class FieldValidator {
         } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
                                             REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code gracePeriod} is not negative.
+     * @return An explanation why the {@code gracePeriod} is not acceptable.
+     *         Returns an empty string if the {@code gracePeriod} is acceptable.
+     */
+    public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
+        if (gracePeriod.isNegative()) {
+            return GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE;
         }
         return "";
     }
@@ -500,11 +518,12 @@ public class FieldValidator {
      * @return An explanation of why the {@code timeZoneValue} is not acceptable.
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
-    public String getInvalidityInfoForCourseTimeZone(String timeZoneValue) {
+    public String getInvalidityInfoForTimeZone(String timeZoneValue) {
         Assumption.assertNotNull("Non-null value expected", timeZoneValue);
         if (!ZoneId.getAvailableZoneIds().contains(timeZoneValue)) {
-            return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
-                                            REASON_UNAVAILABLE_AS_CHOICE);
+            String sanitizedValue = SanitizationHelper.sanitizeForHtml(timeZoneValue);
+            return getPopulatedErrorMessage(TIME_ZONE_ERROR_MESSAGE,
+                    sanitizedValue, TIME_ZONE_FIELD_NAME, REASON_UNAVAILABLE_AS_CHOICE);
         }
         return "";
     }

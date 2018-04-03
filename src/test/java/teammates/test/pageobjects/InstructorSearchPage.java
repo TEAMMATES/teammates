@@ -46,7 +46,7 @@ public class InstructorSearchPage extends AppPage {
     }
 
     private WebElement getFeedbackResponseCommentCheckBox() {
-        return browser.driver.findElement(By.id("comments-for-responses-check"));
+        return browser.driver.findElement(By.id("search-feedback-sessions-data-check"));
     }
 
     private WebElement getStudentCheckBox() {

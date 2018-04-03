@@ -117,11 +117,19 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return TimeHelper.formatDateTimeForSessions(startTime, timeZone);
     }
 
+    public String getStartTimeInIso8601UtcFormat() {
+        return TimeHelper.formatInstantToIso8601Utc(startTime);
+    }
+
     public String getEndTimeString() {
         if (endTime == null) {
             return "-";
         }
         return TimeHelper.formatDateTimeForSessions(endTime, timeZone);
+    }
+
+    public String getEndTimeInIso8601UtcFormat() {
+        return TimeHelper.formatInstantToIso8601Utc(endTime);
     }
 
     public String getInstructionsString() {
@@ -179,6 +187,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(validator.getValidityInfoForNonNullField(
                 "time for the session to become visible", sessionVisibleFromTime), errors);
 
+        addNonEmptyError(validator.getValidityInfoForNonNullField("session time zone", timeZone), errors);
+
         addNonEmptyError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
 
         addNonEmptyError(validator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
@@ -193,6 +203,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
 
         addNonEmptyError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
+
+        addNonEmptyError(validator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
 
         // Skip time frame checks if session type is private.
         if (this.isPrivateSession()) {
@@ -602,10 +614,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     public void setRespondingStudentList(Set<String> respondingStudentList) {
         this.respondingStudentList = respondingStudentList;
-    }
-
-    public String getEndTimeInIso8601Format() {
-        return TimeHelper.formatInstantToIso8601Utc(endTime);
     }
 
     /**
