@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseDetails - Student Table Modal" pageEncoding="UTF-8" %>
 
 <div class="modal fade" id="studentTableWindow">
