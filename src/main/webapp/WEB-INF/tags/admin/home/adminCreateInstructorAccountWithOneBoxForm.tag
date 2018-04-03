@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="adminHome.jsp - Admin home create instructor account single line form" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 

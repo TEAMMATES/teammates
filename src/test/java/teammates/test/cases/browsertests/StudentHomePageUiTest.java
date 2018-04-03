@@ -40,10 +40,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         FeedbackSessionAttributes gracedFeedbackSession =
                 BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
-        // TODO: change to actual now once HTML time zone detection is fixed
-        int zoneOffsetInSeconds = gracedFeedbackSession.getTimeZone().getRules().getOffset(Instant.now()).getTotalSeconds();
-        Instant nowMinusZoneOffset = Instant.now().minusSeconds(zoneOffsetInSeconds);
-        gracedFeedbackSession.setEndTime(nowMinusZoneOffset);
+        gracedFeedbackSession.setEndTime(Instant.now());
         BackDoor.editFeedbackSession(gracedFeedbackSession);
     }
 
