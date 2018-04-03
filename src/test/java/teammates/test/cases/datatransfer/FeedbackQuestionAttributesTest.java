@@ -82,6 +82,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         FeedbackQuestionAttributes copy = original.getCopy();
 
+        assertNotSame(copy, original);
         assertEquals(copy.getFeedbackSessionName(), original.getFeedbackSessionName());
         assertEquals(copy.getCourseId(), original.getCourseId());
         assertEquals(copy.getCreatorEmail(), original.getCreatorEmail());
