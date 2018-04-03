@@ -48,6 +48,10 @@
         <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm">
           <span class="glyphicon glyphicon-ok"></span> Save
         </button>
+        <a class="btn btn-primary btn-sm" id="fsDiscardChangesLink" data-toggle="tooltip" data-placement="top"
+            title="<%= Const.Tooltips.FEEDBACK_SESSION_DISCARD_CHANGES %>">
+          <span class="glyphicon glyphicon-ban-circle"></span> Discard
+        </a>
         <a href="${fsForm.fsDeleteLink}"
             data-course-id="${fsForm.courseId}"
             data-feedback-session-name="${fsForm.fsName}"

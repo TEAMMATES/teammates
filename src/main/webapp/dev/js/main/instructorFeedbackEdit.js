@@ -268,6 +268,7 @@ function disableEditFS() {
 
     $('#fsEditLink').show();
     $('#fsSaveLink').hide();
+    $('#fsDiscardChangesLink').hide();
     $('#button_submit').hide();
 }
 
@@ -423,6 +424,7 @@ function enableEditFS() {
     }
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
+    $('#fsDiscardChangesLink').show();
     $('#button_submit').show();
 }
 
