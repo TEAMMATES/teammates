@@ -32,7 +32,7 @@ npm run dev
 
 This command needs to be run before starting the dev server if there are updates to the JavaScript files.
 
-> Run the command `npm run build` instead for Production mode. This will optimize the build with minified Javascript Files and produce full source map.
+> Run the command `npm run build` instead for Production mode. This will optimize the build with minified JavaScript Files and produce full source maps.
 
 ### With command line
 
