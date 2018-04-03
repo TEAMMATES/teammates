@@ -12,7 +12,7 @@
 
 <tr>
   <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
-  <td class="text-preserve-space">${response.answer}</td>
+  <td class="text-preserve-space word-wrap-break">${response.answer}</td>
 </tr>
 
 <c:if test="${not empty response.comments}">

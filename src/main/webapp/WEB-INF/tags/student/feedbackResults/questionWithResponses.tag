@@ -6,7 +6,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
-    <h4>Question ${questionWithResponses.questionDetails.questionIndex}: <span class="text-preserve-space"><c:out value="${questionWithResponses.questionDetails.questionText}"/>${questionWithResponses.questionDetails.additionalInfo}</span></h4>
+    <h4>Question ${questionWithResponses.questionDetails.questionIndex}: <span class="text-preserve-space word-wrap-break"><c:out value="${questionWithResponses.questionDetails.questionText}"/>${questionWithResponses.questionDetails.additionalInfo}</span></h4>
 
     ${questionWithResponses.questionDetails.questionResultStatistics}
 
