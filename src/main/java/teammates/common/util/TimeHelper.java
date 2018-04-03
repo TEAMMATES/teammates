@@ -545,17 +545,19 @@ public final class TimeHelper {
     }
 
     /**
-     * Parses a `LocalDateTime` object from separated date, hour and minute strings.
+     * Parses a {@code LocalDateTime} object from separated date, hour and minute strings.
+     * Example: date "Tue, 01 Apr, 2014", hour "23", min "59"
      *
-     * <p>required parameter format:
-     * date: dd/MM/yyyy  hour: H   min:m
-     * Example: If date is 01/04/2014, hour is 23, min is 59.
+     * @param date  date in format "EEE, dd MMM, yyyy"
+     * @param hour  hour-of-day (0-23)
+     * @param min   minute-of-hour (0-59)
+     * @return      the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
-    public static LocalDateTime parseLocalDateTime(String date, String hour, String min) {
+    public static LocalDateTime parseLocalDateTimeForSessionsForm(String date, String hour, String min) {
         if (date == null || hour == null || min == null) {
             return null;
         }
-        return parseLocalDateTime(date + " " + hour + " " + min, "dd/MM/yyyy H m");
+        return parseLocalDateTime(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
     }
 
 }
