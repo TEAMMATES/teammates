@@ -1,5 +1,5 @@
 import {
-    setStatusMessage,
+    setStatusMessageToForm,
 } from '../common/statusMessage';
 import {
     BootstrapContextualColors,
@@ -9,15 +9,16 @@ function validateEmail(event) {
     const emailRegex = new RegExp(['^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@',
         '((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$'].join(''));
     const isValidEmail = emailRegex.test($('#email').val());
+    const $form = $('#requestForm');
 
     if (isValidEmail) {
-        setStatusMessage('Email Sent Successfully', BootstrapContextualColors.SUCCESS);
+        setStatusMessageToForm('Email Sent Successfully', BootstrapContextualColors.SUCCESS, $form);
         return true;
     }
 
     alert('Invalid Email Address');
     event.preventDefault();
-    setStatusMessage('Invalid Email Address', BootstrapContextualColors.DANGER);
+    setStatusMessageToForm('Invalid Email Address', BootstrapContextualColors.DANGER, $form);
     return false;
 }
 
