@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.TimeHelper;
@@ -82,28 +81,25 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private ActionResult validateParametersAndCreateShowPageResultIfInvalid() {
-        String startDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
-        String endDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
-        String startHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTHOUR);
-        String endHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDHOUR);
-        String startMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTMINUTE);
-        String endMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDMINUTE);
-        String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-
         ZoneId zone = Const.DEFAULT_TIME_ZONE;
         LocalDateTime start = LocalDateTime.now(zone).minusDays(3);
         LocalDateTime end = LocalDateTime.now(zone).plusDays(4);
 
         if (checkAllParameters("null")) {
-            // do nothing
-        } else if (checkAllParameters("notNull")) {
-            SanitizationHelper.sanitizeForHtml(startDate);
-            SanitizationHelper.sanitizeForHtml(endDate);
-            SanitizationHelper.sanitizeForHtml(startHour);
-            SanitizationHelper.sanitizeForHtml(endHour);
-            SanitizationHelper.sanitizeForHtml(startMin);
-            SanitizationHelper.sanitizeForHtml(endMin);
-            SanitizationHelper.sanitizeForHtml(timeZone);
+            this.rangeStart = start;
+            this.rangeEnd = end;
+            this.timeZone = zone;
+            return null;
+        }
+
+        if (checkAllParameters("notNull")) {
+            String startDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
+            String endDate = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
+            String startHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTHOUR);
+            String endHour = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDHOUR);
+            String startMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTMINUTE);
+            String endMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDMINUTE);
+            String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
 
             zone = ZoneId.of(timeZone);
 
@@ -116,24 +112,22 @@ public class AdminSessionsPageAction extends Action {
                         + " End time should be after start time.", StatusMessageColor.DANGER));
                 statusToAdmin = "Admin Sessions Page Load<br>"
                         + "<span class=\"bold\"> Error: invalid filter range</span>";
+                prepareDefaultPageData(start, end);
+                return createShowPageResultWithDataInitialization();
             }
-        } else {
-            isError = true;
-            statusToUser.add(new StatusMessage("Error: Missing Parameters", StatusMessageColor.DANGER));
-            statusToAdmin = "Admin Sessions Page Load<br>"
-                    + "<span class=\"bold\"> Error: Missing Parameters</span>";
+
+            this.rangeStart = start;
+            this.rangeEnd = end;
+            this.timeZone = zone;
+            return null;
         }
 
-        if (isError) {
-            prepareDefaultPageData(start, end);
-            return createShowPageResultWithDataInitialization();
-        }
-
-        this.rangeStart = start;
-        this.rangeEnd = end;
-        this.timeZone = zone;
-
-        return null;
+        isError = true;
+        statusToUser.add(new StatusMessage("Error: Missing Parameters", StatusMessageColor.DANGER));
+        statusToAdmin = "Admin Sessions Page Load<br>"
+                + "<span class=\"bold\"> Error: Missing Parameters</span>";
+        prepareDefaultPageData(start, end);
+        return createShowPageResultWithDataInitialization();
     }
 
     private ActionResult createShowPageResultWithDataInitialization() {
