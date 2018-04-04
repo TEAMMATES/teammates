@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="adminEmailLog.jsp - filter panel in Admin Email Log Page" pageEncoding="UTF-8" %>
 <%@ attribute name="filterQuery" required="true" %>
 <%@ attribute name="queryKeywordsForReceiver" required="true" %>
