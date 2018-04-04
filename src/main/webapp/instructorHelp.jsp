@@ -222,6 +222,5 @@
   <jsp:include page="partials/instructorHelpSessions.jsp"/>
   <jsp:include page="partials/instructorHelpProfile.jsp"/>
   <jsp:include page="partials/instructorHelpSearch.jsp"/>
-  <jsp:include page="partials/instructorHelpArchiving.jsp"/>
   <jsp:include page="partials/instructorHelpComments.jsp"/>
 </t:helpPage>
