@@ -111,8 +111,16 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return TimeHelper.formatDateTimeForSessions(startTime, timeZone);
     }
 
+    public String getStartTimeInIso8601UtcFormat() {
+        return TimeHelper.formatInstantToIso8601Utc(startTime);
+    }
+
     public String getEndTimeString() {
         return TimeHelper.formatDateTimeForSessions(endTime, timeZone);
+    }
+
+    public String getEndTimeInIso8601UtcFormat() {
+        return TimeHelper.formatInstantToIso8601Utc(endTime);
     }
 
     public String getInstructionsString() {
@@ -561,10 +569,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     public void setRespondingStudentList(Set<String> respondingStudentList) {
         this.respondingStudentList = respondingStudentList;
-    }
-
-    public String getEndTimeInIso8601Format() {
-        return TimeHelper.formatInstantToIso8601Utc(endTime);
     }
 
     /**

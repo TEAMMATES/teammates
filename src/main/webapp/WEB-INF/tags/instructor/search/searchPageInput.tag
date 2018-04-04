@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorSearch.jsp - Instructor search page input" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -35,7 +36,7 @@
           <li>
             <input id="students-check" type="checkbox"
                 name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true"
-                <c:if test="${data.searchForStudents || !data.searchFeedbackSessionData}">checked</c:if>>
+                <c:if test="${data.searchForStudents || !data.searchFeedbackSessionData}">checked=""</c:if>>
             <label for="students-check">
               Students
             </label>
