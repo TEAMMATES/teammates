@@ -1,19 +1,24 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
-<h4 class="text-color-primary" id="profiles">Profiles</h4>
+<h2 class="text-color-primary" id="profiles">Students</h2>
 <div id="contentHolder">
   <br>
   <ol style="list-style-type: none;">
     <li id="viewStudentProfile">
       <span class="text-bold">
-          <b>1. Viewing student profiles</b>
+          <b>How do I view a student's student profile?</b>
       </span>
       <div>
-        Go to the
-        <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click the
-        <b>'View'</b> button in the last column of the row corresponding to the student whose details you want to see.
-        <br>A new page should open which displays the student's profile, similar to the sample profile below:
-        <br><br>
+        To view the profile of Student A from Course B:
+        <ol>
+          <li>
+            Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+          </li>
+          <li>
+            Click the <button class="btn btn-default btn-xs">View</button> button in the last column of the row corresponding to Student A.
+            A new page will open displaying the student's profile, similar to the sample profile below.
+          </li>
+        </ol>
         <div class="bs-example">
           <div class="row">
             <div class="col-md-2 col-xs-3 block-center">
@@ -49,15 +54,10 @@
               </table>
             </div>
           </div>
-        </div>
-        <br>
-        Below that is the student information table which displays course-related student details. It should look something like this:
-        <br><br>
-        <div class="bs-example">
           <div class="well well-plain">
             <button type="button" class="btn btn-default btn-xs icon-button pull-right"
-                id="button_add_comment" data-toggle="tooltip"
-                data-placement="top" title="Add comment">
+                    id="button_add_comment" data-toggle="tooltip"
+                    data-placement="top" title="Add comment">
               <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
             </button>
             <div class="form form-horizontal" id="studentInfomationTable">
@@ -94,33 +94,48 @@
             </div>
           </div>
         </div>
-        <b>Section Name</b> will appear only if sections were created for the respective course.
-        <br><b>Team Name</b> is the name of the team to which the student belongs, or <b>'NA'</b> if the student does not belong to a team.
-        <br><b>Official Email Address</b> is the email address used to contact the student.
-        <br><b>Comments</b> contains student information entered during enrollment.
-        <br><br>Below this is the <b>'More Info'</b> section where you can see a personal description given by the student, if any. It will look something like this:
-        <br><br>
-        <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Alice Betsy's Profile - More Info</h4>
-              </div>
-              <div class="modal-body">
-                <br>
-                <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
-                <p class="text-preserve-space height-fixed-md">
-                  Hi I am Alice Betsy! I am from Colorado, America. I am a programming and gaming enthusiast. Aspiring to become a Software Architect in a well reputed organization.
-                </p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        <p>
+          The student's profile page displays the student's details and course-related information, such as:
+        </p>
+        <ul>
+          <li>
+            <b>Section name</b>: the name of the section you enrolled the student in. This only appears if sections are created for the course.
+          </li>
+          <li>
+            <b>Team name</b>: the name of the team you enrolled the student in, or <i>NA</i> if the student does not belong to a team.
+          </li>
+          <li>
+            <b>Official email address</b>: the email address that will be used to contact the student, taken from enrollment information
+          </li>
+          <li>
+            <b>Comments</b>: additional student information you entered in the Comments column during enrollment
+          </li>
+        </ul>
+        <p>
+          Below this is the <b>More Info</b> section containing a personal description given by the student, if any.<br>
+          You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right corner to display the information in a modal for better readability.
+        </p>
+        <div class="bs-example">
+          <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Alice Betsy's Profile - More Info</h4>
+                </div>
+                <div class="modal-body">
+                  <br>
+                  <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
+                  <p class="text-preserve-space height-fixed-md">
+                    Hi I am Alice Betsy! I am from Colorado, America. I am a programming and gaming enthusiast. Aspiring to become a Software Architect in a well reputed organization.
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="bs-example">
           <div class="row">
             <div class="col-xs-12">
               <div class="panel panel-default">
@@ -135,7 +150,6 @@
             </div>
           </div>
         </div>
-        <br>You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right corner to display the information in a modal for better readability.
       </div>
     </li>
     <br>
@@ -144,11 +158,21 @@
           <b>2. Editing student profiles</b>
       </span>
       <div>
-        Go to the
-        <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click the
-        <b>'Edit'</b> button in the last column of the row corresponding to the student whose details you want to edit.
-        <br>A new page will open which displays editable fields to edit the student's profile. It should look something like this:
-        <br><br>
+        To edit the name, section, team, contact email, or instructor comments of Student A from Course B:
+        <ol>
+          <li>
+            Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in Course B.
+          </li>
+          <li>
+            Click the<button class="btn btn-default btn-xs">Edit</button> button in the last column of the row corresponding to Student A.<br>
+          </li>
+          <li>
+            In the new page that opens, edit the relevant fields of Student A's profile. The page will look similar to the example below.
+          </li>
+          <li>
+            Click <button class="btn btn-primary btn-s">Save Changes</button> to save your changes to Student A's profile
+          </li>
+        </ol>
         <div class="bs-example">
           <div class="panel panel-primary" id="studentEditProfile">
             <div class="panel-body fill-plain">
@@ -192,7 +216,6 @@
             </div>
           </div>
         </div>
-        <br>After making the necessary changes, click on <b>'Save Changes'</b>.
       </div>
     </li>
   </ol>
