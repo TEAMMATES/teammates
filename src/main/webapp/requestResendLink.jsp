@@ -5,6 +5,7 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script type="text/javascript" src="/js/requestResendLink.js"></script>
 </c:set>
+<t:statusMessage statusMessagesToUser="${data.statusMessage}"/>
 <t:staticPage jsIncludes="${jsIncludes}">
   <h1 class="color-orange">
     Request for Resend of Feedback Links

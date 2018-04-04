@@ -10,13 +10,16 @@ function validateEmail(event) {
         '((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$'].join(''));
     const isValidEmail = emailRegex.test($('#email').val());
     const $form = $('#requestForm');
+    const $statusMessage = $('#statusMessagesToUser');
+    $statusMessage.html('<img src="/images/ajax-loader.gif">');
+    $statusMessage.css('display', 'block');
 
     if (isValidEmail) {
         setStatusMessageToForm('Email Sent Successfully', BootstrapContextualColors.SUCCESS, $form);
         return true;
     }
 
-    alert('Invalid Email Address');
+    $statusMessage.html('Invalid Email Address.');
     event.preventDefault();
     setStatusMessageToForm('Invalid Email Address', BootstrapContextualColors.DANGER, $form);
     return false;
