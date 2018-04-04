@@ -86,33 +86,45 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
+            if (feedbackSessionName != null) {
+                feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
+            }
             return this;
         }
 
         public Builder withCourseId(String courseId) {
-            feedbackQuestionAttributes.courseId = courseId;
+            if (courseId != null) {
+                feedbackQuestionAttributes.courseId = courseId;
+            }
             return this;
         }
 
         public Builder withCreatorEmail(String creatorEmail) {
-            feedbackQuestionAttributes.creatorEmail = creatorEmail;
+            if (creatorEmail != null) {
+                feedbackQuestionAttributes.creatorEmail = creatorEmail;
+            }
             return this;
         }
 
         public Builder withQuestionMetaData(Text questionMetaData) {
-            feedbackQuestionAttributes.questionMetaData = questionMetaData;
+            if (questionMetaData != null) {
+                feedbackQuestionAttributes.questionMetaData = questionMetaData;
+            }
             return this;
         }
 
         public Builder withQuestionMetaData(FeedbackQuestionDetails questionDetails) {
-            feedbackQuestionAttributes.setQuestionDetails(questionDetails);
+            if (questionDetails != null) {
+                feedbackQuestionAttributes.setQuestionDetails(questionDetails);
+            }
             return this;
         }
 
 
         public Builder withQuestionDescription(Text questionDescription) {
-            feedbackQuestionAttributes.setQuestionDescription(questionDescription);
+            if (questionDescription != null) {
+                feedbackQuestionAttributes.setQuestionDescription(questionDescription);
+            }
             return this;
         }
 
@@ -122,17 +134,23 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public Builder withQuestionType(FeedbackQuestionType questionType) {
-            feedbackQuestionAttributes.questionType = questionType;
+            if (questionType != null) {
+                feedbackQuestionAttributes.questionType = questionType;
+            }
             return this;
         }
 
         public Builder withGiverType(FeedbackParticipantType giverType) {
-            feedbackQuestionAttributes.giverType = giverType;
+            if (giverType != null) {
+                feedbackQuestionAttributes.giverType = giverType;
+            }
             return this;
         }
 
         public Builder withRecipientType(FeedbackParticipantType recipientType) {
-            feedbackQuestionAttributes.recipientType = recipientType;
+            if (recipientType != null) {
+                feedbackQuestionAttributes.recipientType = recipientType;
+            }
             return this;
         }
 
@@ -142,32 +160,44 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public Builder withShowResponseTo(List<FeedbackParticipantType> showResponseTo) {
-            feedbackQuestionAttributes.showResponsesTo = new ArrayList<>(showResponseTo);
+            feedbackQuestionAttributes.showResponsesTo =
+                    showResponseTo == null ? new ArrayList<>() :
+                                                new ArrayList<>(showResponseTo);
             return this;
         }
 
         public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            feedbackQuestionAttributes.showGiverNameTo = new ArrayList<>(showGiverNameTo);
+            feedbackQuestionAttributes.showGiverNameTo =
+                    showGiverNameTo == null ? new ArrayList<>() :
+                                                new ArrayList<>(showGiverNameTo);
             return this;
         }
 
         public Builder withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
-            feedbackQuestionAttributes.showRecipientNameTo = new ArrayList<>(showRecipientNameTo);
+            feedbackQuestionAttributes.showRecipientNameTo =
+                    showRecipientNameTo == null ? new ArrayList<>() :
+                                                    new ArrayList<>(showRecipientNameTo);
             return this;
         }
 
         public Builder withCreatedAt(Instant createdAt) {
-            feedbackQuestionAttributes.createdAt = createdAt;
+            if (createdAt != null) {
+                feedbackQuestionAttributes.createdAt = createdAt;
+            }
             return this;
         }
 
         public Builder withUpdatedAt(Instant updatedAt) {
-            feedbackQuestionAttributes.updatedAt = updatedAt;
+            if (updatedAt != null) {
+                feedbackQuestionAttributes.updatedAt = updatedAt;
+            }
             return this;
         }
 
         public Builder withFeedbackQuestionId(String feedbackQuestionId) {
-            feedbackQuestionAttributes.feedbackQuestionId = feedbackQuestionId;
+            if (feedbackQuestionId != null) {
+                feedbackQuestionAttributes.feedbackQuestionId = feedbackQuestionId;
+            }
             return this;
         }
 
