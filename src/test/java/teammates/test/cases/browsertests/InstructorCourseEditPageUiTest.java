@@ -168,12 +168,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("Click cancel but click no to confirmation prompt");
         courseEditPage.clickDiscardChangesLink();
         courseEditPage.waitForConfirmationModalAndClickCancel();
-        assertFalse(courseEditPage.verifyShowNewInstructorIsDisplayed());
+        assertTrue(courseEditPage.verifyShowNewInstructorIsDisplayed());
 
         ______TS("Click cancel but click yes to confirmation prompt");
         courseEditPage.clickDiscardChangesLink();
         courseEditPage.waitForConfirmationModalAndClickOk();
-        assertTrue(courseEditPage.verifyShowNewInstructorIsDisplayed());
+        assertFalse(courseEditPage.verifyShowNewInstructorIsDisplayed());
     }
 
     private void testAddInstructorAction() throws Exception {

@@ -200,7 +200,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public boolean verifyShowNewInstructorIsDisplayed() {
-        WebElement newInstructorForm = browser.driver.findElement(By.id("btnShowNewInstructorForm"));
+        WebElement newInstructorForm = browser.driver.findElement(By.id("panelAddInstructor"));
         return newInstructorForm.isDisplayed();
     }
 
