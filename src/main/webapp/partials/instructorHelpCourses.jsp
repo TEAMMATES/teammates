@@ -549,7 +549,6 @@
       <div id="sectionsEditingBody" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-
             Go to the
             <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click the
             <b>'View'</b> button in the last column of the row corresponding to the student whose section you want to edit.
@@ -557,6 +556,148 @@
             <a href="#studentEditProfile">like this</a>.
             <br>After editing the section name, click on <b>'Save Changes'</b>.
           </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary" id="archivingCourse">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#archivingCourseBody">How do I archive a course?</a>
+        </h3>
+      </div>
+      <div id="archivingCourseBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            When a course has ended, you can archive it so that it doesn't appear in your home page anymore. You cannot edit, create feedback sessions for or enroll students in an archived course.
+          </p>
+          <p>
+            In your <b>Home</b> page, you will see a separate panel for each course and a table of feedback sessions inside it, similar to the example below.<br>
+            Click on the <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the panel heading of the course you want to archive.<br>
+            Then select <b>'Archive'</b> in the drop-down menu and <b>'OK'</b> to confirm.
+          </p>
+          <p>
+            You can also archive a course from the <b>Courses</b> page.<br>
+            Under 'Active Courses', click on the <b>'Archive'</b> button in the row corresponding to the course you want to archive.
+          </p>
+          <div class="bs-example">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <strong>
+                      [AI532] : Artificial Intelligence
+                    </strong>
+                  </div>
+                  <div class="mobile-margin-top-10px col-sm-6">
+                    <span class="mobile-no-pull pull-right">
+                      <div class="dropdown courses-table-dropdown">
+                        <button class="btn btn-primary btn-xs" type="button">
+                          Students
+                          <span class="caret"></span>
+                        </button>
+                      </div>
+                      <div class="dropdown courses-table-dropdown">
+                        <button class="btn btn-primary btn-xs" type="button">
+                          Instructors
+                          <span class="caret"></span>
+                        </button>
+                      </div>
+                      <div class="dropdown courses-table-dropdown">
+                        <button class="btn btn-primary btn-xs" type="button">
+                          Sessions
+                          <span class="caret"></span>
+                        </button>
+                      </div>
+                      <div class="dropdown courses-table-dropdown">
+                        <button class="btn btn-primary btn-xs" type="button">
+                          Course
+                          <span class="caret"></span>
+                        </button>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary" id="archivingViewArchivedCourses">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#archivingViewArchivedCoursesBody">How do I view an archived course?</a>
+        </h3>
+      </div>
+      <div id="archivingViewArchivedCoursesBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            You can view all your archived courses by clicking the <b>'Courses'</b> tab in the header.<br>
+            Scroll to the <b>Archived Courses</b> heading, which looks similar to this:
+          </p>
+          <div class="bs-example">
+            <h2 class="text-muted">Archived courses</h2>
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr class="fill-default">
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Course ID<span class="icon-sort unsorted"></span>
+                </th>
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Course Name<span class="icon-sort unsorted"></span>
+                </th>
+                <th class="align-center no-print">Action(s)</th>
+              </tr>
+              </thead>
+              <tr>
+                <td>AI532</td>
+                <td>Artificial Intelligence</td>
+                <td class="align-center no-print">
+                  <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button>
+                  <button href="#" class="btn btn-default btn-xs" type="button">Delete</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary" id="archivingUnarchiveCourses">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#archivingUnarchiveCoursesBody">How do I unarchive an archived course?</a>
+        </h3>
+      </div>
+      <div id="archivingUnarchiveCoursesBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            To unarchive a course, first <a data-toggle="collapse" data-target="#archivingViewArchivedCoursesBody" href="#archivingViewArchivedCourses">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
+            Then, click on the <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
+          </p>
+          <div class="bs-example">
+            <h2 class="text-muted">Archived courses</h2>
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr class="fill-default">
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Course ID<span class="icon-sort unsorted"></span>
+                </th>
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Course Name<span class="icon-sort unsorted"></span>
+                </th>
+                <th class="align-center no-print">Action(s)</th>
+              </tr>
+              </thead>
+              <tr>
+                <td>AI532</td>
+                <td>Artificial Intelligence</td>
+                <td class="align-center no-print">
+                  <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button>
+                  <button href="#" class="btn btn-default btn-xs" type="button">Delete</button>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
