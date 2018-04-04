@@ -45,7 +45,6 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
         data.init(regKey, email, courseId);
-        data.checkIsResponsePresent();
 
         setStatusToAdmin();
         // TODO: implement this in another way so there is no dependence on status messages from another page

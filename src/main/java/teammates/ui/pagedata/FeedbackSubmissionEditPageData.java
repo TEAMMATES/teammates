@@ -31,7 +31,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private String registerMessage;
     private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
-    private boolean isResponsePresent;
 
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
         super(account, student, sessionToken);
@@ -39,7 +38,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isModeration = false;
         isShowRealQuestionNumber = false;
         isHeaderHidden = false;
-        isResponsePresent = false;
     }
 
     /**
@@ -271,20 +269,19 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return responses;
     }
 
-    public void checkIsResponsePresent() {
+    /**
+     * Returns true if there is an existing response in the form.
+     */
+    public boolean getIsResponsePresent() {
         for (StudentFeedbackSubmissionEditQuestionsWithResponses
                 questionsResponses : questionsWithResponses) {
             for (FeedbackSubmissionEditResponse
                     responses : questionsResponses.getResponses()) {
                 if (responses.isExistingResponse()) {
-                    this.isResponsePresent = true;
-                    return;
+                    return true;
                 }
             }
         }
-    }
-
-    public boolean isResponsePresent() {
-        return isResponsePresent;
+        return false;
     }
 }
