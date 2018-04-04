@@ -478,18 +478,11 @@ function editFormRequest(e) {
 }
 
 /**
- * Discards new changes made and restores the original instructor form
- */
-function restoreOriginal() {
-    hideNewInstructorForm();
-}
-
-/**
  * Allows users to discard unsaved edits to the instructor
  */
 function discardChanges() {
     const okCallback = function () {
-        restoreOriginal();
+        hideNewInstructorForm();
     };
 
     showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_NEW_INSTRUCTOR,
