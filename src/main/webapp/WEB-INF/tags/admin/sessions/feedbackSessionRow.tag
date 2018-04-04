@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Admin sessions - feedback session row" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="feedbackSessionRow" type="teammates.ui.template.AdminFeedbackSessionRow" required="true"%>
@@ -16,7 +17,7 @@
       </td>
     </c:otherwise>
   </c:choose>
-  <td>${feedbackSessionRow.sessionStartTime}</td>
-  <td>${feedbackSessionRow.sessionEndTime}</td>
+  <td data-date-stamp="${feedbackSessionRow.sessionStartTimeIso8601Utc}">${feedbackSessionRow.sessionStartTime}</td>
+  <td data-date-stamp="${feedbackSessionRow.sessionEndTimeIso8601Utc}">${feedbackSessionRow.sessionEndTime}</td>
   <td><a target="_blank" rel="noopener noreferrer" ${feedbackSessionRow.instructorHomePageViewLink}>${feedbackSessionRow.creatorEmail}</a></td>
 </tr>
