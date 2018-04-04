@@ -478,6 +478,13 @@ function editFormRequest(e) {
 }
 
 /**
+ * Discards new changes made and restores the original instructor form
+ */
+function restoreOriginal() {
+    hideNewInstructorForm();
+}
+
+/**
  * Allows users to discard unsaved edits to the instructor
  */
 function discardChanges() {
@@ -486,14 +493,7 @@ function discardChanges() {
     };
 
     showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_NEW_INSTRUCTOR,
-        okCallback, null, null, null, BootstrapContextualColors.WARNING);
-}
-
-/**
- * Discards new changes made and restores the original instructor form
- */
-function restoreOriginal() {
-    hideNewInstructorForm();
+            okCallback, null, null, null, BootstrapContextualColors.WARNING);
 }
 
 $(document).ready(() => {
