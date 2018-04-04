@@ -38,6 +38,109 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testBuilderWithPopulatedFieldValues() {
+        String feedbackSession = "test session";
+        String courseId = "some course";
+        String creatorEmail = "test@case.com";
+        Text questionMetaData = new Text("test qn from teams->none.");
+        Text questionDescription = new Text("some description");
+        int questionNumber = 1;
+        int numOfEntities = 4;
+        FeedbackQuestionType questionType = FeedbackQuestionType.TEXT;
+        FeedbackParticipantType giverType = FeedbackParticipantType.TEAMS;
+        FeedbackParticipantType recipientType = FeedbackParticipantType.TEAMS;
+
+        List<FeedbackParticipantType> participants = new ArrayList<>();
+        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.RECEIVER);
+        Instant createdAt = Instant.now();
+        Instant updatedAt = Instant.ofEpochMilli(9876545);
+
+
+        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
+                .withFeedbackSessionName(feedbackSession)
+                .withCourseId(courseId)
+                .withCreatorEmail(creatorEmail)
+                .withQuestionMetaData(questionMetaData)
+                .withQuestionDescription(questionDescription)
+                .withQuestionNumber(questionNumber)
+                .withNumOfEntitiesToGiveFeedbackTo(numOfEntities)
+                .withQuestionType(questionType)
+                .withGiverType(giverType)
+                .withRecipientType(recipientType)
+                .withShowGiverNameTo(new ArrayList<>(participants))
+                .withShowRecipientNameTo(new ArrayList<>(participants))
+                .withShowResponseTo(new ArrayList<>(participants))
+                .withCreatedAt(createdAt)
+                .withUpdatedAt(updatedAt)
+                .buildWithoutRemovingIrrelevantVisibilityOptions();
+
+        assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
+        assertEquals(courseId, feedbackQuestionAttributes.getCourseId());
+        assertEquals(creatorEmail, feedbackQuestionAttributes.getCreatorEmail());
+        assertEquals(questionMetaData, feedbackQuestionAttributes.getQuestionMetaData());
+        assertEquals(questionDescription, feedbackQuestionAttributes.questionDescription);
+        assertEquals(questionNumber, feedbackQuestionAttributes.getQuestionNumber());
+        assertEquals(numOfEntities, feedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo);
+        assertEquals(questionType, feedbackQuestionAttributes.getQuestionType());
+        assertEquals(giverType, feedbackQuestionAttributes.getGiverType());
+        assertEquals(recipientType, feedbackQuestionAttributes.getRecipientType());
+        assertEquals(participants, feedbackQuestionAttributes.showGiverNameTo);
+        assertEquals(participants, feedbackQuestionAttributes.showResponsesTo);
+        assertEquals(participants, feedbackQuestionAttributes.showRecipientNameTo);
+        assertEquals(createdAt, feedbackQuestionAttributes.getCreatedAt());
+        assertEquals(updatedAt, feedbackQuestionAttributes.getUpdatedAt());
+    }
+
+    @Test
+    public void testBuilderSanitizeForBuild() {
+
+        ______TS("sanitize whitespace");
+
+        Text contentWithWhitespaces = new Text(" content to be sanitized by removing leading/trailing whitespace ");
+        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
+            .withQuestionMetaData(new Text("test qn from teams->none."))
+            .withQuestionDescription(contentWithWhitespaces)
+            .buildWithoutRemovingIrrelevantVisibilityOptions();
+
+        assertEquals(new Text("content to be sanitized by removing leading/trailing whitespace"),
+                feedbackQuestionAttributes.getQuestionDescription());
+
+        ______TS("sanitize code block");
+
+        Text codeblock = new Text("<code>System.out.println(\"Hello World\");</code>");
+        feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
+                .withQuestionMetaData(new Text("test qn from teams->none."))
+                .withQuestionDescription(codeblock)
+                .buildWithoutRemovingIrrelevantVisibilityOptions();
+
+        assertEquals(new Text("<code>System.out.println(&#34;Hello World&#34;);</code>"),
+                feedbackQuestionAttributes.getQuestionDescription());
+
+        ______TS("sanitize superscript");
+
+        Text superscript = new Text("f(x) = x<sup>2</sup>");
+
+        feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
+                .withQuestionMetaData(new Text("test qn from teams->none."))
+                .withQuestionDescription(superscript)
+                .buildWithoutRemovingIrrelevantVisibilityOptions();
+
+        assertEquals(new Text("f(x) &#61; x<sup>2</sup>"), feedbackQuestionAttributes.getQuestionDescription());
+
+        ______TS("sanitize chemical formula");
+
+        Text chemicalFormula = new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>");
+        feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
+                .withQuestionMetaData(new Text("test qn from teams->none."))
+                .withQuestionDescription(chemicalFormula)
+                .buildWithoutRemovingIrrelevantVisibilityOptions();
+
+        assertEquals(new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>"),
+                feedbackQuestionAttributes.getQuestionDescription());
+    }
+
+    @Test
     public void testBuilderWithDefaultValues() {
         FeedbackQuestionAttributes observedFeedbackQuestionAttributes =
                 FeedbackQuestionAttributes.builder().buildWithoutRemovingIrrelevantVisibilityOptions();
