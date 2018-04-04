@@ -122,6 +122,12 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public void clickDiscardChangesLink() {
+        WebElement link = browser.driver.findElement(
+                By.xpath("//a[contains(@class, 'btn-discard-changes')]"));
+        click(link);
+    }
+
     public String editInstructorName(int instrNum, String value) {
         WebElement editPanelNameTextBox = getNameField(instrNum);
         fillTextBox(editPanelNameTextBox, value);
@@ -191,6 +197,11 @@ public class InstructorCourseEditPage extends AppPage {
                                 && !editInstructorEmailTextBox.isEnabled();
 
         assertTrue(isNotEditable);
+    }
+
+    public boolean verifyShowNewInstructorIsDisplayed() {
+        WebElement newInstructorForm = browser.driver.findElement(By.id("btnShowNewInstructorForm"));
+        return newInstructorForm.isDisplayed();
     }
 
     /**
