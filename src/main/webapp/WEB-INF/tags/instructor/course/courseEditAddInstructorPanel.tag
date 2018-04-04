@@ -15,6 +15,13 @@
 <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
   <div class="panel-heading">
     <strong>Instructor ${addInstructorPanel.index}:</strong>
+    <span class="mobile-no-pull pull-right">
+      <a class="btn btn-primary btn-xs btn-discard-changes"
+         data-toggle="tooltip" data-placement="top"
+         title="<%= Const.Tooltips.INSTRUCTOR_CANCEL_NEW %>">
+        Cancel
+      </a>
+    </span>
   </div>
 
   <div class="panel-body fill-plain">
