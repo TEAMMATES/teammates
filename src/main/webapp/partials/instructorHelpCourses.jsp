@@ -12,7 +12,7 @@
       <div id="editCourseAddInstructorBody" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            From the <b>Courses</b> tab, click the <b>Edit</b> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page.<br>
+            From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-default btn-xs" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page, which will look similar to the example below.<br>
             Here, you can add new instructors to the course, edit existing instructors' details, and delete instructors from the course, depending on your access privileges.
           </p>
           <div class="bs-example">
@@ -97,15 +97,18 @@
               <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" disabled="">
             </div>
           </div>
+          <p>
+            To add an instructor:
+          </p>
           <ol>
             <li>
-              Click 'Add New Instructor' to add a new instructor. A form will appear for you to specify the necessary information about the new instructor.
+              Click the <button class="btn btn-primary btn-s" type="button">Add New Instructor</button> button at the bottom of the page. A form will appear for you to specify the necessary information about the new instructor.
             </li>
             <li>
-              Fill in the name, email, role, and access level of the instructor you want to add. If you are not clear about certain input field, you can simply hover the input field and see the tooltip for explanation of the field.<br>
+              Fill in the name, email, role, and access level of the instructor you want to add. If you are not clear about certain input field, hover your cursor over the input field to view the tooltip for explanation of the field.<br>
             </li>
             <li>
-              Click 'Add Instructor' button to add the instructor.
+              Click <button class="btn btn-primary btn-s" type="button">Add Instructor</button> to add the instructor.
             </li>
           </ol>
           <div class="bs-example">
@@ -193,19 +196,23 @@
         <div class="panel-body">
           <p>
             To edit the name, email and visible role of Instructor A from Course B, first go to the <b>Edit Course</b> page of Course B.<br>
+            From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-default btn-xs" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page.<br>
+          </p>
+          <p>
+            To edit Instructor A's information:
           </p>
           <ol>
             <li>
-              Scroll to the card showing Instructor A's information.<br>
+              Scroll to the panel showing Instructor A's information.<br>
             </li>
             <li>
-              Click the 'edit' button in the top right hand corner of Instructor A's information card. <br>
+              Click the <button class="btn btn-primary btn-xs" type="button"><span class="glyphicon glyphicon-pencil"></span> Edit</button> button in the top right hand corner of Instructor A's information panel. <br>
             </li>
             <li>
               Update the relevant fields with Instructor A's new information.
             </li>
             <li>
-              Press "Save changes" button to save the changes and complete the edit process.
+              Click <button class="btn btn-primary btn-s" type="button">Save changes</button> to save the changes and complete the edit process.
             </li>
           </ol>
         </div>
@@ -220,7 +227,8 @@
       <div id="editCourseSetAccessLevelBody" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            When adding an instructor or editing an instructor's information, you can set the instructor's access level. There are 4 pre-defined privilege options for you to choose from:
+            When <a data-toggle="collapse" data-target="#editCourseAddInstructorBody" href="#editCourseAddInstructor">adding an instructor</a> or <a data-toggle="collapse" data-target="#editCourseEditInstructorBody" href="#editCourseEditInstructor"> editing an instructor's information</a>, you can set the instructor's access level.
+            There are 4 pre-defined privilege options for you to choose from:
           </p>
           <ul>
             <li>
@@ -252,12 +260,12 @@
       <div id="editCourseSetCustomBody" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            When you set the access level for an instructor to 'Custom', detailed privilege settings will appear.<br>
-            Use the checkboxes to give instructors specific privileges.<br>
+            When you set the access level for an instructor to <b>Custom</b>, detailed privilege settings will appear.<br>
+            Use the checkboxes to give instructors specific privileges.
           </p>
           <p>
-            If a course has sections, you can also customize an instructor's permissions for each section by clicking 'Give different permissions for a specific section'.<br>
-            In the panel for section-level privilege settings, you can choose more than one section to apply the same set of settings.<br>
+            If a course has sections, you can customize an instructor's permissions for each section by clicking 'Give different permissions for a specific section'.<br>
+            In the panel for section-level privilege settings, use the section checkboxes to apply your chosen settings to more than one section.<br>
             You can also change the degree of access the instructor has to specific sessions in that section by clicking 'Give different permissions for sessions in this section'.
           </p>
           <div class="bs-example">
@@ -531,11 +539,8 @@
       <div id="sectionsEnrollingStudentsBody" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            To specify a section for each student at the time of enrollment, include a <b>'Section'</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
-            To view more information, go to the
-            <b>'Courses'</b> page, click on the
-            <b>'Enroll'</b> button for any course and scroll down to the
-            <b>'More Info'</b> section.
+            To specify a section for each student at the time of enrollment, include a <b>Section</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
+            To view more information, go to the <b>Courses</b> page, click on the <button class="btn btn-default btn-xs" type="button">Enroll</button> button for any course and scroll down to the <b>More Info</b> section.
           </p>
         </div>
       </div>
@@ -549,12 +554,22 @@
       <div id="sectionsEditingBody" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            Go to the
-            <b>'Students'</b> page and click the panel heading for the relevant course. You will see a list of students enrolled in the course. Click the
-            <b>'View'</b> button in the last column of the row corresponding to the student whose section you want to edit.
-            <br>A new page will open containing the student's profile and including a field to edit the student's section. It should look something
-            <a href="#studentEditProfile">like this</a>.
-            <br>After editing the section name, click on <b>'Save Changes'</b>.
+            To edit the section Student A from Course B is enrolled in:
+          </p>
+          <ol>
+            <li>
+              Go to the <b>Students</b> page and click Course B's panel heading. You will see a list of students enrolled in Course B.
+            </li>
+            <li>
+              Click the <button class="btn btn-default btn-xs">Edit</button> button in the last column of the row corresponding to Student A.
+            </li>
+            <li>
+              A new page will open that allows you to <a href="#studentEditProfile">edit the student's profile</a>, including a field to edit the student's section.<br>
+            </li>
+            <li>
+              After editing the section name, click <button class="btn btn-primary btn-s">Save Changes</button> to confirm Student A's new section.
+            </li>
+          </ol>
           </p>
         </div>
       </div>
@@ -568,16 +583,16 @@
       <div id="archivingCourseBody" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            When a course has ended, you can archive it so that it doesn't appear in your home page anymore. You cannot edit, create feedback sessions for or enroll students in an archived course.
+            When a course has ended, you can archive it so that it doesn't appear in your home page. You cannot edit, create feedback sessions for or enroll students in an archived course.
           </p>
           <p>
-            In your <b>Home</b> page, you will see a separate panel for each course and a table of feedback sessions inside it, similar to the example below.<br>
-            Click on the <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the panel heading of the course you want to archive.<br>
-            Then select <b>'Archive'</b> in the drop-down menu and <b>'OK'</b> to confirm.
+            In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>
+            Click on the <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
+            Then select <button class="btn btn-default btn-xs" type="button">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
           </p>
           <p>
             You can also archive a course from the <b>Courses</b> page.<br>
-            Under 'Active Courses', click on the <b>'Archive'</b> button in the row corresponding to the course you want to archive.
+            Under 'Active Courses', click on the <button class="btn btn-default btn-xs" type="button">Archive</button> button in the row corresponding to the course you want to archive.
           </p>
           <div class="bs-example">
             <div class="panel panel-primary">
@@ -626,13 +641,13 @@
     <div class="panel panel-primary" id="archivingViewArchivedCourses">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#archivingViewArchivedCoursesBody">How do I view an archived course?</a>
+          <a data-toggle="collapse" href="#archivingViewArchivedCoursesBody">How do I view courses I have archived?</a>
         </h3>
       </div>
       <div id="archivingViewArchivedCoursesBody" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            You can view all your archived courses by clicking the <b>'Courses'</b> tab in the header.<br>
+            You can view all your archived courses by navigating to the <b>Courses</b> page.<br>
             Scroll to the <b>Archived Courses</b> heading, which looks similar to this:
           </p>
           <div class="bs-example">
@@ -659,6 +674,10 @@
               </tr>
             </table>
           </div>
+          <p>
+            The courses you have previously archived are listed here.
+            In order to access information in an archived course, <a data-toggle="collapse" data-target="#archivingUnarchiveCoursesBody" href="#archivingUnarchiveCourses">unarchive the course</a>.
+          </p>
         </div>
       </div>
     </div>
