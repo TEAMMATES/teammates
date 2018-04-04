@@ -605,6 +605,11 @@ public abstract class AppPage {
         assertEquals(value, selectedVisibleValue);
     }
 
+    public String getDropdownSelectedValue(WebElement element) {
+        Select select = new Select(element);
+        return select.getFirstSelectedOption().getAttribute("value");
+    }
+
     /**
      * Returns a list containing the texts of the user status messages in the page.
      * @see WebElement#getText()

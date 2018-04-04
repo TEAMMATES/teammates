@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Generic TEAMMATES Static Page" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

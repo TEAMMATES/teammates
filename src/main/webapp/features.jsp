@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <t:staticPage currentPage="features">
