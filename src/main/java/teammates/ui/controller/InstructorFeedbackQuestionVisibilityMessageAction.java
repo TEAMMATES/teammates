@@ -57,7 +57,8 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
         List<FeedbackParticipantType> showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
-        List<FeedbackParticipantType> showRecipientNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
+        List<FeedbackParticipantType> showRecipientNameTo =
+                FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
         String questionTypeInString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);

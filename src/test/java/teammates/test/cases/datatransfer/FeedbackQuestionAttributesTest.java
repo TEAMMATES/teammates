@@ -56,7 +56,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         Instant createdAt = Instant.now();
         Instant updatedAt = Instant.ofEpochMilli(9876545);
 
-
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName(feedbackSession)
                 .withCourseId(courseId)
@@ -99,9 +98,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         Text contentWithWhitespaces = new Text(" content to be sanitized by removing leading/trailing whitespace ");
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
-            .withQuestionMetaData(new Text("test qn from teams->none."))
-            .withQuestionDescription(contentWithWhitespaces)
-            .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .withQuestionMetaData(new Text("test qn from teams->none."))
+                .withQuestionDescription(contentWithWhitespaces)
+                .buildWithoutRemovingIrrelevantVisibilityOptions();
 
         assertEquals(new Text("content to be sanitized by removing leading/trailing whitespace"),
                 feedbackQuestionAttributes.getQuestionDescription());

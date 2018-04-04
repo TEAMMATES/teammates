@@ -13,7 +13,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -118,7 +117,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
         List<FeedbackParticipantType> showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
-        List<FeedbackParticipantType> showRecipientNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
+        List<FeedbackParticipantType> showRecipientNameTo =
+                FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
         String questionTypeInString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);

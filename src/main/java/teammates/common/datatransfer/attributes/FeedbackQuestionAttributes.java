@@ -120,7 +120,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return this;
         }
 
-
         public Builder withQuestionDescription(Text questionDescription) {
             if (questionDescription != null) {
                 feedbackQuestionAttributes.setQuestionDescription(questionDescription);
@@ -161,22 +160,22 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         public Builder withShowResponseTo(List<FeedbackParticipantType> showResponseTo) {
             feedbackQuestionAttributes.showResponsesTo =
-                    showResponseTo == null ? new ArrayList<>() :
-                                                new ArrayList<>(showResponseTo);
+                    showResponseTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showResponseTo);
             return this;
         }
 
         public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
             feedbackQuestionAttributes.showGiverNameTo =
-                    showGiverNameTo == null ? new ArrayList<>() :
-                                                new ArrayList<>(showGiverNameTo);
+                    showGiverNameTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showGiverNameTo);
             return this;
         }
 
         public Builder withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
             feedbackQuestionAttributes.showRecipientNameTo =
-                    showRecipientNameTo == null ? new ArrayList<>() :
-                                                    new ArrayList<>(showRecipientNameTo);
+                    showRecipientNameTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showRecipientNameTo);
             return this;
         }
 
