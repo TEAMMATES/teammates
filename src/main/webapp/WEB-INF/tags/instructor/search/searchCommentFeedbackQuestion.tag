@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="SearchCommentFeedbackSession.tag - Feedback question when instructor searches for a keyword in feedback response comments" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -8,7 +9,7 @@
 
 <div class="panel panel-info">
   <div class="panel-heading">
-    <b>Question ${questionTable.questionNumber}</b>: ${fn:escapeXml(questionTable.questionText)} ${questionTable.additionalInfo}
+    <b>Question ${questionTable.questionNumber}</b>: ${fn:escapeXml(questionTable.questionText)}${" "}${questionTable.additionalInfo}
   </div>
   <table class="table">
     <tbody>
