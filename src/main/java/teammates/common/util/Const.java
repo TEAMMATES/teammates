@@ -195,7 +195,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
-                        ActionURIs.STUDENT_FEEDBACK_LINK_RESEND,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
@@ -1011,8 +1010,6 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
-        public static final String STUDENT_FEEDBACK_LINK_RESEND = "/page/studentFeedbackResultLinkResend";
-        public static final String STUDENT_FEEDBACK_LINK_RESEND_PAGE = "/page/studentFeedbackResultLinkResendPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
@@ -1097,10 +1094,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionUnpublishedEmail";
 
-        public static final String FEEDBACK_SESSION_RESEND_PARTICULAR_USER_EMAIL_QUEUE_NAME =
-                "feedback-session-resend-particular-user-email-queue";
-        public static final String FEEDBACK_SESSION_RESEND_PARTICULAR_USER_EMAIL_WORKER_URL =
-                "/worker/feedbackSessionResendParticularUserEmail";
         public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME =
                 "feedback-session-update-respondent-queue";
         public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL =

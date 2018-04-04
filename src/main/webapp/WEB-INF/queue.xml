@@ -87,16 +87,6 @@
     </queue>
 
     <queue>
-        <name>feedback-session-resend-link-email-queue</name>
-        <rate>1/s</rate>
-        <bucket-size>5</bucket-size>
-        <max-concurrent-requests>1</max-concurrent-requests>
-        <retry-parameters>
-            <task-retry-limit>2</task-retry-limit>
-        </retry-parameters>
-    </queue>
-
-    <queue>
         <name>instructor-course-join-email-queue</name>
         <!-- Configuration allows for 5 instructor course join emails to be queued when the bucket is not full -->
         <rate>5/s</rate>
