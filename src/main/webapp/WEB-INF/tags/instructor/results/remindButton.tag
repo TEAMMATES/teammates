@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResults - remind button" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
