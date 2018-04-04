@@ -44,6 +44,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     protected transient Instant updatedAt;
     private String feedbackQuestionId;
 
+    protected FeedbackQuestionAttributes() {
+        //attributes to be built by Builder
+    }
+
     public static Builder builder() {
         return new Builder();
     }
