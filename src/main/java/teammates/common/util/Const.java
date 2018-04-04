@@ -274,6 +274,9 @@ public final class Const {
         public static final String INSTRUCTOR_DISPLAYED_AS =
                 "Specify the role of this instructor in this course as shown to the students";
 
+        public static final String INSTRUCTOR_CANCEL_NEW =
+                "Cancel adding new instructor. No new instructor will be added to the course.";
+
         public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
 
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_AWAITING =
