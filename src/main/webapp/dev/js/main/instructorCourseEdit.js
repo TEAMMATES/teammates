@@ -38,6 +38,9 @@ const instructorPrivilegeValues = [
     'canmodifysessioncommentinsection',
 ];
 
+const WARNING_DISCARD_CHANGES = 'Warning: Any unsaved changes will be lost';
+const CONFIRM_DISCARD_NEW_INSTRUCTOR = 'Are you sure you want to discard this instructor?';
+
 function showNewInstructorForm() {
     $('#panelAddInstructor').show();
     $('#btnShowNewInstructorForm').hide();
@@ -474,6 +477,25 @@ function editFormRequest(e) {
     });
 }
 
+/**
+ * Allows users to discard unsaved edits to the instructor
+ */
+function discardChanges() {
+    const okCallback = function () {
+        restoreOriginal();
+    };
+
+    showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_NEW_INSTRUCTOR,
+        okCallback, null, null, null, BootstrapContextualColors.WARNING);
+}
+
+/**
+ * Discards new changes made and restores the original instructor form
+ */
+function restoreOriginal() {
+    hideNewInstructorForm();
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -492,6 +514,10 @@ $(document).ready(() => {
             $displayToStudentsAsTextField.prop('value', '');
             $displayToStudentsAsTextField.prop('placeholder', '(This instructor will NOT be displayed to students)');
         }
+    });
+
+    $(document).on('click', '.btn-discard-changes', (e) => {
+        discardChanges($(e.currentTarget));
     });
 
     const numOfInstr = $("form[id^='formEditInstructor']").length;
