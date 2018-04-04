@@ -44,6 +44,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testInputValidation();
 
         testInviteInstructorAction();
+        testCancelAddingNewInstructor();
         testAddInstructorAction();
         testEditInstructorAction();
         testCancelEditInstructorAction();
@@ -158,6 +159,21 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickInviteInstructorLink(unregisteredInstructorIndex);
         courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
+    }
+
+    private void testCancelAddingNewInstructor() {
+        ______TS("Cancelling the adding of a new instructor");
+        courseEditPage.clickShowNewInstructorFormButton();
+
+        ______TS("Click cancel but click no to confirmation prompt");
+        courseEditPage.clickDiscardChangesLink();
+        courseEditPage.waitForConfirmationModalAndClickCancel();
+        assertFalse(courseEditPage.verifyShowNewInstructorIsDisplayed());
+
+        ______TS("Click cancel but click yes to confirmation prompt");
+        courseEditPage.clickDiscardChangesLink();
+        courseEditPage.waitForConfirmationModalAndClickOk();
+        assertTrue(courseEditPage.verifyShowNewInstructorIsDisplayed());
     }
 
     private void testAddInstructorAction() throws Exception {
