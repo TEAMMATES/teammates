@@ -187,8 +187,8 @@ public class AdminSessionsPageData extends PageData {
     }
 
     private void setFilter() {
-        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeEnd),
-                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd),
+        filter = new AdminFilter(TimeHelper.formatDateForSessionsForm(rangeStart), getHourOptionsAsHtml(rangeEnd),
+                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDateForSessionsForm(rangeEnd),
                                  getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
                                  getTimeZoneOptionsAsHtml());
     }
