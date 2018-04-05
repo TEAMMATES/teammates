@@ -489,7 +489,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Session with sanitized data", true, "recipient-question-giver");
         assertFalse(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
 
-        ______TS("No Specific Section not shown giver > question > recipient with no Feedback from Instructor");
+        ______TS("No Specific Section not shown for giver > question > recipient with no Feedback from Instructor");
         resultsPage.displayByGiverQuestionRecipient();
         assertFalse(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
 

@@ -1786,9 +1786,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /**
-     * Checks if we should show No Specific Section panel.
+     * Checks if there are entities in No Specific Section.
      *
-     * @return
      * <ul>
      * <li>true if the course has teams in Default Section</li>
      * <li>true if view is GRQ or GQR and there is feedback from Instructors</li>
@@ -1797,8 +1796,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * </ul>
      */
     private boolean hasEntitiesInNoSpecificSection(InstructorFeedbackResultsPageViewType viewType) {
-        boolean hasFeedbackFromInstructor = bundle.containsResponseFromInstructor();
-        boolean hasFeedbackToInstructorOrGeneral = bundle.containsResponsesToInstructorOrGeneral();
+        boolean hasFeedbackFromInstructor = bundle.hasResponseFromInstructor();
+        boolean hasFeedbackToInstructorOrGeneral = bundle.hasResponseToInstructorOrGeneral();
         boolean viewTypeIsRecipient = viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER
                 || viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION;
         boolean viewTypeIsGiver = viewType == InstructorFeedbackResultsPageViewType.GIVER_QUESTION_RECIPIENT

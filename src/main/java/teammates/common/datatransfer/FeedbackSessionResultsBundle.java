@@ -1708,13 +1708,12 @@ public class FeedbackSessionResultsBundle {
     /**
      * Checks if bundle contains response from Instructor.
      *
-     * @return
      * <ul>
      * <li>true if the bundle contains response from Instructor</li>
      * <li>false otherwise</li>
      * </ul>
      */
-    public boolean containsResponseFromInstructor() {
+    public boolean hasResponseFromInstructor() {
         for (FeedbackResponseAttributes response : responses) {
             String giverIdentifier = response.giver;
             // If a instructor is also a student, the response should be considered as student's response.
@@ -1728,13 +1727,12 @@ public class FeedbackSessionResultsBundle {
     /**
      * Checks if bundle contains response to Instructor or General.
      *
-     * @return
      * <ul>
      * <li>true if the bundle contains response to Instructor or General</li>
      * <li>false otherwise</li>
      * </ul>
      */
-    public boolean containsResponsesToInstructorOrGeneral() {
+    public boolean hasResponseToInstructorOrGeneral() {
         for (FeedbackResponseAttributes response : responses) {
             String recipientIdentifier = response.recipient;
             // getSectionFromRoster will return NO_SPECIFIC_SECTION for recipient who is Instructor or Nobody specific.
