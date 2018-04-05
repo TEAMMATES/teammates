@@ -81,14 +81,10 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private ActionResult validateParametersAndCreateShowPageResultIfInvalid() {
-        ZoneId zone = Const.DEFAULT_TIME_ZONE;
-        LocalDateTime start = LocalDateTime.now(zone).minusDays(3);
-        LocalDateTime end = LocalDateTime.now(zone).plusDays(4);
-
         if (checkAllParameters("null")) {
-            this.rangeStart = start;
-            this.rangeEnd = end;
-            this.timeZone = zone;
+            this.rangeStart = LocalDateTime.now(Const.DEFAULT_TIME_ZONE).minusDays(3);
+            this.rangeEnd = LocalDateTime.now(Const.DEFAULT_TIME_ZONE).plusDays(4);
+            this.timeZone = Const.DEFAULT_TIME_ZONE;
             return null;
         }
 
@@ -101,31 +97,31 @@ public class AdminSessionsPageAction extends Action {
             String endMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDMINUTE);
             String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
 
-            zone = ZoneId.of(timeZone);
-            start = TimeHelper.parseLocalDateTimeForSessionsForm(startDate, startHour, startMin);
-            end = TimeHelper.parseLocalDateTimeForSessionsForm(endDate, endHour, endMin);
+            this.rangeStart = TimeHelper.parseLocalDateTimeForSessionsForm(startDate, startHour, startMin);
+            this.rangeEnd = TimeHelper.parseLocalDateTimeForSessionsForm(endDate, endHour, endMin);
+            this.timeZone = ZoneId.of(timeZone);
 
-            if (start.isAfter(end)) {
-                isError = true;
-                statusToUser.add(new StatusMessage("The filter range is not valid."
-                        + " End time should be after start time.", StatusMessageColor.DANGER));
-                statusToAdmin = "Admin Sessions Page Load<br>"
-                        + "<span class=\"bold\"> Error: invalid filter range</span>";
-                prepareDefaultPageData(start, end);
-                return initializeDataAndCreateShowPageResult();
+            if (!this.rangeStart.isAfter(this.rangeEnd)) {
+                return null;
             }
-
-            this.rangeStart = start;
-            this.rangeEnd = end;
-            this.timeZone = zone;
-            return null;
         }
 
         isError = true;
-        statusToUser.add(new StatusMessage("Error: Missing Parameters", StatusMessageColor.DANGER));
-        statusToAdmin = "Admin Sessions Page Load<br>"
-                + "<span class=\"bold\"> Error: Missing Parameters</span>";
-        prepareDefaultPageData(start, end);
+        if (this.rangeStart.isAfter(this.rangeEnd)) {
+            statusToUser.add(new StatusMessage("The filter range is not valid."
+                    + " End time should be after start time.", StatusMessageColor.DANGER));
+            statusToAdmin = "Admin Sessions Page Load<br>"
+                    + "<span class=\"bold\"> Error: invalid filter range</span>";
+        } else {
+            statusToUser.add(new StatusMessage("Error: Missing Parameters", StatusMessageColor.DANGER));
+            statusToAdmin = "Admin Sessions Page Load<br>"
+                    + "<span class=\"bold\"> Error: Missing Parameters</span>";
+        }
+
+        prepareDefaultPageData(
+                LocalDateTime.now(Const.DEFAULT_TIME_ZONE).minusDays(3),
+                LocalDateTime.now(Const.DEFAULT_TIME_ZONE).plusDays(4)
+        );
         return initializeDataAndCreateShowPageResult();
     }
 
