@@ -112,7 +112,7 @@ public class AdminSessionsPageAction extends Action {
                 statusToAdmin = "Admin Sessions Page Load<br>"
                         + "<span class=\"bold\"> Error: invalid filter range</span>";
                 prepareDefaultPageData(start, end);
-                return createShowPageResultWithDataInitialization();
+                return initializeDataAndCreateShowPageResult();
             }
 
             this.rangeStart = start;
@@ -126,10 +126,10 @@ public class AdminSessionsPageAction extends Action {
         statusToAdmin = "Admin Sessions Page Load<br>"
                 + "<span class=\"bold\"> Error: Missing Parameters</span>";
         prepareDefaultPageData(start, end);
-        return createShowPageResultWithDataInitialization();
+        return initializeDataAndCreateShowPageResult();
     }
 
-    private ActionResult createShowPageResultWithDataInitialization() {
+    private ActionResult initializeDataAndCreateShowPageResult() {
         data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,
                 this.totalOpenStatusSessions, this.totalClosedStatusSessions, this.totalWaitToOpenStatusSessions,
                 this.totalInstitutes, this.rangeStart, this.rangeEnd, this.timeZone, this.isShowAll);
@@ -150,7 +150,7 @@ public class AdminSessionsPageAction extends Action {
             this.totalClosedStatusSessions = 0;
             this.totalWaitToOpenStatusSessions = 0;
             this.totalInstitutes = 0;
-            return createShowPageResultWithDataInitialization();
+            return initializeDataAndCreateShowPageResult();
         }
 
         return null;
@@ -195,7 +195,7 @@ public class AdminSessionsPageAction extends Action {
                       + this.totalOpenStatusSessions;
 
         constructSessionToInstructorIdMap();
-        return createShowPageResultWithDataInitialization();
+        return initializeDataAndCreateShowPageResult();
     }
 
     private void constructSessionToInstructorIdMap() {
