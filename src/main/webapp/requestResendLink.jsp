@@ -16,7 +16,7 @@
     <input id="email" class="width-200-px" name="studentemail" type="text" placeholder="Enter your email address">
     <br/>
     <br/>
-    <div class="g-recaptcha" data-sitekey="6LeRFFAUAAAAAJZxGECyrBpqEKr4k5twbsNJnp1R"></div>
+    <div id="recaptcha" class="g-recaptcha" data-sitekey="6LeRFFAUAAAAAJZxGECyrBpqEKr4k5twbsNJnp1R"></div>
     <br/>
     <input id="submitButton" type="submit" value="Submit">
   </form>

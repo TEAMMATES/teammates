@@ -1,12 +1,16 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
@@ -24,9 +28,9 @@ public class FeedbackLinkResendServlet extends HttpServlet {
      * This is a email regex to test whether the input is a valid email.
      */
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^(([^<>()[\\\\]\\\\.,;:\\s@\"]+(\\.[^<>()[\\\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@" +
-                    "((\\\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\\\])|" +
-                    "(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("^(([^<>()[\\\\]\\\\.,;:\\s@\"]+(\\.[^<>()[\\\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@"
+                    + "((\\\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\\\])|"
+                    + "(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$", Pattern.CASE_INSENSITIVE);
     private static final Logger log = Logger.getLogger();
 
     private EmailSender emailSender;
@@ -40,25 +44,36 @@ public class FeedbackLinkResendServlet extends HttpServlet {
     @Override
     public final void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
+            Map<String, Object> map = new HashMap<>();
             String userEmailToResend = req.getParameter(Const.ParamsNames.STUDENT_EMAIL);
-            EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendEmail(userEmailToResend);
-            setEmailSender(new EmailSender());
+            boolean isValid = false;
 
-            if (isValidEmailAddress(userEmailToResend) && email.getContent().length() != 0) {
-                emailSender.sendEmail(email);
-                statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_LINK_RESENT,
-                        StatusMessageColor.SUCCESS);
-            } else if (!isValidEmailAddress(userEmailToResend)) {
+            if (isValidEmailAddress(userEmailToResend)) {
+                isValid = true;
+                EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendEmail(userEmailToResend);
+                if (email.getContent().length() > 0) {
+                    setEmailSender(new EmailSender());
+                    emailSender.sendEmail(email);
+                    statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_LINK_RESENT,
+                            StatusMessageColor.SUCCESS);
+                } else {
+                    isValid = false;
+                    statusMessage = new StatusMessage(
+                            Const.StatusMessages.FEEDBACK_SESSION_RESENDING_LINKS_NONE_IN_RECENT_ONE_MONTH,
+                            StatusMessageColor.DANGER);
+                }
+            } else {
                 statusMessage =
                         new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESENDING_LINKS_INVALID_EMAIL,
                                 StatusMessageColor.DANGER);
-            } else {
-                statusMessage = new StatusMessage(
-                        Const.StatusMessages.FEEDBACK_SESSION_RESENDING_LINKS_NONE_IN_RECENT_ONE_MONTH,
-                        StatusMessageColor.DANGER);
             }
-            resp.getWriter().write(statusMessage.getText());
-            resp.sendRedirect(Const.ViewURIs.FEEDBACK_LINKS_RESEND_SUCCESS);
+
+            map.put("isValid", isValid);
+            map.put("message", statusMessage.getText());
+
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(new Gson().toJson(map));
         } catch (EmailSendingException e) {
             log.severe("Email of feedback session links failed to send: "
                     + TeammatesException.toStringWithStackTrace(e));
