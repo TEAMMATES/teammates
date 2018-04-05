@@ -16,11 +16,11 @@ import teammates.ui.template.AdminFilter;
 import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageData extends PageData {
-    private int totalOngoingSessions;
-    private int totalOpenStatusSessions;
-    private int totalClosedStatusSessions;
-    private int totalWaitToOpenStatusSessions;
-    private int totalInstitutes;
+    private long totalOngoingSessions;
+    private long totalOpenStatusSessions;
+    private long totalClosedStatusSessions;
+    private long totalWaitToOpenStatusSessions;
+    private long totalInstitutes;
     private LocalDateTime rangeStart;
     private LocalDateTime rangeEnd;
     private ZoneId timeZone;
@@ -35,8 +35,8 @@ public class AdminSessionsPageData extends PageData {
 
     public void init(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap,
-            int totalOngoingSessions, int totalOpenStatusSessions, int totalClosedStatusSessions,
-            int totalWaitToOpenStatusSessions, int totalInstitutes, LocalDateTime rangeStart, LocalDateTime rangeEnd,
+            long totalOngoingSessions, long totalOpenStatusSessions, long totalClosedStatusSessions,
+            long totalWaitToOpenStatusSessions, long totalInstitutes, LocalDateTime rangeStart, LocalDateTime rangeEnd,
             ZoneId timeZone, boolean isShowAll) {
 
         this.totalOngoingSessions = totalOngoingSessions;
@@ -52,23 +52,23 @@ public class AdminSessionsPageData extends PageData {
         setInstitutionPanels(map, sessionToInstructorIdMap);
     }
 
-    public int getTotalOngoingSessions() {
+    public long getTotalOngoingSessions() {
         return totalOngoingSessions;
     }
 
-    public int getTotalOpenStatusSessions() {
+    public long getTotalOpenStatusSessions() {
         return totalOpenStatusSessions;
     }
 
-    public int getTotalClosedStatusSessions() {
+    public long getTotalClosedStatusSessions() {
         return totalClosedStatusSessions;
     }
 
-    public int getTotalWaitToOpenStatusSessions() {
+    public long getTotalWaitToOpenStatusSessions() {
         return totalWaitToOpenStatusSessions;
     }
 
-    public int getTotalInstitutes() {
+    public long getTotalInstitutes() {
         return totalInstitutes;
     }
 

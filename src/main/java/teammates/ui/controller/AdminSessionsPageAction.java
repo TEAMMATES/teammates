@@ -24,11 +24,11 @@ public class AdminSessionsPageAction extends Action {
 
     private Map<String, List<FeedbackSessionAttributes>> map;
     private Map<String, String> sessionToInstructorIdMap = new HashMap<>();
-    private int totalOngoingSessions;
-    private int totalOpenStatusSessions;
-    private int totalClosedStatusSessions;
-    private int totalWaitToOpenStatusSessions;
-    private int totalInstitutes;
+    private long totalOngoingSessions;
+    private long totalOpenStatusSessions;
+    private long totalClosedStatusSessions;
+    private long totalWaitToOpenStatusSessions;
+    private long totalInstitutes;
     private LocalDateTime rangeStart;
     private LocalDateTime rangeEnd;
     private ZoneId timeZone;
@@ -232,26 +232,26 @@ public class AdminSessionsPageAction extends Action {
         return null;
     }
 
-    private int getTotalNumOfOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
-        return (int) allOpenFeedbackSessionsList.stream()
+    private long getTotalNumOfOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
+        return allOpenFeedbackSessionsList.stream()
                 .filter(sessionAttributes -> sessionAttributes.isOpened())
                 .count();
     }
 
-    private int getTotalNumOfCloseStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
-        return (int) allOpenFeedbackSessionsList.stream()
+    private long getTotalNumOfCloseStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
+        return allOpenFeedbackSessionsList.stream()
                 .filter(sessionAttributes -> sessionAttributes.isClosed())
                 .count();
     }
 
-    private int getTotalNumOfWaitToOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
-        return (int) allOpenFeedbackSessionsList.stream()
+    private long getTotalNumOfWaitToOpenStatusSession(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
+        return allOpenFeedbackSessionsList.stream()
                 .filter(sessionAttributes -> sessionAttributes.isWaitingToOpen())
                 .count();
     }
 
-    private int getTotalInstitutes(Map<String, List<FeedbackSessionAttributes>> map) {
-        return (int) map.keySet().stream()
+    private long getTotalInstitutes(Map<String, List<FeedbackSessionAttributes>> map) {
+        return map.keySet().stream()
                 .filter(key -> !key.equals(UNKNOWN_INSTITUTION))
                 .count();
     }
