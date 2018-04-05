@@ -7,12 +7,12 @@
   <ol style="list-style-type: none;">
     <li id="searchStudents">
       <span class="text-bold">
-          <b>1. Searching for students</b>
+          <b>How do I search for a student in my course?</b>
       </span>
       <div>
-        You can search for students by clicking on
-        <b>'Search'</b> on the top nav bar. You should see a search bar similar to the one below:
-        <br><br>
+        <p>
+          You can search for students from the <b>Search</b> page. Click the <b>Search</b> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
+        </p>
         <div class="bs-example">
           <div class="well well-plain">
             <div class="form-group">
@@ -52,9 +52,29 @@
             </div>
           </div>
         </div>
-        <br>Check the option <b>'Students'</b> below the search box. Now type the student's name into the search box and click on the <b>'Search'</b> button.
-        <br>If you search for 'alice', the search results would show something like this (assuming such a student exists):
-        <br><br>
+        <p>
+          To search for a student:
+        </p>
+        <ol>
+          <li>
+            Check the option <b>Students</b> below the search box.
+          </li>
+          <li>
+            Type your search terms into the search bar. You can search for a student record based on:
+            <ul>
+              <li>Section name</li>
+              <li>Team name</li>
+              <li>Student name</li>
+              <li>Email</li>
+            </ul>
+          </li>
+          <li>
+            Click the <button class="btn btn-primary btn-xs">Search</button> button.
+          </li>
+        </ol>
+        <p>
+          If you search for <code>alice</code>, the search results would show something like this (assuming such a student exists):
+        </p>
         <div class="bs-example">
           <div class="panel panel-primary">
             <div class="panel-heading">
@@ -119,16 +139,10 @@
             </div>
           </div>
         </div>
-        <br>You can search for a student record based on:
-        <ul>
-          <li>Section name</li>
-          <li>Team name</li>
-          <li>Student name</li>
-          <li>Email</li>
-        </ul>
-        <br>You can search for multiple students based on the attributes mentioned above. To do so, include the values you wish to search for in the search box, separated by spaces.
-        <br>For example, if you search for 'alice Section A Team B jack@email.com', the search would result in something similar to this (assuming the corresponding data exists):
-        <br><br>
+        <p>
+          You can search for multiple students based on the attributes mentioned above. To do so, include the terms you wish to search for in the search box separated by spaces.<br>
+          For example, if you search for <code>alice Section A Team B jack@email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
+        </p>
         <div class="bs-example">
           <div class="panel panel-primary">
             <div class="panel-heading">
@@ -287,16 +301,26 @@
         </div>
       </div>
     </li>
-    <br>
     <li id="searchFeedbackSessionData">
       <span class="text-bold">
-          <b>2. Searching for questions, responses and comments on responses</b>
+          <b>How do I search for a feedback session question, response or comment on a response?</b>
       </span>
       <div>
-        You can search for questions, responses and comments on responses given by students. To do this check
-        <b>'Questions, responses, comments on responses'</b> below the search box, type your keywords, then hit <b>'Search'</b>.
-        <br>Suppose you search for 'good'. Assuming the relevant data exists, the search results would look something similar to this:
-        <br><br>
+        You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
+        <ol>
+          <li>
+            Check the option <b>Questions, responses, comments on responses</b> below the search bar.
+          </li>
+          <li>
+            Type in the keywords of your search.
+          </li>
+          <li>
+            Click <button class="btn btn-primary btn-xs">Search</button>.
+          </li>
+        </ol>
+        <p>
+          Assuming the relevant data exists, the results for a search with the keyword <code>good</code> would look something similar to this:
+        </p>
         <div class="bs-example">
           <div class="panel panel-primary">
             <div class="panel-heading">
