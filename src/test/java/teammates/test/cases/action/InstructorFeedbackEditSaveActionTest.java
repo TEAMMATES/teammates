@@ -154,7 +154,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-
         ______TS("success: At open session visible time, custom results visible time, UTC");
 
         params = createParamsCombinationForFeedbackSession(
