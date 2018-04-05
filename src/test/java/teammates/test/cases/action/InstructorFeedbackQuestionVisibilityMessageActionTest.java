@@ -132,6 +132,62 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         r = getAjaxResult(a);
 
         assertFalse(r.isError);
+
+        ______TS("Standard case, empty participant list - data bundle params");
+
+        String instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2").googleId;
+
+        gaeSimulation.logoutUser(); // log out of instructor 1
+        gaeSimulation.loginAsInstructor(instructor1OfCourse2);
+
+        fs = typicalBundle.feedbackSessions.get("session1InCourse2");
+        fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+
+        String[] standardParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "question",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "10",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, "",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, "",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, "",
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        a = getAction(standardParams);
+        r = getAjaxResult(a);
+
+        assertFalse(r.isError);
+
+        ______TS("Standard case, null participant list - constructed params");
+
+        standardParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "question",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "10",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, null,
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, null,
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, null,
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        a = getAction(standardParams);
+        r = getAjaxResult(a);
+
+        assertFalse(r.isError);
+
     }
 
     @Override

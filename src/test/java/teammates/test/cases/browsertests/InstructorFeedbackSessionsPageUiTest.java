@@ -259,6 +259,37 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
 
+        ______TS("success case: boundary length name, only results email");
+
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        feedbackPage.clickEditUncommonSettingsButtons();
+
+        newSession.setFeedbackSessionName("standard session of characters12345678");
+        newSession.setCourseId("CFeedbackUiT.CS2104");
+        newSession.setStartTime(TimeHelper.parseInstant("2018-05-01 12:00 AM +0000"));
+        newSession.setEndTime(newSession.getStartTime());
+        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+
+        newSession.setClosingEmailEnabled(false);
+        newSession.setPublishedEmailEnabled(true);
+
+        // disable emails for opening and closing
+        feedbackPage.toggleSendOpenEmailCheckbox();
+        feedbackPage.toggleSendClosingEmailCheckbox();
+
+        // fill in defaults
+        newSession.setInstructions(new Text("<p>Please answer all the given questions.</p>"));
+        newSession.setGracePeriodMinutes(15);
+
+        feedbackPage.addFeedbackSessionWithStandardTimeZone(
+                newSession.getFeedbackSessionName(), newSession.getCourseId(),
+                newSession.getEndTimeLocal(), newSession.getEndTimeLocal(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriodMinutes());
+
+        savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
+        assertEquals(newSession.toString(), savedSession.toString());
+
         ______TS("success case: closed session, custom session visible time, publish follows visible,"
                  + " timezone -4.5, only open email, empty instructions");
 
