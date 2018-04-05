@@ -102,8 +102,9 @@
           <label class="bold-label">
             <span class="inline-block">
               <input type="checkbox" disabled
-                     id="distributePointsOptionsCheckbox-${questionNumber}"
-                     ${checkedDistributePointsOptions}
+                     name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}"
+                     id="constSum_UnevenDistribution-${questionNumber}"
+                     ${distributeUnevenly}
                      onchange="toggleConstSumDistributePointsOptions(this, ${questionNumber})">
             </span>
             <select class="form-control width-auto inline" id="constSumDistributePointsSelect-${questionNumber}"

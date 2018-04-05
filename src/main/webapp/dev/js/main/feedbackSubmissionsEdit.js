@@ -492,6 +492,7 @@ function updateConstSumMessageQn(qnNum) {
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
     const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
+    const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
 
     const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
     const allowEvenDistribution = constSumDistributePointsOptionSelected
@@ -534,7 +535,9 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
         } else if (remainingPoints === 0) {
-            if (allowEvenDistribution || (forceAllUnevenDistribution && allUnique)
+            if (allowEvenDistribution || !forceUnevenDistribution
+                    || (forceUnevenDistribution && !forceSomeUnevenDistribution && allUnique)
+                    || (forceAllUnevenDistribution && allUnique)
                     || (forceSomeUnevenDistribution && !allSame)) {
                 message = 'All points distributed!';
                 messageElement.addClass('text-color-green');
@@ -570,14 +573,15 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-blue');
         }
 
-        if (!allNotNumbers && forceAllUnevenDistribution && !allUnique) {
-            message += ' The same amount of points should not be given multiple times.';
+        if (!allNotNumbers && forceSomeUnevenDistribution && allSame && numOptions !== 1) {
+            message += ' Different amount of points should be given to some options.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
         }
 
-        if (!allNotNumbers && forceSomeUnevenDistribution && allSame && numOptions !== 1) {
-            message += ' Different amount of points should be given to some options.';
+        if (!allNotNumbers && ((forceUnevenDistribution && !forceSomeUnevenDistribution) || forceAllUnevenDistribution)
+                && !allUnique) {
+            message += ' The same amount of points should not be given multiple times.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
         }

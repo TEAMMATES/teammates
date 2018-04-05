@@ -498,7 +498,7 @@ function enableQuestion(questionNum) {
     }
 
     toggleConstSumOptionsRadioButton(questionNum);
-    if ($(`#distributePointsOptionsCheckbox-${questionNum}`).prop('checked')) {
+    if ($(`#constSum_UnevenDistribution-${questionNum}`).prop('checked')) {
         $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', false);
     } else {
         $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', true);
@@ -583,7 +583,7 @@ function enableNewQuestion() {
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
-    toggleConstSumDistributePointsOptions($(`#distributePointsOptionsCheckbox-${NEW_QUESTION}`, NEW_QUESTION));
+    toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`, NEW_QUESTION));
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);

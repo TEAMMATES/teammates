@@ -362,12 +362,15 @@ public final class Templates {
             public static final String CONSTSUM_NUMBER_OF_OPTIONS = "${numOfConstSumOptions}";
             public static final String CONSTSUM_SELECTED_POINTS_PER_OPTION = "${selectedConstSumPointsPerOption}";
             public static final String CONSTSUM_OPTION_TABLE_VISIBILITY = "${constSumOptionTableVisibility}";
+            public static final String CONSTSUM_UNEVEN_DISTRIBUTION_VALUE = "${constSumUnevenDistributionValue}";
             public static final String CONSTSUM_POINTS = "${constSumPoints}";
             public static final String CONSTSUM_POINTS_RECEIVED = "${pointsReceived}";
             public static final String CONSTSUM_AVERAGE_POINTS = "${averagePoints}";
             public static final String CONSTSUM_TOTAL_POINTS = "${totalPoints}";
             public static final String CONSTSUM_PARAM_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}";
-            public static final String CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS = "${checkedDistributePointsOptions}";
+            public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${distributeUnevenly}";
+            public static final String CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
             public static final String CONSTSUM_DISTRIBUTE_POINTS_OPTIONS =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS}";
             public static final String CONSTSUM_DISTRIBUTE_POINTS_FOR_VALUE = "${distributePointsForValue}";

@@ -1475,7 +1475,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnIndex);
 
         WebElement distributePointsOptionsCheckbox =
-                browser.driver.findElement(By.id("distributePointsOptionsCheckbox" + idSuffix));
+                browser.driver.findElement(By.id("constSum_UnevenDistribution" + idSuffix));
         click(distributePointsOptionsCheckbox);
     }
 

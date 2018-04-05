@@ -31,6 +31,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private List<String> constSumOptions;
     private boolean distributeToRecipients;
     private boolean pointsPerOption;
+    private boolean forceUnevenDistribution;
     private String distributePointsFor;
     private int points;
 
@@ -42,12 +43,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
         this.points = 100;
+        this.forceUnevenDistribution = false;
         this.distributePointsFor = FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption();
     }
 
     public FeedbackConstantSumQuestionDetails(String questionText,
             List<String> constSumOptions,
-            boolean pointsPerOption, int points, String distributePointsFor) {
+            boolean pointsPerOption, int points, boolean unevenDistribution, String distributePointsFor) {
         super(FeedbackQuestionType.CONSTSUM, questionText);
 
         this.numOfConstSumOptions = constSumOptions.size();
@@ -55,6 +57,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributeToRecipients = false;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
+        this.forceUnevenDistribution = unevenDistribution;
         this.distributePointsFor = distributePointsFor;
     }
 
@@ -79,6 +82,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
 
+        String forceUnevenDistributionString =
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+
         String distributePointsOption =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS);
@@ -96,8 +103,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             points = Integer.parseInt(totalPointsString);
         }
 
+        boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
+
         if (distributeToRecipients) {
-            this.setConstantSumQuestionDetails(pointsPerOption, points, distributePointsOption);
+            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution,
+                    distributePointsOption);
         } else {
             String numConstSumOptionsCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -114,32 +124,35 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                     numOfConstSumOptions++;
                 }
             }
-            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, distributePointsOption);
+            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution,
+                    distributePointsOption);
         }
         return true;
     }
 
     private void setConstantSumQuestionDetails(
             List<String> constSumOptions, boolean pointsPerOption,
-            int points, String distributePointsOption) {
+            int points, boolean unevenDistribution, String distributePointsOption) {
 
         this.numOfConstSumOptions = constSumOptions.size();
         this.constSumOptions = constSumOptions;
         this.distributeToRecipients = false;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
+        this.forceUnevenDistribution = unevenDistribution;
         this.distributePointsFor = distributePointsOption;
 
     }
 
     private void setConstantSumQuestionDetails(boolean pointsPerOption,
-            int points, String distributePointsOption) {
+            int points, boolean unevenDistribution, String distributePointsOption) {
 
         this.numOfConstSumOptions = 0;
         this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = true;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
+        this.forceUnevenDistribution = unevenDistribution;
         this.distributePointsFor = distributePointsOption;
     }
 
@@ -208,6 +221,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_POINTS_PER_OPTION_VALUE, Boolean.toString(pointsPerOption),
                 Slots.CONSTSUM_NUM_OPTION_VALUE, Integer.toString(constSumOptions.size()),
                 Slots.CONSTSUM_POINTS_VALUE, Integer.toString(points),
+                Slots.CONSTSUM_UNEVEN_DISTRIBUTION_VALUE, Boolean.toString(forceUnevenDistribution),
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
@@ -215,7 +229,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHOPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
+                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
+                Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, distributePointsFor.equals(
                         FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
                 Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
@@ -281,6 +296,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_POINTS_PER_OPTION_VALUE, Boolean.toString(pointsPerOption),
                 Slots.CONSTSUM_NUM_OPTION_VALUE, Integer.toString(constSumOptions.size()),
                 Slots.CONSTSUM_POINTS_VALUE, Integer.toString(points),
+                Slots.CONSTSUM_UNEVEN_DISTRIBUTION_VALUE, Boolean.toString(forceUnevenDistribution),
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
@@ -289,7 +305,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
+                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
+                Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, distributePointsFor.equals(
                         FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
                 Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
@@ -343,6 +360,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_TOOLTIP_POINTS_PER_RECIPIENT,
                         Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
+                Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
@@ -350,7 +368,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION,
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
-                Slots.CONSTSUM_CHECKED_DISTRIBUTE_POINTS_OPTIONS, distributePointsFor.equals(
+                Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
+                Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, distributePointsFor.equals(
                         FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
                 Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS,
@@ -676,6 +695,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return true;
         }
 
+        if (this.forceUnevenDistribution != newConstSumDetails.forceUnevenDistribution) {
+            return true;
+        }
+
         return !this.distributePointsFor.equals(newConstSumDetails.distributePointsFor);
     }
 
@@ -772,15 +795,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             //Check that points are given unevenly for all/at least some options as per the question settings
             Set<Integer> answerSet = new HashSet<>();
             if (distributePointsFor.equals(
-                    FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
-                for (int i : frd.getAnswerList()) {
-                    if (answerSet.contains(i)) {
-                        errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
-                        return errors;
-                    }
-                    answerSet.add(i);
-                }
-            } else if (distributePointsFor.equals(
                     FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
                 boolean hasDifferentPoints = false;
                 for (int i : frd.getAnswerList()) {
@@ -794,6 +808,15 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 if (!hasDifferentPoints) {
                     errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
                     return errors;
+                }
+            } else if (forceUnevenDistribution || distributePointsFor.equals(
+                    FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
+                for (int i : frd.getAnswerList()) {
+                    if (answerSet.contains(i)) {
+                        errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
+                        return errors;
+                    }
+                    answerSet.add(i);
                 }
             }
         }
