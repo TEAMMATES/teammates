@@ -859,7 +859,7 @@ public final class Const {
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_FEEDBACK = "feedback";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
-        public static final String SUBMISSION_RESEND_LINK_USER = "userToResend";
+        public static final String SUBMISSION_RESEND_LINKS_USER = "userToResend";
 
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 
@@ -1167,7 +1167,6 @@ public final class Const {
         public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
         public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp";
-        public static final String STUDENT_FEEDBACK_LINK_RESEND = "/jsp/studentFeedbackLinkResend.jsp";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp";
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT =
                 "/jsp/studentFeedbackQuestionSubmissionEdit.jsp";
@@ -1194,6 +1193,7 @@ public final class Const {
         public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp";
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
+        public static final String FEEDBACK_LINKS_RESEND_SUCCESS = "/RequestResendLinkSuccess.jsp";
 
         public static final String JS_UNIT_TEST = "/test/allJsUnitTests.jsp";
         public static final String MASHUP = "/test/mashup.jsp";
@@ -1370,8 +1370,11 @@ public final class Const {
         public static final String FEEDBACK_SESSION_LINK_RESENT =
                 "Recent feedback session links has been sent out to the student who requested for a resent. "
                 + "Please allow up to 1 hour for the notification email to be sent out.";
-        public static final String FEEDBACK_SESSION_RESENDING_LINK_EMAIL_INVALID =
+        public static final String FEEDBACK_SESSION_RESENDING_LINKS_INVALID_EMAIL =
                 "Invalid email address!";
+        public static final String FEEDBACK_SESSION_RESENDING_LINKS_NONE_IN_RECENT_ONE_MONTH =
+                "You are not involved in any feedback sessions for the recent one month" +
+                        " or the sessions are not published yet.";
         public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
                 "The feedback session is not open for submissions. "
                 + "You cannot send reminders for a session that is not open.";

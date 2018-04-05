@@ -396,11 +396,16 @@ public class EmailGenerator {
         Date startTime = calendar.getTime();
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         String feedbackAction = FEEDBACK_ACTION_SUBMIT;
-        String subject = EmailType.FEEDBACK_LINK_TO_RESEND.getSubject();
+        String subject = EmailType.FEEDBACK_LINKS_RESENT.getSubject();
         StringBuffer buffer = new StringBuffer();
 
         List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime);
         for (FeedbackSessionAttributes session : sessions) {
+            // Do not send links to feedback sessions that are closed but not yet published
+            if (session.isClosed() && !session.isPublished()) {
+                continue;
+            }
+
             CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
             StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
             if (student != null) {
@@ -419,19 +424,33 @@ public class EmailGenerator {
                         .withStudentEmail(userEmail)
                         .toAbsoluteString();
 
-                buffer.append("<br>")
-                        .append(Templates.populateTemplate(template,
-                                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                                "${feedbackSessionName}",
-                                SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
-                                "${instructorFragment}", "",
-                                "${sessionInstructions}", session.getInstructionsString(),
-                                "${submitUrl}", submitUrl,
-                                "${reportUrl}", reportUrl,
-                                "${feedbackAction}", feedbackAction,
-                                "${additionalContactInformation}", additionalContactInformation));
+                if (session.isClosed()) {
+                    buffer.append("<br>")
+                            .append(Templates.populateTemplate(template,
+                                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                                    "${feedbackSessionName}",
+                                    SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                                    "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                                    "${instructorFragment}", "",
+                                    "${sessionInstructions}", session.getInstructionsString(),
+                                    "${feedbackAction}", feedbackAction,
+                                    "${additionalContactInformation}", additionalContactInformation));
+                } else {
+                    buffer.append("<br>")
+                            .append(Templates.populateTemplate(template,
+                                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                                    "${feedbackSessionName}",
+                                    SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                                    "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                                    "${instructorFragment}", "",
+                                    "${sessionInstructions}", session.getInstructionsString(),
+                                    "${submitUrl}", submitUrl,
+                                    "${reportUrl}", reportUrl,
+                                    "${feedbackAction}", feedbackAction,
+                                    "${additionalContactInformation}", additionalContactInformation));
+                }
             }
         }
 

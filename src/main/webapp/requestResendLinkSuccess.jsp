@@ -6,5 +6,5 @@
   <h1 class="color-orange">
     Request for Resend of Feedback Links
   </h1>
-  <p>Request Success! An email containing links of feedback sessions which you have participated in the recent one month is sent to your email.</p>
+  <p>Request Success! An email containing links to all feedback sessions which you participated in the last one month is sent to your email.</p>
 </t:staticPage>
