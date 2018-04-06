@@ -1154,6 +1154,12 @@ public final class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(newSession);
     }
 
+    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseTimeZone);
+        fsDb.updateFeedbackSessionsTimeZoneForCourse(courseId, courseTimeZone);
+    }
+
     public void updateRespondentsForInstructor(String oldEmail, String newEmail, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
