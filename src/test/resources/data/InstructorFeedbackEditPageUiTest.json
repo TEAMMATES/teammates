@@ -23,7 +23,7 @@
     },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "CFeedbackEditUiT.instructor1OfTSCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "isInstructor": true,
       "email": "CFeedbackEditUiT.instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>"
@@ -127,7 +127,7 @@
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "CFeedbackEditUiT.instructor1OfTSCourse",
       "courseId": "CFeedbackEditUiT.idOfTSCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "email": "CFeedbackEditUiT.instructor1@sanitization.tmt",
       "isArchived": false,
       "role": "Co-owner",

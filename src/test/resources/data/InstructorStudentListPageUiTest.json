@@ -30,7 +30,7 @@
     },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "CSListUiT.idOfInstructor1OfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "isInstructor": true,
       "email": "CSListUiT.instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>"
@@ -236,7 +236,7 @@
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "CSListUiT.idOfInstructor1OfTestingSanitizationCourse",
       "courseId": "CSListUiT.idOfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "email": "CSListUiT.instructor1@sanitization.tmt",
       "isArchived": false,
       "role": "Co-owner",

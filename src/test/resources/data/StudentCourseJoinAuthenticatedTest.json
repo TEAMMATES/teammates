@@ -9,7 +9,7 @@
     },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "idOfInstructor1OfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "isInstructor": true,
       "email": "instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>"
@@ -135,7 +135,7 @@
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "idOfInstructor1OfTestingSanitizationCourse",
       "courseId": "idOfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "email": "instructor1@sanitization.tmt",
       "isArchived": false,
       "role": "Co-owner",

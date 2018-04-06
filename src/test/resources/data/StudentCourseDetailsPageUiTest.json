@@ -37,7 +37,7 @@
     },
     "SCDetailsUiT.instructor1fTSCourse": {
       "googleId": "SCDetailsUiT.idOfInstructor1OfTSCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "isInstructor": true,
       "email": "SCDetailsUiT.instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>"
@@ -123,7 +123,7 @@
     "SCDetailsUiT.instructor1OfTSCourse": {
       "googleId": "SCDetailsUiT.idOfInstructor1OfTSCourse",
       "courseId": "SCDetailsUiT.idOfTSCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "email": "SCDetailsUiT.instructor1@sanitization.tmt",
       "isArchived": false,
       "role": "Co-owner",
