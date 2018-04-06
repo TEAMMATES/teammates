@@ -802,8 +802,8 @@ public class CoursesLogicTest extends BaseLogicTest {
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             String expectedErrorMessage = getPopulatedErrorMessage(
-                    FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
-                    FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+                    FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
+                    FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
             assertEquals(expectedErrorMessage, e.getMessage());
         }
     }
@@ -1018,8 +1018,8 @@ public class CoursesLogicTest extends BaseLogicTest {
                             FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH)
                     + System.lineSeparator()
                     + getPopulatedErrorMessage(
-                            FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
-                            FieldValidator.COURSE_TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+                            FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
+                            FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
             assertEquals(expectedErrorMessage, e.getMessage());
             verifyPresentInDatastore(c);
         }

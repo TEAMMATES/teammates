@@ -23,7 +23,7 @@ import teammates.storage.api.ProfilesDb;
  * all profiles will have unsanitized values in these fields.</p>
  */
 public class DataMigrationForSanitizedDataInStudentProfileAttributes
-        extends DataMigrationBaseScript<StudentProfileAttributes> {
+        extends DataMigrationForEntities<StudentProfileAttributes> {
 
     private ProfilesDb profilesDb = new ProfilesDb();
 

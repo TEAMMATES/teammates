@@ -251,6 +251,20 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.TEAMS.toString());
 
+        ______TS("MSQ: change generated type to teams (excluding self)");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isElementEnabled("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
+        feedbackEditPage.selectMsqGenerateOptionsFor("teams (excluding self)", 1);
+        feedbackEditPage.verifyFieldValue(
+                "msqGenerateForSelect-1",
+                FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
+                FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
+
         ______TS("MSQ: min/max selectable options");
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);

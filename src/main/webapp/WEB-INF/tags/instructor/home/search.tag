@@ -21,7 +21,7 @@
           </span>
         </div>
         <input type="hidden" name="<%= Const.ParamsNames.SEARCH_STUDENTS %>" value="true">
-        <input type="hidden" name="<%= Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES %>" value="false">
+        <input type="hidden" name="<%= Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA %>" value="false">
         <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
       </form>
     </div>
