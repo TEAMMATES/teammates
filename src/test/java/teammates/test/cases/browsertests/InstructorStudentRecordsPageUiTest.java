@@ -63,6 +63,18 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage = getStudentRecordsPage();
         viewPage.verifyHtmlMainContent("/instructorStudentRecordsWithHelperView.html");
 
+        ______TS("content: normal student records with other instructor's comments, private feedback session");
+
+        instructor = testData.instructors.get("teammates.test.CS1101");
+        student = testData.students.get("teammates.test@ISR.CS1101");
+
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
+
+        viewPage = getStudentRecordsPage();
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageWithPrivateFeedback.html");
+
         ______TS("content: no student records, no profiles");
 
         instructor = testData.instructors.get("teammates.noeval");
