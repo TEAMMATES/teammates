@@ -22,7 +22,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.EmailGenerator;
@@ -319,8 +318,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         EmailWrapper email = new EmailGenerator()
                 .generateNewInstructorAccountJoinEmail(instructor1.email, instructor1.name, joinLink);
         // InstructorAttributes sanitizes name before saving
-        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(),instructor1.name);
-
+        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), instructor1.name);
         verifyEmail(email, instructor1.email, subject, "/instructorNewAccountEmailTestingSanitization.html");
         assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);
 
