@@ -495,10 +495,24 @@
             You can also access this page by clicking the edit button of a particular session.
           </p>
           <p>
-            Scroll to the bottom of the page and select between adding a question from our predefined
-            <a href="#fbQuestionTypes">question types</a> or copying a question from an existing feedback session.
-            When you are finished adding questions, click "Done Editing".
+            To add a question:
           </p>
+          <ol>
+            <li>
+              Scroll to the bottom of the page.
+            </li>
+            <li>
+              Select between adding a question from our predefined
+              <a data-toggle="collapse" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes">question types</a> or
+              copying a question from an existing feedback session.
+            </li>
+            <li>
+              Save changes to the question when you have finished creating the question
+            </li>
+            <li>
+              When you are finished adding questions, click <button class="btn btn-primary">Done Editing"</button>.
+            </li>
+          </ol>
           <div class="bs-example" id="addQuestion">
             <div class="well well-plain" id="addNewQuestionTable">
               <div class="row">
@@ -535,7 +549,8 @@
           </div>
           <p>
             TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
-            <a href="#fbQuestionTypes">question types</a>, you can also customize your desired:
+            <a a data-toggle="collapse" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes"href="#fbQuestionTypes">question types</a>,
+            you can also customize your desired:
           </p>
           <ul>
             <li>
@@ -550,13 +565,6 @@
               to fully customize who can see the feedback response, the giver's identity, and the recipient's identity.
             </li>
           </ul>
-          <br>
-          <span class="alert alert-success">
-          <span class="glyphicon glyphicon-info-sign"></span>
-            Remember to <b>Save Changes</b> to the question after editing!
-          </span>
-          <br>
-          <br>
           <p>
             In the example question below, students will give feedback on their own team members.
             The team member receiving feedback can see the feedback, but not who gave the feedback.
