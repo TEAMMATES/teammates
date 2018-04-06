@@ -129,21 +129,20 @@ public class AdminSessionsPageData extends PageData {
     }
 
     public String getFeedbackSessionStatsLink(String courseId, String feedbackSessionName, String user) {
-        String link;
         if (user.isEmpty()) {
-            link = "";
-        } else {
-            link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
-            link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-            link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-            link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, user);
+            return "";
         }
+
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, user);
         return link;
     }
 
     public String getSessionStatusForShow(FeedbackSessionAttributes fs) {
-
         StringBuilder status = new StringBuilder(100);
+
         if (fs.isClosed()) {
             status.append("[Closed]");
         }
