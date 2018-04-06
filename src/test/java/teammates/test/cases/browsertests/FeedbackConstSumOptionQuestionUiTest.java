@@ -49,6 +49,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testDisableConstSumPointsAction();
         testUiConsistencyForNewQuestion();
     }
 
@@ -70,10 +71,11 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
 
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerOption");
         feedbackEditPage.fillConstSumPointsForEachOptionBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsForEachOptionBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsForEachOptionBoxForNewQuestion());
 
         feedbackEditPage.clickAddQuestionButton();
 
@@ -226,6 +228,33 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPointsTotal--1")));
         assertTrue(feedbackEditPage.isElementVisible(By.id("constSumOption_Option--1")));
         assertFalse(feedbackEditPage.isElementVisible(By.id("constSumOption_Recipient--1")));
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+    }
+
+    /**
+     * Tests that the constSumPoints* number fields gets disabled, if the corresponding radio button is not checked.
+     */
+    private void testDisableConstSumPointsAction() {
+        ______TS("Success case: CONSTSUM-option points to distribute field disables when radio button is unchecked");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+
+        // Make sure that constSumPointsTotal radio button is selected by default
+        assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());
+        // Verify that constSumPointsForEachOption field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachOption--1")));
+        // Select constSumPointsPerOption radio button
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerOption");
+        // Verify that constSumPoints field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPoints--1")));
+        // Select constSumPointsTotal radio button.
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("Total");
+        // Verify that constSumPointsForEachOption field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachOption--1")));
+
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 

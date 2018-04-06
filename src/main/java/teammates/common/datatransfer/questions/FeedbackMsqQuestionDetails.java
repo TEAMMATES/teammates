@@ -84,7 +84,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.minSelectableChoices = msqMinSelectableChoices;
         String generatedMsqOptions =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS);
         if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
             String numMsqChoicesCreatedString =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -123,13 +123,17 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.generateOptionsFor = generateOptionsFor;
         if (generateOptionsFor.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)) {
             this.numOfMsqChoices = generateNumOfChoicesForStudentsExcludingSelf(courseId);
+        } else if (generateOptionsFor.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF)) {
+            this.numOfMsqChoices = generateNumOfChoicesForTeamsExcludingSelf(courseId);
         } else {
             this.numOfMsqChoices = generateOptionList(courseId).size();
         }
-        Assumption.assertTrue("Can only generate students, students (excluding self), teams or instructors",
+        Assumption.assertTrue(
+                "Can only generate students, students (excluding self), teams, teams (excluding self) or instructors",
                 generateOptionsFor == FeedbackParticipantType.STUDENTS
                 || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
                 || generateOptionsFor == FeedbackParticipantType.TEAMS
+                || generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF
                 || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
     }
 
@@ -148,7 +152,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
         if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices
@@ -338,13 +342,31 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Get the number of MSQ choices excluding self.
-     * @return number of MSQ choices generated.
+     * Gets the number of MSQ choices for students excluding self.
+     * @return number of MSQ choices for students generated.
      */
     private int generateNumOfChoicesForStudentsExcludingSelf(String courseId) {
         List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
 
         return studentList.size() - 1;
+    }
+
+    /**
+     * Gets the number of MSQ choices for teams excluding self.
+     * @return number of MSQ choices for teams generated.
+     */
+    private int generateNumOfChoicesForTeamsExcludingSelf(String courseId) {
+        List<TeamDetailsBundle> teamList;
+
+        try {
+            teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
+
+            return teamList.size() - 1;
+        } catch (EntityDoesNotExistException e) {
+            Assumption.fail("Course disappeared");
+        }
+
+        return 0;
     }
 
     private List<String> generateOptionList(String courseId) {
@@ -370,9 +392,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionList.sort(null);
             break;
         case TEAMS:
+            //fallthrough
+        case TEAMS_EXCLUDING_SELF:
             try {
-                List<TeamDetailsBundle> teamList =
-                        CoursesLogic.inst().getTeamsForCourse(courseId);
+                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
+
+                if (generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
+                    teamList.removeIf(teamInList -> teamInList.name.equals(studentDoingQuestion.team));
+                }
 
                 for (TeamDetailsBundle team : teamList) {
                     optionList.add(team.name);
@@ -430,7 +457,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_PARAM_OTHER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTION,
                 Slots.MSQ_PARAM_OTHER_OPTION_FLAG, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG,
                 Slots.MSQ_CHECKED_GENERATED_OPTIONS, generateOptionsFor == FeedbackParticipantType.NONE ? "" : "checked",
-                Slots.GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+                Slots.MSQ_GENERATED_OPTIONS, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS,
                 Slots.GENERATE_OPTIONS_FOR_VALUE, generateOptionsFor.toString(),
                 Slots.STUDENT_SELECTED, generateOptionsFor == FeedbackParticipantType.STUDENTS ? "selected" : "",
                 Slots.STUDENTS_TO_STRING, FeedbackParticipantType.STUDENTS.toString(),
@@ -439,6 +466,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.STUDENTS_EXCLUDING_SELF_TO_STRING, FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString(),
                 Slots.TEAM_SELECTED, generateOptionsFor == FeedbackParticipantType.TEAMS ? "selected" : "",
                 Slots.TEAMS_TO_STRING, FeedbackParticipantType.TEAMS.toString(),
+                Slots.TEAM_EXCLUDING_SELF_SELECTED,
+                    generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF ? "selected" : "",
+                Slots.TEAMS_EXCLUDING_SELF_TO_STRING, FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString(),
                 Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
                 Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Slots.MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED, isMaxSelectableChoicesDisabled ? "" : "checked",
