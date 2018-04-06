@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -127,13 +128,14 @@ public final class FeedbackSessionsLogic {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
-    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName,
-            String newCourseId, String feedbackSessionName, String courseId, String instructorEmail)
+    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName, String newCourseId,
+            ZoneId newTimeZone, String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(feedbackSessionName, courseId);
         copiedFeedbackSession.setCreatorEmail(instructorEmail);
         copiedFeedbackSession.setFeedbackSessionName(newFeedbackSessionName);
         copiedFeedbackSession.setCourseId(newCourseId);
+        copiedFeedbackSession.setTimeZone(newTimeZone);
         copiedFeedbackSession.setCreatedTime(Instant.now());
         copiedFeedbackSession.setRespondingInstructorList(new HashSet<String>());
         copiedFeedbackSession.setRespondingStudentList(new HashSet<String>());

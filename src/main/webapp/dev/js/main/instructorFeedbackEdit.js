@@ -1181,7 +1181,19 @@ function readyFeedbackEditPage() {
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
-    initializeTimeZoneOptions($(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`));
+    const $timeZoneSelect = $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`);
+    const enableEditFsIfRequired = () => {
+        if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) !== true) {
+            enableEditFS();
+        }
+    };
+    initializeTimeZoneOptions($timeZoneSelect, () => {
+        enableEditFsIfRequired();
+        $('#fsSaveLink').click();
+    }, () => {
+        enableEditFsIfRequired();
+        scrollToElement($timeZoneSelect[0], { duration: 1000 });
+    });
 
     setupFsCopyModal();
 

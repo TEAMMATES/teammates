@@ -216,7 +216,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
 
-        ______TS("test fixed offset modal warning");
+        ______TS("test fixed offset modal and confirm");
         savedSession = getFeedbackSessionWithRetry(
                 editedSession.getCourseId(), editedSession.getFeedbackSessionName());
         ZoneId originalTimeZone = savedSession.getTimeZone();
@@ -227,11 +227,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         status = BackDoor.editFeedbackSession(savedSession);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
-        // Check for modal
+        // Check for modal and confirm; should update session to detected time zone
         feedbackEditPage.reloadPage();
+        String detectedTimeZone = feedbackEditPage.getDetectedTimeZone();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
+        savedSession = getFeedbackSessionWithRetry(editedSession.getCourseId(), editedSession.getFeedbackSessionName());
+        assertEquals(detectedTimeZone, savedSession.getTimeZone().getId());
 
-        // Restore defaults
+        ______TS("test fixed offset modal and cancel");
+        savedSession.setTimeZone(fixedOffsetTimeZone);
+        status = BackDoor.editFeedbackSession(savedSession);
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
+
+        // Check for modal and cancel; should be able to edit session details and restore original time zone
+        feedbackEditPage.reloadPage();
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
         feedbackEditPage.selectTimeZone(editedSession.getTimeZone());
         feedbackEditPage.clickSaveSessionButton();
 
