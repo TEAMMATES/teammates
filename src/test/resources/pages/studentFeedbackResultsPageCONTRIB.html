@@ -35,7 +35,7 @@
             </label>
             <div class="col-sm-10">
               <p class="form-control-static">
-                Sun, 01 Apr 2012, 11:59 PM UTC+0800
+                Sun, 01 Apr 2012, 11:59 PM SGT
               </p>
             </div>
           </div>
@@ -45,7 +45,7 @@
             </label>
             <div class="col-sm-10">
               <p class="form-control-static">
-                Thu, 30 Apr 2026, 11:59 PM UTC+0800
+                Thu, 30 Apr 2026, 11:59 PM SGT
               </p>
             </div>
           </div>
@@ -81,64 +81,17 @@
       </h4>
       <div class="panel panel-primary">
         <div class="panel-heading">
-          Comparison of work distribution  
-          <span style=" white-space: normal;">
-            <a class="small link-in-dark-bg" data-less="[less]" data-more="[how to interpret, etc..]" href="javascript:;" id="questionAdditionalInfoButton-1-contributionInfo" onclick="toggleAdditionalQuestionInfo('1-contributionInfo')">
-              [how to interpret, etc..]
-            </a>
-            <br>
-            <span id="questionAdditionalInfo-1-contributionInfo" style="display:none;">
-              <h4 id="interpret">
-                How do I interpret these results?
-              </h4>
-              <ul class="bulletedList">
-                <li>
-                  Compare values given under 'My view' to those under 'Team's view'. This tells you whether your perception matches with what the team thinks, particularly regarding your own contribution. You may ignore minor differences.
-                </li>
-                <li>
-                  Team's view of your contribution is the average value of the contribution your team members attributed to you, excluding the contribution you attributed to yourself. That means you cannot boost your perceived contribution by claiming a high contribution for yourself or attributing a low contribution to team members.
-                </li>
-                <li>
-                  Also note that the team’s view has been scaled up/down so that the sum of values in your view matches the sum of values in team’s view. That way, you can make a direct comparison between your view and the team’s view. As a result, the values you see in team’s view may not match the values your team members see in their results.
-                </li>
-              </ul>
-              <br>
-              <h4>
-                How are these results used in grading?
-              </h4>
-              TEAMMATES does not calculate grades. It is up to the instructors to use contribution question results in any way they want. However, TEAMMATES recommend that contribution question results are used only as flags to identify teams with contribution imbalances. Once identified, the instructor is recommended to investigate further before taking action.
-              <br>
-              <br>
-              <h4>
-                How are the contribution numbers calculated?
-              </h4>
-              Here are the important things to note:
-              <ul class="bulletedList">
-                <li>
-                  The contribution you attributed to yourself is not used when calculating the perceived contribution of you or team members.
-                </li>
-                <li>
-                  From the estimates you submit, we try to deduce the answer to this question: In your opinion, if your teammates are doing the project by themselves without you, how do they compare against each other in terms of contribution? This is because we want to deduce your unbiased opinion about your team members’ contributions. Then, we use those values to calculate the average perceived contribution of each team member.
-                </li>
-                <li>
-                  When deducing the above, we first adjust the estimates you submitted to remove artificial inflations/deflations. For example, giving everyone [Equal share + 20%] is as same as giving everyone [Equal share] because in both cases all members have done a similar share of work.
-                </li>
-              </ul>
-              The actual calculation is a bit complex and the finer details can be found
-              <a href="/technicalInformation.jsp#calculatePointsContribution">
-                here
-              </a>
-              .
-            </span>
-          </span>
+          Comparison of work distribution
         </div>
         <table class="table table-striped">
           <tbody>
             <tr>
               <td>
-                <strong>
-                  My view:
-                </strong>
+                <span class="color-inherit tool-tip-decorate" data-original-title="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception" data-placement="top" data-toggle="tooltip" title="">
+                  <strong>
+                    My view:
+                  </strong>
+                </span>
               </td>
               <td>
                 <span class="text-muted">
@@ -159,6 +112,76 @@
                 <span class="color-neutral">
                   E
                 </span>
+                 
+                <a data-target="#more-info-contrib-calculation-modal" data-toggle="modal" href="javascript:;" id="more-info-contrib-calculation-modal-link">
+                  <span class="glyphicon glyphicon-info-sign glyphicon-flipped">
+                  </span>
+                </a>
+                <div class="modal fade" id="more-info-contrib-calculation-modal" role="dialog">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button class="close" data-dismiss="modal" type="button">
+                          ×
+                        </button>
+                        <h4 class="modal-title">
+                          More info about contribution questions
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        <h4 id="interpret">
+                          How do I interpret these results?
+                        </h4>
+                        <ul>
+                          <li>
+                            Compare the values given in 'My view' with those under 'Team's view'. This tells you whether your perception matches what the team thinks, particularly regarding your own contribution. You may ignore minor differences.
+                          </li>
+                          <li>
+                            From the estimates you submit, we try to deduce the answer to this question: In your opinion, if your teammates are doing the project by themselves without you, how do they compare against each other in terms of contribution? We want to deduce your unbiased opinion about your team members’ contributions.
+                          </li>
+                        </ul>
+                        <h4 id="grading">
+                          How are contribution question results used in grading?
+                        </h4>
+                        <ul>
+                          <li>
+                            TEAMMATES does not calculate grades. Instructors are free to choose how they use contribution question results.
+                          </li>
+                          <li>
+                            TEAMMATES recommends that contribution question results be used only as flags to identify teams with contribution imbalances. Once identified, the instructor is recommended to investigate further before taking action.
+                          </li>
+                        </ul>
+                        <h4 id="calculation">
+                          How are the scores for contribution questions calculated?
+                        </h4>
+                        Here are the important things to note about
+                        <a href="/technicalInformation.jsp#calculatePointsContribution">
+                          how contribution scores are calculated
+                        </a>
+                        :
+                        <ul>
+                          <li>
+                            The contribution value you attribute to yourself is not used to calculate the team's view of your contribution. That means you cannot boost your perceived contribution by claiming a high contribution for yourself or attributing a low contribution to team members.
+                          </li>
+                          <li>
+                            We adjust the estimates you submitted to remove artificial inflation/deflation. For example, giving everyone
+                            <code>
+                              [Equal share + 20%]
+                            </code>
+                            is as same as giving everyone
+                            <code>
+                              [Equal share]
+                            </code>
+                            because in both cases all members have done a similar share of work.
+                          </li>
+                          <li>
+                            The sum of values in the team's view has been scaled to equal the sum of values in your view. That way, you can make a direct comparison between your view and the team’s view. As this scaling is specific to you, the values you see in team’s view may not match the values your team members see in their results.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </td>
             </tr>
             <tr>
@@ -168,7 +191,7 @@
                 </strong>
               </td>
               <td>
-                <span class="text-muted">
+                <span class="text-muted tool-tip-decorate" data-original-title="The average contribution the other members of your team attributed to you" data-placement="top" data-toggle="tooltip" title="">
                   <strong>
                     of me:
                   </strong>

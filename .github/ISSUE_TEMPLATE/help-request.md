@@ -3,6 +3,7 @@
 - **Commit SHA:** <!-- Result of running the command `git rev-parse HEAD` -->
 - **Operating System:**
 - **JDK Version:**
+- **Node.js Version:**
 - **Google Cloud SDK Version:**
 - **Eclipse / IntelliJ Version (if applicable):**
 - **Firefox / Chrome Version (if applicable):**

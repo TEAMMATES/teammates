@@ -111,7 +111,7 @@ public class FeedbackSessionUpdateRespondentWorkerActionTest extends BaseAutomat
             boolean isInstructor) throws EntityDoesNotExistException {
         FeedbackSessionResponseStatus responseStatus =
                 fsLogic.getFeedbackSessionResponseStatus(session.getFeedbackSessionName(), session.getCourseId());
-        assertFalse(responseStatus.getNoResponse().contains(respondentEmail));
+        assertFalse(responseStatus.getStudentsWhoDidNotRespond().contains(respondentEmail));
         if (!isInstructor) {
             assertTrue(responseStatus.getStudentsWhoResponded().contains(respondentEmail));
         }
@@ -121,7 +121,7 @@ public class FeedbackSessionUpdateRespondentWorkerActionTest extends BaseAutomat
             boolean isInstructor) throws EntityDoesNotExistException {
         FeedbackSessionResponseStatus responseStatus =
                 fsLogic.getFeedbackSessionResponseStatus(session.getFeedbackSessionName(), session.getCourseId());
-        assertTrue(responseStatus.getNoResponse().contains(respondentEmail));
+        assertTrue(responseStatus.getStudentsWhoDidNotRespond().contains(respondentEmail));
         if (!isInstructor) {
             assertFalse(responseStatus.getStudentsWhoResponded().contains(respondentEmail));
         }
