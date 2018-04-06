@@ -1,7 +1,6 @@
 package teammates.test.cases.browsertests;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -214,25 +213,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
-        feedbackEditPage.clickSaveSessionButton();
-
-        ______TS("test fixed offset modal warning");
-        savedSession = getFeedbackSessionWithRetry(
-                editedSession.getCourseId(), editedSession.getFeedbackSessionName());
-        ZoneId originalTimeZone = savedSession.getTimeZone();
-        ZoneId fixedOffsetTimeZone = originalTimeZone.getRules().getOffset(Instant.now());
-
-        // Backdoor set to fixed offset time zone to simulate legacy data
-        savedSession.setTimeZone(fixedOffsetTimeZone);
-        status = BackDoor.editFeedbackSession(savedSession);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-
-        // Check for modal
-        feedbackEditPage.reloadPage();
-        feedbackEditPage.waitForConfirmationModalAndClickOk();
-
-        // Restore defaults
-        feedbackEditPage.selectTimeZone(editedSession.getTimeZone());
         feedbackEditPage.clickSaveSessionButton();
 
         ______TS("test ambiguous date times");
