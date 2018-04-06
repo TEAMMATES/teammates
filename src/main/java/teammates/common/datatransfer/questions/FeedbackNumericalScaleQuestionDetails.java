@@ -653,7 +653,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(
+    public boolean shouldChangesRequireResponseDeletion(
             FeedbackQuestionDetails newDetails) {
         FeedbackNumericalScaleQuestionDetails newNumScaleDetails =
                 (FeedbackNumericalScaleQuestionDetails) newDetails;
