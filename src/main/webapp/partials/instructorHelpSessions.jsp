@@ -777,7 +777,7 @@
                     Preview Session:
                   </label>
                 </form>
-                <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled.">
+                <div class="col-sm-5" data-toggle="tooltip" data-placement="top" title="View how this session would look like to a student who is submitting feedback. Preview is unavailable if the course has yet to have any student enrolled.">
                   <form name="form_previewasstudent" class="form_preview">
                     <div class="col-sm-6">
                       <select class="form-control" name="previewas">
