@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.lang.reflect.Field;
+import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -558,4 +559,22 @@ public final class TimeHelper {
         return parseLocalDateTime(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
     }
 
+    /**
+     * Parses a {@code ZoneId} object from a string.
+     * Example: "Asia/Singapore" or "UTC+04:00".
+     *
+     * @param timeZone  a string containing the zone ID
+     * @return          ZoneId.of(timeZone) or {@code null} if {@code timeZone} is invalid.
+     */
+    public static ZoneId parseZoneId(String timeZone) {
+        if (timeZone == null) {
+            return null;
+        }
+
+        try {
+            return ZoneId.of(timeZone);
+        } catch (DateTimeException dte) {
+            return null;
+        }
+    }
 }
