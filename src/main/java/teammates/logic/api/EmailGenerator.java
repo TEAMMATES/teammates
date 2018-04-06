@@ -389,7 +389,7 @@ public class EmailGenerator {
                 EmailType.FEEDBACK_UNPUBLISHED.getSubject());
     }
 
-    public EmailWrapper generateFeedbackSessionResendEmail(String userEmail) {
+    public EmailWrapper generateFeedbackSessionResendLinksEmail(String userEmail) {
         Date endTime = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);

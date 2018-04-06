@@ -13,7 +13,7 @@ $(document).ready(() => {
         $statusMessage.css('display', 'block');
 
         $.ajax({
-            url: '/requestResendLinkSuccess.jsp',
+            url: '/requestResendLinksResult',
             type: 'POST',
             dataType: 'json',
             data: $('#requestForm').serialize(),

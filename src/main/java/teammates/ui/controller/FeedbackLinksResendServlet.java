@@ -22,7 +22,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 
-public class FeedbackLinkResendServlet extends HttpServlet {
+public class FeedbackLinksResendServlet extends HttpServlet {
 
     /**
      * This is a email regex to test whether the input is a valid email.
@@ -50,21 +50,21 @@ public class FeedbackLinkResendServlet extends HttpServlet {
 
             if (isValidEmailAddress(userEmailToResend)) {
                 isValid = true;
-                EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendEmail(userEmailToResend);
+                EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(userEmailToResend);
                 if (email.getContent().length() > 0) {
                     setEmailSender(new EmailSender());
                     emailSender.sendEmail(email);
-                    statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_LINK_RESENT,
+                    statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_LINKS_RESENT,
                             StatusMessageColor.SUCCESS);
                 } else {
                     isValid = false;
                     statusMessage = new StatusMessage(
-                            Const.StatusMessages.FEEDBACK_SESSION_RESENDING_LINKS_NONE_IN_RECENT_ONE_MONTH,
+                            Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_NONE_IN_RECENT_ONE_MONTH,
                             StatusMessageColor.DANGER);
                 }
             } else {
                 statusMessage =
-                        new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESENDING_LINKS_INVALID_EMAIL,
+                        new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_INVALID_EMAIL,
                                 StatusMessageColor.DANGER);
             }
 
