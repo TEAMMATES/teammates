@@ -138,9 +138,8 @@ public class Account extends BaseEntity {
 
     /**
      * Sets a reference to {@code studentProfile} which subsequent calls to {@code getStudentProfile()} will use to fetch
-     * from. To disable this behaviour (e.g. when the student profile is intentionally not retrieved), set to null. If a
-     * shell student profile with an empty Google ID is set, subsequent calls to {@code getStudentProfile()} will simply
-     * return the shell student profile without interacting with the datastore.
+     * the profile from the datastore. To disable this behaviour (e.g. when the student profile is intentionally not
+     * retrieved), set to null.
      */
     public void setStudentProfile(StudentProfile studentProfile) {
         if (studentProfile == null) {
