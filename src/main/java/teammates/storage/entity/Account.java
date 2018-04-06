@@ -138,8 +138,8 @@ public class Account extends BaseEntity {
 
     /**
      * Sets a reference to {@code studentProfile} which subsequent calls to {@code getStudentProfile()} will use to fetch
-     * the studentProfile from the datastore. To disable this behaviour (e.g. when the student profile is intentionally
-     * not retrieved), set to null.
+     * the profile from the datastore. To disable this behaviour (e.g. when the student profile is intentionally not
+     * retrieved), set to null.
      */
     public void setStudentProfile(StudentProfile studentProfile) {
         if (studentProfile == null) {
