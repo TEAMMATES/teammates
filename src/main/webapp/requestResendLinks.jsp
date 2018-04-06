@@ -13,7 +13,7 @@
   </h1>
   <p id="message">Please enter your email address, an email containing links to all the feedback sessions that you participated in the recent one month will be resend to you.</p>
   <form id="requestForm" action="/requestResendLinksResult" name="requestForm" method="POST">
-    <input id="email" class="width-200-px" name="studentemail" type="email" placeholder="Enter your email address">
+    <input id="email" class="width-200-px" name="studentemail" placeholder="Enter your email address">
     <br/>
     <br/>
     <div id="recaptcha" class="g-recaptcha" data-sitekey="6LeRFFAUAAAAAJZxGECyrBpqEKr4k5twbsNJnp1R"></div>
