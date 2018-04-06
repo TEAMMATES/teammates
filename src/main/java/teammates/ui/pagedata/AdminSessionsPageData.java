@@ -103,8 +103,8 @@ public class AdminSessionsPageData extends PageData {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i <= 23; i++) {
             result.add("<option value=\"" + i + "\"" + " "
-                       + (ldt.getHour() == i ? "selected" : "")
-                       + ">" + String.format("%02dH", i) + "</option>");
+                    + (ldt.getHour() == i ? "selected" : "")
+                    + ">" + String.format("%02dH", i) + "</option>");
         }
         return result;
     }
@@ -114,8 +114,8 @@ public class AdminSessionsPageData extends PageData {
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i <= 59; i++) {
             result.add("<option value=\"" + i + "\"" + " "
-                       + (ldt.getMinute() == i ? "selected" : "")
-                       + ">" + String.format("%02d", i) + "</option>");
+                    + (ldt.getMinute() == i ? "selected" : "")
+                    + ">" + String.format("%02d", i) + "</option>");
         }
         return result;
     }
@@ -188,9 +188,9 @@ public class AdminSessionsPageData extends PageData {
 
     private void setFilter() {
         filter = new AdminFilter(TimeHelper.formatDateForSessionsForm(rangeStart), getHourOptionsAsHtml(rangeEnd),
-                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDateForSessionsForm(rangeEnd),
-                                 getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
-                                 getTimeZoneOptionsAsHtml());
+                getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDateForSessionsForm(rangeEnd),
+                getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
+                getTimeZoneOptionsAsHtml());
     }
 
     public void setInstitutionPanels(
