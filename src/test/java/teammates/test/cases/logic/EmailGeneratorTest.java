@@ -319,8 +319,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         EmailWrapper email = new EmailGenerator()
                 .generateNewInstructorAccountJoinEmail(instructor1.email, instructor1.name, joinLink);
         // InstructorAttributes sanitizes name before saving
-        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(),
-                SanitizationHelper.sanitizeForHtml(instructor1.name));
+        String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(),instructor1.name);
 
         verifyEmail(email, instructor1.email, subject, "/instructorNewAccountEmailTestingSanitization.html");
         assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);
