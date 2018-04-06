@@ -4111,7 +4111,7 @@
                                    title="This determines whether a giver can distribute the same number of points to multiple options">
                                 <label class="bold-label">
                                   <span class="inline-block">
-                                    <input type="checkbox" disabled id="distributePointsOptionsCheckbox-6">
+                                    <input type="checkbox" name="constSumUnevenDistribution" disabled id="constSum_UnevenDistribution-6">
                                   </span>
                                   <select class="form-control width-auto inline" id="constSumDistributePointsSelect-6" disabled>
                                     <option value="All options">
@@ -4126,7 +4126,6 @@
                               </div>
                             </div>
                           </div>
-
                         </div>
                         <br>
                       </div>
@@ -4737,7 +4736,7 @@
                                    title="This determines whether a giver can distribute the same number of points to multiple recipients">
                                 <label class="bold-label">
                                   <span class="inline-block">
-                                    <input type="checkbox" disabled id="distributePointsOptionsCheckbox-6">
+                                    <input type="checkbox" name="constSumUnevenDistribution" disabled id="constSum_UnevenDistribution-6">
                                   </span>
                                   <select class="form-control width-auto inline" id="constSumDistributePointsSelect-6" disabled>
                                     <option value="All options">
