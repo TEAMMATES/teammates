@@ -106,7 +106,7 @@
             <div id="createSessionHtmlCustomizable">
 
               <div class="well well-plain">
-                <form class="form-group" name="form_feedbacksession">
+                <form class="form-group" name="form_feedbacksession" onsubmit="return false">
                   <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                     <div class="col-md-5">
