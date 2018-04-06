@@ -2,6 +2,7 @@
 <%@ tag description="instructorCourseEdit - Panel Heading of Instructor List" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
@@ -44,7 +45,7 @@
         <label class="col-sm-3 control-label">Name:</label>
         <div class="col-sm-9">
           <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"
-              id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${instructorPanel.instructor.name}"
+              id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${fn:escapeXml(instructorPanel.instructor.name)}"
               data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor."
               maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="4" disabled>
         </div>

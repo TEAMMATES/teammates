@@ -261,7 +261,8 @@ public class FeedbackResponseCommentRow {
         }
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
-                + (isGiverAnonymous ? "" : "by " + instructorEmailNameTable.get(lastEditorEmail) + " ")
+                + (isGiverAnonymous ? "" : "by " +
+                  SanitizationHelper.sanitizeForHtml(instructorEmailNameTable.get(lastEditorEmail)) + " ")
                 + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone)
                 + ")";
     }
