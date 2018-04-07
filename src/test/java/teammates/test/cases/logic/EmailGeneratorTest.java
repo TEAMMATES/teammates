@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.testng.annotations.AfterSuite;
@@ -18,6 +19,8 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -30,6 +33,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailChecker;
 import teammates.test.driver.TestProperties;
 
@@ -469,7 +473,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionResendEmail() {
+    public void testGenerateFeedbackSessionResendEmail() throws InvalidParametersException, EntityDoesNotExistException, IOException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
@@ -487,7 +491,21 @@ public class EmailGeneratorTest extends BaseLogicTest {
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         assertEquals("", email.getContent());
 
-        //TODO: test the content of a successfully sent email
+        ______TS("the student has feedback sessions in the recent one month");
+
+        FeedbackSessionAttributes session2 =
+                fsLogic.getFeedbackSession("Second feedback session", "idOfTypicalCourse1");
+        Instant startTime = session2.getStartTime();
+        Calendar fsCalendar = Calendar.getInstance();
+        fsCalendar.add(Calendar.DATE, -10);
+        session2.setStartTime((fsCalendar.getTime().toInstant()));
+        fsLogic.updateFeedbackSession(session2);
+
+        email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(student1.getEmail());
+        verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmail.html");
+        // Reset the "Second feedback session" in data
+        session2.setStartTime(startTime);
+        fsLogic.updateFeedbackSession(session2);
     }
 
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {

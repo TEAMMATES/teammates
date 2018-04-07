@@ -427,6 +427,7 @@ public class EmailGenerator {
                 if (session.isClosed()) {
                     buffer.append("<br>")
                             .append(Templates.populateTemplate(template,
+                                    "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
                                     "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                                     "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                                     "${feedbackSessionName}",
@@ -436,10 +437,13 @@ public class EmailGenerator {
                                     "${sessionInstructions}", session.getInstructionsString(),
                                     "${reportUrl}", reportUrl,
                                     "${feedbackAction}", feedbackAction,
-                                    "${additionalContactInformation}", additionalContactInformation));
+                                    "${additionalContactInformation}", additionalContactInformation))
+                            .append("<br>")
+                            .append("<br>");
                 } else {
                     buffer.append("<br>")
                             .append(Templates.populateTemplate(template,
+                                    "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
                                     "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                                     "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                                     "${feedbackSessionName}",
@@ -450,7 +454,9 @@ public class EmailGenerator {
                                     "${submitUrl}", submitUrl,
                                     "${reportUrl}", reportUrl,
                                     "${feedbackAction}", feedbackAction,
-                                    "${additionalContactInformation}", additionalContactInformation));
+                                    "${additionalContactInformation}", additionalContactInformation))
+                            .append("<br>")
+                            .append("<br>");
                 }
             }
         }
