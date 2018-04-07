@@ -23,7 +23,7 @@ import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
-import teammates.ui.template.SearchCommentsForResponsesTable;
+import teammates.ui.template.SearchFeedbackSessionDataTable;
 import teammates.ui.template.SearchStudentsTable;
 import teammates.ui.template.StudentListSectionData;
 
@@ -34,15 +34,15 @@ public class InstructorSearchPageData extends PageData {
     private String searchKey = "";
 
     /* Whether checkbox is checked for search input */
-    private boolean isSearchCommentForResponses;
+    private boolean isSearchFeedbackSessionData;
     private boolean isSearchForStudents;
 
     /* Whether search results are empty */
-    private boolean isCommentsForResponsesEmpty;
+    private boolean isFeedbackSessionDataEmpty;
     private boolean isStudentsEmpty;
 
     /* Tables containing search results */
-    private List<SearchCommentsForResponsesTable> searchCommentsForResponsesTables;
+    private List<SearchFeedbackSessionDataTable> searchFeedbackSessionDataTables;
     private List<SearchStudentsTable> searchStudentsTables;
 
     public InstructorSearchPageData(AccountAttributes account, String sessionToken) {
@@ -51,17 +51,17 @@ public class InstructorSearchPageData extends PageData {
 
     public void init(FeedbackResponseCommentSearchResultBundle frcSearchResultBundle,
                      StudentSearchResultBundle studentSearchResultBundle,
-                     String searchKey, boolean isSearchCommentForResponses, boolean isSearchForStudents) {
+                     String searchKey, boolean isSearchFeedbackSessionData, boolean isSearchForStudents) {
 
         this.searchKey = searchKey;
 
-        this.isSearchCommentForResponses = isSearchCommentForResponses;
+        this.isSearchFeedbackSessionData = isSearchFeedbackSessionData;
         this.isSearchForStudents = isSearchForStudents;
 
-        this.isCommentsForResponsesEmpty = frcSearchResultBundle.numberOfResults == 0;
+        this.isFeedbackSessionDataEmpty = frcSearchResultBundle.numberOfResults == 0;
         this.isStudentsEmpty = studentSearchResultBundle.numberOfResults == 0;
 
-        setSearchCommentsForResponsesTables(frcSearchResultBundle);
+        setSearchFeedbackSessionDataTables(frcSearchResultBundle);
         setSearchStudentsTables(studentSearchResultBundle);
     }
 
@@ -69,35 +69,35 @@ public class InstructorSearchPageData extends PageData {
         return sanitizeForHtml(searchKey);
     }
 
-    public boolean isCommentsForResponsesEmpty() {
-        return isCommentsForResponsesEmpty;
+    public boolean isFeedbackSessionDataEmpty() {
+        return isFeedbackSessionDataEmpty;
     }
 
     public boolean isStudentsEmpty() {
         return isStudentsEmpty;
     }
 
-    public boolean isSearchCommentForResponses() {
-        return isSearchCommentForResponses;
+    public boolean isSearchFeedbackSessionData() {
+        return isSearchFeedbackSessionData;
     }
 
     public boolean isSearchForStudents() {
         return isSearchForStudents;
     }
 
-    public List<SearchCommentsForResponsesTable> getSearchCommentsForResponsesTables() {
-        return searchCommentsForResponsesTables;
+    public List<SearchFeedbackSessionDataTable> getSearchFeedbackSessionDataTables() {
+        return searchFeedbackSessionDataTables;
     }
 
     public List<SearchStudentsTable> getSearchStudentsTables() {
         return searchStudentsTables;
     }
 
-    private void setSearchCommentsForResponsesTables(
+    private void setSearchFeedbackSessionDataTables(
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
 
-        searchCommentsForResponsesTables = new ArrayList<>();
-        searchCommentsForResponsesTables.add(new SearchCommentsForResponsesTable(
+        searchFeedbackSessionDataTables = new ArrayList<>();
+        searchFeedbackSessionDataTables.add(new SearchFeedbackSessionDataTable(
                                                createFeedbackSessionRows(frcSearchResultBundle)));
     }
 

@@ -26,6 +26,7 @@ import {
 } from '../common/helper';
 
 import {
+    initializeTimeZoneOptions,
     prepareInstructorPages,
     setupFsCopyModal,
 } from '../common/instructor';
@@ -114,6 +115,7 @@ import {
 } from '../common/scrollTo';
 
 import {
+    appendNewStatusMessage,
     clearStatusMessages,
     setStatusMessage,
     setStatusMessageToForm,
@@ -294,10 +296,21 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success(result) {
-                if (result.hasError) {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.DANGER);
-                } else {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.SUCCESS);
+                const { statusMessagesToUser, resolvedTimeFields, hasError } = result;
+
+                for (let i = 0; i < statusMessagesToUser.length; i += 1) {
+                    const statusMessageToUser = statusMessagesToUser[i];
+                    appendNewStatusMessage(statusMessageToUser.text, BootstrapContextualColors[statusMessageToUser.color]);
+                }
+
+                const resolvedTimeInputIds = Object.keys(resolvedTimeFields);
+                for (let i = 0; i < resolvedTimeInputIds.length; i += 1) {
+                    const resolvedTimeInputId = resolvedTimeInputIds[i];
+                    const resolvedTimeInputValue = resolvedTimeFields[resolvedTimeInputId];
+                    $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
+                }
+
+                if (!hasError) {
                     disableEditFS();
                 }
             },
@@ -1168,6 +1181,7 @@ function readyFeedbackEditPage() {
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
+    initializeTimeZoneOptions($(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`));
 
     setupFsCopyModal();
 

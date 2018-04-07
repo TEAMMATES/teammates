@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorStudentList - Student search box" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -28,7 +29,7 @@
           </div>
         </div>
         <input type="hidden" name="<%= Const.ParamsNames.SEARCH_STUDENTS %>" value="true">
-        <input type="hidden" name="<%= Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES %>" value="false">
+        <input type="hidden" name="<%= Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA %>" value="false">
         <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${searchBox.googleId}">
       </form>
     </div>

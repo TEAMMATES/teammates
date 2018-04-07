@@ -359,9 +359,9 @@ public final class Const {
                 "This feedback session is not published as it is private and only visible to you.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
-                "You should not need to change this as your timezone is auto-detected. <br><br>"
-                + "However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is "
-                + "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
+                "You should not need to change this as your time zone is auto-detected. <br><br>"
+                + "TEAMMATES automatically adjusts to match the current time offset in your area, "
+                + "including clock changes due to daylight saving time.";
 
         public static final String FEEDBACK_SESSION_INPUT_GRACEPERIOD =
                 "Please select the amount of time that the system will continue accepting <br>"
@@ -685,7 +685,6 @@ public final class Const {
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_INDEX = "fsindex";
-        public static final String FEEDBACK_SESSION_CREATOR = "fscreator";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_STARTHOUR = "starthour";
@@ -882,7 +881,7 @@ public final class Const {
         public static final String PROFILE_PICTURE_ROTATE = "picturerotate";
 
         public static final String SEARCH_STUDENTS = "searchstudents";
-        public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
+        public static final String SEARCH_FEEDBACK_SESSION_DATA = "searchfeedbacksessiondata";
 
         public static final String ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS = "errorfeedbackemailreceiveraddress";
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
@@ -1529,6 +1528,14 @@ public final class Const {
         public static final String ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD =
                 "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
                 + "Enrollment for Course <span class=\"bold\">[%s]</span>";
+
+        public static final String AMBIGUOUS_LOCAL_DATE_TIME_GAP =
+                "The %s, %s, falls within the gap period when clocks spring forward at the start of DST. "
+                        + "It was resolved to %s.";
+
+        public static final String AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP =
+                "The %s, %s, falls within the overlap period when clocks fall back at the end of DST. "
+                        + "It can refer to %s or %s. It was resolved to %s.";
 
         public static final String ERROR_FEEDBACK_SUBMIT_SUCCESS = "Your error report has been recorded. "
                 + "We will follow up with you in due course, usually, within 24 hours.";

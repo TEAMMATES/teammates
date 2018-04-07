@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentProfilePageAction;
@@ -90,7 +89,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + student.name + "|||" + student.googleId + "|||" + student.email
                                   + "|||studentProfile Page Load <br> Profile: "
-                                  + SanitizationHelper.sanitizeForHtmlTag(student.studentProfile.toString())
+                                  + student.googleId
                                   + "|||/page/studentProfilePage";
         AssertHelper.assertLogMessageEqualsIgnoreLogId(expectedLogMessage, action.getLogMessage());
     }

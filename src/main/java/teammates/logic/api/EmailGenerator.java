@@ -95,7 +95,7 @@ public class EmailGenerator {
 
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
-                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
+                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), additionalContactInformation);
         emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorToNotifyAsList, template,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                                         FEEDBACK_ACTION_SUBMIT, additionalContactInformation));
@@ -213,12 +213,12 @@ public class EmailGenerator {
 
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
-            String template, String subject) {
+            String template, String subject, String additionalContactInformation) {
 
         List<EmailWrapper> emails = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
-                    template, subject));
+                    template, subject, additionalContactInformation));
         }
         return emails;
     }
@@ -249,7 +249,7 @@ public class EmailGenerator {
 
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
-            String template, String subject) {
+            String template, String subject, String additionalContactInformation) {
 
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                  .withCourseId(course.getId())
@@ -271,7 +271,8 @@ public class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT);
+                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT,
+                "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));

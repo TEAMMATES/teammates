@@ -62,7 +62,7 @@ public abstract class FeedbackQuestionDetails {
                                                           FeedbackQuestionAttributes question,
                                                           FeedbackSessionResultsBundle bundle);
 
-    public abstract boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails);
+    public abstract boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails);
 
     public abstract String getCsvHeader();
 
