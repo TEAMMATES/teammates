@@ -46,7 +46,7 @@
                     <i class="fa fa-caret-down"></i>
                   </button>
                   <div class="dropdown-menu">
-                    <a href="../../../requestResendLinks.jsp">Resend Feedback Links</a>
+                    <a id="requestFeedbackLinksResend" href="../../../requestResendLinks.jsp">Resend Feedback Links</a>
                   </div>
                 </div>
               </li>

@@ -434,6 +434,7 @@ public class EmailGenerator {
                                     "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                                     "${instructorFragment}", "",
                                     "${sessionInstructions}", session.getInstructionsString(),
+                                    "${reportUrl}", reportUrl,
                                     "${feedbackAction}", feedbackAction,
                                     "${additionalContactInformation}", additionalContactInformation));
                 } else {

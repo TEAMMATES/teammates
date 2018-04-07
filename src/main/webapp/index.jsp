@@ -28,11 +28,6 @@
         <a class="btn btn-success btn-block" href="request.jsp">Request a Free Instructor Account</a>
       </div>
     </div>
-    <div class="row">
-      <div class="margin-bottom-10px col-xs-10 col-sm-5 col-xs-offset-2 col-md-4 col-md-offset-3 col-lg-4 col-lg-offset-4">
-        <a class="btn btn-success btn-block" href="requestResendLinks.jsp">Request for Resending of Feedback Links</a>
-      </div>
-    </div>
   </main>
 
   <img class="center-block img-responsive" id="raisedEdge" src="images/raised-edge.png">

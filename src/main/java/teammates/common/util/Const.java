@@ -1193,7 +1193,6 @@ public final class Const {
         public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp";
         public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         public static final String FEEDBACK_SESSION_NOT_VISIBLE = "/feedbackSessionNotVisible.jsp";
-        public static final String FEEDBACK_LINKS_RESEND_SUCCESS = "/RequestResendLinkSuccess.jsp";
 
         public static final String JS_UNIT_TEST = "/test/allJsUnitTests.jsp";
         public static final String MASHUP = "/test/mashup.jsp";

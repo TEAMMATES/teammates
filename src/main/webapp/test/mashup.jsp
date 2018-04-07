@@ -193,6 +193,9 @@
                   <a href="#request">Request Account Page</a>
                 </li>
                 <li>
+                  <a href="#requestResendLinks">Request Resend Links Page</a>
+                </li>
+                <li>
                   <a href="#usermap">Usermap Page</a>
                 </li>
                 <li>
@@ -395,6 +398,12 @@
       </div>
       <br><hr class="hr-bold"><br>
 
+      <div class="pageinfo">Request Feedback Session Links Resend</div>
+      <div id="requestResendLinks">
+        <iframe class="full-width" src="/requestResendLinks.jsp"></iframe>
+      </div>
+      <br><hr class="hr-bold"><br>
+
       <div class="pageinfo">Usermap Page</div>
       <div id="usermap">
         <iframe class="full-width" src="/usermap.jsp"></iframe>
@@ -499,6 +508,9 @@
         });
         $('#request').find('iframe').on('load', function() {
           calcHeight($('#request').find('iframe'));
+        });
+        $('#request').find('iframe').on('load', function() {
+          calcHeight($('#requestResendLinks').find('iframe'));
         });
         $('#usermap').find('iframe').on('load', function() {
           calcHeight($('#usermap').find('iframe'));
