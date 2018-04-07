@@ -192,7 +192,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertFalse(r.isError);
 
         expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"
-                + "|||true|||Instructor|||Instructor&#39;&quot;&#x2f;&gt;&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt;"
+                + "|||true|||Instructor|||Instructor&#39;&quot;&#x2f;&gt;&lt;script&gt; alert(&#39;hi!&#39;);"
+                + "&lt;&#x2f;script&gt;"
                 + "|||" + instructorId
                 + "|||instructor1@sanitization.tmt|||instructorStudentRecords Page Load<br>"
                 + "Viewing <span class=\"bold\">" + student.email + "'s</span> records "
