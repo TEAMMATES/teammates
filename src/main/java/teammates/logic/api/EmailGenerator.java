@@ -425,39 +425,24 @@ public class EmailGenerator {
                         .toAbsoluteString();
 
                 if (session.isClosed()) {
-                    buffer.append("<br>")
-                            .append(Templates.populateTemplate(template,
-                                    "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
-                                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                                    "${feedbackSessionName}",
-                                    SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                                    "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
-                                    "${instructorFragment}", "",
-                                    "${sessionInstructions}", session.getInstructionsString(),
-                                    "${reportUrl}", reportUrl,
-                                    "${feedbackAction}", feedbackAction,
-                                    "${additionalContactInformation}", additionalContactInformation))
-                            .append("<br>")
-                            .append("<br>");
-                } else {
-                    buffer.append("<br>")
-                            .append(Templates.populateTemplate(template,
-                                    "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
-                                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                                    "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                                    "${feedbackSessionName}",
-                                    SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                                    "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
-                                    "${instructorFragment}", "",
-                                    "${sessionInstructions}", session.getInstructionsString(),
-                                    "${submitUrl}", submitUrl,
-                                    "${reportUrl}", reportUrl,
-                                    "${feedbackAction}", feedbackAction,
-                                    "${additionalContactInformation}", additionalContactInformation))
-                            .append("<br>")
-                            .append("<br>");
+                    submitUrl = "";
                 }
+                buffer.append("<br>")
+                        .append(Templates.populateTemplate(template,
+                                "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
+                                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                                "${feedbackSessionName}",
+                                SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                                "${instructorFragment}", "",
+                                "${sessionInstructions}", session.getInstructionsString(),
+                                "${submitUrl}", submitUrl,
+                                "${reportUrl}", reportUrl,
+                                "${feedbackAction}", feedbackAction,
+                                "${additionalContactInformation}", additionalContactInformation))
+                        .append("<br>")
+                        .append("<br>");
             }
         }
 
