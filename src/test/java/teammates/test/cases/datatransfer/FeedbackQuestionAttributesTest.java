@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
@@ -16,6 +18,7 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.FeedbackQuestion;
 import teammates.test.cases.BaseTestCase;
 
 /**
@@ -35,6 +38,57 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
             this.updatedAt = updatedAt;
         }
 
+    }
+
+    @Test
+    public void testValueOf() {
+        //Solves the problem of "java.lang.NullPointerException: No API environment is registered for this thread on Unit testing"
+        //https://stackoverflow.com/questions/31994264/java-lang-nullpointerexception-no-api-environment-is-registered-for-this-thread
+        LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+        helper.setUp();
+
+        List<FeedbackParticipantType> participants = new ArrayList<>();
+        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.RECEIVER);
+
+        List<FeedbackParticipantType> participantTypesAfterRemovingIrrelevantVisibilitiesOptions
+                = new ArrayList<>(participants);
+        participantTypesAfterRemovingIrrelevantVisibilitiesOptions.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        participantTypesAfterRemovingIrrelevantVisibilitiesOptions.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+
+        FeedbackQuestion qn = new FeedbackQuestion("test session", "cs1101", "test@example.com",
+                new Text("question text"), new Text("description"), 1, FeedbackQuestionType.TEXT,
+                FeedbackParticipantType.TEAMS, FeedbackParticipantType.TEAMS, 5, participants,
+                participants, participants);
+        qn.setId(12345678910L);
+
+        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.valueOf(qn);
+
+        assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
+        assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
+        assertEquals(qn.getCreatorEmail(), feedbackQuestionAttributes.getCreatorEmail());
+        assertEquals(qn.getQuestionDescription(), feedbackQuestionAttributes.getQuestionDescription());
+        assertEquals(feedbackQuestionAttributes.getQuestionNumber(), qn.getQuestionNumber());
+        assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());
+        assertEquals(qn.getNumberOfEntitiesToGiveFeedbackTo(),
+                feedbackQuestionAttributes.getNumberOfEntitiesToGiveFeedbackTo());
+        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getQuestionMetaData());
+        assertEquals(qn.getGiverType(), feedbackQuestionAttributes.getGiverType());
+        assertEquals(qn.getRecipientType(), feedbackQuestionAttributes.getRecipientType());
+
+        /* .build() in valueOf() will remove irrelevant visibilities options, so the lists showResponsesTo, showGiverNameTo, and
+        showRecipientNameTo are not the same as the ones in qn */
+        assertEquals(participantTypesAfterRemovingIrrelevantVisibilitiesOptions,
+                feedbackQuestionAttributes.getShowGiverNameTo());
+        assertEquals(participantTypesAfterRemovingIrrelevantVisibilitiesOptions,
+                feedbackQuestionAttributes.getShowRecipientNameTo());
+        assertEquals(participantTypesAfterRemovingIrrelevantVisibilitiesOptions,
+                feedbackQuestionAttributes.getShowResponsesTo());
+        assertEquals(qn.getCreatedAt(), feedbackQuestionAttributes.getCreatedAt());
+        assertEquals(qn.getUpdatedAt(), qn.getUpdatedAt());
+        assertEquals(qn.getId(), feedbackQuestionAttributes.getFeedbackQuestionId());
+
+        helper.tearDown();
     }
 
     @Test
