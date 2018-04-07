@@ -169,7 +169,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     }
     $(`#showResponseCommentAddForm${id}`).show();
 
-    $(`#responseCommentAddForm${id}`).html('<br data-mc-bogus="1">');
+    tinymce.get(`responseCommentAddForm${id}`).setContent('');
 
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
