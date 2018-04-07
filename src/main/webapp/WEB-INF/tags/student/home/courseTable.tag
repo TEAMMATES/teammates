@@ -4,13 +4,15 @@
 <%@ taglib tagdir="/WEB-INF/tags/student/home" prefix="home" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="sessionRows" type="java.util.Collection" required="true" %>
-<table class="table-responsive table table-striped">
+<table class="table-responsive table table-striped table-bordered margin-0">
   <c:choose>
     <c:when test="${not empty sessionRows}">
       <thead>
         <tr>
           <th>Session Name</th>
-          <th>Deadline</th>
+          <th class="button_sortenddate button-sort-none toggle-sort"
+              data-toggle-sort-comparator="sortDate"
+              data-toggle-sort-extractor="dateStampExtractor">Deadline<span class="icon-sort unsorted"></span></th>
           <th>Submissions</th>
           <th>Responses</th>
           <th class="studentHomeActions">Action(s)</th>
@@ -19,7 +21,7 @@
       <c:forEach items="${sessionRows}" var="sessionRow">
         <tr class="home_evaluations_row" id="evaluation${sessionRow.index}">
           <td>${sessionRow.name}</td>
-          <td>${sessionRow.endTime}</td>
+          <td data-date-stamp="${sessionRow.endTimeIso8601Utc}">${sessionRow.endTime}</td>
           <td>
             <span data-toggle="tooltip" data-placement="top" title="${sessionRow.submissionsTooltip}">
               ${sessionRow.submissionStatus}

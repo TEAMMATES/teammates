@@ -28,14 +28,14 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Opening time:</label>
           <div class="col-sm-10">
-            <p class="form-control-static">${feedbackSession.startTimeString}</p>
+            <p class="form-control-static" data-date-stamp="${feedbackSession.startTimeInIso8601UtcFormat}">${feedbackSession.startTimeString}</p>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-2 control-label">Closing time:</label>
           <div class="col-sm-10">
-            <p class="form-control-static" id="end-time" data-end-time="${feedbackSession.endTimeInIso8601Format}">${feedbackSession.endTimeString}</p>
+            <p class="form-control-static" id="end-time" data-date-stamp="${feedbackSession.endTimeInIso8601UtcFormat}">${feedbackSession.endTimeString}</p>
           </div>
         </div>
 
