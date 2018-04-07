@@ -6,7 +6,7 @@
   <script type="text/javascript" src="/js/requestResendLinks.js"></script>
 </c:set>
 <t:statusMessage statusMessagesToUser="${data.statusMessage}"/>
-<t:staticPage jsIncludes="${jsIncludes}">
+<t:staticPage jsIncludes="${jsIncludes}" currentPage="requestFeedbackLinksResend">
   <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
   <h1 class="color-orange">
     Request for Resend of Feedback Links

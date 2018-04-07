@@ -40,6 +40,16 @@
               <li class="${currentPage == 'about' ? 'active' : ''}"><a href="about.jsp">About Us</a></li>
               <li class="${currentPage == 'contact' ? 'active' : ''}"><a href="contact.jsp">Contact</a></li>
               <li class="${currentPage == 'terms' ? 'active' : ''}"><a href="terms.jsp">Terms of Use</a></li>
+              <li class="${currentPage == 'requestFeedbackLinksResend' ? 'active' : ''}">
+                <div class="dropdown-submenu pull-left-and-down">
+                  <button class="dropdown-button">Request
+                    <i class="fa fa-caret-down"></i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a href="../../../requestResendLinks.jsp">Resend Feedback Links</a>
+                  </div>
+                </div>
+              </li>
             </ul>
             <form class="navbar-form navbar-right" action="/login" name="login">
               <input type="submit" name="student" class="btn btn-login " id="btnStudentLogin" value="Student Login" label="studentLogin">

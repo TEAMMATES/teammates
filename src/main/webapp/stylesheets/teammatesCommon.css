@@ -1269,6 +1269,17 @@ Default to alert color for visibility titles used within an alert context.
 ////////////////// Dropdowns with Submenus /////////////////
 ///////////////////////////////////////////////////////// */
 
+.dropdown-submenu .dropdown-button {
+    font-size: 14px;
+    border: none;
+    outline: none;
+    color: rgba(250, 250, 250, .55);
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin-top: 1px;
+}
+
 .dropdown-submenu {
     position: relative;
 }
@@ -1315,6 +1326,14 @@ Default to alert color for visibility titles used within an alert context.
     border-radius: 6px 0 6px 6px;
     left: -100%;
     margin-left: 10px;
+}
+
+.dropdown-submenu.pull-left-and-down > .dropdown-menu {
+    border-radius: 6px 6px 6px 6px;
+    left: -40%;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    top: 50px;
 }
 
 /* /////////////////////////////////////////////////////////
