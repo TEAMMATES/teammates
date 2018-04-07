@@ -17,13 +17,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTask;
-import teammates.test.driver.TestProperties;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
@@ -380,10 +378,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * @param ajaxClass the class removed from {@code panelElement} when Ajax loading finished
      */
     public void waitForAjaxLoadedPanelToExpand(String panelId, String ajaxClass) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         WebElement panelElement = browser.driver.findElement(By.id(panelId));
-        wait.until(ExpectedConditions.not(ExpectedConditions.attributeContains(
-                panelElement, "class", ajaxClass)));
+        waitFor(ExpectedConditions.not(ExpectedConditions.attributeContains(panelElement, "class", ajaxClass)));
     }
 
     public boolean verifyAllStatsVisibility() {

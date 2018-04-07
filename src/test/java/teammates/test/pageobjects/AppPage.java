@@ -37,6 +37,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
@@ -208,18 +209,20 @@ public abstract class AppPage {
         return currentPageUrl.getRelativeUrl().equals(uri);
     }
 
+    public <E> E waitFor(ExpectedCondition<E> expectedCondition) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
+        return wait.until(expectedCondition);
+    }
+
     /**
      * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver d) {
-                // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
-                // to understand more on a web document's readyState
-                return "complete".equals(((JavascriptExecutor) d).executeScript("return document.readyState"));
-            }
+        waitFor(driver -> {
+            // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
+            // to understand more on a web document's readyState
+            final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) Preconditions.checkNotNull(driver);
+            return "complete".equals(javascriptExecutor.executeScript("return document.readyState"));
         });
     }
 
@@ -227,13 +230,10 @@ public abstract class AppPage {
      * Waits until TinyMCE editor is fully loaded.
      */
     public void waitForRichTextEditorToLoad(final String id) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver d) {
-                String script = "return tinymce.get('" + id + "') !== null";
-                return (Boolean) ((JavascriptExecutor) d).executeScript(script);
-            }
+        waitFor(driver -> {
+            String script = "return tinymce.get('" + id + "') !== null";
+            final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) Preconditions.checkNotNull(driver);
+            return (Boolean) javascriptExecutor.executeScript(script);
         });
     }
 
@@ -241,33 +241,23 @@ public abstract class AppPage {
      * Waits until the element is not covered by any other element.
      */
     public void waitForElementNotCovered(final WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver d) {
-                return !isElementCovered(element);
-            }
-        });
+        waitFor(d -> !isElementCovered(element));
     }
 
     public void waitForElementVisibility(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.visibilityOf(element));
+        waitFor(ExpectedConditions.visibilityOf(element));
     }
 
     public void waitForElementVisibility(By by) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+        waitFor(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
     public void waitForElementToBeClickable(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+        waitFor(ExpectedConditions.elementToBeClickable(element));
     }
 
     public void waitForElementsVisibility(List<WebElement> elements) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+        waitFor(ExpectedConditions.visibilityOfAllElements(elements));
     }
 
     /**
@@ -287,24 +277,23 @@ public abstract class AppPage {
      * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
      */
     public void waitForElementStaleness(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.stalenessOf(element));
+        waitFor(ExpectedConditions.stalenessOf(element));
+    }
+
     }
 
     /**
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+        waitFor(ExpectedConditions.invisibilityOfElementLocated(by));
     }
 
     /**
      * Waits for a list of elements to be invisible or not present, or timeout.
      */
     public void waitForElementsToDisappear(List<WebElement> elements) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
+        waitFor(ExpectedConditions.invisibilityOfAllElements(elements));
     }
 
     /**
@@ -313,11 +302,9 @@ public abstract class AppPage {
      * @throws org.openqa.selenium.TimeoutException if the timeout defined in {@link TestProperties#TEST_TIMEOUT} expires
      */
     void waitForNoScrolling() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-
         // Note: The implementation compares previous and current scroll positions so the polling interval should not be
         // changed or set to too low a value or the comparisons may unexpectedly be equal.
-        wait.until(new ExpectedCondition<Boolean>() {
+        waitFor(new ExpectedCondition<Boolean>() {
             private static final String SCROLL_POSITION_PROPERTY = "scrollTop";
 
             private boolean isFirstEvaluation = true;
@@ -357,14 +344,6 @@ public abstract class AppPage {
                 return false;
             }
         });
-    }
-
-    /**
-     * Waits for an alert to appear on the page, up to the timeout specified.
-     */
-    public void waitForAlertPresence() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.alertIsPresent());
     }
 
     /**
@@ -431,24 +410,21 @@ public abstract class AppPage {
      * Waits for the element to appear in the page, up to the timeout specified.
      */
     public WebElement waitForElementPresence(By by) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+        return waitFor(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     /**
      * Waits for text contained in the element to appear in the page, or timeout.
      */
     public void waitForTextContainedInElementPresence(By by, String text) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(by, text));
+        waitFor(ExpectedConditions.textToBePresentInElementLocated(by, text));
     }
 
     /**
      * Waits for text contained in the element to disappear from the page, or timeout.
      */
     public void waitForTextContainedInElementAbsence(By by, String text) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
-        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
+        waitFor(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
     }
 
     /**
