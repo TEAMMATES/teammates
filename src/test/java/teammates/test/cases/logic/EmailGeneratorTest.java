@@ -18,9 +18,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -472,13 +469,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionResendEmail() throws IOException,
-            EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+    public void testGenerateFeedbackSessionResendEmail() {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
-        InstructorAttributes instructor1 =
-                instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
 
         String recipient = student1.getEmail();
         EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(recipient);
