@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -16,7 +14,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -361,8 +358,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 .withNumOfEntitiesToGiveFeedbackTo(1)
                 .withQuestionNumber(1)
                 .withQuestionType(FeedbackQuestionType.TEXT)
-                .withQuestionMetaData(new Text(JsonUtils.toJson(questionDetails,
-                        FeedbackQuestionType.TEXT.getQuestionDetailsClass())))
+                .withQuestionMetaData(questionDetails)
                 .withShowGiverNameTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowResponseTo(new ArrayList<>())

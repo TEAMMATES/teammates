@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -42,8 +42,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
     @Test
     public void testValueOf() {
-        //Solves the problem of "java.lang.NullPointerException: No API environment is registered for this thread on Unit testing"
-        //https://stackoverflow.com/questions/31994264/java-lang-nullpointerexception-no-api-environment-is-registered-for-this-thread
+        /* Solves the problem of "java.lang.NullPointerException: No API environment is registered for this thread on
+         Unit testing".
+         https://stackoverflow.com/questions/31994264/java-lang-nullpointerexception-no-api-environment-
+         is-registered-for-this-thread */
         LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
         helper.setUp();
 
@@ -51,8 +53,8 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
 
-        List<FeedbackParticipantType> participantTypesAfterRemovingIrrelevantVisibilitiesOptions
-                = new ArrayList<>(participants);
+        List<FeedbackParticipantType> participantTypesAfterRemovingIrrelevantVisibilitiesOptions =
+                new ArrayList<>(participants);
         participantTypesAfterRemovingIrrelevantVisibilitiesOptions.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participantTypesAfterRemovingIrrelevantVisibilitiesOptions.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
 
@@ -63,7 +65,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         qn.setId(12345678910L);
 
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.valueOf(qn);
-
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
         assertEquals(qn.getCreatorEmail(), feedbackQuestionAttributes.getCreatorEmail());
@@ -76,8 +77,8 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertEquals(qn.getGiverType(), feedbackQuestionAttributes.getGiverType());
         assertEquals(qn.getRecipientType(), feedbackQuestionAttributes.getRecipientType());
 
-        /* .build() in valueOf() will remove irrelevant visibilities options, so the lists showResponsesTo, showGiverNameTo, and
-        showRecipientNameTo are not the same as the ones in qn */
+        /* .build() in valueOf() will remove irrelevant visibilities options, so the lists showResponsesTo,
+        showGiverNameTo, and showRecipientNameTo are not the same as the ones in qn */
         assertEquals(participantTypesAfterRemovingIrrelevantVisibilitiesOptions,
                 feedbackQuestionAttributes.getShowGiverNameTo());
         assertEquals(participantTypesAfterRemovingIrrelevantVisibilitiesOptions,
@@ -109,6 +110,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.RECEIVER);
         Instant createdAt = Instant.now();
         Instant updatedAt = Instant.ofEpochMilli(9876545);
+        String feedbackQuestionId = "agR0ZXN0choLEhBGZWVkYmFja1F1ZXN0aW9uGL648P4tDA";
 
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName(feedbackSession)
@@ -126,6 +128,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                 .withShowResponseTo(new ArrayList<>(participants))
                 .withCreatedAt(createdAt)
                 .withUpdatedAt(updatedAt)
+                .withFeedbackQuestionId(feedbackQuestionId)
                 .buildWithoutRemovingIrrelevantVisibilityOptions();
 
         assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
@@ -143,6 +146,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertEquals(participants, feedbackQuestionAttributes.showRecipientNameTo);
         assertEquals(createdAt, feedbackQuestionAttributes.getCreatedAt());
         assertEquals(updatedAt, feedbackQuestionAttributes.getUpdatedAt());
+        assertEquals(feedbackQuestionId, feedbackQuestionAttributes.getFeedbackQuestionId());
     }
 
     @Test
@@ -214,7 +218,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testBuilderCopy() {
+    public void testGetCopy() {
         List<FeedbackParticipantType> participants = new ArrayList<>();
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
@@ -234,6 +238,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                 .withShowGiverNameTo(new ArrayList<>(participants))
                 .withShowRecipientNameTo(new ArrayList<>(participants))
                 .withShowResponseTo(new ArrayList<>(participantsForShowResponseTo))
+                .withCreatedAt(Instant.now())
+                .withUpdatedAt(Instant.MAX)
+                .withQuestionDescription(new Text("some description"))
+                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .build();
 
         FeedbackQuestionAttributes copy = original.getCopy();
@@ -250,6 +258,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertEquals(copy.getShowGiverNameTo(), original.getShowGiverNameTo());
         assertEquals(copy.getShowRecipientNameTo(), original.getShowRecipientNameTo());
         assertEquals(copy.getShowResponsesTo(), copy.getShowResponsesTo());
+        assertEquals(copy.getCreatedAt(), original.getCreatedAt());
+        assertEquals(copy.getUpdatedAt(), original.getUpdatedAt());
+        assertEquals(copy.getNumberOfEntitiesToGiveFeedbackTo(), original.getNumberOfEntitiesToGiveFeedbackTo());
+        assertEquals(copy.getFeedbackQuestionId(), original.getFeedbackQuestionId());
     }
 
     @Test
@@ -441,6 +453,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                 .withShowGiverNameTo(new ArrayList<>(participants))
                 .withShowRecipientNameTo(new ArrayList<>(participants))
                 .withShowResponseTo(new ArrayList<>(participantsForShowResponseTo))
+                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .build();
 
         assertTrue(question.showGiverNameTo.isEmpty());

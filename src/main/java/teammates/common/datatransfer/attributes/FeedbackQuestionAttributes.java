@@ -231,6 +231,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                 .withShowRecipientNameTo(showRecipientNameTo)
                 .withCreatedAt(createdAt)
                 .withUpdatedAt(updatedAt)
+                .withFeedbackQuestionId(feedbackQuestionId)
                 .build();
     }
 
