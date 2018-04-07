@@ -26,7 +26,7 @@
     <div class="pull-right">
       <%-- If team statistics are displayed, then the "Collapse Students" button appears under the team statistics tables --%>
       <c:if test="${!isDisplayingTeamStatistics}">
-        <a class="btn btn-warning btn-xs" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
+        <a class="btn btn-warning btn-xs" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse all student panels. You can also click on the panel heading to toggle each one individually.">
           Collapse Students
         </a>
         &nbsp;
@@ -61,7 +61,7 @@
                 <h3>${fn:escapeXml(teamName)}${" "}${detailedResponsesHeaderText}</h3>
               </div>
               <div class="col-sm-3 h3">
-                <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
+                <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse all student panels. You can also click on the panel heading to toggle each one individually.">
                   Collapse Students
                 </a>
               </div>

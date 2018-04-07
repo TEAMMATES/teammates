@@ -156,7 +156,7 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
 
     // Replaces tooltip text of the {@code button}.
     const tooltipString = $(button).attr('data-original-title').replace(from, to);
-    $(button).attr('title', tooltipString).tooltip('fixTitle').tooltip('show');
+    $(button).attr('title', tooltipString).tooltip('fixTitle');
 }
 
 /**
@@ -168,12 +168,37 @@ function replaceButtonHtmlAndTooltipText(button, from, to) {
 function expandOrCollapsePanels(expandCollapseButton, panels) {
     const STRING_EXPAND = 'Expand';
     const STRING_COLLAPSE = 'Collapse';
+    const expandCollapseStudentsButton = 'a[id^="collapse-panels-button-section-"]';
+    const expandCollapseTeamButton = 'a[id^="collapse-panels-button-team-"]';
+    const isCollapsePanelsButton = !panels;
+    const isCollapseTeamButton = expandCollapseButton === $(expandCollapseTeamButton);
+
+    function isInExpandMode(button) {
+        return $(button).html().trim().startsWith(STRING_EXPAND);
+    }
+
     // {@code panels} is not defined when {@code expandCollapseButton} is collapse panels button. We
     // need to define corresponding {@code targetPanels}.
     const targetPanels = panels || $('div.panel-collapse');
 
-    const isButtonInExpandMode = $(expandCollapseButton).html().trim().startsWith(STRING_EXPAND);
-    if (isButtonInExpandMode) {
+    if (isCollapsePanelsButton) {
+        // When expanding or collapsing all panels via the expandCollapse panels button update the state for
+        // all expand/collapse buttons underneath (namely, team and student buttons).
+        if ($(expandCollapseStudentsButton).length
+                && isInExpandMode(expandCollapseStudentsButton)) {
+            replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
+        }
+        if ($(expandCollapseTeamButton).length
+                && isInExpandMode(expandCollapseTeamButton)) {
+            replaceButtonHtmlAndTooltipText(expandCollapseTeamButton, STRING_EXPAND, STRING_COLLAPSE);
+        }
+    } else if (isCollapseTeamButton && $(expandCollapseStudentsButton).length
+            && isInExpandMode(expandCollapseStudentsButton)) {
+        // When expanding or collapsing all panels via the expandCollapse team panels button update the state for
+        // expand/collapse student button underneath.
+        replaceButtonHtmlAndTooltipText(expandCollapseStudentsButton, STRING_EXPAND, STRING_COLLAPSE);
+    }
+    if (isInExpandMode(expandCollapseButton)) {
         // The expand/collapse button on AJAX-loaded panels has id collapse-panels-button.
         const areAjaxLoadedPanels = $(expandCollapseButton).is($('#collapse-panels-button'));
         expandPanels(targetPanels, areAjaxLoadedPanels);
@@ -182,6 +207,7 @@ function expandOrCollapsePanels(expandCollapseButton, panels) {
         collapsePanels(targetPanels);
         replaceButtonHtmlAndTooltipText(expandCollapseButton, STRING_COLLAPSE, STRING_EXPAND);
     }
+    $(expandCollapseButton).tooltip('show');
 }
 
 function bindCollapseEvents(panels, nPanels) {

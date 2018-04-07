@@ -27,7 +27,7 @@
           </div>
           <div class="col-sm-3">
             <div class="pull-right">
-              <a class="btn btn-success btn-xs collapse" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
+              <a class="btn btn-success btn-xs collapse" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
                 Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
               </a>
               &nbsp;
@@ -47,7 +47,7 @@
           </div>
           <div class="col-sm-3">
             <div class="pull-right">
-              <a class="btn btn-success btn-xs collapse" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
+              <a class="btn btn-success btn-xs collapse" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
                 Collapse ${isGroupedByTeam ? 'Teams' : 'Students'}
               </a>
               &nbsp;
