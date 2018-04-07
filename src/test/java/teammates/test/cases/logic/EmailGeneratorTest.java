@@ -33,7 +33,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailChecker;
 import teammates.test.driver.TestProperties;
 
@@ -473,7 +472,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionResendEmail() throws InvalidParametersException, EntityDoesNotExistException, IOException {
+    public void testGenerateFeedbackSessionResendEmail()
+            throws InvalidParametersException, EntityDoesNotExistException, IOException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
@@ -498,7 +498,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         Instant startTime = session2.getStartTime();
         Calendar fsCalendar = Calendar.getInstance();
         fsCalendar.add(Calendar.DATE, -10);
-        session2.setStartTime((fsCalendar.getTime().toInstant()));
+        session2.setStartTime(fsCalendar.getTime().toInstant());
         fsLogic.updateFeedbackSession(session2);
 
         email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(student1.getEmail());

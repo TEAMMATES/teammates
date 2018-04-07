@@ -441,8 +441,7 @@ public class EmailGenerator {
                                 "${reportUrl}", reportUrl,
                                 "${feedbackAction}", feedbackAction,
                                 "${additionalContactInformation}", additionalContactInformation))
-                        .append("<br>")
-                        .append("<br>");
+                        .append("<br><br>");
             }
         }
 
