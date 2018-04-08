@@ -86,7 +86,6 @@ public class InstructorCourseEditPageData extends PageData {
         editCourseButton = createEditCourseButton(isEditDeleteCourseButtonDisabled);
         deleteCourseButton = createDeleteCourseButton(isEditDeleteCourseButtonDisabled);
 
-
         boolean isAddInstructorButtonDisabled = !currentInstructor.isAllowedForPrivilege(
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         addInstructorButton = createAddInstructorButton(isAddInstructorButtonDisabled);
@@ -101,7 +100,9 @@ public class InstructorCourseEditPageData extends PageData {
                                                                           instructorIndex, instructor,
                                                                           sectionNames, feedbackNames);
 
-        if (instructor != null) {
+        if (instructor == null) {
+            instructorPanel.setNewInstructorCancelButton(createCancelAddInstructorButton());
+        } else {
             int panelIndex = instructorPanel.getIndex();
             boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
@@ -115,8 +116,6 @@ public class InstructorCourseEditPageData extends PageData {
             instructorPanel.setCancelButton(createCancelEditInstructorButton(panelIndex, isDisabled));
 
             instructorPanel.setDeleteButton(createDeleteInstructorButton(instructor, panelIndex, isDisabled));
-        } else {
-            instructorPanel.setNewInstructorCancelButton(createCancelAddInstructorButton());
         }
 
         return instructorPanel;

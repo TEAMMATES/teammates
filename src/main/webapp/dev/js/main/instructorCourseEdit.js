@@ -38,9 +38,6 @@ const instructorPrivilegeValues = [
     'canmodifysessioncommentinsection',
 ];
 
-const WARNING_DISCARD_CHANGES = 'Warning: Any unsaved changes will be lost';
-const CONFIRM_DISCARD_NEW_INSTRUCTOR = 'Are you sure you want to discard this instructor?';
-
 function showNewInstructorForm() {
     $('#panelAddInstructor').show();
     $('#btnShowNewInstructorForm').hide();
@@ -511,16 +508,15 @@ $(document).ready(() => {
         const instrNum = $(this).attr('id').substring('instrCancelLink'.length);
         disableFormEditInstructor(instrNum);
     });
-    $('a[id^="newInstrCancelLink"]').click(function () {
-        hideNewInstructorForm();
-    });
+    $('a[id^="newInstrCancelLink"]').click(() =>
+        hideNewInstructorForm()
+    );
     bindCheckboxToggle();
     const index = $('#new-instructor-index').val();
     bindChangingRole(index);
 
     bindRemindInstructorLink();
     bindDeleteInstructorLink();
-
 
     initializeTimeZoneOptions($(`#${ParamsNames.COURSE_TIME_ZONE}`));
 
