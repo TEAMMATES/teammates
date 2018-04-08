@@ -477,18 +477,6 @@ function editFormRequest(e) {
     });
 }
 
-/**
- * Allows users to discard unsaved edits to the instructor
- */
-function discardChanges() {
-    const okCallback = function () {
-        hideNewInstructorForm();
-    };
-
-    showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_NEW_INSTRUCTOR,
-            okCallback, null, null, null, BootstrapContextualColors.WARNING);
-}
-
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -509,10 +497,6 @@ $(document).ready(() => {
         }
     });
 
-    $(document).on('click', '.btn-discard-changes', (e) => {
-        discardChanges($(e.currentTarget));
-    });
-
     const numOfInstr = $("form[id^='formEditInstructor']").length;
     for (let i = 0; i < numOfInstr; i += 1) {
         const instrNum = i + 1;
@@ -527,12 +511,16 @@ $(document).ready(() => {
         const instrNum = $(this).attr('id').substring('instrCancelLink'.length);
         disableFormEditInstructor(instrNum);
     });
+    $('a[id^="newInstrCancelLink"]').click(function () {
+        hideNewInstructorForm();
+    });
     bindCheckboxToggle();
     const index = $('#new-instructor-index').val();
     bindChangingRole(index);
 
     bindRemindInstructorLink();
     bindDeleteInstructorLink();
+
 
     initializeTimeZoneOptions($(`#${ParamsNames.COURSE_TIME_ZONE}`));
 

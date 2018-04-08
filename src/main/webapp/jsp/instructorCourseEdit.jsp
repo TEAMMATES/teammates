@@ -33,6 +33,7 @@
       addInstructorButton="${data.addInstructorButton}"
       courseId="${data.course.id}"
       addInstructorPanel="${data.addInstructorPanel}"
+      newInstructorCancelButton="${data.addInstructorPanel.newInstructorCancelButton}"
   />
   <course:courseEditInstructorRoleModal />
   <br>

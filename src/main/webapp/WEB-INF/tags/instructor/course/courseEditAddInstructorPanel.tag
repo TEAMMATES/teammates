@@ -6,6 +6,7 @@
 <%@ attribute name="addInstructorButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="addInstructorPanel" type="teammates.ui.template.CourseEditInstructorPanel" required="true" %>
+<%@ attribute name="newInstructorCancelButton" type="teammates.ui.template.ElementTag" required="true" %>
 
 <div class="align-center">
   <input value="Add New Instructor" ${addInstructorButton.attributesToString}>
@@ -15,13 +16,12 @@
 <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
   <div class="panel-heading">
     <strong>Instructor ${addInstructorPanel.index}:</strong>
-    <span class="mobile-no-pull pull-right">
-      <a class="btn btn-primary btn-xs btn-discard-changes"
-         data-toggle="tooltip" data-placement="top"
-         title="<%= Const.Tooltips.INSTRUCTOR_CANCEL_NEW %>">
-        Cancel
+    <div class="pull-right">
+      <div class="display-icon" style="display:inline;"></div>
+      <a ${newInstructorCancelButton.attributesToString}>
+        ${newInstructorCancelButton.content}
       </a>
-    </span>
+    </div>
   </div>
 
   <div class="panel-body fill-plain">
