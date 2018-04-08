@@ -86,6 +86,7 @@ public class InstructorCourseEditPageData extends PageData {
         editCourseButton = createEditCourseButton(isEditDeleteCourseButtonDisabled);
         deleteCourseButton = createDeleteCourseButton(isEditDeleteCourseButtonDisabled);
 
+
         boolean isAddInstructorButtonDisabled = !currentInstructor.isAllowedForPrivilege(
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
         addInstructorButton = createAddInstructorButton(isAddInstructorButtonDisabled);
@@ -114,6 +115,8 @@ public class InstructorCourseEditPageData extends PageData {
             instructorPanel.setCancelButton(createCancelEditInstructorButton(panelIndex, isDisabled));
 
             instructorPanel.setDeleteButton(createDeleteInstructorButton(instructor, panelIndex, isDisabled));
+        } else {
+            instructorPanel.setNewInstructorCancelButton(createCancelAddInstructorButton());
         }
 
         return instructorPanel;
@@ -223,6 +226,14 @@ public class InstructorCourseEditPageData extends PageData {
 
         return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_EDIT,
                                  isDisabled);
+    }
+
+    private ElementTag createCancelAddInstructorButton() {
+        String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
+        String buttonId = "newInstrCancelLink";
+
+        return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_ADD,
+                false);
     }
 
     /**
