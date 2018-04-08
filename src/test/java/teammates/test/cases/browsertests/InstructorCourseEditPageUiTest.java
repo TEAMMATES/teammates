@@ -162,17 +162,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testCancelAddingNewInstructor() {
-        ______TS("Cancelling the adding of a new instructor");
+        ______TS("Cancelling adding of a new instructor");
         courseEditPage.clickShowNewInstructorFormButton();
-
-        ______TS("Click cancel but click no to confirmation prompt");
-        courseEditPage.clickDiscardChangesLink();
-        courseEditPage.waitForConfirmationModalAndClickCancel();
         assertTrue(courseEditPage.verifyShowNewInstructorIsDisplayed());
 
-        ______TS("Click cancel but click yes to confirmation prompt");
-        courseEditPage.clickDiscardChangesLink();
-        courseEditPage.waitForConfirmationModalAndClickOk();
+        ______TS("Click cancel button");
+        courseEditPage.clickCancelAddInstructorLink();
         assertFalse(courseEditPage.verifyShowNewInstructorIsDisplayed());
     }
 

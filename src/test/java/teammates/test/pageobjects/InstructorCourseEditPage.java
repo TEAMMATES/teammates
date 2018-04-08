@@ -122,12 +122,6 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickDiscardChangesLink() {
-        WebElement link = browser.driver.findElement(
-                By.xpath("//a[contains(@class, 'btn-discard-changes')]"));
-        click(link);
-    }
-
     public String editInstructorName(int instrNum, String value) {
         WebElement editPanelNameTextBox = getNameField(instrNum);
         fillTextBox(editPanelNameTextBox, value);
@@ -185,6 +179,10 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void clickCancelEditInstructorLink(int instrNum) {
         click(getCancelEditInstructorLink(instrNum));
+    }
+
+    public void clickCancelAddInstructorLink() {
+        click(getCancelAddInstructorLink());
     }
 
     public void verifyInstructorEditFormDisabled(int instrNum) {
@@ -459,6 +457,10 @@ public class InstructorCourseEditPage extends AppPage {
 
     public WebElement getCancelEditInstructorLink(int instrNum) {
         return browser.driver.findElement(By.id("instrCancelLink" + instrNum));
+    }
+
+    public WebElement getCancelAddInstructorLink() {
+        return browser.driver.findElement(By.id("newInstrCancelLink"));
     }
 
     private WebElement getInviteInstructorLink(int instrNum) {
