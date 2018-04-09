@@ -139,6 +139,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(INSTRUCTOR_INDEX, new HashSet<>());
             institutes.get(institute).put(STUDENT_INDEX, new HashSet<>());
+            institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
+
             allStudentEmailSet.add(student.getEmail().toLowerCase());
             studentEmailCounter++;
             updateProgressIndicator();
