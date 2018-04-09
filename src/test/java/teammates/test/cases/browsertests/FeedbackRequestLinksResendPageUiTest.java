@@ -56,8 +56,7 @@ public class FeedbackRequestLinksResendPageUiTest extends BaseUiTestCase {
     @Test
     public void allTests() {
         testInvalidEmailAddress();
-        testValidEmailWithoutFeedbackSessionsInRecentOneMonth();
-        testValidEmailWithFeedbackSessionsInRecentOneMonth();
+        testValidEmailWithFeedbackSessionsInRecentSixMonths();
     }
 
     private void testInvalidEmailAddress() {
@@ -73,18 +72,7 @@ public class FeedbackRequestLinksResendPageUiTest extends BaseUiTestCase {
                 Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_INVALID_EMAIL);
     }
 
-    private void testValidEmailWithoutFeedbackSessionsInRecentOneMonth() {
-        ______TS("Valid Email Address, user with email does not have any feedback sessions in recent one month");
-
-        String emailAddress = "dummyEmail@example.com";
-
-        requestResendLinksPage.fillEmailAddress(emailAddress);
-        requestResendLinksPage.clickSubmitButton();
-        requestResendLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_NONE_IN_RECENT_ONE_MONTH);
-    }
-
-    private void testValidEmailWithFeedbackSessionsInRecentOneMonth() {
+    private void testValidEmailWithFeedbackSessionsInRecentSixMonths() {
         ______TS("Valid Email Address, user with email has feedback sessions in recent one month");
 
         requestResendLinksPage.fillEmailAddress(studentEmailAddress);

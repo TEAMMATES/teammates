@@ -392,9 +392,9 @@ public class EmailGenerator {
     public EmailWrapper generateFeedbackSessionResendLinksEmail(String userEmail) {
         Date endTime = new Date();
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
+        calendar.add(Calendar.MONTH, -6);
         Date startTime = calendar.getTime();
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", "is belong to you");
         String feedbackAction = FEEDBACK_ACTION_SUBMIT;
         String subject = EmailType.FEEDBACK_LINKS_RESENT.getSubject();
         StringBuffer buffer = new StringBuffer();
@@ -446,6 +446,17 @@ public class EmailGenerator {
         }
 
         String emailBody = buffer.toString();
+
+        // If the user does not have any feedback sessions in recent six months,
+        // a different email with notification will be sent.
+        if (emailBody.equals("")) {
+            template = EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_LINKS_RESEND_WITH_NO_ACTIVE_LINKS;
+            buffer.append("<br>")
+                    .append(Templates.populateTemplate(template,
+                            "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail)));
+        }
+
+        emailBody = buffer.toString();
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(subject);
         email.setContent(emailBody);

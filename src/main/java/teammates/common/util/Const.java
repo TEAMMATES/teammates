@@ -1371,9 +1371,6 @@ public final class Const {
                 + "Please allow up to 1 hour for the notification email to be sent out.";
         public static final String FEEDBACK_SESSION_RESEND_LINKS_INVALID_EMAIL =
                 "Invalid email address!";
-        public static final String FEEDBACK_SESSION_RESEND_LINKS_NONE_IN_RECENT_ONE_MONTH =
-                "You are not involved in any feedback sessions for the recent one month"
-                + " or the sessions are not published yet.";
         public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
                 "The feedback session is not open for submissions. "
                 + "You cannot send reminders for a session that is not open.";

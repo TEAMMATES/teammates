@@ -482,16 +482,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
         EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(recipient);
         String subject = EmailType.FEEDBACK_LINKS_RESENT.getSubject();
 
-        ______TS("the student did not have any feedback sessions in the recent one month");
+        ______TS("the student did not have any feedback sessions in the recent six months");
 
-        assertEquals(recipient, email.getRecipient());
-        assertEquals(subject, email.getSubject());
         assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
         assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
-        assertEquals("", email.getContent());
+        verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmailWithNoActiveLinks.html");
 
-        ______TS("the student has feedback sessions in the recent one month");
+        ______TS("the student has feedback sessions in the recent six months");
 
         FeedbackSessionAttributes session2 =
                 fsLogic.getFeedbackSession("Second feedback session", "idOfTypicalCourse1");
