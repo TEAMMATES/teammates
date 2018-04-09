@@ -183,6 +183,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
         }
 
+        if (!questionsWithMissingAnswers.isEmpty() && !isError) {
+            statusToUser.add(new StatusMessage(getIncompleteQuestionMessage(questionsWithMissingAnswers),
+                                                StatusMessageColor.INFO));
+        }
+
         if (isUserRespondentOfSession()) {
             appendRespondent();
         } else {
