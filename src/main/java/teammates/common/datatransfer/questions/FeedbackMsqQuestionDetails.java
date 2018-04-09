@@ -30,11 +30,6 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
-    /*numOfMsqChoices is not persisted to datastore. It is used previously to store
-    the number of msqChoices. The same purpose is now achieved with msqChoices.size() */
-    @SuppressWarnings("PMD.UnusedPrivateField")
-    private transient int numOfMsqChoices;
-
     private List<String> msqChoices;
     private boolean otherEnabled;
     private FeedbackParticipantType generateOptionsFor;
@@ -45,7 +40,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
 
-        this.numOfMsqChoices = 0;
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
@@ -57,7 +51,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
-        int numOfMsqChoices = 0;
         List<String> msqChoices = new LinkedList<>();
         boolean msqOtherEnabled = false;
 
@@ -102,19 +95,17 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
                 if (msqChoice != null && !msqChoice.trim().isEmpty()) {
                     msqChoices.add(msqChoice);
-                    numOfMsqChoices++;
                 }
             }
 
-            setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
+            setMsqQuestionDetails(msqChoices, msqOtherEnabled);
         } else {
             setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
         }
         return true;
     }
 
-    private void setMsqQuestionDetails(int numOfMsqChoices, List<String> msqChoices, boolean otherEnabled) {
-        this.numOfMsqChoices = numOfMsqChoices;
+    private void setMsqQuestionDetails(List<String> msqChoices, boolean otherEnabled) {
         this.msqChoices = msqChoices;
         this.otherEnabled = otherEnabled;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
@@ -483,7 +474,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Add two empty options by default
-        numOfMsqChoices = 2;
         msqChoices.add("");
         msqChoices.add("");
 
