@@ -502,7 +502,7 @@ public abstract class AppPage {
         return browser.driver.findElement(locator).getAttribute(attrName);
     }
 
-    public void fillTextBox(WebElement textBoxElement, String value) {
+    protected void fillTextBox(WebElement textBoxElement, String value) {
         click(textBoxElement);
         textBoxElement.clear();
         textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
