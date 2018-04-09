@@ -67,6 +67,19 @@
       <li>
         <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
       </li>
+      <c:if test="${actions.allowedToResendPublishedEmail}">
+      <li>
+        <a href="javascript:;"
+            data-actionlink="${actions.sessionResendPublishedEmailPageLink}"
+            class="session-resend-published-email-for-test"
+            data-courseid="${actions.courseId}"
+            data-fsname="${actions.fsName}"
+            data-toggle="modal"
+            data-target="#resendPublishedEmailModal">
+          Resend link to view results
+        </a>
+      </li>
+      </c:if>
     </ul>
   </div>
 </div>
