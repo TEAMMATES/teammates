@@ -394,69 +394,63 @@ public class EmailGenerator {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -6);
         Date startTime = calendar.getTime();
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", "is belong to you");
-        String feedbackAction = FEEDBACK_ACTION_SUBMIT;
         String subject = EmailType.FEEDBACK_LINKS_RESENT.getSubject();
-        StringBuffer buffer = new StringBuffer();
+        StringBuffer linksFragmentValue = new StringBuffer(1000);
+        String emailBody;
+        String studentName = "";
 
         List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime);
         for (FeedbackSessionAttributes session : sessions) {
-            // Do not send links to feedback sessions that are closed but not yet published
-            if (session.isClosed() && !session.isPublished()) {
-                continue;
-            }
-
             CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
             StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
+
             if (student != null) {
-                String additionalContactInformation = HTML_NO_ACTION_REQUIRED
-                        + getAdditionalContactInformationFragment(course);
+                studentName = student.getName();
+                String submitUrlHtml = "(Feedback session is not yet opened)";
+                String reportUrlHtml = "(Feedback session is not yet published)";
 
-                String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                        .withCourseId(course.getId())
-                        .withSessionName(session.getFeedbackSessionName())
-                        .withStudentEmail(userEmail)
-                        .toAbsoluteString();
-
-                String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                        .withCourseId(course.getId())
-                        .withSessionName(session.getFeedbackSessionName())
-                        .withStudentEmail(userEmail)
-                        .toAbsoluteString();
-
-                if (session.isClosed()) {
-                    submitUrl = "";
+                if (session.isOpened() || session.isClosed()) {
+                    String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                            .withCourseId(course.getId())
+                            .withSessionName(session.getFeedbackSessionName())
+                            .withRegistrationKey(StringHelper.encrypt(student.key))
+                            .withStudentEmail(student.email)
+                            .toAbsoluteString();
+                    submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
                 }
-                buffer.append("<br>")
-                        .append(Templates.populateTemplate(template,
-                                "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
-                                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                                "${feedbackSessionName}",
-                                SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
-                                "${instructorFragment}", "",
-                                "${sessionInstructions}", session.getInstructionsString(),
-                                "${submitUrl}", submitUrl,
-                                "${reportUrl}", reportUrl,
-                                "${feedbackAction}", feedbackAction,
-                                "${additionalContactInformation}", additionalContactInformation))
-                        .append("<br><br>");
+
+                if (session.isPublished()) {
+                    String reportUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                            .withCourseId(course.getId())
+                            .withSessionName(session.getFeedbackSessionName())
+                            .withRegistrationKey(StringHelper.encrypt(student.key))
+                            .withStudentEmail(student.email)
+                            .toAbsoluteString();
+                    reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
+                }
+
+                linksFragmentValue.append(Templates.populateTemplate(
+                        EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
+                        "${feedbackSessionName}", session.getFeedbackSessionName(),
+                        "${deadline}", session.getEndTimeString() + (session.isClosed() ? " (Passed)" : ""),
+                        "${submitUrl}", submitUrlHtml,
+                        "${reportUrl}", reportUrlHtml));
             }
         }
-
-        String emailBody = buffer.toString();
 
         // If the user does not have any feedback sessions in recent six months,
         // a different email with notification will be sent.
-        if (emailBody.length() == 0) {
-            template = EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_LINKS_RESEND_WITH_NO_ACTIVE_LINKS;
-            buffer.append("<br>")
-                    .append(Templates.populateTemplate(template,
-                            "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail)));
+        if (linksFragmentValue.length() == 0) {
+            emailBody = Templates.populateTemplate(
+                    EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_LINKS_WITH_NO_ACTIVE_LINKS,
+                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail));
+        } else {
+            emailBody = Templates.populateTemplate(
+                    EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_LINKS_EMAIL,
+                    "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
+                    "${linksFragment}", linksFragmentValue.toString());
         }
 
-        emailBody = buffer.toString();
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setSubject(subject);
         email.setContent(emailBody);
