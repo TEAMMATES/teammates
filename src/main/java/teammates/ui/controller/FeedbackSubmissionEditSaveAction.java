@@ -365,6 +365,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return response;
     }
 
+    private String getIncompleteQuestionMessage(HashSet<Integer> questionsWithMissingAnswers) {
+        String incompleteQuestionsMessage = Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS;
+
+        for (int qns : questionsWithMissingAnswers) {
+            incompleteQuestionsMessage += Integer.toString(qns) + ", ";
+        }
+        incompleteQuestionsMessage = incompleteQuestionsMessage.substring(0, incompleteQuestionsMessage.length() - 2) + ".";
+        return incompleteQuestionsMessage;
+    }
+
     /**
      * To be used to set any extra parameters or attributes that
      * a class inheriting FeedbackSubmissionEditSaveAction requires.
