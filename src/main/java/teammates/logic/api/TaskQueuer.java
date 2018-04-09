@@ -198,7 +198,7 @@ public class TaskQueuer {
      * @param usersToEmail the group of users to send the reminders to
      */
     public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
-                                                            String[] usersToEmail) {
+            String[] usersToEmail) {
         Map<String, String[]> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[] { feedbackSessionName });
         paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[] { courseId });

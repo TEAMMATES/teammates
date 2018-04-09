@@ -323,7 +323,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("publish action: AWAITING feedback session");
 
         homePage.verifyUnclickable(homePage.getSessionResultsOptionsCaretElement(feedbackSessionAwaiting.getCourseId(),
-                                                            feedbackSessionAwaiting.getFeedbackSessionName()));
+                feedbackSessionAwaiting.getFeedbackSessionName()));
 
         ______TS("publish action: OPEN feedback session");
 
