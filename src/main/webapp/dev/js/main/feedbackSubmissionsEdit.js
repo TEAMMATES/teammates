@@ -1140,8 +1140,13 @@ function showModalWarningIfSessionClosingSoon() {
 }
 
 function showModalSuccessIfResponsesSubmitted() {
-    if (hasSuccessMessage()) {
-        showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED, null, BootstrapContextualColors.SUCCESS);
+    if (hasSuccessMessage() && hasIncompleteQuestionMessage()) {
+        showModalAlert(getSuccessMessage(), getIncompleteQuestionMessage() + RESPONSES_SUCCESSFULLY_SUBMITTED,
+            null, BootstrapContextualColors.SUCCESS);
+    }
+    else if (hasSuccessMessage()) {
+        showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED,
+            null, BootstrapContextualColors.SUCCESS);
     }
 }
 /**
