@@ -22,7 +22,7 @@ public class FeedbackRequestLinksResendPageUiTest extends BaseUiTestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/FeedbackRequestLinksResendPageUiTest.json");
 
-        // use the 1st student account injected for this test
+        // Use the 1st student account injected for this test
 
         String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
         String student1Email = student1GoogleId + "@gmail.com";
@@ -73,7 +73,7 @@ public class FeedbackRequestLinksResendPageUiTest extends BaseUiTestCase {
     }
 
     private void testValidEmailWithFeedbackSessionsInRecentSixMonths() {
-        ______TS("Valid Email Address, user with email has feedback sessions in recent one month");
+        ______TS("Valid Email Address, user with email has feedback sessions in recent six month");
 
         requestResendLinksPage.fillEmailAddress(studentEmailAddress);
         requestResendLinksPage.clickSubmitButton();

@@ -409,7 +409,7 @@ public class EmailGenerator {
                 String submitUrlHtml = "(Feedback session is not yet opened)";
                 String reportUrlHtml = "(Feedback session is not yet published)";
 
-                if (session.isOpened() || session.isClosed()) {
+                if (session.isOpened()) {
                     String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getFeedbackSessionName())
@@ -417,6 +417,10 @@ public class EmailGenerator {
                             .withStudentEmail(student.email)
                             .toAbsoluteString();
                     submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+                }
+
+                if (session.isClosed()) {
+                    submitUrlHtml = "(Feedback session is closed)";
                 }
 
                 if (session.isPublished()) {
@@ -430,7 +434,9 @@ public class EmailGenerator {
                 }
 
                 linksFragmentValue.append(Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
+                        EmailTemplates.FRAGMENT_SINGLE_REQUEST_RESEND_LINK,
+                        "${courseId}", course.getId(),
+                        "${courseName}", course.getName(),
                         "${feedbackSessionName}", session.getFeedbackSessionName(),
                         "${deadline}", session.getEndTimeString() + (session.isClosed() ? " (Passed)" : ""),
                         "${submitUrl}", submitUrlHtml,
