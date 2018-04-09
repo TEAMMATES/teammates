@@ -1119,6 +1119,10 @@ function getSuccessMessage() {
     return $(SUCCESS_STATUS_MESSAGE).html().trim();
 }
 
+function getIncompleteQuestionMessage() {
+    return "<p><span class=\"glyphicon glyphicon-exclamation-sign\"></span> " + $(INFO_STATUS_MESSAGE).html().trim() + "</p>";
+}
+
 function hasIncompleteQuestionMessage() {
     return $(INFO_STATUS_MESSAGE).length;
 }
