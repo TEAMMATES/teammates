@@ -35,7 +35,7 @@
             </label>
             <div class="col-sm-10">
               <p class="form-control-static">
-                Sun, 01 Apr 2012, 11:59 PM UTC+0200
+                Sun, 01 Apr 2012, 11:59 PM SAST
               </p>
             </div>
           </div>
@@ -45,7 +45,7 @@
             </label>
             <div class="col-sm-10">
               <p class="form-control-static">
-                Thu, 30 Apr 2026, 11:59 PM UTC+0200
+                Thu, 30 Apr 2026, 11:59 PM SAST
               </p>
             </div>
           </div>
@@ -85,12 +85,18 @@
           </span>
         </span>
       </h4>
-      <div class="panel-body">
+      <div class="panel-body rubricStatistics">
         <div class="row">
-          <div class="col-sm-4 text-color-gray">
+          <div class="col-sm-8 text-color-gray">
             <strong>
               Response Summary (of received responses)
             </strong>
+          </div>
+          <div class="col-sm-4 text-right ">
+            <input class="excluding-self-response-checkbox" onclick="toggleExcludingSelfResultsForRubricStatistics(this)" type="checkbox">
+            <span class="text-nowrap tool-tip-decorate" data-original-title="Excludes giver's responses to himself/herself from Statistics" data-placement="top" data-toggle="tooltip" title="">
+              Exclude self evaluation
+            </span>
           </div>
         </div>
         <div class="row">
@@ -123,7 +129,7 @@
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="table-body-including-self">
                 <tr>
                   <td>
                     <p>
@@ -138,6 +144,40 @@
                   </td>
                   <td>
                     0.01
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>
+                      b) This student has tried his/her best.
+                    </p>
+                  </td>
+                  <td>
+                    0% (0)
+                  </td>
+                  <td>
+                    100% (1)
+                  </td>
+                  <td>
+                    -0.99
+                  </td>
+                </tr>
+              </tbody>
+              <tbody class="table-body-excluding-self hidden">
+                <tr>
+                  <td>
+                    <p>
+                      a) This student has done a good job.
+                    </p>
+                  </td>
+                  <td>
+                    100% (1)
+                  </td>
+                  <td>
+                    0% (0)
+                  </td>
+                  <td>
+                    1.01
                   </td>
                 </tr>
                 <tr>

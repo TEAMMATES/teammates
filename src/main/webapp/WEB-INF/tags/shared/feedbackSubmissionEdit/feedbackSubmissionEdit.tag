@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Student/Instructor feedback submission edit page" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -18,13 +19,13 @@
     <nav class="navbar navbar-default navbar-fixed-top">
       <c:choose>
         <c:when test="${data.preview}">
-          <h3 class="text-center">Previewing Session as ${isInstructor ? "Instructor" : "Student"} ${moderatedPersonName} (${moderatedPersonEmail})</h3>
+          <h3 class="text-center">Previewing Session as ${isInstructor ? "Instructor" : "Student"}${" "}${moderatedPersonName} (${moderatedPersonEmail})</h3>
         </c:when>
         <c:when test="${data.moderation}">
           <div class="container">
             <div class="col-md-12">
               <h3 class="text-center">
-                You are moderating responses for ${isInstructor ? "instructor" : "student"} ${moderatedPersonName} (${moderatedPersonEmail})
+                You are moderating responses for ${isInstructor ? "instructor" : "student"}${" "}${moderatedPersonName} (${moderatedPersonEmail})
                 <small>
                   <a href="javascript:;" id="moderationHintButton"></a>
                 </small>

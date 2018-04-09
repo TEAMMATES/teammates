@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Instructor Account Details" pageEncoding="UTF-8" %>
 <%@ attribute name="accountInformation" type="teammates.common.datatransfer.attributes.AccountAttributes" required="true" %>
 

@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResults - Question - response row" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 

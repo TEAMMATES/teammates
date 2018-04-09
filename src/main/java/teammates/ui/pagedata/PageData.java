@@ -1,8 +1,6 @@
 package teammates.ui.pagedata;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -100,33 +98,6 @@ public class PageData {
             result.add("<option value=\"" + formatAsString(timeZoneOption) + "\""
                        + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption
                        + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
-        }
-        return result;
-    }
-
-    public static List<ElementTag> getTimeZoneOptionsAsElementTags(ZoneId existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
-        ArrayList<ElementTag> result = new ArrayList<>();
-        if (existingTimeZone == null) {
-            ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
-            result.add(option);
-        }
-
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            String textToDisplay = "(" + utcFormatOption
-                                            + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-
-            boolean isExistingTimeZone = false;
-            if (existingTimeZone != null) {
-                int timeZoneOptionOffsetInSeconds = (int) (timeZoneOption * 60 * 60);
-                int existingZoneOffsetInSeconds = existingTimeZone.getRules().getOffset(Instant.now()).getTotalSeconds();
-                isExistingTimeZone = existingZoneOffsetInSeconds == timeZoneOptionOffsetInSeconds;
-            }
-
-            ElementTag option = createOption(textToDisplay,
-                                             formatAsString(timeZoneOption), isExistingTimeZone);
-            result.add(option);
         }
         return result;
     }
@@ -515,6 +486,33 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    /**
+     * Retrieves the link to load data for the resend session published email modal.
+     * @param courseId the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load data for the modal
+     */
+    public String getInstructorFeedbackResendPublishedEmailPageLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
+    /**
+     * Retrieves the link to submit the request for resending the session published email.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackResendPublishedEmailLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
         link = addSessionTokenToUrl(link);
 
         return link;
