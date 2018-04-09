@@ -41,6 +41,7 @@ import {
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
 const FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
+const INFO_STATUS_MESSAGE = '.alert-info.statusMessage';
 const WARNING_STATUS_MESSAGE = '.alert-warning.statusMessage';
 const SUCCESS_STATUS_MESSAGE = '.alert-success.statusMessage';
 const END_TIME = '#end-time';
