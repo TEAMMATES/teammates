@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -76,6 +77,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         String userTeamForCourse = getUserTeamForCourse();
         String userSectionForCourse = getUserSectionForCourse();
+        HashSet<Integer> questionsWithMissingAnswers = new HashSet<Integer>();
 
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 
