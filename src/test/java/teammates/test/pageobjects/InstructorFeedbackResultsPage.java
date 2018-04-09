@@ -44,6 +44,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(className = "remind-btn-no-response")
     public WebElement remindAllButton;
 
+    @FindBy(id = "remindModal")
+    private WebElement remindModal;
+
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
     }
@@ -190,7 +193,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void clickRemindAllButtonAndWaitForFormToLoad() {
         click(remindAllButton);
-        waitForRemindModalPresence();
+        waitForElementVisibility(remindModal);
         WebElement remindButton = browser.driver.findElement(By.className("remind-particular-button"));
         waitForElementToBeClickable(remindButton);
     }
