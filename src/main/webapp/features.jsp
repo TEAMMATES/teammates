@@ -202,6 +202,22 @@
 
     <section class="row">
       <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+        <h2 class="color-orange col-xs-12">Request for resending of feedback links</h2>
+        <img class="img-responsive features-page-img" src="images/feature-requestforresendoffeedbacklinks.png" alt="Request Resend Links">
+        <div class="col-xs-9 col-sm-9">
+          <div class="features-page-text">
+            TEAMMATES allows students to request for resending of feedback links which students might accidentally removed. Students can do so by themselves without the need to approach the instructor.
+            <br><br>
+            Given above is an example of requesting for resending of feedback session links. Feedback sessions that are in the last six months which the student has participated in will be sent to the inputted email address.
+            Students can find this feature by going to the "Home" page and click "Resend feedback links" under the "Request" tab, or simply use the url: https://teammatesv4.appspot.com/requestResendLinks.jsp
+          </div>
+        </div>
+        <img class="img-responsive features-page-img" src="images/raised-edge.png">
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-xs-12 col-sm-8 col-sm-offset-2">
         <h2 class="color-orange col-xs-12">Support for big courses</h2>
         <img class="img-responsive features-page-img" src="images/feature-supportforbigcourses.png" alt="Support for big courses">
         <div class="col-xs-9 col-sm-9">
