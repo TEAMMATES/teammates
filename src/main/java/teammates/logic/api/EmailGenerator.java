@@ -449,7 +449,7 @@ public class EmailGenerator {
 
         // If the user does not have any feedback sessions in recent six months,
         // a different email with notification will be sent.
-        if (emailBody.equals("")) {
+        if (emailBody.length() == 0) {
             template = EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_LINKS_RESEND_WITH_NO_ACTIVE_LINKS;
             buffer.append("<br>")
                     .append(Templates.populateTemplate(template,
