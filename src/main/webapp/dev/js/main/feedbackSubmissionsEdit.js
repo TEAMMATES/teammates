@@ -1119,6 +1119,10 @@ function getSuccessMessage() {
     return $(SUCCESS_STATUS_MESSAGE).html().trim();
 }
 
+function hasIncompleteQuestionMessage() {
+    return $(INFO_STATUS_MESSAGE).length;
+}
+
 function showModalWarningIfSessionClosed() {
     if (hasWarningMessage()) {
         showModalAlert(SESSION_NOT_OPEN, getWarningMessage(), null, BootstrapContextualColors.WARNING);
