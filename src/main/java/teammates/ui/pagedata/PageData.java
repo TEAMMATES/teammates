@@ -92,8 +92,8 @@ public class PageData {
         List<ZoneId> options = TimeHelper.getTimeZoneValues();
         ArrayList<String> result = new ArrayList<>();
         for (ZoneId timeZoneOption : options) {
-            result.add("<option value=\"" + timeZoneOption.toString() + "\""
-                    + (existingTimeZone.equals(timeZoneOption) ? " selected" : "") + ">" + "(" + timeZoneOption.toString()
+            result.add("<option value=\"" + timeZoneOption.getId() + "\""
+                    + (existingTimeZone.equals(timeZoneOption) ? " selected" : "") + ">" + "(" + timeZoneOption.getId()
                     + ") " + TimeHelper.getCitiesForTimeZone(timeZoneOption) + "</option>");
         }
         return result;
