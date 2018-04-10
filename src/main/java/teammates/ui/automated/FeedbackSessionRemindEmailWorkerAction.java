@@ -38,12 +38,17 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
         String courseId = getRequestParamValue(ParamsNames.SUBMISSION_COURSE);
         Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_COURSE, courseId);
 
+        String instructorId = getRequestParamValue(ParamsNames.USER_ID);
+        Assumption.assertPostParamNotNull(ParamsNames.USER_ID, instructorId);
+
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
             List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
 
-            List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+            InstructorAttributes instructorToNotify = logic.getInstructorForGoogleId(courseId, instructorId);
+
+            List<StudentAttributes> studentsToRemindList = new ArrayList<>();
             for (StudentAttributes student : studentList) {
                 if (!logic.isFeedbackSessionCompletedByStudent(session, student.email)) {
                     studentsToRemindList.add(student);
@@ -51,7 +56,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
             }
 
             // Filter out instructors who have submitted the feedback session
-            List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+            List<InstructorAttributes> instructorsToRemindList = new ArrayList<>();
             for (InstructorAttributes instructor : instructorList) {
                 if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.email)) {
                     instructorsToRemindList.add(instructor);
@@ -59,7 +64,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
             }
 
             List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
-                    session, studentsToRemindList, instructorsToRemindList, instructorList);
+                    session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
             log.severe("Unexpected error while sending emails: " + TeammatesException.toStringWithStackTrace(e));

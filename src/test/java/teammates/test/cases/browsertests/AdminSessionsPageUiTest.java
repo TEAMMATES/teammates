@@ -64,8 +64,8 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
      * It does not test for the table content
      */
     private boolean isSessionDataDisplayCorrect() {
-        if (sessionsPage.isElementPresent(By.className("dataTable"))) {
-            int numSessionDataTables = browser.driver.findElements(By.className("dataTable")).size();
+        if (sessionsPage.isElementPresent(By.className("data-table"))) {
+            int numSessionDataTables = browser.driver.findElements(By.className("data-table")).size();
             for (int i = 0; i < numSessionDataTables; i++) {
                 if (!isSessionTableHeaderCorrect(i)) {
                     return false;
@@ -73,7 +73,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
             }
             return true;
         }
-        sessionsPage.verifyStatus("Currently No Ongoing Sessions");
+        sessionsPage.waitForTextsForAllStatusMessagesToUserEquals("Currently No Ongoing Sessions");
         return true;
 
     }
@@ -89,7 +89,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
                                                                "Start Time ",
                                                                "End Time ",
                                                                "Creator");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
+        List<String> actualSessionTableHeaders = new ArrayList<>();
         for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(sessionsPage.getHeaderValueFromDataTable(tableNum, 0, i));
         }

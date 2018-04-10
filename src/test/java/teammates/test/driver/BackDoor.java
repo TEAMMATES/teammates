@@ -243,6 +243,16 @@ public final class BackDoor {
     }
 
     /**
+     * Gets list of students data from the datastore.
+     */
+    public static List<StudentAttributes> getStudents(String courseId) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_GET_STUDENTS_AS_JSON);
+        params.put(BackDoorOperation.PARAMETER_COURSE_ID, courseId);
+        String studentsJson = makePostRequest(params);
+        return JsonUtils.fromJson(studentsJson, new TypeToken<List<StudentAttributes>>(){}.getType());
+    }
+
+    /**
      * Gets the encrypted registration key for a student in the datastore.
      */
     public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
@@ -347,9 +357,10 @@ public final class BackDoor {
      * Persists a feedback response into the datastore.
      */
     public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.feedbackResponses.put("dummy-key", feedbackResponse);
-        return restoreDataBundle(dataBundle);
+        String feedbackResponseJson = JsonUtils.toJson(feedbackResponse);
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_CREATE_FEEDBACK_RESPONSE);
+        params.put(BackDoorOperation.PARAMETER_FEEDBACK_RESPONSE_JSON, feedbackResponseJson);
+        return makePostRequest(params);
     }
 
     /**
@@ -405,7 +416,7 @@ public final class BackDoor {
     }
 
     private static Map<String, String> createParamMap(BackDoorOperation operation) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put(BackDoorOperation.PARAMETER_BACKDOOR_OPERATION, operation.toString());
 
         // For authentication
@@ -428,22 +439,22 @@ public final class BackDoor {
 
     private static String readResponse(URLConnection conn) throws IOException {
         conn.setReadTimeout(10000);
-        InputStreamReader isr = new InputStreamReader(conn.getInputStream(), Const.SystemParams.ENCODING);
-        BufferedReader rd = new BufferedReader(isr);
         StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
+        try (InputStreamReader isr = new InputStreamReader(conn.getInputStream(), Const.SystemParams.ENCODING);
+                BufferedReader rd = new BufferedReader(isr)) {
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
         }
-        rd.close();
         return sb.toString();
     }
 
     private static void sendRequest(String paramString, URLConnection conn) throws IOException {
-        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), Const.SystemParams.ENCODING);
-        wr.write(paramString);
-        wr.flush();
-        wr.close();
+        try (OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), Const.SystemParams.ENCODING)) {
+            wr.write(paramString);
+            wr.flush();
+        }
     }
 
     private static URLConnection getConnectionToUrl(String urlString) throws IOException {
@@ -455,9 +466,7 @@ public final class BackDoor {
 
     private static String encodeParameters(Map<String, String> map) {
         StringBuilder dataStringBuilder = new StringBuilder();
-        for (Map.Entry<String, String> e : map.entrySet()) {
-            dataStringBuilder.append(e.getKey() + "=" + SanitizationHelper.sanitizeForUri(e.getValue()) + "&");
-        }
+        map.forEach((key, value) -> dataStringBuilder.append(key + "=" + SanitizationHelper.sanitizeForUri(value) + "&"));
         return dataStringBuilder.toString();
     }
 

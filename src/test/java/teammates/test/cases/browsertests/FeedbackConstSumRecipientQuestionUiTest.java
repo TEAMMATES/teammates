@@ -1,5 +1,8 @@
 package teammates.test.cases.browsertests;
 
+import java.util.Collections;
+
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -48,6 +51,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testDisableConstSumPointsAction();
     }
 
     @Override
@@ -68,16 +72,17 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsBoxForNewQuestion());
 
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerRecipient");
         feedbackEditPage.fillConstSumPointsForEachRecipientBoxForNewQuestion("");
-        assertEquals("1", feedbackEditPage.getConstSumPointsForEachRecipientBoxForNewQuestion());
+        assertEquals("100", feedbackEditPage.getConstSumPointsForEachRecipientBoxForNewQuestion());
 
         assertFalse(feedbackEditPage.isElementVisible("constSumOptionTable--1"));
 
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertEquals("", feedbackEditPage.getStatus());
+        assertEquals(Collections.emptyList(), feedbackEditPage.getTextsForAllStatusMessagesToUser());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
     }
@@ -104,7 +109,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
@@ -119,11 +124,11 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.fillQuestionTextBox("edited const sum qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
-        feedbackEditPage.fillConstSumPointsBox("200", 1);
         feedbackEditPage.selectConstSumPointsOptions("Total", 1);
+        feedbackEditPage.fillConstSumPointsBox("200", 1);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
@@ -142,8 +147,34 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    /**
+     * Tests that the constSumPoints* number fields gets disabled, if the corresponding radio button is not checked.
+     */
+    private void testDisableConstSumPointsAction() {
+        ______TS("Success case: CONSTSUM-recipient points to distribute field disables when radio button is unchecked");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
+
+        // Make sure that constSumPointsTotal radio button is selected by default
+        assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());
+        // Verify that constSumPointsForEachRecipient field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachRecipient--1")));
+        // Select constSumPointsPerOption radio button
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("PerRecipient");
+        // Verify that constSumPoints field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPoints--1")));
+        // Select constSumPointsTotal radio button.
+        feedbackEditPage.selectConstSumPointsOptionsForNewQuestion("Total");
+        // Verify that constSumPointsForEachRecipient field is disabled
+        feedbackEditPage.verifyUnclickable(browser.driver.findElement(By.id("constSumPointsForEachRecipient--1")));
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+    }
 }

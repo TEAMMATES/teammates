@@ -31,7 +31,7 @@ public class InstructorCourseEditPageAction extends Action {
         gateKeeper.verifyAccessible(instructor, courseToEdit);
 
         /* Setup page data for 'Edit' page of a course for an instructor */
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructorList = new ArrayList<>();
 
         int instructorToShowIndex = -1; // -1 means showing all instructors
 
@@ -43,7 +43,7 @@ public class InstructorCourseEditPageAction extends Action {
         }
 
         List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
-        List<String> feedbackNames = new ArrayList<String>();
+        List<String> feedbackNames = new ArrayList<>();
 
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {

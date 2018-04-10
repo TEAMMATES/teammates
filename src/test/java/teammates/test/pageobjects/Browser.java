@@ -31,7 +31,7 @@ public class Browser {
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
      */
-    private final Stack<String> windowHandles = new Stack<String>();
+    private final Stack<String> windowHandles = new Stack<>();
 
     public Browser() {
         this.driver = createWebDriver();

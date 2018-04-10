@@ -1,5 +1,7 @@
 package teammates.test.cases.action;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
@@ -43,15 +44,15 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSessionAttributes emptySession = dataBundle.feedbackSessions.get("empty.session");
-        FeedbackSessionAttributes closedSession = dataBundle.feedbackSessions.get("closedSession");
-        FeedbackSessionAttributes gracePeriodSession = dataBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes emptySession = typicalBundle.feedbackSessions.get("empty.session");
+        FeedbackSessionAttributes closedSession = typicalBundle.feedbackSessions.get("closedSession");
+        FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
 
         session1InCourse1.setResultsVisibleFromTime(session1InCourse1.getStartTime());
         FeedbackSessionsLogic.inst().updateFeedbackSession(session1InCourse1);
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
@@ -193,8 +194,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageData pageData = (StudentFeedbackResultsPageData) pageResult.data;
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
-        dataBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
-                TimeHelper.now(dataBundle.feedbackSessions.get("session1InCourse1").getTimeZone()).getTime());
+        typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(Instant.now());
 
         /*
          * The above test can fail if the time elapsed between pageData... and dataBundle...
@@ -202,19 +202,20 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
          * To solve that, verify that the time elapsed is less than one second (or else the test
          * fails after all) and if it does, change the value in the dataBundle to match.
          */
-        long pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.getResultsVisibleFromTime().getTime();
-        long dataBundleResultsVisibleFromTime = dataBundle.feedbackSessions.get("session1InCourse1")
-                                                                           .getResultsVisibleFromTime().getTime();
+        Instant pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.getResultsVisibleFromTime();
+        Instant dataBundleResultsVisibleFromTime =
+                typicalBundle.feedbackSessions.get("session1InCourse1").getResultsVisibleFromTime();
+        Duration difference = Duration.between(pageDataResultsVisibleFromTime, dataBundleResultsVisibleFromTime);
         long toleranceTimeInMs = 1000;
-        if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < toleranceTimeInMs) {
+        if (difference.compareTo(Duration.ofMillis(toleranceTimeInMs)) < 0) {
             // change to the value that will never make the test fail
-            dataBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
+            typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
                     pageData.getBundle().feedbackSession.getResultsVisibleFromTime());
         }
 
-        List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<FeedbackSessionAttributes>();
-        List<FeedbackSessionAttributes> actualInfoList = new ArrayList<FeedbackSessionAttributes>();
-        expectedInfoList.add(dataBundle.feedbackSessions.get("session1InCourse1"));
+        List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<>();
+        List<FeedbackSessionAttributes> actualInfoList = new ArrayList<>();
+        expectedInfoList.add(typicalBundle.feedbackSessions.get("session1InCourse1"));
         actualInfoList.add(pageData.getBundle().feedbackSession);
 
         AssertHelper.assertSameContentIgnoreOrder(expectedInfoList, actualInfoList);
@@ -230,7 +231,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions
                 .get("session1InCourse1");
         FeedbackSessionsLogic.inst().publishFeedbackSession(session1InCourse1);
 

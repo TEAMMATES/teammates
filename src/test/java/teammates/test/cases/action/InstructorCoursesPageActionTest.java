@@ -24,12 +24,12 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
 
-        String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
+        String[] submissionParams = new String[] {Const.ParamsNames.IS_USING_AJAX, "true"};
 
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         /* Explanation: If the action is supposed to verify parameters,
          * we should check here the correctness of parameter verification.
@@ -37,10 +37,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
 
              ______TS("Invalid parameters");
             //both parameters missing.
-            verifyAssumptionFailure(new String[]{});
+            verifyAssumptionFailure(new String[] {});
 
             //null student email, only course ID is set
-            String[] invalidParams = new String[]{
+            String[] invalidParams = new String[] {
                     Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
             };
             verifyAssumptionFailure(invalidParams);
@@ -114,8 +114,9 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
     }
 
     @Override
+    @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyInstructorsCanAccess(submissionParams);
     }
 }

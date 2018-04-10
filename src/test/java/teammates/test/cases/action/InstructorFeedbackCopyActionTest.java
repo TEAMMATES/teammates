@@ -28,14 +28,14 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
     @BeforeMethod
     public void refreshTestData() {
-        dataBundle = getTypicalDataBundle();
-        removeAndRestoreTypicalDataBundle();
+        super.prepareTestData();
     }
 
+    @Override
     @Test
     public void testAccessControl() {
 
-        String[] params = new String[]{
+        String[] params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
@@ -50,7 +50,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         //TODO: find a way to test status message from session
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String expectedString = "";
         String teammatesLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
@@ -65,7 +65,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
         ______TS("Typical case");
 
-        String[] params = new String[]{
+        String[] params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
@@ -89,17 +89,17 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||New Feedback Session "
                 + "<span class=\"bold\">(Copied Session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Fri Apr 30 23:59:00 UTC 2027<br>"
-                + "<span class=\"bold\">Session visible from:</span> Wed Mar 28 23:59:00 UTC 2012<br>"
-                + "<span class=\"bold\">Results visible from:</span> Sat May 01 23:59:00 UTC 2027<br><br>"
+                + "<span class=\"bold\">From:</span> 2012-04-01T21:59:00Z"
+                + "<span class=\"bold\"> to</span> 2027-04-30T21:59:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 2012-03-28T21:59:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 2027-05-01T21:59:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Error: Trying to copy with existing feedback session name");
 
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
@@ -109,7 +109,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         RedirectResult pageResult = getRedirectResult(a);
 
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
                            .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
                            .toString(),
@@ -127,7 +127,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
         ______TS("Error: Trying to copy with invalid feedback session name");
 
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
@@ -137,20 +137,21 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         pageResult = getRedirectResult(a);
 
-        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)
                            .withParam(Const.ParamsNames.ERROR, Boolean.TRUE.toString())
                            .withParam(Const.ParamsNames.USER_ID, instructor1ofCourse1.googleId)
                            .toString(),
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
-        assertEquals(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
+        assertEquals(getPopulatedEmptyStringErrorMessage(
+                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                          FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                      pageResult.getStatusMessage());
 
         expectedString =
                 teammatesLogMessage + "Servlet Action Failure : "
-                + "\"\" is not acceptable to TEAMMATES as a/an feedback session name because it is empty. "
+                + "The field 'feedback session name' is empty. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
                 + "It should not be empty.|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
@@ -160,7 +161,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Second copied feedback session",
                 Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
@@ -185,10 +186,10 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||New Feedback Session "
                 + "<span class=\"bold\">(Second copied feedback session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Sat Jun 01 23:59:00 UTC 2013"
-                + "<span class=\"bold\"> to</span> Tue Apr 28 23:59:00 UTC 2026<br>"
-                + "<span class=\"bold\">Session visible from:</span> Wed Mar 20 23:59:00 UTC 2013<br>"
-                + "<span class=\"bold\">Results visible from:</span> Wed Apr 29 23:59:00 UTC 2026<br><br>"
+                + "<span class=\"bold\">From:</span> 2013-06-01T21:59:00Z"
+                + "<span class=\"bold\"> to</span> 2026-04-28T21:59:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 2013-03-20T21:59:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 2026-04-29T21:59:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);

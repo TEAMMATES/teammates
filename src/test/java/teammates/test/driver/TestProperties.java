@@ -80,10 +80,23 @@ public final class TestProperties {
     /** Maximum period for verification retries due to persistence delays. */
     public static final int PERSISTENCE_RETRY_PERIOD_IN_S = 128;
 
+    /** The directory where credentials used in Gmail API are stored. */
+    static final String TEST_GMAIL_API_FOLDER = "src/test/resources/gmail-api";
+
     static {
         Properties prop = new Properties();
         try {
-            prop.load(new FileInputStream("src/test/resources/test.properties"));
+            String propertiesFilename;
+            if (isTravis()) {
+                propertiesFilename = "test.travis.properties";
+            } else if (isAppveyor()) {
+                propertiesFilename = "test.appveyor.properties";
+            } else {
+                propertiesFilename = "test.properties";
+            }
+            try (FileInputStream testPropStream = new FileInputStream("src/test/resources/" + propertiesFilename)) {
+                prop.load(testPropStream);
+            }
 
             TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
 
@@ -147,8 +160,16 @@ public final class TestProperties {
         // access static fields directly
     }
 
+    public static boolean isTravis() {
+        return System.getenv("TRAVIS") != null;
+    }
+
+    public static boolean isAppveyor() {
+        return System.getenv("APPVEYOR") != null;
+    }
+
     public static boolean isCiEnvironment() {
-        return System.getenv("TRAVIS") != null || System.getenv("APPVEYOR") != null;
+        return isTravis() || isAppveyor();
     }
 
     public static boolean isDevServer() {

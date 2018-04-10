@@ -44,24 +44,17 @@ public abstract class SearchDocument {
 
     protected abstract Document toDocument();
 
-    protected static String extractContentFromQuotedString(String quotedString) {
-        if (quotedString.matches("^\".*\"$")) {
-            return quotedString.substring(1, quotedString.length() - 1);
-        }
-        return quotedString;
-    }
-
     /**
      * This method must be called to filter out the search result for course Id.
      */
     protected static List<ScoredDocument> filterOutCourseId(Results<ScoredDocument> results,
                                                             List<InstructorAttributes> instructors) {
-        Set<String> courseIdSet = new HashSet<String>();
+        Set<String> courseIdSet = new HashSet<>();
         for (InstructorAttributes ins : instructors) {
             courseIdSet.add(ins.courseId);
         }
 
-        List<ScoredDocument> filteredResults = new ArrayList<ScoredDocument>();
+        List<ScoredDocument> filteredResults = new ArrayList<>();
         for (ScoredDocument document : results) {
             String resultCourseId = document.getOnlyField(Const.SearchDocumentField.COURSE_ID).getText();
             if (courseIdSet.contains(resultCourseId)) {

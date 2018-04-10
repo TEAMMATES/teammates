@@ -65,7 +65,7 @@ public class AdminEmailLogPageUiTest extends BaseUiTestCase {
         List<String> expectedSessionTableHeaders = Arrays.asList("Receiver",
                                                                  "Subject",
                                                                  "Date");
-        List<String> actualSessionTableHeaders = new ArrayList<String>();
+        List<String> actualSessionTableHeaders = new ArrayList<>();
 
         for (int i = 0; i < numColumns; i++) {
             actualSessionTableHeaders.add(emailLogPage.getHeaderValueFromDataTable(0, 0, i));

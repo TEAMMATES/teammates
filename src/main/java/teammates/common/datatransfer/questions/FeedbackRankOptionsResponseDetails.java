@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
@@ -23,7 +22,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails,
                                        String[] answer) {
-        List<Integer> rankAnswer = new ArrayList<Integer>();
+        List<Integer> rankAnswer = new ArrayList<>();
         for (String answerPart : answer) {
             try {
                 rankAnswer.add(Integer.parseInt(answerPart));
@@ -47,7 +46,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             }
         }
 
-        Collections.sort(filteredAnswers);
+        filteredAnswers.sort(null);
         return filteredAnswers;
     }
 
@@ -120,12 +119,8 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         for (int i = 0; i < answers.size(); i++) {
             String option = rankQuestion.options.get(i);
             Integer answer = answers.get(i);
-
-            if (!orderedOptions.containsKey(answer)) {
-                orderedOptions.put(answer, new ArrayList<String>());
-            }
-            List<String> optionsWithGivenRank = orderedOptions.get(answer);
-            optionsWithGivenRank.add(option);
+            orderedOptions.computeIfAbsent(answer, key -> new ArrayList<>())
+                          .add(option);
         }
         return orderedOptions;
     }

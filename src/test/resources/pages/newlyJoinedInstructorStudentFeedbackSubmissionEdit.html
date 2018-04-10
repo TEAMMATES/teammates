@@ -17,7 +17,7 @@
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="${test.instructor}">
     <div id="statusMessagesToUser">
-      <div class="overflow-auto alert alert-warning statusMessage">
+      <div class="overflow-auto alert alert-warning icon-warning statusMessage">
         <strong>
           The feedback session is currently not open for submissions.
         </strong>
@@ -55,8 +55,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2012-04-01T15:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -65,8 +65,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Mon, 02 Apr 2012, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2012-04-02T15:59:00Z" id="end-time">
+                  Mon, 02 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -115,36 +115,44 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option selected="" value="AHPUiT+++_.instr1!@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option selected="" value="AHPUiT+++_.instr1!@gmail.tmt">
+                    AHPUiT Instrúctör WithPlusInEmail
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option style="display: none;" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   AHPUiT Instrúctör WithPlusInEmail
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option style="display: none;" value="francis.g.tmms@gmail.tmt">
-                  Francis Gabriel
-                </option>
-                <option style="display: none;" value="gene.h.tmms@gmail.tmt">
-                  Gene Hudson
-                </option>
-              </select>
-              <span>
-                AHPUiT Instrúctör WithPlusInEmail
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <select class="form-control color-positive" disabled="" name="responsetext-1-0">
-                  <option class="color_neutral" value="-999">
+                  <option class="color-neutral" value="-999">
                   </option>
                   <option class="color-positive" value="200">
                     Equal share + 100%
@@ -176,7 +184,7 @@
                   <option class="color-positive" selected="" value="110">
                     Equal share + 10%
                   </option>
-                  <option class="color_neutral" value="100">
+                  <option class="color-neutral" value="100">
                     Equal share
                   </option>
                   <option class="color-negative" value="90">
@@ -209,7 +217,7 @@
                   <option class="color-negative" value="0">
                     0%
                   </option>
-                  <option class="color_neutral" value="-101">
+                  <option class="color-neutral" value="-101">
                     Not Sure
                   </option>
                 </select>
@@ -218,7 +226,11 @@
                 <a data-target="#more-info-equal-share-modal" data-toggle="modal" href="javascript:;" id="more-info-equal-share-modal-link">
                   <span class="glyphicon glyphicon-info-sign">
                   </span>
-                  More info about the equal share scale
+                  More info about the
+                  <code>
+                    Equal Share
+                  </code>
+                  scale
                 </a>
               </div>
               <div class="modal fade" id="more-info-equal-share-modal" role="dialog">
@@ -229,53 +241,82 @@
                         ×
                       </button>
                       <h4 class="modal-title">
-                        More info about the 'Equal Share' scale
+                        More info about the
+                        <code>
+                          Equal Share
+                        </code>
+                        scale
                       </h4>
                     </div>
                     <div class="modal-body">
                       <p>
-                        Equal share is a relative measure of individual contribution to a team.
+                        <code>
+                          Equal share
+                        </code>
+                        is a relative measure of individual contribution to a team task.
                       </p>
                       <p>
-                        For example, in a 3 person team, 'equal share' means a third of the work done.
+                        For example, in a 3-person team,
+                        <code>
+                          Equal share
+                        </code>
+                        means a third of the work done.
+                      </p>
+                      <p>
+                        <code>
+                          Equal share + 10%
+                        </code>
+                        means the person did about 10%
+                        <em>
+                          more
+                        </em>
+                        than an equal share,
+                        <code>
+                          Equal share - 10%
+                        </code>
+                        means about 10%
+                        <em>
+                          less
+                        </em>
+                        than an equal share, and so on.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <input name="responseid-1-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%AHPUiT+++_.instr1!@gmail.tmt">
             </div>
+            <input name="responseid-1-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%AHPUiT+++_.instr1!@gmail.tmt">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-1" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option style="display: none;" value="AHPUiT+++_.instr1!@gmail.tmt">
-                  AHPUiT Instrúctör WithPlusInEmail
-                </option>
-                <option selected="" value="charlie.d.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-1" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option style="display: none;" value="AHPUiT+++_.instr1!@gmail.tmt">
+                    AHPUiT Instrúctör WithPlusInEmail
+                  </option>
+                  <option selected="" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option style="display: none;" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Charlie Davis
-                </option>
-                <option style="display: none;" value="francis.g.tmms@gmail.tmt">
-                  Francis Gabriel
-                </option>
-                <option style="display: none;" value="gene.h.tmms@gmail.tmt">
-                  Gene Hudson
-                </option>
-              </select>
-              <span>
-                Charlie Davis
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <select class="form-control color-negative" disabled="" name="responsetext-1-1">
-                  <option class="color_neutral" value="-999">
+                  <option class="color-neutral" value="-999">
                   </option>
                   <option class="color-positive" value="200">
                     Equal share + 100%
@@ -307,7 +348,7 @@
                   <option class="color-positive" value="110">
                     Equal share + 10%
                   </option>
-                  <option class="color_neutral" value="100">
+                  <option class="color-neutral" value="100">
                     Equal share
                   </option>
                   <option class="color-negative" value="90">
@@ -340,7 +381,7 @@
                   <option class="color-negative" value="0">
                     0%
                   </option>
-                  <option class="color_neutral" value="-101">
+                  <option class="color-neutral" value="-101">
                     Not Sure
                   </option>
                 </select>
@@ -357,53 +398,82 @@
                         ×
                       </button>
                       <h4 class="modal-title">
-                        More info about the 'Equal Share' scale
+                        More info about the
+                        <code>
+                          Equal Share
+                        </code>
+                        scale
                       </h4>
                     </div>
                     <div class="modal-body">
                       <p>
-                        Equal share is a relative measure of individual contribution to a team.
+                        <code>
+                          Equal share
+                        </code>
+                        is a relative measure of individual contribution to a team task.
                       </p>
                       <p>
-                        For example, in a 3 person team, 'equal share' means a third of the work done.
+                        For example, in a 3-person team,
+                        <code>
+                          Equal share
+                        </code>
+                        means a third of the work done.
+                      </p>
+                      <p>
+                        <code>
+                          Equal share + 10%
+                        </code>
+                        means the person did about 10%
+                        <em>
+                          more
+                        </em>
+                        than an equal share,
+                        <code>
+                          Equal share - 10%
+                        </code>
+                        means about 10%
+                        <em>
+                          less
+                        </em>
+                        than an equal share, and so on.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <input name="responseid-1-1" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%charlie.d.tmms@gmail.tmt">
             </div>
+            <input name="responseid-1-1" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%charlie.d.tmms@gmail.tmt">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-2" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option style="display: none;" value="AHPUiT+++_.instr1!@gmail.tmt">
-                  AHPUiT Instrúctör WithPlusInEmail
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option selected="" value="francis.g.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-2" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option style="display: none;" value="AHPUiT+++_.instr1!@gmail.tmt">
+                    AHPUiT Instrúctör WithPlusInEmail
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option selected="" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option style="display: none;" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Francis Gabriel
-                </option>
-                <option style="display: none;" value="gene.h.tmms@gmail.tmt">
-                  Gene Hudson
-                </option>
-              </select>
-              <span>
-                Francis Gabriel
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <select class="form-control color-positive" disabled="" name="responsetext-1-2">
-                  <option class="color_neutral" value="-999">
+                  <option class="color-neutral" value="-999">
                   </option>
                   <option class="color-positive" value="200">
                     Equal share + 100%
@@ -435,7 +505,7 @@
                   <option class="color-positive" selected="" value="110">
                     Equal share + 10%
                   </option>
-                  <option class="color_neutral" value="100">
+                  <option class="color-neutral" value="100">
                     Equal share
                   </option>
                   <option class="color-negative" value="90">
@@ -468,7 +538,7 @@
                   <option class="color-negative" value="0">
                     0%
                   </option>
-                  <option class="color_neutral" value="-101">
+                  <option class="color-neutral" value="-101">
                     Not Sure
                   </option>
                 </select>
@@ -485,53 +555,82 @@
                         ×
                       </button>
                       <h4 class="modal-title">
-                        More info about the 'Equal Share' scale
+                        More info about the
+                        <code>
+                          Equal Share
+                        </code>
+                        scale
                       </h4>
                     </div>
                     <div class="modal-body">
                       <p>
-                        Equal share is a relative measure of individual contribution to a team.
+                        <code>
+                          Equal share
+                        </code>
+                        is a relative measure of individual contribution to a team task.
                       </p>
                       <p>
-                        For example, in a 3 person team, 'equal share' means a third of the work done.
+                        For example, in a 3-person team,
+                        <code>
+                          Equal share
+                        </code>
+                        means a third of the work done.
+                      </p>
+                      <p>
+                        <code>
+                          Equal share + 10%
+                        </code>
+                        means the person did about 10%
+                        <em>
+                          more
+                        </em>
+                        than an equal share,
+                        <code>
+                          Equal share - 10%
+                        </code>
+                        means about 10%
+                        <em>
+                          less
+                        </em>
+                        than an equal share, and so on.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <input name="responseid-1-2" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%francis.g.tmms@gmail.tmt">
             </div>
+            <input name="responseid-1-2" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%francis.g.tmms@gmail.tmt">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-3" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option style="display: none;" value="AHPUiT+++_.instr1!@gmail.tmt">
-                  AHPUiT Instrúctör WithPlusInEmail
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option style="display: none;" value="francis.g.tmms@gmail.tmt">
-                  Francis Gabriel
-                </option>
-                <option selected="" value="gene.h.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-1-3" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option style="display: none;" value="AHPUiT+++_.instr1!@gmail.tmt">
+                    AHPUiT Instrúctör WithPlusInEmail
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option selected="" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Gene Hudson
-                </option>
-              </select>
-              <span>
-                Gene Hudson
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
                 <select class="form-control color-positive" disabled="" name="responsetext-1-3">
-                  <option class="color_neutral" value="-999">
+                  <option class="color-neutral" value="-999">
                   </option>
                   <option class="color-positive" value="200">
                     Equal share + 100%
@@ -563,7 +662,7 @@
                   <option class="color-positive" selected="" value="110">
                     Equal share + 10%
                   </option>
-                  <option class="color_neutral" value="100">
+                  <option class="color-neutral" value="100">
                     Equal share
                   </option>
                   <option class="color-negative" value="90">
@@ -596,7 +695,7 @@
                   <option class="color-negative" value="0">
                     0%
                   </option>
-                  <option class="color_neutral" value="-101">
+                  <option class="color-neutral" value="-101">
                     Not Sure
                   </option>
                 </select>
@@ -613,22 +712,51 @@
                         ×
                       </button>
                       <h4 class="modal-title">
-                        More info about the 'Equal Share' scale
+                        More info about the
+                        <code>
+                          Equal Share
+                        </code>
+                        scale
                       </h4>
                     </div>
                     <div class="modal-body">
                       <p>
-                        Equal share is a relative measure of individual contribution to a team.
+                        <code>
+                          Equal share
+                        </code>
+                        is a relative measure of individual contribution to a team task.
                       </p>
                       <p>
-                        For example, in a 3 person team, 'equal share' means a third of the work done.
+                        For example, in a 3-person team,
+                        <code>
+                          Equal share
+                        </code>
+                        means a third of the work done.
+                      </p>
+                      <p>
+                        <code>
+                          Equal share + 10%
+                        </code>
+                        means the person did about 10%
+                        <em>
+                          more
+                        </em>
+                        than an equal share,
+                        <code>
+                          Equal share - 10%
+                        </code>
+                        means about 10%
+                        <em>
+                          less
+                        </em>
+                        than an equal share, and so on.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <input name="responseid-1-3" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%gene.h.tmms@gmail.tmt">
             </div>
+            <input name="responseid-1-3" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%gene.h.tmms@gmail.tmt">
           </div>
         </div>
       </div>
@@ -644,7 +772,7 @@
           Question 2:
           <br>
           <span class="text-preserve-space">
-            Comments about my contribution (shown to other teammates)
+            Comments about your contribution (shown to other teammates)
           </span>
         </div>
         <div class="panel-body">
@@ -667,23 +795,23 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-2-0" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option selected="" value="AHPUiT+++_.instr1!@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-2-0" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option selected="" value="AHPUiT+++_.instr1!@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-2-0" data-recommended-text="0" disabled="" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false" style="position: relative;">
+              <div class="panel panel-default panel-body mce-content-body content-editor" data-is-session-open="false" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false">
                 <p>
                   I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time.
                 </p>
@@ -705,8 +833,8 @@
                   words
                 </div>
               </div>
-              <input name="responseid-2-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%AHPUiT+++_.instr1!@gmail.tmt">
             </div>
+            <input name="responseid-2-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%AHPUiT+++_.instr1!@gmail.tmt">
           </div>
         </div>
       </div>
@@ -722,7 +850,7 @@
           Question 3:
           <br>
           <span class="text-preserve-space">
-            My comments about this teammate(confidential and only shown to instructor)
+            Your comments about this teammate (confidential and only shown to instructor)
           </span>
         </div>
         <div class="panel-body">
@@ -734,31 +862,39 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-3-0" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option selected="" value="charlie.d.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-3-0" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option selected="" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option style="display: none;" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Charlie Davis
-                </option>
-                <option style="display: none;" value="francis.g.tmms@gmail.tmt">
-                  Francis Gabriel
-                </option>
-                <option style="display: none;" value="gene.h.tmms@gmail.tmt">
-                  Gene Hudson
-                </option>
-              </select>
-              <span>
-                Charlie Davis
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-3-0" data-recommended-text="0" disabled="" id="responsetext-3-0" name="responsetext-3-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor" data-is-session-open="false" data-length-text-id="responseLength-3-0" data-recommended-text="0" id="responsetext-3-0" name="responsetext-3-0" spellcheck="false">
                 <p>
                   A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good.
                 </p>
@@ -780,34 +916,34 @@
                   words
                 </div>
               </div>
-              <input name="responseid-3-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%charlie.d.tmms@gmail.tmt">
             </div>
+            <input name="responseid-3-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%charlie.d.tmms@gmail.tmt">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-3-1" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option selected="" value="francis.g.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-3-1" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option selected="" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option style="display: none;" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Francis Gabriel
-                </option>
-                <option style="display: none;" value="gene.h.tmms@gmail.tmt">
-                  Gene Hudson
-                </option>
-              </select>
-              <span>
-                Francis Gabriel
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-3-1" data-recommended-text="0" disabled="" id="responsetext-3-1" name="responsetext-3-1" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor" data-is-session-open="false" data-length-text-id="responseLength-3-1" data-recommended-text="0" id="responsetext-3-1" name="responsetext-3-1" spellcheck="false">
                 <p>
                   Francis is the designer of the project. He did a good job!
                 </p>
@@ -829,34 +965,34 @@
                   words
                 </div>
               </div>
-              <input name="responseid-3-1" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%francis.g.tmms@gmail.tmt">
             </div>
+            <input name="responseid-3-1" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%francis.g.tmms@gmail.tmt">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-3-2" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option style="display: none;" value="francis.g.tmms@gmail.tmt">
-                  Francis Gabriel
-                </option>
-                <option selected="" value="gene.h.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-3-2" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option selected="" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Gene Hudson
-                </option>
-              </select>
-              <span>
-                Gene Hudson
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-3-2" data-recommended-text="0" disabled="" id="responsetext-3-2" name="responsetext-3-2" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor" data-is-session-open="false" data-length-text-id="responseLength-3-2" data-recommended-text="0" id="responsetext-3-2" name="responsetext-3-2" spellcheck="false">
                 <p>
                   Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project.
                 </p>
@@ -878,8 +1014,8 @@
                   words
                 </div>
               </div>
-              <input name="responseid-3-2" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%gene.h.tmms@gmail.tmt">
             </div>
+            <input name="responseid-3-2" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%gene.h.tmms@gmail.tmt">
           </div>
         </div>
       </div>
@@ -895,7 +1031,7 @@
           Question 4:
           <br>
           <span class="text-preserve-space">
-            Comments about team dynamics(confidential and only shown to instructor)
+            Comments about team dynamics (confidential and only shown to instructor)
           </span>
         </div>
         <div class="panel-body">
@@ -907,25 +1043,33 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-4-0" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option selected="" value="Team 2">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-4-0" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option selected="" value="Team 2">
+                    Team 2
+                  </option>
+                </select>
+                <span>
                   Team 2
-                </option>
-              </select>
-              <span>
-                Team 2
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-4-0" data-recommended-text="0" disabled="" id="responsetext-4-0" name="responsetext-4-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor" data-is-session-open="false" data-length-text-id="responseLength-4-0" data-recommended-text="0" id="responsetext-4-0" name="responsetext-4-0" spellcheck="false">
                 <p>
                   I had a great time with this team. Thanks for all the support from the members.
                 </p>
@@ -947,8 +1091,8 @@
                   words
                 </div>
               </div>
-              <input name="responseid-4-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%Team 2">
             </div>
+            <input name="responseid-4-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%Team 2">
           </div>
         </div>
       </div>
@@ -964,7 +1108,7 @@
           Question 5:
           <br>
           <span class="text-preserve-space">
-            My feedback to this teammate(shown anonymously to the teammate)
+            Your feedback to this teammate (shown anonymously to the teammate)
           </span>
         </div>
         <div class="panel-body">
@@ -979,31 +1123,39 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-5-0" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option selected="" value="charlie.d.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-5-0" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option selected="" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option style="display: none;" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Charlie Davis
-                </option>
-                <option style="display: none;" value="francis.g.tmms@gmail.tmt">
-                  Francis Gabriel
-                </option>
-                <option style="display: none;" value="gene.h.tmms@gmail.tmt">
-                  Gene Hudson
-                </option>
-              </select>
-              <span>
-                Charlie Davis
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-5-0" data-recommended-text="0" disabled="" id="responsetext-5-0" name="responsetext-5-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor" data-is-session-open="false" data-length-text-id="responseLength-5-0" data-recommended-text="0" id="responsetext-5-0" name="responsetext-5-0" spellcheck="false">
                 <p>
                   Good try Charlie! Thanks for showing great effort in picking up the skills.
                 </p>
@@ -1025,34 +1177,34 @@
                   words
                 </div>
               </div>
-              <input name="responseid-5-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%charlie.d.tmms@gmail.tmt">
             </div>
+            <input name="responseid-5-0" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%charlie.d.tmms@gmail.tmt">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-5-1" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option selected="" value="francis.g.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-5-1" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option selected="" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option style="display: none;" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Francis Gabriel
-                </option>
-                <option style="display: none;" value="gene.h.tmms@gmail.tmt">
-                  Gene Hudson
-                </option>
-              </select>
-              <span>
-                Francis Gabriel
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-5-1" data-recommended-text="0" disabled="" id="responsetext-5-1" name="responsetext-5-1" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor" data-is-session-open="false" data-length-text-id="responseLength-5-1" data-recommended-text="0" id="responsetext-5-1" name="responsetext-5-1" spellcheck="false">
                 <p>
                   Nice work Francis!
                 </p>
@@ -1074,34 +1226,34 @@
                   words
                 </div>
               </div>
-              <input name="responseid-5-1" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%francis.g.tmms@gmail.tmt">
             </div>
+            <input name="responseid-5-1" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%francis.g.tmms@gmail.tmt">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-5-2" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option style="display: none;" value="francis.g.tmms@gmail.tmt">
-                  Francis Gabriel
-                </option>
-                <option selected="" value="gene.h.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign form-control" disabled="" name="responserecipient-5-2" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="francis.g.tmms@gmail.tmt">
+                    Francis Gabriel
+                  </option>
+                  <option selected="" value="gene.h.tmms@gmail.tmt">
+                    Gene Hudson
+                  </option>
+                </select>
+                <span>
                   Gene Hudson
-                </option>
-              </select>
-              <span>
-                Gene Hudson
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-5-2" data-recommended-text="0" disabled="" id="responsetext-5-2" name="responsetext-5-2" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor" data-is-session-open="false" data-length-text-id="responseLength-5-2" data-recommended-text="0" id="responsetext-5-2" name="responsetext-5-2" spellcheck="false">
                 <p>
                   Keep up the good work Gene!
                 </p>
@@ -1123,8 +1275,8 @@
                   words
                 </div>
               </div>
-              <input name="responseid-5-2" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%gene.h.tmms@gmail.tmt">
             </div>
+            <input name="responseid-5-2" type="hidden" value="${question.id}%AHPUiT+++_.instr1!@gmail.tmt%gene.h.tmms@gmail.tmt">
           </div>
         </div>
       </div>

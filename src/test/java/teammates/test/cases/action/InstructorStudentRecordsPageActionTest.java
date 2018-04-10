@@ -36,8 +36,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        StudentAttributes student = dataBundle.students.get("student2InCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
+        StudentAttributes student = typicalBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;
 
         gaeSimulation.loginAsInstructor(instructorId);
@@ -62,7 +62,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         verifyAssumptionFailure(invalidParams);
 
         // student not in course
-        String studentEmailOfStudent1InCourse2 = dataBundle.students.get("student1InCourse2").email;
+        String studentEmailOfStudent1InCourse2 = typicalBundle.students.get("student1InCourse2").email;
         invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, studentEmailOfStudent1InCourse2
@@ -92,8 +92,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
 
         InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
-        StudentProfileAttributes expectedProfile = new StudentProfileAttributes();
-        expectedProfile.googleId = student.googleId;
+        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student.googleId).build();
         expectedProfile.modifiedDate = actualData.spa.modifiedDate;
         expectedProfile.pictureKey = actualData.spa.pictureKey;
 
@@ -114,7 +113,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         ______TS("Typical case: instructor cannot view sections");
 
-        instructor = dataBundle.instructors.get("helperOfCourse1");
+        instructor = typicalBundle.instructors.get("helperOfCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         submissionParams = new String[] {
@@ -136,7 +135,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         ______TS("Typical case: student has no records, no profiles");
 
-        String instructor4Id = dataBundle.instructors.get("instructor4").googleId;
+        String instructor4Id = typicalBundle.instructors.get("instructor4").googleId;
         // re-login as another instructor for new test
         gaeSimulation.loginAsInstructor(instructor4Id);
         String courseIdWithNoSession = "idOfCourseNoEvals";
@@ -150,7 +149,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         InstructorStudentRecordsPageAction aWithNoSession = getAction(submissionParamsWithNoSession);
         ShowPageResult rWithNoSession = getShowPageResult(aWithNoSession);
-        List<String> expectedMessages = new ArrayList<String>();
+        List<String> expectedMessages = new ArrayList<>();
         expectedMessages.add("No records were found for this student");
         expectedMessages.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
         AssertHelper.assertContains(expectedMessages, rWithNoSession.getStatusMessage());
@@ -169,15 +168,15 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         ______TS("Typical case: student has profile with script injection");
 
-        instructor = dataBundle.instructors.get("instructor1OfTestingSanitizationCourse");
+        instructor = typicalBundle.instructors.get("instructor1OfTestingSanitizationCourse");
         instructorId = instructor.googleId;
         String studentId = "student1InTestingSanitizationCourse";
-        student = dataBundle.students.get(studentId);
-        expectedProfile = dataBundle.accounts.get(studentId).studentProfile;
+        student = typicalBundle.students.get(studentId);
+        expectedProfile = typicalBundle.accounts.get(studentId).studentProfile;
 
         gaeSimulation.loginAsInstructor(instructorId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email
         };
@@ -198,7 +197,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                 + "|||instructor1@sanitization.tmt|||instructorStudentRecords Page Load<br>"
                 + "Viewing <span class=\"bold\">" + student.email + "'s</span> records "
                 + "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>"
-                + "Number of sessions: 0<br>"
+                + "Number of sessions: 1<br>"
                 + "Student Profile: " + SanitizationHelper.sanitizeForHtmlTag(expectedProfile.toString())
                 + "|||/page/instructorStudentRecordsPage";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
@@ -206,8 +205,13 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
     private StudentAttributes createStudentInTypicalDataBundleForCourseWithNoSession()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        StudentAttributes student = new StudentAttributes("", "emailTemp@gmail.tmt", "nameOfStudent",
-                                                          "No comment", "idOfCourseNoEvals", "team", "section");
+        StudentAttributes student = StudentAttributes
+                .builder("idOfCourseNoEvals", "nameOfStudent", "emailTemp@gmail.tmt")
+                .withSection("section")
+                .withTeam("team")
+                .withComments("No comment")
+                .build();
+
         logic.createStudentWithoutDocument(student);
         return student;
     }
@@ -220,10 +224,10 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };

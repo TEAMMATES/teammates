@@ -379,8 +379,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         List<FeedbackResponseAttributes> responsesFromGiver =
                 frLogic.getFeedbackResponsesFromGiverForCourse(
                         studentToUpdate.course, studentToUpdate.email);
-        List<FeedbackResponseAttributes> responsesToAndFromStudent =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesToAndFromStudent = new ArrayList<>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
         List<FeedbackResponseCommentAttributes> responseCommentsForStudent =
@@ -397,7 +396,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 studentToUpdate.course, studentToUpdate.email);
         responsesFromGiver = frLogic.getFeedbackResponsesFromGiverForCourse(
                 studentToUpdate.course, studentToUpdate.email);
-        responsesToAndFromStudent = new ArrayList<FeedbackResponseAttributes>();
+        responsesToAndFromStudent = new ArrayList<>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
         responseCommentsForStudent =
@@ -411,7 +410,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 studentToUpdate.course, "new@email.tmt");
         responsesFromGiver = frLogic.getFeedbackResponsesFromGiverForCourse(
                 studentToUpdate.course, "new@email.tmt");
-        responsesToAndFromStudent = new ArrayList<FeedbackResponseAttributes>();
+        responsesToAndFromStudent = new ArrayList<>();
         responsesToAndFromStudent.addAll(responsesForReceiver);
         responsesToAndFromStudent.addAll(responsesFromGiver);
         responseCommentsForStudent =
@@ -589,14 +588,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
 
-        List<FeedbackResponseAttributes> remainingResponses = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> remainingResponses = new ArrayList<>();
         remainingResponses.addAll(
                 frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
         remainingResponses.addAll(
                 frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         assertEquals(remainingResponses.size(), 0);
 
-        List<FeedbackResponseCommentAttributes> remainingComments = new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> remainingComments = new ArrayList<>();
         for (FeedbackResponseAttributes response : responsesForStudent1) {
             remainingComments.addAll(frcLogic.getFeedbackResponseCommentForResponse(response.getId()));
         }
@@ -693,8 +692,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponsesFromDatastore(
             List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseCommentAttributes> responseComments =
-                new ArrayList<FeedbackResponseCommentAttributes>();
+        List<FeedbackResponseCommentAttributes> responseComments = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             List<FeedbackResponseCommentAttributes> responseCommentsForResponse =
                     frcLogic.getFeedbackResponseCommentForResponse(response.getId());

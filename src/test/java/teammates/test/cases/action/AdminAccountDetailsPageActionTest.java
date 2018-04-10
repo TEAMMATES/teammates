@@ -24,7 +24,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
 
         ______TS("case: view instructor account details");
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.googleId
@@ -55,7 +55,7 @@ public class AdminAccountDetailsPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyAdminsCanAccess(submissionParams);
     }
 

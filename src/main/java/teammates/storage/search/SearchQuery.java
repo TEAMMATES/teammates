@@ -24,7 +24,7 @@ public abstract class SearchQuery {
     private String visibilityQueryString;
 
     private QueryOptions options;
-    private List<String> textQueryStrings = new ArrayList<String>();
+    private List<String> textQueryStrings = new ArrayList<>();
 
     protected SearchQuery(List<InstructorAttributes> instructors, String queryString) {
         options = QueryOptions.newBuilder()
@@ -62,7 +62,7 @@ public abstract class SearchQuery {
     private String prepareOrQueryString(String queryString) {
         String[] splitStrings = queryString.replaceAll("\"", " \" ").trim().split("\\s+");
 
-        List<String> keywords = new ArrayList<String>();
+        List<String> keywords = new ArrayList<>();
         StringBuilder key = new StringBuilder();
         boolean isStartQuote = false;
         for (String splitString : splitStrings) {

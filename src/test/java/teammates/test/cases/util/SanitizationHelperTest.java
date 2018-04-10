@@ -1,7 +1,10 @@
 package teammates.test.cases.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -26,7 +29,7 @@ public class SanitizationHelperTest extends BaseTestCase {
         String emailWithWhiteSpaces = "\tnormal@email.com \t\n";
         String normalEmail = "normal@email.com";
 
-        assertEquals(null, SanitizationHelper.sanitizeEmail(null));
+        assertNull(SanitizationHelper.sanitizeEmail(null));
         assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(normalEmail));
         assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithWhiteSpaces));
     }
@@ -37,7 +40,7 @@ public class SanitizationHelperTest extends BaseTestCase {
         String nameWithWhiteSpaces = "\t alice   bob \t\n";
         String normalName = "alice bob";
 
-        assertEquals(null, SanitizationHelper.sanitizeName(null));
+        assertNull(SanitizationHelper.sanitizeName(null));
         assertEquals(normalName, SanitizationHelper.sanitizeName(normalName));
         assertEquals(normalName, SanitizationHelper.sanitizeName(nameWithWhiteSpaces));
     }
@@ -59,7 +62,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeJs_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.sanitizeForJs(null));
+        assertNull(SanitizationHelper.sanitizeForJs(null));
     }
 
     private void sanitizeJs_receivesUnsanitized_returnsSanitized() {
@@ -77,7 +80,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeHtml_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.sanitizeForHtml((String) null));
+        assertNull(SanitizationHelper.sanitizeForHtml((String) null));
     }
 
     private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
@@ -96,6 +99,21 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testSanitizeForHtmlList() {
+        List<String> unsanitizedHtml = new ArrayList<>(Arrays.asList(
+                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
+        );
+
+        List<String> sanitizedHtml = new ArrayList<>(Arrays.asList(
+                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
+        );
+
+        assertEquals(sanitizedHtml, SanitizationHelper.sanitizeForHtml(unsanitizedHtml));
+        assertEquals(new ArrayList<>(), SanitizationHelper.sanitizeForHtml(new ArrayList<>()));
+        assertNull(SanitizationHelper.sanitizeForHtml((List<String>) null));
+    }
+
+    @Test
     public void testDesanitizeFromHtml() {
         desanitizeFromHtml_receivesNull_returnsNull();
         desanitizeFromHtml_recievesEmpty_returnsEmpty();
@@ -103,7 +121,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void desanitizeFromHtml_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.desanitizeFromHtml((String) null));
+        assertNull(SanitizationHelper.desanitizeFromHtml((String) null));
     }
 
     private void desanitizeFromHtml_recievesEmpty_returnsEmpty() {
@@ -115,6 +133,20 @@ public class SanitizationHelperTest extends BaseTestCase {
         String text = "<text><div> 'param' &&& \\//\\ \" <The quick brown fox jumps over the lazy dog.>";
         String sanitizedText = SanitizationHelper.sanitizeForHtml(text);
         assertEquals(text, SanitizationHelper.desanitizeFromHtml(sanitizedText));
+    }
+
+    @Test
+    public void testDesanitizeFromHtmlSet() {
+        Set<String> sanitizedHtml = new HashSet<>(Arrays.asList(
+                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
+        );
+        Set<String> desanitizedHtml = new HashSet<>(Arrays.asList(
+                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
+        );
+
+        assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
+        assertEquals(new HashSet<>(), SanitizationHelper.desanitizeFromHtml(new HashSet<>()));
+        assertNull(SanitizationHelper.desanitizeFromHtml((Set<String>) null));
     }
 
     @Test
@@ -131,13 +163,13 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeHtmlTag_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.sanitizeForHtmlTag(null));
+        assertNull(SanitizationHelper.sanitizeForHtmlTag(null));
     }
 
     @Test
     public void testSanitizeForRichText() {
-        assertEquals(null, SanitizationHelper.sanitizeForRichText((Text) null));
-        assertEquals(null, SanitizationHelper.sanitizeForRichText((String) null));
+        assertNull(SanitizationHelper.sanitizeForRichText((Text) null));
+        assertNull(SanitizationHelper.sanitizeForRichText((String) null));
         assertEquals("", SanitizationHelper.sanitizeForRichText(""));
         assertEquals("<p>wihtout changes</p>", SanitizationHelper.sanitizeForRichText("<p>wihtout changes</p>"));
         assertEquals("<p>spaces test</p>", SanitizationHelper.sanitizeForRichText("<p >spaces test</p >"));
@@ -197,7 +229,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeForNextUrl_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.sanitizeForNextUrl(null));
+        assertNull(SanitizationHelper.sanitizeForNextUrl(null));
     }
 
     private void sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl() {
@@ -215,7 +247,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void desanitizeFromNextUrl_receivesNull_returnsNull() {
-        assertEquals(null, SanitizationHelper.desanitizeFromNextUrl(null));
+        assertNull(SanitizationHelper.desanitizeFromNextUrl(null));
     }
 
     private void desanitizeFromNextUrl_receivesSanitized_returnsDesanitized() {
@@ -252,16 +284,15 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
-        List<String> emptyList = new ArrayList<String>();
-        assertEquals(emptyList, SanitizationHelper.sanitizeListForCsv(emptyList));
+        assertEquals(new ArrayList<>(), SanitizationHelper.sanitizeListForCsv(new ArrayList<>()));
     }
 
     private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
-        List<String> unsanitized = new ArrayList<String>();
+        List<String> unsanitized = new ArrayList<>();
         unsanitized.add("aaa , bb\"b, c\"\"cc");
         unsanitized.add("aaa , bb\"b, c\"\"cc");
 
-        List<String> expected = new ArrayList<String>();
+        List<String> expected = new ArrayList<>();
         expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
         expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
 
@@ -326,5 +357,30 @@ public class SanitizationHelperTest extends BaseTestCase {
         unsanitized = "\"not sanitized\"" + sanitized;
         assertEquals("should return same unsanitized string if given unsanitized string containing sanitized sequences",
                 unsanitized, SanitizationHelper.desanitizeIfHtmlSanitized(unsanitized));
+    }
+
+    @Test
+    public void testSanitizeForLogMessage() {
+        assertNull("should return null if given null", SanitizationHelper.sanitizeForLogMessage(null));
+
+        String unsanitized = "<span class=\"text-danger\"> A <span class=\"bold\">typical</span> log  message <br>"
+                + " It contains some <script>dangerous</script> elements </span>";
+        String correctSanitized =
+                "<span class=\"text-danger\"> A <span class=\"bold\">typical</span> log  message <br>"
+                + " It contains some &lt;script&gt;dangerous&lt;&#x2f;script&gt; elements </span>";
+        assertEquals("Should escape HTML special characters"
+                + "other than in <span class=\"text-danger\">, <span class=\"bold\"> and <br>",
+                correctSanitized, SanitizationHelper.sanitizeForLogMessage(unsanitized));
+
+        unsanitized = "Hmm. <span class=\"text-info\"> How about this? </span> and <span> this</span>";
+        correctSanitized =
+                "Hmm. &lt;span class=&quot;text-info&quot;&gt; How about this? </span> and <span> this</span>";
+        assertEquals("Should escape if span has a class other than 'bold' or 'text-danger'",
+                correctSanitized, SanitizationHelper.sanitizeForLogMessage(unsanitized));
+
+        unsanitized = "Single <span class='bold'> quotation mark? </span>";
+        correctSanitized = "Single &lt;span class=&#39;bold&#39;&gt; quotation mark? </span>";
+        assertEquals("Should escape if attribute is specified using single quotation marks",
+                correctSanitized, SanitizationHelper.sanitizeForLogMessage(unsanitized));
     }
 }

@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -28,6 +30,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
+        testFeedbackResponseCommentEditAndDeleteAction();
         testLinks();
         testPanelsCollapseExpand();
     }
@@ -115,6 +118,48 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
     private void testLinks() {
         // TODO add link to a feedback session
+    }
+
+    private void testFeedbackResponseCommentEditAndDeleteAction() throws IOException {
+        InstructorAttributes instructor;
+        StudentAttributes student;
+
+        instructor = testData.instructors.get("teammates.test.CS2104");
+        student = testData.students.get("benny.c.tmms@ISR.CS2104");
+
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
+
+        viewPage = getStudentRecordsPage();
+
+        ______TS("Typical Case: Edit comment created by different instructor");
+
+        viewPage.editFeedbackResponseComment("-RGQ-1-1-1-1",
+                "First edited comment to Alice about feedback to Benny from different Instructor");
+        viewPage.verifyCommentRowContent("-RGQ-1-1-1-1", "First edited comment to Alice about feedback to Benny from "
+                + "different Instructor",
+                "Teammates Test");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageEditedCommentOfDifferentInstructor.html");
+
+        ______TS("Typical Case: Edit comment");
+
+        viewPage.editFeedbackResponseComment("-RGQ-1-1-1-2",
+                "Instructor second edited comment to Alice about feedback to Benny");
+        viewPage.verifyCommentRowContent("-RGQ-1-1-1-2", "Instructor second edited comment to Alice about feedback to Benny",
+                "Teammates Test");
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageEditedComment.html");
+
+        ______TS("Typical Case: Edit and add empty comment");
+
+        viewPage.editFeedbackResponseComment("-RGQ-1-1-1-2", "");
+        viewPage.verifyCommentFormErrorMessage(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        viewPage.closeEditFeedbackResponseCommentForm("-RGQ-1-1-1-2");
+
+        ______TS("Typical Case: Delete comment");
+
+        viewPage.deleteFeedbackResponseComment("-RGQ-1-1-1-3");
+        viewPage.verifyRowMissing("-RGQ-1-1-1-3");
     }
 
     private InstructorStudentRecordsPage getStudentRecordsPage() {

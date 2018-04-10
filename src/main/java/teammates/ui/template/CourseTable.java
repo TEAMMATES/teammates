@@ -13,7 +13,8 @@ public class CourseTable {
 
     public CourseTable(CourseAttributes course, List<ElementTag> buttons, List<HomeFeedbackSessionRow> rows) {
         this.courseId = course.getId();
-        this.courseName = course.getName();
+        //TODO: [CourseAttribute] remove desanitization after data migration
+        this.courseName = SanitizationHelper.desanitizeIfHtmlSanitized(course.getName());
         this.buttons = buttons;
         this.rows = rows;
     }
@@ -23,7 +24,7 @@ public class CourseTable {
     }
 
     public String getCourseName() {
-        return SanitizationHelper.sanitizeForHtml(courseName);
+        return courseName;
     }
 
     public List<ElementTag> getButtons() {

@@ -46,6 +46,15 @@ public class InstructorHomePageData extends PageData {
     }
 
     /**
+     * Retrieves the link to submit the request for resending the session published email.
+     * Also contains home page link to return to after the action.
+     * @return form submit action link
+     */
+    public String getSessionResendPublishedEmailLink() {
+        return getInstructorFeedbackResendPublishedEmailLink(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+    }
+
+    /**
      * Retrieves the link to submit the request for copy of session.
      * Also contains home page link to return after the action.
      * @return form submit action link
@@ -55,7 +64,7 @@ public class InstructorHomePageData extends PageData {
     }
 
     private void setCourseTables(List<CourseSummaryBundle> courses) {
-        courseTables = new ArrayList<CourseTable>();
+        courseTables = new ArrayList<>();
         for (CourseSummaryBundle courseDetails : courses) {
             courseTables.add(new CourseTable(courseDetails.course, null, null));
         }

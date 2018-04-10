@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
     @Test
     public void testAll() throws Exception {
         testGetInstructorForEmail();
-        testGetInstructorsForEmail();
         testGetInstructorForGoogleId();
         testGetInstructorsForGoogleId();
         testGetInstructorForRegistrationKey();
@@ -47,6 +47,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testVerifyIsEmailOfInstructorOfCourse();
         testIsNewInstructor();
         testAddInstructor();
+        testGetCoOwnersForCourse();
         testUpdateInstructorByGoogleId();
         testUpdateInstructorByEmail();
         testDeleteInstructor();
@@ -65,8 +66,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instr =
-                new InstructorAttributes(null, courseId, name, email, role, displayedName, privileges);
+        InstructorAttributes instr = InstructorAttributes.builder(null, courseId, name, email)
+                .withRole(role)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
 
         instructorsLogic.createInstructor(instr);
 
@@ -219,7 +223,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(5, instructors.size());
 
-        HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> idMap = new HashMap<>();
         idMap.put("idOfInstructor1OfCourse1", false);
         idMap.put("idOfInstructor2OfCourse1", false);
         idMap.put("idOfInstructor3", false);
@@ -278,35 +282,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         try {
             instructorsLogic.getInstructorsForGoogleId(null);
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
-        }
-    }
-
-    private void testGetInstructorsForEmail() {
-
-        ______TS("success: get all instructors for a google id");
-
-        String email = "instructor3@course1.tmt";
-
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForEmail(email);
-        assertEquals(1, instructors.size());
-
-        InstructorAttributes instructor1 = instructorsDb.getInstructorForEmail("idOfTypicalCourse1", email);
-        verifySameInstructor(instructor1, instructors.get(0));
-
-        ______TS("failure: non-exist email");
-
-        email = "non-exist-email@course1.tmt";
-
-        instructors = instructorsLogic.getInstructorsForEmail(email);
-        assertEquals(0, instructors.size());
-
-        ______TS("failure: null parameter");
-
-        try {
-            instructorsLogic.getInstructorsForEmail(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
@@ -726,6 +701,35 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertEquals(instructor1.courseId, instructor2.courseId);
         assertEquals(instructor1.name, instructor2.name);
         assertEquals(instructor1.email, instructor2.email);
+    }
+
+    private void testGetCoOwnersForCourse() {
+        ______TS("Verify co-owner status of generated co-owners list");
+        String courseId = "idOfTypicalCourse1";
+        List<InstructorAttributes> generatedCoOwners = instructorsLogic.getCoOwnersForCourse(courseId);
+        for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
+            assertTrue(generatedCoOwner.hasCoownerPrivileges());
+        }
+
+        ______TS("Verify all co-owners present in generated co-owners list");
+
+        // Generate ArrayList<String> of emails of all coOwners in course from data bundle
+        List<String> coOwnersEmailsFromDataBundle = new ArrayList<>();
+        for (InstructorAttributes instructor : new ArrayList<>(dataBundle.instructors.values())) {
+            if (!(instructor.getCourseId().equals(courseId) && instructor.hasCoownerPrivileges())) {
+                continue;
+            }
+            coOwnersEmailsFromDataBundle.add(instructor.email);
+        }
+
+        // Generate ArrayList<String> of emails of all coOwners from instructorsLogic.getCoOwnersForCourse
+        List<String> generatedCoOwnersEmails = new ArrayList<>();
+        for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
+            generatedCoOwnersEmails.add(generatedCoOwner.email);
+        }
+
+        assertTrue(coOwnersEmailsFromDataBundle.containsAll(generatedCoOwnersEmails)
+                && generatedCoOwnersEmails.containsAll(coOwnersEmailsFromDataBundle));
     }
 
 }

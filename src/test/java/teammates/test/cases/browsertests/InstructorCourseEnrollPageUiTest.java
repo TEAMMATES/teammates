@@ -49,7 +49,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         ______TS("link for the sample spreadsheet");
         enrollPage.clickSpreadsheetLink();
-        By expectedOgTitle = By.cssSelector("meta[property='og:title'][content='Course Enroll Sample Spreadsheet']");
+        By expectedOgTitle =
+                By.cssSelector("meta[property='og:title'][content='TEAMMATES Course Enroll Sample Spreadsheet']");
         enrollPage.verifyContainsElement(expectedOgTitle);
     }
 
@@ -148,22 +149,24 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                        + "Different Section | Team 1</option></td></div>'\" | Alice Betsy | alice.b.tmms@gmail.tmt |\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The team \"Team 1</option></td></div>'\"\" is in multiple sections. "
-                                + "The team ID should be unique across the entire course "
-                                + "and a team cannot be spread across multiple sections."
-                                + "\nPlease use the enroll page to edit multiple students");
+        enrollPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "The team \"Team 1</option></td></div>'\"\" is in multiple sections. "
+                        + "The team ID should be unique across the entire course "
+                        + "and a team cannot be spread across multiple sections."
+                        + "\nPlease use the enroll page to edit multiple students");
 
         ______TS("enroll action: fail to enroll due to invalid header");
 
         enrollString = "Section | Team | Name | Email | Comments | Section\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The header row contains repeated fields");
+        enrollPage.waitForTextsForAllStatusMessagesToUserEquals("The header row contains repeated fields");
 
         enrollString = "Section | Name | Email\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The following required column names are missing in the header row: Team");
+        enrollPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "The following required column names are missing in the header row: Team");
 
         ______TS("enroll action: fail to enroll as there is no input");
 
@@ -176,22 +179,23 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString = "";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("Please input at least one student detail.");
+        enrollPage.waitForTextsForAllStatusMessagesToUserEquals("Please input at least one student detail.");
 
         ______TS("enroll action: fail to enroll as there is an invalid line");
 
         enrollString =
-                "Team | Name | Email | Comment" + Const.EOL
+                "Team | Name | Email | Comment" + System.lineSeparator()
                 // A new student with no email input
-                + "Team 3 | Frank Hughe" + Const.EOL
+                + "Team 3 | Frank Hughe" + System.lineSeparator()
                 // A new student with invalid email input
-                + "Team 1</option></td></div>'\" | Black Jack | bjack.gmail.tmt | This student email is invalid" + Const.EOL
+                + "Team 1</option></td></div>'\" | Black Jack | bjack.gmail.tmt | This student email is invalid"
+                + System.lineSeparator()
                 // A new student with invalid team name
                 + StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
-                        + " | Robert Downey | rob@email.tmt | This student team name is too long" + Const.EOL
+                        + " | Robert Downey | rob@email.tmt | This student team name is too long" + System.lineSeparator()
                 // A new student with invalid name
                 + "Team 2 | " + StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1)
-                        + " | longname@email.tmt | This student name is too long" + Const.EOL;
+                        + " | longname@email.tmt | This student name is too long" + System.lineSeparator();
 
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyHtmlMainContent("/instructorCourseEnrollError.html");

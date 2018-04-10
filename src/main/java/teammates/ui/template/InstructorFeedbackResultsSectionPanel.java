@@ -2,7 +2,6 @@ package teammates.ui.template;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,8 +32,8 @@ public class InstructorFeedbackResultsSectionPanel {
         isDisplayingMissingParticipants = true;
 
         isAbleToLoadResponses = true;
-        isTeamWithResponses = new HashMap<String, Boolean>();
-        participantPanels = new LinkedHashMap<String, List<InstructorFeedbackResultsParticipantPanel>>();
+        isTeamWithResponses = new HashMap<>();
+        participantPanels = new LinkedHashMap<>();
     }
 
     public InstructorFeedbackResultsSectionPanel(String name, String nameForDisplay, boolean loadByAjax) {
@@ -58,13 +57,8 @@ public class InstructorFeedbackResultsSectionPanel {
      */
     public void addParticipantPanel(String currentTeam,
                                     InstructorFeedbackResultsParticipantPanel giverPanel) {
-        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels;
-
-        if (participantPanels.containsKey(currentTeam)) {
-            teamsMembersPanels = participantPanels.get(currentTeam);
-        } else {
-            teamsMembersPanels = new ArrayList<InstructorFeedbackResultsParticipantPanel>();
-        }
+        List<InstructorFeedbackResultsParticipantPanel> teamsMembersPanels =
+                participantPanels.getOrDefault(currentTeam, new ArrayList<>());
 
         teamsMembersPanels.add(giverPanel);
         participantPanels.put(currentTeam, teamsMembersPanels);
@@ -168,12 +162,11 @@ public class InstructorFeedbackResultsSectionPanel {
     }
 
     public List<InstructorFeedbackResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
-        List<InstructorFeedbackResultsParticipantPanel> sortedPanels =
-                new ArrayList<InstructorFeedbackResultsParticipantPanel>();
+        List<InstructorFeedbackResultsParticipantPanel> sortedPanels = new ArrayList<>();
         for (Collection<InstructorFeedbackResultsParticipantPanel> participantsPanels : participantPanels.values()) {
             sortedPanels.addAll(participantsPanels);
         }
-        Collections.sort(sortedPanels);
+        sortedPanels.sort(null);
 
         return sortedPanels;
     }

@@ -67,7 +67,7 @@ public abstract class Action {
     protected String statusToAdmin; // TODO: make this a list?
 
     /** Execution status info to be shown to the user. */
-    protected List<StatusMessage> statusToUser = new ArrayList<StatusMessage>();
+    protected List<StatusMessage> statusToUser = new ArrayList<>();
 
     /**
      * Whether the execution completed without any errors or
@@ -161,10 +161,10 @@ public abstract class Action {
 
         String referrer = request.getHeader("referer");
         if (referrer == null) {
-            throw new InvalidOriginException("Missing HTTP referrer");
-        }
-
-        if (!isHttpReferrerValid(referrer)) {
+            // Requests with missing referrer information are given the benefit of the doubt to
+            // accommodate users who choose to disable the HTTP referrer setting in their browser
+            // for privacy reasons
+        } else if (!isHttpReferrerValid(referrer)) {
             throw new InvalidOriginException("Invalid HTTP referrer");
         }
 
@@ -277,9 +277,9 @@ public abstract class Action {
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
-            AccountAttributes newLoggedInUser = new AccountAttributes();
-            newLoggedInUser.googleId = currentUser.id;
-            return newLoggedInUser;
+            return AccountAttributes.builder()
+                    .withGoogleId(currentUser.id)
+                    .build();
         }
         return loggedInUser;
     }
@@ -326,8 +326,9 @@ public abstract class Action {
             throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
         } else {
             // Unregistered and not logged in access given to page
-            loggedInUser = new AccountAttributes();
-            loggedInUser.email = student.email;
+            loggedInUser = AccountAttributes.builder()
+                    .withEmail(student.email)
+                    .build();
         }
 
         return loggedInUser;
@@ -365,8 +366,9 @@ public abstract class Action {
                         // since admin is masquerading, fabricate a regkey
                         regkey = "any-non-null-value";
                     }
-                    account = new AccountAttributes();
-                    account.googleId = paramRequestedUserId;
+                    account = AccountAttributes.builder()
+                            .withGoogleId(paramRequestedUserId)
+                            .build();
                 }
                 return account;
             }
@@ -517,7 +519,7 @@ public abstract class Action {
                 (List<StatusMessage>) session.getAttribute(Const.ParamsNames.STATUS_MESSAGES_LIST);
 
         if (statusMessagesToUser == null) {
-            statusMessagesToUser = new ArrayList<StatusMessage>();
+            statusMessagesToUser = new ArrayList<>();
         }
 
         statusMessagesToUser.addAll(response.statusToUser);
@@ -668,7 +670,7 @@ public abstract class Action {
     protected void setStatusForException(Exception e) {
         isError = true;
 
-        String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+        String exceptionMessageForHtml = e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
         statusToUser.add(new StatusMessage(exceptionMessageForHtml, StatusMessageColor.DANGER));
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
@@ -682,10 +684,10 @@ public abstract class Action {
     protected void setStatusForException(Exception e, String statusMessageToUser) {
         isError = true;
 
-        String statusMessageForHtml = statusMessageToUser.replace(Const.EOL, Const.HTML_BR_TAG);
+        String statusMessageForHtml = statusMessageToUser.replace(System.lineSeparator(), Const.HTML_BR_TAG);
         statusToUser.add(new StatusMessage(statusMessageForHtml, StatusMessageColor.DANGER));
 
-        String exceptionMessageForHtml = e.getMessage().replace(Const.EOL, Const.HTML_BR_TAG);
+        String exceptionMessageForHtml = e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessageForHtml;
     }
 

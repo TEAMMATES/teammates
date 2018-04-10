@@ -42,8 +42,8 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
 
         createStudent(name, email);
 
-        return new InstructorCourseStudentDetailsEditPageData(new AccountAttributes(), dummySessionToken, inputStudent,
-                email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
+        return new InstructorCourseStudentDetailsEditPageData(AccountAttributes.builder().build(),
+                dummySessionToken, inputStudent, email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
     private void createStudent(String name, String email) {
@@ -52,7 +52,12 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
         String team = "TeamForJohnDoe";
         String section = "SectionForJohnDoe";
 
-        inputStudent = new StudentAttributes(null, email, name, comments, courseId, team, section);
+        inputStudent = StudentAttributes
+                .builder(courseId, name, email)
+                .withSection(section)
+                .withTeam(team)
+                .withComments(comments)
+                .build();
     }
 
 }

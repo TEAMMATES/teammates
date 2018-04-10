@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -41,9 +40,9 @@ public class FeedbackSessionQuestionsBundle {
      */
     public List<FeedbackQuestionAttributes> getSortedQuestions() {
         List<FeedbackQuestionAttributes> sortedQuestions =
-                new ArrayList<FeedbackQuestionAttributes>(this.questionResponseBundle.keySet());
+                new ArrayList<>(this.questionResponseBundle.keySet());
 
-        Collections.sort(sortedQuestions);
+        sortedQuestions.sort(null);
 
         return sortedQuestions;
     }
@@ -54,7 +53,7 @@ public class FeedbackSessionQuestionsBundle {
      */
     public FeedbackQuestionAttributes getQuestionAttributes(String questionId) {
         List<FeedbackQuestionAttributes> questions =
-                new ArrayList<FeedbackQuestionAttributes>(this.questionResponseBundle.keySet());
+                new ArrayList<>(this.questionResponseBundle.keySet());
 
         for (FeedbackQuestionAttributes question : questions) {
             if (question.getId().equals(questionId)) {
@@ -73,21 +72,12 @@ public class FeedbackSessionQuestionsBundle {
      */
     public Map<String, String> getSortedRecipientList(String feedbackQuestionId) {
 
-        List<Map.Entry<String, String>> sortedList =
-                new ArrayList<Map.Entry<String, String>>(this.recipientList
-                                                             .get(feedbackQuestionId).entrySet());
+        List<Map.Entry<String, String>> sortedList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
 
-        Collections.sort(sortedList, new Comparator<Map.Entry<String, String>>() {
-            @Override
-            public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
-                // Sort by value (name).
-                int compare = o1.getValue().compareTo(o2.getValue());
-                // Sort by key (email) if name is same.
-                return compare == 0 ? o1.getKey().compareTo(o2.getKey()) : compare;
-            }
-        });
+        sortedList.sort(Comparator.comparing((Map.Entry<String, String> obj) -> obj.getValue())
+                .thenComparing(obj -> obj.getKey()));
 
-        Map<String, String> result = new LinkedHashMap<String, String>();
+        Map<String, String> result = new LinkedHashMap<>();
 
         for (Map.Entry<String, String> entry : sortedList) {
             result.put(entry.getKey(), entry.getValue());
@@ -97,11 +87,9 @@ public class FeedbackSessionQuestionsBundle {
     }
 
     public Set<String> getRecipientEmails(String feedbackQuestionId) {
-        List<Map.Entry<String, String>> emailList =
-                new ArrayList<Map.Entry<String, String>>(this.recipientList
-                                                             .get(feedbackQuestionId).entrySet());
+        List<Map.Entry<String, String>> emailList = new ArrayList<>(recipientList.get(feedbackQuestionId).entrySet());
 
-        HashSet<String> result = new HashSet<String>();
+        HashSet<String> result = new HashSet<>();
 
         for (Map.Entry<String, String> entry : emailList) {
             result.add(entry.getKey());
@@ -115,7 +103,7 @@ public class FeedbackSessionQuestionsBundle {
      * or responses that are hidden from the instructor.
      */
     public void hideUnmoderatableQuestions() {
-        List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<>();
 
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
             boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);

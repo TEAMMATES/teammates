@@ -1,11 +1,9 @@
 package teammates.ui.pagedata;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -77,10 +75,6 @@ public class PageData {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
 
-    public static String displayDateTime(Date date) {
-        return TimeHelper.formatTime12H(date);
-    }
-
     public String addUserIdToUrl(String link) {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
@@ -95,7 +89,7 @@ public class PageData {
      */
     protected List<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
         List<Double> options = TimeHelper.getTimeZoneValues();
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
             result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
         }
@@ -108,33 +102,12 @@ public class PageData {
         return result;
     }
 
-    public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-            ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
-            result.add(option);
-        }
-
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            String textToDisplay = "(" + utcFormatOption
-                                            + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
-
-            ElementTag option = createOption(textToDisplay,
-                                             formatAsString(timeZoneOption), isExistingTimeZone);
-            result.add(option);
-        }
-        return result;
-    }
-
     /**
      * Returns the nationalities as HTML code.
      */
     public static List<ElementTag> getNationalitiesAsElementTags(String existingNationality) {
         List<String> nationalities = NationalityHelper.getNationalities();
-        List<ElementTag> result = new ArrayList<ElementTag>();
+        List<ElementTag> result = new ArrayList<>();
 
         result.add(createOption("--- Select ---", "", !nationalities.contains(existingNationality)));
 
@@ -180,8 +153,8 @@ public class PageData {
     /**
      * Returns the grace period options as HTML code.
      */
-    public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
-        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+    public static List<ElementTag> getGracePeriodOptionsAsElementTags(long existingGracePeriod) {
+        ArrayList<ElementTag> result = new ArrayList<>();
         for (int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(i + " mins", String.valueOf(i),
                                             isGracePeriodToBeSelected(existingGracePeriod, i));
@@ -194,8 +167,8 @@ public class PageData {
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
      */
-    public static List<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
-        List<ElementTag> result = new ArrayList<ElementTag>();
+    public static List<ElementTag> getTimeOptionsAsElementTags(LocalDateTime timeToShowAsSelected) {
+        List<ElementTag> result = new ArrayList<>();
         for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
                                              String.valueOf(i), isTimeToBeSelected(timeToShowAsSelected, i));
@@ -396,24 +369,16 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbacksLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+    public String getInstructorFeedbackSessionsLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
 
-    public String getInstructorFeedbacksLink(String courseId) {
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+    public String getInstructorFeedbackSessionsLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        return link;
-    }
-
-    public String getInstructorStudentCommentClearPendingLink(String courseId) {
-        String link = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
         return link;
     }
 
@@ -432,6 +397,16 @@ public class PageData {
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
 
+        return link;
+    }
+
+    public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName, boolean shouldLoadInEditMode) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT,
+                Boolean.toString(shouldLoadInEditMode));
+        link = addUserIdToUrl(link);
         return link;
     }
 
@@ -516,6 +491,33 @@ public class PageData {
         return link;
     }
 
+    /**
+     * Retrieves the link to load data for the resend session published email modal.
+     * @param courseId the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load data for the modal
+     */
+    public String getInstructorFeedbackResendPublishedEmailPageLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
+    /**
+     * Retrieves the link to submit the request for resending the session published email.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackResendPublishedEmailLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorFeedbackUnpublishLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -591,6 +593,14 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorCourseStudentDeleteAllLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+        return link;
+    }
+
     public String getInstructorCourseInstructorDeleteLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -609,21 +619,27 @@ public class PageData {
         return link;
     }
 
-    public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session) {
+    public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
             return "Private";
         } else if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
             return "Awaiting";
-        } else if (session.isPublished()) {
-            return "Published";
         } else {
             return "Closed";
         }
     }
 
-    public static String getInstructorHoverMessageForFeedbackSession(FeedbackSessionAttributes session) {
+    public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
+        if (session.isPublished()) {
+            return "Published";
+        } else {
+            return "Not Published";
+        }
+    }
+
+    public static String getInstructorSubmissionsTooltipForFeedbackSession(FeedbackSessionAttributes session) {
 
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
@@ -644,13 +660,19 @@ public class PageData {
             msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_CLOSED);
         }
 
-        if (session.isPublished()) {
-            msg.append(Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED);
-        }
-
         msg.append('.');
 
         return msg.toString();
+    }
+
+    public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
+        if (session.isPrivateSession()) {
+            return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
+        } else if (session.isPublished()) {
+            return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
+        } else {
+            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;
+        }
     }
 
     /**
@@ -718,13 +740,11 @@ public class PageData {
         return str.substring(0, str.length() - 2);
     }
 
-    private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
+    private static boolean isTimeToBeSelected(LocalDateTime timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            cal.setTime(timeToShowAsSelected);
-            if (cal.get(Calendar.MINUTE) == 0) {
-                if (cal.get(Calendar.HOUR_OF_DAY) == hourOfTheOption) {
+            if (timeToShowAsSelected.getMinute() == 0) {
+                if (timeToShowAsSelected.getHour() == hourOfTheOption) {
                     return true;
                 }
             } else {
@@ -740,7 +760,7 @@ public class PageData {
         return false;
     }
 
-    private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
+    private static boolean isGracePeriodToBeSelected(long existingGracePeriodValue, long gracePeriodOptionValue) {
         boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;

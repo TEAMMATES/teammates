@@ -67,8 +67,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipientEmail);
 
         // Assert dates are now.
-        AssertHelper.assertDateIsNow(feedbackResponse.getCreatedAt());
-        AssertHelper.assertDateIsNow(feedbackResponse.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(feedbackResponse.getCreatedAt());
+        AssertHelper.assertInstantIsNow(feedbackResponse.getUpdatedAt());
 
         ______TS("success : update lastUpdated");
 
@@ -80,7 +80,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackResponse.getUpdatedAt().equals(updatedFr.getUpdatedAt()));
-        AssertHelper.assertDateIsNow(updatedFr.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(updatedFr.getUpdatedAt());
 
         ______TS("success : keep lastUpdated");
 
@@ -802,7 +802,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 modifiedResponse.giver, modifiedResponse.recipient);
         FeedbackResponseDetails frd = modifiedResponse.getResponseDetails();
 
-        Map<String, String[]> requestParameters = new HashMap<String, String[]>();
+        Map<String, String[]> requestParameters = new HashMap<>();
         requestParameters.put("questiontype-1", new String[] { "TEXT" });
         requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
 

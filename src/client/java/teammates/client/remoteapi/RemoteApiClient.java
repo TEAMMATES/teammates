@@ -1,32 +1,25 @@
 package teammates.client.remoteapi;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
-
-import javax.jdo.PersistenceManager;
 
 import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
 import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.util.Closeable;
 
-import teammates.storage.api.CoursesDb;
-import teammates.storage.api.EntitiesDb;
+import teammates.storage.api.OfyHelper;
 import teammates.test.driver.TestProperties;
 
+/**
+ * Enables access to any Datastore (local/production).
+ *
+ * @see <a href="https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi">https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi</a>
+ */
 public abstract class RemoteApiClient {
 
-    protected static final PersistenceManager PM = getPm();
-
-    private static PersistenceManager getPm() {
-        try {
-            // use reflection to bypass the visibility level of the method
-            Method method = EntitiesDb.class.getDeclaredMethod("getPm");
-            method.setAccessible(true);
-
-            // the method is non-static and EntitiesDb is an abstract class; use any *Db to invoke it
-            return (PersistenceManager) method.invoke(new CoursesDb());
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
+    protected Objectify ofy() {
+        return com.googlecode.objectify.ObjectifyService.ofy();
     }
 
     protected void doOperationRemotely() throws IOException {
@@ -44,22 +37,33 @@ public abstract class RemoteApiClient {
             // Dev Server doesn't require credential.
             options.useDevelopmentServerCredential();
         } else {
-            // If you are trying to run script on Staging Server:
-            // Step 1: Install Google Cloud SDK in your local PC first, https://cloud.google.com/sdk/downloads
-            // Step 2: Run `gcloud auth login` in the terminal and choose your google account
-            // Step 3: Run the script again.
+            // Your Google Cloud SDK needs to be authenticated for Application Default Credentials
+            // in order to run any script in production server.
+            // Refer to https://developers.google.com/identity/protocols/application-default-credentials.
             options.useApplicationDefaultCredential();
         }
 
         RemoteApiInstaller installer = new RemoteApiInstaller();
         installer.install(options);
+
+        OfyHelper.registerEntityClasses();
+        Closeable objectifySession = ObjectifyService.begin();
+
         try {
             doOperation();
         } finally {
+            objectifySession.close();
             installer.uninstall();
         }
 
         System.out.println("--- Remote operation completed ---");
+    }
+
+    /**
+     * Prints the {@code string} on system output, followed by a newline.
+     */
+    protected void println(String string) {
+        System.out.println(string);
     }
 
     /**

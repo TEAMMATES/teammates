@@ -47,14 +47,6 @@ public final class InstructorsLogic {
      */
 
     /**
-     * Creates or updates document for the given Instructor.
-     * @param instructor to be put into documents
-     */
-    public void putDocument(InstructorAttributes instructor) {
-        instructorsDb.putDocument(instructor);
-    }
-
-    /**
      * Batch creates or updates documents for the given Instructors.
      * @param instructors a list of instructors to be put into documents
      */
@@ -95,7 +87,7 @@ public final class InstructorsLogic {
     }
 
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
-           throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
         instructor.isArchived = archiveStatus;
@@ -118,8 +110,10 @@ public final class InstructorsLogic {
     }
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
+        List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
+        instructorReturnList.sort(InstructorAttributes.compareByName);
 
-        return instructorsDb.getInstructorsForCourse(courseId);
+        return instructorReturnList;
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
@@ -140,22 +134,6 @@ public final class InstructorsLogic {
         InstructorAttributes instructor = getInstructorForEmail(courseId, email);
 
         return StringHelper.encrypt(instructor.key);
-    }
-
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
-
-        return instructorsDb.getInstructorsForEmail(email);
-    }
-
-    /**
-     * Gets all instructors in the Datastore.
-     *
-     * @deprecated Not scalable. Use only for admin features.
-     */
-    @Deprecated
-    public List<InstructorAttributes> getAllInstructors() {
-
-        return instructorsDb.getAllInstructors();
     }
 
     public boolean isGoogleIdOfInstructorOfCourse(String instructorId, String courseId) {
@@ -254,17 +232,12 @@ public final class InstructorsLogic {
         instructorsDb.updateInstructorByEmail(instructor);
     }
 
-    public List<String> getInvalidityInfoForNewInstructorData(String shortName, String name,
+    public List<String> getInvalidityInfoForNewInstructorData(String name,
                                                               String institute, String email) {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         String error;
-
-        error = validator.getInvalidityInfoForPersonName(shortName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
 
         error = validator.getInvalidityInfoForPersonName(name);
         if (!error.isEmpty()) {
@@ -304,6 +277,18 @@ public final class InstructorsLogic {
     public void deleteInstructorsForCourse(String courseId) {
 
         instructorsDb.deleteInstructorsForCourse(courseId);
+    }
+
+    public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
+        List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
+        List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<>();
+        for (InstructorAttributes instructor : instructors) {
+            if (!instructor.hasCoownerPrivileges()) {
+                continue;
+            }
+            instructorsWithCoOwnerPrivileges.add(instructor);
+        }
+        return instructorsWithCoOwnerPrivileges;
     }
 
 }

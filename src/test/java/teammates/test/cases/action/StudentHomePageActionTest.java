@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
@@ -18,7 +17,7 @@ import teammates.ui.pagedata.StudentHomePageData;
  * SUT: {@link StudentHomePageAction}.
  */
 // Priority added due to conflict between InstructorStudentListPageActionTest,
-// StudentHomePageActionTest, and StudentCommentsPageActionTest.
+// and StudentHomePageActionTest.
 @Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
 
@@ -31,11 +30,11 @@ public class StudentHomePageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String unregUserId = "unreg.user";
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
         String adminUserId = "admin.user";
 
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
 
         ______TS("unregistered student");
 
@@ -66,14 +65,15 @@ public class StudentHomePageActionTest extends BaseActionTest {
         // we keep it because the situation is rare and not worth extra coding.
 
         // Create a student account without courses
-        AccountAttributes studentWithoutCourses = new AccountAttributes();
-        studentWithoutCourses.googleId = "googleId.without.courses";
-        studentWithoutCourses.name = "Student Without Courses";
-        studentWithoutCourses.email = "googleId.without.courses@email.tmt";
-        studentWithoutCourses.institute = "TEAMMATES Test Institute 5";
-        studentWithoutCourses.isInstructor = false;
-        studentWithoutCourses.studentProfile = new StudentProfileAttributes();
-        studentWithoutCourses.studentProfile.googleId = studentWithoutCourses.googleId;
+        AccountAttributes studentWithoutCourses = AccountAttributes.builder()
+                .withGoogleId("googleId.without.courses")
+                .withName("Student Without Courses")
+                .withEmail("googleId.without.courses@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes("googleId.without.courses")
+                .build();
+
         AccountsDb accountsDb = new AccountsDb();
         accountsDb.createAccount(studentWithoutCourses);
         assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));
@@ -102,7 +102,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         ______TS("typical user, masquerade mode");
 
         gaeSimulation.loginAsAdmin(adminUserId);
-        studentId = dataBundle.students.get("student2InCourse2").googleId;
+        studentId = typicalBundle.students.get("student2InCourse2").googleId;
 
         // Access page in masquerade mode
         a = getAction(addUserIdToParams(studentId, submissionParams));
@@ -125,8 +125,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, a.getLogMessage(), adminUserId);
 
         ______TS("New student with no existing course, course join affected by eventual consistency");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,
-                                        "idOfTypicalCourse1"};
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"
+        };
         studentId = "newStudent";
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
@@ -136,9 +137,10 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals("idOfTypicalCourse1", data.getCourseTables().get(0).getCourseId());
 
         ______TS("Registered student with existing courses, course join affected by eventual consistency");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,
-                                        "idOfTypicalCourse2"};
-        student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse2"
+        };
+        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
@@ -148,9 +150,10 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals("idOfTypicalCourse2", data.getCourseTables().get(1).getCourseId());
 
         ______TS("Just joined course, course join not affected by eventual consistency and appears in list");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE,
-                                        "idOfTypicalCourse1"};
-        student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"
+        };
+        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
@@ -170,7 +173,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
 
         // check for persistence issue

@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -34,7 +36,9 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     private String instructorId;
 
     private CourseAttributes validCourse =
-            new CourseAttributes(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", "Asia/Singapore");
+            CourseAttributes
+                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", ZoneId.of("Asia/Singapore"))
+                    .build();
 
     @Override
     protected void prepareTestData() {
@@ -195,13 +199,12 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("input validation");
 
         //one invalid case
-        coursesPage.addCourse("", "").verifyStatus(
-                getPopulatedErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE, "",
-                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                    FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
-                + getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, "",
-                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                      FieldValidator.COURSE_NAME_MAX_LENGTH));
+        coursesPage.addCourse("", "").waitForTextsForAllStatusMessagesToUserEquals(
+                getPopulatedEmptyStringErrorMessage(FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH) + "\n"
+                + getPopulatedEmptyStringErrorMessage(
+                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
 
         //Checking max-length enforcement by the text boxes
         String maxLengthCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);

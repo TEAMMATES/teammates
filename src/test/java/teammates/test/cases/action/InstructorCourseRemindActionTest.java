@@ -31,15 +31,15 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
         String adminUserId = "admin.user";
 
         ______TS("Typical case: Send email to remind an instructor to register for the course");
         gaeSimulation.loginAsInstructor(instructorId);
-        InstructorAttributes anotherInstructorOfCourse1 = dataBundle.instructors.get("instructorNotYetJoinCourse1");
-        String[] submissionParams = new String[]{
+        InstructorAttributes anotherInstructorOfCourse1 = typicalBundle.instructors.get("instructorNotYetJoinCourse1");
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
         };
@@ -68,8 +68,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
 
         ______TS("Typical case: Send email to remind a student to register for the course");
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        submissionParams = new String[]{
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
         };
@@ -97,12 +97,18 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
         gaeSimulation.loginAsAdmin(adminUserId);
-        StudentAttributes unregisteredStudent1 =
-                new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 1",
-                                      "unregistered1@email.com", "", courseId);
-        StudentAttributes unregisteredStudent2 =
-                new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 2",
-                                      "unregistered2@email.com", "", courseId);
+        StudentAttributes unregisteredStudent1 = StudentAttributes
+                .builder(courseId, "Unregistered student 1", "unregistered1@email.com")
+                .withSection("Section 1")
+                .withTeam("Team Unregistered")
+                .withComments("")
+                .build();
+        StudentAttributes unregisteredStudent2 = StudentAttributes
+                .builder(courseId, "Unregistered student 2", "unregistered2@email.com")
+                .withSection("Section 1")
+                .withTeam("Team Unregistered")
+                .withComments("")
+                .build();
         StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent1);
         StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent2);
 
@@ -164,14 +170,14 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         ______TS("Failure case: Invalid email parameter");
 
         String invalidEmail = "invalidEmail.com";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
         };
 
         executeAndAssertEntityNotFoundException(instructorId, submissionParams);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail
         };
@@ -180,7 +186,7 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
 
         ______TS("Failure case: Invalid course id parameter");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "invalidCourseId",
                 Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email
         };
@@ -207,8 +213,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

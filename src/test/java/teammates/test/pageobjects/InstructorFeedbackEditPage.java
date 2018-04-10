@@ -1,12 +1,15 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,10 +17,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -25,7 +30,7 @@ import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
 
-    private static final int NEW_QUESTION_NUM = -1;
+    public static final int NEW_QUESTION_NUM = -1;
 
     @FindBy(id = "starttime")
     private WebElement startTimeDropdown;
@@ -68,9 +73,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
     private WebElement neverSessionVisibleTimeButton;
-
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
-    private WebElement neverResultsVisibleTimeButton;
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_closing")
     private WebElement closingSessionEmailReminderButton;
@@ -289,8 +291,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -313,8 +315,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachOption" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -337,8 +339,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         String idSuffix = getIdSuffix(qnNumber);
 
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPointsForEachRecipient" + idSuffix));
-        // backspace to clear the extra 1 when box is cleared.
-        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + points);
+        // Backspace to clear the extra 100 when box is cleared.
+        fillTextBox(pointsBox, Keys.RIGHT + " " + Keys.BACK_SPACE + Keys.BACK_SPACE + Keys.BACK_SPACE + points);
 
         executeScript("$(arguments[0]).change();", pointsBox);
     }
@@ -357,12 +359,222 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getConstSumPointsForEachRecipientBox(NEW_QUESTION_NUM);
     }
 
-    public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
+    public boolean isRubricColLeftMovable(int qnNumber, int colNumber) {
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT + "-" + qnNumber + "-" + colNumber;
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        return moveColButton.getAttribute("disabled") == null;
+    }
+
+    public boolean isRubricColRightMovable(int qnNumber, int colNumber) {
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT + "-" + qnNumber + "-" + colNumber;
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        return moveColButton.getAttribute("disabled") == null;
+    }
+
+    /**
+     * Returns true if button is enabled and click was successful.
+     */
+    public boolean moveRubricColLeft(int qnNumber, int colNumber) {
+        return moveRubricCol(qnNumber, colNumber, true);
+    }
+
+    /**
+     * Returns true if button is enabled and click was successful.
+     */
+    public boolean moveRubricColRight(int qnNumber, int colNumber) {
+        return moveRubricCol(qnNumber, colNumber, false);
+    }
+
+    private boolean moveRubricCol(int qnNumber, int colNumber, boolean isMoveLeft) {
+        String elemId;
+
+        if (isMoveLeft) {
+            elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT + "-" + qnNumber + "-" + colNumber;
+        } else {
+            elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_MOVE_COL_RIGHT + "-" + qnNumber + "-" + colNumber;
+        }
+
+        WebElement moveColButton = browser.driver.findElement(By.id(elemId));
+
+        if (moveColButton.isEnabled()) {
+            click(moveColButton);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private String getRubricSubQuestionSelectorId(int qnNumber, int subQnIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 
-        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + idSuffix + "-" + subQnIndex;
+        return Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + idSuffix + "-" + subQnIndex;
+    }
 
-        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
+    public WebElement getRubricSubQuestionBox(int qnNumber, int subQnIndex) {
+        return browser.driver.findElement(By.id(getRubricSubQuestionSelectorId(qnNumber, subQnIndex)));
+    }
+
+    private String getRubricChoice(int qnNumber, int colNumber) {
+        String idSuffix = getIdSuffix(qnNumber);
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + idSuffix + "-" + colNumber;
+
+        return browser.driver.findElement(By.id(elemId)).getAttribute("value");
+    }
+
+    private String getRubricWeight(int qnNumber, int colNumber) {
+        String idSuffix = getIdSuffix(qnNumber);
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + colNumber;
+
+        return browser.driver.findElement(By.id(elemId)).getAttribute("value");
+    }
+
+    private String getRubricDescription(int qnNumber, int subQnIndex, int choiceIndex) {
+        return getRubricDescriptionBox(qnNumber, subQnIndex, choiceIndex).getAttribute("value");
+    }
+
+    private boolean isRubricWeightsEnabled(int qnNumber) {
+        return browser.driver.findElement(By.id("rubricAssignWeights-" + qnNumber)).isSelected();
+    }
+
+    private boolean isRubricDescriptionBoxPresent(int qnNumber, int subQnIndex, int choiceIndex) {
+        return !browser.driver.findElements(By.id(getRubricDescriptionBoxId(qnNumber, subQnIndex, choiceIndex))).isEmpty();
+    }
+
+    public String[] getRubricColValues(int qnNumber, int choiceIndex) {
+        List<String> col = new ArrayList<>();
+
+        col.add(getRubricChoice(qnNumber, choiceIndex));
+
+        if (isRubricWeightsEnabled(qnNumber)) {
+            col.add(getRubricWeight(qnNumber, choiceIndex));
+        }
+
+        int subQnIndex = 0;
+
+        while (isRubricDescriptionBoxPresent(qnNumber, subQnIndex, choiceIndex)) {
+            col.add(getRubricDescription(qnNumber, subQnIndex, choiceIndex));
+            subQnIndex++;
+        }
+
+        return col.toArray(new String[0]);
+    }
+
+    /**
+     * Checks if move left button of leftmost column is disabled.
+     * Checks if move right button of rightmost column is disabled.
+     * Checks if all other move column buttons are enabled.
+     * @param qnNumber question number.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     */
+    public void verifyRubricColumnsMovability(int qnNumber, int[] colIndexes) {
+        int leftMostColIndex = colIndexes[0];
+        int rightMostColIndex = colIndexes[colIndexes.length - 1];
+
+        // checking move buttons of leftmost column
+        assertFalse(isRubricColLeftMovable(qnNumber, leftMostColIndex));
+        assertTrue(isRubricColRightMovable(qnNumber, leftMostColIndex));
+
+        // checking move buttons of last column
+        assertTrue(isRubricColLeftMovable(qnNumber, rightMostColIndex));
+        assertFalse(isRubricColRightMovable(qnNumber, rightMostColIndex));
+
+        // checking move buttons of remaining columns
+        for (int i = 1; i < colIndexes.length - 1; i++) {
+            assertTrue(isRubricColLeftMovable(qnNumber, colIndexes[i]));
+            assertTrue(isRubricColRightMovable(qnNumber, colIndexes[i]));
+        }
+    }
+
+    /**
+     * Checks if the values given in {@code columns} argument match with the
+     * actual values displayed. Also checks if move left/right buttons for
+     * each column is properly enabled or disabled. Assumes that there are
+     * at least 2 columns.
+     * @param qnNumber question number.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     * @param columns Varargs parameter, where each parameter is {@code String[]} which denotes values
+     *         of a rubric column. Column values must be given in the order displayed in the UI.
+     */
+    public void verifyRubricQuestion(int qnNumber, int[] colIndexes, String[]... columns) {
+        // checking rubric column values - choice, weight, descriptions
+        for (int i = 0; i < colIndexes.length; i++) {
+            int colIndex = colIndexes[i];
+            String[] colValues = columns[i];
+            int rubDescriptionIndex = 1;
+
+            assertTrue(getRubricChoice(qnNumber, colIndex).equals(colValues[0]));
+
+            if (isRubricWeightsEnabled(qnNumber)) {
+                assertTrue(getRubricWeight(qnNumber, colIndex).equals(colValues[1]));
+                rubDescriptionIndex = 2; // rubric descriptions start from index 2
+            }
+
+            int subQnIndex = 0;
+
+            while (rubDescriptionIndex < colValues.length) {
+                assertTrue(getRubricDescription(qnNumber, subQnIndex, colIndex).equals(colValues[rubDescriptionIndex]));
+                rubDescriptionIndex++;
+                subQnIndex++;
+            }
+        }
+
+        verifyRubricColumnsMovability(qnNumber, colIndexes);
+    }
+
+    /**
+     * Fills a single rubric column of index given by
+     * {@code choiceIndex}, with the values given in {@code values}.
+     * @param qnNumber question number.
+     * @param choiceIndex index of the column as in UI.
+     * @param values {@code String[]} which holds all column values from top to bottom.
+     */
+    public void fillRubricColumn(int qnNumber, int choiceIndex, String[] values) {
+        fillRubricChoiceBox(values[0], qnNumber, choiceIndex);
+
+        int rubDescriptionIndex = 1;
+
+        if (isRubricWeightsEnabled(qnNumber)) {
+            fillRubricWeightBox(values[1], qnNumber, choiceIndex);
+            rubDescriptionIndex = 2; // rubric descriptions start from index 2
+        }
+
+        int subQnIndex = 0;
+
+        while (rubDescriptionIndex < values.length) {
+            fillRubricDescriptionBox(values[rubDescriptionIndex], qnNumber, subQnIndex, choiceIndex);
+            subQnIndex++;
+            rubDescriptionIndex++;
+        }
+    }
+
+    /**
+     * Fills all rubric columns with respective indexes given in
+     * {@code colIndexes}, with respective values given in @{code colValues}.
+     * @param qnNumber question number.
+     * @param colIndexes An array containing column indexes in the order displayed in the UI.
+     * @param colValues Varargs parameter, where each parameter is {@code String[]} which denotes values
+     *         of a rubric column. Column values must be given in the order displayed in the UI.
+     */
+    public void fillAllRubricColumns(int qnNumber, int[] colIndexes, String[]... colValues) {
+        Assumption.assertEquals(colIndexes.length, colValues.length);
+
+        for (int i = 0; i < colIndexes.length; i++) {
+            fillRubricColumn(qnNumber, colIndexes[i], colValues[i]);
+        }
+    }
+
+    public boolean isRubricSubQuestionBoxFocused(int qnNumber, int subQnIndex) {
+        WebElement subQnBox = getRubricSubQuestionBox(qnNumber, subQnIndex);
+
+        return subQnBox.equals(browser.driver.switchTo().activeElement());
+    }
+
+    public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
+        WebElement subQnBox = getRubricSubQuestionBox(qnNumber, subQnIndex);
+
         fillTextBox(subQnBox, subQuestion);
     }
 
@@ -388,14 +600,19 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillRubricWeightBox(weight, NEW_QUESTION_NUM, choiceIndex);
     }
 
-    public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
+    private String getRubricDescriptionBoxId(int qnNumber, int subQnIndex, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
 
-        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION
-                        + idSuffix + "-" + subQnIndex + "-" + choiceIndex;
+        return Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + idSuffix + "-" + subQnIndex + "-" + choiceIndex;
+    }
 
-        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
-        fillTextBox(subQnBox, description);
+    private WebElement getRubricDescriptionBox(int qnNumber, int subQnIndex, int choiceIndex) {
+        return browser.driver.findElement(By.id(getRubricDescriptionBoxId(qnNumber, subQnIndex, choiceIndex)));
+    }
+
+    public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
+        WebElement descriptionBox = getRubricDescriptionBox(qnNumber, subQnIndex, choiceIndex);
+        fillTextBox(descriptionBox, description);
     }
 
     public void clickQuestionEditForQuestion(int qnNumber) {
@@ -564,9 +781,23 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public WebElement getSelectQuestionNumberDropdown(int qnNumber) {
+        return browser.driver.findElement(By.id("questionnum-" + qnNumber));
+    }
+
     public void selectQuestionNumber(int qnNumber, int newQnNumber) {
-        WebElement qnNumSelect = browser.driver.findElement(By.id("questionnum-" + qnNumber));
+        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
         selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnNumber));
+    }
+
+    public boolean isSelectQuestionNumberEnabled(int qnNumber) {
+        WebElement qnNumSelect = getSelectQuestionNumberDropdown(qnNumber);
+        return qnNumSelect.isEnabled();
+    }
+
+    public int getSelectedQuestionNumber(int qnNumber) {
+        Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
+        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
     }
 
     /**
@@ -590,8 +821,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                                    // && "Responses visible from" radio buttons
                                    && defaultResultsVisibleTimeButton.isEnabled()
                                    && customResultsVisibleTimeButton.isEnabled()
-                                   && manualResultsVisibleTimeButton.isEnabled()
-                                   && neverResultsVisibleTimeButton.isEnabled();
+                                   && manualResultsVisibleTimeButton.isEnabled();
         }
 
         return isEditSessionEnabled;
@@ -639,6 +869,17 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyNewRankRecipientsQuestionFormIsDisplayed() {
         WebElement contribForm = browser.driver.findElement(By.id("rankRecipientsForm"));
         return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+
+    /*
+     * Checks if alert class is enabled on the visibility options div for the specified question number.
+     */
+    public boolean isAlertClassEnabledForVisibilityOptions(int questionNo) {
+        final String visibilityOptionsDivXPath =
+                "//div[@id='questionTable-" + questionNo + "']//div[@class='visibility-checkbox-delegate panel-body']"
+                + "//b[@class='visibility-title']/../..";
+        return browser.driver.findElement(By.xpath(visibilityOptionsDivXPath))
+                .getAttribute("class").matches(".*\\balert alert-danger\\b.*");
     }
 
     public boolean areDatesOfPreviousCurrentAndNextMonthEnabled() throws ParseException {
@@ -703,7 +944,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         String month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
         String year = Integer.toString(date.get(Calendar.YEAR));
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM, yyyy");
 
         selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
 
@@ -761,6 +1002,13 @@ public class InstructorFeedbackEditPage extends AppPage {
                 generateFor);
     }
 
+    /**
+     * Selects the points distribution scheme for a const sum question.
+     *
+     * @param pointsOption Value of "Total" will select <i>Total number of points for all options</i> points distribution
+     *                     scheme, or "PerOption" will select <i>Number of points per option</i> points distribution scheme.
+     * @param questionNumber question number of the const sum question.
+     */
     public void selectConstSumPointsOptions(String pointsOption, int questionNumber) {
         markRadioButtonAsChecked(
                 browser.driver.findElement(By.id("constSumPoints" + pointsOption + "-" + questionNumber)));
@@ -885,16 +1133,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
+    public void selectTimeZone(ZoneId timeZone) {
+        selectDropdownByActualValue(timezoneDropDown, timeZone.getId());
+    }
+
+    public void editFeedbackSession(
+            LocalDateTime startTime, LocalDateTime endTime, ZoneId timeZone, Text instructions, long gracePeriod) {
+        selectTimeZone(timeZone);
+        editFeedbackSession(startTime, endTime, instructions, gracePeriod);
+    }
+
+    public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
-                      + TimeHelper.formatDate(startTime) + "';");
+                      + TimeHelper.formatDateForSessionsForm(startTime) + "';");
         selectDropdownByVisibleValue(startTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(startTime));
 
         // Select deadline date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
-                      + TimeHelper.formatDate(endTime) + "';");
+                      + TimeHelper.formatDateForSessionsForm(endTime) + "';");
         selectDropdownByVisibleValue(endTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 
@@ -902,22 +1160,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillRichTextEditor("instructions", instructions.getValue());
 
         // Select grace period
-        selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
+        selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
 
         click(fsSaveLink);
         waitForPageToLoad();
     }
 
-    public InstructorFeedbacksPage deleteSession() {
-        clickAndConfirm(getDeleteSessionLink());
-        waitForPageToLoad();
-        return changePageType(InstructorFeedbacksPage.class);
+    public String getFeedbackSessionEndTimeValue() {
+        return getDropdownSelectedValue(endTimeDropdown);
     }
 
-    public InstructorFeedbacksPage clickDoneEditingLink() {
+    public InstructorFeedbackSessionsPage deleteSession() {
+        clickAndConfirm(getDeleteSessionLink());
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
+    }
+
+    public InstructorFeedbackSessionsPage clickDoneEditingLink() {
         click(doneEditingButton);
         waitForPageToLoad();
-        return changePageType(InstructorFeedbacksPage.class);
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public void fillMcqOptionForNewQuestion(int optionIndex, String optionText) {
@@ -942,10 +1204,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickRemoveMcqOptionLink(optionIndex, NEW_QUESTION_NUM);
     }
 
-    public void clickGenerateOptionsCheckbox(int qnIndex) {
+    public void clickGenerateMcqOptionsCheckbox(int qnIndex) {
+        clickGenerateOptionsCheckbox(qnIndex, "generateMcqOptionsCheckbox");
+    }
+
+    public void clickGenerateMsqOptionsCheckbox(int qnIndex) {
+        clickGenerateOptionsCheckbox(qnIndex, "generateMsqOptionsCheckbox");
+    }
+
+    private void clickGenerateOptionsCheckbox(int qnIndex, String idPrefix) {
         String idSuffix = getIdSuffix(qnIndex);
 
-        WebElement generateOptionsCheckbox = browser.driver.findElement(By.id("generateOptionsCheckbox" + idSuffix));
+        WebElement generateOptionsCheckbox = browser.driver.findElement(By.id(idPrefix + idSuffix));
         click(generateOptionsCheckbox);
     }
 
@@ -973,6 +1243,200 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickRemoveMsqOptionLinkForNewQuestion(int optionIndex) {
         clickRemoveMsqOptionLink(optionIndex, NEW_QUESTION_NUM);
+    }
+
+    private String getMsqMaxSelectableChoicesCheckboxId(int qnNumber) {
+        return "msqEnableMaxSelectableChoices-" + qnNumber;
+    }
+
+    private String getMsqMinSelectableChoicesCheckboxId(int qnNumber) {
+        return "msqEnableMinSelectableChoices-" + qnNumber;
+    }
+
+    private String getMsqMaxSelectableChoicesBoxId(int qnNumber) {
+        return "msqMaxSelectableChoices-" + qnNumber;
+    }
+
+    private String getMsqMinSelectableChoicesBoxId(int qnNumber) {
+        return "msqMinSelectableChoices-" + qnNumber;
+    }
+
+    public WebElement getMsqMaxSelectableChoicesElement(int qnNumber) {
+        String id = getMsqMaxSelectableChoicesCheckboxId(qnNumber);
+
+        return browser.driver.findElement(By.id(id));
+    }
+
+    private WebElement getMsqMinSelectableChoicesElement(int qnNumber) {
+        String id = getMsqMinSelectableChoicesCheckboxId(qnNumber);
+
+        return browser.driver.findElement(By.id(id));
+    }
+
+    public void toggleMsqMaxSelectableChoices(int qnNumber) {
+        click(getMsqMaxSelectableChoicesElement(qnNumber));
+    }
+
+    public void toggleMsqMinSelectableChoices(int qnNumber) {
+        click(getMsqMinSelectableChoicesElement(qnNumber));
+    }
+
+    public boolean isMsqMaxSelectableChoicesEnabled(int qnNumber) {
+        String id = getMsqMaxSelectableChoicesCheckboxId(qnNumber);
+
+        return browser.driver.findElement(By.id(id)).isSelected();
+    }
+
+    public boolean isMsqMinSelectableChoicesEnabled(int qnNumber) {
+        String id = getMsqMinSelectableChoicesCheckboxId(qnNumber);
+
+        return browser.driver.findElement(By.id(id)).isSelected();
+    }
+
+    private WebElement getMsqMaxSelectableChoicesBox(int qnNumber) {
+        return browser.driver.findElement(By.id(getMsqMaxSelectableChoicesBoxId(qnNumber)));
+    }
+
+    private WebElement getMsqMinSelectableChoicesBox(int qnNumber) {
+        return browser.driver.findElement(By.id(getMsqMinSelectableChoicesBoxId(qnNumber)));
+    }
+
+    public int getMinOfMsqMaxSelectableChoices(int qnNumber) {
+        return Integer.parseInt(getMsqMaxSelectableChoicesBox(qnNumber).getAttribute("min"));
+    }
+
+    public int getMaxOfMsqMaxSelectableChoices(int qnNumber) {
+        return Integer.parseInt(getMsqMaxSelectableChoicesBox(qnNumber).getAttribute("max"));
+    }
+
+    public int getMinOfMsqMinSelectableChoices(int qnNumber) {
+        return Integer.parseInt(getMsqMinSelectableChoicesBox(qnNumber).getAttribute("min"));
+    }
+
+    public int getMaxOfMsqMinSelectableChoices(int qnNumber) {
+        return Integer.parseInt(getMsqMinSelectableChoicesBox(qnNumber).getAttribute("max"));
+    }
+
+    public void setMsqMinSelectableChoices(int qnNumber, int value) {
+        assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
+
+        WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
+        String id = inputBox.getAttribute("id");
+
+        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    }
+
+    public void setMsqMaxSelectableChoices(int qnNumber, int value) {
+        assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
+
+        WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
+        String id = inputBox.getAttribute("id");
+
+        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    }
+
+    public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "-" + qnNumber));
+        fillTextBox(optionBox, optionText);
+    }
+
+    public int getNumOfStudentsForFs() {
+        return Integer.parseInt(browser.driver.findElement(By.id("num-students")).getAttribute("value"));
+    }
+
+    public int getNumOfTeamsForFs() {
+        return Integer.parseInt(browser.driver.findElement(By.id("num-teams")).getAttribute("value"));
+    }
+
+    public int getNumOfInstructorsForFs() {
+        return Integer.parseInt(browser.driver.findElement(By.id("num-instructors")).getAttribute("value"));
+    }
+
+    private String getValue(WebElement elem) {
+        return (String) executeScript(String.format("return $('#%s').val();", elem.getAttribute("id")));
+    }
+
+    public int getMsqMinSelectableChoices(int qnNumber) {
+        assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
+
+        return Integer.parseInt(getValue(getMsqMinSelectableChoicesBox(qnNumber)));
+    }
+
+    public int getMsqMaxSelectableChoices(int qnNumber) {
+        assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
+
+        return Integer.parseInt(getValue(getMsqMaxSelectableChoicesBox(qnNumber)));
+    }
+
+    private boolean isGenerateOptionsForMsqChecked(int qnNumber) {
+        return browser.driver.findElement(By.id("generateMsqOptionsCheckbox-" + qnNumber)).isSelected();
+    }
+
+    private String getGenerateOptionsForMsqValue(int qnNumber) {
+        Select options = new Select(browser.driver.findElement(By.id("msqGenerateForSelect-" + qnNumber)));
+
+        return options.getFirstSelectedOption().getText();
+    }
+
+    public int getNumOfMsqOptions(int qnNumber) {
+        if (isGenerateOptionsForMsqChecked(qnNumber)) {
+            String selectedOption = getGenerateOptionsForMsqValue(qnNumber);
+
+            switch (selectedOption) {
+            case "students":
+                return getNumOfStudentsForFs();
+            case "teams":
+                return getNumOfTeamsForFs();
+            case "instructors":
+                return getNumOfInstructorsForFs();
+            default:
+                return 0;
+            }
+        }
+
+        return browser.driver.findElements(
+                By.cssSelector("#msqChoiceTable-" + qnNumber + " div[id*=\"msqOptionRow\"]")).size();
+    }
+
+    public void verifyMsqMinMaxSelectableChoices(int qnNumber) {
+        boolean isMinEnabled = isMsqMinSelectableChoicesEnabled(qnNumber);
+        boolean isMaxEnabled = isMsqMaxSelectableChoicesEnabled(qnNumber);
+
+        if (!isMinEnabled && !isMaxEnabled) {
+            return;
+        }
+
+        int numOfOptions = getNumOfMsqOptions(qnNumber);
+
+        if (isMinEnabled) {
+            int lowerLimit = getMinOfMsqMinSelectableChoices(qnNumber);
+            int upperLimit = getMaxOfMsqMinSelectableChoices(qnNumber);
+            int value = getMsqMinSelectableChoices(qnNumber);
+
+            assertTrue(lowerLimit == 1);
+            assertTrue(lowerLimit <= value);
+            assertTrue(value <= upperLimit);
+            assertTrue(upperLimit <= numOfOptions);
+        }
+
+        if (isMaxEnabled) {
+            int lowerLimit = getMinOfMsqMaxSelectableChoices(qnNumber);
+            int upperLimit = getMaxOfMsqMaxSelectableChoices(qnNumber);
+            int value = getMsqMaxSelectableChoices(qnNumber);
+
+            assertTrue(lowerLimit == 2);
+            assertTrue(lowerLimit <= value);
+            assertTrue(value <= upperLimit);
+            assertTrue(upperLimit <= numOfOptions);
+        }
+
+        if (isMinEnabled && isMaxEnabled) {
+            int minValue = getMsqMinSelectableChoices(qnNumber);
+            int maxValue = getMsqMaxSelectableChoices(qnNumber);
+
+            assertTrue(minValue <= maxValue);
+            assertEquals(getMaxOfMsqMinSelectableChoices(qnNumber), maxValue);
+        }
     }
 
     public void fillConstSumOption(int optionIndex, String optionText, int qnIndex) {
@@ -1108,16 +1572,174 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(removeOptionLink);
     }
 
+    public String getQuestionType(int qnNumber) {
+        return browser.driver.findElement(By.cssSelector("#form_editquestion-" + qnNumber + " input[name='questiontype']"))
+                .getAttribute("value").toString();
+    }
+
+    private boolean isRankOptionsQuestion(int qnIndex) {
+        return "RANK_OPTIONS".equals(getQuestionType(qnIndex));
+    }
+
     public int getNumOfOptionsInRankOptions(int qnIndex) {
-        WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
-        List<WebElement> optionInputFields = rankOptionsTable
-                                                .findElements(
-                                                     By.cssSelector("input[id^='rankOption-']"));
-        return optionInputFields.size();
+        if (isRankOptionsQuestion(qnIndex)) {
+            WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
+            List<WebElement> optionInputFields =
+                    rankOptionsTable.findElements(By.cssSelector("input[id^='rankOption-']"));
+            return optionInputFields.size();
+        }
+
+        // For rank recipients
+        String recipient = getRecipientTypeForQuestion(qnIndex);
+
+        switch (recipient) {
+        case "STUDENTS":
+        case "INSTRUCTORS":
+        case "TEAMS":
+            return Integer.parseInt(browser.driver.findElement(By.id("num-" + recipient.toLowerCase()))
+                    .getAttribute("value").toString());
+        case "OWN_TEAM_MEMBERS":
+        case "OWN_TEAM_MEMBERS_INCLUDING_SELF":
+            return Integer.MAX_VALUE;
+        default:
+            // For SELF, OWN_TEAM, NONE
+            return 1;
+        }
     }
 
     public int getNumOfOptionsInRankOptionsForNewQuestion() {
         return getNumOfOptionsInRankOptions(NEW_QUESTION_NUM);
+    }
+
+    private WebElement getMinOptionsToBeRankedCheckbox(int qnNumber) {
+        if (isRankOptionsQuestion(qnNumber)) {
+            return browser.driver.findElement(By.id("minOptionsToBeRankedEnabled-" + qnNumber));
+        }
+
+        return browser.driver.findElement(By.id("minRecipientsToBeRankedEnabled-" + qnNumber));
+    }
+
+    private WebElement getMaxOptionsToBeRankedCheckbox(int qnNumber) {
+        if (isRankOptionsQuestion(qnNumber)) {
+            return browser.driver.findElement(By.id("maxOptionsToBeRankedEnabled-" + qnNumber));
+        }
+
+        return browser.driver.findElement(By.id("maxRecipientsToBeRankedEnabled-" + qnNumber));
+    }
+
+    public void toggleMinOptionsToBeRankedCheckbox(int qnNumber) {
+        click(getMinOptionsToBeRankedCheckbox(qnNumber));
+    }
+
+    public void toggleMaxOptionsToBeRankedCheckbox(int qnNumber) {
+        click(getMaxOptionsToBeRankedCheckbox(qnNumber));
+    }
+
+    public WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
+        if (isRankOptionsQuestion(qnNumber)) {
+            return browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
+        }
+
+        return browser.driver.findElement(By.id("minRecipientsToBeRanked-" + qnNumber));
+    }
+
+    public WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
+        if (isRankOptionsQuestion(qnNumber)) {
+            return browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
+        }
+
+        return browser.driver.findElement(By.id("maxRecipientsToBeRanked-" + qnNumber));
+    }
+
+    public boolean isMinOptionsToBeRankedEnabled(int qnNumber) {
+        return getMinOptionsToBeRankedCheckbox(qnNumber).isEnabled()
+                && getMinOptionsToBeRankedInputElement(qnNumber).isEnabled();
+    }
+
+    public boolean isMaxOptionsToBeRankedEnabled(int qnNumber) {
+        return getMaxOptionsToBeRankedCheckbox(qnNumber).isEnabled()
+                && getMaxOptionsToBeRankedInputElement(qnNumber).isEnabled();
+    }
+
+    private int getMinOfMinOptionsToBeSelectedInput(int qnNumber) {
+        WebElement elem = getMinOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("min"));
+    }
+
+    private int getMinOfMaxOptionsToBeSelectedInput(int qnNumber) {
+        WebElement elem = getMaxOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("min"));
+    }
+
+    private int getMaxOfMinOptionsToBeSelectedInput(int qnNumber) {
+        WebElement elem = getMinOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("max"));
+    }
+
+    private int getMaxOfMaxOptionsToBeSelectedInput(int qnNumber) {
+        WebElement elem = getMaxOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("max"));
+    }
+
+    public int getMinOptionsToBeRanked(int qnNumber) {
+        assertTrue(isMinOptionsToBeRankedEnabled(qnNumber));
+        WebElement elem = getMinOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("value"));
+    }
+
+    public int getMaxOptionsToBeRanked(int qnNumber) {
+        assertTrue(isMaxOptionsToBeRankedEnabled(qnNumber));
+        WebElement elem = getMaxOptionsToBeRankedInputElement(qnNumber);
+
+        return Integer.parseInt(elem.getAttribute("value"));
+    }
+
+    public void fillMinOptionsToBeRanked(int qnNumber, String value) {
+        WebElement rankMinOption = getMinOptionsToBeRankedInputElement(qnNumber);
+        fillTextBox(rankMinOption, value);
+    }
+
+    public void fillMaxOptionsToBeRanked(int qnNumber, String value) {
+        WebElement rankMaxOption = getMaxOptionsToBeRankedInputElement(qnNumber);
+        fillTextBox(rankMaxOption, value);
+    }
+
+    public void verifyMinMaxOptionsToBeSelectedRestrictions(int qnNumber) {
+        boolean isMinOptionsEnabled = isMinOptionsToBeRankedEnabled(qnNumber);
+        boolean isMaxOptionsEnabled = isMaxOptionsToBeRankedEnabled(qnNumber);
+
+        if (!isMinOptionsEnabled && !isMaxOptionsEnabled) {
+            return;
+        }
+
+        if (isMinOptionsEnabled) {
+            int value = getMinOptionsToBeRanked(qnNumber);
+            int upperLimit = getMaxOfMinOptionsToBeSelectedInput(qnNumber);
+
+            assertTrue(value <= upperLimit);
+            assertEquals(1, getMinOfMinOptionsToBeSelectedInput(qnNumber));
+        }
+
+        if (isMaxOptionsEnabled) {
+            int value = getMaxOptionsToBeRanked(qnNumber);
+            int upperLimit = getMaxOfMaxOptionsToBeSelectedInput(qnNumber);
+
+            assertTrue(value <= upperLimit);
+            assertEquals(getNumOfOptionsInRankOptions(qnNumber), getMaxOfMaxOptionsToBeSelectedInput(qnNumber));
+            assertEquals(1, getMinOfMaxOptionsToBeSelectedInput(qnNumber));
+        }
+
+        if (isMinOptionsEnabled && isMaxOptionsEnabled) {
+            int maxValue = getMaxOptionsToBeRanked(qnNumber);
+            int minValue = getMinOptionsToBeRanked(qnNumber);
+
+            assertTrue(minValue <= maxValue);
+        }
     }
 
     public FeedbackSubmitPage clickPreviewAsStudentButton() {
@@ -1306,5 +1928,23 @@ public class InstructorFeedbackEditPage extends AppPage {
                                                        + "']." + checkboxClass);
         WebElement checkbox = browser.driver.findElement(checkboxSelector);
         return checkbox.isSelected();
+    }
+
+    public void clickEnableMinRankOptions(int questionNumber) {
+        WebElement minNumberOfOptionsToRankCheckbox = getMinOptionsToBeRankedCheckbox(questionNumber);
+
+        minNumberOfOptionsToRankCheckbox.click();
+    }
+
+    public void clickMinRankOptions(int questionNumber) {
+        WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
+
+        minRecipientsToBeRankedInput.click();
+    }
+
+    public void clearMinRankOptions(int questionNumber) {
+        WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
+
+        minRecipientsToBeRankedInput.clear();
     }
 }

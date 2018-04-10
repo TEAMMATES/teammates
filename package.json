@@ -1,32 +1,44 @@
 {
   "devDependencies": {
-    "babel-cli": "6.23.0",
-    "babel-preset-env": "1.2.1",
-    "eslint": "3.17.1",
-    "eslint-config-airbnb-base": "11.1.1",
-    "eslint-plugin-import": "2.2.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.4",
+    "babel-preset-env": "1.6.1",
+    "eslint": "4.18.2",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.9.0",
     "eslint-plugin-json": "1.2.0",
     "lintspaces-cli": "0.6.0",
-    "stylelint": "7.9.0"
+    "stylelint": "9.1.1",
+    "stylelint-config-standard": "18.2.0",
+    "webpack": "4.4.1",
+    "webpack-cli": "2.0.13",
+    "webpack-merge": "4.1.2"
   },
   "babel": {
     "presets": [
-      ["env", {
-        "targets": {
-          "browsers": ["ie >= 9"]
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "ie >= 9"
+            ]
+          }
         }
-      }]
+      ]
     ]
   },
   "scripts": {
-    "build:test": "babel src/main/webapp/dev/ -x \".es6\" -d src/main/webapp/dev/",
-    "build:src": "babel src/main/webapp/js/ -x \".es6\" -d src/main/webapp/js/",
-    "build": "npm run build:src && npm run build:test",
-    "lint:src": "eslint src/main/webapp/js -c static-analysis/teammates-eslint.yml --ext .es6",
-    "lint:test": "eslint src/main/webapp/dev -c static-analysis/teammates-eslint.yml --ext .es6",
-    "lint:json": "eslint src/main/webapp/js/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
+    "build:dev": "webpack --config webpack-main-dev.config.js",
+    "build:prod": "webpack --config webpack-main-prod.config.js",
+    "build:test": "webpack --config webpack-test.config.js",
+    "dev": "npm run build:dev && npm run build:test",
+    "build": "npm run build:prod && npm run build:test",
+    "lint:js": "eslint *.js src/main/webapp/dev -c static-analysis/teammates-eslint.yml",
+    "lint:json": "eslint src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",
-    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/**/*.es6\" \"src/**/*.properties\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
-    "lint": "npm run lint:src && npm run lint:test && npm run lint:json && npm run lint:css && npm run lint:spaces"
-  }
+    "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/main/webapp/dev/**/*.js\" \"src/**/*.properties\" \"*.js\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
+    "lint": "npm run lint:js && npm run lint:json && npm run lint:css && npm run lint:spaces"
+  },
+  "private": true
 }

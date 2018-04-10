@@ -57,7 +57,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public String getSelectedText() {
         String selectedText = (String) executeScript("return window.getSelection().toString();");
-        selectedText = selectedText.replace(Const.EOL, "\n"); // standardize line separator
+        selectedText = selectedText.replace(System.lineSeparator(), "\n"); // standardize line separator
         return selectedText;
     }
 

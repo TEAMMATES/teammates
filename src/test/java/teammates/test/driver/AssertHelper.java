@@ -3,18 +3,15 @@ package teammates.test.driver;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 
 /**
  * Provides additional assertion methods that are often used during testing.
@@ -26,15 +23,15 @@ public final class AssertHelper {
     }
 
     /**
-     * Assert date is now +- 1 min.
+     * Assert instant is now +- 1 min.
      */
-    public static void assertDateIsNow(Date date) {
-        assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),
-                                    TimeHelper.getMsOffsetToCurrentTime(1000 * 60));
+    public static void assertInstantIsNow(Instant instant) {
+        assertInstantWithinRange(instant, TimeHelperExtension.getInstantMinutesOffsetFromNow(-1),
+                TimeHelperExtension.getInstantMinutesOffsetFromNow(1));
     }
 
-    private static void assertDateWithinRange(Date date, Date startDate, Date endDate) {
-        assertTrue(!(date.before(startDate) || date.after(endDate)));
+    private static void assertInstantWithinRange(Instant instant, Instant start, Instant end) {
+        assertTrue(!(instant.isBefore(start) || instant.isAfter(end)));
     }
 
     /**
@@ -179,7 +176,7 @@ public final class AssertHelper {
             String expected, String actual, String studentEmail, String courseId) {
         assertLogMessageEqualsIgnoreLogId(expected, actual);
         assertLogIdContainsUserId(actual,
-                StringHelper.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
+                String.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
     }
 
     /**
@@ -190,11 +187,11 @@ public final class AssertHelper {
         String expectedListAsString = Joiner.on("\t").join(a);
         String actualListAsString = Joiner.on("\t").join(b);
 
-        List<String> expectedStringTypeList = new ArrayList<String>(Arrays.asList(expectedListAsString.split("\t")));
-        List<String> actualStringTypeList = new ArrayList<String>(Arrays.asList(actualListAsString.split("\t")));
+        List<String> expectedStringTypeList = new ArrayList<>(Arrays.asList(expectedListAsString.split("\t")));
+        List<String> actualStringTypeList = new ArrayList<>(Arrays.asList(actualListAsString.split("\t")));
 
-        Collections.sort(expectedStringTypeList);
-        Collections.sort(actualStringTypeList);
+        expectedStringTypeList.sort(null);
+        actualStringTypeList.sort(null);
 
         assertEquals(expectedStringTypeList, actualStringTypeList);
 

@@ -1,55 +1,53 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Course;
 
 /**
  * The data transfer object for Course entities.
  */
-public class CourseAttributes extends EntityAttributes implements Comparable<CourseAttributes> {
-
-    private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
-        @Override
-        public int compare(CourseAttributes course1, CourseAttributes course2) {
-            if (course1.createdAt.compareTo(course2.createdAt) == 0) {
-                return course1.getId().compareTo(course2.getId());
-            }
-
-            // sort by newest course first
-            return -1 * course1.createdAt.compareTo(course2.createdAt);
-        }
-    };
+public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     //Note: be careful when changing these variables as their names are used in *.json files.
-    public Date createdAt;
+    public Instant createdAt;
     private String id;
     private String name;
-    private String timeZone;
+    private ZoneId timeZone;
 
-    public CourseAttributes() {
-        // attributes to be set after construction
-    }
-
-    public CourseAttributes(String courseId, String name, String timeZone) {
+    CourseAttributes(String courseId, String name, ZoneId timeZone) {
         this.id = SanitizationHelper.sanitizeTitle(courseId);
         this.name = SanitizationHelper.sanitizeTitle(name);
         this.timeZone = timeZone;
+        this.createdAt = Instant.now();
     }
 
-    public CourseAttributes(Course course) {
-        this.id = course.getUniqueId();
-        this.name = course.getName();
-        this.timeZone = course.getTimeZone();
-        this.createdAt = course.getCreatedAt();
+    /**
+     * Returns new builder instance with default values for optional fields.
+     *
+     * <p>Following default values are set to corresponding attributes:
+     * <ul>
+     * <li>{@code createdAt = current date}</li>
+     * </ul>
+     *
+     * @param courseId Id of the course.
+     * @param name Name of the course.
+     * @param timeZone Time zone of the course.
+     * @return a {@code Builder} object that can be used to construct a {@code CourseAttributes} object
+     */
+    public static Builder builder(String courseId, String name, ZoneId timeZone) {
+        return new Builder(courseId, name, timeZone);
     }
 
     public String getId() {
@@ -60,11 +58,28 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         return name;
     }
 
-    public String getTimeZone() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ZoneId getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(String timeZone) {
+    public String getCreatedAtDateString() {
+        return TimeHelper.formatDateTimeForInstructorCoursesPage(createdAt, timeZone);
+    }
+
+    public String getCreatedAtDateStamp() {
+        return TimeHelper.formatInstantToIso8601Utc(createdAt);
+    }
+
+    public String getCreatedAtFullDateTimeString() {
+        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdAt, timeZone);
+        return TimeHelper.formatTime12H(localDateTime);
+    }
+
+    public void setTimeZone(ZoneId timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -72,20 +87,18 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForCourseId(getId()), errors);
 
         addNonEmptyError(validator.getInvalidityInfoForCourseName(getName()), errors);
-
-        addNonEmptyError(validator.getInvalidityInfoForCourseTimeZone(getTimeZone()), errors);
 
         return errors;
     }
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone(), createdAt);
+        return new Course(getId(), getName(), getTimeZone().getId(), createdAt);
     }
 
     @Override
@@ -116,7 +129,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public void sanitizeForSaving() {
-        name = SanitizationHelper.sanitizeForHtml(getName());
+        // no additional sanitization required
     }
 
     @Override
@@ -128,16 +141,39 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     public static void sortById(List<CourseAttributes> courses) {
-        Collections.sort(courses, new Comparator<CourseAttributes>() {
-            @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2) {
-                return c1.getId().compareTo(c2.getId());
-            }
-        });
+        courses.sort(Comparator.comparing(CourseAttributes::getId));
     }
 
     public static void sortByCreatedDate(List<CourseAttributes> courses) {
-        Collections.sort(courses, createdDateComparator);
+        courses.sort(Comparator.comparing((CourseAttributes course) -> course.createdAt).reversed()
+                .thenComparing(course -> course.getId()));
     }
 
+    public static class Builder {
+        private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Non-null value expected";
+        private final CourseAttributes courseAttributes;
+
+        public Builder(String courseId, String name, ZoneId timeZone) {
+            validateRequiredFields(courseId, name, timeZone);
+            courseAttributes = new CourseAttributes(courseId, name, timeZone);
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            if (createdAt != null) {
+                courseAttributes.createdAt = createdAt;
+            }
+
+            return this;
+        }
+
+        public CourseAttributes build() {
+            return courseAttributes;
+        }
+
+        private void validateRequiredFields(Object... objects) {
+            for (Object object : objects) {
+                Assumption.assertNotNull(REQUIRED_FIELD_CANNOT_BE_NULL, object);
+            }
+        }
+    }
 }

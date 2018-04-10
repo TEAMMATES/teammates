@@ -11,7 +11,7 @@
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IESFPTCourseinstr">
     <div id="statusMessagesToUser">
-      <div class="overflow-auto alert alert-success statusMessage">
+      <div class="overflow-auto alert alert-success icon-success statusMessage">
         All responses submitted successfully!
       </div>
     </div>
@@ -46,8 +46,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2012-04-01T21:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -56,8 +56,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Fri, 30 Apr 2027, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2027-04-30T21:59:00Z" id="end-time">
+                  Fri, 30 Apr 2027, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -99,23 +99,23 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
-              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
+              <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
                 <p>
                   Good design
                 </p>
@@ -137,8 +137,8 @@
                   words
                 </div>
               </div>
-              <input name="responseid-1-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
             </div>
+            <input name="responseid-1-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
           </div>
         </div>
       </div>
@@ -171,20 +171,20 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
-                <option value="">
-                </option>
-                <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
+                  <option value="">
+                  </option>
+                  <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
@@ -196,8 +196,8 @@
               <div class="text-muted form-control-static">
                 [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
               </div>
-              <input name="responseid-2-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
             </div>
+            <input name="responseid-2-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
           </div>
         </div>
       </div>

@@ -118,7 +118,7 @@ public class ImageUploadAction extends Action {
                     + " : Unable to delete picture (possible unused picture with key: "
                     + blobKey.getKeyString()
                     + " || Error Message: "
-                    + bfe.getMessage() + Const.EOL;
+                    + bfe.getMessage() + System.lineSeparator();
         }
     }
 

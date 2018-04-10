@@ -4,14 +4,10 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 
 public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     protected void verifyAccessibleForSpecificUser() {
@@ -36,20 +32,12 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected void appendRespondent() {
-        try {
-            logic.addInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append instructor respondent");
-        }
+        taskQueuer.scheduleUpdateRespondentForSession(courseId, feedbackSessionName, getUserEmailForCourse(), true, false);
     }
 
     @Override
     protected void removeRespondent() {
-        try {
-            logic.deleteInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove instructor respondent");
-        }
+        taskQueuer.scheduleUpdateRespondentForSession(courseId, feedbackSessionName, getUserEmailForCourse(), true, true);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
         String courseName = CoursesLogic.inst().getCourse(courseId).getName();
@@ -87,9 +87,9 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         redirectResult = getRedirectResult(courseEditSaveAction);
 
         // get updated results and compare
-        statusMessage = getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
-                            courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
-                            FieldValidator.REASON_EMPTY, FieldValidator.COURSE_NAME_MAX_LENGTH);
+        statusMessage = getPopulatedEmptyStringErrorMessage(
+                            FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                            FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
@@ -150,8 +150,8 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         courseEditSaveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(courseEditSaveAction);
 
-        statusMessage = getPopulatedErrorMessage(FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE,
-                            courseTimeZone, FieldValidator.COURSE_TIME_ZONE_FIELD_NAME,
+        statusMessage = getPopulatedErrorMessage(FieldValidator.TIME_ZONE_ERROR_MESSAGE,
+                            courseTimeZone, FieldValidator.TIME_ZONE_FIELD_NAME,
                             FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
@@ -167,14 +167,25 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
     protected String getPageResultDestination(String parentUri, boolean isError, String userId, String courseId) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         return pageDestination;
     }
 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructor.courseId;
+        String courseName = "Typical Course 1 with 2 Evals";
+        String courseTimeZone = "UTC";
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.COURSE_NAME, courseName,
+                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
 }

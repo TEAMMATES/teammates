@@ -1,7 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Assumption;
@@ -15,7 +15,7 @@ import teammates.storage.entity.StudentProfile;
 /**
  * A data transfer object for Account entities.
  */
-public class AccountAttributes extends EntityAttributes {
+public class AccountAttributes extends EntityAttributes<Account> {
 
     //Note: be careful when changing these variables as their names are used in *.json files.
 
@@ -24,62 +24,115 @@ public class AccountAttributes extends EntityAttributes {
     public boolean isInstructor;
     public String email;
     public String institute;
-    public Date createdAt;
+    public Instant createdAt;
     public StudentProfileAttributes studentProfile;
 
-    public AccountAttributes(Account a) {
-        googleId = a.getGoogleId();
-        name = a.getName();
-        isInstructor = a.isInstructor();
-        email = a.getEmail();
-        institute = a.getInstitute();
-        createdAt = a.getCreatedAt();
-        studentProfile =
-                a.getStudentProfile() == null ? null : new StudentProfileAttributes(a.getStudentProfile());
+    AccountAttributes() {
+        // Empty constructor for builder to construct object
     }
 
-    public AccountAttributes() {
-        // attributes to be set after construction
+    public static AccountAttributes valueOf(Account a) {
+        return builder()
+                .withGoogleId(a.getGoogleId())
+                .withName(a.getName())
+                .withIsInstructor(a.isInstructor())
+                .withInstitute(a.getInstitute())
+                .withEmail(a.getEmail())
+                .withCreatedAt(a.getCreatedAt())
+                .withStudentProfile(a.getStudentProfile())
+                .build();
     }
 
-    public AccountAttributes(String googleId, String name, boolean isInstructor,
-                String email, String institute, StudentProfileAttributes studentProfileAttributes) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.isInstructor = isInstructor;
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = studentProfileAttributes;
-        this.studentProfile.sanitizeForSaving();
-
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public AccountAttributes(String googleId, String name, boolean isInstructor,
-                String email, String institute) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.isInstructor = isInstructor;
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.studentProfile = new StudentProfileAttributes();
-        this.studentProfile.googleId = this.googleId;
+    /**
+     * A Builder class for {@link AccountAttributes}.
+     */
+    public static class Builder {
+        private AccountAttributes accountAttributes;
+
+        public Builder() {
+            accountAttributes = new AccountAttributes();
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            accountAttributes.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder withStudentProfile(StudentProfile studentProfile) {
+            accountAttributes.studentProfile =
+                    studentProfile == null ? null : StudentProfileAttributes.valueOf(studentProfile);
+            return this;
+        }
+
+        public Builder withStudentProfileAttributes(StudentProfileAttributes studentProfileAttributes) {
+            accountAttributes.studentProfile = studentProfileAttributes;
+
+            return this;
+        }
+
+        public Builder withDefaultStudentProfileAttributes(String googleId) {
+            accountAttributes.studentProfile = StudentProfileAttributes.builder(googleId)
+                    .build();
+
+            return this;
+        }
+
+        public Builder withGoogleId(String googleId) {
+            accountAttributes.googleId = googleId;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            accountAttributes.name = name;
+            return this;
+        }
+
+        public Builder withIsInstructor(boolean isInstructor) {
+            accountAttributes.isInstructor = isInstructor;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            accountAttributes.email = email;
+            return this;
+        }
+
+        public Builder withInstitute(String institute) {
+            accountAttributes.institute = institute;
+            return this;
+        }
+
+        public AccountAttributes build() {
+            accountAttributes.googleId = SanitizationHelper.sanitizeGoogleId(accountAttributes.googleId);
+            accountAttributes.name = SanitizationHelper.sanitizeName(accountAttributes.name);
+            accountAttributes.email = SanitizationHelper.sanitizeEmail(accountAttributes.email);
+            accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
+            if (accountAttributes.studentProfile != null) {
+                accountAttributes.studentProfile.sanitizeForSaving();
+            }
+
+            return accountAttributes;
+        }
+
     }
 
     /**
      * Gets a deep copy of this object.
      */
     public AccountAttributes getCopy() {
-        // toEntity() requires a non-null student profile
-        boolean isStudentProfileNull = this.studentProfile == null;
-        if (isStudentProfileNull) {
-            this.studentProfile = new StudentProfileAttributes();
-        }
-        AccountAttributes copy = new AccountAttributes(this.toEntity());
-        if (isStudentProfileNull) {
-            copy.studentProfile = null;
-            this.studentProfile = null;
-        }
-        return copy;
+        return AccountAttributes.builder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(this.studentProfile == null ? null : this.studentProfile.getCopy())
+                .build();
+
     }
 
     public boolean isInstructor() {
@@ -109,7 +162,7 @@ public class AccountAttributes extends EntityAttributes {
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
 
@@ -119,7 +172,7 @@ public class AccountAttributes extends EntityAttributes {
 
         addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
 
-        Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
+        Assumption.assertNotNull("Non-null value expected for studentProfile", this.studentProfile);
         // only check profile if the account is proper
         if (errors.isEmpty()) {
             errors.addAll(this.studentProfile.getInvalidityInfo());
@@ -132,7 +185,7 @@ public class AccountAttributes extends EntityAttributes {
     @Override
     public Account toEntity() {
         Assumption.assertNotNull(this.studentProfile);
-        return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
+        return new Account(googleId, name, isInstructor, email, institute, studentProfile.toEntity());
     }
 
     @Override

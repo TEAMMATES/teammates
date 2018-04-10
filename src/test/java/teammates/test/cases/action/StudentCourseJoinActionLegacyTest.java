@@ -44,7 +44,7 @@ public class StudentCourseJoinActionLegacyTest extends BaseActionTest {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        StudentAttributes unregStudent1 = dataBundle.students.get("student2InUnregisteredCourse");
+        StudentAttributes unregStudent1 = typicalBundle.students.get("student2InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(key)

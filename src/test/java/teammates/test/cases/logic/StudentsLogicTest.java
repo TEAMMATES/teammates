@@ -1,7 +1,8 @@
 package teammates.test.cases.logic;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -105,7 +106,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
         team = StudentsLogic.inst().getTeamDetailsForStudent(student);
 
-        assertEquals(null, team);
+        assertNull(team);
 
     }
 
@@ -120,14 +121,26 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         //create fresh test data
         accountsLogic.createAccount(
-                new AccountAttributes(instructorId, "ICET Instr Name", true,
-                        "instructor@icet.tmt", "TEAMMATES Test Institute 1",
-                        new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "", "")));
+                AccountAttributes.builder()
+                        .withGoogleId(instructorId)
+                        .withName("ICET Instr Name")
+                        .withEmail("instructor@icet.tmt")
+                        .withInstitute("TEAMMATES Test Institute 1")
+                        .withIsInstructor(true)
+                        .withStudentProfileAttributes(StudentProfileAttributes.builder(instructorId)
+                                .withShortName("ICET")
+                                .build())
+                        .build());
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
 
         ______TS("add student into empty course");
 
-        StudentAttributes student1 = new StudentAttributes("sect 1", "t1", "n", "e@g", "c", instructorCourse);
+        StudentAttributes student1 = StudentAttributes
+                .builder(instructorCourse, "n", "e@g")
+                .withSection("sect 1")
+                .withTeam("t1")
+                .withComments("c")
+                .build();
 
         // check if the course is empty
         assertEquals(0, studentsLogic.getStudentsForCourse(instructorCourse).size());
@@ -148,15 +161,30 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(1, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("add student into non-empty course");
-        StudentAttributes student2 = new StudentAttributes("sect 1", "t1", "n2", "e2@g", "c", instructorCourse);
+        StudentAttributes student2 = StudentAttributes
+                .builder(instructorCourse, "n2", "e2@g")
+                .withSection("sect 1")
+                .withTeam("t1")
+                .withComments("c")
+                .build();
         enrollmentResult = enrollStudent(student2);
         verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
                 StudentUpdateStatus.NEW);
 
         //add some more students to the same course (we add more than one
         //  because we can use them for testing cascade logic later in this test case)
-        enrollStudent(new StudentAttributes("sect 2", "t2", "n3", "e3@g", "c", instructorCourse));
-        enrollStudent(new StudentAttributes("sect 2", "t2", "n4", "e4@g", "", instructorCourse));
+        enrollStudent(StudentAttributes
+                .builder(instructorCourse, "n3", "e3@g")
+                .withSection("sect 2")
+                .withTeam("t2")
+                .withComments("c")
+                .build());
+        enrollStudent(StudentAttributes
+                .builder(instructorCourse, "n4", "e4@g")
+                .withSection("sect 2")
+                .withTeam("t2")
+                .withComments("")
+                .build());
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
         ______TS("modify info of existing student");
@@ -184,9 +212,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("success: edited profile");
 
-        StudentProfileAttributes expectedStudentProfile = new StudentProfileAttributes();
+        StudentProfileAttributes expectedStudentProfile = StudentProfileAttributes.builder(student1.googleId).build();
 
-        expectedStudentProfile.googleId = student1.googleId;
         expectedStudentProfile.shortName = "short";
         expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
@@ -209,20 +236,32 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Typical case");
 
-        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
-        studentList.add(
-                new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1",
-                                      "student2InCourse1@gmail.tmt", "", courseId));
+        List<StudentAttributes> studentList = new ArrayList<>();
+        studentList.add(StudentAttributes
+                .builder(courseId, "New Student", "emailNew@com")
+                .withSection("Section 3")
+                .withTeam("Team 1.3")
+                .withComments("")
+                .build());
+        studentList.add(StudentAttributes
+                .builder(courseId, "student2 In Course1", "student2InCourse1@gmail.tmt")
+                .withSection("Section 2")
+                .withTeam("Team 1.4")
+                .withComments("")
+                .build());
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
 
         ______TS("Failure case: invalid section");
 
-        studentList = new ArrayList<StudentAttributes>();
+        studentList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            StudentAttributes addedStudent =
-                    new StudentAttributes("Section 1", "Team " + i, "Name " + i, "email@com" + i, "cmt" + i, courseId);
+            StudentAttributes addedStudent = StudentAttributes
+                    .builder(courseId, "Name " + i, "email@com" + i)
+                    .withSection("Section 1")
+                    .withTeam("Team " + i)
+                    .withComments("cmt" + i)
+                    .build();
             studentList.add(addedStudent);
         }
         try {
@@ -233,8 +272,13 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: invalid team");
 
-        studentList = new ArrayList<StudentAttributes>();
-        studentList.add(new StudentAttributes("Section 2", "Team 1.1", "New Student", "newemail@com", "", courseId));
+        studentList = new ArrayList<>();
+        studentList.add(StudentAttributes
+                .builder(courseId, "New Student", "newemail@com")
+                .withSection("Section 2")
+                .withTeam("Team 1.1")
+                .withComments("")
+                .build());
         try {
             studentsLogic.validateSectionsAndTeams(studentList, courseId);
         } catch (EnrollException e) {
@@ -266,14 +310,16 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("check for KeepExistingPolicy : change email only");
 
-        // create an empty student and then copy course and email attributes
-        StudentAttributes copyOfStudent1 = new StudentAttributes();
-        copyOfStudent1.course = student4InCourse1.course;
         originalEmail = student4InCourse1.email;
-
         String newEmail = student4InCourse1.email + "y";
         student4InCourse1.email = newEmail;
-        copyOfStudent1.email = newEmail;
+
+        // create an empty student and then copy course and email attributes
+        StudentAttributes copyOfStudent1 = StudentAttributes
+                .builder(student4InCourse1.course, student4InCourse1.name, newEmail)
+                .build();
+        student4InCourse1.googleId = "";
+        student4InCourse1.section = "None";
 
         studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
         verifyPresentInDatastore(student4InCourse1);
@@ -319,7 +365,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
         StudentEnrollDetails studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.MODIFIED,
                                          course1Id, student1InCourse1.email, student1InCourse1.team,
@@ -349,7 +395,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // because the studentEnrollDetails'email is not the same as giver or recipient
         ______TS("adjust feedback response: unmodified status");
 
-        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        enrollmentList = new ArrayList<>();
         studentDetails1 =
                 new StudentEnrollDetails(StudentUpdateStatus.UNMODIFIED, course1Id,
                                          student1InCourse1.email, student1InCourse1.team,
@@ -378,7 +424,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                                          student2InCourse1.email, student1InCourse1.team,
                                          student1InCourse1.team + "tmp", student1InCourse1.section,
                                          student1InCourse1.section + "tmp");
-        enrollmentList = new ArrayList<StudentEnrollDetails>();
+        enrollmentList = new ArrayList<>();
         enrollmentList.add(studentDetails1);
 
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName,
@@ -390,7 +436,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         responseAfter = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giver, feedbackResponse1InBundle.recipient);
-        assertEquals(null, responseAfter);
+        assertNull(responseAfter);
 
     }
 
@@ -401,7 +447,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         coursesLogic.createCourse(courseId, "CourseName", "UTC");
         String invalidInfoString = null;
         String expectedInvalidInfoString;
-        List<String> expectedInvalidInfoList = new ArrayList<String>();
+        List<String> expectedInvalidInfoList = new ArrayList<>();
 
         ______TS("enrollLines with invalid parameters");
         String invalidTeamName = StringHelperExtension.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
@@ -417,9 +463,13 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithInvalidTeamNameAndStudentNameAndEmail =
                 invalidTeamName + "|" + invalidStudentName + "|" + "invalid_email.tmt";
 
-        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName
-                    + Const.EOL + lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL
-                    + lineWithInvalidTeamNameAndEmail + Const.EOL + lineWithInvalidTeamNameAndStudentNameAndEmail;
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithInvalidTeamName + System.lineSeparator()
+                + lineWithInvalidStudentName + System.lineSeparator()
+                + lineWithInvalidEmail + System.lineSeparator()
+                + lineWithInvalidStudentNameAndEmail + System.lineSeparator()
+                + lineWithInvalidTeamNameAndEmail + System.lineSeparator()
+                + lineWithInvalidTeamNameAndStudentNameAndEmail;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -476,7 +526,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | "
                 + " studentWithExtraParameters@email.tmt | comment | extra_parameter";
 
-        enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithNoEmailInput + System.lineSeparator()
+                + lineWithExtraParameters;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -493,10 +545,10 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.tmt";
         String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
 
-        enrollLines = headerLine + Const.EOL
-                      + lineWithTeamNameEmpty + Const.EOL
-                      + lineWithStudentNameEmpty + Const.EOL
-                      + lineWithEmailEmpty;
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithTeamNameEmpty + System.lineSeparator()
+                + lineWithStudentNameEmpty + System.lineSeparator()
+                + lineWithEmailEmpty;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -523,7 +575,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         String lineWithCorrectInput = "Team 3 | Mary | mary@email.tmt";
         String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.tmt | Foreign student";
 
-        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithCorrectInput + System.lineSeparator()
+                + lineWithCorrectInputWithComment;
         // No exception is supposed be thrown here. Test will fail if Enrollment Exception is thrown
         studentsLogic.createStudents(enrollLines, courseId);
 
@@ -532,7 +586,9 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("enrollLines with duplicate emails");
 
-        enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInput;
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithCorrectInput + System.lineSeparator()
+                + lineWithCorrectInput;
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -540,10 +596,12 @@ public class StudentsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains(expectedInvalidInfoString, invalidInfoString);
 
         ______TS("enrollLines with a mix of all above cases");
-        enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL
-                + lineWithInvalidTeamNameAndStudentNameAndEmail
-                + Const.EOL + lineWithExtraParameters + Const.EOL
-                + lineWithTeamNameEmpty + Const.EOL + lineWithCorrectInput + Const.EOL + "\t";
+        enrollLines = headerLine + System.lineSeparator()
+                + lineWithInvalidTeamName + System.lineSeparator()
+                + lineWithInvalidTeamNameAndStudentNameAndEmail + System.lineSeparator()
+                + lineWithExtraParameters + System.lineSeparator()
+                + lineWithTeamNameEmpty + System.lineSeparator()
+                + lineWithCorrectInput + System.lineSeparator() + "\t";
 
         invalidInfoString = getExceptionMessageOnCreatingStudentsList(enrollLines, courseId);
 
@@ -599,19 +657,37 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
         String instructorEmail = "instructor@email.tmt";
-        AccountAttributes accountToAdd = new AccountAttributes(instructorId,
-                "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
+        StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(instructorId)
+                .withShortName("Ins1").withGender("male")
+                .build();
+        AccountAttributes accountToAdd = AccountAttributes.builder()
+                .withGoogleId(instructorId)
+                .withName("Instructor 1")
+                .withEmail(instructorEmail)
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(profileAttributes)
+                .build();
 
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-        FeedbackSessionAttributes fsAttr = new FeedbackSessionAttributes("newFeedbackSessionName",
-                courseIdForEnrollTest, instructorEmail, new Text("default instructions"),
-                TimeHelperExtension.getHoursOffsetToCurrentTime(0), TimeHelperExtension.getHoursOffsetToCurrentTime(2),
-                TimeHelperExtension.getHoursOffsetToCurrentTime(5), TimeHelperExtension.getHoursOffsetToCurrentTime(1),
-                TimeHelperExtension.getHoursOffsetToCurrentTime(6),
-                8.0, 0, FeedbackSessionType.PRIVATE, false, false, false, false, false, false, false);
+
+        FeedbackSessionAttributes fsAttr = FeedbackSessionAttributes
+                .builder("newFeedbackSessionName", courseIdForEnrollTest, instructorEmail)
+                .withInstructions(new Text("default instructions"))
+                .withCreatedTime(Instant.now())
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
+                .withTimeZone(ZoneId.of("Asia/Singapore"))
+                .withGracePeriodMinutes(0)
+                .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withOpeningEmailEnabled(false)
+                .withClosingEmailEnabled(false)
+                .withPublishedEmailEnabled(false)
+                .build();
         fsLogic.createFeedbackSession(fsAttr);
 
         ______TS("all valid students, but contains blank lines and trailing spaces");
@@ -619,12 +695,17 @@ public class StudentsLogicTest extends BaseLogicTest {
         String headerLine = "team | name | email | comment";
         String line0 = "t1   |  n1   |   e1@g  |   c1";
         String line1 = " t2|  n2|  e2@g|  c2";
-        String line2 = "t3  |n3|  e3@g|c3  ";
+        String line2 = "\u00A0t3  |n3|  e3@g|c3  ";
         String line3 = "t4|n4|  e4@g|c4";
         String line4 = "t5|  n5|e5@g  |c5";
-        String lines = headerLine + Const.EOL + line0 + Const.EOL + line1 + Const.EOL + line2 + Const.EOL
-                    + "  \t \t \t \t           " + Const.EOL + line3 + Const.EOL + Const.EOL + line4
-                    + Const.EOL + "    " + Const.EOL + Const.EOL;
+        String lines = headerLine + System.lineSeparator()
+                + line0 + System.lineSeparator()
+                + line1 + System.lineSeparator()
+                + line2 + System.lineSeparator()
+                + "  \t \t \t \t           " + System.lineSeparator()
+                + line3 + System.lineSeparator() + System.lineSeparator()
+                + line4 + System.lineSeparator()
+                + "    " + System.lineSeparator() + System.lineSeparator();
         CourseEnrollmentResult enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
 
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
@@ -646,7 +727,11 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         String modifiedLine2 = "t3|modified name|e3@g|c3";
         String line5 = "t6|n6|e6@g|c6";
-        lines = headerLine + Const.EOL + line0 + Const.EOL + modifiedLine2 + Const.EOL + line1 + Const.EOL + line5;
+        lines = headerLine + System.lineSeparator()
+                + line0 + System.lineSeparator()
+                + modifiedLine2 + System.lineSeparator()
+                + line1 + System.lineSeparator()
+                + line5;
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
         assertEquals(6, enrollResults.studentList.size());
         assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
@@ -667,7 +752,10 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // no changes should be done to the database
         String incorrectLine = "incorrectly formatted line";
-        lines = headerLine + Const.EOL + "t7|n7|e7@g|c7" + Const.EOL + incorrectLine + Const.EOL + line2 + Const.EOL
+        lines = headerLine + System.lineSeparator()
+                + "t7|n7|e7@g|c7" + System.lineSeparator()
+                + incorrectLine + System.lineSeparator()
+                + line2 + System.lineSeparator()
                 + line3;
         try {
             enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
@@ -688,23 +776,32 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
-        accountToAdd = new AccountAttributes("tes.instructor",
-                "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
-                new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", "", ""));
+        StudentProfileAttributes studentAttributes = StudentProfileAttributes.builder("tes.instructor")
+                .withShortName("Ins 1").withGender("male")
+                .build();
+        accountToAdd = AccountAttributes.builder()
+                .withGoogleId("tes.instructor")
+                .withName("Instructor 1")
+                .withEmail("instructor@email.tmt")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(studentAttributes)
+                .build();
+
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
 
-        String line = headerLine + Const.EOL + "t8|n8|e8@g|c1";
+        String line = headerLine + System.lineSeparator() + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.NEW, enrollResults.studentList.get(0).updateStatus);
 
-        line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
+        line = headerLine + System.lineSeparator() + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.MODIFIED, enrollResults.studentList.get(0).updateStatus);
 
-        line = headerLine + Const.EOL + "t8|n8a|e8@g|c1";
+        line = headerLine + System.lineSeparator() + "t8|n8a|e8@g|c1";
         enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.studentList.size());
         assertEquals(StudentUpdateStatus.UNMODIFIED, enrollResults.studentList.get(0).updateStatus);
@@ -713,7 +810,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         String lineT9 = "t9|n9|e9@g|c9";
         String lineT10 = "t10|n10|e9@g|c10";
-        lines = headerLine + Const.EOL + lineT9 + Const.EOL + lineT10;
+        lines = headerLine + System.lineSeparator() + lineT9 + System.lineSeparator() + lineT10;
         try {
             studentsLogic.enrollStudentsWithoutDocument(lines, "tes.course");
         } catch (EnrollException e) {
@@ -723,7 +820,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("invalid course id");
 
-        String enrollLines = headerLine + Const.EOL;
+        String enrollLines = headerLine + System.lineSeparator();
         String invalidCourseId = "invalidCourseId";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, invalidCourseId);
@@ -743,7 +840,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("invalidity info in enroll line");
 
-        enrollLines = headerLine + Const.EOL + "invalidline0\ninvalidline1\n";
+        enrollLines = headerLine + System.lineSeparator() + "invalidline0\ninvalidline1\n";
         try {
             studentsLogic.enrollStudentsWithoutDocument(enrollLines, courseIdForEnrollTest);
             signalFailureToDetectException();
@@ -768,7 +865,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         String nonExistStudentEmail = "nonExist@google.tmt";
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
-        assertEquals(null, studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
+        assertNull(studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
 
         ______TS("typical case");
 
@@ -791,7 +888,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("non-exist student");
 
         String nonExistStudentKey = StringHelper.encrypt("nonExistKey");
-        assertEquals(null, studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
+        assertNull(studentsLogic.getStudentForRegistrationKey(nonExistStudentKey));
 
         ______TS("typical case");
 
@@ -836,12 +933,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // check the content from first list (we assume the content of the
         // second list is similar.
 
-        Collections.sort(listReceivedUsingStudentInCourse1, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes o1, StudentAttributes o2) {
-                return o1.course.compareTo(o2.course);
-            }
-        });
+        listReceivedUsingStudentInCourse1.sort(Comparator.comparing(student -> student.course));
 
         StudentAttributes firstStudentReceived = listReceivedUsingStudentInCourse1.get(1);
         // First student received turned out to be the one from course 2
@@ -898,7 +990,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("student in zero courses");
 
-        assertEquals(null, studentsLogic.getStudentForCourseIdAndGoogleId("non-existent",
+        assertNull(studentsLogic.getStudentForCourseIdAndGoogleId("non-existent",
                 "random-google-id"));
 
         ______TS("null parameters");
@@ -1110,5 +1202,4 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertTrue(errorMessage, enrollmentResult.isEnrollInfoSameAs(expectedStudent)
                                  && enrollmentResult.updateStatus == status);
     }
-
 }

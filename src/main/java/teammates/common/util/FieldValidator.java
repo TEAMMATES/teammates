@@ -1,15 +1,15 @@
 package teammates.common.util;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import org.joda.time.DateTimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -84,7 +84,7 @@ public class FieldValidator {
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
-    public static final String COURSE_TIME_ZONE_FIELD_NAME = "course time zone";
+    public static final String TIME_ZONE_FIELD_NAME = "time zone";
 
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
@@ -93,6 +93,15 @@ public class FieldValidator {
     public static final List<String> GENDER_ACCEPTED_VALUES =
             Collections.unmodifiableList(
                     Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
+
+    public static final String ROLE_FIELD_NAME = "access-level";
+    public static final List<String> ROLE_ACCEPTED_VALUES =
+            Collections.unmodifiableList(
+                    Arrays.asList(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
+                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
 
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
@@ -108,9 +117,11 @@ public class FieldValidator {
     public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
     public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
     public static final String REASON_START_WITH_NON_ALPHANUMERIC_CHAR = "starts with a non-alphanumeric character";
-    public static final String REASON_UNAVAILABLE_AS_CHOICE = "not available as a choice";
+    public static final String REASON_UNAVAILABLE_AS_CHOICE = "is not available as a choice";
 
     // error message components
+    public static final String EMPTY_STRING_ERROR_INFO =
+            "The field '${fieldName}' is empty.";
     public static final String ERROR_INFO =
             "\"${userInput}\" is not acceptable to TEAMMATES as a/an ${fieldName} because it ${reason}.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY =
@@ -120,12 +131,14 @@ public class FieldValidator {
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES =
             "It cannot be longer than ${maxLength} characters, cannot be empty and cannot contain spaces.";
     public static final String HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME =
-            "All ${fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
+            "A/An ${fieldName} must start with an alphanumeric character, and cannot contain any vertical bar "
             + "(|) or percent sign (%).";
 
     // generic (i.e., not specific to any field) error messages
     public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
+    public static final String SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY;
     public static final String SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_POSSIBLY_EMPTY;
     public static final String INVALID_NAME_ERROR_MESSAGE =
@@ -136,7 +149,7 @@ public class FieldValidator {
     public static final String NON_HTML_FIELD_ERROR_MESSAGE =
             SanitizationHelper.sanitizeForHtml("The provided ${fieldName} is not acceptable to TEAMMATES "
                                                 + "as it cannot contain the following special html characters"
-                                                + " in brackets: (< > \\ / ' &)");
+                                                + " in brackets: (< > \" / ' &)");
     public static final String NON_NULL_FIELD_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
@@ -146,23 +159,34 @@ public class FieldValidator {
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
+    public static final String EMAIL_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
 
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String COURSE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
+    public static final String COURSE_ID_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
 
     public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
             "A Google ID must be a valid id already registered with Google. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String GOOGLE_ID_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
+    public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
+            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
 
-    public static final String HINT_FOR_CORRECT_COURSE_TIME_ZONE =
+    public static final String HINT_FOR_CORRECT_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";
-    public static final String COURSE_TIME_ZONE_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_TIME_ZONE;
+    public static final String TIME_ZONE_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_TIME_ZONE;
+
+    public static final String HINT_FOR_CORRECT_GRACE_PERIOD =
+            "The value must be one of the options in the grace period dropdown selector.";
+    public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative." + " "
+            + HINT_FOR_CORRECT_GRACE_PERIOD;
 
     public static final String HINT_FOR_CORRECT_NATIONALITY =
             "The value must be one of the values from the nationality dropdown selector.";
@@ -174,6 +198,9 @@ public class FieldValidator {
             "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
             + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
             + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
+
+    public static final String ROLE_ERROR_MESSAGE =
+            "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
 
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
@@ -229,15 +256,18 @@ public class FieldValidator {
                     new String[] {"sections?", "sect?", "courses?\\s+sec(tion)?s?"}));
     public static final List<String> REGEX_COLUMN_TEAM = Collections.unmodifiableList(
             Arrays.asList(
-                    new String[] {"teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?",
-                                  "courses?\\s+teams?"}));
+                    new String[] {
+                            "teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?"
+                    }));
     public static final List<String> REGEX_COLUMN_NAME = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"}));
     public static final List<String> REGEX_COLUMN_EMAIL = Collections.unmodifiableList(
             Arrays.asList(
-                    new String[] {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
-                                  "e-mails?\\s+address(es)?", "contacts?"}));
+                    new String[] {
+                            "emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
+                            "e-mails?\\s+address(es)?", "contacts?"
+                    }));
     public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));
@@ -252,7 +282,7 @@ public class FieldValidator {
      *         Returns an empty string if the {@code emailContent} is acceptable.
      */
     public String getInvalidityInfoForEmailContent(Text emailContent) {
-        Assumption.assertTrue("Non-null value expected", emailContent != null);
+        Assumption.assertNotNull("Non-null value expected", emailContent);
         if (emailContent.getValue().isEmpty()) {
             return EMAIL_CONTENT_ERROR_MESSAGE;
         }
@@ -278,11 +308,11 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForEmail(String email) {
 
-        Assumption.assertTrue("Non-null value expected", email != null);
+        Assumption.assertNotNull("Non-null value expected", email);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
-            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME, REASON_EMPTY,
+            return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, EMAIL_FIELD_NAME,
                                             EMAIL_MAX_LENGTH);
         } else if (isUntrimmed(email)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
@@ -297,6 +327,18 @@ public class FieldValidator {
     }
 
     /**
+     * Checks if {@code gracePeriod} is not negative.
+     * @return An explanation why the {@code gracePeriod} is not acceptable.
+     *         Returns an empty string if the {@code gracePeriod} is acceptable.
+     */
+    public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
+        if (gracePeriod.isNegative()) {
+            return GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE;
+        }
+        return "";
+    }
+
+    /**
      * Checks if {@code googleId} is not null, not empty, not longer than {@code GOOGLE_ID_MAX_LENGTH}, does
      * not contain any invalid characters (| or %), AND is either a Google username (without the "@gmail.com")
      * or a valid email address that does not end in "@gmail.com".
@@ -305,7 +347,7 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForGoogleId(String googleId) {
 
-        Assumption.assertTrue("Non-null value expected", googleId != null);
+        Assumption.assertNotNull("Non-null value expected", googleId);
         Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
                 !googleId.toLowerCase().endsWith("@gmail.com"));
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(googleId);
@@ -314,8 +356,8 @@ public class FieldValidator {
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
-                                            REASON_EMPTY, GOOGLE_ID_MAX_LENGTH);
+            return getPopulatedEmptyStringErrorMessage(GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                                            GOOGLE_ID_FIELD_NAME, GOOGLE_ID_MAX_LENGTH);
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
@@ -336,11 +378,11 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForCourseId(String courseId) {
 
-        Assumption.assertTrue("Non-null value expected", courseId != null);
+        Assumption.assertNotNull("Non-null value expected", courseId);
 
         if (courseId.isEmpty()) {
-            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME,
-                                            REASON_EMPTY, COURSE_ID_MAX_LENGTH);
+            return getPopulatedEmptyStringErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                                            COURSE_ID_FIELD_NAME, COURSE_ID_MAX_LENGTH);
         }
         if (isUntrimmed(courseId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
@@ -396,7 +438,7 @@ public class FieldValidator {
      *         Returns an empty string if the {@code gender} is acceptable.
      */
     public String getInvalidityInfoForGender(String gender) {
-        Assumption.assertTrue("Non-null value expected", gender != null);
+        Assumption.assertNotNull("Non-null value expected", gender);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
 
         if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
@@ -471,16 +513,33 @@ public class FieldValidator {
     }
 
     /**
-     * Checks if the given string is a non-null string contained in {@link DateTimeZone}'s
-     * list of time zone IDs.
+     * Checks if the given string is a non-null string contained in Java's list of
+     * regional time zone IDs.
      * @return An explanation of why the {@code timeZoneValue} is not acceptable.
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
-    public String getInvalidityInfoForCourseTimeZone(String timeZoneValue) {
-        Assumption.assertTrue("Non-null value expected", timeZoneValue != null);
-        if (!DateTimeZone.getAvailableIDs().contains(timeZoneValue)) {
-            return getPopulatedErrorMessage(COURSE_TIME_ZONE_ERROR_MESSAGE, timeZoneValue, COURSE_TIME_ZONE_FIELD_NAME,
-                                            REASON_UNAVAILABLE_AS_CHOICE);
+    public String getInvalidityInfoForTimeZone(String timeZoneValue) {
+        Assumption.assertNotNull("Non-null value expected", timeZoneValue);
+        if (!ZoneId.getAvailableZoneIds().contains(timeZoneValue)) {
+            String sanitizedValue = SanitizationHelper.sanitizeForHtml(timeZoneValue);
+            return getPopulatedErrorMessage(TIME_ZONE_ERROR_MESSAGE,
+                    sanitizedValue, TIME_ZONE_FIELD_NAME, REASON_UNAVAILABLE_AS_CHOICE);
+        }
+        return "";
+    }
+
+    /**
+     * Checks if {@code role} is one of the recognized roles {@link #ROLE_ACCEPTED_VALUES}.
+     *
+     * @return An explanation of why the {@code role} is not acceptable.
+     *         Returns an empty string if the {@code role} is acceptable.
+     */
+    public String getInvalidityInfoForRole(String role) {
+        Assumption.assertNotNull("Non-null value expected", role);
+        String sanitizedValue = SanitizationHelper.sanitizeForHtml(role);
+
+        if (!ROLE_ACCEPTED_VALUES.contains(role)) {
+            return String.format(ROLE_ERROR_MESSAGE, sanitizedValue);
         }
         return "";
     }
@@ -501,11 +560,11 @@ public class FieldValidator {
      */
     public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
 
-        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
+        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (value.isEmpty()) {
-            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName,
-                                            REASON_EMPTY, maxLength);
+            return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                                            fieldName, maxLength);
         }
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -548,7 +607,7 @@ public class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
-        Assumption.assertTrue("Non-null value expected for " + fieldName, value != null);
+        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -566,7 +625,7 @@ public class FieldValidator {
      * @return Error string if {@code sessionStart} is before {@code sessionEnd}
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
-    public String getInvalidityInfoForTimeForSessionStartAndEnd(Date sessionStart, Date sessionEnd) {
+    public String getInvalidityInfoForTimeForSessionStartAndEnd(Instant sessionStart, Instant sessionEnd) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 sessionStart, sessionEnd, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
     }
@@ -576,8 +635,8 @@ public class FieldValidator {
      * @return Error string if {@code visibilityStart} is before {@code sessionStart}
      *         Empty string if {@code visibilityStart} is after {@code sessionStart}
      */
-    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(Date visibilityStart,
-                                                                            Date sessionStart) {
+    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+            Instant visibilityStart, Instant sessionStart) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
     }
@@ -587,20 +646,20 @@ public class FieldValidator {
      * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
      *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
      */
-    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(Date visibilityStart,
-                                                                              Date resultsPublish) {
+    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+            Instant visibilityStart, Instant resultsPublish) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
     private String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
-            Date earlierTime, Date laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
-        Assumption.assertTrue("Non-null value expected", earlierTime != null);
-        Assumption.assertTrue("Non-null value expected", laterTime != null);
+            Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
+        Assumption.assertNotNull("Non-null value expected", earlierTime);
+        Assumption.assertNotNull("Non-null value expected", laterTime);
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
-        if (laterTime.before(earlierTime)) {
+        if (laterTime.isBefore(earlierTime)) {
             return String.format(TIME_FRAME_ERROR_MESSAGE, laterTimeFieldName, earlierTimeFieldName);
         }
         return "";
@@ -612,7 +671,7 @@ public class FieldValidator {
         Assumption.assertNotNull("Non-null value expected", giverType);
         Assumption.assertNotNull("Non-null value expected", recipientType);
 
-        List<String> errors = new LinkedList<String>();
+        List<String> errors = new LinkedList<>();
         if (!giverType.isValidGiver()) {
             errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME));
         }
@@ -642,7 +701,7 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
         Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
 
-        List<String> errors = new LinkedList<String>();
+        List<String> errors = new LinkedList<>();
 
         for (FeedbackParticipantType type : showGiverNameTo) {
             if (!type.isValidViewer()) {
@@ -707,7 +766,7 @@ public class FieldValidator {
      * @return true if all elements are unique, else false.
      */
     public static <T> boolean areElementsUnique(Collection<T> elements) {
-        Set<T> uniqueElements = new HashSet<T>(elements);
+        Set<T> uniqueElements = new HashSet<>(elements);
         return uniqueElements.size() == elements.size();
     }
 
@@ -722,5 +781,11 @@ public class FieldValidator {
         return messageTemplate.replace("${userInput}", userInput)
                               .replace("${fieldName}", fieldName)
                               .replace("${reason}", errorReason);
+    }
+
+    public static String getPopulatedEmptyStringErrorMessage(String messageTemplate,
+            String fieldName, int maxLength) {
+        return messageTemplate.replace("${fieldName}", fieldName)
+                              .replace("${maxLength}", String.valueOf(maxLength));
     }
 }

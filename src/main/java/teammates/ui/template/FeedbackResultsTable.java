@@ -16,7 +16,7 @@ public class FeedbackResultsTable {
     public FeedbackResultsTable(int fbIndex, String studentName, FeedbackSessionResultsBundle result) {
         this.studentName = studentName;
 
-        this.receivedResponses = new ArrayList<FeedbackResponsePersonRow>();
+        this.receivedResponses = new ArrayList<>();
         Map<String, List<FeedbackResponseAttributes>> received =
                                         result.getResponsesSortedByRecipient().get(studentName);
         int giverIndex = 0;
@@ -28,7 +28,7 @@ public class FeedbackResultsTable {
             }
         }
 
-        this.givenResponses = new ArrayList<FeedbackResponsePersonRow>();
+        this.givenResponses = new ArrayList<>();
         Map<String, List<FeedbackResponseAttributes>> given = result.getResponsesSortedByGiver().get(studentName);
         int recipientIndex = 0;
         if (given != null) {

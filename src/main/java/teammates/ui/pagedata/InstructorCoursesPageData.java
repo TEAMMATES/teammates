@@ -81,7 +81,7 @@ public class InstructorCoursesPageData extends PageData {
         for (CourseAttributes course : archivedCourses) {
             idx++;
 
-            List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+            List<ElementTag> actionsParam = new ArrayList<>();
 
             String unarchiveLink = getInstructorCourseArchiveLink(course.getId(), false, false);
             ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs",
@@ -100,7 +100,10 @@ public class InstructorCoursesPageData extends PageData {
 
             ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
                                                                       SanitizationHelper.sanitizeForHtml(course.getName()),
-                                                                                                actionsParam);
+                                                                      course.getCreatedAtDateString(),
+                                                                      course.getCreatedAtDateStamp(),
+                                                                      course.getCreatedAtFullDateTimeString(),
+                                                                      actionsParam);
             archivedCoursesTable.getRows().add(row);
 
         }
@@ -116,7 +119,7 @@ public class InstructorCoursesPageData extends PageData {
         for (CourseAttributes course : courses) {
             idx++;
 
-            List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+            List<ElementTag> actionsParam = new ArrayList<>();
 
             Boolean hasModifyPermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
@@ -152,6 +155,9 @@ public class InstructorCoursesPageData extends PageData {
 
             ActiveCoursesTableRow row = new ActiveCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
                                                                   SanitizationHelper.sanitizeForHtml(course.getName()),
+                                                                  course.getCreatedAtDateString(),
+                                                                  course.getCreatedAtDateStamp(),
+                                                                  course.getCreatedAtFullDateTimeString(),
                                                                   this.getInstructorCourseStatsLink(course.getId()),
                                                                   actionsParam);
             activeCourses.getRows().add(row);

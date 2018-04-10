@@ -46,14 +46,17 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-3 control-label">
+          <label class="col-xs-12 col-sm-3 control-label">
             Time Zone:
           </label>
-          <div class="col-sm-6">
-            ${timezone.options}
-          </div>
-          <div class="col-sm-1">
-            <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect Time Zone">
+          <div class="col-xs-12 col-sm-9">
+            <div class="input-group">
+              <select class="form-control" data-original-title="The time zone for the course." data-placement="top" data-time-zone="UTC" data-toggle="tooltip" disabled="" id="coursetimezone" name="coursetimezone" title="">
+              </select>
+              <span class="input-group-btn">
+                <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect">
+              </span>
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -217,7 +220,7 @@
                 Display to students as:
               </label>
               <div class="col-sm-9">
-                <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text">
+                <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="Instructor">
               </div>
             </div>
             <div class="form-group">

@@ -2,12 +2,12 @@ package teammates.ui.pagedata;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -60,7 +60,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     public List<String> getExcludedLogRequestUris() {
-        List<String> excludedList = new ArrayList<String>();
+        List<String> excludedList = new ArrayList<>();
         for (String excludedLogRequestUri : excludedLogRequestURIs) {
             excludedList.add(excludedLogRequestUri.substring(excludedLogRequestUri.lastIndexOf('/') + 1));
         }
@@ -68,11 +68,8 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     private void setDefaultLogSearchPeriod() {
-        Calendar fromCalendarDate = TimeHelper.now(0.0);
-        fromCalendarDate.add(Calendar.DAY_OF_MONTH, -1);
-
-        fromDateValue = fromCalendarDate.getTimeInMillis();
-        toDateValue = TimeHelper.now(0.0).getTimeInMillis();
+        fromDateValue = TimeHelper.getInstantDaysOffsetFromNow(-1).toEpochMilli();
+        toDateValue = Instant.now().toEpochMilli();
     }
 
     public void init(List<ActivityLogEntry> logList) {
@@ -80,7 +77,7 @@ public class AdminActivityLogPageData extends PageData {
     }
 
     private void initLogsAsTemplateRows(List<ActivityLogEntry> entries) {
-        logs = new ArrayList<AdminActivityLogTableRow>();
+        logs = new ArrayList<>();
         for (ActivityLogEntry entry : entries) {
             AdminActivityLogTableRow row = new AdminActivityLogTableRow(entry);
             logs.add(row);
@@ -233,7 +230,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private QueryParameters parseQuery(String query) throws ParseException, InvalidParametersException {
         QueryParameters q = new QueryParameters();
-        versions = new ArrayList<String>();
+        versions = new ArrayList<>();
 
         if (query == null || query.isEmpty()) {
             return q;
@@ -264,22 +261,13 @@ public class AdminActivityLogPageData extends PageData {
                 }
 
             } else if ("from".equals(label)) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
-                Date d = sdf.parse(values[0] + " 00:00");
-                Calendar cal = TimeHelper.now(0.0);
-                cal.setTime(d);
-                fromDateValue = cal.getTime().getTime();
+                fromDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy"))
+                        .atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant().toEpochMilli();
                 isFromDateSpecifiedInQuery = true;
 
             } else if ("to".equals(label)) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-
-                sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
-                Date d = sdf.parse(values[0] + " 23:59");
-                Calendar cal = TimeHelper.now(0.0);
-                cal.setTime(d);
-                toDateValue = cal.getTime().getTime();
+                toDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy"))
+                        .atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant().toEpochMilli();
             } else {
                 q.add(label, values);
             }
@@ -354,7 +342,7 @@ public class AdminActivityLogPageData extends PageData {
 
     private List<String> getAllActionNames() {
 
-        List<String> actionNameList = new ArrayList<String>();
+        List<String> actionNameList = new ArrayList<>();
 
         for (Field field : Const.ActionURIs.class.getFields()) {
 
@@ -384,7 +372,7 @@ public class AdminActivityLogPageData extends PageData {
             return "";
         }
 
-        return StringHelper.join(",", q.infoValues);
+        return String.join(",", q.infoValues);
     }
 
     /**

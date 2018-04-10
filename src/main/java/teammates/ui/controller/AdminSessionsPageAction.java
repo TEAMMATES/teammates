@@ -24,7 +24,7 @@ public class AdminSessionsPageAction extends Action {
     private AdminSessionsPageData data;
 
     private Map<String, List<FeedbackSessionAttributes>> map;
-    private Map<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
+    private Map<String, String> sessionToInstructorIdMap = new HashMap<>();
     private int totalOngoingSessions;
     private int totalOpenStatusSessions;
     private int totalClosedStatusSessions;
@@ -48,8 +48,10 @@ public class AdminSessionsPageAction extends Action {
             return result;
         }
 
+        Date rangeStartUtc = TimeHelper.convertLocalDateToUtc(rangeStart, zone);
+        Date rangeEndUtc = TimeHelper.convertLocalDateToUtc(rangeEnd, zone);
         List<FeedbackSessionAttributes> allOpenFeedbackSessionsList =
-                logic.getAllOpenFeedbackSessions(this.rangeStart, this.rangeEnd, this.zone);
+                logic.getAllOpenFeedbackSessions(rangeStartUtc, rangeEndUtc);
 
         result = createShowPageResultIfNoOngoingSession(allOpenFeedbackSessionsList);
         if (result != null) {
@@ -65,7 +67,7 @@ public class AdminSessionsPageAction extends Action {
     private void putIntoUnknownList(
             Map<String, List<FeedbackSessionAttributes>> map, FeedbackSessionAttributes fs) {
         if (map.get("Unknown") == null) {
-            List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
+            List<FeedbackSessionAttributes> newList = new ArrayList<>();
             newList.add(fs);
             map.put("Unknown", newList);
         } else {
@@ -74,7 +76,7 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private void prepareDefaultPageData(Calendar calStart, Calendar calEnd) {
-        this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
+        this.map = new HashMap<>();
         this.totalOngoingSessions = 0;
         this.totalOpenStatusSessions = 0;
         this.totalClosedStatusSessions = 0;
@@ -117,8 +119,10 @@ public class AdminSessionsPageAction extends Action {
 
             zone = Double.parseDouble(timeZone);
 
-            start = TimeHelper.convertToDate(TimeHelper.convertToRequiredFormat(startDate, startHour, startMin));
-            end = TimeHelper.convertToDate(TimeHelper.convertToRequiredFormat(endDate, endHour, endMin));
+            start = TimeHelper.convertLocalDateTimeToDate(
+                    TimeHelper.parseLocalDateTimeForSessionsForm(startDate, startHour, startMin));
+            end = TimeHelper.convertLocalDateTimeToDate(
+                    TimeHelper.parseLocalDateTimeForSessionsForm(endDate, endHour, endMin));
 
             if (start.after(end)) {
                 isError = true;
@@ -166,7 +170,7 @@ public class AdminSessionsPageAction extends Action {
             statusToAdmin = "Admin Sessions Page Load<br>"
                           + "<span class=\"bold\"> No Ongoing Sessions</span>";
 
-            this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
+            this.map = new HashMap<>();
             this.totalOngoingSessions = 0;
             this.totalOpenStatusSessions = 0;
             this.totalClosedStatusSessions = 0;
@@ -183,7 +187,7 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private ActionResult createAdminSessionPageResult(List<FeedbackSessionAttributes> allOpenFeedbackSessionsList) {
-        HashMap<String, List<FeedbackSessionAttributes>> map = new HashMap<String, List<FeedbackSessionAttributes>>();
+        HashMap<String, List<FeedbackSessionAttributes>> map = new HashMap<>();
         this.totalOngoingSessions = allOpenFeedbackSessionsList.size();
         this.totalOpenStatusSessions = getTotalNumOfOpenStatusSession(allOpenFeedbackSessionsList);
         this.totalClosedStatusSessions = getTotalNumOfCloseStatusSession(allOpenFeedbackSessionsList);
@@ -204,7 +208,7 @@ public class AdminSessionsPageAction extends Action {
                 }
 
                 if (map.get(account.institute) == null) {
-                    List<FeedbackSessionAttributes> newList = new ArrayList<FeedbackSessionAttributes>();
+                    List<FeedbackSessionAttributes> newList = new ArrayList<>();
                     newList.add(fs);
                     map.put(account.institute, newList);
                 } else {
@@ -229,12 +233,12 @@ public class AdminSessionsPageAction extends Action {
     }
 
     private void constructSessionToInstructorIdMap() {
-        for (Map.Entry<String, List<FeedbackSessionAttributes>> entry : this.map.entrySet()) {
-            for (FeedbackSessionAttributes fs : entry.getValue()) {
+        this.map.forEach((key, feedbackSessionAttributesList) -> {
+            for (FeedbackSessionAttributes fs : feedbackSessionAttributesList) {
                 String googleId = findAvailableInstructorGoogleIdForCourse(fs.getCourseId());
                 this.sessionToInstructorIdMap.put(fs.getIdentificationString(), googleId);
             }
-        }
+        });
     }
 
     /**

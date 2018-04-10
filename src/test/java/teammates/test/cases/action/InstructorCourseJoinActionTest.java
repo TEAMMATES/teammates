@@ -29,7 +29,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         // Reassign to let "key" variable in "instructor" not to be null
         instructor = instrDb.getInstructorForGoogleId(instructor.courseId, instructor.googleId);
@@ -87,13 +87,20 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
 
         ______TS("Typical case: unregistered instructor, redirect to confirmation page");
 
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAT.instr@email.com");
+        instructor = InstructorAttributes
+                .builder(null, instructor.courseId, "New Instructor", "ICJAT.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAT.instr";
 
-        AccountAttributes newInstructorAccount = new AccountAttributes(
-                instructor.googleId, instructor.name, false,
-                instructor.email, "TEAMMATES Test Institute 5");
+        AccountAttributes newInstructorAccount = AccountAttributes.builder()
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
+                .build();
         AccountsLogic.inst().createAccount(newInstructorAccount);
 
         InstructorAttributes newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);

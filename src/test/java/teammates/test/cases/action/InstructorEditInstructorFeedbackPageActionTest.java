@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorEditInstructorFeedbackPageAction;
@@ -22,6 +21,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -43,7 +43,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
         ______TS("typical success case");
         feedbackSessionName = "First feedback session";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -69,7 +69,7 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
 
         ______TS("success: another feedback");
         feedbackSessionName = "Another feedback session";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -93,29 +93,10 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
                             + "/page/instructorEditInstructorFeedbackPage";
         AssertHelper.assertLogMessageEquals(logMessage, editInstructorFpAction.getLogMessage());
 
-        ______TS("failure: does not have privilege (helper can't moderate instructor)");
-        gaeSimulation.loginAsInstructor(moderatedInstructor.googleId);
-        feedbackSessionName = "First feedback session";
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
-        };
-
-        try {
-            editInstructorFpAction = getAction(submissionParams);
-            editInstructorFpAction.executeAndPostProcess();
-            signalFailureToDetectException();
-        } catch (UnauthorizedAccessException e) {
-            assertEquals("Feedback session [First feedback session] is not accessible "
-                         + "to instructor [" + moderatedInstructor.email + "] "
-                         + "for privilege [canmodifysession]", e.getMessage());
-        }
-
         ______TS("failure: accessing non-existent moderatedinstructor email");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         moderatedInstructorEmail = "non-exIstentEmail@gsail.tmt";
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
@@ -139,6 +120,17 @@ public class InstructorEditInstructorFeedbackPageActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("helperOfCourse1");
+        String courseId = moderatedInstructor.courseId;
+        String feedbackSessionName = "First feedback session";
+        String moderatedInstructorEmail = "helper@course1.tmt";
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
 }

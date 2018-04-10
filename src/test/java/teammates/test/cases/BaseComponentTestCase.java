@@ -2,8 +2,9 @@ package teammates.test.cases;
 
 import java.io.IOException;
 
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import com.google.appengine.api.blobstore.BlobKey;
 
@@ -27,14 +28,22 @@ import teammates.test.driver.GaeSimulation;
  * Base class for all component tests.
  * It runs a simulated Datastore ({@link GaeSimulation}) which can be accessed via {@link BackDoorLogic}.
  */
+@Test(singleThreaded = true) // GaeSimulation is not thread safe
 public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
     protected static final BackDoorLogic backDoorLogic = new BackDoorLogic();
 
-    @BeforeTest
-    public void testSetup() {
+    @Override
+    @BeforeClass
+    public void setUpGae() {
         gaeSimulation.setup();
+    }
+
+    @Override
+    @AfterClass
+    public void tearDownGae() {
+        gaeSimulation.tearDown();
     }
 
     protected static String writeFileToGcs(String googleId, String filename) throws IOException {
@@ -112,11 +121,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         } catch (Exception e) {
             return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
         }
-    }
-
-    @AfterTest
-    public void testTearDown() {
-        gaeSimulation.tearDown();
     }
 
 }

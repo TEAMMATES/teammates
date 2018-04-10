@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -146,13 +145,7 @@ public class InstructorFeedbackResultsQuestionTable {
     }
 
     public static void sortByQuestionNumber(List<InstructorFeedbackResultsQuestionTable> questionTables) {
-        Collections.sort(questionTables, new Comparator<InstructorFeedbackResultsQuestionTable>() {
-            @Override
-            public int compare(InstructorFeedbackResultsQuestionTable questionTable1,
-                               InstructorFeedbackResultsQuestionTable questionTable2) {
-                return questionTable1.question.questionNumber - questionTable2.question.questionNumber;
-            }
-        });
+        questionTables.sort(Comparator.comparing(questionTable -> questionTable.question.questionNumber));
     }
 
 }

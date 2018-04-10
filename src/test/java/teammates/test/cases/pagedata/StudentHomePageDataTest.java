@@ -1,5 +1,6 @@
 package teammates.test.cases.pagedata;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,11 +88,14 @@ public class StudentHomePageDataTest extends BaseTestCase {
         int index = 0;
 
         testFeedbackSession(index++, submittedRow, submittedSession,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED, "Submitted");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Submitted", "Not Published");
         testFeedbackSession(index++, pendingRow, pendingSession,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING, "Pending");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Pending", "Not Published");
         testFeedbackSession(index++, awaitingRow, awaitingSession,
-                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING, "Awaiting");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED, "Awaiting", "Not Published");
     }
 
     private void testOldCourseTable(CourseDetailsBundle oldCourse, CourseTable courseTable) {
@@ -107,26 +111,33 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
         testFeedbackSession(index++, publishedRow, publishedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
-                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED
-                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED,
-                            "Published");
+                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED,
+                            "Closed", "Published");
         testFeedbackSession(index++, closedRow, closedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
-                            "Closed");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED,
+                            "Closed", "Not Published");
         testFeedbackSession(index++, submittedClosedRow, submittedClosedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
-                            "Closed");
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED,
+                            "Closed", "Not Published");
     }
 
     private void testFeedbackSession(int index, HomeFeedbackSessionRow row, FeedbackSessionAttributes session,
-            String expectedTooltip, String expectedStatus) {
+            String expectedSubmissionsTooltip, String expectedPublishedTooltip, String expectedSubmissionStatus,
+            String expectedPublishedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
         assertEquals(session.getFeedbackSessionName(), studentRow.getName());
-        assertEquals(TimeHelper.formatTime12H(session.getEndTime()), studentRow.getEndTime());
-        assertEquals(expectedTooltip, studentRow.getTooltip());
-        assertEquals(expectedStatus, studentRow.getStatus());
+        assertEquals(TimeHelper.formatDateTimeForSessions(session.getEndTime(), session.getTimeZone()),
+                studentRow.getEndTime());
+        assertEquals(session.getEndTimeInIso8601UtcFormat(), studentRow.getEndTimeIso8601Utc());
+        assertEquals(expectedSubmissionsTooltip, studentRow.getSubmissionsTooltip());
+        assertEquals(expectedPublishedTooltip, studentRow.getPublishedTooltip());
+        assertEquals(expectedSubmissionStatus, studentRow.getSubmissionStatus());
+        assertEquals(expectedPublishedStatus, studentRow.getPublishedStatus());
         assertEquals(index, studentRow.getIndex());
         testActions(studentRow.getActions(), session);
     }
@@ -140,8 +151,12 @@ public class StudentHomePageDataTest extends BaseTestCase {
 
     private StudentHomePageData createData() {
         // Courses
-        CourseAttributes course1 = new CourseAttributes("course-id-1", "old-course", "UTC");
-        CourseAttributes course2 = new CourseAttributes("course-id-2", "new-course", "UTC");
+        CourseAttributes course1 = CourseAttributes
+                .builder("course-id-1", "old-course", ZoneId.of("UTC"))
+                .build();
+        CourseAttributes course2 = CourseAttributes
+                .builder("course-id-2", "new-course", ZoneId.of("UTC"))
+                .build();
 
         // Feedback sessions
         submittedSession = createFeedbackSession("submitted session", -1, 1, 1);
@@ -161,8 +176,8 @@ public class StudentHomePageDataTest extends BaseTestCase {
         sessionSubmissionStatusMap.put(submittedClosedSession, true);
 
         // Tooltip and button texts
-        tooltipTextMap = new HashMap<FeedbackSessionAttributes, String>();
-        buttonTextMap = new HashMap<FeedbackSessionAttributes, String>();
+        tooltipTextMap = new HashMap<>();
+        buttonTextMap = new HashMap<>();
         tooltipTextMap.put(submittedSession, Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE);
         buttonTextMap.put(submittedSession, "Edit Submission");
         tooltipTextMap.put(pendingSession, Const.Tooltips.FEEDBACK_SESSION_SUBMIT);
@@ -183,22 +198,22 @@ public class StudentHomePageDataTest extends BaseTestCase {
         CourseDetailsBundle oldCourseBundle = createCourseBundle(
                 course2, publishedSession, closedSession, submittedClosedSession);
 
-        courses = new ArrayList<CourseDetailsBundle>();
+        courses = new ArrayList<>();
         courses.add(newCourseBundle);
         courses.add(oldCourseBundle);
 
-        return new StudentHomePageData(new AccountAttributes(), dummySessionToken, courses, sessionSubmissionStatusMap);
+        return new StudentHomePageData(AccountAttributes.builder().build(), dummySessionToken,
+                courses, sessionSubmissionStatusMap);
     }
 
     private FeedbackSessionAttributes createFeedbackSession(String name,
             int offsetStart, int offsetEnd, int offsetPublish) {
-        FeedbackSessionAttributes session = new FeedbackSessionAttributes();
-        session.setFeedbackSessionName(name);
-        session.setStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetStart));
-        session.setEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetEnd));
-        session.setResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetPublish));
-        session.setSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1));
-        return session;
+        return FeedbackSessionAttributes.builder(name, "", "")
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(offsetStart))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(offsetEnd))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(offsetPublish))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
+                .build();
     }
 
     private CourseDetailsBundle createCourseBundle(CourseAttributes course, FeedbackSessionAttributes... sessions) {

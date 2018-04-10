@@ -4,10 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
@@ -164,23 +163,13 @@ public final class SanitizationHelper {
     /**
      * Sanitizes a list of strings for inserting into HTML.
      */
-    public static List<String> sanitizeForHtml(List<String> list) {
-        List<String> sanitizedList = new ArrayList<String>();
-        for (String str : list) {
-            sanitizedList.add(sanitizeForHtml(str));
+    public static List<String> sanitizeForHtml(List<String> unsanitizedStringList) {
+        if (unsanitizedStringList == null) {
+            return null;
         }
-        return sanitizedList;
-    }
-
-    /**
-     * Sanitizes a set of strings for inserting into HTML.
-     */
-    public static Set<String> sanitizeForHtml(Set<String> set) {
-        Set<String> sanitizedSet = new TreeSet<String>();
-        for (String str : set) {
-            sanitizedSet.add(sanitizeForHtml(str));
-        }
-        return sanitizedSet;
+        return unsanitizedStringList.stream()
+                .map(s -> sanitizeForHtml(s))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -214,11 +203,12 @@ public final class SanitizationHelper {
      * @return recovered string set
      */
     public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
-        Set<String> textSetTemp = new HashSet<String>();
-        for (String text : sanitizedStringSet) {
-            textSetTemp.add(desanitizeFromHtml(text));
+        if (sanitizedStringSet == null) {
+            return null;
         }
-        return textSetTemp;
+        return sanitizedStringSet.stream()
+                .map(s -> desanitizeFromHtml(s))
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
     /**
@@ -317,14 +307,10 @@ public final class SanitizationHelper {
      * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
      */
     public static List<String> sanitizeListForCsv(List<String> strList) {
-        List<String> sanitizedStrList = new ArrayList<String>();
 
-        Iterator<String> itr = strList.iterator();
-        while (itr.hasNext()) {
-            sanitizedStrList.add(sanitizeForCsv(itr.next()));
-        }
+        return strList.stream().map(string -> sanitizeForCsv(string))
+                               .collect(Collectors.toList());
 
-        return sanitizedStrList;
     }
 
     /**
@@ -385,5 +371,24 @@ public final class SanitizationHelper {
      */
     public static String desanitizeIfHtmlSanitized(String string) {
         return isSanitizedHtml(string) ? desanitizeFromHtml(string) : string;
+    }
+
+    /**
+     * Sanitizes the log message, only allow br element and span element with class attribute equals to
+     * "bold" or "text-danger". Convert other special characters into HTML-safe equivalents.
+     */
+    public static String sanitizeForLogMessage(String unsanitizedString) {
+        if (unsanitizedString == null) {
+            return null;
+        }
+        return unsanitizedString
+                .replaceAll("<(?!(/?(span( class=\"(bold|text-danger)\")?|br)>))", "&lt;")
+                .replaceAll("(?<!(</?(span( class=\"(bold|text-danger)\")?|br)))>", "&gt;")
+                .replaceAll("(?<!<span class=(\"(bold|text-danger))?)\"(?!>)", "&quot;")
+                .replaceAll("(?<!<)/(?!(span|br)>)", "&#x2f;")
+                .replace("'", "&#39;")
+                //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
+                //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
+                .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
     }
 }

@@ -1,13 +1,12 @@
 package teammates.test.cases.datatransfer;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.SessionAttributes;
+import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 /**
@@ -17,19 +16,12 @@ public class SessionAttributesTest extends BaseTestCase {
 
     @Test
     public void testSort() {
-        ArrayList<SessionAttributes> testList = new ArrayList<SessionAttributes>();
-        ArrayList<SessionAttributes> expected = new ArrayList<SessionAttributes>();
+        ArrayList<SessionAttributes> testList = new ArrayList<>();
+        ArrayList<SessionAttributes> expected = new ArrayList<>();
 
-        Calendar cal = Calendar.getInstance();
-
-        cal.set(2014, 0, 1);
-        Date time1 = cal.getTime();
-
-        cal.set(2014, 1, 1);
-        Date time2 = cal.getTime();
-
-        cal.set(2014, 2, 1);
-        Date time3 = cal.getTime();
+        Instant time1 = TimeHelper.parseInstant("2014-01-01 12:00 AM +0000");
+        Instant time2 = TimeHelper.parseInstant("2014-02-01 12:00 AM +0000");
+        Instant time3 = TimeHelper.parseInstant("2014-03-01 12:00 AM +0000");
 
         SessionAttributes s1 = new MiniFeedback(time1, time2, "Session 1");
         SessionAttributes s2 = new MiniEval(time2, time3, "Session 2");
@@ -49,7 +41,7 @@ public class SessionAttributesTest extends BaseTestCase {
         expected.add(s2);
         expected.add(s5);
 
-        Collections.sort(testList, SessionAttributes.ASCENDING_ORDER);
+        testList.sort(SessionAttributes.ASCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
             assertEquals(expected.get(i), testList.get(i));
         }
@@ -68,30 +60,30 @@ public class SessionAttributesTest extends BaseTestCase {
         expected.add(s1);
         expected.add(s3);
 
-        Collections.sort(testList, SessionAttributes.DESCENDING_ORDER);
+        testList.sort(SessionAttributes.DESCENDING_ORDER);
         for (int i = 0; i < testList.size(); i++) {
             assertEquals(expected.get(i), testList.get(i));
         }
     }
 
     private static class MiniEval implements SessionAttributes {
-        public Date startTime;
-        public Date endTime;
+        public Instant startTime;
+        public Instant endTime;
         public String name;
 
-        MiniEval(Date startTime, Date endTime, String name) {
+        MiniEval(Instant startTime, Instant endTime, String name) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.name = name;
         }
 
         @Override
-        public Date getSessionStartTime() {
+        public Instant getSessionStartTime() {
             return this.startTime;
         }
 
         @Override
-        public Date getSessionEndTime() {
+        public Instant getSessionEndTime() {
             return this.endTime;
         }
 
@@ -104,23 +96,23 @@ public class SessionAttributesTest extends BaseTestCase {
 
     private static class MiniFeedback implements SessionAttributes {
 
-        public Date startTime;
-        public Date endTime;
+        public Instant startTime;
+        public Instant endTime;
         public String name;
 
-        MiniFeedback(Date startTime, Date endTime, String name) {
+        MiniFeedback(Instant startTime, Instant endTime, String name) {
             this.startTime = startTime;
             this.endTime = endTime;
             this.name = name;
         }
 
         @Override
-        public Date getSessionStartTime() {
+        public Instant getSessionStartTime() {
             return this.startTime;
         }
 
         @Override
-        public Date getSessionEndTime() {
+        public Instant getSessionEndTime() {
             return this.endTime;
         }
 

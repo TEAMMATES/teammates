@@ -21,7 +21,7 @@ public class StudentListSectionData {
         this.sectionName = section.name;
         this.isAllowedToViewStudentInSection = isAllowedToViewStudentInSection;
         this.isAllowedToModifyStudent = isAllowedToModifyStudent;
-        List<StudentListTeamData> teamsDetails = new ArrayList<StudentListTeamData>();
+        List<StudentListTeamData> teamsDetails = new ArrayList<>();
         for (TeamDetailsBundle team : section.teams) {
             teamsDetails.add(new StudentListTeamData(team, emailPhotoUrlMapping, googleId, sessionToken));
         }

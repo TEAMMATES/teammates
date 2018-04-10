@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.testng.annotations.Test;
 
@@ -37,6 +38,8 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
 
         testContent();
         testSearch();
+
+        testSanitization();
 
     }
 
@@ -106,11 +109,22 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
     }
 
+    private void testSanitization() throws IOException {
+        String instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
+        searchPage = getInstructorSearchPage(instructorId);
+
+        String searchContent = "Normal feedback session name";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickFeedbackResponseCommentCheckBox();
+        searchPage.clickSearchButton();
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchTestingSanitization.html");
+    }
+
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {
-        AppUrl commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
+        AppUrl searchPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
-        return loginAdminToPage(commentsPageUrl, InstructorSearchPage.class);
+        return loginAdminToPage(searchPageUrl, InstructorSearchPage.class);
     }
 
 }

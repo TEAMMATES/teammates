@@ -30,7 +30,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        final String newInstructorShortName = "James";
         final String name = "JamesBond";
         final String email = "jamesbond89@gmail.tmt";
         final String institute = "TEAMMATES Test Institute 1";
@@ -40,30 +39,20 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsAdmin(adminUserId);
         verifyAssumptionFailure();
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName,
-                Const.ParamsNames.INSTRUCTOR_NAME, name);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName,
-                Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName,
-                Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_NAME, name);
         verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, email);
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_NAME, name,
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        verifyAssumptionFailure(Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 
         ______TS("Normal case: not importing demo couse, extra spaces around values");
-        final String newInstructorShortNameWithSpaces = "   " + newInstructorShortName + "   ";
         final String nameWithSpaces = "   " + name + "   ";
         final String emailWithSpaces = "   " + email + "   ";
         final String instituteWithSpaces = "   " + institute + "   ";
 
         AdminInstructorAccountAddAction a = getAction(
-                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, newInstructorShortNameWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_NAME, nameWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces);
@@ -74,23 +63,21 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         verifyNumberOfEmailsSent(a, 1);
 
         EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), newInstructorShortName),
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
                      emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
 
         ______TS("Error: invalid parameter");
 
-        final String anotherNewInstructorShortName = "Bond";
         final String invalidName = "James%20Bond99";
         a = getAction(
-                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, anotherNewInstructorShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 
         String expectedError =
                 "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                + "it contains invalid characters. All person name must start with an "
+                + "it contains invalid characters. A/An person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
 
         AjaxResult rInvalidParam = getAjaxResult(a);
@@ -98,7 +85,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
         AdminHomePageData pageData = (AdminHomePageData) rInvalidParam.data;
         assertEquals(email, pageData.instructorEmail);
-        assertEquals(anotherNewInstructorShortName, pageData.instructorShortName);
         assertEquals(institute, pageData.instructorInstitution);
         assertEquals(invalidName, pageData.instructorName);
 
@@ -107,7 +93,6 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         ______TS("Normal case: importing demo couse");
 
         a = getAction(
-                Const.ParamsNames.INSTRUCTOR_SHORT_NAME, anotherNewInstructorShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
@@ -118,7 +103,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         verifyNumberOfEmailsSent(a, 1);
 
         emailSent = a.getEmailSender().getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), anotherNewInstructorShortName),
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
                      emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
 
@@ -174,9 +159,9 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     }
 
     private String getDemoCourseIdRoot(String instructorEmail) {
-        final String[] splitedEmail = instructorEmail.split("@");
-        final String head = splitedEmail[0];
-        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
+        final String[] splitEmail = instructorEmail.split("@");
+        final String head = splitEmail[0];
+        final String emailAbbreviation = splitEmail[1].substring(0, 3);
         return head + "." + emailAbbreviation
                 + "-demo";
     }
@@ -184,7 +169,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyAdminsCanAccess(submissionParams);
     }
 

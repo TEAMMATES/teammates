@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -24,16 +23,11 @@ public class InstructorStudentListPageAction extends Action {
 
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
-        Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> instructors = new HashMap<>();
 
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         // Sort by creation date
-        Collections.sort(courses, new Comparator<CourseAttributes>() {
-            @Override
-            public int compare(CourseAttributes c1, CourseAttributes c2) {
-                return c1.createdAt.compareTo(c2.createdAt);
-            }
-        });
+        courses.sort(Comparator.comparing(course -> course.createdAt));
 
         // Get instructor attributes
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(account.googleId);
@@ -49,7 +43,7 @@ public class InstructorStudentListPageAction extends Action {
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
 
-        List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
+        List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<>();
         for (CourseAttributes course : courses) {
             InstructorAttributes instructor = instructors.get(course.getId());
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -27,12 +26,12 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
         } catch (EntityDoesNotExistException e) {
             return;
         }
-        HashMap<String, Boolean> isSectionSpecialMappings = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> isSectionSpecialMappings = new HashMap<>();
         for (String sectionName : sectionNames) {
             isSectionSpecialMappings.put(sectionName, false);
         }
 
-        List<String> feedbackNames = new ArrayList<String>();
+        List<String> feedbackNames = new ArrayList<>();
 
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
@@ -41,10 +40,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
         Map<String, List<String>> sectionNamesMap = getSectionsWithSpecialPrivilegesFromParameters(
                                                                 instructor, sectionNames,
                                                                 isSectionSpecialMappings);
-        for (Entry<String, List<String>> entry : sectionNamesMap.entrySet()) {
-            String sectionGroupName = entry.getKey();
-            List<String> specialSectionsInSectionGroup = entry.getValue();
-
+        sectionNamesMap.forEach((sectionGroupName, specialSectionsInSectionGroup) -> {
             updateInstructorPrivilegesForSectionInSectionLevel(sectionGroupName,
                     specialSectionsInSectionGroup, instructor);
 
@@ -57,14 +53,12 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
             } else {
                 removeSessionLevelPrivileges(instructor, specialSectionsInSectionGroup);
             }
-        }
-        for (Entry<String, Boolean> entry : isSectionSpecialMappings.entrySet()) {
-            String sectionNameToBeChecked = entry.getKey();
-            boolean isSectionSpecial = entry.getValue().booleanValue();
+        });
+        isSectionSpecialMappings.forEach((sectionNameToBeChecked, isSectionSpecial) -> {
             if (!isSectionSpecial) {
                 instructor.privileges.removeSectionLevelPrivileges(sectionNameToBeChecked);
             }
-        }
+        });
     }
 
     /**
@@ -138,7 +132,7 @@ public abstract class InstructorCourseInstructorAbstractAction extends Action {
     protected Map<String, List<String>> getSectionsWithSpecialPrivilegesFromParameters(
             InstructorAttributes instructor, List<String> sectionNames,
             Map<String, Boolean> isSectionSpecialMappings) {
-        HashMap<String, List<String>> specialSectionsInSectionGroups = new HashMap<String, List<String>>();
+        HashMap<String, List<String>> specialSectionsInSectionGroups = new HashMap<>();
         if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             getSectionsWithSpecialPrivilegesForCustomInstructor(sectionNames, isSectionSpecialMappings,
                                                                 specialSectionsInSectionGroups);

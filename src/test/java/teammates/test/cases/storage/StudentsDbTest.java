@@ -33,8 +33,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNotNull(student);
 
         // Assert dates are now.
-        AssertHelper.assertDateIsNow(student.getCreatedAt());
-        AssertHelper.assertDateIsNow(student.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(student.getCreatedAt());
+        AssertHelper.assertInstantIsNow(student.getUpdatedAt());
 
         ______TS("success : update lastUpdated");
 
@@ -45,7 +45,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         // Assert lastUpdate has changed, and is now.
         assertFalse(student.getUpdatedAt().equals(updatedStudent.getUpdatedAt()));
-        AssertHelper.assertDateIsNow(updatedStudent.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(updatedStudent.getUpdatedAt());
 
         ______TS("success : keep lastUpdated");
 
@@ -55,20 +55,20 @@ public class StudentsDbTest extends BaseComponentTestCase {
         StudentAttributes updatedStudent2 = studentsDb.getStudentForGoogleId(s.course, s.googleId);
 
         // Assert lastUpdate has NOT changed.
-        assertTrue(updatedStudent.getUpdatedAt().equals(updatedStudent2.getUpdatedAt()));
+        assertEquals(updatedStudent.getUpdatedAt(), updatedStudent2.getUpdatedAt());
     }
 
     @Test
     public void testCreateStudent() throws Exception {
 
-        StudentAttributes s = new StudentAttributes();
-        s.name = "valid student";
-        s.lastName = "student";
-        s.email = "valid-fresh@email.com";
-        s.team = "validTeamName";
-        s.section = "validSectionName";
-        s.comments = "";
-        s.googleId = "validGoogleId";
+        StudentAttributes s = StudentAttributes
+                .builder("course id", "valid student", "valid-fresh@email.com")
+                .withComments("")
+                .withTeam("validTeamName")
+                .withSection("validSectionName")
+                .withGoogleId("validGoogleId")
+                .withLastName("student")
+                .build();
 
         ______TS("fail : invalid params");
         s.course = "invalid id space";
@@ -95,9 +95,9 @@ public class StudentsDbTest extends BaseComponentTestCase {
         verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertTrue(retrievedStudent.isEnrollInfoSameAs(s));
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId + "not existing"));
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId + "not existing"));
+        assertNull(studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
+        assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId + "not existing"));
+        assertNull(studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId + "not existing"));
 
         ______TS("fail : duplicate");
         try {
@@ -256,7 +256,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         assertNull(deleted);
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(s.googleId);
-        assertEquals(null, studentsDb.getStudentForGoogleId(s.course, s.googleId));
+        assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId));
         int currentStudentNum = studentsDb.getAllStudents().size();
         s = createNewStudent();
         createNewStudent("secondStudent@mail.com");
@@ -286,14 +286,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
 
     private StudentAttributes createNewStudent() throws InvalidParametersException {
-        StudentAttributes s = new StudentAttributes();
-        s.name = "valid student";
-        s.course = "valid-course";
-        s.email = "valid@email.com";
-        s.team = "validTeamName";
-        s.section = "validSectionName";
-        s.comments = "";
-        s.googleId = "";
+        StudentAttributes s = StudentAttributes
+                .builder("valid-course", "valid student", "valid@email.com")
+                .withComments("")
+                .withTeam("validTeamName")
+                .withSection("validSectionName")
+                .withGoogleId("")
+                .build();
+
         try {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {
@@ -305,14 +305,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
     }
 
     private StudentAttributes createNewStudent(String email) throws InvalidParametersException {
-        StudentAttributes s = new StudentAttributes();
-        s.name = "valid student 2";
-        s.course = "valid-course";
-        s.email = email;
-        s.team = "valid team name";
-        s.section = "valid section name";
-        s.comments = "";
-        s.googleId = "";
+        StudentAttributes s = StudentAttributes
+                .builder("valid-course", "valid student 2", email)
+                .withComments("")
+                .withTeam("valid team name")
+                .withSection("valid section name")
+                .withGoogleId("")
+                .build();
+
         try {
             studentsDb.createEntity(s);
         } catch (EntityAlreadyExistsException e) {

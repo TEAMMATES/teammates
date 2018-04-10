@@ -1,14 +1,17 @@
-@charset 'UTF-8';
-
-/*////////////////////////////////////////////////////////////
-/////////////////// Atomic Classes //////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+/////////////////// Atomic Classes /////////////////////////
+///////////////////////////////////////////////////////// */
 
 body {
     padding: 60px 0 30px;
 }
 
-.editUncommonSettingsButton:hover {
+code {
+    color: black;
+    background-color: #F5F5F5;
+}
+
+.edit-uncommon-settings-button:hover {
     cursor: pointer;
 }
 
@@ -48,35 +51,35 @@ Apply to alert to override Bootstrap's default 3d alerts
 }
 
 .background-color-light-blue {
-    background-color: #eaeff5;
+    background-color: #EAEFF5;
 }
 
 .background-color-light-green {
-    background-color: #e0eeee;
+    background-color: #E0EEEE;
 }
 
 .background-color-medium-gray {
-    background-color: #e5e5e6;
+    background-color: #E5E5E6;
 }
 
 .background-color-warning {
-    background-color: #fcf8e3;
+    background-color: #FCF8E3;
 }
 
 .border-gray {
-    border: 1px solid #ddd;
+    border: 1px solid #DDD;
 }
 
 .border-left-gray {
-    border-left: 1px solid #ddd;
+    border-left: 1px solid #DDD;
 }
 
 .border-right-gray {
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #DDD;
 }
 
 .border-top-gray {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #DDD;
     padding-top: 10px;
 }
 
@@ -85,15 +88,15 @@ Apply to alert to override Bootstrap's default 3d alerts
 }
 
 .cell-hover {
-    background-color: #d9edf7 !important;
+    background-color: #D9EDF7 !important;
 }
 
 .cell-selected {
-    background-color: #d9edf7 !important;
+    background-color: #D9EDF7 !important;
 }
 
 .cell-selected-negative {
-    background-color: #fea3a3 !important;
+    background-color: #FEA3A3 !important;
 }
 
 .color-white {
@@ -105,18 +108,18 @@ Apply to alert to override Bootstrap's default 3d alerts
 }
 
 .color-negative {
-    color: #e74c3c;
+    color: #E74C3C;
 }
 
-.color_neutral {
+.color-neutral {
     color: gray;
 }
 
-.color_orange {
-    color: #e46d0b;
+.color-orange {
+    color: #E46D0B;
 }
 
-.color_blue {
+.color-blue {
     color: #4379D1;
 }
 
@@ -126,26 +129,25 @@ Apply to alert to override Bootstrap's default 3d alerts
 
 .cursor-pointer {
     cursor: pointer;
-    cursor: hand;
 }
 
-.constSumOptionsLabel {
-    padding-right: 15px;
+.const-sum-options-label {
     max-width: 75%;
+    padding-right: 15px;
 }
 
 .ordered-table {
     counter-reset: rownumber;
 }
 
-.ordered-table tr:not(.skip) {
+.ordered-table > tr:not(.skip) {
     counter-increment: rownumber;
 }
 
-.ordered-table tr td:first-child::before {
+.ordered-table > tr > td:first-child::before {
     content: counter(rownumber) '.';
-    min-width: 1em;
     margin-right: .5em;
+    min-width: 1em;
 }
 
 .separate-content-holder {
@@ -168,11 +170,18 @@ which usually match 2 classes (eg .btn.disabled)
 }
 
 .row-answered {
-    background-color: #dff0d8;
+    background-color: #DFF0D8;
 }
 
 .row-selected {
-    background-color: #f5f5f5;
+    background-color: #F5F5F5;
+}
+
+/*
+To show tooltip in comment modal
+*/
+.tooltip {
+    z-index: 1151 !important;
 }
 
 /*
@@ -184,11 +193,11 @@ Apply to thead to make headers not bold.
 }
 
 .fill-plain {
-    background-color: #eaeff5;
+    background-color: #EAEFF5;
 }
 
 .fill-primary {
-    background-color: #428bca;
+    background-color: #428BCA;
     color: white;
 }
 
@@ -198,11 +207,11 @@ Apply to thead to make headers not bold.
 }
 
 .fill-info {
-    background-color: #c4e3f3;
+    background-color: #C4E3F3;
 }
 
 .glyphicon-primary {
-    color: #428bca;
+    color: #428BCA;
 }
 
 .glyphicon-danger {
@@ -210,19 +219,19 @@ Apply to thead to make headers not bold.
 }
 
 .glyphicon-gold {
-    color: #ffd700;
+    color: #FFD700;
 }
 
 .glyphicon-flipped {
-    transform: scaleX(-1);
     -moz-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
     -ms-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 
 .height-fixed-md {
-    min-height: 150px;
     max-height: 250px;
+    min-height: 150px;
     overflow: auto;
 }
 
@@ -255,13 +264,12 @@ input.inline {
     margin-bottom: 15px;
 }
 
-.margin-center-horizontal {
-    margin: 0 auto;
+.margin-bottom-35px {
+    margin-bottom: 35px;
 }
 
-.min-height-0.checkbox,
-.min-height-0 {
-    min-height: 0;
+.margin-center-horizontal {
+    margin: 0 auto;
 }
 
 .margin-right-10px {
@@ -350,7 +358,7 @@ input.inline {
 }
 
 .text-color-primary {
-    color: #428bca;
+    color: #428BCA;
 }
 
 .text-color-gray {
@@ -399,7 +407,7 @@ input.inline {
 }
 
 @media print {
-    a[href]:after {
+    a[href]::after {
         content: none;
     }
 
@@ -408,20 +416,20 @@ input.inline {
     }
 }
 
-/*////////////////////////////////////////////////////////////
+/* //////////////////////////////////////////////////////////
 ///////////////////////// NavBar ////////////////////////////
-//////////////////////////////////////////////////////////*/
+////////////////////////////////////////////////////////// */
 
 .comment-list {
     padding-top: 15px;
 }
 
 .well-default {
-    background-color: #d9edf7;
+    background-color: #D9EDF7;
     background-image: none;
     border: 0;
-    -webkit-box-shadow: 0 0 0 0;
     -moz-box-shadow: 0 0 0 0;
+    -webkit-box-shadow: 0 0 0 0;
     box-shadow: 0 0 0 0;
 }
 
@@ -437,11 +445,11 @@ input.inline {
 }
 
 .well-plain {
-    background-color: #eaeff5;
+    background-color: #EAEFF5;
     background-image: none;
     border: 0;
-    -webkit-box-shadow: 0 0 0 0;
     -moz-box-shadow: 0 0 0 0;
+    -webkit-box-shadow: 0 0 0 0;
     box-shadow: 0 0 0 0;
 }
 
@@ -451,7 +459,7 @@ input.inline {
 }
 
 .link-in-dark-bg:link {
-    color: #f2fcac;
+    color: #F2FCAC;
 }
 
 .link-in-dark-bg:active {
@@ -480,8 +488,8 @@ input.inline {
     border: 2px solid red;
 }
 
-/* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px) */
-/* Prevents content overflow in navbar*/
+/* Code to morph navbar to hamburger at tablet size (992px) instead of phone size (768px).
+Prevents content overflow in navbar. */
 
 @media (min-width: 768px) and (max-width: 991px) {
     .container > .navbar-header {
@@ -501,19 +509,19 @@ input.inline {
     .container > .navbar-collapse {
         border-top: 1px solid transparent;
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
-        max-height: 345px; /* Avoids scrollbar from showing up */
-        margin-right: -15px;
         margin-left: -15px;
+        margin-right: -15px;
+        max-height: 345px; /* Avoids scrollbar from showing up */
     }
 
     /* Since the original bootstrap code has !important,
     we need to match with !important to override */
     .navbar-collapse.collapse {
-        display: none!important;
+        display: none !important;
     }
 
     .navbar-nav {
-        float: none!important;
+        float: none !important;
         margin: 7.5px -15px;
     }
 
@@ -524,8 +532,8 @@ input.inline {
     }
 
     .navbar-nav > li > a {
-        padding-top: 10px;
         padding-bottom: 10px;
+        padding-top: 10px;
     }
 
     .navbar-text {
@@ -534,11 +542,11 @@ input.inline {
     }
 
     .navbar-collapse.collapse.in {
-        display: block!important;
+        display: block !important;
     }
 
     .collapsing {
-        overflow: hidden!important;
+        overflow: hidden !important;
     }
 
     /* Makes container exhibit container-fluid behavior */
@@ -553,9 +561,9 @@ input.inline {
     }
 }
 
-/*////////////////////////////////////////////////////////////
-///////////////////////// Affix /////////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+///////////////////////// Affix ////////////////////////////
+///////////////////////////////////////////////////////// */
 
 .affix {
     position: fixed;
@@ -564,14 +572,14 @@ input.inline {
 
 .affix > li > a {
     color: gray;
-    padding-top: 5px;
     padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .affix > li.active > a {
-    color: #31708f;
+    border-left: 2px solid #31708F;
+    color: #31708F;
     font-weight: 700;
-    border-left: 2px solid #31708f;
 }
 
 .affix > li > .nav {
@@ -580,9 +588,9 @@ input.inline {
 
 .affix > li > .nav > li > a {
     color: gray;
-    padding-top: 1px;
     padding-bottom: 1px;
     padding-left: 30px;
+    padding-top: 1px;
 }
 
 .affix > li.active > .nav {
@@ -591,12 +599,12 @@ input.inline {
 }
 
 .affix > li > .nav > li.active > a {
-    color: #31708f;
+    border-left: 2px solid #31708F;
+    color: #31708F;
     font-weight: 700;
-    border-left: 2px solid #31708f;
 }
 
-.affix > li:not (.active ) > .nav {
+.affix > li:not(.active) > .nav {
     display: none;
 }
 
@@ -608,30 +616,30 @@ input.inline {
     position: absolute;
 }
 
-/*////////////////////////////////////////////////////////////
-/////////////////////// Static page /////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+/////////////////////// Static page ////////////////////////
+///////////////////////////////////////////////////////// */
 .navbar-brand {
     padding: 0;
 }
 
 .btn-login {
-    color: #00FF00;
     background-color: transparent;
     box-shadow: none;
+    color: #0F0;
 }
 
 .btn-login:focus,
 .btn-login:hover,
 .btn-login:active {
-    color: #00FF00;
+    color: #0F0;
 }
 
 @media (max-width: 768px) {
     .btn-login {
-        width: 100%;
-        text-align: left;
         padding: 6px 0;
+        text-align: left;
+        width: 100%;
     }
 }
 
@@ -651,25 +659,313 @@ input.inline {
     }
 }
 
-/*////////////////////////////////////////////////////////////
-/////////////////////// Main Content ////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+/////////////////////// Main Content ///////////////////////
+///////////////////////////////////////////////////////// */
+
+.course-count {
+    font-style: italic;
+    margin: 0 auto;
+    width: 900px;
+}
+
+.data-table {
+    line-height: 1.5;
+}
+
+/* DatePicker Container */
+.ui-datepicker {
+    -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
+    font: 9pt Arial, sans-serif;
+    height: auto;
+    margin: 5px auto 0;
+    width: 216px;
+}
+
+.ui-datepicker a {
+    text-decoration: none;
+}
+
+/* DatePicker Table */
+.ui-datepicker table {
+    width: 100%;
+}
+
+.ui-datepicker-header {
+    background: url(../images/dark_leather.png) repeat 0 0 #000;
+    border-color: #111;
+    border-style: solid;
+    border-width: 1px 0 0;
+    -moz-box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, .2);
+    -webkit-box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, 2);
+    box-shadow: inset 0 1px 1px 0 rgba(250, 250, 250, .2);
+    color: #E0E0E0;
+    filter: dropshadow(color=#000, offx=1, offy=-1);
+    font-weight: bold;
+    line-height: 30px;
+    text-shadow: 1px -1px 0 #000;
+}
+
+.ui-datepicker-title {
+    text-align: center;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    background-image: url(../images/arrow.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    line-height: 600%;
+    overflow: hidden;
+    text-align: center;
+    width: 30px;
+}
+
+.ui-datepicker-prev {
+    background-position: center -30px;
+    float: left;
+}
+
+.ui-datepicker-next {
+    background-position: center 0;
+    float: right;
+}
+
+.ui-datepicker thead {
+    background-color: #F7F7F7;
+    background-image: -moz-linear-gradient(top, #F7F7F7 0%, #F1F1F1 100%);
+    background-image: -ms-linear-gradient(top, #F7F7F7 0%, #F1F1F1 100%);
+    background-image: -o-linear-gradient(top, #F7F7F7 0%, #F1F1F1 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F7F7F7), color-stop(100%, #F1F1F1));
+    background-image: -webkit-linear-gradient(top, #F7F7F7 0%, #F1F1F1 100%);
+    background-image: linear-gradient(to top, #F7F7F7 0%, #F1F1F1 100%);
+    border-bottom: 1px solid #BBB;
+}
+
+.ui-datepicker th {
+    color: #666;
+    filter: dropshadow(color=#FFF, offx=1, offy=0);
+    font-size: 6pt;
+    padding: 5px 0;
+    text-shadow: 1px 0 0 #FFF;
+    text-transform: uppercase;
+}
+
+.ui-datepicker tbody td {
+    border-right: 1px solid #BBB;
+    padding: 0;
+}
+
+.ui-datepicker tbody td:last-child {
+    border-right: 0;
+}
+
+.ui-datepicker tbody tr {
+    border-bottom: 1px solid #BBB;
+}
+
+.ui-datepicker tbody tr:last-child {
+    border-bottom: 0;
+}
+
+.ui-datepicker td span,
+.ui-datepicker td a {
+    color: #666;
+    display: inline-block;
+    font-weight: bold;
+    filter: dropshadow(color=#FFF, offx=1, offy=1);
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 1px 1px 0 #FFF;
+    width: 30px;
+}
+
+.ui-datepicker-calendar .ui-state-default {
+    background: #EDEDED;
+    background: -moz-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
+    background: -ms-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
+    background: -o-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
+    background: -webkit-linear-gradient(top, #EDEDED 0%, #DEDEDE 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #EDEDED), color-stop(100%, #DEDEDE));
+    background: linear-gradient(to top, #EDEDED 0%, #DEDEDE 100%);
+    -moz-box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, .5);
+    -webkit-box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, .5);
+    box-shadow: inset 1px 1px 0 0 rgba(250, 250, 250, .5);
+}
+
+.ui-datepicker-calendar .ui-state-hover {
+    background: #F7F7F7;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background: #6EAFBF;
+    border: 1px solid #55838F;
+    -moz-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .1);
+    -webkit-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .1);
+    box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .1);
+    color: #E0E0E0;
+    filter: dropshadow(color=#4D7A85, offx=0, offy=1);
+    margin: -1px;
+    position: relative;
+    text-shadow: 0 1px 0 #4D7A85;
+}
+
+.ui-datepicker-unselectable .ui-state-default {
+    background: #F4F4F4;
+    color: #B4B3B3;
+}
+
+.ui-datepicker-calendar td:first-child .ui-state-active {
+    margin-left: 0;
+    width: 29px;
+}
+
+.ui-datepicker-calendar td:last-child .ui-state-active {
+    margin-right: 0;
+    width: 29px;
+}
+
+.ui-datepicker-calendar tr:last-child .ui-state-active {
+    height: 29px;
+    margin-bottom: 0;
+}
+
+.more-info {
+    margin-top: 30px;
+    padding-bottom: 30px;
+}
+
+.more-info-point-title {
+    display: block;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.more-info-point-details {
+    margin-left: 50px;
+}
+
+.more-info-column-info,
+.more-info-mass-edit-info {
+    list-style: circle;
+}
+
+.more-info-email-details {
+    list-style: disc;
+    margin-left: -20px;
+}
+
+#more-info-enroll-wo-spreadsheet-eg {
+    border: thin solid grey;
+    display: inline-block;
+    padding: 20px 40px;
+}
+
+#omni-comment-dropdown-trigger {
+    color: #898989;
+    padding-bottom: 20px;
+    padding-top: 16px;
+}
+
+#omni-comment-dropdown-trigger:hover {
+    color: #FFF;
+}
+
+.open #omni-comment-dropdown-trigger {
+    color: #428BCA;
+}
+
+.omni-comment-dropdown-body {
+    border: none;
+    min-width: 310px;
+}
+
+#omni-comment-recipient-input {
+    min-width: 280px;
+}
+
+.tt-dropdown-menu {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border: 1px solid rgba(0, 0, 0, .2);
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    margin-top: 10px;
+    min-width: 280px;
+    padding: 5px 0;
+}
+
+.tt-suggestion {
+    line-height: 24px;
+    padding: 3px 12px;
+}
+
+.tt-suggestion.tt-cursor {
+    background-color: #428BCA;
+    color: #FFF;
+}
+
+.tt-suggestion p {
+    margin: 0;
+}
+
+#more-options {
+    display: none;
+}
+
+.feedback-response-comments,
+.student-record-comments,
+.drafts {
+    margin-top: 10px;
+}
+
+#editor {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border: 1px solid rgba(0, 0, 0, .2);
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    margin-bottom: 15px;
+    margin-top: 10px;
+    padding: 15px;
+}
+
+.wysihtml5-toolbar {
+    clear: both;
+}
+
+#visibility-options {
+    display: none;
+}
 
 .bs-example {
-    background-color: #fafafa;
-    border-color: #e5e5e5 #eee #eee;
+    background-color: #FAFAFA;
+    border-color: #E5E5E5 #EEE #EEE;
     border-style: solid;
     border-width: 1px 0;
-    -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     -moz-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     margin: 0 -15px 15px;
     padding: 45px 15px 15px;
     position: relative;
 }
 
-.bs-example:after {
-    color: #bbb;
+.bs-example::after {
+    color: #BBB;
     content: 'Example';
     font-size: 12px;
     font-weight: 700;
@@ -685,9 +981,9 @@ input.inline {
 }
 
 .bs-example + .highlight {
-    margin: -15px -15px 15px;
     border-radius: 0;
     border-width: 0 0 1px;
+    margin: -15px -15px 15px;
 }
 
 .course-id-table-width {
@@ -699,63 +995,63 @@ input.inline {
 }
 
 .question-recommended-length > span {
-    margin-left: 7px;
     border-bottom: 1px dotted;
+    margin-left: 7px;
 }
 
 .question-recommended-length > input {
-    width: 80px;
     display: inline;
+    width: 80px;
 }
 
 .session-name-table-width {
     min-width: 130px;
 }
 
-.teamMembersDetailsCell {
-    vertical-align: middle;
+.team-members-details-cell {
     padding-left: 30px;
+    vertical-align: middle;
 }
 
-.teamMembersPhotoCell {
+.team-members-photo-cell {
     padding-bottom: 5px;
 }
 
-.visibilityMessage > ul {
+.visibility-message > ul {
     margin-top: 5px;
     padding: 5px 25px;
 }
 
-.visibilityMessage > ul > li {
+.visibility-message > ul > li {
     cursor: default;
 }
 
-.visibilityMessage > ul > li > a {
+.visibility-message > ul > li > a {
     cursor: pointer;
 }
 
 @media (min-width: 768px) {
     .bs-example {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        -webkit-border-radius: 4px 4px 0 0;
+        background-color: #FFF;
+        border: 1px solid #DDD;
         -moz-border-radius: 4px 4px 0 0;
+        -webkit-border-radius: 4px 4px 0 0;
         border-radius: 4px 4px 0 0;
-        -webkit-box-shadow: none;
         -moz-box-shadow: none;
+        -webkit-box-shadow: none;
         box-shadow: none;
         margin-left: 0;
         margin-right: 0;
     }
 
     .bs-example + .highlight {
-        border-width: 1px;
-        -webkit-border-bottom-left-radius: 4px;
         -moz-border-radius-bottomleft: 4px;
+        -webkit-border-bottom-left-radius: 4px;
         border-bottom-left-radius: 4px;
-        -webkit-border-bottom-right-radius: 4px;
         -moz-border-radius-bottomright: 4px;
+        -webkit-border-bottom-right-radius: 4px;
         border-bottom-right-radius: 4px;
+        border-width: 1px;
         margin-left: 0;
         margin-right: 0;
         margin-top: -16px;
@@ -772,36 +1068,43 @@ input.inline {
 
 .feedback-path-title,
 .visibility-title {
-    color: #2aabd2;
+    color: #2AABD2;
+}
+
+/*
+Default to alert color for visibility titles used within an alert context.
+*/
+.alert .visibility-title {
+    color: inherit;
 }
 
 .filename-preview {
-    border: 0;
     background-color: white;
+    border: 0;
     text-overflow: ellipsis;
 }
 
 .profile-pic {
-    width: 130px;
     height: 130px;
+    width: 130px;
 }
 
 .profile-pic-edit {
+    display: table;
     max-height: 450px;
     width: 100%;
-    display: table;
 }
 
 .profile-pic-edit [class*='col-'] {
-    float: none;
     display: table-cell;
-    vertical-align: middle;
+    float: none;
     text-align: center;
+    vertical-align: middle;
 }
 
 .profile-pic-edit > img {
-    max-width: 100%;
     max-height: 80%;
+    max-width: 100%;
 }
 
 .profile-pic-edit-col {
@@ -813,14 +1116,14 @@ input.inline {
 /* used on the div/td that contains the img */
 .profile-pic-icon-hover,
 .profile-pic-icon-click {
-    overflow: hidden;
     cursor: default;
+    overflow: hidden;
 }
 
 .profile-pic-icon-hover > img,
 .profile-pic-icon-click > img {
-    width: 40px;
     height: 40px;
+    width: 40px;
 }
 
 .profile-pic-icon-hidden {
@@ -832,10 +1135,10 @@ input.inline {
 }
 
 .profile-pic-edit-container {
-    width: 75%;
     margin: 0 auto;
     margin-bottom: 10px;
     margin-top: 10px;
+    width: 75%;
 }
 
 .profile-pic-file-selector {
@@ -844,25 +1147,19 @@ input.inline {
 }
 
 .profile-pic-file-selector > #studentPhoto {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    filter: alpha(opacity=0);
-    opacity: 0;
     cursor: inherit;
     display: block;
-}
-
-.questionType {
-    display: inline-block;
-    width: 90%;
-    margin-right: 5px;
+    filter: alpha(opacity=0);
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .time-zone-info-box {
-    margin: 7px 0 0 0;
+    margin: 7px 0 0;
     padding: 10px;
 }
 
@@ -885,9 +1182,9 @@ input.inline {
 }
 
 .link-disabled {
-    pointer-events: none;
     cursor: default;
     opacity: .5;
+    pointer-events: none;
 }
 
 .link-disabled:hover {
@@ -918,19 +1215,41 @@ input.inline {
     padding: 5px 10px;
 }
 
-.content-editor:before {
+.content-editor::before {
     display: none;
 }
 
-.content-editor.empty:before {
-    display: block;
+.content-editor.empty::before {
     color: gray;
     content: attr(data-placeholder);
+    display: block;
 }
 
-/*////////////////////////////////////////////////////////////
-/////////////////////// Modal Dialogs ///////////////////////
-//////////////////////////////////////////////////////////*/
+.remind-no-response {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+/* features page */
+
+.img-responsive.features-page-img {
+    max-width: 75%;
+}
+
+@media screen and (min-width: 480px) {
+    .features-page-text {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+.features-page-text-bottom {
+    margin-top: 15px;
+}
+
+/* /////////////////////////////////////////////////////////
+/////////////////////// Modal Dialogs //////////////////////
+///////////////////////////////////////////////////////// */
 
 .modal-header {
     border-top-left-radius: 5px;
@@ -938,48 +1257,48 @@ input.inline {
 }
 
 .modal-footer {
-    padding: 14px 15px 15px;
     margin-top: 0;
+    padding: 14px 15px 15px;
 }
 
-/*////////////////////////////////////////////////////////////
-////////////////// Dropdowns with Submenus //////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+////////////////// Dropdowns with Submenus /////////////////
+///////////////////////////////////////////////////////// */
 
 .dropdown-submenu {
     position: relative;
 }
 
 .dropdown-submenu > .dropdown-menu {
-    top: 0;
+    -moz-border-radius: 0 6px 6px;
+    -webkit-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px;
     left: 100%;
-    margin-top: -6px;
     margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px 6px;
-    border-radius: 0 6px 6px 6px;
+    margin-top: -6px;
+    top: 0;
 }
 
 .dropdown-submenu:hover > .dropdown-menu {
     display: block;
 }
 
-.dropdown-submenu > a:after {
-    display: block;
-    content: ' ';
-    float: right;
-    width: 0;
-    height: 0;
+.dropdown-submenu > a::after {
     border-color: transparent;
+    border-left-color: #CCC;
     border-style: solid;
     border-width: 5px 0 5px 5px;
-    border-left-color: #cccccc;
-    margin-top: 5px;
+    content: ' ';
+    display: block;
+    float: right;
+    height: 0;
     margin-right: -10px;
+    margin-top: 5px;
+    width: 0;
 }
 
-.dropdown-submenu:hover > a:after {
-    border-left-color: #ffffff;
+.dropdown-submenu:hover > a::after {
+    border-left-color: #FFF;
 }
 
 .dropdown-submenu.pull-left {
@@ -987,20 +1306,20 @@ input.inline {
 }
 
 .dropdown-submenu.pull-left > .dropdown-menu {
+    -moz-border-radius: 6px 0 6px 6px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
     left: -100%;
     margin-left: 10px;
-    -webkit-border-radius: 6px 0 6px 6px;
-    -moz-border-radius: 6px 0 6px 6px;
-    border-radius: 6px 0 6px 6px;
 }
 
-/*////////////////////////////////////////////////////////////
-////////////////////////// Footer ///////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+////////////////////////// Footer //////////////////////////
+///////////////////////////////////////////////////////// */
 
 #footerComponent {
     background-color: black;
-    background-image: linear-gradient(to bottom, #3c3c3c 0, #222 100%);
+    background-image: linear-gradient(to bottom, #3C3C3C 0, #222 100%);
     bottom: 0;
     color: gray;
     height: 20px;
@@ -1011,32 +1330,32 @@ input.inline {
     z-index: 999;
 }
 
-/*////////////////////////////////////////////////////////////
-////////////////////////// Back To Top ///////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+////////////////////////// Back To Top /////////////////////
+///////////////////////////////////////////////////////// */
 
 .back-to-top-left {
-    position: fixed;
-    bottom: 8em;
-    left: 0;
-    text-decoration: none;
-    color: #000000;
     background-color: rgba(235, 235, 235, .8);
-    font-size: 12px;
-    padding: .8em;
+    bottom: 8em;
+    color: #000;
     display: none;
+    font-size: 12px;
+    left: 0;
+    padding: .8em;
+    position: fixed;
+    text-decoration: none;
 }
 
 .back-to-top-right {
-    position: fixed;
-    bottom: 8em;
-    right: 0;
-    text-decoration: none;
-    color: #000000;
     background-color: rgba(235, 235, 235, .8);
+    bottom: 8em;
+    color: #000;
+    display: none;
     font-size: 12px;
     padding: .8em;
-    display: none;
+    position: fixed;
+    right: 0;
+    text-decoration: none;
 }
 
 .back-to-top-left:hover {
@@ -1047,31 +1366,33 @@ input.inline {
     background-color: rgba(135, 135, 135, .5);
 }
 
-/*////////////////////////////////////////////////////////////
-////////////////////////// Email Log Text ///////////////////////////
-//////////////////////////////////////////////////////////*/
+/* /////////////////////////////////////////////////////////
+////////////////////////// Email Log Text //////////////////
+///////////////////////////////////////////////////////// */
 
 /*
 Prevent Long URL From Breaking Out of Container
 */
-.emailLog-text {
+.email-log-text {
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
     -ms-word-break: break-all;
+
     /* Be VERY careful with this, breaks normal words wh_erever */
     word-break: break-all;
+
     /* Non standard for webkit */
     word-break: break-word;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    hyphens: auto;
 }
 
 .highlight {
-    background-color: #FFFF88;
+    background-color: #FF8;
 }
 
-/*//////////////////////////////////////////////////////////
+/* /////////////////////////////////////////////////////////
 ////////////////////// Responsiveness //////////////////////
-//////////////////////////////////////////////////////////*/
+///////////////////////////////////////////////////////// */
 
 @media (max-width: 767px) {
     .mobile-no-padding {
@@ -1155,12 +1476,35 @@ Prevent Long URL From Breaking Out of Container
     margin-right: 5px;
 }
 
-/*
-Glyphicon for success status messages
-*/
-.alert-success:before {
+/* /////////////////////////////////////////////////////////
+/////////////////////// Status Icons ///////////////////////
+///////////////////////////////////////////////////////// */
+
+.icon-success::before,
+.icon-warning::before,
+.icon-danger::before,
+.icon-info::before {
+    /* Icon font has no generic fallback */
+
+    /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
     font-family: 'Glyphicons Halflings';
     display: inline-block;
-    padding-right: 2px;
+    padding-right: .5em;
+    vertical-align: top;
+}
+
+.icon-success::before {
     content: '\e084';
+}
+
+.icon-warning::before {
+    content: '\e101';
+}
+
+.icon-danger::before {
+    content: '\e083';
+}
+
+.icon-info::before {
+    content: '\e086';
 }

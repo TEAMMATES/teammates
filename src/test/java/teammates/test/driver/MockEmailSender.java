@@ -14,7 +14,7 @@ import teammates.logic.api.EmailSender;
  */
 public class MockEmailSender extends EmailSender {
 
-    private List<EmailWrapper> sentEmails = new ArrayList<EmailWrapper>();
+    private List<EmailWrapper> sentEmails = new ArrayList<>();
 
     @Override
     public void sendEmail(EmailWrapper email) {

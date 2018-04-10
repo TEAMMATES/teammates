@@ -84,7 +84,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
 
         ElementTag add = createButton("Add",
                                       className + "add-eval-for-test",
-                                      getInstructorFeedbacksLink(courseId),
+                                      getInstructorFeedbackSessionsLink(courseId),
                                       Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
                        add, disabled, null);
@@ -123,12 +123,16 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         for (FeedbackSessionAttributes session : sessions) {
             InstructorHomeFeedbackSessionRow row = new InstructorHomeFeedbackSessionRow(
                     sanitizeForHtml(session.getFeedbackSessionName()),
-                    getInstructorHoverMessageForFeedbackSession(session),
-                    getInstructorStatusForFeedbackSession(session),
-                    TimeHelper.formatDateTimeForInstructorHomePage(session.getStartTime()),
-                    session.getStartTimeString(),
-                    TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTime()),
-                    session.getEndTimeString(),
+                    getInstructorSubmissionsTooltipForFeedbackSession(session),
+                    getInstructorPublishedTooltipForFeedbackSession(session),
+                    getInstructorSubmissionStatusForFeedbackSession(session),
+                    getInstructorPublishedStatusForFeedbackSession(session),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.getStartTimeLocal()),
+                    session.getStartTimeInIso8601UtcFormat(),
+                    TimeHelper.formatDateTimeForSessions(session.getStartTime(), session.getTimeZone()),
+                    TimeHelper.formatDateTimeForInstructorHomePage(session.getEndTimeLocal()),
+                    session.getEndTimeInIso8601UtcFormat(),
+                    TimeHelper.formatDateTimeForSessions(session.getEndTime(), session.getTimeZone()),
                     getInstructorFeedbackStatsLink(session.getCourseId(), session.getFeedbackSessionName()),
                     getInstructorFeedbackSessionActions(
                             session, Const.ActionURIs.INSTRUCTOR_HOME_PAGE, instructor));

@@ -211,7 +211,7 @@ public class GaeSimulation {
             request.setParameter(Const.ParamsNames.SESSION_TOKEN, token);
         }
 
-        Map<String, List<String>> paramMultiMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> paramMultiMap = new HashMap<>();
         for (int i = 0; i < parameters.length; i = i + 2) {
             String key = parameters[i];
             if (paramMultiMap.get(key) == null) {
@@ -220,10 +220,7 @@ public class GaeSimulation {
             paramMultiMap.get(key).add(parameters[i + 1]);
         }
 
-        for (Map.Entry<String, List<String>> entry : paramMultiMap.entrySet()) {
-            List<String> values = entry.getValue();
-            request.setParameter(entry.getKey(), values.toArray(new String[values.size()]));
-        }
+        paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[0])));
 
         try {
             InvocationContext ic = sc.newInvocation(request);

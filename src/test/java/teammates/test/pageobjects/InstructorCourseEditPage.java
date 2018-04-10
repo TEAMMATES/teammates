@@ -3,6 +3,9 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -90,11 +93,23 @@ public class InstructorCourseEditPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void editInstructor(int instrNum, String name, String email, String role) {
+    /**
+     * Clicks edit button, changes and saves instructor details for given instructor index
+     * Instructor email will not be edited when editing a yet-to-join instructor.
+     * Instructor display name will not be edited if instructor is not displayed to other students.
+     */
+    public void editInstructor(int instrNum, String name, String email,
+            Boolean isDisplayedToStudents, String displayName, String role) {
         clickEditInstructorLink(instrNum);
 
         editInstructorName(instrNum, name);
-        editInstructorEmail(instrNum, email);
+        if (getEmailField(instrNum).getAttribute("readonly") == null) {
+            editInstructorEmail(instrNum, email);
+        }
+        editInstructorDisplayedToStudents(instrNum, isDisplayedToStudents);
+        if (isDisplayedToStudents) {
+            editInstructorDisplayName(instrNum, displayName);
+        }
         selectRoleForInstructor(instrNum, role);
 
         saveEditInstructor(instrNum);
@@ -117,6 +132,22 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement editPanelEmailTextBox = getEmailField(instrNum);
         fillTextBox(editPanelEmailTextBox, value);
         return getTextBoxValue(editPanelEmailTextBox);
+    }
+
+    public boolean editInstructorDisplayedToStudents(int instrNum, Boolean isDisplayedToStudents) {
+        WebElement editPanelDisplayedToStudentsCheckbox = getDisplayedToStudentCheckBox(instrNum);
+        if (isDisplayedToStudents) {
+            markCheckBoxAsChecked(editPanelDisplayedToStudentsCheckbox);
+        } else {
+            markCheckBoxAsUnchecked(editPanelDisplayedToStudentsCheckbox);
+        }
+        return editPanelDisplayedToStudentsCheckbox.isSelected();
+    }
+
+    public String editInstructorDisplayName(int instrNum, String value) {
+        WebElement editPanelDisplayNameTextBox = getDisplayNameField(instrNum);
+        fillTextBox(editPanelDisplayNameTextBox, value);
+        return getTextBoxValue(editPanelDisplayNameTextBox);
     }
 
     public String fillNewInstructorName(String value) {
@@ -160,6 +191,25 @@ public class InstructorCourseEditPage extends AppPage {
                                 && !editInstructorEmailTextBox.isEnabled();
 
         assertTrue(isNotEditable);
+    }
+
+    /**
+     * Verifies that the instructor details fields for the given {@code instrNum} contain the updated values.
+     * If {@code newIsDisplayedToStudents} is true, the display name field is checked against {@code newDisplayName}.
+     * Otherwise, it is verified that the display name field's placeholder is shown as expected.
+     */
+    public void verifyInstructorDetails(int instrNum, String newName, String newEmail,
+            boolean newIsDisplayedToStudents, String newDisplayName, String newRole) {
+        assertEquals(newName, getInstructorName(instrNum));
+        assertEquals(newEmail, getInstructorEmail(instrNum));
+        assertEquals(newIsDisplayedToStudents, getInstructorDisplayedToStudents(instrNum));
+        if (newIsDisplayedToStudents) {
+            assertEquals(newDisplayName, getInstructorDisplayName(instrNum));
+        } else {
+            assertEquals("(This instructor will NOT be displayed to students)",
+                    getDisplayNameField(instrNum).getAttribute("placeholder"));
+        }
+        assertEquals(newRole, getInstructorAccessLevel(instrNum));
     }
 
     public void saveEditInstructor(int instrNum) {
@@ -281,6 +331,21 @@ public class InstructorCourseEditPage extends AppPage {
         return newInstructorNameTextBox.isEnabled()
                 && newInstructorEmailTextBox.isEnabled()
                 && addInstructorButton.isDisplayed();
+    }
+
+    public boolean isInstructorListSortedByName() {
+        boolean isSorted = true;
+        List<String> instructorNames = new ArrayList<String>();
+        List<WebElement> elements = browser.driver.findElements(By.xpath("//*[starts-with(@id, 'instructorname')]"));
+        for (int i = 1; i < elements.size(); i++) {
+            instructorNames.add(browser.driver.findElement(By.id("instructorname" + i)).getAttribute("value"));
+        }
+        for (int i = 1; i < instructorNames.size(); i++) {
+            if (instructorNames.get(i - 1).compareTo(instructorNames.get(i)) > 0) {
+                isSorted = false;
+            }
+        }
+        return isSorted;
     }
 
     public boolean clickOnNewInstructorAccessLevelViewDetails(String role) {
@@ -411,12 +476,37 @@ public class InstructorCourseEditPage extends AppPage {
                                                          + "']"));
     }
 
+    public WebElement getDisplayNameField(int instrNum) {
+        String displayNameFieldSelector = "#instructorTable" + instrNum + " input[name='"
+                + Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME
+                + "']";
+        return browser.driver.findElement(By.cssSelector(displayNameFieldSelector));
+    }
+
     public String getInstructorName(int instrNum) {
         return browser.driver.findElement(By.id("instructorname" + instrNum)).getAttribute("value");
     }
 
     public String getInstructorEmail(int instrNum) {
         return browser.driver.findElement(By.id("instructoremail" + instrNum)).getAttribute("value");
+    }
+
+    public boolean getInstructorDisplayedToStudents(int instrNum) {
+        String isDisplayedToStudentsCheckboxSelector = "#instructorTable" + instrNum + " input[name='"
+                + Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT
+                + "']";
+        return browser.driver.findElement(By.cssSelector(isDisplayedToStudentsCheckboxSelector)).isSelected();
+    }
+
+    public String getInstructorDisplayName(int instrNum) {
+        String displayNameFieldSelector = "#instructorTable" + instrNum + " input[name='"
+                + Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME
+                + "']";
+        return browser.driver.findElement(By.cssSelector(displayNameFieldSelector)).getAttribute("value");
+    }
+
+    public String getInstructorAccessLevel(int instrNum) {
+        return browser.driver.findElement(By.cssSelector("#accessControlInfoForInstr" + instrNum + " span")).getText();
     }
 
     public WebElement getCourseLevelPanel(int instrNum) {

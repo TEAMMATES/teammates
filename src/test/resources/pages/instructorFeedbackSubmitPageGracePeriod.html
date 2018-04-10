@@ -11,7 +11,7 @@
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IFSubmitUiT.instr">
     <div id="statusMessagesToUser">
-      <div class="overflow-auto alert alert-warning statusMessage">
+      <div class="overflow-auto alert alert-warning icon-warning statusMessage">
         <strong>
           The feedback session is currently not open for submissions.
         </strong>
@@ -49,8 +49,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2012-04-01T15:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -59,8 +59,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Mon, 02 Apr 2012, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2012-04-02T15:59:00Z" id="end-time">
+                  Mon, 02 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -102,23 +102,23 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" disabled="" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false">
                 <p>
                   <br data-mce-bogus="1">
                 </p>

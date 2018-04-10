@@ -8,6 +8,7 @@ import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.StatusMessages;
 import teammates.common.util.StatusMessage;
@@ -52,7 +53,7 @@ public class InstructorHomePageAction extends Action {
         Map<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
                                                                  account.googleId, shouldOmitArchived);
 
-        ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
+        ArrayList<CourseSummaryBundle> courseList = new ArrayList<>(courses.values());
 
         String sortCriteria = getSortCriteria();
         sortCourse(courseList, sortCriteria);
@@ -89,7 +90,8 @@ public class InstructorHomePageAction extends Action {
             CourseSummaryBundle.sortSummarizedCoursesByCreationDate(courseList);
             break;
         default:
-            throw new RuntimeException("Invalid course sorting criteria.");
+            Assumption.fail("Invalid course sorting criteria.");
+            break;
         }
     }
 }

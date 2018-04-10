@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,6 @@ import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
@@ -88,11 +88,16 @@ public class Logic {
 
         StudentProfileAttributes studentProfile = studentProfileParam;
         if (studentProfile == null) {
-            studentProfile = new StudentProfileAttributes();
-            studentProfile.googleId = googleId;
+            studentProfile = StudentProfileAttributes.builder(googleId).build();
         }
-        AccountAttributes accountToAdd = new AccountAttributes(googleId, name, isInstructor, email, institute,
-                                                               studentProfile);
+        AccountAttributes accountToAdd = AccountAttributes.builder()
+                .withGoogleId(googleId)
+                .withName(name)
+                .withEmail(email)
+                .withInstitute(institute)
+                .withIsInstructor(isInstructor)
+                .withStudentProfileAttributes(studentProfile)
+                .build();
 
         accountsLogic.createAccount(accountToAdd);
     }
@@ -224,23 +229,25 @@ public class Logic {
         Assumption.assertNotNull(institute);
 
         if (accountsLogic.getAccount(googleId) == null) {
-            AccountAttributes account = new AccountAttributes(googleId, name, true, email, institute);
+            AccountAttributes account = AccountAttributes.builder()
+                    .withGoogleId(googleId)
+                    .withName(name)
+                    .withEmail(email)
+                    .withInstitute(institute)
+                    .withIsInstructor(true)
+                    .withDefaultStudentProfileAttributes(googleId)
+                    .build();
             accountsLogic.createAccount(account);
         }
 
-        String role = roleParam == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : roleParam;
-        String displayedName = displayedNameParam == null ? InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedNameParam;
-        InstructorAttributes instructor = null;
+        // In case when roleParam is null, default values used both for role and for privileges.
+        // If privileges is null and roleParam is not null, for privileges will be created value based on roleParam
+        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
+                .withRole(roleParam).withDisplayedName(displayedNameParam)
+                .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents)
+                .withIsArchived(isArchived)
+                .build();
 
-        if (privileges == null) {
-            instructor = new InstructorAttributes(googleId, courseId, name, email, role, isDisplayedToStudents,
-                                                  displayedName, new InstructorPrivileges(role));
-        } else {
-            instructor = new InstructorAttributes(googleId, courseId, name, email, role, displayedName, privileges);
-        }
-
-        instructor.isArchived = isArchived;
-        instructor.isDisplayedToStudents = isDisplayedToStudents;
         instructorsLogic.createInstructor(instructor);
     }
 
@@ -257,9 +264,9 @@ public class Logic {
         Assumption.assertNotNull(name);
         Assumption.assertNotNull(email);
 
-        InstructorAttributes instructor =
-                new InstructorAttributes(null, courseId, name, email, role, role, new InstructorPrivileges(role));
-
+        InstructorAttributes instructor = InstructorAttributes.builder(null, courseId, name, email)
+                .withRole(role).withPrivileges(new InstructorPrivileges(role))
+                .build();
         instructorsLogic.createInstructor(instructor);
     }
 
@@ -278,15 +285,6 @@ public class Logic {
         Assumption.assertNotNull(queryString);
 
         return instructorsLogic.searchInstructorsInWholeSystem(queryString);
-    }
-
-    /**
-     * Creates or updates document for the given Instructor.
-     *
-     * @see InstructorsLogic#putDocument(InstructorAttributes)
-     */
-    public void putDocument(InstructorAttributes instructor) {
-        instructorsLogic.putDocument(instructor);
     }
 
     /**
@@ -369,18 +367,6 @@ public class Logic {
      * * All parameters are non-null.
      * @return Empty list if none found.
      */
-    public List<InstructorAttributes> getInstructorsForEmail(String email) {
-
-        Assumption.assertNotNull(email);
-
-        return instructorsLogic.getInstructorsForEmail(email);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
-     */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
 
         Assumption.assertNotNull(courseId);
@@ -402,9 +388,9 @@ public class Logic {
         return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
 
-        return feedbackSessionsLogic.getAllOpenFeedbackSessions(start, end, zone);
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(startUtc, endUtc);
     }
 
     /**
@@ -489,10 +475,10 @@ public class Logic {
         accountsLogic.joinCourseForInstructor(encryptedKey, googleId);
     }
 
-    public void verifyInputForAdminHomePage(String shortName, String name, String institute, String email)
+    public void verifyInputForAdminHomePage(String name, String institute, String email)
             throws InvalidParametersException {
 
-        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(shortName, name,
+        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(name,
                                                                                               institute, email);
 
         if (!invalidityInfo.isEmpty()) {
@@ -680,12 +666,14 @@ public class Logic {
     /**
      * Updates the details of a course.
      *
-     * @see CoursesLogic#updateCourse(CourseAttributes)
+     * @see CoursesLogic#updateCourse(String, String, String)
      */
-    public void updateCourse(CourseAttributes course) throws InvalidParametersException,
-                                                             EntityDoesNotExistException {
-        Assumption.assertNotNull(course);
-        coursesLogic.updateCourse(course);
+    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(courseName);
+        Assumption.assertNotNull(courseTimeZone);
+        coursesLogic.updateCourse(courseId, courseName, courseTimeZone);
     }
 
     /**
@@ -1028,6 +1016,17 @@ public class Logic {
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
 
+    /**
+     * Deletes all the students in the course.
+     *
+     * @param courseId course id for the students
+     */
+    public void deleteAllStudentsInCourse(String courseId) {
+
+        Assumption.assertNotNull(courseId);
+        studentsLogic.deleteAllStudentsInCourse(courseId);
+    }
+
     public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
 
         Assumption.assertNotNull(courseId);
@@ -1076,10 +1075,6 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         studentsLogic.validateTeams(studentList, courseId);
-    }
-
-    public void putDocument(StudentAttributes student) {
-        studentsLogic.putDocument(student);
     }
 
     /**
@@ -1644,7 +1639,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, int range, String viewType)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1664,7 +1659,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1683,7 +1678,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1701,7 +1696,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, long range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1768,26 +1763,6 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail);
-    }
-
-    /**
-     * Gets a question+response bundle for questions with responses that
-     * is visible to the instructor for a feedback session of a roster.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructor(String feedbackSessionName,
-                                                                               String courseId, String userEmail,
-                                                                               CourseRoster roster,
-                                                                               Boolean isIncludeResponseStatus)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, userEmail,
-                                                                            roster, isIncludeResponseStatus);
     }
 
     /**
@@ -1887,11 +1862,6 @@ public class Logic {
         feedbackResponsesLogic.createFeedbackResponses(feedbackResponses);
     }
 
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String questionId) {
-        Assumption.assertNotNull(questionId);
-        return feedbackResponsesLogic.getFeedbackResponsesForQuestion(questionId);
-    }
-
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
         Assumption.assertNotNull(userEmail);
         Assumption.assertNotNull(feedbackSessionName);
@@ -1958,9 +1928,8 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId,
-                                                                        String giverEmail,
-                                                                        Date creationDate) {
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
+            String responseId, String giverEmail, Instant creationDate) {
         Assumption.assertNotNull(responseId);
         Assumption.assertNotNull(giverEmail);
         Assumption.assertNotNull(creationDate);
@@ -1993,6 +1962,15 @@ public class Logic {
      */
     public void deleteDocument(FeedbackResponseCommentAttributes comment) {
         feedbackResponseCommentsLogic.deleteDocument(comment);
+    }
+
+    /**
+     * Removes document for the comment by given id.
+     *
+     * @see FeedbackResponseCommentsLogic#deleteDocumentByCommentId(long)
+     */
+    public void deleteDocumentByCommentId(long commentId) {
+        feedbackResponseCommentsLogic.deleteDocumentByCommentId(commentId);
     }
 
     /**
@@ -2031,13 +2009,12 @@ public class Logic {
     }
 
     /**
-     * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database.
-     * <br> Empty List if no admin email found
+     * Preconditions: <br>
+     * * Id of comment is not null.
      */
-    @SuppressWarnings("deprecation")
-    public List<AdminEmailAttributes> getAllAdminEmails() {
-        return adminEmailsLogic.getAllAdminEmails();
+    public void deleteFeedbackResponseCommentById(Long commentId) {
+        Assumption.assertNotNull(commentId);
+        feedbackResponseCommentsLogic.deleteFeedbackResponseCommentById(commentId);
     }
 
     /**
@@ -2050,7 +2027,7 @@ public class Logic {
         return adminEmailsLogic.getAdminEmailById(emailId);
     }
 
-    public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
+    public Instant createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException {
         Assumption.assertNotNull(newAdminEmail);
         return adminEmailsLogic.createAdminEmail(newAdminEmail);
     }
@@ -2121,9 +2098,9 @@ public class Logic {
     /**
      * Gets an admin email by subject and createDate.
      *
-     * @see AdminEmailsLogic#getAdminEmail(String, Date).
+     * @see AdminEmailsLogic#getAdminEmail(String, Instant)
      */
-    public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
+    public AdminEmailAttributes getAdminEmail(String subject, Instant createDate) {
         Assumption.assertNotNull(subject);
         Assumption.assertNotNull(createDate);
 

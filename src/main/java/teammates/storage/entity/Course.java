@@ -1,65 +1,58 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.Date;
 
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-import com.google.gson.annotations.SerializedName;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents a course entity.
  */
-@PersistenceCapable
-public class Course extends Entity {
+@Entity
+@Index
+public class Course extends BaseEntity {
 
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Course.class);
+    @Id
+    private String id;
 
-    @PrimaryKey
-    @Persistent
-    @SerializedName("id")
-    // CHECKSTYLE.OFF:AbbreviationAsWordInName|MemberName the database uses ID
-    private String ID;
-    // CHECKSTYLE.ON:AbbreviationAsWordInName|MemberName
-
-    @Persistent
     private String name;
 
-    @Persistent
+    // TODO: change to `java.time.Instant` once we have upgraded to Objectify 6
     private Date createdAt;
 
-    @Persistent
     private String timeZone;
 
-    public Course(String courseId, String courseName, String courseTimeZone, Date createdAt) {
+    @SuppressWarnings("unused")
+    private Course() {
+        // required by Objectify
+    }
+
+    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
-            this.setTimeZone(Const.DEFAULT_TIMEZONE);
+            this.setTimeZone(Const.DEFAULT_TIME_ZONE.getId());
         } else {
             this.setTimeZone(courseTimeZone);
         }
         if (createdAt == null) {
-            this.setCreatedAt(new Date());
+            this.setCreatedAt(Instant.now());
         } else {
             this.setCreatedAt(createdAt);
         }
     }
 
     public String getUniqueId() {
-        return ID;
+        return id;
     }
 
     public void setUniqueId(String uniqueId) {
-        this.ID = uniqueId.trim();
+        this.id = uniqueId.trim();
     }
 
     public String getName() {
@@ -70,12 +63,12 @@ public class Course extends Entity {
         this.name = name.trim();
     }
 
-    public Date getCreatedAt() {
-        return this.createdAt;
+    public Instant getCreatedAt() {
+        return TimeHelper.convertDateToInstant(this.createdAt);
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = TimeHelper.convertInstantToDate(createdAt);
     }
 
     public String getTimeZone() {

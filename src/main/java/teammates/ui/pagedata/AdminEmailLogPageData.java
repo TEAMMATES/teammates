@@ -88,7 +88,7 @@ public class AdminEmailLogPageData extends PageData {
             return "";
         }
 
-        return StringHelper.join(",", q.receiverValues);
+        return String.join(",", q.receiverValues);
     }
 
     public String getQueryKeywordsForSubject() {
@@ -96,7 +96,7 @@ public class AdminEmailLogPageData extends PageData {
             return "";
         }
 
-        return StringHelper.join(",", q.subjectValues);
+        return String.join(",", q.subjectValues);
     }
 
     public String getQueryKeywordsForContent() {
@@ -104,7 +104,7 @@ public class AdminEmailLogPageData extends PageData {
             return "";
         }
 
-        return StringHelper.join(",", q.infoValues);
+        return String.join(",", q.infoValues);
     }
 
     // Setter methods
@@ -307,7 +307,7 @@ public class AdminEmailLogPageData extends PageData {
     }
 
     private void initLogsAsTemplateRows(List<EmailLogEntry> entries) {
-        logs = new ArrayList<AdminEmailTableRow>();
+        logs = new ArrayList<>();
         for (EmailLogEntry entry : entries) {
             AdminEmailTableRow row = new AdminEmailTableRow(entry);
             logs.add(row);

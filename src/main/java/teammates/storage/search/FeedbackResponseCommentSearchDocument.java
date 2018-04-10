@@ -1,7 +1,6 @@
 package teammates.storage.search;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +23,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for response comments.
@@ -56,11 +57,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         relatedResponse = frDb.getFeedbackResponse(comment.feedbackResponseId);
         course = coursesDb.getCourse(comment.courseId);
         giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.giverEmail);
-        relatedInstructors = new ArrayList<InstructorAttributes>();
-        relatedStudents = new ArrayList<StudentAttributes>();
+        relatedInstructors = new ArrayList<>();
+        relatedStudents = new ArrayList<>();
 
         // prepare the response giver name and recipient name
-        Set<String> addedEmailSet = new HashSet<String>();
+        Set<String> addedEmailSet = new HashSet<>();
         if (relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
                 || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
             InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.giver);
@@ -71,6 +72,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 addedEmailSet.add(ins.email);
                 responseGiverName = ins.name + " (" + ins.displayedName + ")";
             }
+        } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS) {
+            responseGiverName = relatedResponse.giver;
         } else {
             StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.giver);
             if (stu == null || addedEmailSet.contains(stu.email)) {
@@ -82,24 +85,33 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
         }
 
-        if (relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS) {
+        switch (relatedQuestion.recipientType) {
+        case INSTRUCTORS:
             InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.recipient);
             if (ins != null && !addedEmailSet.contains(ins.email)) {
                 relatedInstructors.add(ins);
                 addedEmailSet.add(ins.email);
                 responseRecipientName = ins.name + " (" + ins.displayedName + ")";
             }
-        } else if (relatedQuestion.recipientType == FeedbackParticipantType.SELF) {
+            break;
+        case SELF:
             responseRecipientName = responseGiverName;
-        } else if (relatedQuestion.recipientType == FeedbackParticipantType.NONE) {
+            break;
+        case NONE:
             responseRecipientName = Const.USER_NOBODY_TEXT;
-        } else {
+            break;
+        case TEAMS:
+            responseRecipientName = relatedResponse.recipient;
+            break;
+        default:
             StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.recipient);
+
             if (stu != null && !addedEmailSet.contains(stu.email)) {
                 relatedStudents.add(stu);
                 addedEmailSet.add(stu.email);
                 responseRecipientName = stu.name + " (" + stu.team + ")";
             }
+
             List<StudentAttributes> team = studentsDb.getStudentsForTeam(relatedResponse.recipient, comment.courseId);
             if (team != null) {
                 responseRecipientName = relatedResponse.recipient; // it's actually a team name here
@@ -110,9 +122,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     }
                 }
             }
+
             if (stu == null || team == null) {
                 responseRecipientName = Const.USER_UNKNOWN_TEXT;
             }
+            break;
         }
     }
 
@@ -198,7 +212,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
                                             .setText(searchableText))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE)
-                                            .setDate(comment.createdAt))
+                                            .setDate(TimeHelper.convertInstantToDate(comment.createdAt)))
                 // attribute field is used to convert a doc back to attribute
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE)
                                             .setText(JsonUtils.toJson(comment)))
@@ -230,14 +244,14 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
 
         // get instructor's information
-        bundle.instructorEmails = new HashSet<String>();
-        Set<String> instructorCourseIdList = new HashSet<String>();
+        bundle.instructorEmails = new HashSet<>();
+        Set<String> instructorCourseIdList = new HashSet<>();
         for (InstructorAttributes ins : instructors) {
             bundle.instructorEmails.add(ins.email);
             instructorCourseIdList.add(ins.courseId);
         }
 
-        Set<String> isAdded = new HashSet<String>();
+        Set<String> isAdded = new HashSet<>();
 
         List<ScoredDocument> filteredResults = filterOutCourseId(results, instructors);
         for (ScoredDocument doc : filteredResults) {
@@ -251,7 +265,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
             if (commentList == null) {
-                commentList = new ArrayList<FeedbackResponseCommentAttributes>();
+                commentList = new ArrayList<>();
                 bundle.comments.put(comment.feedbackResponseId, commentList);
             }
             commentList.add(comment);
@@ -266,7 +280,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<FeedbackResponseAttributes> responseList = bundle.responses.get(response.feedbackQuestionId);
             if (responseList == null) {
-                responseList = new ArrayList<FeedbackResponseAttributes>();
+                responseList = new ArrayList<>();
                 bundle.responses.put(response.feedbackQuestionId, responseList);
             }
             if (!isAdded.contains(response.getId())) {
@@ -284,7 +298,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
             List<FeedbackQuestionAttributes> questionList = bundle.questions.get(question.feedbackSessionName);
             if (questionList == null) {
-                questionList = new ArrayList<FeedbackQuestionAttributes>();
+                questionList = new ArrayList<>();
                 bundle.questions.put(question.feedbackSessionName, questionList);
             }
             if (!isAdded.contains(question.getId())) {
@@ -306,25 +320,33 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
 
             // get giver and recipient names
-            String responseGiverName = extractContentFromQuotedString(
+            String responseGiverName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText());
             bundle.responseGiverTable.put(response.getId(),
                     getFilteredGiverName(bundle, instructorCourseIdList, response, responseGiverName));
 
-            String responseRecipientName = extractContentFromQuotedString(
+            String responseRecipientName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).getText());
             bundle.responseRecipientTable.put(response.getId(),
                     getFilteredRecipientName(bundle, instructorCourseIdList, response, responseRecipientName));
 
-            String commentGiverName = extractContentFromQuotedString(
+            String commentGiverName = StringHelper.extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
+            bundle.instructorEmailNameTable.put(comment.giverEmail, commentGiverName);
+            boolean isLastEditorEmailInMap = !comment.lastEditorEmail.isEmpty()
+                    && bundle.instructorEmailNameTable.containsKey(comment.lastEditorEmail);
+            if (!isLastEditorEmailInMap) {
+                InstructorAttributes instructor =
+                        instructorsDb.getInstructorForEmail(response.courseId, comment.lastEditorEmail);
+                String commentLastEditorName = instructor.displayedName + " " + instructor.name;
+                bundle.instructorEmailNameTable.put(comment.lastEditorEmail, commentLastEditorName);
+            }
             bundle.numberOfResults++;
         }
-
         for (List<FeedbackQuestionAttributes> questions : bundle.questions.values()) {
-            Collections.sort(questions);
+            questions.sort(null);
         }
 
         for (List<FeedbackResponseAttributes> responses : bundle.responses.values()) {
@@ -335,6 +357,9 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(responseComments);
         }
 
+        bundle.numberOfResults =
+                filterFeedbackResponseCommentResults(bundle, instructors, bundle.numberOfResults);
+        removeQuestionsAndResponsesWithoutComments(bundle);
         return bundle;
     }
 
@@ -343,7 +368,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                                       FeedbackResponseAttributes response,
                                                       FeedbackResponseCommentAttributes comment, String name) {
         return isCommentGiverNameVisibleToInstructor(
-                bundle.instructorEmails, instructorCourseIdList, response, comment) ? name : "Anonymous";
+                bundle.instructorEmails, instructorCourseIdList, response, comment)
+                ? name : Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
     }
 
     private static String getFilteredGiverName(FeedbackResponseCommentSearchResultBundle bundle,
@@ -430,4 +456,98 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         return false;
     }
 
+    private static int filterFeedbackResponseCommentResults(
+            FeedbackResponseCommentSearchResultBundle frCommentSearchResults,
+            List<InstructorAttributes> instructors, int totalResultsSize) {
+
+        int[] filteredResultsSize = {totalResultsSize};
+        frCommentSearchResults.responses.forEach((responseName, frs) -> frs.removeIf(response -> {
+            InstructorAttributes instructor = getInstructorForCourseId(response.courseId, instructors);
+
+            boolean isNotAllowedForInstructor =
+                    instructor == null
+                            || !instructor.isAllowedForPrivilege(
+                            response.giverSection, response.feedbackSessionName,
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                            || !instructor.isAllowedForPrivilege(
+                            response.recipientSection, response.feedbackSessionName,
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+
+            if (isNotAllowedForInstructor) {
+                int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
+                filteredResultsSize[0] -= sizeOfCommentList;
+                // TODO: also need to decrease the size for (fr)CommentSearchResults|studentSearchResults
+                frCommentSearchResults.comments.remove(response.getId());
+            }
+            return isNotAllowedForInstructor;
+        }));
+
+        Set<String> emailList = frCommentSearchResults.instructorEmails;
+
+        frCommentSearchResults.questions.entrySet().removeIf(questionSet -> {
+            String fsName = questionSet.getKey();
+            List<FeedbackQuestionAttributes> questionList = frCommentSearchResults.questions.get(fsName);
+
+            questionList.removeIf(question -> {
+                List<FeedbackResponseAttributes> responseList = frCommentSearchResults.responses.get(question.getId());
+
+                responseList.removeIf(response -> {
+                    List<FeedbackResponseCommentAttributes> commentList =
+                            frCommentSearchResults.comments.get(response.getId());
+
+                    commentList.removeIf(comment -> {
+                        if (emailList.contains(comment.giverEmail)) {
+                            return false;
+                        }
+
+                        boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
+                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
+                                || comment.isVisibleTo(FeedbackParticipantType.GIVER);
+
+                        if (isVisibleToGiver && emailList.contains(response.giver)) {
+                            return false;
+                        }
+
+                        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion
+                                ? question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                : comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+
+                        if (isVisibleToReceiver && emailList.contains(response.recipient)) {
+                            return false;
+                        }
+
+                        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion
+                                ? question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+                                : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+
+                        if (isVisibleToInstructor) {
+                            return false;
+                        }
+                        return true;
+                    });
+                    return commentList.isEmpty();
+                });
+                return responseList.isEmpty();
+            });
+            return questionList.isEmpty();
+        });
+        return filteredResultsSize[0];
+    }
+
+    private static InstructorAttributes getInstructorForCourseId(String courseId, List<InstructorAttributes> instructors) {
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.courseId.equals(courseId)) {
+                return instructor;
+            }
+        }
+
+        return null;
+    }
+
+    private static void removeQuestionsAndResponsesWithoutComments(
+            FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
+
+        frCommentSearchResults.questions.forEach((fsName, questionList) -> questionList.removeIf(fq ->
+                frCommentSearchResults.responses.get(fq.getId()).isEmpty()));
+    }
 }

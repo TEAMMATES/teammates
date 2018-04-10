@@ -85,7 +85,7 @@ public abstract class AdminEmailPageData extends PageData {
     // Sent email table
 
     private AdminSentEmailTable createAdminSentEmailTable() {
-        List<AdminSentEmailRow> rows = new ArrayList<AdminSentEmailRow>();
+        List<AdminSentEmailRow> rows = new ArrayList<>();
 
         if (state.equals(AdminEmailPageState.SENT)) {
             AdminEmailSentPageData sentPageData = (AdminEmailSentPageData) this;
@@ -118,7 +118,7 @@ public abstract class AdminEmailPageData extends PageData {
     // Draft email table
 
     private AdminDraftEmailTable createAdminDraftEmailTable() {
-        List<AdminDraftEmailRow> rows = new ArrayList<AdminDraftEmailRow>();
+        List<AdminDraftEmailRow> rows = new ArrayList<>();
 
         if (state.equals(AdminEmailPageState.DRAFT)) {
             AdminEmailDraftPageData draftPageData = (AdminEmailDraftPageData) this;
@@ -151,7 +151,7 @@ public abstract class AdminEmailPageData extends PageData {
     // Trash email table
 
     private AdminTrashEmailTable createAdminTrashEmailTable() {
-        List<AdminTrashEmailRow> rows = new ArrayList<AdminTrashEmailRow>();
+        List<AdminTrashEmailRow> rows = new ArrayList<>();
 
         if (state.equals(AdminEmailPageState.TRASH)) {
             AdminEmailTrashPageData trashPageData = (AdminEmailTrashPageData) this;

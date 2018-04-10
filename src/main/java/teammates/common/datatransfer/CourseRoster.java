@@ -15,8 +15,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class CourseRoster {
 
-    Map<String, StudentAttributes> studentListByEmail = new HashMap<String, StudentAttributes>();
-    Map<String, InstructorAttributes> instructorListByEmail = new HashMap<String, InstructorAttributes>();
+    Map<String, StudentAttributes> studentListByEmail = new HashMap<>();
+    Map<String, InstructorAttributes> instructorListByEmail = new HashMap<>();
 
     public CourseRoster(List<StudentAttributes> students, List<InstructorAttributes> instructors) {
         populateStudentListByEmail(students);
@@ -24,11 +24,11 @@ public class CourseRoster {
     }
 
     public List<StudentAttributes> getStudents() {
-        return new ArrayList<StudentAttributes>(studentListByEmail.values());
+        return new ArrayList<>(studentListByEmail.values());
     }
 
     public List<InstructorAttributes> getInstructors() {
-        return new ArrayList<InstructorAttributes>(instructorListByEmail.values());
+        return new ArrayList<>(instructorListByEmail.values());
     }
 
     /**

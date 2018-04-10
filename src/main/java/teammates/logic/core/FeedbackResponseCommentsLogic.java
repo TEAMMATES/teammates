@@ -1,6 +1,6 @@
 package teammates.logic.core;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -52,7 +52,7 @@ public final class FeedbackResponseCommentsLogic {
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
         try {
-            return frcDb.createEntity(frComment);
+            return frcDb.createFeedbackResponseComment(frComment);
         } catch (EntityAlreadyExistsException e) {
             try {
 
@@ -77,8 +77,8 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseComment(feedbackResponseCommentId);
     }
 
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId, String giverEmail,
-                                                                        Date creationDate) {
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
+            String responseId, String giverEmail, Instant creationDate) {
         return frcDb.getFeedbackResponseComment(responseId, giverEmail, creationDate);
     }
 
@@ -172,11 +172,22 @@ public final class FeedbackResponseCommentsLogic {
         frcDb.deleteEntity(feedbackResponseComment);
     }
 
+    public void deleteFeedbackResponseCommentById(Long commentId) {
+        frcDb.deleteCommentById(commentId);
+    }
+
     /**
      * Removes document for the given comment.
      */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
         frcDb.deleteDocument(commentToDelete);
+    }
+
+    /**
+     * Removes document for the comment with given id.
+     */
+    public void deleteDocumentByCommentId(long commentId) {
+        frcDb.deleteDocumentByCommentId(commentId);
     }
 
     /**
@@ -367,8 +378,4 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        return frcDb.getAllFeedbackResponseComments();
-    }
 }

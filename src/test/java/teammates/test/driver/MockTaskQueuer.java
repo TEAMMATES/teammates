@@ -16,14 +16,12 @@ import teammates.logic.api.TaskQueuer;
  */
 public class MockTaskQueuer extends TaskQueuer {
 
-    private List<TaskWrapper> tasksAdded = new ArrayList<TaskWrapper>();
+    private List<TaskWrapper> tasksAdded = new ArrayList<>();
 
     @Override
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
-        Map<String, String[]> multisetParamMap = new HashMap<String, String[]>();
-        for (Map.Entry<String, String> entrySet : paramMap.entrySet()) {
-            multisetParamMap.put(entrySet.getKey(), new String[] { entrySet.getValue() });
-        }
+        Map<String, String[]> multisetParamMap = new HashMap<>();
+        paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
         tasksAdded.add(task);
     }
@@ -48,13 +46,11 @@ public class MockTaskQueuer extends TaskQueuer {
 
     @Override
     public Map<String, Integer> getNumberOfTasksAdded() {
-        Map<String, Integer> numberOfTasksAdded = new HashMap<String, Integer>();
+        Map<String, Integer> numberOfTasksAdded = new HashMap<>();
         for (TaskWrapper task : tasksAdded) {
             String queueName = task.getQueueName();
-            if (!numberOfTasksAdded.containsKey(queueName)) {
-                numberOfTasksAdded.put(queueName, 0);
-            }
-            int oldTaskCount = numberOfTasksAdded.get(queueName);
+
+            int oldTaskCount = numberOfTasksAdded.getOrDefault(queueName, 0);
             numberOfTasksAdded.put(queueName, oldTaskCount + 1);
         }
         return numberOfTasksAdded;

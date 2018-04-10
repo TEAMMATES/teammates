@@ -1,24 +1,35 @@
-<div class="panel-body">
-    <div class="row">
-        <div class="col-sm-4 text-color-gray">
-            <strong>
-                ${statsTitle}
-            </strong>
-        </div>
+<div class="panel-body rubricStatistics">
+  <div class="row">
+    <div class="col-sm-8 text-color-gray">
+      <strong>
+        ${statsTitle}
+      </strong>
     </div>
-    <div class="row">
-        <div class="col-sm-12 table-responsive">
-            <table class="table table-striped table-bordered margin-0">
-                <thead>
-                    <tr>
-                        <th></th>
-                        ${tableHeaderRowFragmentHtml}
-                    </tr>
-                </thead>
-                <tbody>
-                    ${tableBodyHtml}
-                </tbody>
-            </table>
-        </div>
+    <div class="col-sm-4 text-right ${isExcludingSelfOptionAvailable}">
+      <input type="checkbox" class="excluding-self-response-checkbox" onClick="toggleExcludingSelfResultsForRubricStatistics(this)">
+      <span class="text-nowrap tool-tip-decorate" title="Excludes giver's responses to himself/herself from Statistics"
+          data-placement="top" data-toggle="tooltip">
+        Exclude self evaluation
+      </span>
     </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 table-responsive">
+      <table class="table table-striped table-bordered margin-0">
+        <thead>
+          <tr>
+            <th></th>
+            ${tableHeaderRowFragmentHtml}
+          </tr>
+        </thead>
+        <tbody class="table-body-including-self">
+          ${tableBodyHtml}
+        </tbody>
+        <tbody class="table-body-excluding-self hidden">
+          ${tableBodyExcludingSelfHtml}
+        </tbody>
+      </table>
+    </div>
+    ${perRecipientStatsHtml}
+  </div>
 </div>

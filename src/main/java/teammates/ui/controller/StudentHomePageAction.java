@@ -24,14 +24,14 @@ public class StudentHomePageAction extends Action {
 
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
 
-        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
+        List<CourseDetailsBundle> courses = new ArrayList<>();
         Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
 
         try {
             courses = logic.getCourseDetailsListForStudent(account.googleId);
             sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(courses, account.googleId);
 
-            CourseDetailsBundle.sortDetailedCourses(courses);
+            CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
 
             statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + courses.size();
 

@@ -1,25 +1,32 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
+    static final transient int NO_VALUE = Integer.MIN_VALUE;
+    protected int minOptionsToBeRanked;
+    protected int maxOptionsToBeRanked;
     private boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
+        minOptionsToBeRanked = NO_VALUE;
+        maxOptionsToBeRanked = NO_VALUE;
     }
 
     public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         super(questionType, questionText);
+        minOptionsToBeRanked = NO_VALUE;
+        maxOptionsToBeRanked = NO_VALUE;
     }
 
     @Override
@@ -32,6 +39,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
 
         this.areDuplicatesAllowed = areDuplicatesAllowed;
+
         return true;
     }
 
@@ -42,11 +50,12 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
                         int totalNumRecipients,
-                        FeedbackResponseDetails existingResponseDetails);
+                        FeedbackResponseDetails existingResponseDetails, StudentAttributes student);
 
     @Override
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients);
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student);
 
     @Override
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
@@ -55,22 +64,17 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
      * Updates the mapping of ranks for the option optionReceivingPoints.
      */
     protected void updateOptionRanksMapping(
-                        Map<String, List<Integer>> optionRanks,
-                        String optionReceivingRanks, int rankReceived) {
-        if (!optionRanks.containsKey(optionReceivingRanks)) {
-            List<Integer> ranks = new ArrayList<Integer>();
-            optionRanks.put(optionReceivingRanks, ranks);
-        }
-
-        List<Integer> ranksReceived = optionRanks.get(optionReceivingRanks);
-        ranksReceived.add(rankReceived);
+            Map<String, List<Integer>> optionRanks,
+            String optionReceivingRanks, int rankReceived) {
+        optionRanks.computeIfAbsent(optionReceivingRanks, key -> new ArrayList<>())
+                   .add(rankReceived);
     }
 
     /**
      * Returns the list of points as as string to display.
      */
     protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
-        Collections.sort(ranksReceived);
+        ranksReceived.sort(null);
         StringBuilder pointsReceived = new StringBuilder();
 
         if (ranksReceived.size() > 10) {
@@ -97,11 +101,11 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     }
 
     protected double computeAverage(List<Integer> values) {
-        double average = 0;
+        double total = 0;
         for (double value : values) {
-            average = average + value;
+            total = total + value;
         }
-        return average / values.size();
+        return total / values.size();
     }
 
     /**
@@ -126,10 +130,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                 continue;
             }
 
-            if (!rankToAnswersMap.containsKey(rankGiven)) {
-                rankToAnswersMap.put(rankGiven, new ArrayList<K>());
-            }
-            rankToAnswersMap.get(rankGiven).add(answer);
+            rankToAnswersMap.computeIfAbsent(rankGiven, key -> new ArrayList<>())
+                            .add(answer);
         }
 
         // every answer in the same group is given the same rank
@@ -143,6 +145,36 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         }
 
         return normalisedRankForSingleSetOfRankings;
+    }
+
+    /**
+     * Generates the normalized overall ranking from the ranks of the recipients or options
+     * by comparing the average ranks of the recipients or options
+     * E.g. A and B received (1,2) and C received (1,2,3),
+     * so A and B have the average rank of 1.5 and C's average rank is 2
+     * After normalization, the overall rank of A, B and C will be 1, 1 and 3
+     * @param recipientRanks is a map
+     *                       with key being the recipient identifier and the value the list of ranks of the recipient
+     * @return a map of recipients/options with their corresponding overall rank after normalization
+     */
+    protected Map<String, Integer> generateNormalizedOverallRankMapping(Map<String, List<Integer>> recipientRanks) {
+        TreeMap<Double, List<String>> recipientAverageRank = new TreeMap<>();
+        recipientRanks.forEach((recipientIdentifier, ranks) -> {
+            double average = computeAverage(ranks);
+            recipientAverageRank.computeIfAbsent(average, key -> new ArrayList<>())
+                    .add(recipientIdentifier);
+        });
+
+        Map<String, Integer> normalizedOverallRanking = new HashMap<>();
+        int currentRank = 1;
+        for (List<String> recipientsWithSameRank : recipientAverageRank.values()) {
+            for (String recipient : recipientsWithSameRank) {
+                normalizedOverallRanking.put(recipient, currentRank);
+            }
+            currentRank += recipientsWithSameRank.size();
+        }
+
+        return normalizedOverallRanking;
     }
 
     public boolean isAreDuplicatesAllowed() {

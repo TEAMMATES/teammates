@@ -173,19 +173,19 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
         Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(feedbackQuestionId);
 
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         // Add an empty option first.
         result.add("<option value=\"\" " + (currentlySelectedOption == null ? "selected>" : ">")
                    + "</option>");
 
-        for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {
-            boolean isSelected = SanitizationHelper.desanitizeFromHtml(pair.getKey())
+        emailNamePair.forEach((key, value) -> {
+            boolean isSelected = SanitizationHelper.desanitizeFromHtml(key)
                                              .equals(currentlySelectedOption);
-            result.add("<option value=\"" + sanitizeForHtml(pair.getKey()) + "\"" + (isSelected ? " selected" : "") + ">"
-                           + sanitizeForHtml(pair.getValue())
+            result.add("<option value=\"" + sanitizeForHtml(key) + "\"" + (isSelected ? " selected" : "") + ">"
+                           + sanitizeForHtml(value)
                        + "</option>"
             );
-        }
+        });
 
         return result;
     }
@@ -202,7 +202,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     private void createQuestionsWithResponses() {
-        questionsWithResponses = new ArrayList<StudentFeedbackSubmissionEditQuestionsWithResponses>();
+        questionsWithResponses = new ArrayList<>();
         int qnIndx = 1;
 
         for (FeedbackQuestionAttributes questionAttributes : bundle.getSortedQuestions()) {
@@ -230,7 +230,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     private List<FeedbackSubmissionEditResponse> createResponses(
                                     FeedbackQuestionAttributes questionAttributes, int qnIndx, int numOfResponseBoxes) {
-        List<FeedbackSubmissionEditResponse> responses = new ArrayList<FeedbackSubmissionEditResponse>();
+        List<FeedbackSubmissionEditResponse> responses = new ArrayList<>();
 
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
         int responseIndx = 0;
@@ -247,7 +247,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                             .getQuestionWithExistingResponseSubmissionFormHtml(
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
                                                 questionAttributes.courseId, numOfResponseBoxes,
-                                                existingResponse.getResponseDetails());
+                                                existingResponse.getResponseDetails(), student);
 
             responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
                                                                  submissionFormHtml, existingResponse.getId()));
@@ -259,7 +259,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithoutExistingResponseSubmissionFormHtml(
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
-                                                questionAttributes.courseId, numOfResponseBoxes);
+                                                questionAttributes.courseId, numOfResponseBoxes, student);
 
             responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
                                                              submissionFormHtml, ""));

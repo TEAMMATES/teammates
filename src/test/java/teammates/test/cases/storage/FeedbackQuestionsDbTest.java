@@ -46,8 +46,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 fqDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
 
         // Assert dates are now.
-        AssertHelper.assertDateIsNow(feedbackQuestion.getCreatedAt());
-        AssertHelper.assertDateIsNow(feedbackQuestion.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(feedbackQuestion.getCreatedAt());
+        AssertHelper.assertInstantIsNow(feedbackQuestion.getUpdatedAt());
 
         ______TS("success : update lastUpdated");
 
@@ -59,7 +59,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
-        AssertHelper.assertDateIsNow(updatedFq.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(updatedFq.getUpdatedAt());
 
         ______TS("success : keep lastUpdated");
 
@@ -361,16 +361,16 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.questionType = FeedbackQuestionType.TEXT;
         fqa.setQuestionDetails(questionDetails);
 
-        fqa.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-        fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
-        fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+        fqa.showGiverNameTo = new ArrayList<>();
+        fqa.showRecipientNameTo = new ArrayList<>();
+        fqa.showResponsesTo = new ArrayList<>();
 
         return fqa;
     }
 
     private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
         FeedbackQuestionAttributes fqa;
-        List<FeedbackQuestionAttributes> returnVal = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> returnVal = new ArrayList<>();
 
         for (int i = 1; i <= num; i++) {
             fqa = getNewFeedbackQuestionAttributes();

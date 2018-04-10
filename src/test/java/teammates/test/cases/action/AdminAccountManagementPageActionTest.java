@@ -22,8 +22,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
 
         ______TS("case: view admin acount management page");
 
-        String[] submissionParams = new String[] {
-        };
+        String[] submissionParams = new String[] {};
 
         final String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
@@ -47,7 +46,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyOnlyAdminsCanAccess(submissionParams);
     }
 

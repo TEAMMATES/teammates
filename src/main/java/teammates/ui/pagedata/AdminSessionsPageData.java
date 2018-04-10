@@ -100,7 +100,7 @@ public class AdminSessionsPageData extends PageData {
 
     @SuppressWarnings("deprecation")
     public List<String> getHourOptionsAsHtml(Date date) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i <= 23; i++) {
             result.add("<option value=\"" + i + "\"" + " "
                        + (date.getHours() == i ? "selected" : "")
@@ -111,7 +111,7 @@ public class AdminSessionsPageData extends PageData {
 
     @SuppressWarnings("deprecation")
     public List<String> getMinuteOptionsAsHtml(Date date) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i <= 59; i++) {
             result.add("<option value=\"" + i + "\"" + " "
                        + (date.getMinutes() == i ? "selected" : "")
@@ -165,39 +165,39 @@ public class AdminSessionsPageData extends PageData {
 
     public List<AdminFeedbackSessionRow> getFeedbackSessionRows(
             List<FeedbackSessionAttributes> feedbackSessions, Map<String, String> sessionToInstructorIdMap) {
-        List<AdminFeedbackSessionRow> feedbackSessionRows = new ArrayList<AdminFeedbackSessionRow>();
+        List<AdminFeedbackSessionRow> feedbackSessionRows = new ArrayList<>();
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             String googleId = sessionToInstructorIdMap.get(feedbackSession.getIdentificationString());
             feedbackSessionRows.add(new AdminFeedbackSessionRow(
-                                            getSessionStatusForShow(feedbackSession),
-                                            getFeedbackSessionStatsLink(
-                                                    feedbackSession.getCourseId(),
-                                                    feedbackSession.getFeedbackSessionName(),
-                                                    googleId),
-                                            TimeHelper.formatTime12H(feedbackSession.getSessionStartTime()),
-                                            TimeHelper.formatTime12H(feedbackSession.getSessionEndTime()),
-                                            getInstructorHomePageViewLink(googleId),
-                                            feedbackSession.getCreatorEmail(),
-                                            feedbackSession.getCourseId(),
-                                            feedbackSession.getFeedbackSessionName()));
+                    getSessionStatusForShow(feedbackSession),
+                    getFeedbackSessionStatsLink(
+                            feedbackSession.getCourseId(),
+                            feedbackSession.getFeedbackSessionName(),
+                            googleId),
+                    TimeHelper.formatTime12H(feedbackSession.getStartTimeLocal()),
+                    feedbackSession.getStartTimeInIso8601UtcFormat(),
+                    TimeHelper.formatTime12H(feedbackSession.getEndTimeLocal()),
+                    feedbackSession.getEndTimeInIso8601UtcFormat(),
+                    getInstructorHomePageViewLink(googleId),
+                    feedbackSession.getCreatorEmail(),
+                    feedbackSession.getCourseId(),
+                    feedbackSession.getFeedbackSessionName()));
         }
         return feedbackSessionRows;
     }
 
     private void setFilter() {
-        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart),
-                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd),
-                                 getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
-                                 getTimeZoneOptionsAsHtml());
+        filter = new AdminFilter(
+                TimeHelper.formatDateForSessionsForm(rangeStart), getHourOptionsAsHtml(rangeStart),
+                getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDateForSessionsForm(rangeEnd),
+                getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd), getTimeZoneOptionsAsHtml());
     }
 
     public void setInstitutionPanels(
             Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap) {
-        institutionPanels = new ArrayList<InstitutionPanel>();
-        for (Map.Entry<String, List<FeedbackSessionAttributes>> entry : map.entrySet()) {
-            institutionPanels.add(
-                    new InstitutionPanel(
-                            entry.getKey(), getFeedbackSessionRows(entry.getValue(), sessionToInstructorIdMap)));
-        }
+        institutionPanels = new ArrayList<>();
+        map.forEach((key, feedbackSessionAttributesList) -> institutionPanels.add(
+                new InstitutionPanel(
+                        key, getFeedbackSessionRows(feedbackSessionAttributesList, sessionToInstructorIdMap))));
     }
 }

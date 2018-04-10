@@ -74,14 +74,6 @@ public final class StudentsLogic {
 
     }
 
-    /**
-     * Gets all students in the database.
-     */
-    @SuppressWarnings("deprecation")
-    public List<StudentAttributes> getAllStudents() {
-        return studentsDb.getAllStudents();
-    }
-
     public StudentAttributes getStudentForEmail(String courseId, String email) {
         return studentsDb.getStudentForEmail(courseId, email);
     }
@@ -297,8 +289,8 @@ public final class StudentsLogic {
         }
 
         List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
-        ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
+        ArrayList<StudentAttributes> returnList = new ArrayList<>();
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSectionsAndTeams(studentList, courseId);
@@ -373,7 +365,7 @@ public final class StudentsLogic {
 
     private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
 
-        List<StudentAttributes> mergedList = new ArrayList<StudentAttributes>();
+        List<StudentAttributes> mergedList = new ArrayList<>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
 
         for (StudentAttributes student : studentList) {
@@ -401,7 +393,7 @@ public final class StudentsLogic {
 
         StudentAttributes.sortBySectionName(mergedList);
 
-        List<String> invalidSectionList = new ArrayList<String>();
+        List<String> invalidSectionList = new ArrayList<>();
         int studentsCount = 1;
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
@@ -432,7 +424,7 @@ public final class StudentsLogic {
 
         StudentAttributes.sortByTeamName(mergedList);
 
-        List<String> invalidTeamList = new ArrayList<String>();
+        List<String> invalidTeamList = new ArrayList<>();
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
@@ -454,6 +446,13 @@ public final class StudentsLogic {
         }
 
         return errorMessage.toString();
+    }
+
+    public void deleteAllStudentsInCourse(String courseId) {
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+        for (StudentAttributes student : studentsInCourse) {
+            deleteStudentCascade(courseId, student.email);
+        }
     }
 
     public void deleteStudentCascade(String courseId, String studentEmail) {
@@ -523,10 +522,6 @@ public final class StudentsLogic {
         }
     }
 
-    public void putDocument(StudentAttributes student) {
-        studentsDb.putDocument(student);
-    }
-
     /**
      * Batch creates or updates documents for the given students.
      */
@@ -576,41 +571,33 @@ public final class StudentsLogic {
      *         invalidity info for all invalid student instances in HTML format.
      */
     public List<StudentAttributes> createStudents(String lines, String courseId) throws EnrollException {
-        List<String> invalidityInfo = new ArrayList<String>();
-        String[] linesArray = lines.split(Const.EOL);
-        ArrayList<String> studentEmailList = new ArrayList<String>();
-        List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+        List<String> invalidityInfo = new ArrayList<>();
+        String[] linesArray = lines.split(System.lineSeparator());
+        List<StudentAttributes> studentList = new ArrayList<>();
 
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
 
         for (int i = 1; i < linesArray.length; i++) {
             String line = linesArray[i];
             String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
+            if (StringHelper.isWhiteSpace(line)) {
+                continue;
+            }
             try {
-                if (StringHelper.isWhiteSpace(line)) {
-                    continue;
-                }
                 StudentAttributes student = saf.makeStudent(line, courseId);
 
                 if (!student.isValid()) {
-                    String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
-                                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+                    invalidityInfo.add(invalidStudentInfo(sanitizedLine, student));
                 }
 
-                if (isStudentEmailDuplicated(student.email, studentEmailList)) {
-                    String info =
-                            StringHelper.toString(
-                                    getInvalidityInfoInDuplicatedEmail(student.email, studentEmailList, linesArray),
-                                    "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-                    invalidityInfo.add(String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, info));
+                int duplicateEmailIndex = getDuplicateEmailIndex(student.email, studentList);
+                if (duplicateEmailIndex != -1) {
+                    invalidityInfo.add(duplicateEmailInfo(sanitizedLine, linesArray[duplicateEmailIndex + 1]));
                 }
 
-                studentEmailList.add(student.email);
                 studentList.add(student);
             } catch (EnrollException e) {
-                String info = String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, sanitizedLine, e.getMessage());
-                invalidityInfo.add(info);
+                invalidityInfo.add(enrollExceptionInfo(sanitizedLine, e.getMessage()));
             }
         }
 
@@ -621,16 +608,46 @@ public final class StudentsLogic {
         return studentList;
     }
 
-    private List<String> getInvalidityInfoInDuplicatedEmail(String email,
-            List<String> studentEmailList, String[] linesArray) {
-        List<String> info = new ArrayList<String>();
-        info.add("Same email address as the student in line \"" + linesArray[studentEmailList.indexOf(email) + 1] + "\"");
-        return info;
+    /**
+     * Returns a {@code String} containing the invalid information of the {@code student}
+     * and the corresponding sanitized invalid {@code userInput}.
+     */
+    private String invalidStudentInfo(String userInput, StudentAttributes student) {
+        String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
+                "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
     }
 
-    private boolean isStudentEmailDuplicated(String email,
-            List<String> studentEmailList) {
-        return studentEmailList.contains(email);
+    /**
+     * Returns the index of the first occurrence of the duplicate {@code email} in
+     * {@code studentList}, or -1 if {@code email} is not a duplicate in {@code studentList}.
+     */
+    private int getDuplicateEmailIndex(String email, List<StudentAttributes> studentList) {
+        for (int index = 0; index < studentList.size(); index++) {
+            if (studentList.get(index).email.equals(email)) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo} and
+     * the corresponding sanitized invalid {@code userInput}.
+     */
+    private String duplicateEmailInfo(String userInput, String duplicateEmailInfo) {
+        String info =
+                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\""
+                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
+    }
+
+    /**
+     * Returns a {@code String} containing the enrollment exception information using the {@code errorMessage}
+     * and the corresponding sanitized invalid {@code userInput}.
+     */
+    private String enrollExceptionInfo(String userInput, String errorMessage) {
+        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, errorMessage);
     }
 
     private boolean isInEnrollList(StudentAttributes student,

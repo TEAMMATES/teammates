@@ -215,10 +215,8 @@ public final class NationalityHelper {
             "Other"
     };
 
-    /**
-     * This prevents instantiation. This is necessary because this is a utility class.
-     */
     private NationalityHelper() {
+        // utility class
     }
 
     /**

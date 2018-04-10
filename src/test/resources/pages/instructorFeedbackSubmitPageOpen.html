@@ -10,8 +10,13 @@
     <input name="courseid" type="hidden" value="IFSubmitUiT.CS2104">
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IFSubmitUiT.instr">
-    <div id="statusMessagesToUser" style="display: none;">
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-info icon-info statusMessage">
+        Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session.
+      </div>
     </div>
+    <script defer="" src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">
@@ -41,8 +46,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2012-04-01T15:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -51,8 +56,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Thu, 30 Apr 2026, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2026-04-30T15:59:00Z" id="end-time">
+                  Thu, 30 Apr 2026, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -97,23 +102,23 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -166,40 +171,48 @@
               The receiving students can see your response, but not your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.alice.b@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="IFSubmitUiT.benny.c@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="IFSubmitUiT.charlie.d@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="IFSubmitUiT.danny.e@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="drop.out@gmail.tmt">
+                    Drop out
+                  </option>
+                  <option value="IFSubmitUiT.emily.f@gmail.tmt">
+                    Emily
+                  </option>
+                  <option value="extra.guy@gmail.tmt">
+                    Extra guy
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.alice.b@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="IFSubmitUiT.benny.c@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option value="IFSubmitUiT.charlie.d@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option value="IFSubmitUiT.danny.e@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option value="drop.out@gmail.tmt">
-                  Drop out
-                </option>
-                <option value="IFSubmitUiT.emily.f@gmail.tmt">
-                  Emily
-                </option>
-                <option value="extra.guy@gmail.tmt">
-                  Extra guy
-                </option>
-              </select>
+              (Student):
             </div>
-            <div class="col-sm-8">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-7">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -225,38 +238,38 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.alice.b@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="IFSubmitUiT.benny.c@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="IFSubmitUiT.charlie.d@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="IFSubmitUiT.danny.e@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="drop.out@gmail.tmt">
+                    Drop out
+                  </option>
+                  <option value="IFSubmitUiT.emily.f@gmail.tmt">
+                    Emily
+                  </option>
+                  <option value="extra.guy@gmail.tmt">
+                    Extra guy
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.alice.b@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="IFSubmitUiT.benny.c@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option value="IFSubmitUiT.charlie.d@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option value="IFSubmitUiT.danny.e@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option value="drop.out@gmail.tmt">
-                  Drop out
-                </option>
-                <option value="IFSubmitUiT.emily.f@gmail.tmt">
-                  Emily
-                </option>
-                <option value="extra.guy@gmail.tmt">
-                  Extra guy
-                </option>
-              </select>
+              (Student):
             </div>
-            <div class="col-sm-8">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-2-1" data-recommended-text="0" id="responsetext-2-1" name="responsetext-2-1" spellcheck="false" style="position: relative;">
+            <div class="col-sm-7">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-1" data-recommended-text="0" id="responsetext-2-1" name="responsetext-2-1" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -282,38 +295,38 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.alice.b@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="IFSubmitUiT.benny.c@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="IFSubmitUiT.charlie.d@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="IFSubmitUiT.danny.e@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="drop.out@gmail.tmt">
+                    Drop out
+                  </option>
+                  <option value="IFSubmitUiT.emily.f@gmail.tmt">
+                    Emily
+                  </option>
+                  <option value="extra.guy@gmail.tmt">
+                    Extra guy
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.alice.b@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="IFSubmitUiT.benny.c@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option value="IFSubmitUiT.charlie.d@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option value="IFSubmitUiT.danny.e@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option value="drop.out@gmail.tmt">
-                  Drop out
-                </option>
-                <option value="IFSubmitUiT.emily.f@gmail.tmt">
-                  Emily
-                </option>
-                <option value="extra.guy@gmail.tmt">
-                  Extra guy
-                </option>
-              </select>
+              (Student):
             </div>
-            <div class="col-sm-8">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-2-2" data-recommended-text="0" id="responsetext-2-2" name="responsetext-2-2" spellcheck="false" style="position: relative;">
+            <div class="col-sm-7">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-2" data-recommended-text="0" id="responsetext-2-2" name="responsetext-2-2" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -365,23 +378,23 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="%GENERAL%">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="%GENERAL%">
+                    %GENERAL%
+                  </option>
+                </select>
+                <span>
                   %GENERAL%
-                </option>
-              </select>
-              <span>
-                %GENERAL%
-              </span>
+                </span>
+              </label>
+              :
             </div>
             <div class="col-sm-12">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-3-0" data-recommended-text="0" id="responsetext-3-0" name="responsetext-3-0" spellcheck="false" style="position: relative;">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-3-0" data-recommended-text="0" id="responsetext-3-0" name="responsetext-3-0" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -431,34 +444,42 @@
               The receiving instructors can see your response, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
+                <span>
                   Teammates Test2
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
-              <span>
-                Teammates Test2
-              </span>
+                </span>
+              </label>
+              (Instructor):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-4-0" data-recommended-text="0" id="responsetext-4-0" name="responsetext-4-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-0" data-recommended-text="0" id="responsetext-4-0" name="responsetext-4-0" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -484,32 +505,32 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
+                <span>
                   Teammates Test3
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
-              <span>
-                Teammates Test3
-              </span>
+                </span>
+              </label>
+              (Instructor):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-4-1" data-recommended-text="0" id="responsetext-4-1" name="responsetext-4-1" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-1" data-recommended-text="0" id="responsetext-4-1" name="responsetext-4-1" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -535,32 +556,32 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-2" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
+                <span>
                   Teammates Test4
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
-              <span>
-                Teammates Test4
-              </span>
+                </span>
+              </label>
+              (Instructor):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-4-2" data-recommended-text="0" id="responsetext-4-2" name="responsetext-4-2" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-2" data-recommended-text="0" id="responsetext-4-2" name="responsetext-4-2" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -586,32 +607,32 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-3" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-3" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
+                <span>
                   Teammates Test5
-                </option>
-              </select>
-              <span>
-                Teammates Test5
-              </span>
+                </span>
+              </label>
+              (Instructor):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-4-3" data-recommended-text="0" id="responsetext-4-3" name="responsetext-4-3" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-3" data-recommended-text="0" id="responsetext-4-3" name="responsetext-4-3" spellcheck="false" style="position: relative;">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -666,20 +687,20 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-5-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-5-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -734,30 +755,38 @@
               The receiving instructors can see your response, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-0" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-0" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <table>
                 <tbody>
                   <tr>
@@ -786,28 +815,28 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-1" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-1" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <table>
                 <tbody>
                   <tr>
@@ -836,28 +865,28 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-2" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-2" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <table>
                 <tbody>
                   <tr>
@@ -915,22 +944,28 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -977,6 +1012,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-7" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-7" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -1005,30 +1042,44 @@
               The receiving instructors can see your response, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-0" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-0" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1075,32 +1126,40 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-8" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-8" type="hidden" value="-1">
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-1" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-1" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1147,32 +1206,40 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-8" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-8" type="hidden" value="-1">
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-2" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-2" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1219,6 +1286,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-8" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-8" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -1252,20 +1321,20 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -1375,22 +1444,28 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1477,6 +1552,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-10" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-10" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -1510,20 +1587,20 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-11-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-11-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -1593,22 +1670,28 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-12-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-12-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -1655,6 +1738,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-12" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-12" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -1688,20 +1773,20 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-13-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-13-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
@@ -1741,30 +1826,38 @@
               The receiving instructors can see your response, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-0" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-0" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div class="col-sm-3 mobile-no-padding">
                 <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-14-0" onchange="validateNumScaleAnswer(14, 0)" step="0.5" type="number" value="">
                 <input name="numscalemin-14-0" type="hidden" value="1">
@@ -1778,28 +1871,28 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-1" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-1" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div class="col-sm-3 mobile-no-padding">
                 <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-14-1" onchange="validateNumScaleAnswer(14, 1)" step="0.5" type="number" value="">
                 <input name="numscalemin-14-1" type="hidden" value="1">
@@ -1813,28 +1906,28 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-2" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-2" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
+              (Instructor):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div class="col-sm-3 mobile-no-padding">
                 <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-14-2" onchange="validateNumScaleAnswer(14, 2)" step="0.5" type="number" value="">
                 <input name="numscalemin-14-2" type="hidden" value="1">
@@ -1877,20 +1970,20 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -1980,22 +2073,28 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-16-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-16-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -2062,6 +2161,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-16" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-16" type="hidden" value="-1">
             </div>
           </div>
         </div>
@@ -2095,55 +2196,53 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-17-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-17-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-12 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Grades
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-17-0-0" min="0" name="responsetext-17-0" onchange="updateConstSumMessageQn('17')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Grades
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-17-0-0" min="0" name="responsetext-17-0" onchange="updateConstSumMessageQn('17')" step="1" type="number" value="">
                 </div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Fun
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-17-0-1" min="0" name="responsetext-17-0" onchange="updateConstSumMessageQn('17')" step="1" type="number" value="">
-                  </div>
+              </div>
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Fun
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-17-0-1" min="0" name="responsetext-17-0" onchange="updateConstSumMessageQn('17')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-17-0">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-17-0">
-                      Please distribute 100 points among the above options.
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-17" type="hidden" value="false">
-                <input id="constSumPointsPerOption-17" type="hidden" value="false">
-                <input id="constSumNumOption-17" type="hidden" value="2">
-                <input id="constSumPoints-17" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-17" type="hidden" value="false">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-17-0">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-17-0">
+                  Please distribute 100 points among the above options.
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-17" type="hidden" value="false">
+            <input id="constSumPointsPerOption-17" type="hidden" value="false">
+            <input id="constSumNumOption-17" type="hidden" value="2">
+            <input id="constSumPoints-17" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-17" type="hidden" value="false">
           </div>
         </div>
       </div>
@@ -2174,150 +2273,152 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="Team 1</td></div>'&quot;">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 1&lt;/td&gt;&lt;/div&gt;'"
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel" style="display:none">
-                  </label>
-                  <div class="">
-                    <input class="form-control pointsBox" id="responsetext-18-0-0" min="0" name="responsetext-18-0" onchange="updateConstSumMessageQn('18')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label" style="display:none">
+                </label>
+                <div class="">
+                  <input class="form-control pointsBox" id="responsetext-18-0-0" min="0" name="responsetext-18-0" onchange="updateConstSumMessageQn('18')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-18-0" style="display:none">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-18-0">
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-18" type="hidden" value="true">
-                <input id="constSumPointsPerOption-18" type="hidden" value="true">
-                <input id="constSumNumOption-18" type="hidden" value="0">
-                <input id="constSumPoints-18" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-18" type="hidden" value="false">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-18-0" style="display:none">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-18-0">
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-18" type="hidden" value="true">
+            <input id="constSumPointsPerOption-18" type="hidden" value="true">
+            <input id="constSumNumOption-18" type="hidden" value="0">
+            <input id="constSumPoints-18" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-18" type="hidden" value="false">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-1" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</td></div>'&quot;">
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="Team 2">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 2
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel" style="display:none">
-                  </label>
-                  <div class="">
-                    <input class="form-control pointsBox" id="responsetext-18-1-0" min="0" name="responsetext-18-1" onchange="updateConstSumMessageQn('18')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label" style="display:none">
+                </label>
+                <div class="">
+                  <input class="form-control pointsBox" id="responsetext-18-1-0" min="0" name="responsetext-18-1" onchange="updateConstSumMessageQn('18')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-18-1" style="display:none">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-18-1">
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-18" type="hidden" value="true">
-                <input id="constSumPointsPerOption-18" type="hidden" value="true">
-                <input id="constSumNumOption-18" type="hidden" value="0">
-                <input id="constSumPoints-18" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-18" type="hidden" value="false">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-18-1" style="display:none">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-18-1">
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-18" type="hidden" value="true">
+            <input id="constSumPointsPerOption-18" type="hidden" value="true">
+            <input id="constSumNumOption-18" type="hidden" value="0">
+            <input id="constSumPoints-18" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-18" type="hidden" value="false">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-2" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</td></div>'&quot;">
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option value="Team 3">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 3
-                </option>
-              </select>
-              <span>
-                Team 3
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel" style="display:none">
-                  </label>
-                  <div class="">
-                    <input class="form-control pointsBox" id="responsetext-18-2-0" min="0" name="responsetext-18-2" onchange="updateConstSumMessageQn('18')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label" style="display:none">
+                </label>
+                <div class="">
+                  <input class="form-control pointsBox" id="responsetext-18-2-0" min="0" name="responsetext-18-2" onchange="updateConstSumMessageQn('18')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-18-2" style="">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-18-2">
-                      Please distribute 300 points among the above recipients.
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-18" type="hidden" value="true">
-                <input id="constSumPointsPerOption-18" type="hidden" value="true">
-                <input id="constSumNumOption-18" type="hidden" value="0">
-                <input id="constSumPoints-18" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-18" type="hidden" value="false">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-18-2" style="">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-18-2">
+                  Please distribute 300 points among the above recipients.
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-18" type="hidden" value="true">
+            <input id="constSumPointsPerOption-18" type="hidden" value="true">
+            <input id="constSumNumOption-18" type="hidden" value="0">
+            <input id="constSumPoints-18" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-18" type="hidden" value="false">
           </div>
         </div>
       </div>
@@ -2348,150 +2449,152 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="Team 1</td></div>'&quot;">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 1&lt;/td&gt;&lt;/div&gt;'"
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel" style="display:none">
-                  </label>
-                  <div class="">
-                    <input class="form-control pointsBox" id="responsetext-19-0-0" min="0" name="responsetext-19-0" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label" style="display:none">
+                </label>
+                <div class="">
+                  <input class="form-control pointsBox" id="responsetext-19-0-0" min="0" name="responsetext-19-0" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-19-0" style="display:none">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-19-0">
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-19" type="hidden" value="true">
-                <input id="constSumPointsPerOption-19" type="hidden" value="true">
-                <input id="constSumNumOption-19" type="hidden" value="0">
-                <input id="constSumPoints-19" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-19" type="hidden" value="true">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-19-0" style="display:none">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-19-0">
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-19" type="hidden" value="true">
+            <input id="constSumPointsPerOption-19" type="hidden" value="true">
+            <input id="constSumNumOption-19" type="hidden" value="0">
+            <input id="constSumPoints-19" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-19" type="hidden" value="true">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</td></div>'&quot;">
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="Team 2">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 2
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel" style="display:none">
-                  </label>
-                  <div class="">
-                    <input class="form-control pointsBox" id="responsetext-19-1-0" min="0" name="responsetext-19-1" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label" style="display:none">
+                </label>
+                <div class="">
+                  <input class="form-control pointsBox" id="responsetext-19-1-0" min="0" name="responsetext-19-1" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-19-1" style="display:none">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-19-1">
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-19" type="hidden" value="true">
-                <input id="constSumPointsPerOption-19" type="hidden" value="true">
-                <input id="constSumNumOption-19" type="hidden" value="0">
-                <input id="constSumPoints-19" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-19" type="hidden" value="true">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-19-1" style="display:none">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-19-1">
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-19" type="hidden" value="true">
+            <input id="constSumPointsPerOption-19" type="hidden" value="true">
+            <input id="constSumNumOption-19" type="hidden" value="0">
+            <input id="constSumPoints-19" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-19" type="hidden" value="true">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-2" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</td></div>'&quot;">
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option value="Team 3">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 3
-                </option>
-              </select>
-              <span>
-                Team 3
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel" style="display:none">
-                  </label>
-                  <div class="">
-                    <input class="form-control pointsBox" id="responsetext-19-2-0" min="0" name="responsetext-19-2" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label" style="display:none">
+                </label>
+                <div class="">
+                  <input class="form-control pointsBox" id="responsetext-19-2-0" min="0" name="responsetext-19-2" onchange="updateConstSumMessageQn('19')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-19-2" style="">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-19-2">
-                      Please distribute 300 points among the above recipients.
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-19" type="hidden" value="true">
-                <input id="constSumPointsPerOption-19" type="hidden" value="true">
-                <input id="constSumNumOption-19" type="hidden" value="0">
-                <input id="constSumPoints-19" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-19" type="hidden" value="true">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-19-2" style="">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-19-2">
+                  Please distribute 300 points among the above recipients.
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-19" type="hidden" value="true">
+            <input id="constSumPointsPerOption-19" type="hidden" value="true">
+            <input id="constSumNumOption-19" type="hidden" value="0">
+            <input id="constSumPoints-19" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-19" type="hidden" value="true">
           </div>
         </div>
       </div>
@@ -2522,203 +2625,205 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="Team 1</td></div>'&quot;">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 1&lt;/td&gt;&lt;/div&gt;'"
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Design
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-0-0" min="0" name="responsetext-20-0" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Design
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-0-0" min="0" name="responsetext-20-0" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Usability
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-0-1" min="0" name="responsetext-20-0" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+              </div>
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Usability
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-0-1" min="0" name="responsetext-20-0" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Algo
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-0-2" min="0" name="responsetext-20-0" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+              </div>
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Algo
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-0-2" min="0" name="responsetext-20-0" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-20-0">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-20-0">
-                      Please distribute 100 points among the above options.
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-20" type="hidden" value="false">
-                <input id="constSumPointsPerOption-20" type="hidden" value="false">
-                <input id="constSumNumOption-20" type="hidden" value="3">
-                <input id="constSumPoints-20" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-20" type="hidden" value="true">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-20-0">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-20-0">
+                  Please distribute 100 points among the above options.
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-20" type="hidden" value="false">
+            <input id="constSumPointsPerOption-20" type="hidden" value="false">
+            <input id="constSumNumOption-20" type="hidden" value="3">
+            <input id="constSumPoints-20" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-20" type="hidden" value="true">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-1" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</td></div>'&quot;">
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="Team 2">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 2
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Design
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-1-0" min="0" name="responsetext-20-1" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Design
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-1-0" min="0" name="responsetext-20-1" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Usability
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-1-1" min="0" name="responsetext-20-1" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+              </div>
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Usability
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-1-1" min="0" name="responsetext-20-1" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Algo
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-1-2" min="0" name="responsetext-20-1" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+              </div>
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Algo
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-1-2" min="0" name="responsetext-20-1" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-20-1">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-20-1">
-                      Please distribute 100 points among the above options.
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-20" type="hidden" value="false">
-                <input id="constSumPointsPerOption-20" type="hidden" value="false">
-                <input id="constSumNumOption-20" type="hidden" value="3">
-                <input id="constSumPoints-20" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-20" type="hidden" value="true">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-20-1">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-20-1">
+                  Please distribute 100 points among the above options.
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-20" type="hidden" value="false">
+            <input id="constSumPointsPerOption-20" type="hidden" value="false">
+            <input id="constSumNumOption-20" type="hidden" value="3">
+            <input id="constSumPoints-20" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-20" type="hidden" value="true">
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-2" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</td></div>'&quot;">
-                  Team 1&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option value="Team 3">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                    Team 1&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 3
-                </option>
-              </select>
-              <span>
-                Team 3
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10 width-auto">
-              <div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Design
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-2-0" min="0" name="responsetext-20-2" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+            <div class="col-sm-6 width-auto">
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Design
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-2-0" min="0" name="responsetext-20-2" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Usability
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-2-1" min="0" name="responsetext-20-2" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+              </div>
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Usability
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-2-1" min="0" name="responsetext-20-2" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="margin-bottom-15px flex">
-                  <label class="constSumOptionsLabel">
-                    Algo
-                  </label>
-                  <div class="margin-left-auto">
-                    <input class="form-control pointsBox" id="responsetext-20-2-2" min="0" name="responsetext-20-2" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
-                  </div>
+              </div>
+              <div class="margin-bottom-15px flex">
+                <label class="const-sum-options-label">
+                  Algo
+                </label>
+                <div class="margin-left-auto">
+                  <input class="form-control pointsBox" id="responsetext-20-2-2" min="0" name="responsetext-20-2" onchange="updateConstSumMessageQn('20')" step="1" type="number" value="">
                 </div>
-                <div class="form-group" id="constSumInfo-20-2">
-                  <div class="col-sm-offset-4 col-sm-6 col-md-offset-2 col-md-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="constSumMessage-20-2">
-                      Please distribute 100 points among the above options.
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="constSumToRecipients-20" type="hidden" value="false">
-                <input id="constSumPointsPerOption-20" type="hidden" value="false">
-                <input id="constSumNumOption-20" type="hidden" value="3">
-                <input id="constSumPoints-20" type="hidden" value="100">
-                <input id="constSumUnevenDistribution-20" type="hidden" value="true">
               </div>
             </div>
+            <div class="form-group" id="constSumInfo-20-2">
+              <div class="col-sm-6 text-center" style="clear: both;">
+                <hr class="margin-top-0">
+                <p class="text-color-blue" id="constSumMessage-20-2">
+                  Please distribute 100 points among the above options.
+                </p>
+                <hr>
+              </div>
+            </div>
+            <input id="constSumToRecipients-20" type="hidden" value="false">
+            <input id="constSumPointsPerOption-20" type="hidden" value="false">
+            <input id="constSumNumOption-20" type="hidden" value="3">
+            <input id="constSumPoints-20" type="hidden" value="100">
+            <input id="constSumUnevenDistribution-20" type="hidden" value="true">
           </div>
         </div>
       </div>
@@ -2751,22 +2856,28 @@
           </ul>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="display:none">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-21-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="display:none">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-21-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                    Myself
+                  </option>
+                </select>
+                <span>
                   Myself
-                </option>
-              </select>
-              <span>
-                Myself
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
             <div class="col-sm-12">
+              <p class="text-muted" hidden="">
+                You need to choose at least -1 options.
+              </p>
+              <p class="text-muted" hidden="">
+                You cannot choose more than -1 options.
+              </p>
               <table>
                 <tbody>
                   <tr>
@@ -2813,6 +2924,8 @@
                   </tr>
                 </tbody>
               </table>
+              <input disabled="" name="msqMaxSelectableChoices-21" type="hidden" value="-1">
+              <input disabled="" name="msqMinSelectableChoices-21" type="hidden" value="-1">
             </div>
           </div>
         </div>

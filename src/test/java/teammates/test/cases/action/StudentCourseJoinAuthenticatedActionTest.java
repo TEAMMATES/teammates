@@ -5,9 +5,11 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
@@ -242,16 +244,23 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
 
         ______TS("typical case");
 
-        AccountAttributes newStudentAccount = new AccountAttributes(
-                "idOfNewStudent", "nameOfNewStudent", false,
-                "newStudent@gmail.com", "TEAMMATES Test Institute 5");
+        AccountAttributes newStudentAccount = AccountAttributes.builder()
+                .withGoogleId("idOfNewStudent")
+                .withName("nameOfNewStudent")
+                .withEmail("newStudent@gmail.com")
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes("idOfNewStudent")
+                .build();
+
         accountsDb.createAccount(newStudentAccount);
 
-        StudentAttributes newStudentAttributes = new StudentAttributes(
-                student1InCourse1.section,
-                student1InCourse1.team,
-                "nameOfNewStudent", "newStudent@course1.com",
-                "This is a new student", student1InCourse1.course);
+        StudentAttributes newStudentAttributes = StudentAttributes
+                .builder(student1InCourse1.course, "nameOfNewStudent", "newStudent@course1.com")
+                .withSection(student1InCourse1.section)
+                .withTeam(student1InCourse1.team)
+                .withComments("This is a new student")
+                .build();
 
         studentsDb.createEntity(newStudentAttributes);
         newStudentAttributes = studentsDb.getStudentForEmail(
@@ -278,6 +287,40 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                               "[idOfTypicalCourse1] Typical Course 1 with 2 Evals"),
                 redirectResult.getStatusMessage());
 
+        ______TS("typical case: data requires sanitization");
+
+        AccountAttributes accountTestSanitization = dataBundle.accounts.get("student1InTestingSanitizationCourse");
+        StudentAttributes studentTestSanitization = dataBundle.students.get("student1InTestingSanitizationCourse");
+        CourseAttributes courseTestSanitization = dataBundle.courses.get("testingSanitizationCourse");
+
+        gaeSimulation.loginUser(accountTestSanitization.googleId);
+
+        // retrieve student from datastore to get regkey
+        studentTestSanitization =
+                studentsDb.getStudentForEmail(studentTestSanitization.course, studentTestSanitization.email);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY,
+                StringHelper.encrypt(studentTestSanitization.key),
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE
+        };
+
+        authenticatedAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(authenticatedAction);
+
+        assertEquals(
+                Const.ActionURIs.STUDENT_PROFILE_PAGE
+                        + "?persistencecourse=" + courseTestSanitization.getId()
+                        + "&error=false&user=" + accountTestSanitization.googleId,
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        String courseIdentifier = "[" + courseTestSanitization.getId() + "] "
+                + SanitizationHelper.sanitizeForHtml(courseTestSanitization.getName());
+        String expectedStatusMessage =
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseIdentifier) + "<br>"
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, courseIdentifier) + "<br>"
+                + accountTestSanitization.studentProfile.generateUpdateMessageForStudent();
+        assertEquals(expectedStatusMessage, redirectResult.getStatusMessage());
     }
 
     @Override
@@ -297,8 +340,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     @Test
     protected void testAccessControl() throws Exception {
 
-        dataBundle = getTypicalDataBundle();
-        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        StudentAttributes unregStudent1 = typicalBundle.students.get("student1InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(key),

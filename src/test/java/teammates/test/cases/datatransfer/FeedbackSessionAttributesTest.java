@@ -1,36 +1,104 @@
 package teammates.test.cases.datatransfer;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.TimeHelperExtension;
 
 /**
  * SUT: {@link FeedbackSessionAttributes}.
  */
 public class FeedbackSessionAttributesTest extends BaseTestCase {
-    private Date startTime;
-    private Date endTime;
+    private Instant startTime;
+    private Instant endTime;
 
     private FeedbackSessionAttributes fsa;
 
     @BeforeClass
     public void classSetup() {
-        startTime = TimeHelper.combineDateTime("09/05/2016", "1000");
-        endTime = TimeHelper.combineDateTime("09/05/2017", "1000");
+        ZoneId timeZone = ZoneId.of("Asia/Singapore");
+        startTime = TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelper.combineDateTime("Mon, 09 May, 2016", "1000"), timeZone);
+        endTime = TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelper.combineDateTime("Tue, 09 May, 2017", "1000"), timeZone);
 
-        fsa = new FeedbackSessionAttributes(null,
-                null, null, null, null, startTime, endTime,
-                null, null, 8, 15, FeedbackSessionType.STANDARD,
-                false, false, false, false, false, false, false);
+        fsa = FeedbackSessionAttributes
+                .builder("", "", "")
+                .withStartTime(startTime)
+                .withEndTime(endTime)
+                .withTimeZone(timeZone)
+                .withGracePeriodMinutes(15)
+                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
+                .withOpeningEmailEnabled(false)
+                .withClosingEmailEnabled(false)
+                .withPublishedEmailEnabled(false)
+                .build();
+    }
+
+    @Test
+    public void testBuilderWithDefaultValues() {
+        FeedbackSessionAttributes fsa = FeedbackSessionAttributes
+                .builder("name", "course", "email")
+                .build();
+
+        // Default values for next fields
+        assertTrue(fsa.isOpeningEmailEnabled());
+        assertTrue(fsa.isClosingEmailEnabled());
+        assertTrue(fsa.isPublishedEmailEnabled());
+        assertEquals(new Text(""), fsa.getInstructions());
+        assertNotNull(fsa.getRespondingInstructorList());
+        assertNotNull(fsa.getRespondingStudentList());
+    }
+
+    @Test
+    public void testBuilderCopy() {
+        FeedbackSessionAttributes original = FeedbackSessionAttributes
+                .builder("newFeedbackSessionName", "course", "email")
+                .withInstructions(new Text("default instructions"))
+                .withCreatedTime(Instant.now())
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
+                .withTimeZone(ZoneId.of("Asia/Singapore")).withGracePeriodMinutes(0)
+                .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
+                .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
+                .build();
+
+        FeedbackSessionAttributes copy = original.getCopy();
+
+        assertEquals(original.getFeedbackSessionName(), copy.getFeedbackSessionName());
+        assertEquals(original.getCourseId(), copy.getCourseId());
+        assertEquals(original.getCreatorEmail(), copy.getCreatorEmail());
+        assertEquals(original.getInstructions(), copy.getInstructions());
+        assertEquals(original.getCreatedTime(), copy.getCreatedTime());
+        assertEquals(original.getStartTime(), copy.getStartTime());
+        assertEquals(original.getEndTime(), copy.getEndTime());
+        assertEquals(original.getSessionVisibleFromTime(), copy.getSessionVisibleFromTime());
+        assertEquals(original.getResultsVisibleFromTime(), copy.getResultsVisibleFromTime());
+        assertEquals(original.getTimeZone(), copy.getTimeZone());
+        assertEquals(original.getGracePeriodMinutes(), copy.getGracePeriodMinutes());
+        assertEquals(original.getFeedbackSessionType(), copy.getFeedbackSessionType());
+        assertEquals(original.isOpeningEmailEnabled(), copy.isOpeningEmailEnabled());
+        assertEquals(original.isClosingEmailEnabled(), copy.isClosingEmailEnabled());
+        assertEquals(original.isPublishedEmailEnabled(), copy.isPublishedEmailEnabled());
+        assertEquals(original.isSentClosedEmail(), copy.isSentClosedEmail());
+        assertEquals(original.isSentClosingEmail(), copy.isSentClosingEmail());
+        assertEquals(original.isSentOpenEmail(), copy.isSentOpenEmail());
+        assertEquals(original.isSentPublishedEmail(), copy.isSentPublishedEmail());
+        assertEquals(original.getRespondingInstructorList(), copy.getRespondingInstructorList());
+        assertEquals(original.getRespondingStudentList(), copy.getRespondingStudentList());
     }
 
     @Test
@@ -44,26 +112,33 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
     @Test
     public void testValidate() {
+        ______TS("invalid parameter error messages");
 
-        ______TS("null parameter error messages");
+        FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes
+                .builder("", "", "")
+                .withStartTime(Instant.now())
+                .withEndTime(Instant.now())
+                .withCreatedTime(Instant.now())
+                .withResultsVisibleFromTime(Instant.now())
+                .withSessionVisibleFromTime(Instant.now())
+                .withGracePeriodMinutes(-100)
+                .build();
+        assertEquals(feedbackSessionAttributes.getInvalidityInfo(), buildExpectedErrorMessages());
+    }
 
-        List<String> expectedErrorMessage = new ArrayList<String>();
-        String[] fieldNames = new String[]{
-                "feedback session name",
-                "course ID",
-                "instructions to students",
-                "time for the session to become visible",
-                "creator's email",
-                "session creation time"};
-        for (String fieldName : fieldNames) {
-            expectedErrorMessage.add(FieldValidator.NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName));
-        }
+    private List<String> buildExpectedErrorMessages() {
+        String feedbackSessionNameError = "The field 'feedback session name' is empty. The value of a/an feedback "
+                + "session name should be no longer than 38 characters. It should not be empty.";
+        String courseIdError = "The field 'course ID' is empty. A course ID can contain letters, numbers, fullstops, "
+                + "hyphens, underscores, and dollar signs. It cannot be longer than 40 characters, cannot be empty and "
+                + "cannot contain spaces.";
+        String creatorEmailError = "The field 'email' is empty. An email address contains some text followed "
+                + "by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot be empty"
+                + " and cannot contain spaces.";
+        String gracePeriodError = "Grace period should not be negative." + " "
+                + "The value must be one of the options in the grace period dropdown selector.";
 
-        //expect all the error messages to be appended together.
-        assertEquals(fsa.getInvalidityInfo(), expectedErrorMessage);
-
-        ______TS("invalid parameters error messages");
-
+        return Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError);
     }
 
 }

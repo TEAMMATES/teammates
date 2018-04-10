@@ -7,7 +7,7 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.testng.remote.RemoteTestNG"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="${project.name}"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Duser.timezone=UTC -Xss2m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss2m"/>
 <mapAttribute key="org.testng.eclipse.ALL_CLASS_METHODS"/>
 <listAttribute key="org.testng.eclipse.CLASS_TEST_LIST"/>
 <booleanAttribute key="org.testng.eclipse.DEBUG" value="false"/>

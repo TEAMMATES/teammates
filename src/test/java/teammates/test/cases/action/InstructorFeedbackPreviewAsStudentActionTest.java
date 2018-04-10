@@ -25,11 +25,11 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        InstructorAttributes instructorHelper = dataBundle.instructors.get("helperOfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructorHelper = typicalBundle.instructors.get("helperOfCourse1");
         String idOfInstructor = instructor.googleId;
         String idOfInstructorHelper = instructorHelper.googleId;
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
 
         gaeSimulation.loginAsInstructor(idOfInstructor);
 
@@ -39,7 +39,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         String courseId = student.course;
         String previewAsEmail = student.email;
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -69,7 +69,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
         courseId = "idOfTypicalCourse1";
         previewAsEmail = student.email;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -89,7 +89,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
 
         previewAsEmail = "non-exIstentEmail@gsail.tmt";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -113,10 +113,10 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.PREVIEWAS, student.email

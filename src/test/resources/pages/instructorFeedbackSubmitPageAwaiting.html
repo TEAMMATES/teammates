@@ -1,16 +1,16 @@
 <html>
 <head>
 <title>
-  TEAMMATES - Submit Feedback
+  Submit Feedback [Instructor]
 </title>
 <link href="/favicon.png" rel="shortcut icon">
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="https://unpkg.com/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-<link href="https://unpkg.com/tinymce@4.5.5/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
-<link href="https://unpkg.com/tinymce@4.5.5/skins/lightgray/content.inline.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tinymce@4.7.9/skins/lightgray/skin.min.css" id="u0" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/tinymce@4.7.9/skins/lightgray/content.inline.min.css" id="u1" rel="stylesheet" type="text/css">
 </head>
 <body class="modal-open" spellcheck="false">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -44,7 +44,7 @@
           </a>
         </li>
         <li class="active">
-          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbacksPage?user=IFSubmitUiT.instr">
+          <a class="nav evaluations" data-link="instructorEval" href="/page/instructorFeedbackSessionsPage?user=IFSubmitUiT.instr">
             Sessions
           </a>
         </li>
@@ -91,7 +91,7 @@
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IFSubmitUiT.instr">
     <div id="statusMessagesToUser">
-      <div class="overflow-auto alert alert-warning statusMessage">
+      <div class="overflow-auto alert alert-warning icon-warning statusMessage">
         <strong>
           The feedback session is currently not open for submissions.
         </strong>
@@ -129,8 +129,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Mon, 02 Apr 2035, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2035-04-02T15:59:00Z">
+                  Mon, 02 Apr 2035, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -139,8 +139,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Mon, 30 Apr 2035, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2035-04-30T15:59:00Z" id="end-time">
+                  Mon, 30 Apr 2035, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -180,34 +180,42 @@
               The receiving instructors can see your response, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="IFSubmitUiT.instr2@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
+                <span>
                   Teammates Test2
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
-              <span>
-                Teammates Test2
-              </span>
+                </span>
+              </label>
+              (Instructor):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" disabled="" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -233,32 +241,32 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-1" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option value="IFSubmitUiT.instr3@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
+                <span>
                   Teammates Test3
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
-              <span>
-                Teammates Test3
-              </span>
+                </span>
+              </label>
+              (Instructor):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-1" data-recommended-text="0" disabled="" id="responsetext-1-1" name="responsetext-1-1" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-1" data-recommended-text="0" id="responsetext-1-1" name="responsetext-1-1" spellcheck="false">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -284,32 +292,32 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-2" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option value="IFSubmitUiT.instr4@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
+                <span>
                   Teammates Test4
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
-                  Teammates Test5
-                </option>
-              </select>
-              <span>
-                Teammates Test4
-              </span>
+                </span>
+              </label>
+              (Instructor):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-2" data-recommended-text="0" disabled="" id="responsetext-1-2" name="responsetext-1-2" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-2" data-recommended-text="0" id="responsetext-1-2" name="responsetext-1-2" spellcheck="false">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -335,32 +343,32 @@
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-3" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
-                  Teammates Test2
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
-                  Teammates Test3
-                </option>
-                <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
-                  Teammates Test4
-                </option>
-                <option value="IFSubmitUiT.instr5@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" disabled="" name="responserecipient-1-3" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                    Teammates Test2
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                    Teammates Test3
+                  </option>
+                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                    Teammates Test4
+                  </option>
+                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                    Teammates Test5
+                  </option>
+                </select>
+                <span>
                   Teammates Test5
-                </option>
-              </select>
-              <span>
-                Teammates Test5
-              </span>
+                </span>
+              </label>
+              (Instructor):
             </div>
-            <div class="col-sm-10">
-              <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-length-text-id="responseLength-1-3" data-recommended-text="0" disabled="" id="responsetext-1-3" name="responsetext-1-3" spellcheck="false" style="position: relative;">
+            <div class="col-sm-9">
+              <div class="panel panel-default panel-body mce-content-body content-editor empty" data-is-session-open="false" data-length-text-id="responseLength-1-3" data-recommended-text="0" id="responsetext-1-3" name="responsetext-1-3" spellcheck="false">
                 <p>
                   <br data-mce-bogus="1">
                 </p>
@@ -406,7 +414,7 @@
       <div class="col-md-2">
         <span>
           [
-          <a href="/index.jsp">
+          <a href="/">
             TEAMMATES
           </a>
           V${version}]
@@ -435,25 +443,17 @@
 </script>
 <script src="/js/googleAnalytics.js" type="text/javascript">
 </script>
-<script src="https://unpkg.com/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js" type="text/javascript">
 </script>
-<script src="https://unpkg.com/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js" type="text/javascript">
 </script>
-<script src="https://unpkg.com/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/js/bootstrap.min.js" type="text/javascript">
 </script>
-<script src="https://unpkg.com/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="/js/const.js" type="text/javascript">
-</script>
-<script src="/js/common.js" type="text/javascript">
-</script>
-<script src="https://unpkg.com/tinymce@4.5.5/tinymce.min.js" type="text/javascript">
-</script>
-<script src="/js/richTextEditor.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/tinymce@4.7.9/tinymce.min.js" type="text/javascript">
 </script>
 <script src="/js/feedbackSubmissionsEdit.js" type="text/javascript">
-</script>
-<script src="/js/student.js" type="text/javascript">
 </script>
 <div aria-hidden="false" class="bootbox modal fade in" role="dialog" style="display: block;" tabindex="-1">
   <div class="modal-dialog">
@@ -462,7 +462,7 @@
         <button aria-hidden="true" class="bootbox-close-button close" data-dismiss="modal" type="button">
           ×
         </button>
-        <h4 class="modal-title">
+        <h4 class="modal-title icon-warning">
           Feedback Session Not Open
         </h4>
       </div>

@@ -10,6 +10,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
  */
 public class InstructorSearchResultBundle extends SearchResultBundle {
 
-    public List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
+    public List<InstructorAttributes> instructorList = new ArrayList<>();
 
 }

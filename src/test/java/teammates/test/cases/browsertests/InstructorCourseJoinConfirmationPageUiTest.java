@@ -12,7 +12,7 @@ import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_JOIN_CONFIRMATION_PAGE}.
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_JOIN}.
  */
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
@@ -108,7 +108,8 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
         browser.driver.get(joinLink);
         instructorHome = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHome.verifyStatus(TestProperties.TEST_INSTRUCTOR_ACCOUNT + " has already joined this course");
+        instructorHome.waitForTextsForAllStatusMessagesToUserEquals(
+                TestProperties.TEST_INSTRUCTOR_ACCOUNT + " has already joined this course");
     }
 
 }

@@ -21,6 +21,7 @@ Contributors:
 * Have "pull" access to the main repository and submit their fixes via pull requests (PRs) from their own forked repository.
   The detailed workflow is given in [this document](process.md).
 * Can open issues.
+* Can close issues and PRs opened by themselves.
 * Can comment on any issue and PR.
 
 ## Committer
@@ -28,10 +29,11 @@ Contributors:
 Committers are community members who have shown significant contributions sustained over a long period of time.
 
 On top of contributor's privileges, committers:
-* Have "push" access to the main repository and submit their fixes via PRs from the main repository.
-* Can label and close issues and PRs as they see fit.
+* Have "push" access to the main repository and has the option to submit their fixes via PRs from the main repository.
+* Can label and close any issue as they see fit.
+* Can label PRs opened by themselves.
 * Can assign themselves to issues.
-* Can assign reviewers for PRs authored by themselves.
+* Can assign reviewers to PRs authored by themselves.
 * Can merge approved PRs authored by themselves.
 
 ## Core team member
@@ -41,6 +43,7 @@ and are trusted to be responsible for determining the direction of the project f
 They are expected to be familiar with the development workflow.
 
 On top of committer's privileges, core team members:
+* Can label and close any PR as they see fit.
 * Can be assigned or assign themselves to review PRs.
 * Can merge approved PRs reviewed by themselves.
 
@@ -78,7 +81,8 @@ Project leads are team members who oversee the entire project velocity and ensur
 
 Project leads have the following additional privileges:
 * Have "admin" access to the main repository.
-* Can merge any approved PRs reviewed by anyone as they see fit.
+* Can assign reviewers to any PR.
+* Can merge any approved PR.
 
 Project leads have the following duties:
 * Manage weekly release (i.e. act as Release Lead). Can also be delegated to other team members.

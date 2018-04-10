@@ -367,12 +367,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -390,12 +390,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -413,12 +413,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -436,12 +436,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -459,12 +459,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -482,12 +482,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -505,12 +505,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": false,
@@ -528,12 +528,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -551,12 +551,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -574,12 +574,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -597,12 +597,12 @@
       "instructions": {
         "value": "Please answer the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2027-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 11:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -708,7 +708,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"numOfMcqChoices\":2,\"questionText\":\"What do you like best about the class' product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"numOfMsqChoices\":2,\"questionText\":\"What do you like best about the class' product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 2,
       "questionType": "MSQ",
@@ -1036,7 +1036,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think your team should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\"]}"
+        "value": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think your team should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\",\"Friendliness of teammates\"]}"
       },
       "questionNumber": 2,
       "questionType": "RANK_OPTIONS",
@@ -1589,6 +1589,50 @@
         "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
       }
     },
+    "response5ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response6ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response7ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":4,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
+    "response8ForQ1RankSession": {
+      "feedbackSessionName": "RANK Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "student4InCourse1@gmail.tmt",
+      "recipient": "student4InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
+      }
+    },
     "response1ForQ2RankSession": {
       "feedbackSessionName": "RANK Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1597,7 +1641,7 @@
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
-        "value": "{\"answers\":[1,2,3,4],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[1,2,3,4,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     },
     "response2ForQ2RankSession": {
@@ -1608,7 +1652,7 @@
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
-        "value": "{\"answers\":[4,3,2,1],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[4,3,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     },
     "response3ForQ2RankSession": {
@@ -1619,7 +1663,7 @@
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
-        "value": "{\"answers\":[2,-999,1,1],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[2,-999,1,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     },
     "response4ForQ2RankSession": {
@@ -1630,7 +1674,7 @@
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.1</td></div>'\"",
       "responseMetaData": {
-        "value": "{\"answers\":[3,-999,2,1],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[3,-999,2,1,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     },
     "response5ForQ2RankSession": {
@@ -1641,7 +1685,7 @@
       "giver": "student5InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
       "responseMetaData": {
-        "value": "{\"answers\":[1,-999,-999,-999],\"questionType\":\"RANK_OPTIONS\"}"
+        "value": "{\"answers\":[1,-999,-999,-999,-999],\"questionType\":\"RANK_OPTIONS\"}"
       }
     }
   },

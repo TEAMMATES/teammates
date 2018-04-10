@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -117,22 +116,12 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
 
     @Override
     protected void appendRespondent() {
-        try {
-            logic.addInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Failed to append instructor respondent. "
-                       + "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
-        }
+        taskQueuer.scheduleUpdateRespondentForSession(courseId, feedbackSessionName, getUserEmailForCourse(), true, false);
     }
 
     @Override
     protected void removeRespondent() {
-        try {
-            logic.deleteInstructorRespondent(getUserEmailForCourse(), feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Failed to append instructor respondent. "
-                       + "Feedback Session [" + feedbackSessionName + "] of Course ID [" + courseId + "]");
-        }
+        taskQueuer.scheduleUpdateRespondentForSession(courseId, feedbackSessionName, getUserEmailForCourse(), true, true);
     }
 
     /**

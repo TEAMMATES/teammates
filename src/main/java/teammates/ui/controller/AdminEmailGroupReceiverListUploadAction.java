@@ -115,7 +115,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                     + " : Unable to delete group receiver list file (possible unused file with key: "
                     + blobKey.getKeyString()
                     + " || Error Message: "
-                    + bfe.getMessage() + Const.EOL;
+                    + bfe.getMessage() + System.lineSeparator();
         }
     }
 

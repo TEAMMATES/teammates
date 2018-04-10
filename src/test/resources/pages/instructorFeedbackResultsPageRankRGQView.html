@@ -27,7 +27,7 @@
               <div class="col-lg-8">
                 <p class="form-control-static">
                   Instructor Session
-                  <a href="/page/instructorFeedbackEditPage?courseid=FRankUiT.CS4221&fsname=Instructor+Session&user=FRankUiT.instructor">
+                  <a href="/page/instructorFeedbackEditPage?courseid=FRankUiT.CS4221&fsname=Instructor+Session&editsessiondetails=true&user=FRankUiT.instructor">
                     [Edit]
                   </a>
                 </p>
@@ -41,11 +41,11 @@
               </label>
               <div class="col-lg-8">
                 <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM   
+                  Sun, 01 Apr 2012, 11:59 PM SAST   
                   <b>
                     to
                   </b>
-                     Thu, 30 Apr 2026, 11:59 PM
+                     Thu, 30 Apr 2026, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -55,7 +55,7 @@
               </label>
               <div class="col-lg-8">
                 <p class="form-control-static">
-                  Tue, 01 May 2012, 11:59 PM
+                  Tue, 01 May 2012, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -76,7 +76,7 @@
                 </form>
                 <br>
                 <div>
-                  <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-fsname="Instructor Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRankUiT.CS4221&fsname=Instructor+Session&next=%2Fpage%2FinstructorFeedbacksPage&user=FRankUiT.instructor&token=${sessionToken}" title="">
+                  <a class="btn btn-primary btn-block session-unpublish-for-test" data-fsname="Instructor Session" data-original-title="Make responses no longer visible" data-placement="top" data-sending-published-email="true" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRankUiT.CS4221&fsname=Instructor+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=FRankUiT.instructor&token=${sessionToken}" title="">
                     Unpublish Results
                   </a>
                 </div>
@@ -112,24 +112,34 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <span class="help-block" style="display:inline;">
-            Tips: After selecting the table,
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">
+              ×
+            </span>
+          </button>
+          <span class="help-block">
+            Tips:
+            <span class="btn-link" id="btn-select-element-contents">
+              Click here
+            </span>
+            to select the table, then
             <kbd>
               Ctrl + C
+            </kbd>
+            or
+            <kbd>
+              ⌘ + C
             </kbd>
             to COPY and
             <kbd>
               Ctrl + V
             </kbd>
+            or
+            <kbd>
+              ⌘ + V
+            </kbd>
             to PASTE to your Excel Workbook.
           </span>
-               
-          <button class="btn btn-default" data-dismiss="modal" type="button">
-            Close
-          </button>
-          <button class="btn btn-primary" id="btn-select-element-contents" type="button">
-            Select Table
-          </button>
         </div>
         <div class="modal-body">
           <div class="table-responsive">
@@ -145,99 +155,182 @@
       </div>
     </div>
   </div>
-  <form action="/page/instructorFeedbackResultsPage?courseid=FRankUiT.CS4221&fsname=Instructor+Session&user=FRankUiT.instructor" class="form-horizontal" method="post" role="form" style="margin-bottom: 35px">
-    <div class="panel panel-info margin-0">
-      <div class="panel-body">
-        <div class="row">
-          <div class="col-sm-12 col-md-5">
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="viewSelect">
+  <div style="margin-bottom: 10px">
+    <div class="well well-plain">
+      <div class="row">
+        <div class="col-md-5">
+          <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
+            <div class="row">
+              <label class="col-md-offset-1 col-md-3">
                 View:
               </label>
-              <div class="col-sm-10" data-original-title="View results in different formats" data-toggle="tooltip" title="">
-                <select class="form-control" id="viewSelect" name="frsorttype">
-                  <option value="question">
-                    Group by - Question
-                  </option>
-                  <option value="giver-recipient-question">
-                    Group by - Giver &gt; Recipient &gt; Question
-                  </option>
-                  <option selected="" value="recipient-giver-question">
-                    Group by - Recipient &gt; Giver &gt; Question
-                  </option>
-                  <option value="giver-question-recipient">
-                    Group by - Giver &gt; Question &gt; Recipient
-                  </option>
-                  <option value="recipient-question-giver">
-                    Group by - Recipient &gt; Question &gt; Giver
-                  </option>
-                </select>
+              <div class="col-md-8">
+                Group by - Recipient &gt; Giver &gt; Question
               </div>
             </div>
           </div>
-          <div class="col-sm-10 pull-right col-md-offset-0 col-md-2 margin-bottom-15px">
-            <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
-              <div class="checkbox padding-top-0 min-height-0">
-                <label>
-                  <input class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
-                  Group by Teams
-                </label>
-              </div>
-            </div>
-            <div data-original-title="Show statistics" data-toggle="tooltip" title="">
-              <div class="checkbox padding-top-0 min-height-0">
-                <label class="text-strike">
-                  <input id="show-stats-checkbox" name="frshowstats" type="checkbox">
-                  Show Statistics
-                </label>
-              </div>
-            </div>
-            <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
-              <div class="checkbox padding-top-0 min-height-0">
-                <input id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
-                Indicate Missing Responses
+          <br>
+          <div class="row">
+            <div data-original-title="View results by sections" data-toggle="tooltip" title="">
+              <label class="col-md-offset-1 col-md-3">
+                Section:
+              </label>
+              <div class="col-md-8">
+                All
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-sm-12 col-md-5" data-original-title="View results by sections" data-toggle="tooltip" title="">
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="sectionSelect">
-                Section:
-              </label>
-              <div class="col-sm-10">
-                <select class="form-control" id="sectionSelect" name="frgroupbysection">
-                  <option selected="" value="All">
-                    All
-                  </option>
-                  <option value="Section 1">
-                    Section 1
-                  </option>
-                  <option value="Section 2">
-                    Section 2
-                  </option>
-                  <option value="None">
-                    No specific recipient
-                  </option>
-                </select>
+        <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
+          <label>
+            Additional settings:
+          </label>
+          <ul>
+            <li>
+              <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Group by Teams
+                </div>
               </div>
-            </div>
-          </div>
+            </li>
+            <li>
+              <div data-original-title="Show statistics" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Show Statistics
+                </div>
+              </div>
+            </li>
+            <li>
+              <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+                <div class="text-strike">
+                  Indicate Missing Responses
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-10 col-md-2">
+          <button class="btn btn-primary btn-block" data-target="#editModal" data-toggle="modal" id="editBtn" type="button">
+            Edit View
+          </button>
         </div>
       </div>
     </div>
-    <div class="pull-right" style="margin-top:50px">
-      <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
-        Expand All Sections
-      </a>
+    <div class="modal fade" id="editModal" role="dialog">
+      <div class="modal-dialog">
+        <form action="/page/instructorFeedbackResultsPage?courseid=FRankUiT.CS4221&fsname=Instructor+Session&user=FRankUiT.instructor" method="post">
+          <div class="modal-content">
+            <div class="modal-header alert-info">
+              <button class="close" data-dismiss="modal" type="button">
+                ×
+              </button>
+              <h4 class="modal-title">
+                Edit View
+              </h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <label class="control-label" for="viewSelect">
+                      View:
+                    </label>
+                    <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
+                      <select class="form-control" id="viewSelect" name="frsorttype">
+                        <option value="question">
+                          Group by - Question
+                        </option>
+                        <option value="giver-recipient-question">
+                          Group by - Giver &gt; Recipient &gt; Question
+                        </option>
+                        <option selected="" value="recipient-giver-question">
+                          Group by - Recipient &gt; Giver &gt; Question
+                        </option>
+                        <option value="giver-question-recipient">
+                          Group by - Giver &gt; Question &gt; Recipient
+                        </option>
+                        <option value="recipient-question-giver">
+                          Group by - Recipient &gt; Question &gt; Giver
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div data-original-title="View results by sections" data-toggle="tooltip" title="">
+                    <div class="form-group">
+                      <label class="control-label" for="sectionSelect">
+                        Section:
+                      </label>
+                      <select class="form-control" id="sectionSelect" name="frgroupbysection">
+                        <option selected="" value="All">
+                          All
+                        </option>
+                        <option value="Section 1">
+                          Section 1
+                        </option>
+                        <option value="Section 2">
+                          Section 2
+                        </option>
+                        <option value="None">
+                          No specific section
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <label class="control-label">
+                    Additional settings:
+                  </label>
+                  <div data-original-title="Group results in the current view by team" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <label>
+                        <input class="checkbox-group-by-team" id="frgroupbyteam" name="frgroupbyteam" type="checkbox">
+                        Group by Teams
+                      </label>
+                    </div>
+                  </div>
+                  <div data-original-title="Show statistics" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <label class="text-strike">
+                        <input id="show-stats-checkbox" name="frshowstats" type="checkbox">
+                        Show Statistics
+                      </label>
+                    </div>
+                  </div>
+                  <div data-original-title="Indicate missing responses" data-toggle="tooltip" title="">
+                    <div class="checkbox">
+                      <input id="indicate-missing-responses-checkbox" name="frindicatemissingresponses" type="checkbox" value="true">
+                      Indicate Missing Responses
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input name="fsname" type="hidden" value="Instructor Session">
+              <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+              <input name="user" type="hidden" value="FRankUiT.instructor">
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-default" data-dismiss="modal" type="button">
+                Cancel
+              </button>
+              <button class="btn btn-primary" id="submitBtn" type="submit">
+                Change View
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-    <input name="fsname" type="hidden" value="Instructor Session">
-    <input name="courseid" type="hidden" value="FRankUiT.CS4221">
-    <input name="user" type="hidden" value="FRankUiT.instructor">
-  </form>
+  </div>
   <br>
   <div id="statusMessagesToUser" style="display: none;">
+  </div>
+  <div>
+    <a class="btn btn-default btn-xs pull-right" data-original-title="Expand all panels. You can also click on the panel heading to toggle each one individually." data-toggle="tooltip" id="collapse-panels-button" title="">
+      Expand All Sections
+    </a>
   </div>
   <br>
   <br>
@@ -246,7 +339,7 @@
       <div class="row">
         <div class="col-sm-9 panel-heading-text">
           <strong>
-            No specific recipient
+            No specific section
           </strong>
         </div>
         <div class="col-sm-3">
@@ -454,7 +547,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-1-1">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="0" data-sectionindex="1" id="frComment-visibility-options-trigger-1-0-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -583,7 +676,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="2" data-sectionindex="1" data-sessionindex="0" id="frComment-visibility-options-trigger-1-0-1-2">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-giverindex="1" data-qnindex="2" data-recipientindex="0" data-sectionindex="1" id="frComment-visibility-options-trigger-1-0-1-2">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -780,7 +873,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="1" id="frComment-visibility-options-trigger-1-1-1-1">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="1" data-sectionindex="1" id="frComment-visibility-options-trigger-1-1-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -965,7 +1058,7 @@
                                 </p>
                                 You may change comment's visibility using the visibility options on the right hand side.
                               </div>
-                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-qnindex="1" data-responseindex="1" data-sectionindex="1" data-sessionindex="2" id="frComment-visibility-options-trigger-1-2-1-1">
+                              <a class="btn btn-sm btn-info pull-right toggle-visib-add-form" data-frcindex="" data-giverindex="1" data-qnindex="1" data-recipientindex="2" data-sectionindex="1" id="frComment-visibility-options-trigger-1-2-1-1">
                                 <span class="glyphicon glyphicon-eye-close">
                                 </span>
                                 Show Visibility Options
@@ -1154,6 +1247,36 @@
     </div>
     <div class="panel-collapse collapse" id="panelBodyCollapse-section-2-3">
       <div class="panel-body" id="sectionBody-2">
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackRemindParticularStudents?next=%2Fpage%2FinstructorFeedbackResultsPage%3Fuser%3DFRankUiT.instructor%26courseid%3DFRankUiT.CS4221%26fsname%3DInstructor%2BSession&token=${sessionToken}" method="post" name="form_remind_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Remind Particular Students
+              <small>
+                (Select the student(s) you want to remind)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="FRankUiT.instructor">
+          </div>
+        </form>
       </div>
     </div>
   </div>

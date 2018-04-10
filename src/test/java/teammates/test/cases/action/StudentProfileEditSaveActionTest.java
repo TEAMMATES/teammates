@@ -28,13 +28,13 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
+        AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
 
         testActionWithInvalidParameters(student);
         testActionSuccess(student, "Typical Case");
         testActionInMasqueradeMode(student);
 
-        student = dataBundle.accounts.get("student1InTestingSanitizationCourse");
+        student = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
         // simulate sanitization that occurs before persistence
         student.sanitizeForSaving();
         testActionSuccess(student, "Typical case: attempted script injection");
@@ -45,7 +45,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: invalid parameters");
 
         String[] submissionParams = createInvalidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         expectedProfile.googleId = student.googleId;
 
         StudentProfileEditSaveAction action = getAction(submissionParams);
@@ -55,7 +55,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(
                 getPageResultDestination(Const.ActionURIs.STUDENT_PROFILE_PAGE, true, student.googleId),
                 result.getDestinationWithParams());
-        List<String> expectedErrorMessages = new ArrayList<String>();
+        List<String> expectedErrorMessages = new ArrayList<>();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, submissionParams[1],
@@ -79,7 +79,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: invalid parameters with attempted script injection");
 
         submissionParams = createInvalidParamsForProfileWithScriptInjection();
-        expectedProfile = getProfileAttributesFrom(submissionParams);
+        expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         expectedProfile.googleId = student.googleId;
 
         action = getAction(submissionParams);
@@ -89,7 +89,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE
                         + "?error=true&user=" + student.googleId,
                 result.getDestinationWithParams());
-        expectedErrorMessages = new ArrayList<String>();
+        expectedErrorMessages = new ArrayList<>();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
@@ -127,7 +127,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
     private void testActionSuccess(AccountAttributes student, String caseDescription) {
         String[] submissionParams = createValidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
 
         ______TS(caseDescription);
@@ -151,7 +151,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin.user");
 
         String[] submissionParams = createValidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         expectedProfile.googleId = student.googleId;
 
         StudentProfileEditSaveAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
@@ -183,8 +183,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(
-            String[] submissionParams) {
-        StudentProfileAttributes spa = new StudentProfileAttributes();
+            String googleId, String[] submissionParams) {
+        StudentProfileAttributes spa = StudentProfileAttributes.builder(googleId).build();
 
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
@@ -203,7 +203,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private String[] createInvalidParamsForProfileWithScriptInjection() {
-        return new String[]{
+        return new String[] {
                 Const.ParamsNames.STUDENT_SHORT_NAME, "short%<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_EMAIL, "<script>alert(\"was here\");</script>",
                 Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",

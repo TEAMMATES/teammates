@@ -29,13 +29,13 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
     @BeforeMethod
     public void refreshTestData() {
-        dataBundle = getTypicalDataBundle();
-        removeAndRestoreTypicalDataBundle();
+        super.prepareTestData();
     }
 
+    @Override
     @Test
     public void testAccessControl() {
-        String[] params = new String[]{
+        String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
@@ -47,7 +47,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("Not enough parameters");
 
@@ -59,7 +59,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
         ______TS("Typical case");
 
-        FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes session1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question1 = FeedbackQuestionsLogic
                                                    .inst()
                                                    .getFeedbackQuestion(session1.getFeedbackSessionName(),
@@ -69,7 +69,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                                                    .getFeedbackQuestion(session1.getFeedbackSessionName(),
                                                                         session1.getCourseId(), 2);
 
-        String[] params = new String[]{
+        String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME + "-0", question1.getFeedbackSessionName(),
@@ -105,13 +105,55 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
                                     + "Feedback Session:<span class=\"bold\">(Second feedback session)</span> "
                                     + "for Course <span class=\"bold\">"
                                     + "[idOfTypicalCourse1]</span> created.<br>"
-                                    + "<span class=\"bold\">Essay question:</span> Rate 1 other student's "
+                                    + "<span class=\"bold\">Essay question:</span> Rate 1 other student&#39;s "
                                     + "product|||/page/instructorFeedbackQuestionCopy";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+
+        ______TS("Question text requires sanitization");
+
+        FeedbackSessionAttributes sanitizationSession =
+                typicalBundle.feedbackSessions.get("session1InTestingSanitizationCourse");
+        question1 = FeedbackQuestionsLogic
+                .inst()
+                .getFeedbackQuestion(sanitizationSession.getFeedbackSessionName(),
+                        sanitizationSession.getCourseId(), 1);
+
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-0", question1.getId()
+        };
+
+        a = getAction(params);
+        rr = getRedirectResult(a);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "Second+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        false),
+                rr.getDestinationWithParams());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
+                + "instructorFeedbackQuestionCopy|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Created Feedback Question for Feedback Session:"
+                + "<span class=\"bold\">(Second feedback session)"
+                + "</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span> "
+                + "created.<br><span class=\"bold\">"
+                + "Essay question:</span> "
+                + "Testing quotation marks &#39;&quot; "
+                + "Testing unclosed tags &lt;&#x2f;td&gt;&lt;&#x2f;div&gt; "
+                + "Testing script injection &lt;script&gt; alert(&#39;hello&#39;); &lt;&#x2f;script&gt;"
+                + "|||/page/instructorFeedbackQuestionCopy";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Error: Indicate no questions to be copied");
 
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
@@ -144,7 +186,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME + "-0", question3.getFeedbackSessionName(),

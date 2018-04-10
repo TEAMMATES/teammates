@@ -1,6 +1,5 @@
 package teammates.storage.search;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -135,32 +134,11 @@ public class StudentSearchDocument extends SearchDocument {
 
     private static void sortStudentResultList(List<StudentAttributes> studentList) {
 
-        Collections.sort(studentList, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes s1, StudentAttributes s2) {
-                int compareResult = s1.course.compareTo(s2.course);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                compareResult = s1.section.compareTo(s2.section);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                compareResult = s1.team.compareTo(s2.team);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                compareResult = s1.name.compareTo(s2.name);
-                if (compareResult != 0) {
-                    return compareResult;
-                }
-
-                return s1.email.compareTo(s2.email);
-            }
-        });
+        studentList.sort(Comparator.comparing((StudentAttributes student) -> student.course)
+                .thenComparing(student -> student.section)
+                .thenComparing(student -> student.team)
+                .thenComparing(student -> student.name)
+                .thenComparing(student -> student.email));
     }
 
 }

@@ -1,6 +1,6 @@
 package teammates.test.cases.action;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Map;
 
 import org.testng.annotations.Test;
@@ -28,8 +28,8 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
+        gaeSimulation.loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
@@ -52,7 +52,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         RedirectResult result = getRedirectResult(publishAction);
 
         String expectedDestination = getPageResultDestination(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, false, "idOfInstructor1OfCourse1");
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, false, "idOfInstructor1OfCourse1");
 
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED, result.getStatusMessage());
@@ -105,7 +105,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         result = getRedirectResult(publishAction);
 
         expectedDestination = getPageResultDestination(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, true, "idOfInstructor1OfCourse1");
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE, true, "idOfInstructor1OfCourse1");
 
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals("Error publishing feedback session: Session has already been published.",
@@ -119,9 +119,9 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
     private void modifyFeedbackSessionPublishState(FeedbackSessionAttributes session, boolean isPublished) throws Exception {
         // startTime < endTime <= resultsVisibleFromTime
-        Date startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
+        Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
+        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(-1);
+        Instant resultsVisibleFromTimeForPublishedSession = TimeHelper.getInstantDaysOffsetFromNow(-1);
 
         session.setStartTime(startTime);
         session.setEndTime(endTime);
@@ -155,11 +155,11 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };

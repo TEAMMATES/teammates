@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -72,21 +72,26 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             return createAjaxResult(data);
         }
 
-        FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
-                feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
-                new Text(commentText), response.giverSection, response.recipientSection);
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
+                .withFeedbackQuestionId(feedbackQuestionId)
+                .withFeedbackResponseId(feedbackResponseId)
+                .withCreatedAt(Instant.now())
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .build();
 
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
-        feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        feedbackResponseComment.showCommentTo = new ArrayList<>();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
             for (String viewer : showCommentToArray) {
                 feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
         if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
             String[] showGiverNameToArray = showGiverNameTo.split(",");
             for (String viewer : showGiverNameToArray) {
@@ -94,7 +99,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             }
         }
 
-        FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
+        FeedbackResponseCommentAttributes createdComment = null;
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             logic.putDocument(createdComment);
@@ -114,10 +119,19 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
 
+        if (createdComment == null) {
+            data.showCommentToString = "";
+            data.showGiverNameToString = "";
+        } else {
+            data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
+            data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
+        }
+
         data.comment = createdComment;
         data.commentId = commentId;
-        data.showCommentToString = StringHelper.toString(createdComment.showCommentTo, ",");
-        data.showGiverNameToString = StringHelper.toString(createdComment.showGiverNameTo, ",");
+        data.instructorEmailNameTable = bundle.instructorEmailNameTable;
+        data.question = logic.getFeedbackQuestion(feedbackQuestionId);
+        data.sessionTimeZone = session.getTimeZone();
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }

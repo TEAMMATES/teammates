@@ -1,19 +1,9 @@
 # TEAMMATES Developer Web Site
 
-![Users Count](https://img.shields.io/badge/users-140K%2B-brightgreen.svg)
-![Universities Count](https://img.shields.io/badge/universities-1200%2B-green.svg)
 [![Travis Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/dvr6t33lqg6hsmxw?svg=true)](https://ci.appveyor.com/project/damithc/teammates)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/dvr6t33lqg6hsmxw/branch/master?svg=true)](https://ci.appveyor.com/project/damithc/teammates/branch/master)
 [![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
-
-![Java LoC Count](https://img.shields.io/badge/java-119%20KLoC-blue.svg)
-[![Dependency Status](https://www.versioneye.com/user/projects/579103ca51500e0031886f12/badge.svg)](https://www.versioneye.com/user/projects/579103ca51500e0031886f12)
-
-![HTML LoC Count](https://img.shields.io/badge/html-5%20KLoC-blue.svg)
-![CSS LoC Count](https://img.shields.io/badge/css-2%20KLoC-blue.svg)
-![JS LoC Count](https://img.shields.io/badge/js-20%20KLoC-blue.svg)
-[![Dependency Status](https://www.versioneye.com/user/projects/579103d351500e0039e7b76a/badge.svg)](https://www.versioneye.com/user/projects/579103d351500e0039e7b76a)
 
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
@@ -29,7 +19,7 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 ## Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources:
-* [**Contributor Orientation Guide**](docs/orientation-guide.md): This document describes what you need to know/do to become a contributor. This is **a MUST READ for new contributors**.
+* [**Contributor Orientation Guide**](docs/CONTRIBUTING.md): This document describes what you need to know/do to become a contributor.
 * [**Project ideas page**](https://docs.google.com/document/d/1fAvYvQr0E93OsZgyneaXGX0jaMA-zptTIxqLn83xwN0/pub?embedded=true): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
 * [**Instructions for Google Summer of Code applicants**](https://docs.google.com/document/d/1Iu63WRIw8uz8liEW089IQHDQTRbh-QoOLMyfTPXNOa0/pub?embedded=true): Read this before you apply to work for TEAMMATES under GSoC.
 

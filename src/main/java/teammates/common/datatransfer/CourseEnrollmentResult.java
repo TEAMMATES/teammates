@@ -10,8 +10,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class CourseEnrollmentResult {
 
-    public List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-    public List<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
+    public List<StudentAttributes> studentList = new ArrayList<>();
+    public List<StudentEnrollDetails> enrollmentList = new ArrayList<>();
 
     public CourseEnrollmentResult(List<StudentAttributes> studentList, List<StudentEnrollDetails> enrollmentList) {
         this.studentList = studentList;

@@ -38,7 +38,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         String enrollString = "";
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
 
@@ -46,18 +46,18 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         ______TS("Typical case: add and edit students for non-empty course");
 
-        enrollString = "Section | Team | Name | Email | Comment" + Const.EOL
+        enrollString = "Section | Team | Name | Email | Comment" + System.lineSeparator()
                        // A new student
-                       + "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student" + Const.EOL
+                       + "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student" + System.lineSeparator()
                        // A new student with extra spaces in the team and name
                        + "Section 3 \t Team   1\tstudent  with   extra  spaces  \t"
-                       + "studentWithExtraSpaces@gmail.tmt\t" + Const.EOL
+                       + "studentWithExtraSpaces@gmail.tmt\t" + System.lineSeparator()
                        // A student to be modified
                        + "Section 2 \t Team 1.3\tstudent1 In Course1</td></div>'\"\tstudent1InCourse1@gmail.tmt\t"
-                       + "New comment added" + Const.EOL
+                       + "New comment added" + System.lineSeparator()
                        // An existing student with no modification
                        + "Section 1 \t Team 1.1</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t"
-                       + Const.EOL
+                       + System.lineSeparator()
                        // An existing student, now with extra spaces, should cause no modification
                        + "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
 
@@ -86,28 +86,38 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
 
-        StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
-                                                             "Exchange student", courseId, "Team 1", "Section 3");
+        StudentAttributes newStudent = StudentAttributes
+                .builder(courseId, "Jean Wong", "jean@email.tmt")
+                .withSection("Section 3")
+                .withTeam("Team 1")
+                .withComments("Exchange student")
+                .withGoogleId("jean")
+                .build();
         newStudent.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, pageData.getEnrollResultPanelList());
 
-        StudentAttributes newStudentWithExtraSpaces = new StudentAttributes("student",
-                "studentWithExtraSpaces@gmail.tmt", "student with extra spaces", "", courseId, "Team 1", "Section 3");
+        StudentAttributes newStudentWithExtraSpaces = StudentAttributes
+                .builder(courseId, "student with extra spaces", "studentWithExtraSpaces@gmail.tmt")
+                .withSection("Section 3")
+                .withTeam("Team 1")
+                .withComments("")
+                .withGoogleId("student")
+                .build();
         newStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
-        StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
+        StudentAttributes modifiedStudent = typicalBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
         modifiedStudent.section = "Section 2";
         modifiedStudent.team = "Team 1.3";
         modifiedStudent.updateStatus = StudentUpdateStatus.MODIFIED;
         verifyStudentEnrollmentStatus(modifiedStudent, pageData.getEnrollResultPanelList());
 
-        StudentAttributes unmodifiedStudent = dataBundle.students.get("student2InCourse1");
+        StudentAttributes unmodifiedStudent = typicalBundle.students.get("student2InCourse1");
         unmodifiedStudent.updateStatus = StudentUpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.getEnrollResultPanelList());
 
-        StudentAttributes unmodifiedStudentWithExtraSpaces = dataBundle.students.get("student3InCourse1");
+        StudentAttributes unmodifiedStudentWithExtraSpaces = typicalBundle.students.get("student3InCourse1");
         unmodifiedStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudentWithExtraSpaces, pageData.getEnrollResultPanelList());
 
@@ -129,10 +139,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         String headerRow = "Name\tEmail\tTeam\tComment";
         String studentsInfo = "Jean Wong\tjean@email.tmt\tTeam 1\tExchange student"
-                              + Const.EOL + "James Tan\tjames@email.tmt\tTeam 2\t";
-        enrollString = headerRow + Const.EOL + studentsInfo;
+                              + System.lineSeparator() + "James Tan\tjames@email.tmt\tTeam 2\t";
+        enrollString = headerRow + System.lineSeparator() + studentsInfo;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.USER_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
@@ -150,13 +160,23 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
 
-        StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong",
-                                                           "Exchange student", courseId, "Team 1", "None");
+        StudentAttributes student1 = StudentAttributes
+                .builder(courseId, "Jean Wong", "jean@email.tmt")
+                .withSection("None")
+                .withTeam("Team 1")
+                .withComments("Exchange student")
+                .withGoogleId("jean")
+                .build();
         student1.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, pageData.getEnrollResultPanelList());
 
-        StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "",
-                                                           courseId, "Team 2", "None");
+        StudentAttributes student2 = StudentAttributes
+                .builder(courseId, "James Tan", "james@email.tmt")
+                .withSection("None")
+                .withTeam("Team 2")
+                .withComments("")
+                .withGoogleId("james")
+                .build();
         student2.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student2, pageData.getEnrollResultPanelList());
 
@@ -171,11 +191,11 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         String studentWithoutEnoughParam = "Team 1\tStudentWithNoEmailInput";
         String studentWithInvalidEmail = "Team 2\tBenjamin Tan\tinvalid.email.tmt";
         String invalidEmail = "invalid.email.tmt";
-        enrollString = "Team | Name | Email" + Const.EOL
-                     + studentWithoutEnoughParam + Const.EOL
+        enrollString = "Team | Name | Email" + System.lineSeparator()
+                     + studentWithoutEnoughParam + System.lineSeparator()
                      + studentWithInvalidEmail;
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
@@ -230,10 +250,10 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         StringBuilder enrollStringBuilder = new StringBuilder(200);
         enrollStringBuilder.append("Section\tTeam\tName\tEmail");
         for (int i = 0; i < Const.SIZE_LIMIT_PER_ENROLLMENT; i++) {
-            enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i
+            enrollStringBuilder.append(System.lineSeparator()).append("section" + i + "\tteam" + i + "\tname" + i
                                                          + "\temail" + i + "@nonexistemail.nonexist");
         }
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
         };
@@ -244,11 +264,11 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         verifyNoTasksAdded(enrollAction);
 
         //fail to enroll, if exceed the range
-        enrollStringBuilder.append(Const.EOL).append(
+        enrollStringBuilder.append(System.lineSeparator()).append(
                 "section" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\tteam" + Const.SIZE_LIMIT_PER_ENROLLMENT
                  + "\tname" + Const.SIZE_LIMIT_PER_ENROLLMENT + "\temail" + Const.SIZE_LIMIT_PER_ENROLLMENT
                  + "@nonexistemail.nonexist");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
         };
@@ -263,7 +283,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         enrollString = "";
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollString
         };
@@ -313,8 +333,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, ""
         };
 

@@ -13,6 +13,9 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  *      specifically for multiple choice (multiple answers) questions.
  */
 public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
+
+    private static final int NEW_QUESTION_INDEX = -1;
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -59,6 +62,24 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
+
+        ______TS("MSQ: Check UI after cancelling and add new MSQ question again");
+
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX);
+        assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
+        assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
+        assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect--1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox--1"));
+
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX); //Make the generate options checkbox unchecked
+
     }
 
     @Override
@@ -67,15 +88,15 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
 
         ______TS("empty options");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
-                                      + "Minimum number of options is: 2.");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.");
 
         ______TS("remove when 1 left");
 
@@ -92,8 +113,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMsqOptionLinkForNewQuestion(0);
         assertTrue(feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus("Too little choices for Multiple-choice (multiple answers) question. "
-                                      + "Minimum number of options is: 2.");
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                "Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.");
 
         ______TS("select Add Other Option");
 
@@ -151,7 +172,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionAddSuccess.html");
     }
@@ -168,7 +189,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickRemoveMsqOptionLink(0, 1);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionEditSuccess.html");
 
@@ -179,43 +200,257 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescription("more details", 1);
         assertTrue(feedbackEditPage.isElementVisible("msqAddOptionLink-1"));
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.NONE.toString());
         assertFalse(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
-        feedbackEditPage.clickGenerateOptionsCheckbox(1);
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(1);
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
         assertFalse(feedbackEditPage.isElementVisible("msqAddOptionLink-1"));
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
         assertFalse(feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
-        assertFalse(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
-        assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertFalse(feedbackEditPage.isElementEnabled("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1"));
         assertFalse(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
                 "msqGenerateForSelect-1",
                 FeedbackParticipantType.STUDENTS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
 
-        ______TS("MSQ: change generated type");
+        ______TS("MSQ: change generated type to students (excluding self)");
 
         feedbackEditPage.clickEditQuestionButton(1);
-        assertTrue(feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
-        assertTrue(feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
+        feedbackEditPage.selectMsqGenerateOptionsFor("students (excluding self)", 1);
+        feedbackEditPage.verifyFieldValue(
+                "msqGenerateForSelect-1",
+                FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString());
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
+                FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString());
+
+        ______TS("MSQ: change generated type to teams");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isElementEnabled("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1"));
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.selectMsqGenerateOptionsFor("teams", 1);
         feedbackEditPage.verifyFieldValue(
                 "msqGenerateForSelect-1",
                 FeedbackParticipantType.TEAMS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
                 FeedbackParticipantType.TEAMS.toString());
 
+        ______TS("MSQ: change generated type to teams (excluding self)");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isElementEnabled("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementSelected("generateMsqOptionsCheckbox-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
+        feedbackEditPage.selectMsqGenerateOptionsFor("teams (excluding self)", 1);
+        feedbackEditPage.verifyFieldValue(
+                "msqGenerateForSelect-1",
+                FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS + "-1",
+                FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString());
+
+        ______TS("MSQ: min/max selectable options");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // Check min/max selectable restrictions for
+        // new MSQ question with custom options
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Custom options");
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "A");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "B");
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.fillMsqOptionForNewQuestion(2, "C");
+        feedbackEditPage.fillMsqOptionForNewQuestion(3, "D");
+        checkMinMaxSelectableRestrictionForCustomOptions(-1);
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        // Check min/max selectable restrictions for
+        // existing MSQ question with custom options
+        feedbackEditPage.clickEditQuestionButton(2);
+        checkMinMaxSelectableRestrictionForCustomOptions(2);
+        feedbackEditPage.clickDeleteQuestionLink(2);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+
+        // Check min/max selectable restrictions for new
+        // MSQ question with options generated from students
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq generated options");
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX);
+        checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(-1);
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        // Check min/max selectable restrictions for existing
+        // MSQ question with options generated from students
+        feedbackEditPage.clickEditQuestionButton(2);
+        checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(2);
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+    }
+
+    private void checkMinMaxSelectableRestrictionForCustomOptions(int qnNumber) {
+        // checking inputs after enabling maxSelectableChoices restriction
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        int numOfOptions = feedbackEditPage.getNumOfMsqOptions(qnNumber);
+        int maxSelectableChoices = numOfOptions;
+
+        // when maxSelectableChoices = numOfOptions and
+        // an option is removed, maxSelectableChoices should decrease
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, maxSelectableChoices);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        feedbackEditPage.clickRemoveMsqOptionLink(0, qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(--maxSelectableChoices, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+
+        // add an option back, maxSelectableChoices should remain same
+        feedbackEditPage.clickAddMoreMsqOptionLink(qnNumber);
+        feedbackEditPage.fillMsqOption(qnNumber, numOfOptions, "X");
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(maxSelectableChoices, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+
+        // enable minSelectableChoices restriction only
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+
+        // check inputs after enabling minSelectableChoices
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        int minSelectableChoices = numOfOptions;
+
+        // when minSelectableChoices = numOfOptions and
+        // an option is removed, minSelectableChoices should decrease
+        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, minSelectableChoices);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        feedbackEditPage.clickRemoveMsqOptionLink(1, qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(--minSelectableChoices, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // add an option back, minSelectableChoices should remain same
+        feedbackEditPage.clickAddMoreMsqOptionLink(qnNumber);
+        feedbackEditPage.fillMsqOption(qnNumber, numOfOptions + 1, "Y");
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(minSelectableChoices, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // enable minSelectableChoices and maxSelectableChoices
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+
+        // check inputs after enabling minSelectableChoices and maxSelectableChoices
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // if maxSelectableChoices = minSelectableChoices and
+        // maxSelectableChoices is decreased, minSelectableChoices should also decrease
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, --maxSelectableChoices);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(--minSelectableChoices, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // when minSelectableChoices = maxSelectableChoices = numOfOptions and an option
+        // is removed, both minSelectableChoices and maxSelectableChoices should decrease
+        maxSelectableChoices = numOfOptions;
+        minSelectableChoices = numOfOptions;
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, maxSelectableChoices);
+        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, minSelectableChoices);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        feedbackEditPage.clickRemoveMsqOptionLink(2, qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(--maxSelectableChoices, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+        assertEquals(--minSelectableChoices, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // add an option back, both minSelectableChoices and maxSelectableChoices should remain same
+        feedbackEditPage.clickAddMoreMsqOptionLink(qnNumber);
+        feedbackEditPage.fillMsqOption(qnNumber, numOfOptions + 2, "Z");
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(maxSelectableChoices, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+        assertEquals(minSelectableChoices, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+
+        // disable minSelectableChoices and maxSelectableChoices
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+    }
+
+    /**
+     * Assumes student is already selected.
+     * @param qnNumber question number.
+     */
+    private void checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(int qnNumber) {
+        // Check minSelectableChoices/maxSelectableChoices restrictions
+        // for MSQ question with options generated from students
+        checkMinMaxSelectableRestrictionForGeneratedOption(qnNumber);
+
+        // Check minSelectableChoices/maxSelectableChoices
+        // restrictions for MSQ question with options generated from teams
+        feedbackEditPage.selectMsqGenerateOptionsFor("teams", qnNumber);
+        checkMinMaxSelectableRestrictionForGeneratedOption(qnNumber);
+
+        // enable minSelectableChoices/maxSelectableChoices
+        // restrictions, change generated options for selection
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+        feedbackEditPage.selectMsqGenerateOptionsFor("students", qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // disable minSelectableChoices and maxSelectableChoices
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+    }
+
+    private void checkMinMaxSelectableRestrictionForGeneratedOption(int qnNumber) {
+        int numOfOptions = feedbackEditPage.getNumOfMsqOptions(qnNumber);
+
+        // checking inputs after enabling maxSelectableChoices
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // enable minSelectableChoices restriction only
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // enable minSelectableChoices and maxSelectableChoices restrictions
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+
+        // check inputs after enabling minSelectableChoices and maxSelectableChoices
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+
+        // set maxSelectableChoices = numOfOptions and minSelectableChoices = numOfOptions,
+        // then decreasing maxSelectableChoices must decrease minSelectableChoices too
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, numOfOptions);
+        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, numOfOptions);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, numOfOptions - 1);
+        feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
+        assertEquals(numOfOptions - 1, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
+        assertEquals(numOfOptions - 1, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
+
+        // disable minSelectableChoices and maxSelectableChoices
+        feedbackEditPage.toggleMsqMaxSelectableChoices(qnNumber);
+        feedbackEditPage.toggleMsqMinSelectableChoices(qnNumber);
     }
 
     @Override
@@ -231,7 +466,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
-        feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 

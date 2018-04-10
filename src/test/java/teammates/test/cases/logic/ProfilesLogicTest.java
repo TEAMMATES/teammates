@@ -31,11 +31,23 @@ public class ProfilesLogicTest extends BaseLogicTest {
         //      => It saves time during tests
 
         ______TS("get SP");
-        StudentProfileAttributes expectedSpa =
-                new StudentProfileAttributes("id", "shortName", "personal@email.com",
-                                             "institute", "American", "female", "moreInfo", "");
-        AccountAttributes accountWithStudentProfile =
-                new AccountAttributes("id", "name", true, "test@email.com", "dev", expectedSpa);
+        StudentProfileAttributes expectedSpa = StudentProfileAttributes.builder("id")
+                .withShortName("shortName")
+                .withEmail("personal@email.com")
+                .withInstitute("institute")
+                .withNationality("American")
+                .withGender("female")
+                .withMoreInfo("moreInfo")
+                .build();
+
+        AccountAttributes accountWithStudentProfile = AccountAttributes.builder()
+                .withGoogleId("id")
+                .withName("name")
+                .withEmail("test@email.come")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(expectedSpa)
+                .build();
 
         accountsLogic.createAccount(accountWithStudentProfile);
 

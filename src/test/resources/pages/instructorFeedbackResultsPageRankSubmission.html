@@ -10,8 +10,13 @@
     <input name="courseid" type="hidden" value="FRankUiT.CS4221">
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="FRankUiT.instructor">
-    <div id="statusMessagesToUser" style="display: none;">
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-info icon-info statusMessage">
+        Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session.
+      </div>
     </div>
+    <script defer="" src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">
@@ -41,8 +46,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2012-04-01T21:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -51,8 +56,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Thu, 30 Apr 2026, 11:59 PM
+                <p class="form-control-static" data-date-stamp="2026-04-30T21:59:00Z" id="end-time">
+                  Thu, 30 Apr 2026, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -95,30 +100,38 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+                    Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -194,33 +207,35 @@
                 <input id="rankToRecipients-1" type="hidden" value="false">
                 <input id="rankNumOptions-1" type="hidden" value="3">
                 <input id="rankAreDuplicatesAllowed-1" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-1" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-1" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
-                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-                </option>
-                <option value="Team 2">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+                    Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                  </option>
+                  <option value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 2
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -296,33 +311,35 @@
                 <input id="rankToRecipients-1" type="hidden" value="false">
                 <input id="rankNumOptions-1" type="hidden" value="3">
                 <input id="rankAreDuplicatesAllowed-1" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-1" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-1" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-2" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
-                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option value="Team 3">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+                    Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 3
-                </option>
-              </select>
-              <span>
-                Team 3
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -398,6 +415,8 @@
                 <input id="rankToRecipients-1" type="hidden" value="false">
                 <input id="rankNumOptions-1" type="hidden" value="3">
                 <input id="rankAreDuplicatesAllowed-1" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-1" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-1" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -430,33 +449,41 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="alice.b.tmms@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="benny.c.tmms@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option value="danny.e.tmms@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option value="emily.f.tmms@gmail.tmt">
-                  Emily F.
-                </option>
-              </select>
+              (Student):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -1214,36 +1241,38 @@
                 <input id="rankToRecipients-2" type="hidden" value="false">
                 <input id="rankNumOptions-2" type="hidden" value="14">
                 <input id="rankAreDuplicatesAllowed-2" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-2" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-2" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="alice.b.tmms@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="benny.c.tmms@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option value="danny.e.tmms@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option value="emily.f.tmms@gmail.tmt">
-                  Emily F.
-                </option>
-              </select>
+              (Student):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -2001,36 +2030,38 @@
                 <input id="rankToRecipients-2" type="hidden" value="false">
                 <input id="rankNumOptions-2" type="hidden" value="14">
                 <input id="rankAreDuplicatesAllowed-2" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-2" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-2" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="alice.b.tmms@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="benny.c.tmms@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option value="danny.e.tmms@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option value="emily.f.tmms@gmail.tmt">
-                  Emily F.
-                </option>
-              </select>
+              (Student):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -2788,36 +2819,38 @@
                 <input id="rankToRecipients-2" type="hidden" value="false">
                 <input id="rankNumOptions-2" type="hidden" value="14">
                 <input id="rankAreDuplicatesAllowed-2" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-2" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-2" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-4 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
+            <div class="col-sm-5 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-3" style="width:275px;max-width:275px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
               </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-3" style="width:275px;max-width:275px">
-                <option selected="" value="">
-                </option>
-                <option value="alice.b.tmms@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="benny.c.tmms@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option value="danny.e.tmms@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option value="emily.f.tmms@gmail.tmt">
-                  Emily F.
-                </option>
-              </select>
+              (Student):
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-7">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
@@ -3575,6 +3608,8 @@
                 <input id="rankToRecipients-2" type="hidden" value="false">
                 <input id="rankNumOptions-2" type="hidden" value="14">
                 <input id="rankAreDuplicatesAllowed-2" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-2" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-2" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -3607,36 +3642,44 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="alice.b.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
+                <span>
                   Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="benny.c.tmms@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option style="display: none;" value="danny.e.tmms@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option style="display: none;" value="emily.f.tmms@gmail.tmt">
-                  Emily F.
-                </option>
-              </select>
-              <span>
-                Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3676,39 +3719,41 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-1" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="alice.b.tmms@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option value="benny.c.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
+                <span>
                   Benny Charles
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option style="display: none;" value="danny.e.tmms@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option style="display: none;" value="emily.f.tmms@gmail.tmt">
-                  Emily F.
-                </option>
-              </select>
-              <span>
-                Benny Charles
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3748,39 +3793,41 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-2" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="alice.b.tmms@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="benny.c.tmms@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option value="charlie.d.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
+                <span>
                   Charlie Davis
-                </option>
-                <option style="display: none;" value="danny.e.tmms@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option style="display: none;" value="emily.f.tmms@gmail.tmt">
-                  Emily F.
-                </option>
-              </select>
-              <span>
-                Charlie Davis
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3820,39 +3867,41 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-3" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="alice.b.tmms@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="benny.c.tmms@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option value="danny.e.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-3" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
+                <span>
                   Danny Engrid
-                </option>
-                <option style="display: none;" value="emily.f.tmms@gmail.tmt">
-                  Emily F.
-                </option>
-              </select>
-              <span>
-                Danny Engrid
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3892,39 +3941,41 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-4" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="alice.b.tmms@gmail.tmt">
-                  Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
-                </option>
-                <option style="display: none;" value="benny.c.tmms@gmail.tmt">
-                  Benny Charles
-                </option>
-                <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                  Charlie Davis
-                </option>
-                <option style="display: none;" value="danny.e.tmms@gmail.tmt">
-                  Danny Engrid
-                </option>
-                <option value="emily.f.tmms@gmail.tmt">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-4" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="alice.b.tmms@gmail.tmt">
+                    Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                  </option>
+                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
+                <span>
                   Emily F.
-                </option>
-              </select>
-              <span>
-                Emily F.
-              </span>
+                </span>
+              </label>
+              (Student):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -3965,6 +4016,8 @@
                 <input id="rankToRecipients-3" type="hidden" value="true">
                 <input id="rankNumOptions-3" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-3" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-3" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -3997,30 +4050,38 @@
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
           </ul>
+          <div class="col-sm-12 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+                    Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -4054,33 +4115,35 @@
                 <input id="rankToRecipients-4" type="hidden" value="true">
                 <input id="rankNumOptions-4" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-4" type="hidden" value="true">
+                <input disabled="" id="minOptionsToBeRanked-4" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-4" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
-                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-                </option>
-                <option value="Team 2">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+                    Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                  </option>
+                  <option value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 2
-                </option>
-                <option style="display: none;" value="Team 3">
-                  Team 3
-                </option>
-              </select>
-              <span>
-                Team 2
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -4114,33 +4177,35 @@
                 <input id="rankToRecipients-4" type="hidden" value="true">
                 <input id="rankNumOptions-4" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-4" type="hidden" value="true">
+                <input disabled="" id="minOptionsToBeRanked-4" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-4" type="hidden" value="">
               </div>
             </div>
           </div>
           <br>
           <div class="form-group margin-0">
-            <div class="col-sm-2 form-inline mobile-align-left" style="text-align:right">
-              <label for="input">
-                To Team:
-              </label>
-              <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-2" style="display:none;max-width:125px">
-                <option selected="" value="">
-                </option>
-                <option style="display: none;" value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
-                  Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
-                </option>
-                <option style="display: none;" value="Team 2">
-                  Team 2
-                </option>
-                <option value="Team 3">
+            <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 1</option><option value=&quot;dump&quot;></td><td>'&quot;">
+                    Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
                   Team 3
-                </option>
-              </select>
-              <span>
-                Team 3
-              </span>
+                </span>
+              </label>
+              (Team):
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" style="display:none">
@@ -4175,6 +4240,8 @@
                 <input id="rankToRecipients-4" type="hidden" value="true">
                 <input id="rankNumOptions-4" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-4" type="hidden" value="true">
+                <input disabled="" id="minOptionsToBeRanked-4" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-4" type="hidden" value="">
               </div>
             </div>
           </div>

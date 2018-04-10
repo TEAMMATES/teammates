@@ -26,7 +26,7 @@ public class AdminAccountManagementPageData extends PageData {
     private List<AdminAccountManagementAccountTableRow> createAccountTable(
             Map<String, AccountAttributes> instructorAccountsTable,
             Map<String, ArrayList<InstructorAttributes>> instructorCoursesTable) {
-        List<AdminAccountManagementAccountTableRow> table = new ArrayList<AdminAccountManagementAccountTableRow>();
+        List<AdminAccountManagementAccountTableRow> table = new ArrayList<>();
 
         for (Map.Entry<String, AccountAttributes> entry : instructorAccountsTable.entrySet()) {
             String key = entry.getKey();

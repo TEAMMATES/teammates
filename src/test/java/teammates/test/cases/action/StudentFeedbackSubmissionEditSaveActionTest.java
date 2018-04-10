@@ -1,5 +1,6 @@
 package teammates.test.cases.action;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,15 +60,15 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback question not found in database", fq);
 
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponseAttributes fr = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -84,13 +85,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("deleted response");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -108,13 +114,20 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
-                        Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
+        // delete respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
+
         ______TS("skipped question");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
@@ -130,7 +143,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -139,7 +157,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("new response");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
@@ -156,7 +174,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -170,17 +193,20 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                      email.getSubject());
         assertEquals(student1InCourse1.email, email.getRecipient());
 
+        // append respondent task scheduled
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
+
         ______TS("edit response, did not specify recipient");
 
         fq = fqDb.getFeedbackQuestion("First feedback session", "idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
 
-        fr = dataBundle.feedbackResponses.get("response2ForQ2S1C1");
+        fr = typicalBundle.feedbackResponses.get("response2ForQ2S1C1");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-2", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-2-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -211,7 +237,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("edit response, empty answer");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-2", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-2-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -228,7 +254,13 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
-        assertEquals(getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "student1InCourse1"),
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "First+feedback+session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -237,7 +269,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("new response, did not specify recipient");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-2", "1",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
@@ -278,7 +310,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -295,13 +327,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("mcq, question skipped");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -317,7 +354,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -330,7 +372,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-2", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-2-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -348,7 +390,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session"),
                 r.getDestinationWithParams());
         FeedbackResponseAttributes finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
@@ -367,7 +414,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -384,13 +431,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("msq, question skipped");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -406,7 +458,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -419,7 +476,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-3", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-3-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -437,7 +494,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
@@ -449,7 +511,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-3", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-3-1", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -467,7 +529,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
@@ -479,7 +546,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-3", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-3-2", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -497,7 +564,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "MSQ+Session"),
                 r.getDestinationWithParams());
         finalFr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull(finalFr);
@@ -518,7 +590,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -538,13 +610,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "NUMSCALE+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("numscale, question skipped");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -564,7 +641,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "NUMSCALE+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -586,7 +668,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -604,13 +686,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: const sum: question skipped");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -627,7 +714,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
@@ -644,7 +736,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -661,13 +753,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, r.isError, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONTRIB+Session"),
                 r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Successful case: contrib qn: question skipped");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -684,13 +781,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "FSQTT.student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONTRIB+Session"),
                 r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
 
         ______TS("Unsuccessful case: test empty feedback session name parameter");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1S1C1").courseId
         };
 
@@ -705,7 +807,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("Unsuccessful case: test empty course id parameter");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                         dataBundle.feedbackResponses.get("response1ForQ1S1C1").feedbackSessionName
         };
@@ -721,7 +823,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         ______TS("Unsuccessful case: modified recipient list to invalid recipient");
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -774,7 +876,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback question not found in database", fq);
 
         FeedbackResponseAttributes otherFr = dataBundle.feedbackResponses.get("response2ForQ1S1C1");
-        List<FeedbackResponseAttributes> responsesToAdd = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesToAdd = new ArrayList<>();
         responsesToAdd.add(fr);
         frDb.createFeedbackResponses(responsesToAdd);
 
@@ -829,7 +931,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                                                                            unregisteredStudent.email);
 
         // Valid response from unregistered student
-        String[] validSubmissionParams = new String[]{
+        String[] validSubmissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -877,7 +979,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
 
         // Invalid response from unregistered student
-        String[] invalidSubmissionParams = new String[]{
+        String[] invalidSubmissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -914,18 +1016,18 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     @Test
     public void testGracePeriodExecuteAndPostProcess() throws Exception {
         FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
-        StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("gracePeriodSession");
+        StudentAttributes studentInGracePeriod = typicalBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
         };
 
         ______TS("opened");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(1));
+        fs.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertTrue(fs.isOpened());
@@ -933,16 +1035,20 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
-
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "Grace+Period+Session"),
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
 
         ______TS("during grace period");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
+        fs.setEndTime(Instant.now());
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -951,14 +1057,19 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = getRedirectResult(a);
         assertEquals(
-                getPageResultDestination(Const.ActionURIs.STUDENT_HOME_PAGE, false, "student1InCourse1"),
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "student1InCourse1",
+                        "idOfTypicalCourse1",
+                        "Grace+Period+Session"),
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertFalse(r.isError);
 
         ______TS("after grace period");
 
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(-10));
+        fs.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-10));
         feedbackSessionDb.updateFeedbackSession(fs);
 
         assertFalse(fs.isOpened());
@@ -979,8 +1090,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
             String parentUri, boolean isError, String userId, String courseId, String fsname) {
         String pageDestination = parentUri;
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         return pageDestination;
     }
@@ -991,17 +1102,17 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.REGKEY, key);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsname);
         return pageDestination;
     }
 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponseAttributes fr = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
@@ -1015,17 +1126,17 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
 
     private void testGracePeriodAccessControlForStudents() {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
-        fs.setEndTime(TimeHelper.getDateOffsetToCurrentTime(0));
-        dataBundle.feedbackSessions.put("gracePeriodSession", fs);
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("gracePeriodSession");
+        fs.setEndTime(Instant.now());
+        typicalBundle.feedbackSessions.put("gracePeriodSession", fs);
 
         assertFalse(fs.isOpened());
         assertTrue(fs.isInGracePeriod());
         assertFalse(fs.isClosed());
 
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1GracePeriodFeedback");
+        FeedbackResponseAttributes fr = typicalBundle.feedbackResponses.get("response1GracePeriodFeedback");
 
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,

@@ -27,7 +27,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         instructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
         String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
@@ -88,7 +88,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         ______TS("Failure: the current key has been registered by another account");
 
-        InstructorAttributes instructor2 = dataBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes instructor2 = typicalBundle.instructors.get("instructor2OfCourse1");
         instructor2 = instrDb.getInstructorForGoogleId(instructor2.courseId, instructor2.googleId);
 
         submissionParams = new String[] {
@@ -114,13 +114,20 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         ______TS("Typical case: authenticate for new instructor with corresponding key");
 
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAAT.instr@email.com");
+        instructor = InstructorAttributes
+                .builder(null, instructor.courseId, "New Instructor", "ICJAAT.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAAT.instr";
 
-        AccountAttributes newInstructorAccount = new AccountAttributes(
-                instructor.googleId, instructor.name, false,
-                instructor.email, "TEAMMATES Test Institute 5");
+        AccountAttributes newInstructorAccount = AccountAttributes.builder()
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
+                .build();
         AccountsLogic.inst().createAccount(newInstructorAccount);
 
         InstructorAttributes newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -155,13 +162,20 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         ______TS("Failure case: the current unused key is not for this account ");
 
         String currentLoginId = instructor.googleId;
-        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
+        instructor = InstructorAttributes
+                .builder(null, instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com")
+                .build();
         InstructorsLogic.inst().createInstructor(instructor);
         instructor.googleId = "ICJAAT2.instr";
 
-        newInstructorAccount = new AccountAttributes(
-                instructor.googleId, instructor.name, false,
-                instructor.email, "TEAMMATES Test Institute 5");
+        newInstructorAccount = AccountAttributes.builder()
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(false)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
+                .build();
         AccountsLogic.inst().createAccount(newInstructorAccount);
 
         newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);

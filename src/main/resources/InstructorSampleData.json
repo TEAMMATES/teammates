@@ -229,12 +229,12 @@
       "instructions": {
         "value": "Please give your feedback based on the following questions."
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2012-04-02 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2012-04-02T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -252,12 +252,12 @@
       "instructions": {
         "value": "Please give your feedback based on the following questions."
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2012-04-02 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2012-04-02T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -275,12 +275,12 @@
       "instructions": {
         "value": "Please give your feedback based on the following questions."
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2037-04-02 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2037-04-02T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -516,7 +516,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
       },
       "questionNumber": 10,
       "questionType": "CONSTSUM",
@@ -668,7 +668,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "Comments about my contribution (shown to other teammates)"
+        "value": "Comments about your contribution (shown to other teammates)"
       },
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -699,7 +699,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "My comments about this teammate(confidential and only shown to instructor)"
+        "value": "Your comments about this teammate (confidential and only shown to instructor)"
       },
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -721,7 +721,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "Comments about team dynamics(confidential and only shown to instructor)"
+        "value": "Comments about team dynamics (confidential and only shown to instructor)"
       },
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -743,7 +743,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "My feedback to this teammate(shown anonymously to the teammate)"
+        "value": "Your feedback to this teammate (shown anonymously to the teammate)"
       },
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -793,7 +793,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "Comments about my contribution (shown to other teammates)"
+        "value": "Comments about your contribution (shown to other teammates)"
       },
       "questionNumber": 2,
       "questionType": "TEXT",
@@ -824,7 +824,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "My comments about this teammate(confidential and only shown to instructor)"
+        "value": "Your comments about this teammate (confidential and only shown to instructor)"
       },
       "questionNumber": 3,
       "questionType": "TEXT",
@@ -846,7 +846,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "Comments about team dynamics(confidential and only shown to instructor)"
+        "value": "Comments about team dynamics (confidential and only shown to instructor)"
       },
       "questionNumber": 4,
       "questionType": "TEXT",
@@ -868,7 +868,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "My feedback to this teammate(shown anonymously to the teammate)"
+        "value": "Your feedback to this teammate (shown anonymously to the teammate)"
       },
       "questionNumber": 5,
       "questionType": "TEXT",
@@ -2574,7 +2574,7 @@
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": {
-        "value": "Nice work Alice! You are a very good girl coder! :)"
+        "value": "Nice work Alice! You are a very good coder! :)"
       },
       "giverSection": "Tutorial Group 1",
       "recipientSection": "Tutorial Group 1"
@@ -2784,12 +2784,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2012-04-30 9:17 PM UTC",
+      "createdAt": "2012-04-30T21:17:00Z",
       "commentText": {
         "value": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30 9:17 PM UTC"
+      "lastEditedAt": "2012-04-30T21:17:00Z"
     },
     "comment1FromT1C1ToR1Q5S1C1": {
       "courseId": "demo.course",
@@ -2810,12 +2810,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2012-04-30 9:20 PM UTC",
+      "createdAt": "2012-04-30T21:20:00Z",
       "commentText": {
         "value": "<p>Completely agree, the application does look pretty.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30 9:20 PM UTC"
+      "lastEditedAt": "2012-04-30T21:20:00Z"
     },
     "comment1FromT1C1ToR3Q5S1C1": {
       "courseId": "demo.course",
@@ -2836,12 +2836,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2012-04-30 9:23 PM UTC",
+      "createdAt": "2012-04-30T21:23:00Z",
       "commentText": {
         "value": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30 9:23 PM UTC"
+      "lastEditedAt": "2012-04-30T21:23:00Z"
     },
     "comment1FromT1C1ToR2Q2S1C1": {
       "courseId": "demo.course",
@@ -2862,12 +2862,132 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2012-04-30 9:26 PM UTC",
+      "createdAt": "2012-04-30T21:26:00Z",
       "commentText": {
         "value": "<p>Hoping you keep using them on future projects.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30 9:26 PM UTC"
+      "lastEditedAt": "2012-04-30T21:26:00Z"
+    },
+    "comment1FromT1C1ToR1Q2S2C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "First team feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 1",
+      "receiverSection": "Tutorial Group 1",
+      "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30T21:29:00Z",
+      "commentText": {
+        "value": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30T21:29:00Z"
+    },
+    "comment1FromT1C1ToR2Q2S2C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "First team feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 1",
+      "receiverSection": "Tutorial Group 1",
+      "feedbackResponseId": "2%benny.c.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30T21:33:00Z",
+      "commentText": {
+        "value": "<p>Although there are some loopholes in UI, But overall looks good.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30T21:33:00Z"
+    },
+    "comment1FromT1C1ToR5Q2S2C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "First team feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "receiverSection": "Tutorial Group 2",
+      "feedbackResponseId": "2%charlie.d.tmms@gmail.tmt%charlie.d.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30T21:36:00Z",
+      "commentText": {
+        "value": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30T21:36:00Z"
+    },
+    "comment1FromT1C1ToR6Q2S2C1": {
+      "courseId": "demo.course",
+      "feedbackSessionName": "First team feedback session",
+      "feedbackQuestionId": "2",
+      "giverEmail": "teammates.demo.instructor@demo.course",
+      "giverSection": "Tutorial Group 2",
+      "receiverSection": "Tutorial Group 2",
+      "feedbackResponseId": "2%francis.g.tmms@gmail.tmt%francis.g.tmms@gmail.tmt",
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "createdAt": "2012-04-30T21:39:00Z",
+      "commentText": {
+        "value": "<p>Design could have been more interactive.</p>"
+      },
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30T21:39:00Z"
     }
   },
   "profiles": {}

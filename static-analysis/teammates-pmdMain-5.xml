@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name=""
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        This is the PMD additional ruleset for TEAMMATES production code.
+    </description>
+    <exclude-pattern>.*/test/java/.*</exclude-pattern>
+    <exclude-pattern>.*/client/java/.*</exclude-pattern>
+    <exclude-pattern>.*.html</exclude-pattern>
+    <exclude-pattern>.*.jsp</exclude-pattern>
+    <exclude-pattern>.*.js</exclude-pattern>
+    <exclude-pattern>.*.xml</exclude-pattern>
+    <rule ref="rulesets/java/logging-java.xml">
+        <!-- Not worth the added safety -->
+        <exclude name="GuardLogStatementJavaUtil"/>
+    </rule>
+    <rule ref="rulesets/java/strictexception.xml/SignatureDeclareThrowsException"/>
+    <rule ref="rulesets/java/typeresolution.xml/LooseCoupling"/>
+    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingRawExceptionTypes"/>
+</ruleset>

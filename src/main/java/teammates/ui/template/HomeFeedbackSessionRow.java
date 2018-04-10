@@ -2,24 +2,37 @@ package teammates.ui.template;
 
 public class HomeFeedbackSessionRow {
     private String name;
-    private String tooltip;
-    private String status;
+    private String submissionsTooltip;
+    private String publishedTooltip;
+    private String submissionStatus;
+    private String publishedStatus;
 
-    public HomeFeedbackSessionRow(String name, String tooltip, String status) {
+    public HomeFeedbackSessionRow(String name, String submissionsTooltip, String publishedTooltip,
+                                  String submissionStatus, String publishedStatus) {
         this.name = name;
-        this.tooltip = tooltip;
-        this.status = status;
+        this.submissionsTooltip = submissionsTooltip;
+        this.publishedTooltip = publishedTooltip;
+        this.submissionStatus = submissionStatus;
+        this.publishedStatus = publishedStatus;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getTooltip() {
-        return tooltip;
+    public String getSubmissionsTooltip() {
+        return submissionsTooltip;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPublishedTooltip() {
+        return publishedTooltip;
+    }
+
+    public String getSubmissionStatus() {
+        return submissionStatus;
+    }
+
+    public String getPublishedStatus() {
+        return publishedStatus;
     }
 }

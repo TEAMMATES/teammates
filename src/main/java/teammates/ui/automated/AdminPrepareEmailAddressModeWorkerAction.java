@@ -39,7 +39,7 @@ public class AdminPrepareEmailAddressModeWorkerAction extends AutomatedAction {
 
         AdminEmailAttributes adminEmail = logic.getAdminEmailById(emailId);
         Assumption.assertNotNull(adminEmail);
-        List<String> addressList = new ArrayList<String>();
+        List<String> addressList = new ArrayList<>();
 
         if (addressReceiverListString.contains(",")) {
             addressList.addAll(Arrays.asList(addressReceiverListString.split(",")));

@@ -152,12 +152,12 @@
       "instructions": {
         "value": "Please edit this session"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2026-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2026-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -175,12 +175,12 @@
       "instructions": {
         "value": "For instructors to submit and view results"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2026-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -198,12 +198,12 @@
       "instructions": {
         "value": "For students to submit and view results"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2026-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2026-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -221,12 +221,12 @@
       "instructions": {
         "value": "Instructions for closed session"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 11:59 PM UTC",
-      "endTime": "2012-04-30 11:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 11:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 11:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -767,6 +767,183 @@
         "RECEIVER",
         "INSTRUCTORS"
       ]
+    },
+    "studentQuestions9": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank yourself\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 9,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions10": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2, \"questionText\":\"Rank atleast 2 options based on impact they cause on your activities.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Motivation\",\"Friends\",\"Sleep\",\"Appetite\",\"Stress\"]}"
+      },
+      "questionNumber": 10,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions11": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"maxOptionsToBeRanked\":2, \"questionText\":\"Rank at most 2 options based on impact they cause on your activities.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Motivation\",\"Friends\",\"Sleep\",\"Appetite\",\"Stress\"]}"
+      },
+      "questionNumber": 11,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions12": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":3,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank exactly 3 options based on popularity.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"C\",\"C++\",\"Java\",\"C#\",\"Python\"]}"
+      },
+      "questionNumber": 12,
+      "questionType": "RANK_OPTIONS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions13": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"minOptionsToBeRanked\":2,\"questionText\":\"Rank atleast 2 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 13,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions14": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false, \"maxOptionsToBeRanked\":2,\"questionText\":\"Rank atmost 2 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 14,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
+    "studentQuestions15": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"minOptionsToBeRanked\":3,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank exactly 3 recipients based on popularity.\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 15,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -792,6 +969,71 @@
       "recipient": "benny.c.tmms@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.3": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.4": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.5": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.6": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn3.7": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "charlie.d.tmms@gmail.tmt",
+      "recipient": "charlie.d.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":3,\"questionType\":\"RANK_RECIPIENTS\"}"
       },
       "giverSection": "Section 2",
       "recipientSection": "Section 1"
@@ -857,6 +1099,19 @@
       "recipient": "alice.b.tmms@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answers\":[5,4,3,2,1,6,7,8,9,10,11,12,13,14],\"questionType\":\"RANK_OPTIONS\"}"
+      },
+      "giverSection": "None",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn9.1": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "9",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
       },
       "giverSection": "None",
       "recipientSection": "Section 1"

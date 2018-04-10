@@ -10,8 +10,12 @@ public enum FeedbackParticipantType {
     // text displayed during feedback submission respectively.
     SELF(true, true, false, "Feedback session creator (i.e., me)", "Giver (Self feedback)", ""),
     STUDENTS(true, true, true, "Students in this course", "Other students in the course", "Other students in the course"),
+    //used to generate options for MCQ & MSQ:
+    STUDENTS_EXCLUDING_SELF(false, false, false, "Students in this course", "Other students in the course",
+            "Other students in the course"),
     INSTRUCTORS(true, true, true, "Instructors in this course", "Instructors in the course", "Instructors in this course"),
     TEAMS(true, true, false, "Teams in this course", "Other teams in the course", ""),
+    TEAMS_EXCLUDING_SELF(false, false, false, "Teams in this course", "Other teams in the course", ""),
     OWN_TEAM(false, true, false, "", "Giver's team", "Your team"),
     OWN_TEAM_MEMBERS(false, true, true, "", "Giver's team members", "Your team members"),
     OWN_TEAM_MEMBERS_INCLUDING_SELF(false, true, true, "", "Giver's team members and Giver", "Your team members"),
@@ -23,7 +27,7 @@ public enum FeedbackParticipantType {
 
     public static final List<FeedbackParticipantType> GIVERS;
     static {
-        List<FeedbackParticipantType> giverInitializer = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> giverInitializer = new ArrayList<>();
         for (FeedbackParticipantType participantType : FeedbackParticipantType.values()) {
             if (participantType.isValidGiver()) {
                 giverInitializer.add(participantType);
@@ -34,7 +38,7 @@ public enum FeedbackParticipantType {
 
     public static final List<FeedbackParticipantType> RECIPIENTS;
     static {
-        List<FeedbackParticipantType> recipientInitializer = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> recipientInitializer = new ArrayList<>();
         for (FeedbackParticipantType participantType : FeedbackParticipantType.values()) {
             if (participantType.isValidRecipient()) {
                 recipientInitializer.add(participantType);
@@ -115,12 +119,16 @@ public enum FeedbackParticipantType {
             return "instructor";
         case STUDENTS:
             // Fallthrough
+        case STUDENTS_EXCLUDING_SELF:
+            // Fallthrough
         case OWN_TEAM_MEMBERS:
             // Fallthrough
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             return "student";
         case TEAMS:
-            return "team";
+            // Fallthrough
+        case TEAMS_EXCLUDING_SELF:
+            // Fallthrough
         case OWN_TEAM:
             return "team";
         default:
@@ -147,7 +155,7 @@ public enum FeedbackParticipantType {
      */
     public static List<FeedbackParticipantType> getParticipantListFromCommaSeparatedValues(
             String commaSeparatedValues) {
-        List<FeedbackParticipantType> participantList = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> participantList = new ArrayList<>();
 
         if (commaSeparatedValues == null || commaSeparatedValues.isEmpty()) {
             return participantList;

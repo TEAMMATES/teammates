@@ -11,7 +11,7 @@ public class StudentFeedbackResultsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Feedback Results - Student</h1>");
+        return getPageSource().contains("<h1>Feedback Results</h1>");
     }
 
     public void clickQuestionAdditionalInfoButton(int qnNumber, String additionalInfoId) {

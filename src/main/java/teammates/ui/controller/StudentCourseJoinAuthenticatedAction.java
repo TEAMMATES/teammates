@@ -23,7 +23,7 @@ import teammates.common.util.StatusMessageColor;
  * {@link StudentCourseJoinAction}. This action does the actual
  * joining of the student to the course.
  */
-public class StudentCourseJoinAuthenticatedAction extends Action {
+public class StudentCourseJoinAuthenticatedAction extends CourseJoinAuthenticatedAbstractAction {
 
     private static final Logger log = Logger.getLogger();
 
@@ -69,13 +69,14 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         }
 
         addStatusMessageToUser();
+        sendCourseRegisteredEmail(student.name, student.email, false, student.course);
 
         return response;
     }
 
     private void addStatusMessageToUser() throws EntityDoesNotExistException {
         CourseAttributes course = logic.getCourse(getStudent().course);
-        String courseDisplayText = "[" + course.getId() + "] " + course.getName();
+        String courseDisplayText = "[" + course.getId() + "] " + SanitizationHelper.sanitizeForHtml(course.getName());
 
         statusToUser.add(new StatusMessage(String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL,
                                                            courseDisplayText), StatusMessageColor.SUCCESS));

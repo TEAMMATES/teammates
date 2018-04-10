@@ -31,7 +31,7 @@ public class InstructorCourseEnrollResultPageData extends PageData {
         this.students = students;
         this.hasSection = hasSection;
         this.enrollStudents = enrollStudents;
-        enrollResultPanelList = new ArrayList<EnrollResultPanel>();
+        enrollResultPanelList = new ArrayList<>();
 
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             String panelClass = "";

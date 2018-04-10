@@ -42,9 +42,24 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     }
 
     private StudentProfilePageData initializeDataWithPictureKeyAndNoNullFields() {
-        spa = new StudentProfileAttributes("valid.id.2", "short name", "e@mail2.com", "inst", "American",
-                                           "male", "more info", "pictureKey");
-        acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
+        spa = StudentProfileAttributes.builder("valid.id.2")
+                .withShortName("short name")
+                .withEmail("e@mail2.com")
+                .withInstitute("inst")
+                .withNationality("American")
+                .withGender("male")
+                .withMoreInfo("more info")
+                .withPictureKey("pictureKey")
+                .build();
+
+        acct = AccountAttributes.builder()
+                .withGoogleId("valid.id")
+                .withName("full name")
+                .withEmail("e@email.com")
+                .withInstitute("inst")
+                .withIsInstructor(false)
+                .withStudentProfileAttributes(spa)
+                .build();
         isEditingPhoto = "false";
         pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
                    + "?" + Const.ParamsNames.BLOB_KEY + "=" + spa.pictureKey
@@ -53,8 +68,17 @@ public class StudentProfilePageDataTest extends BaseTestCase {
     }
 
     private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
-        spa = new StudentProfileAttributes("valid.id.2", null, null, null, null, "male", null, "");
-        acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
+        spa = StudentProfileAttributes.builder("valid.id.2")
+                .withGender("male")
+                .build();
+        acct = AccountAttributes.builder()
+                .withGoogleId("valid.id")
+                .withName("full name")
+                .withEmail("e@email.com")
+                .withInstitute("inst")
+                .withIsInstructor(false)
+                .withStudentProfileAttributes(spa)
+                .build();
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         return new StudentProfilePageData(acct, dummySessionToken, isEditingPhoto);
     }

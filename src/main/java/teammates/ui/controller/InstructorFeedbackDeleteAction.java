@@ -18,7 +18,7 @@ public class InstructorFeedbackDeleteAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         if (nextUrl == null) {
-            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         }
 
         gateKeeper.verifyAccessible(

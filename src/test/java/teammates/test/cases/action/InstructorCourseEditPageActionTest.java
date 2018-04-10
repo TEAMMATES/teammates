@@ -28,7 +28,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
 
@@ -82,7 +82,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode");
 
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor4");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor4");
         instructorId = instructor.googleId;
         courseId = instructor.courseId;
 
@@ -142,8 +142,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

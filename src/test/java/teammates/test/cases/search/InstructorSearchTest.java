@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
 
@@ -17,7 +16,7 @@ import teammates.test.driver.AssertHelper;
  */
 public class InstructorSearchTest extends BaseSearchTest {
     @Test
-    public void allTests() throws InvalidParametersException {
+    public void allTests() throws Exception {
         InstructorsDb instructorsDb = new InstructorsDb();
 
         InstructorAttributes ins1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -100,7 +99,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes assistantProf = helperInCourse1.getCopy();
         String displayedName = "Assistant Prof Smith";
         assistantProf.displayedName = displayedName;
-        instructorsDb.createInstructors(Arrays.asList(assistantProf));
+        instructorsDb.updateInstructorByEmail(assistantProf);
         results = instructorsDb.searchInstructorsInWholeSystem(displayedName);
         verifySearchResults(results, assistantProf);
 
@@ -112,7 +111,7 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         ______TS("success: search for instructors in whole system; instructors created without searchability unsearchable");
 
-        instructorsDb.createInstructorsWithoutSearchability(Arrays.asList(ins1InCourse1));
+        instructorsDb.createEntitiesWithoutExistenceCheck(Arrays.asList(ins1InCourse1));
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
         verifySearchResults(results, ins1InCourse2, ins1InTestingSanitizationCourse);
 
@@ -137,7 +136,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         assertEquals(expected.length, actual.instructorList.size());
         standardizeInstructorsForComparison(expected);
         standardizeInstructorsForComparison(
-                actual.instructorList.toArray(new InstructorAttributes[actual.instructorList.size()]));
+                actual.instructorList.toArray(new InstructorAttributes[0]));
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual.instructorList);
     }
 

@@ -55,8 +55,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
-        StudentProfileAttributes spa = new StudentProfileAttributes();
-        spa.googleId = "id";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("id").build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
@@ -64,8 +63,14 @@ public class AccountsLogicTest extends BaseLogicTest {
         spa.institute = "institute";
         spa.moreInfo = "this is more info";
 
-        AccountAttributes accountToCreate = new AccountAttributes("id", "name",
-                true, "test@email", "dev", spa);
+        AccountAttributes accountToCreate = AccountAttributes.builder()
+                .withGoogleId("id")
+                .withName("name")
+                .withEmail("test@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
 
         accountsLogic.createAccount(accountToCreate);
         verifyPresentInDatastore(accountToCreate);
@@ -74,8 +79,14 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters exception case");
 
-        accountToCreate = new AccountAttributes("", "name",
-                true, "test@email", "dev", spa);
+        accountToCreate = AccountAttributes.builder()
+                .withGoogleId("")
+                .withName("name")
+                .withEmail("test@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
         try {
             accountsLogic.createAccount(accountToCreate);
             signalFailureToDetectException();
@@ -113,13 +124,18 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("test updateAccount");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes();
-        spa.googleId = "idOfInstructor1OfCourse1";
+        StudentProfileAttributes spa = StudentProfileAttributes.builder("idOfInstructor1OfCourse1").build();
         spa.institute = "dev";
         spa.shortName = "nam";
 
-        AccountAttributes expectedAccount = new AccountAttributes("idOfInstructor1OfCourse1", "name",
-                true, "test2@email", "dev", spa);
+        AccountAttributes expectedAccount = AccountAttributes.builder()
+                .withGoogleId("idOfInstructor1OfCourse1")
+                .withName("name")
+                .withEmail("test2@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
 
         // updates the profile
         accountsLogic.updateAccount(expectedAccount, true);
@@ -136,8 +152,14 @@ public class AccountsLogicTest extends BaseLogicTest {
         // no change in the name
         assertEquals("nam", actualAccount.studentProfile.shortName);
 
-        expectedAccount = new AccountAttributes("id-does-not-exist", "name",
-                true, "test2@email", "dev", spa);
+        expectedAccount = AccountAttributes.builder()
+                .withGoogleId("id-does-not-exist")
+                .withName("name")
+                .withEmail("test2@email.com")
+                .withInstitute("dev")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
         try {
             accountsLogic.updateAccount(expectedAccount);
             signalFailureToDetectException();
@@ -175,8 +197,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         String originalEmail = "original@email.com";
 
         // Create correct student with original@email.com
-        StudentAttributes studentData = new StudentAttributes(null,
-                originalEmail, "name", "", courseId, "teamName", "sectionName");
+        StudentAttributes studentData = StudentAttributes
+                .builder(courseId, "name", originalEmail)
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -207,8 +233,13 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: googleID belongs to an existing student in the course");
 
         String existingId = "AccLogicT.existing.studentId";
-        StudentAttributes existingStudent = new StudentAttributes(existingId,
-                "differentEmail@email.com", "name", "", courseId, "teamName", "sectionName");
+        StudentAttributes existingStudent = StudentAttributes
+                .builder(courseId, "name", "differentEmail@email.com")
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
+                .withGoogleId(existingId)
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
 
         try {
@@ -221,11 +252,18 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes(correctStudentId,
-                "", "", "TEAMMATES Test Institute 1", "", "other", "", "");
+        StudentProfileAttributes spa = StudentProfileAttributes.builder(correctStudentId)
+                .withInstitute("TEAMMATES Test Institute 1")
+                .build();
 
-        AccountAttributes accountData = new AccountAttributes(correctStudentId,
-                "nameABC", false, "real@gmail.com", "TEAMMATES Test Institute 1", spa);
+        AccountAttributes accountData = AccountAttributes.builder()
+                .withGoogleId(correctStudentId)
+                .withName("nameABC")
+                .withEmail("real@gmail.com")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(true)
+                .withStudentProfileAttributes(spa)
+                .build();
 
         accountsLogic.createAccount(accountData);
         accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
@@ -268,8 +306,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         logic.deleteAccount(correctStudentId);
 
         originalEmail = "email2@gmail.com";
-        studentData = new StudentAttributes(null, originalEmail, "name", "",
-                courseId, "teamName", "sectionName");
+        studentData = StudentAttributes
+                .builder(courseId, "name", originalEmail)
+                .withSection("sectionName")
+                .withTeam("teamName")
+                .withComments("")
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
@@ -360,8 +402,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor joined but account already exists");
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
-        InstructorAttributes newIns =
-                new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        InstructorAttributes newIns = InstructorAttributes
+                .builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .build();
 
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -377,8 +420,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
 
         instructor = dataBundle.instructors.get("instructor4");
-        newIns = new InstructorAttributes(null, instructor.courseId, "anInstructorWithoutGoogleId",
-                                          "anInstructorWithoutGoogleId@gmail.com");
+        newIns = InstructorAttributes
+                .builder(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com")
+                .build();
 
         instructorsLogic.createInstructor(newIns);
 
@@ -386,7 +430,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = new InstructorAttributes(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email);
+        newIns = InstructorAttributes.builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .build();
 
         instructorsLogic.createInstructor(newIns);
         encryptedKey = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
@@ -458,8 +503,13 @@ public class AccountsLogicTest extends BaseLogicTest {
         AccountAttributes account = dataBundle.accounts.get("instructor5");
 
         // Make instructor account id a student too.
-        StudentAttributes student = new StudentAttributes(instructor.googleId,
-                "email@com", instructor.name, "", instructor.courseId, "team", "section");
+        StudentAttributes student = StudentAttributes
+                .builder(instructor.courseId, instructor.name, "email@com")
+                .withSection("section")
+                .withTeam("team")
+                .withComments("")
+                .withGoogleId(instructor.googleId)
+                .build();
         studentsLogic.createStudentCascadeWithoutDocument(student);
         verifyPresentInDatastore(account);
         verifyPresentInDatastore(instructor);

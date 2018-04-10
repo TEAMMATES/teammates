@@ -1,9 +1,8 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Text;
@@ -16,7 +15,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
-public class FeedbackResponseAttributes extends EntityAttributes {
+public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
     public String feedbackSessionName;
     public String courseId;
     public String feedbackQuestionId;
@@ -41,8 +40,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public Text responseMetaData;
     public String giverSection;
     public String recipientSection;
-    protected transient Date createdAt;
-    protected transient Date updatedAt;
+    protected transient Instant createdAt;
+    protected transient Instant updatedAt;
     private String feedbackResponseId;
 
     public FeedbackResponseAttributes() {
@@ -102,11 +101,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
         this.feedbackResponseId = feedbackResponseId;
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
 
@@ -114,7 +113,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
@@ -224,12 +223,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
 
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        Collections.sort(frs, new Comparator<FeedbackResponseAttributes>() {
-            @Override
-            public int compare(FeedbackResponseAttributes fr1, FeedbackResponseAttributes fr2) {
-                return fr1.getId().compareTo(fr2.getId());
-            }
-        });
+        frs.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
     }
 
 }

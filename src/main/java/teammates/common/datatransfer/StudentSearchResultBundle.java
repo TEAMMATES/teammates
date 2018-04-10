@@ -13,7 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class StudentSearchResultBundle extends SearchResultBundle {
 
-    public List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
-    public Map<String, InstructorAttributes> courseIdInstructorMap = new HashMap<String, InstructorAttributes>();
+    public List<StudentAttributes> studentList = new ArrayList<>();
+    public Map<String, InstructorAttributes> courseIdInstructorMap = new HashMap<>();
 
 }

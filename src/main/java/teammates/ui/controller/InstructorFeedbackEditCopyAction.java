@@ -32,7 +32,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, newFeedbackSessionName);
 
         if (nextUrl == null) {
-            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         }
 
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
@@ -43,7 +43,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(originalFeedbackSessionName, originalCourseId);
 
         gateKeeper.verifyAccessible(instructor, logic.getCourse(originalCourseId),
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
         gateKeeper.verifyAccessible(instructor, fsa, false);
 
         try {
@@ -116,7 +116,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
      * an existing feedback session with a name conflicting with feedbackSessionName.
      */
     private List<String> filterConflictsInCourses(String feedbackSessionName, String[] coursesIdToCopyTo) {
-        List<String> courses = new ArrayList<String>();
+        List<String> courses = new ArrayList<>();
 
         for (String courseIdToCopy : coursesIdToCopyTo) {
             FeedbackSessionAttributes existingFs =

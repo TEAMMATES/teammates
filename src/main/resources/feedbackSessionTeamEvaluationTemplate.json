@@ -4,7 +4,7 @@
     "courseId": "${courseId}",
     "creatorEmail": "${creatorEmail}",
     "questionMetaData": {
-      "value": "{\"questionText\":\"My estimate of how much each team member contributed.\",\"questionType\":\"CONTRIB\"}"
+      "value": "{\"questionText\":\"Your estimate of how much each team member has contributed.\",\"questionType\":\"CONTRIB\"}"
     },
     "questionNumber": 1,
     "questionType": "CONTRIB",
@@ -30,7 +30,7 @@
     "courseId": "${courseId}",
     "creatorEmail": "${creatorEmail}",
     "questionMetaData": {
-      "value": "Comments about my contribution(shown to other teammates)"
+      "value": "Comments about your contribution (shown to other teammates)"
     },
     "questionNumber": 2,
     "questionType": "TEXT",
@@ -61,7 +61,7 @@
     "courseId": "${courseId}",
     "creatorEmail": "${creatorEmail}",
     "questionMetaData": {
-      "value": "My comments about this teammate(confidential and only shown to instructor)"
+      "value": "Your comments about this teammate (confidential and only shown to instructor)"
     },
     "questionNumber": 3,
     "questionType": "TEXT",
@@ -83,7 +83,7 @@
     "courseId": "${courseId}",
     "creatorEmail": "${creatorEmail}",
     "questionMetaData": {
-      "value": "Comments about team dynamics(confidential and only shown to instructor)"
+      "value": "Comments about team dynamics (confidential and only shown to instructor)"
     },
     "questionNumber": 4,
     "questionType": "TEXT",
@@ -105,7 +105,7 @@
     "courseId": "${courseId}",
     "creatorEmail": "${creatorEmail}",
     "questionMetaData": {
-      "value": "My feedback to this teammate(shown anonymously to the teammate)"
+      "value": "Your feedback to this teammate (shown anonymously to the teammate)"
     },
     "questionNumber": 5,
     "questionType": "TEXT",

@@ -1,54 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
-
-    <!-- This jsp-config element tag must be put above other tags or else it might cause all error pages to be non-accessible -->
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <page-encoding>UTF-8</page-encoding>
-        </jsp-property-group>
-    </jsp-config>
+        xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+        version="3.1">
 
     <filter>
-        <filter-name>appstats</filter-name>
-        <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+        <filter-name>ObjectifyFilter</filter-name>
+        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>appstats</filter-name>
-        <url-pattern>/page/*</url-pattern>
+        <filter-name>ObjectifyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <filter>
-        <filter-name>appstats</filter-name>
-        <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
-        <init-param>
-            <param-name>calculateRpcCosts</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </filter>
-
-    <servlet>
-        <servlet-name>appstats</servlet-name>
-        <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>appstats</servlet-name>
-        <url-pattern>/appstats/*</url-pattern>
-    </servlet-mapping>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>appstats</web-resource-name>
-            <url-pattern>/appstats/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-    </security-constraint>
+    <listener>
+        <listener-class>teammates.storage.api.OfyHelper</listener-class>
+    </listener>
 
     <servlet>
         <display-name>Remote API Servlet</display-name>
@@ -101,18 +67,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>EntityModifiedLogs</servlet-name>
-        <servlet-class>teammates.ui.controller.EntityModifiedLogsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EntityModifiedLogs</servlet-name>
-        <url-pattern>/entityModifiedLogs</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <description>Servlet that handles all incoming requests</description>
         <servlet-name>ControllerServlet</servlet-name>
         <servlet-class>teammates.ui.controller.ControllerServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
@@ -186,7 +144,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
             <web-resource-name>AdminPages</web-resource-name>
             <description>Page for admin use only</description>
             <url-pattern>/admin/*</url-pattern>
-            <url-pattern>/entityModifiedLogs</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
@@ -199,7 +156,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <web-resource-collection>
             <web-resource-name>TestPages</web-resource-name>
             <description>Page for testing use only</description>
-            <url-pattern>/dev/*</url-pattern>
+            <url-pattern>/test/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
@@ -234,9 +191,5 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <error-page>
         <error-code>500</error-code>
         <location>/errorPage.jsp</location>
-    </error-page>
-     <error-page>
-        <error-code>500</error-code>
-        <location>/deadlineExceededErrorPage.jsp</location>
     </error-page>
 </web-app>

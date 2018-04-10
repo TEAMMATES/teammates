@@ -25,6 +25,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
     @Override
     protected void prepareTestData() {
+        super.prepareTestData();
         dataBundle = loadDataBundle("/InstructorEditInstructorFeedbackPageTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -34,7 +35,6 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     public void testExecuteAndPostProcess() {
         testModifyResponses();
         testIncorrectParameters();
-        testDifferentPrivileges();
         testSubmitResponseForInvalidQuestion();
         testClosedSession();
     }
@@ -122,6 +122,9 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         // submission confirmation email still not sent even if parameter is "on" because this is moderation
         verifyNoEmailsSent(editInstructorFsAction);
 
+        // delete respondent task scheduled
+        verifySpecifiedTasksAdded(editInstructorFsAction, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
+
         ______TS("skipped question");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -177,6 +180,9 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
                         "First+feedback+session"),
                 redirectResult.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+
+        // append respondent task scheduled
+        verifySpecifiedTasksAdded(editInstructorFsAction, Const.TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME, 1);
     }
 
     private void testIncorrectParameters() {
@@ -212,9 +218,9 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
 
         ______TS("Unsuccessful case: test empty course id parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                        dataBundle.feedbackResponses.get("response1ForQ1") .feedbackSessionName,
+                        dataBundle.feedbackResponses.get("response1ForQ1").feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
         };
 
@@ -228,7 +234,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
 
         ______TS("Unsuccessful case: test no moderated student parameter");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -250,7 +256,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         }
     }
 
-    private void testDifferentPrivileges() {
+    private void testDifferentPrivilegesWithEditedFeedback() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IEIFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
@@ -274,7 +280,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -305,7 +311,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -357,7 +363,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -387,7 +393,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -428,7 +434,7 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
         ______TS("Success case: modifying responses in closed session");
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -465,11 +471,11 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     protected String getPageResultDestination(
             String parentUri, boolean isError, String moderatedPerson, String userId, String courseId, String fsName) {
         String pageDestination = parentUri;
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(
                 pageDestination, Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPerson);
-        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.ERROR, Boolean.toString(isError));
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.COURSE_ID, courseId);
+        pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.USER_ID, userId);
         pageDestination = addParamToUrl(pageDestination, Const.ParamsNames.FEEDBACK_SESSION_NAME, fsName);
         return pageDestination;
     }
@@ -477,6 +483,19 @@ public class InstructorEditInstructorFeedbackSaveActionTest extends BaseActionTe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        //TODO: implement this
+        testDifferentPrivilegesWithEditedFeedback();
+
+        InstructorAttributes moderatedInstructor = typicalBundle.instructors.get("helperOfCourse1");
+        String courseId = moderatedInstructor.courseId;
+        String feedbackSessionName = "First feedback session";
+        String moderatedInstructorEmail = "helper@course1.tmt";
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedInstructorEmail
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
 }

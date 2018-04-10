@@ -7,8 +7,8 @@ Here are some documents important for TEAMMATES developers.
 * The project [**vision, challenges, and principles**](overview.md) from a developer's perspective.
 * The [**glossary**](glossary.md) of terms used in the project.
 * Software [**Design**](design.md) - Architecture, APIs, etc.
-* How to [**set up the developer environment**](settingUp.md).
-  * How to [**set up some IDEs for development**](ide-usage.md).
+* How to [**set up the developer environment**](setting-up.md).
+  * How to [**set up some IDEs for development**](ide-setup.md).
 * [**Development guideline**](development.md) - how to work with your own copy of TEAMMATES.
 * The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
 * [**Developer Troubleshooting Guide**](troubleshooting-guide.md)
@@ -32,7 +32,7 @@ Here are some documents important for TEAMMATES developers.
 
 * [Compressing images](compressing-images.md): How to compress images for use in TEAMMATES.
 * [Managing dependencies](dependencies.md)
-* [Static analysis](staticAnalysis.md): Performing code quality check.
+* [Static analysis](static-analysis.md): Performing code quality check.
 * [Setting up third-party email providers](emails.md).
 * ["GodMode"](godmode.md)
 

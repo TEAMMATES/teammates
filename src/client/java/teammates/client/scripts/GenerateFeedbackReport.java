@@ -45,11 +45,9 @@ public class GenerateFeedbackReport extends RemoteApiClient {
                 file.createNewFile();
             }
 
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(fileContent);
-            bw.close();
-
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()))) {
+                bw.write(fileContent);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

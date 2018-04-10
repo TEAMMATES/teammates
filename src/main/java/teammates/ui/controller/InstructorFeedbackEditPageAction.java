@@ -1,6 +1,6 @@
 package teammates.ui.controller;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +24,8 @@ public class InstructorFeedbackEditPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        String shouldLoadInEditModeParam = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT);
+        boolean shouldLoadInEditMode = "true".equals(shouldLoadInEditModeParam);
 
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(
@@ -34,7 +36,7 @@ public class InstructorFeedbackEditPageAction extends Action {
 
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
 
-        Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
+        Map<String, Boolean> questionHasResponses = new HashMap<>();
 
         for (FeedbackQuestionAttributes question : questions) {
             boolean hasResponse = logic.areThereResponsesForQuestion(question.getId());
@@ -42,25 +44,20 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
-        Collections.sort(studentList, new Comparator<StudentAttributes>() {
-            @Override
-            public int compare(StudentAttributes s1, StudentAttributes s2) {
-                if (s1.team.equals(s2.team)) {
-                    return s1.name.compareToIgnoreCase(s2.name);
-                }
-                return s1.team.compareToIgnoreCase(s2.team);
-            }
-        });
+        studentList.sort(Comparator.comparing((StudentAttributes student) -> student.team.toLowerCase())
+                .thenComparing(student -> student.name.toLowerCase()));
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        Collections.sort(instructorList, new Comparator<InstructorAttributes>() {
-            @Override
-            public int compare(InstructorAttributes i1, InstructorAttributes i2) {
-                return i1.name.compareToIgnoreCase(i2.name);
+        List<InstructorAttributes> instructorsWhoCanSubmit = new ArrayList<>();
+        for (InstructorAttributes instructor : instructorList) {
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                instructorsWhoCanSubmit.add(instructor);
             }
-        });
+        }
+        instructorList.sort(Comparator.comparing(instructor -> instructor.name.toLowerCase()));
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        int numOfInstructors = instructorList.size();
 
         statusToAdmin = "instructorFeedbackEdit Page Load<br>"
                         + "Editing information for Feedback Session "
@@ -68,7 +65,9 @@ public class InstructorFeedbackEditPageAction extends Action {
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
-        data.init(feedbackSession, questions, questionHasResponses, studentList, instructorList, instructor);
+
+        data.init(feedbackSession, questions, questionHasResponses, studentList, instructorsWhoCanSubmit, instructor,
+                shouldLoadInEditMode, numOfInstructors, logic.getCourseDetails(courseId));
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }

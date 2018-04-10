@@ -8,6 +8,8 @@ public abstract class LoginPage extends AppPage {
 
     public abstract InstructorHomePage loginAsInstructor(String username, String password);
 
+    public abstract <T extends AppPage> T loginAsInstructor(String username, String password, Class<T> typeOfPage);
+
     public abstract AppPage loginAsInstructorUnsuccessfully(String userName, String password);
 
     public abstract StudentHomePage loginAsStudent(String username, String password);

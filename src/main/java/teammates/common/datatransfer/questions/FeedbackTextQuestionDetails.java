@@ -8,6 +8,7 @@ import java.util.Map;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
@@ -31,6 +32,11 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public List<String> getInstructions() {
+        return null;
+    }
+
+    @Override
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
@@ -48,16 +54,17 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
     }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails,
+            StudentAttributes student) {
         return Templates.populateTemplate(
                 FormTemplates.TEXT_SUBMISSION_FORM,
-                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.IS_SESSION_OPEN, Boolean.toString(sessionIsOpen),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -69,10 +76,11 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
         return Templates.populateTemplate(
                 FormTemplates.TEXT_SUBMISSION_FORM,
-                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
+                Slots.IS_SESSION_OPEN, Boolean.toString(sessionIsOpen),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                 Slots.QUESTION_INDEX, Integer.toString(qnIdx),
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
@@ -162,14 +170,14 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public List<String> validateQuestionDetails() {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override

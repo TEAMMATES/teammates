@@ -17,7 +17,7 @@ public class FeedbackConstantSumResponseDetails extends
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails, String[] answer) {
-        List<Integer> constSumAnswer = new ArrayList<Integer>();
+        List<Integer> constSumAnswer = new ArrayList<>();
         for (String answerPart : answer) {
             try {
                 constSumAnswer.add(Integer.parseInt(answerPart));

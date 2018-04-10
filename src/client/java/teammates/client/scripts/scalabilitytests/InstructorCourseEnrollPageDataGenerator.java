@@ -19,6 +19,7 @@ public final class InstructorCourseEnrollPageDataGenerator {
     private static final String HEADER = "Section | Team | Name | Email | Comments\n";
 
     private InstructorCourseEnrollPageDataGenerator() {
+        // script-like; not meant to be instantiated
     }
 
     /**

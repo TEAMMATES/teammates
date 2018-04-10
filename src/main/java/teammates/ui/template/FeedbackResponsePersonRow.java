@@ -15,7 +15,7 @@ public class FeedbackResponsePersonRow {
                                      List<FeedbackResponseAttributes> responses,
                                      FeedbackSessionResultsBundle results) {
         this.personName = personName;
-        this.responses = new ArrayList<FeedbackResponseRow>();
+        this.responses = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             this.responses.add(new FeedbackResponseRow(fbIndex, personIndex, personType, response, results));
         }

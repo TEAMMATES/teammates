@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 import teammates.test.pageobjects.AppPage;
 
 /**
- * Verifies that both timezone libraries, jodatime and momentjs are in sync.
+ * Verifies that momentjs agrees with java.time in terms of timezone.
  *
  * <p>Implemented as a browser test as both back-end and front-end methods are involved.
  */
@@ -31,8 +31,8 @@ public class TimezoneSyncerTest extends BaseUiTestCase {
     @Test
     public void testAll() {
         Document pageSource = Jsoup.parse(page.getPageSource());
-        assertEquals(pageSource.getElementById("jodatime").text().replace(" ", Const.EOL),
-                     pageSource.getElementById("momentjs").text().replace(" ", Const.EOL));
+        assertEquals(pageSource.getElementById("javatime").text().replace(" ", System.lineSeparator()),
+                     pageSource.getElementById("momentjs").text().replace(" ", System.lineSeparator()));
     }
 
 }

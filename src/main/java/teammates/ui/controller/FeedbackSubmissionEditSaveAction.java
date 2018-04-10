@@ -1,11 +1,10 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -43,9 +42,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected FeedbackSubmissionEditPageData data;
     protected boolean hasValidResponse;
     protected boolean isSendSubmissionEmail;
-    protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<FeedbackResponseAttributes>();
-    protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<FeedbackResponseAttributes>();
-    protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<FeedbackResponseAttributes>();
+    protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<>();
+    protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<>();
+    protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -88,7 +87,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 continue; // question has been skipped (not displayed).
             }
 
-            List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
+            List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<>();
             String questionId = getRequestParamValue(
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
@@ -111,8 +110,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             emailSet.add("");
             emailSet = SanitizationHelper.desanitizeFromHtml(emailSet);
 
-            ArrayList<String> responsesRecipients = new ArrayList<String>();
-            List<String> errors = new ArrayList<String>();
+            ArrayList<String> responsesRecipients = new ArrayList<>();
+            List<String> errors = new ArrayList<>();
 
             for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response =
@@ -161,7 +160,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     addToPendingResponses(response);
                 }
             } else {
-                List<StatusMessage> errorMessages = new ArrayList<StatusMessage>();
+                List<StatusMessage> errorMessages = new ArrayList<>();
 
                 for (String error : errors) {
                     errorMessages.add(new StatusMessage(error, StatusMessageColor.DANGER));
@@ -201,26 +200,26 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 instructor = logic.getInstructorForGoogleId(courseId, user);
             }
             if (student == null && unregisteredStudentEmail != null) {
-                student = new StudentAttributes();
-                student.email = unregisteredStudentEmail;
-                student.name = unregisteredStudentEmail;
-                student.key = unregisteredStudentRegisterationKey;
+                student = StudentAttributes
+                        .builder("", unregisteredStudentEmail, unregisteredStudentEmail)
+                        .withKey(unregisteredStudentRegisterationKey)
+                        .build();
             }
             Assumption.assertFalse(student == null && instructor == null);
 
             try {
-                Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 EmailWrapper email = instructor == null
                         ? new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session,
-                                student, timestamp)
+                                student, Instant.now())
                         : new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session,
-                                instructor, timestamp);
+                                instructor, Instant.now());
                 emailSender.sendEmail(email);
             } catch (EmailSendingException e) {
                 log.severe("Submission confirmation email failed to send: "
                            + TeammatesException.toStringWithStackTrace(e));
             }
         }
+        // TODO: Refactor to AjaxResult so status messages do not have to be passed by session
         return createSpecificRedirectResult();
     }
 
@@ -241,7 +240,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         List<FeedbackResponseAttributes> existingResponses = data.bundle.questionResponseBundle.get(question);
-        List<String> existingResponsesId = new ArrayList<String>();
+        List<String> existingResponsesId = new ArrayList<>();
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             existingResponsesId.add(existingResponse.getId());
         }

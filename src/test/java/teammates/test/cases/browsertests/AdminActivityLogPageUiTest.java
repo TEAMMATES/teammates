@@ -1,7 +1,8 @@
 package teammates.test.cases.browsertests;
 
-import java.util.Calendar;
+import java.time.Instant;
 
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.Test;
 
@@ -9,6 +10,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.test.pageobjects.AdminActivityLogPage;
+import teammates.test.pageobjects.AdminSearchPage;
 
 /**
  * SUT: {@link Const.ActionURIs#ADMIN_ACTIVITY_LOG_PAGE}.
@@ -29,6 +31,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         testReference();
         testViewActionsLink();
         testInputValidation();
+        testSanitization();
     }
 
     private void testUserTimezone() {
@@ -66,17 +69,15 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertEquals(2, logPage.getNumberOfTableHeaders());
 
         ______TS("content: ensure default search period is not more than one day");
-        Calendar yesterday = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        yesterday.add(Calendar.DAY_OF_MONTH, -1);
-
-        assertTrue(logPage.getDateOfEarliestLog()
-                                        .after(yesterday.getTime()));
+        Instant yesterday = TimeHelper.getInstantDaysOffsetFromNow(-1);
+        assertTrue(logPage.getDateOfEarliestLog().isAfter(yesterday));
 
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
-        assertTrue(logPage.getStatus().contains("The earliest log entry checked on"));
-        assertTrue(logPage.getStatus().contains("in Admin Time Zone"));
-        assertTrue(logPage.getStatus().contains("in Local Time Zone")
-                   || logPage.getStatus().contains("Local Time Unavailable"));
+        String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
+        assertTrue(statusMessageText.contains("The earliest log entry checked on"));
+        assertTrue(statusMessageText.contains("in Admin Time Zone"));
+        assertTrue(statusMessageText.contains("in Local Time Zone")
+                   || statusMessageText.contains("Local Time Unavailable"));
     }
 
     private void testViewActionsLink() {
@@ -117,9 +118,32 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
 
         logPage.fillQueryBoxWithText("role:instructor");
         logPage.clickSearchSubmitButton();
+        String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);
+        assertTrue(statusMessageText.contains("Total Logs gone through in last search:"));
 
-        assertTrue(logPage.getStatus().contains("Total Logs gone through in last search:"));
+    }
 
+    private void testSanitization() {
+        ______TS("safe against injection from admin search page");
+
+        AdminSearchPage searchPageForInjection = logPage
+                .navigateTo(createUrl(Const.ActionURIs.ADMIN_SEARCH_PAGE))
+                .changePageType(AdminSearchPage.class);
+
+        String injectedScript = "Test Injected Script<script>alert('This is not good.');</script>";
+        searchPageForInjection.inputSearchContent(injectedScript);
+        searchPageForInjection.clickSearchButton();
+        searchPageForInjection.waitForPageToLoad();
+
+        logPage.navigateTo(createUrl(Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE));
+        logPage.waitForPageToLoad();
+
+        try {
+            browser.driver.switchTo().alert();
+            signalFailureToDetectException("Script managed to get injected");
+        } catch (NoAlertPresentException e) {
+            // this is what we expect, since we expect the script injection to fail
+        }
     }
 
     private void assertEqualsIfQueryStringNotEmpty(String expected, String actual) {

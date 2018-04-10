@@ -67,13 +67,12 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             throws Exception {
         ______TS("invalid paramters case");
         try {
-            profilesDb.updateStudentProfile(new StudentProfileAttributes());
+            profilesDb.updateStudentProfile(StudentProfileAttributes.builder("").build());
             signalFailureToDetectException(" - InvalidParametersException");
         } catch (InvalidParametersException ipe) {
-            assertEquals(getPopulatedErrorMessage(
-                             FieldValidator.GOOGLE_ID_ERROR_MESSAGE, "",
-                             FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                             FieldValidator.GOOGLE_ID_MAX_LENGTH),
+            assertEquals(getPopulatedEmptyStringErrorMessage(
+                             FieldValidator.GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                             FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.GOOGLE_ID_MAX_LENGTH),
                          ipe.getMessage());
         }
     }
@@ -260,15 +259,17 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     private AccountAttributes createNewAccount() throws Exception {
-        AccountAttributes a = new AccountAttributes();
-        a.googleId = "valid.googleId";
-        a.name = "Valid Fresh Account";
-        a.isInstructor = false;
-        a.email = "valid@email.com";
-        a.institute = "TEAMMATES Test Institute 1";
-        a.studentProfile = new StudentProfileAttributes();
-        a.studentProfile.googleId = a.googleId;
-        a.studentProfile.institute = "TEAMMATES Test Institute 1";
+        AccountAttributes a = AccountAttributes.builder()
+                .withGoogleId("valid.googleId")
+                .withEmail("valid@email.com")
+                .withName("Valid Fresh Account")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .withIsInstructor(false)
+                .build();
+
+        a.studentProfile = StudentProfileAttributes.builder(a.googleId)
+            .withInstitute("TEAMMATES Test Institute 1")
+            .build();
 
         accountsDb.createAccount(a);
         return a;

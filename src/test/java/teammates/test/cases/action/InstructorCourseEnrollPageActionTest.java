@@ -31,7 +31,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     private void visitEnrollPage_withInvalidRequestParams_throwsException() {
         ______TS("Not enough parameters");
 
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor4");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor4");
         gaeSimulation.loginAsInstructor(instructor.getGoogleId());
 
         verifyAssumptionFailure();
@@ -40,7 +40,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     private void visitEnrollPage_forCourseWithoutResponses_noWarningMessage() {
         ______TS("Typical case 1: open the enroll page of a course without existing feedback responses");
 
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor4");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor4");
         gaeSimulation.loginAsInstructor(instructor.getGoogleId());
 
         String courseId = instructor.getCourseId();
@@ -58,7 +58,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
-        assertEquals(null, pageData.getEnrollStudents());
+        assertNull(pageData.getEnrollStudents());
 
         String expectedLogSegment = String.format(
                 Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);
@@ -68,7 +68,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     private void visitEnrollPage_forCourseWithResponses_hasWarningMessage() {
         ______TS("Typical case 2: open the enroll page of a course with existing feedback responses");
 
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor.getGoogleId());
 
         String courseId = instructor.getCourseId();
@@ -86,7 +86,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
-        assertEquals(null, pageData.getEnrollStudents());
+        assertNull(pageData.getEnrollStudents());
 
         String expectedLogSegment = String.format(
                 Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);
@@ -98,7 +98,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsAdmin("admin.user");
 
-        InstructorAttributes instructorToMasquerade = dataBundle.instructors.get("instructor4");
+        InstructorAttributes instructorToMasquerade = typicalBundle.instructors.get("instructor4");
         String instructorId = instructorToMasquerade.googleId;
         String courseId = instructorToMasquerade.courseId;
 
@@ -117,7 +117,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.getCourseId());
-        assertEquals(null, pageData.getEnrollStudents());
+        assertNull(pageData.getEnrollStudents());
 
         String expectedLogSegment = String.format(
                 Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD, courseId);
@@ -132,8 +132,8 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

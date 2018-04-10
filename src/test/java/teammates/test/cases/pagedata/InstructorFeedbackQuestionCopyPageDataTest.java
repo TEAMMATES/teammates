@@ -22,7 +22,7 @@ public class InstructorFeedbackQuestionCopyPageDataTest extends BaseTestCase {
     public void allTests() {
         ______TS("Typical case");
 
-        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<>();
         copiableQuestions.addAll(dataBundle.feedbackQuestions.values());
 
         InstructorFeedbackQuestionCopyPageData data = new InstructorFeedbackQuestionCopyPageData(

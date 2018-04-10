@@ -32,11 +32,12 @@
             Time Zone:
           </label>
           <div class="col-sm-9">
-            ${timezone.options}
-            <div class="alert alert-info time-zone-info-box">
-              <span class="glyphicon glyphicon-info-sign">
+            <div class="input-group">
+              <select class="form-control" data-original-title="The time zone for the course. This is auto-detected based on your device settings." data-placement="top" data-toggle="tooltip" id="coursetimezone" name="coursetimezone" title="">
+              </select>
+              <span class="input-group-btn">
+                <input class="btn btn-primary" id="auto-detect-time-zone" type="button" value="Auto-Detect">
               </span>
-              Time zone is auto-detected based on your device settings.
             </div>
           </div>
         </div>
@@ -54,8 +55,8 @@
   </form>
   <br>
   <div id="statusMessagesToUser">
-    <div class="overflow-auto alert alert-danger statusMessage">
-      "" is not acceptable to TEAMMATES as a/an course name because it is empty. The value of a/an course name should be no longer than 64 characters. It should not be empty.
+    <div class="overflow-auto alert alert-danger icon-danger statusMessage">
+      The field 'course name' is empty. The value of a/an course name should be no longer than 64 characters. It should not be empty.
     </div>
   </div>
   <script defer="" src="/js/statusMessage.js" type="text/javascript">
@@ -68,13 +69,18 @@
     <table class="table table-bordered table-striped" id="tableActiveCourses">
       <thead class="fill-primary">
         <tr>
-          <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this);">
+          <th class="button-sort-none toggle-sort button-sort-ascending" id="button_sortcourseid">
             Course ID
             <span class="icon-sort sorted-ascending">
             </span>
           </th>
-          <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this);">
+          <th class="button-sort-none toggle-sort" id="button_sortcoursename">
             Course Name
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="button_sortcoursecreateddate">
+            Creation Date
             <span class="icon-sort unsorted">
             </span>
           </th>
@@ -102,6 +108,9 @@
           </td>
           <td id="coursename2">
             Software Engineering $^&*()
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate2">
+            ${datetime.now.courses}
           </td>
           <td id="course-stats-sectionNum-2">
             <a class="course-stats-link-2" href="/page/courseStatsPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" oncontextmenu="return false;">
@@ -148,6 +157,9 @@
           <td id="coursename0">
             Programming Methodology
           </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate0">
+            ${datetime.now.courses}
+          </td>
           <td id="course-stats-sectionNum-0">
             <a class="course-stats-link-0" href="/page/courseStatsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" oncontextmenu="return false;">
               Show
@@ -192,6 +204,9 @@
           </td>
           <td id="coursename1">
             Programming Language Concept
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate1">
+            ${datetime.now.courses}
           </td>
           <td id="course-stats-sectionNum-1">
             <a class="course-stats-link-1" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" oncontextmenu="return false;">

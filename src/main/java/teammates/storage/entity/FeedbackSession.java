@@ -1,127 +1,105 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.IgnoreSave;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnLoad;
+import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents an instructor-created Feedback Session.
  */
-@PersistenceCapable
-public class FeedbackSession extends Entity {
-
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackSession.class);
+@Entity
+@Index
+public class FeedbackSession extends BaseEntity {
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
     // as feedbackSessionId is persisted to the database
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    @PrimaryKey
-    @Persistent
+    @Id
     private transient String feedbackSessionId;
 
-    @Persistent
     private String feedbackSessionName;
 
-    @Persistent
     private String courseId;
 
-    @Persistent
     private String creatorEmail; //TODO: should this be googleId?
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private Set<String> respondingInstructorList;
+    @Unindex
+    private Set<String> respondingInstructorList = new HashSet<>();
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private Set<String> respondingStudentList;
+    @Unindex
+    private Set<String> respondingStudentList = new HashSet<>();
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Text instructions;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Date createdTime;
 
-    @Persistent
     private Date startTime;
 
-    @Persistent
     private Date endTime;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Date sessionVisibleFromTime;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
+    @Unindex
     private Date resultsVisibleFromTime;
 
-    /** This is legacy data that is no longer used. <br>
-     * The value is set to Const.INT_UNINITIALIZED if it is already processed or
-     * the old value if it hasn't. <br>
-     * TODO Remove this field
+    /**
+     * Defaults to false in legacy data where local dates are stored instead of UTC. <br>
+     * TODO Remove after all legacy data has been converted
      */
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private int timeZone;
+    @Unindex
+    private boolean isTimeStoredInUtc;
 
-    /** This replaces the legacy field timeZone. <br>
-     * The value is null for legacy data. <br>
-     * TODO Rename to timeZone after removing legacy field
-     */
-    @Persistent
+    private String timeZone;
+
+    // TODO Remove after all legacy data has been converted
+    @IgnoreSave
     private Double timeZoneDouble;
 
-    @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private int gracePeriod;
+    @Unindex
+    private long gracePeriod;
 
-    @Persistent
     private FeedbackSessionType feedbackSessionType;
 
-    @Persistent
     private boolean sentOpenEmail;
 
-    @Persistent
-    private Boolean sentClosingEmail;
+    private boolean sentClosingEmail;
 
-    @Persistent
-    private Boolean sentClosedEmail;
+    private boolean sentClosedEmail;
 
-    @Persistent
     private boolean sentPublishedEmail;
 
-    //TODO change to primitive types and update getter
-    @Persistent
+    //TODO change to primitive types
     private Boolean isOpeningEmailEnabled;
 
-    @Persistent
     private Boolean isClosingEmailEnabled;
 
-    @Persistent
     private Boolean isPublishedEmailEnabled;
 
+    @SuppressWarnings("unused")
+    private FeedbackSession() {
+        // required by Objectify
+    }
+
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
+            String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
@@ -132,8 +110,8 @@ public class FeedbackSession extends Entity {
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double timeZone, int gracePeriod,
+            String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -142,13 +120,12 @@ public class FeedbackSession extends Entity {
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
         this.instructions = instructions;
-        this.createdTime = createdTime;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
-        this.timeZone = Const.INT_UNINITIALIZED;
-        this.timeZoneDouble = timeZone;
+        this.createdTime = TimeHelper.convertInstantToDate(createdTime);
+        this.startTime = TimeHelper.convertInstantToDate(startTime);
+        this.endTime = TimeHelper.convertInstantToDate(endTime);
+        this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
+        this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
+        this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
@@ -159,8 +136,61 @@ public class FeedbackSession extends Entity {
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
-        this.respondingInstructorList = instructorList;
-        this.respondingStudentList = studentList;
+        this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
+        this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
+        this.isTimeStoredInUtc = true;
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void convertFieldsToUtcIfRequired() {
+        if (isTimeStoredInUtc) {
+            return;
+        }
+
+        startTime = TimeHelper.convertLocalDateToUtc(startTime, timeZoneDouble);
+        endTime = TimeHelper.convertLocalDateToUtc(endTime, timeZoneDouble);
+        sessionVisibleFromTime = TimeHelper.convertLocalDateToUtc(sessionVisibleFromTime, timeZoneDouble);
+        resultsVisibleFromTime = TimeHelper.convertLocalDateToUtc(resultsVisibleFromTime, timeZoneDouble);
+        isTimeStoredInUtc = true;
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void setTimeZoneFromOffsetIfRequired() {
+        if (timeZoneDouble == null) {
+            return;
+        }
+
+        double offset;
+        if (timeZone.equals(String.valueOf(Const.INT_UNINITIALIZED))) {
+            offset = timeZoneDouble;
+        } else {
+            offset = Double.valueOf(timeZone);
+        }
+        timeZone = TimeHelper.convertToZoneId(offset).getId();
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void populateMissingBooleansIfRequired() {
+        if (isOpeningEmailEnabled == null) {
+            isOpeningEmailEnabled = true;
+        }
+        if (isClosingEmailEnabled == null) {
+            isClosingEmailEnabled = true;
+        }
+        if (isPublishedEmailEnabled == null) {
+            isPublishedEmailEnabled = true;
+        }
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void adjustResultsVisibleFromTimeIfRequired() {
+        if (Const.TIME_REPRESENTS_NEVER.equals(getResultsVisibleFromTime())) {
+            setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        }
     }
 
     public String getFeedbackSessionName() {
@@ -195,70 +225,59 @@ public class FeedbackSession extends Entity {
         this.instructions = instructions;
     }
 
-    public Date getCreatedTime() {
-        return createdTime;
+    public Instant getCreatedTime() {
+        return TimeHelper.convertDateToInstant(createdTime);
     }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public void setCreatedTime(Instant createdTime) {
+        this.createdTime = TimeHelper.convertInstantToDate(createdTime);
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Instant getStartTime() {
+        return TimeHelper.convertDateToInstant(startTime);
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartTime(Instant startTime) {
+        this.startTime = TimeHelper.convertInstantToDate(startTime);
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Instant getEndTime() {
+        return TimeHelper.convertDateToInstant(endTime);
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndTime(Instant endTime) {
+        this.endTime = TimeHelper.convertInstantToDate(endTime);
     }
 
-    public Date getSessionVisibleFromTime() {
-        return sessionVisibleFromTime;
+    public Instant getSessionVisibleFromTime() {
+        return TimeHelper.convertDateToInstant(sessionVisibleFromTime);
     }
 
-    public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
+    public void setSessionVisibleFromTime(Instant sessionVisibleFromTime) {
+        this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
     }
 
-    public Date getResultsVisibleFromTime() {
-        return resultsVisibleFromTime;
+    public Instant getResultsVisibleFromTime() {
+        return TimeHelper.convertDateToInstant(resultsVisibleFromTime);
     }
 
-    public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
+    public void setResultsVisibleFromTime(Instant resultsVisibleFromTime) {
+        this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
     }
 
-    /** This method automatically converts the legacy timeZone field to
-     * the new timeZoneDouble field and returns the value of timeZoneDouble.
-     */
-    public double getTimeZone() {
-        if (timeZone != Const.INT_UNINITIALIZED) {
-            timeZoneDouble = Double.valueOf(timeZone);
-            timeZone = Const.INT_UNINITIALIZED;
-        }
-        return timeZoneDouble;
+    public String getTimeZone() {
+        return timeZone;
     }
 
-    /** This method automatically marks the timeZone field as legacy
-     * and store the timeZone data to the new timeZoneDouble field.
-     */
-    public void setTimeZone(double timeZone) {
-        this.timeZone = Const.INT_UNINITIALIZED;
-        this.timeZoneDouble = timeZone;
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 
-    public int getGracePeriod() {
+    public long getGracePeriod() {
         return gracePeriod;
     }
 
-    public void setGracePeriod(int gracePeriod) {
+    public void setGracePeriod(long gracePeriod) {
         this.gracePeriod = gracePeriod;
     }
 
@@ -279,10 +298,6 @@ public class FeedbackSession extends Entity {
     }
 
     public boolean isSentClosingEmail() {
-        // Legacy data might not have this field
-        if (sentClosingEmail == null) {
-            return false;
-        }
         return sentClosingEmail;
     }
 
@@ -291,10 +306,6 @@ public class FeedbackSession extends Entity {
     }
 
     public boolean isSentClosedEmail() {
-        // Legacy data might not have this field
-        if (sentClosedEmail == null) {
-            return false;
-        }
         return sentClosedEmail;
     }
 
@@ -311,12 +322,7 @@ public class FeedbackSession extends Entity {
     }
 
     public boolean isOpeningEmailEnabled() {
-        // Legacy data might not have this field
-        if (isOpeningEmailEnabled == null) {
-            isOpeningEmailEnabled = true;
-        }
-
-        return isOpeningEmailEnabled.booleanValue();
+        return isOpeningEmailEnabled;
     }
 
     public void setIsOpeningEmailEnabled(boolean isOpeningEmailEnabled) {
@@ -324,12 +330,7 @@ public class FeedbackSession extends Entity {
     }
 
     public boolean isClosingEmailEnabled() {
-        // Legacy data might not have this field
-        if (isClosingEmailEnabled == null) {
-            isClosingEmailEnabled = true;
-        }
-
-        return isClosingEmailEnabled.booleanValue();
+        return isClosingEmailEnabled;
     }
 
     public void setSendClosingEmail(boolean isClosingEmailEnabled) {
@@ -337,12 +338,7 @@ public class FeedbackSession extends Entity {
     }
 
     public boolean isPublishedEmailEnabled() {
-        // Legacy data might not have this field
-        if (isPublishedEmailEnabled == null) {
-            isPublishedEmailEnabled = true;
-        }
-
-        return isPublishedEmailEnabled.booleanValue();
+        return isPublishedEmailEnabled;
     }
 
     public void setSendPublishedEmail(boolean isPublishedEmailEnabled) {

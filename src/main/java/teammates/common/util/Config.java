@@ -1,9 +1,12 @@
 package teammates.common.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import com.google.appengine.api.utils.SystemProperty;
+
+import teammates.common.exception.TeammatesException;
 
 /**
  * Represents the deployment-specific configuration values of the system.
@@ -61,10 +64,10 @@ public final class Config {
 
     static {
         Properties properties = new Properties();
-        try {
-            properties.load(FileHelper.getResourceAsStream("build.properties"));
+        try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
+            properties.load(buildPropStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
         APP_URL = Url.trimTrailingSlash(properties.getProperty("app.url"));
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
@@ -97,7 +100,7 @@ public final class Config {
     }
 
     /**
-     * Returns The app version specifed in appengine-web.xml but with '.' instead of '-' e.g., "4.53".
+     * Returns The app version specifed in appengine-web.xml but with '.' instead of '-' e.g., "6.0.0".
      */
     public static String getAppVersion() {
         String appVersion = SystemProperty.applicationVersion.get();

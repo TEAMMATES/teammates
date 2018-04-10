@@ -119,6 +119,18 @@ public class InstructorCourseDetailsPage extends AppPage {
         return this;
     }
 
+    public InstructorCourseDetailsPage clickDeleteAllAndCancel() {
+        click(getDeleteAllLink());
+        waitForConfirmationModalAndClickCancel();
+        return this;
+    }
+
+    public InstructorCourseDetailsPage clickDeleteAllAndConfirm() {
+        click(getDeleteAllLink());
+        waitForConfirmationModalAndClickOk();
+        return this;
+    }
+
     private WebElement getViewLink(int studentNum) {
         WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(1)"));
@@ -142,6 +154,10 @@ public class InstructorCourseDetailsPage extends AppPage {
             return thirdLink;
         }
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
+    }
+
+    private WebElement getDeleteAllLink() {
+        return browser.driver.findElement(By.id("button-delete-all"));
     }
 
     private WebElement getAllRecordsLink(int studentNum) {

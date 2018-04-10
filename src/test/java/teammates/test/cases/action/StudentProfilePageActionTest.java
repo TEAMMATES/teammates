@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentProfilePageAction;
@@ -23,10 +22,10 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
+        AccountAttributes student = typicalBundle.accounts.get("student1InCourse1");
         testActionSuccess(student, "Typical case");
         testActionInMasquerade(student);
-        student = dataBundle.accounts.get("student1InTestingSanitizationCourse");
+        student = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
         // simulate sanitization that occurs before persistence
         student.sanitizeForSaving();
         testActionSuccess(student, "Typical case: attempted script injection");
@@ -90,7 +89,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
                                   + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
                                   + student.name + "|||" + student.googleId + "|||" + student.email
                                   + "|||studentProfile Page Load <br> Profile: "
-                                  + SanitizationHelper.sanitizeForHtmlTag(student.studentProfile.toString())
+                                  + student.googleId
                                   + "|||/page/studentProfilePage";
         AssertHelper.assertLogMessageEqualsIgnoreLogId(expectedLogMessage, action.getLogMessage());
     }
@@ -103,7 +102,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[] {};
         verifyAnyRegisteredUserCanAccess(submissionParams);
     }
 

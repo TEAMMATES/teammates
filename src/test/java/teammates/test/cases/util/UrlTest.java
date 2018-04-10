@@ -67,8 +67,8 @@ public class UrlTest extends BaseTestCase {
         Url url = new Url("http://www.google.com/page?key1=value1&key2=value2&key1=newvalue1");
         assertEquals("value1", url.get("key1"));
         assertEquals("value2", url.get("key2"));
-        assertEquals(null, url.get("y1"));
-        assertEquals(null, url.get("key4"));
+        assertNull(url.get("y1"));
+        assertNull(url.get("key4"));
     }
 
     @Test

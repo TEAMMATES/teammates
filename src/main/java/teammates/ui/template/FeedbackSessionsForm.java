@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class FeedbackSessionsForm {
     // options for selecting which course to make a fs in
     private List<ElementTag> coursesSelectField;
 
-    private List<ElementTag> timezoneSelectField;
+    private String fsTimeZone;
 
     // List of course ids to populate the dropdown with
     private List<String> courses;
@@ -54,6 +54,9 @@ public class FeedbackSessionsForm {
     private boolean isShowNoCoursesMessage;
     private boolean isSubmitButtonDisabled;
     private boolean isSubmitButtonVisible;
+
+    private String submissionStatus;
+    private String publishedStatus;
 
     private FeedbackSessionsAdditionalSettingsFormSegment additionalSettings;
 
@@ -76,17 +79,17 @@ public class FeedbackSessionsForm {
 
         fsForm.isEditFsButtonsVisible = true;
 
-        fsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(existingFs.getTimeZone());
+        fsForm.fsTimeZone = existingFs.getTimeZone().getId();
 
         fsForm.instructions = SanitizationHelper.sanitizeForRichText(existingFs.getInstructions().getValue());
 
-        fsForm.fsStartDate = TimeHelper.formatDate(existingFs.getStartTime());
-        fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getStartTime());
+        fsForm.fsStartDate = TimeHelper.formatDateForSessionsForm(existingFs.getStartTimeLocal());
+        fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getStartTimeLocal());
 
-        fsForm.fsEndDate = TimeHelper.formatDate(existingFs.getEndTime());
-        fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getEndTime());
+        fsForm.fsEndDate = TimeHelper.formatDateForSessionsForm(existingFs.getEndTimeLocal());
+        fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getEndTimeLocal());
 
-        fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.getGracePeriod());
+        fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.getGracePeriodMinutes());
 
         fsForm.isSubmitButtonDisabled = false;
         fsForm.isSubmitButtonVisible = false;
@@ -94,6 +97,9 @@ public class FeedbackSessionsForm {
         fsForm.submitButtonText = "Save Changes";
 
         fsForm.additionalSettings = additionalSettings;
+
+        fsForm.submissionStatus = PageData.getInstructorSubmissionStatusForFeedbackSession(existingFs);
+        fsForm.publishedStatus = PageData.getInstructorPublishedStatusForFeedbackSession(existingFs);
 
         return fsForm;
     }
@@ -122,31 +128,29 @@ public class FeedbackSessionsForm {
         newFsForm.isFeedbackSessionTypeEditable = true;
         newFsForm.feedbackSessionTypeOptions = fsTypeOptions;
 
-        newFsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(feedbackSession == null
-                                                                            ? Const.DOUBLE_UNINITIALIZED
-                                                                            : feedbackSession.getTimeZone());
+        newFsForm.fsTimeZone = feedbackSession == null ? null : feedbackSession.getTimeZone().getId();
 
         newFsForm.instructions = feedbackSession == null
                                ? "Please answer all the given questions."
                                : SanitizationHelper.sanitizeForRichText(feedbackSession.getInstructions().getValue());
 
         newFsForm.fsStartDate = feedbackSession == null
-                              ? TimeHelper.formatDate(TimeHelper.getNextHour())
-                              : TimeHelper.formatDate(feedbackSession.getStartTime());
+                              ? ""
+                              : TimeHelper.formatDateForSessionsForm(feedbackSession.getStartTimeLocal());
 
-        Date startDate = feedbackSession == null ? null : feedbackSession.getStartTime();
+        LocalDateTime startDate = feedbackSession == null ? null : feedbackSession.getStartTimeLocal();
         newFsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(startDate);
 
         newFsForm.fsEndDate = feedbackSession == null
                             ? ""
-                            : TimeHelper.formatDate(feedbackSession.getEndTime());
+                            : TimeHelper.formatDateForSessionsForm(feedbackSession.getEndTimeLocal());
 
-        Date endDate = feedbackSession == null ? null : feedbackSession.getEndTime();
+        LocalDateTime endDate = feedbackSession == null ? null : feedbackSession.getEndTimeLocal();
         newFsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(endDate);
 
         newFsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(feedbackSession == null
                                                                               ? Const.INT_UNINITIALIZED
-                                                                              : feedbackSession.getGracePeriod());
+                                                                              : feedbackSession.getGracePeriodMinutes());
 
         newFsForm.isSubmitButtonDisabled = isSubmitButtonDisabled;
         newFsForm.formSubmitActionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
@@ -155,6 +159,12 @@ public class FeedbackSessionsForm {
 
         newFsForm.additionalSettings = additionalSettings;
 
+        newFsForm.submissionStatus = feedbackSession == null
+                                     ? ""
+                                     : PageData.getInstructorSubmissionStatusForFeedbackSession(feedbackSession);
+        newFsForm.publishedStatus = feedbackSession == null
+                                    ? ""
+                                    : PageData.getInstructorPublishedStatusForFeedbackSession(feedbackSession);
         return newFsForm;
     }
 
@@ -210,8 +220,8 @@ public class FeedbackSessionsForm {
         return coursesSelectField;
     }
 
-    public List<ElementTag> getTimezoneSelectField() {
-        return timezoneSelectField;
+    public String getFsTimeZone() {
+        return fsTimeZone == null ? "" : fsTimeZone;
     }
 
     public FeedbackSessionsAdditionalSettingsFormSegment getAdditionalSettings() {
@@ -260,5 +270,13 @@ public class FeedbackSessionsForm {
 
     public boolean isEditFsButtonsVisible() {
         return isEditFsButtonsVisible;
+    }
+
+    public String getSubmissionStatus() {
+        return submissionStatus;
+    }
+
+    public String getPublishedStatus() {
+        return publishedStatus;
     }
 }

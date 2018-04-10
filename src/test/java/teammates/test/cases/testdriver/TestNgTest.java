@@ -3,7 +3,7 @@ package teammates.test.cases.testdriver;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -20,7 +20,7 @@ public class TestNgTest extends BaseTestCase {
         String testNgXml = FileHelper.readFile("./src/test/testng-ci.xml")
                            + FileHelper.readFile("./src/test/testng-local.xml");
         // <class name, package name>
-        HashMap<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases");
+        Map<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates/test/cases");
 
         testFiles = excludeFilesNotInTestNg(testFiles,
 
@@ -34,9 +34,7 @@ public class TestNgTest extends BaseTestCase {
                                             "GodModeTest"
                                             );
 
-        for (Entry<String, String> testFileName : testFiles.entrySet()) {
-            assertTrue(isTestFileIncluded(testNgXml, testFileName.getValue(), testFileName.getKey()));
-        }
+        testFiles.forEach((key, value) -> assertTrue(isTestFileIncluded(testNgXml, value, key)));
     }
 
     /**
@@ -44,9 +42,9 @@ public class TestNgTest extends BaseTestCase {
      *
      * @param testNgXml    Contents of testng.xml
      * @param rootPath     Root path of test files
-     * @return             HashMap containing {@code <class name, package name>}
+     * @return             Map containing {@code <class name, package name>}
      */
-    private HashMap<String, String> getTestFiles(String testNgXml, String rootPath) {
+    private Map<String, String> getTestFiles(String testNgXml, String rootPath) {
         // BaseComponentTestCase, BaseTestCase (files in current directory) excluded because
         // base classes are extended by the actual tests
 
@@ -60,8 +58,7 @@ public class TestNgTest extends BaseTestCase {
      * @param filesExcludedFromTestNg    Files to be excluded
      * @return                           Files to be checked after excluding tests
      */
-    private HashMap<String, String> excludeFilesNotInTestNg(HashMap<String, String> testFiles,
-                                                            String... filesExcludedFromTestNg) {
+    private Map<String, String> excludeFilesNotInTestNg(Map<String, String> testFiles, String... filesExcludedFromTestNg) {
         for (String test : filesExcludedFromTestNg) {
             testFiles.remove(test);
         }
@@ -84,14 +81,13 @@ public class TestNgTest extends BaseTestCase {
      * @param packageName                     Package name of the current file
      * @param testNgXml                       Contents of testng.xml
      *
-     * @return                                HashMap containing {@code <class name, package name>} including
+     * @return                                Map containing {@code <class name, package name>} including
      *                                        current file or tests in the current directory
      */
-    private HashMap<String, String> addFilesToTestsRecursively(String path,
-                                                               boolean areFilesInCurrentDirExcluded,
-                                                               String packageName, String testNgXml) {
+    private Map<String, String> addFilesToTestsRecursively(String path, boolean areFilesInCurrentDirExcluded,
+            String packageName, String testNgXml) {
 
-        HashMap<String, String> testFiles = new HashMap<String, String>();
+        Map<String, String> testFiles = new HashMap<>();
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles == null) {

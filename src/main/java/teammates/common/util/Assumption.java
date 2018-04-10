@@ -264,11 +264,13 @@ public final class Assumption {
     }
 
     /**
-     * Asserts that an object isn't null. If it is an AssertionFailedError is
+     * Asserts that all objects aren't null. If it is an AssertionFailedError is
      * thrown with the given message.
      */
-    public static void assertNotNull(String message, Object object) {
-        assertTrue(message, object != null);
+    public static void assertNotNull(String message, Object... objects) {
+        for (Object object : objects) {
+            assertTrue(message, object != null);
+        }
     }
 
     /**

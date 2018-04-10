@@ -1,77 +1,66 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.Date;
 
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-import javax.jdo.listener.StoreCallback;
-
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnSave;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents a feedback response.
  */
-@PersistenceCapable
-public class FeedbackResponse extends Entity implements StoreCallback {
-
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(FeedbackResponse.class);
+@Entity
+@Index
+public class FeedbackResponse extends BaseEntity {
 
     /**
      * Setting this to true prevents changes to the lastUpdate time stamp. Set
      * to true when using scripts to update entities when you want to preserve
      * the lastUpdate time stamp.
      **/
-    @NotPersistent
+    @Ignore
     public boolean keepUpdateTimestamp;
 
     // Format is feedbackQuestionId%giverEmail%receiver
     // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
     //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
-    @PrimaryKey
-    @Persistent
+    @Id
     private String feedbackResponseId;
 
-    @Persistent
     private String feedbackSessionName;
 
-    @Persistent
     private String courseId;
 
-    @Persistent
     private String feedbackQuestionId;
 
-    @Persistent
     private FeedbackQuestionType feedbackQuestionType;
 
-    @Persistent
     private String giverEmail;
 
-    @Persistent
     private String giverSection;
 
-    @Persistent
     private String receiver;
 
-    @Persistent
     private String receiverSection;
 
-    @Persistent
     private Text answer; //TODO: rename to responseMetaData, will require database conversion
 
-    @Persistent
     private Date createdAt;
 
-    @Persistent
     private Date updatedAt;
+
+    @SuppressWarnings("unused")
+    private FeedbackResponse() {
+        // required by Objectify
+    }
 
     public FeedbackResponse(String feedbackSessionName, String courseId,
             String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
@@ -88,17 +77,12 @@ public class FeedbackResponse extends Entity implements StoreCallback {
 
         this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;
 
-        this.setCreatedAt(new Date());
+        this.setCreatedAt(Instant.now());
     }
 
     public String getId() {
         return feedbackResponseId;
     }
-
-    /* Auto-generated. Do not set this.
-    public void setFeedbackResponseId(String feedbackResponseId) {
-        this.feedbackResponseId = feedbackResponseId;
-    }*/
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
@@ -172,30 +156,27 @@ public class FeedbackResponse extends Entity implements StoreCallback {
         this.answer = answer;
     }
 
-    public Date getCreatedAt() {
-        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : createdAt;
+    public Instant getCreatedAt() {
+        return createdAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : TimeHelper.convertDateToInstant(createdAt);
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
+    public Instant getUpdatedAt() {
+        return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : TimeHelper.convertDateToInstant(updatedAt);
     }
 
-    public void setCreatedAt(Date newDate) {
-        this.createdAt = newDate;
+    public void setCreatedAt(Instant newDate) {
+        this.createdAt = TimeHelper.convertInstantToDate(newDate);
         setLastUpdate(newDate);
     }
 
-    public void setLastUpdate(Date newDate) {
+    public void setLastUpdate(Instant newDate) {
         if (!keepUpdateTimestamp) {
-            this.updatedAt = newDate;
+            this.updatedAt = TimeHelper.convertInstantToDate(newDate);
         }
     }
 
-    /**
-     * Called by jdo before storing takes place.
-     */
-    @Override
-    public void jdoPreStore() {
-        this.setLastUpdate(new Date());
+    @OnSave
+    public void updateLastUpdateTimestamp() {
+        this.setLastUpdate(Instant.now());
     }
 }

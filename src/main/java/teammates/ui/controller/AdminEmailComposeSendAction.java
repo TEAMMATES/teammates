@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -19,8 +19,8 @@ import teammates.ui.pagedata.AdminEmailComposePageData;
 
 public class AdminEmailComposeSendAction extends Action {
 
-    private List<String> addressReceiver = new ArrayList<String>();
-    private List<String> groupReceiver = new ArrayList<String>();
+    private List<String> addressReceiver = new ArrayList<>();
+    private List<String> groupReceiver = new ArrayList<>();
 
     private boolean isAddressModeOn;
     private boolean isGroupModeOn;
@@ -74,12 +74,11 @@ public class AdminEmailComposeSendAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributes(subject,
-                                                        addressReceiver,
-                                                        groupReceiver,
-                                                        new Text(emailContent),
-                                                        null);
-            data.emailToEdit.emailId = emailId;
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .withEmailId(emailId)
+                    .build();
+
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
 
@@ -92,12 +91,10 @@ public class AdminEmailComposeSendAction extends Action {
         }
 
         if (isError) {
-            data.emailToEdit = new AdminEmailAttributes(subject,
-                                                        addressReceiver,
-                                                        groupReceiver,
-                                                        new Text(emailContent),
-                                                        null);
-            data.emailToEdit.emailId = emailId;
+            data.emailToEdit = AdminEmailAttributes
+                    .builder(subject, addressReceiver, groupReceiver, new Text(emailContent))
+                    .withEmailId(emailId)
+                    .build();
         }
 
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
@@ -145,13 +142,12 @@ public class AdminEmailComposeSendAction extends Action {
                                     List<String> groupReceiver,
                                     String content) {
 
-        AdminEmailAttributes newDraft = new AdminEmailAttributes(subject,
-                                                                 addressReceiver,
-                                                                 groupReceiver,
-                                                                 new Text(content),
-                                                                 new Date());
+        AdminEmailAttributes newDraft = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .withSendDate(Instant.now())
+                .build();
         try {
-            Date createDate = logic.createAdminEmail(newDraft);
+            Instant createDate = logic.createAdminEmail(newDraft);
             emailId = logic.getAdminEmail(subject, createDate).getEmailId();
         } catch (Exception e) {
             isError = true;
@@ -170,14 +166,13 @@ public class AdminEmailComposeSendAction extends Action {
                                         List<String> groupReceiver,
                                         String content) {
 
-        AdminEmailAttributes fanalisedEmail = new AdminEmailAttributes(subject,
-                                            addressReceiver,
-                                            groupReceiver,
-                                            new Text(content),
-                                            new Date());
+        AdminEmailAttributes finalisedEmail = AdminEmailAttributes
+                .builder(subject, addressReceiver, groupReceiver, new Text(content))
+                .withSendDate(Instant.now())
+                .build();
 
         try {
-            logic.updateAdminEmailById(fanalisedEmail, emailId);
+            logic.updateAdminEmailById(finalisedEmail, emailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             isError = true;
             setStatusForException(e);

@@ -21,7 +21,6 @@ public final class FrontEndLibrary {
     public static final String JQUERY_PRINTTHIS;
     public static final String JQUERY_UI;
     public static final String MOMENT;
-    public static final String MOMENT_TIMEZONE;
     public static final String QUNIT_CSS;
     public static final String QUNIT;
     public static final String TINYMCE;
@@ -54,7 +53,6 @@ public final class FrontEndLibrary {
         JQUERY_PRINTTHIS = getLibrarySource("printthis", "printThis.js");
         JQUERY_UI = getLibrarySource("jquery-ui-dist", "jquery-ui.min.js");
         MOMENT = getLibrarySource("moment", "min/moment.min.js");
-        MOMENT_TIMEZONE = getLibrarySource("moment-timezone", "builds/moment-timezone-with-data-2010-2020.min.js");
         QUNIT_CSS = getLibrarySource("qunitjs", "qunit/qunit.css");
         QUNIT = getLibrarySource("qunitjs", "qunit/qunit.js");
         TINYMCE = getLibrarySource("tinymce", "tinymce.min.js");
@@ -63,8 +61,13 @@ public final class FrontEndLibrary {
     }
 
     private static String getLibrarySource(String libraryNameInNpm, String fileDir) {
-        return "https://unpkg.com/" + libraryNameInNpm + "@"
+        return getCdnBaseUrlForLibrary(libraryNameInNpm) + libraryNameInNpm + "@"
                 + DEPENDENCIES_CONFIG.get(libraryNameInNpm).getAsString() + "/" + fileDir;
+    }
+
+    private static String getCdnBaseUrlForLibrary(String libraryNameInNpm) {
+        // jsDelivr is more reliable than unpkg, but doesn't host required large files from the datamaps library
+        return "datamaps".equals(libraryNameInNpm) ? "https://unpkg.com/" : "https://cdn.jsdelivr.net/npm/";
     }
 
 }

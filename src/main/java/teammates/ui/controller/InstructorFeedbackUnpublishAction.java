@@ -41,7 +41,7 @@ public class InstructorFeedbackUnpublishAction extends Action {
         }
 
         if (nextUrl == null) {
-            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+            nextUrl = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         }
 
         return createRedirectResult(nextUrl);

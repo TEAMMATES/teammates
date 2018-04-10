@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import org.junit.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -113,6 +114,10 @@ public class BaseTestCase {
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
     }
 
+    protected static String getPopulatedEmptyStringErrorMessage(String messageTemplate, String fieldName, int maxLength) {
+        return FieldValidator.getPopulatedEmptyStringErrorMessage(messageTemplate, fieldName, maxLength);
+    }
+
     /*
      * Here are some of the most common assertion methods provided by JUnit.
      * They are copied here to prevent repetitive importing in test classes.
@@ -168,6 +173,14 @@ public class BaseTestCase {
 
     protected static void assertEquals(Object expected, Object actual) {
         AssertJUnit.assertEquals(expected, actual);
+    }
+
+    protected static void assertNotEquals(long expected, long actual) {
+        Assert.assertNotEquals(expected, actual);
+    }
+
+    protected static void assertNotSame(Object expected, Object actual) {
+        AssertJUnit.assertNotSame(expected, actual);
     }
 
     protected static void assertNull(Object object) {

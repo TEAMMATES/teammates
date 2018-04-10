@@ -3,37 +3,51 @@ env:
     jquery: true
     qunit: true
     es6: true
-    node: false
 
 extends:
     - airbnb-base
 
 parserOptions:
-    ecmaVersion: 2017
-    sourceType: "script"
+    ecmaVersion: 2015
 
 rules:
-
-    # enforce named function expressions
+    comma-dangle: ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "ignore", # not supported in ES2015
+    }]
+    eqeqeq: ["error", "always"]
     func-names: "off"
-
-    # enforce consistent indentation
-    indent: ["error", 4]
-
-    # enforce consistent linebreak style
+    function-paren-newline: "off"
+    indent: ["error", 4, {
+        "MemberExpression": 2,
+        "FunctionDeclaration": {
+            "parameters": 2,
+        },
+        "FunctionExpression": {
+            "parameters": 2,
+        },
+        "CallExpression": {
+            "arguments": 2,
+        },
+        "ignoredNodes": [
+            "ConditionalExpression",
+        ],
+    }]
     linebreak-style: "off"
-
-    # enforce a maximum line length
     max-len: ["error", 125]
-
-    # disallow continue statements
     no-continue: "off"
-
-    # disallow mixes of different operators
     no-mixed-operators: "off"
-
-    # disallow reassigning function parameters
+    no-negated-condition: "error"
     no-param-reassign: ["error", { "props": false }]
+    object-curly-newline: ["error", {
+        "ObjectExpression": { minProperties: 4, multiline: true, consistent: true },
+        "ObjectPattern": { minProperties: 4, multiline: true, consistent: true },
+        "ExportDeclaration": "always",
+        "ImportDeclaration": "always"
+    }]
 
-    # require or disallow strict mode directives
-    strict: ["error", "never"]
+    import/no-extraneous-dependencies: "off"
+    import/prefer-default-export: "off"

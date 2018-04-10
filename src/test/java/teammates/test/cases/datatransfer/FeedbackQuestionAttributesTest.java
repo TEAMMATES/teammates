@@ -1,9 +1,7 @@
 package teammates.test.cases.datatransfer;
 
-import static teammates.common.util.Const.EOL;
-
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -29,11 +27,11 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
     private static class FeedbackQuestionAttributesWithModifiableTimestamp extends FeedbackQuestionAttributes {
 
-        void setCreatedAt(Date createdAt) {
+        void setCreatedAt(Instant createdAt) {
             this.createdAt = createdAt;
         }
 
-        void setUpdatedAt(Date updatedAt) {
+        void setUpdatedAt(Instant updatedAt) {
             this.updatedAt = updatedAt;
         }
 
@@ -48,7 +46,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         fq.setCreatedAt(null);
         fq.setUpdatedAt(null);
 
-        Date defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        Instant defaultTimeStamp = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
         ______TS("success : defaultTimeStamp for createdAt date");
 
@@ -70,49 +68,50 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         fq.giverType = FeedbackParticipantType.NONE;
         fq.recipientType = FeedbackParticipantType.RECEIVER;
 
-        fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showGiverNameTo = new ArrayList<>();
         fq.showGiverNameTo.add(FeedbackParticipantType.SELF);
         fq.showGiverNameTo.add(FeedbackParticipantType.STUDENTS);
 
-        fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showRecipientNameTo = new ArrayList<>();
         fq.showRecipientNameTo.add(FeedbackParticipantType.SELF);
         fq.showRecipientNameTo.add(FeedbackParticipantType.STUDENTS);
 
-        fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+        fq.showResponsesTo = new ArrayList<>();
         fq.showResponsesTo.add(FeedbackParticipantType.NONE);
         fq.showResponsesTo.add(FeedbackParticipantType.SELF);
 
         assertFalse(fq.isValid());
 
-        String errorMessage = getPopulatedErrorMessage(
-                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, fq.creatorEmail,
+        String errorMessage = getPopulatedEmptyStringErrorMessage(
+                                  FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                   FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                                  FieldValidator.REASON_EMPTY,
-                                  FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH) + EOL
-                              + getPopulatedErrorMessage(
-                                    FieldValidator.COURSE_ID_ERROR_MESSAGE, fq.courseId,
-                                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                    FieldValidator.COURSE_ID_MAX_LENGTH) + EOL
+                                  FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH) + System.lineSeparator()
+                              + getPopulatedEmptyStringErrorMessage(
+                                    FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
+                                    FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH)
+                              + System.lineSeparator()
                               + "Invalid creator's email: "
-                                    + getPopulatedErrorMessage(
-                                          FieldValidator.EMAIL_ERROR_MESSAGE, fq.creatorEmail,
-                                          FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_EMPTY,
-                                          FieldValidator.EMAIL_MAX_LENGTH) + EOL
+                              + getPopulatedEmptyStringErrorMessage(
+                                    FieldValidator.EMAIL_ERROR_MESSAGE_EMPTY_STRING,
+                                    FieldValidator.EMAIL_FIELD_NAME, FieldValidator.EMAIL_MAX_LENGTH)
+                              + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
-                                              FieldValidator.GIVER_TYPE_NAME) + EOL
+                                              FieldValidator.GIVER_TYPE_NAME) + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(),
-                                              FieldValidator.RECIPIENT_TYPE_NAME) + EOL
+                                              FieldValidator.RECIPIENT_TYPE_NAME) + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.showGiverNameTo.get(0).toString(),
-                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
-                              + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                                              FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                              + "Trying to show giver name to STUDENTS without showing response first."
+                              + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.showRecipientNameTo.get(0).toString(),
-                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
-                              + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                                              FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                              + "Trying to show recipient name to STUDENTS without showing response first."
+                              + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.showResponsesTo.get(0).toString(),
-                                              FieldValidator.VIEWER_TYPE_NAME) + EOL
+                                              FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.showResponsesTo.get(1).toString(),
                                               FieldValidator.VIEWER_TYPE_NAME);
@@ -129,16 +128,17 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                                      fq.recipientType.toDisplayRecipientName(),
-                                     fq.giverType.toDisplayGiverName()) + EOL
+                                     fq.giverType.toDisplayGiverName()) + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                        fq.showRecipientNameTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + "Trying to show recipient name to STUDENTS without showing response first."
+                       + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME);
 
@@ -150,16 +150,17 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                                      fq.recipientType.toDisplayRecipientName(),
-                                     fq.giverType.toDisplayGiverName()) + EOL
+                                     fq.giverType.toDisplayGiverName()) + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                        fq.showRecipientNameTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
-                       + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + "Trying to show recipient name to STUDENTS without showing response first."
+                       + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + EOL
+                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME);
 
@@ -167,13 +168,13 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         fq.recipientType = FeedbackParticipantType.TEAMS;
 
-        fq.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showGiverNameTo = new ArrayList<>();
         fq.showGiverNameTo.add(FeedbackParticipantType.RECEIVER);
 
-        fq.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
+        fq.showRecipientNameTo = new ArrayList<>();
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
 
-        fq.showResponsesTo = new ArrayList<FeedbackParticipantType>();
+        fq.showResponsesTo = new ArrayList<>();
         fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);
 
         assertTrue(fq.isValid());
@@ -203,7 +204,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         ______TS("test teams->none");
 
         FeedbackQuestionAttributes question = new FeedbackQuestionAttributes();
-        List<FeedbackParticipantType> participants = new ArrayList<FeedbackParticipantType>();
+        List<FeedbackParticipantType> participants = new ArrayList<>();
 
         question.feedbackSessionName = "test session";
         question.courseId = "some course";
@@ -217,10 +218,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -239,10 +240,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.INSTRUCTORS);
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -262,10 +263,10 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.INSTRUCTORS);
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -287,9 +288,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -311,9 +312,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 
@@ -335,9 +336,9 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showRecipientNameTo = new ArrayList<FeedbackParticipantType>(participants);
-        question.showResponsesTo = new ArrayList<FeedbackParticipantType>(participants);
+        question.showGiverNameTo = new ArrayList<>(participants);
+        question.showRecipientNameTo = new ArrayList<>(participants);
+        question.showResponsesTo = new ArrayList<>(participants);
 
         question.removeIrrelevantVisibilityOptions();
 

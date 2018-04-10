@@ -1,47 +1,45 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.Date;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
+import com.googlecode.objectify.annotation.Index;
+
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents a unique user in the system.
  */
-@PersistenceCapable
-public class Account extends Entity {
+@Entity
+@Index
+public class Account extends BaseEntity {
 
-    /**
-     * The name of the primary key of this entity type.
-     */
-    @NotPersistent
-    public static final String PRIMARY_KEY_NAME = getFieldWithPrimaryKeyAnnotation(Account.class);
-
-    @PrimaryKey
-    @Persistent
+    @Id
     private String googleId;
 
-    @Persistent
     private String name;
 
-    @Persistent
     private boolean isInstructor;
 
-    @Persistent
     private String email;
 
-    @Persistent
     private String institute;
 
-    @Persistent
     private Date createdAt;
 
-    @Persistent(dependent = "true", defaultFetchGroup = "false")
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
-    private StudentProfile studentProfile;
+    private Ref<StudentProfile> studentProfile;
+
+    @Ignore // session-specific based on whether profile retrieval is enabled
+    private boolean isStudentProfileEnabled = true;
+
+    @SuppressWarnings("unused")
+    private Account() {
+        // required by Objectify
+    }
 
     /**
      * Instantiates a new account.
@@ -67,7 +65,7 @@ public class Account extends Entity {
         this.setIsInstructor(isInstructor);
         this.setEmail(email);
         this.setInstitute(institute);
-        this.setCreatedAt(new Date());
+        this.setCreatedAt(Instant.now());
         this.setStudentProfile(studentProfile);
     }
 
@@ -116,20 +114,48 @@ public class Account extends Entity {
         this.institute = institute;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Instant getCreatedAt() {
+        return TimeHelper.convertDateToInstant(createdAt);
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = TimeHelper.convertInstantToDate(createdAt);
     }
 
+    /**
+     * Fetches the student profile from the datastore the first time this is called. Returns null if student profile was
+     * explicitly set to null (e.g. when the student profile is intentionally not retrieved).
+     */
     public StudentProfile getStudentProfile() {
-        return this.studentProfile;
+        if (!isStudentProfileEnabled) {
+            return null;
+        }
+        if (studentProfile == null) {
+            return null;
+        }
+        return studentProfile.get();
     }
 
+    /**
+     * Sets a reference to {@code studentProfile} which subsequent calls to {@code getStudentProfile()} will use to fetch
+     * the profile from the datastore. To disable this behaviour (e.g. when the student profile is intentionally not
+     * retrieved), set to null.
+     */
     public void setStudentProfile(StudentProfile studentProfile) {
-        this.studentProfile = studentProfile;
+        if (studentProfile == null) {
+            setIsStudentProfileEnabled(false);
+            return;
+        }
+        setIsStudentProfileEnabled(true);
+        this.studentProfile = Ref.create(studentProfile);
+    }
 
+    /**
+     * Sets whether or not the student profile fetch should be enabled. When the entity is fetched from the local cache,
+     * this value might be outdated as it is preserved from the previous session. Hence, this property should be set on
+     * every new session (every call that gets the entity).
+     */
+    public void setIsStudentProfileEnabled(boolean isStudentProfileEnabled) {
+        this.isStudentProfileEnabled = isStudentProfileEnabled;
     }
 }

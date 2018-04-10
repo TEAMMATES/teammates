@@ -1,20 +1,25 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import com.google.common.primitives.Ints;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
@@ -34,10 +39,26 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     @Override
+    public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
+            FeedbackQuestionType questionType) {
+        super.extractQuestionDetails(requestParameters, questionType);
+
+        String minRecipientsToBeRanked = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED));
+        String maxRecipientsToBeRanked = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED));
+
+        minOptionsToBeRanked = MoreObjects.firstNonNull(Ints.tryParse(minRecipientsToBeRanked), NO_VALUE);
+        maxOptionsToBeRanked = MoreObjects.firstNonNull(Ints.tryParse(maxRecipientsToBeRanked), NO_VALUE);
+
+        return true;
+    }
+
+    @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
                         boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
                         int totalNumRecipients,
-                        FeedbackResponseDetails existingResponseDetails) {
+                        FeedbackResponseDetails existingResponseDetails, StudentAttributes student) {
 
         FeedbackRankRecipientsResponseDetails existingResponse =
                 (FeedbackRankRecipientsResponseDetails) existingResponseDetails;
@@ -55,7 +76,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                                            totalNumRecipients, existingResponse.answer),
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         Slots.RANK_OPTION_VALUE, "");
-        optionListHtml.append(optionFragment).append(Const.EOL);
+        optionListHtml.append(optionFragment).append(System.lineSeparator());
+
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
@@ -68,13 +92,22 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_PARAM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 Slots.RANK_NUM_OPTION_VALUE, Integer.toString(0),
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed())
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()),
+                Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "" : "disabled",
+                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED,
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED,
+                isMaxOptionsToBeRankedEnabled ? Integer.toString(Math.min(maxOptionsToBeRanked, totalNumRecipients)) : "",
+                Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
+                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED,
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED,
+                isMinOptionsToBeRankedEnabled ? Integer.toString(Math.min(minOptionsToBeRanked, totalNumRecipients)) : ""
                 );
     }
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.RANK_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -90,7 +123,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                                            totalNumRecipients, Const.INT_UNINITIALIZED),
                         Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         Slots.RANK_OPTION_VALUE, "");
-        optionListHtml.append(optionFragment).append(Const.EOL);
+        optionListHtml.append(optionFragment).append(System.lineSeparator());
+
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
 
         return Templates.populateTemplate(
                 FormTemplates.RANK_SUBMISSION_FORM,
@@ -103,7 +139,31 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_PARAM_NUM_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_RANKNUMOPTIONS,
                 Slots.RANK_NUM_OPTION_VALUE, Integer.toString(0),
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()));
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_VALUE, Boolean.toString(isAreDuplicatesAllowed()),
+                Slots.RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "" : "disabled",
+                Slots.RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED,
+                Slots.RANK_MAX_OPTIONS_TO_BE_RANKED,
+                isMaxOptionsToBeRankedEnabled ? Integer.toString(Math.min(maxOptionsToBeRanked, totalNumRecipients)) : "",
+                Slots.RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "" : "disabled",
+                Slots.RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED,
+                Slots.RANK_MIN_OPTIONS_TO_BE_RANKED,
+                isMinOptionsToBeRankedEnabled ? Integer.toString(Math.min(minOptionsToBeRanked, totalNumRecipients)) : ""
+                );
+    }
+
+    @Override
+    public List<String> getInstructions() {
+        List<String> instructions = new ArrayList<>();
+
+        if (minOptionsToBeRanked != NO_VALUE) {
+            instructions.add("You need to rank at least " + minOptionsToBeRanked + " recipients.");
+        }
+
+        if (maxOptionsToBeRanked != NO_VALUE) {
+            instructions.add("Rank no more than " + maxOptionsToBeRanked + " recipients.");
+        }
+
+        return instructions;
     }
 
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {
@@ -129,13 +189,30 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
 
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
+
         return Templates.populateTemplate(
                 FormTemplates.RANK_EDIT_RECIPIENTS_FORM,
                 Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                 Slots.OPTION_RECIPIENT_DISPLAY_NAME, "recipient",
                 Slots.RANK_PARAM_IS_DUPLICATES_ALLOWED,
                         Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED,
-                Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "");
+                Slots.RANK_ARE_DUPLICATES_ALLOWED_CHECKED, isAreDuplicatesAllowed() ? "checked" : "",
+                Slots.RANK_PARAM_MIN_RECIPIENTS_CHECKBOX,
+                Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED,
+                Slots.RANK_PARAM_MIN_RECIPIENTS_TO_BE_RANKED,
+                Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED,
+                Slots.RANK_MIN_RECIPIENTS_TO_BE_RANKED,
+                isMinOptionsToBeRankedEnabled ? Integer.toString(minOptionsToBeRanked) : "",
+                Slots.RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED, isMinOptionsToBeRankedEnabled ? "checked" : "",
+                Slots.RANK_PARAM_MAX_RECIPIENTS_CHECKBOX,
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED,
+                Slots.RANK_PARAM_MAX_RECIPIENTS_TO_BE_RANKED,
+                        Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED,
+                Slots.RANK_MAX_RECIPIENTS_TO_BE_RANKED,
+                        isMaxOptionsToBeRankedEnabled ? Integer.toString(maxOptionsToBeRanked) : "",
+                Slots.RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED, isMaxOptionsToBeRankedEnabled ? "checked" : "");
 
     }
 
@@ -177,29 +254,42 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
 
-        for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
+        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
 
-            List<Integer> ranks = entry.getValue();
-            double average = computeAverage(ranks);
+        Map<String, Integer> recipientOverallRankExceptSelf =
+                generateNormalizedOverallRankMapping(recipientRanksExcludingSelf);
+
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
+
+        String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
+        String templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
+
+        recipientRanks.forEach((participantIdentifier, ranks) -> {
+
             String ranksReceived = getListOfRanksReceivedAsString(ranks);
-
-            String participantIdentifier = entry.getKey();
+            String overallRank = Integer.toString(recipientOverallRank.get(participantIdentifier));
             String name = bundle.getNameForEmail(participantIdentifier);
             String teamName = bundle.getTeamNameForEmail(participantIdentifier);
+            String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientOverallRankExceptSelf.get(participantIdentifier)) : "-";
+            String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
 
-            fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
+            fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
                     Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
                     Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                     Slots.RANK_RECIEVED, ranksReceived,
-                    Slots.RANK_AVERAGE, df.format(average)));
+                    Slots.RANK_SELF, selfRank,
+                    Slots.RANK_OVERALL, overallRank,
+                    Slots.RANK_EXCLUDING_SELF_OVERALL, overallRankExceptSelf));
 
-        }
+        });
 
-        return Templates.populateTemplate(FormTemplates.RANK_RESULT_RECIPIENT_STATS,
-                                                             Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
-                                                             Slots.FRAGMENTS, fragments.toString());
+        return Templates.populateTemplate(templateToUse,
+                Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
+                Slots.FRAGMENTS, fragments.toString());
 
     }
 
@@ -213,24 +303,43 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         }
 
         StringBuilder fragments = new StringBuilder();
+
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
 
-        for (Entry<String, List<Integer>> entry : recipientRanks.entrySet()) {
+        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(responses);
 
-            String teamName = bundle.getTeamNameForEmail(entry.getKey());
-            String recipientName = bundle.getNameForEmail(entry.getKey());
+        Map<String, Integer> recipientOverallRankExceptSelf =
+                generateNormalizedOverallRankMapping(recipientRanksExcludingSelf);
+
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(responses);
+
+        recipientRanks.forEach((participantIdentifier, ranks) -> {
+
+            String teamName = bundle.getTeamNameForEmail(participantIdentifier);
+            String recipientName = bundle.getNameForEmail(participantIdentifier);
             String option = SanitizationHelper.sanitizeForCsv(teamName)
                             + ","
                             + SanitizationHelper.sanitizeForCsv(recipientName);
 
-            List<Integer> ranks = entry.getValue();
-            double average = computeAverage(ranks);
-            fragments.append(option).append(',').append(df.format(average)).append(Const.EOL);
-        }
+            String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientOverallRankExceptSelf.get(participantIdentifier)) : "-";
+            String overallRank = Integer.toString(recipientOverallRank.get(participantIdentifier));
+            String selfRank = recipientSelfRanks.containsKey(participantIdentifier)
+                    ? Integer.toString(recipientSelfRanks.get(participantIdentifier)) : "-";
 
-        return "Team, Recipient" + ", Average Rank" + Const.EOL + fragments + Const.EOL;
+            fragments.append(option);
+            fragments.append(',').append(selfRank);
+            fragments.append(',').append(overallRank);
+            fragments.append(',').append(overallRankExceptSelf);
+            fragments.append(',');
+            fragments.append(StringHelper.join(",", ranks));
+            fragments.append(System.lineSeparator());
+        });
+
+        return "Team, Recipient, Self Rank, Overall Rank, Overall Rank Excluding Self, Ranks Received"
+                + System.lineSeparator() + fragments + System.lineSeparator();
     }
 
     /**
@@ -253,6 +362,23 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     /**
+     * Generates a key, value mapping. Each key corresponds to a recipient and its value is the normalised self rank.
+     * @param responses  a list of responses
+     */
+    private Map<String, Integer> generateSelfRankForEachRecipient(List<FeedbackResponseAttributes> responses) {
+        Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = getNormalisedRankForEachResponse(responses);
+        Map<String, Integer> recipientToSelfRank = new HashMap<>();
+
+        for (FeedbackResponseAttributes response : responses) {
+            if (response.recipient.equalsIgnoreCase(response.giver)) {
+                recipientToSelfRank.put(response.recipient, normalisedRankOfResponse.get(response));
+            }
+        }
+
+        return recipientToSelfRank;
+    }
+
+    /**
      * Returns a map of response to the normalised rank by resolving ties for each giver's set of responses.
      * @see FeedbackRankQuestionDetails#obtainMappingToNormalisedRanksForRanking(Map, List) for how ties are resolved
      */
@@ -262,31 +388,56 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         // collect each giver's responses
         Map<String, List<FeedbackResponseAttributes>> responsesGivenByPerson = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
-            if (!responsesGivenByPerson.containsKey(response.giver)) {
-                responsesGivenByPerson.put(response.giver, new ArrayList<FeedbackResponseAttributes>());
-            }
-
-            responsesGivenByPerson.get(response.giver)
+            responsesGivenByPerson.computeIfAbsent(response.giver, key -> new ArrayList<>())
                                   .add(response);
+        }
+
+        // generate response-responseDetails pair
+        Map<FeedbackResponseAttributes, Integer> rankOfResponse = new HashMap<>();
+        for (FeedbackResponseAttributes res : responses) {
+            FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) res.getResponseDetails();
+            rankOfResponse.put(res, frd.answer);
         }
 
         // resolve ties for each giver's responses
         Map<FeedbackResponseAttributes, Integer> normalisedRankOfResponse = new HashMap<>();
-        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : responsesGivenByPerson.entrySet()) {
-            Map<FeedbackResponseAttributes, Integer> rankOfResponse = new HashMap<>();
-            for (FeedbackResponseAttributes res : responses) {
-                FeedbackRankRecipientsResponseDetails frd = (FeedbackRankRecipientsResponseDetails) res.getResponseDetails();
-                rankOfResponse.put(res, frd.answer);
-            }
-
-            normalisedRankOfResponse.putAll(obtainMappingToNormalisedRanksForRanking(rankOfResponse, entry.getValue()));
-        }
+        responsesGivenByPerson.forEach((key, feedbackResponseAttributesList) -> {
+            normalisedRankOfResponse.putAll(obtainMappingToNormalisedRanksForRanking(rankOfResponse,
+                    feedbackResponseAttributesList));
+        });
 
         return normalisedRankOfResponse;
     }
 
+    /**
+     * Returns list of responses excluding responses given to self.
+     *
+     * @param responses a list of responses
+     * @return list of responses excluding self given responses
+     */
+    private List<FeedbackResponseAttributes> getResponsesExcludingSelf(List<FeedbackResponseAttributes> responses) {
+        List<FeedbackResponseAttributes> responsesExcludingSelf = new ArrayList<>();
+        for (FeedbackResponseAttributes response : responses) {
+            if (!response.giver.equalsIgnoreCase(response.recipient)) {
+                responsesExcludingSelf.add(response);
+            }
+        }
+        return responsesExcludingSelf;
+    }
+
+    /**
+     * Returns map of recipient ranks excluding self.
+     *
+     * @param responses list of all the responses for a question
+     * @return map of recipient ranks excluding self responses
+     */
+    private Map<String, List<Integer>> getRecipientRanksExcludingSelf(List<FeedbackResponseAttributes> responses) {
+        List<FeedbackResponseAttributes> responsesExcludingSelf = getResponsesExcludingSelf(responses);
+        return generateOptionRanksMapping(responsesExcludingSelf);
+    }
+
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
     }
 
@@ -311,11 +462,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         if (responses.isEmpty()) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
 
         if (isAreDuplicatesAllowed()) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
         List<String> errors = new ArrayList<>();
 
@@ -337,32 +488,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return new Comparator<InstructorFeedbackResultsResponseRow>() {
-
-            @Override
-            public int compare(InstructorFeedbackResultsResponseRow o1,
-                               InstructorFeedbackResultsResponseRow o2) {
-
-                if (!o1.getGiverTeam().equals(o2.getGiverTeam())) {
-                    return o1.getGiverTeam().compareTo(o2.getGiverTeam());
-                }
-
-                if (!o1.getGiverDisplayableIdentifier().equals(o2.getGiverDisplayableIdentifier())) {
-                    return o1.getGiverDisplayableIdentifier().compareTo(o2.getGiverDisplayableIdentifier());
-                }
-
-                if (!o1.getDisplayableResponse().equals(o2.getDisplayableResponse())) {
-                    return o1.getDisplayableResponse().compareTo(o2.getDisplayableResponse());
-                }
-
-                if (!o1.getRecipientTeam().equals(o2.getRecipientTeam())) {
-                    return o1.getRecipientTeam().compareTo(o2.getRecipientTeam());
-                }
-
-                return o1.getRecipientDisplayableIdentifier().compareTo(o2.getRecipientDisplayableIdentifier());
-            }
-
-        };
+        return Comparator.comparing(InstructorFeedbackResultsResponseRow::getGiverTeam)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getGiverDisplayableIdentifier)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getDisplayableResponse)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientTeam)
+                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientDisplayableIdentifier);
     }
 
     @Override

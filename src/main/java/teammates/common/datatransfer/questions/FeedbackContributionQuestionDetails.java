@@ -2,7 +2,6 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +14,7 @@ import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
@@ -57,12 +57,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
+    public List<String> getInstructions() {
+        return null;
+    }
+
+    @Override
     public String getQuestionTypeDisplayName() {
         return Const.FeedbackQuestionTypeNames.CONTRIB;
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
         return newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
     }
@@ -74,7 +79,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails,
+            StudentAttributes student) {
 
         FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) existingResponseDetails;
         int points = frd.getAnswer();
@@ -92,7 +98,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients) {
+            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
+            StudentAttributes student) {
 
         String optionSelectHtml = getContributionOptionsHtml(Const.INT_UNINITIALIZED);
 
@@ -356,7 +363,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         StringBuilder contribFragments = new StringBuilder();
 
-        Map<String, String> sortedMap = new LinkedHashMap<String, String>();
+        Map<String, String> sortedMap = new LinkedHashMap<>();
 
         for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
             StudentResultSummary summary = entry.getValue();
@@ -393,7 +400,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
                     + SanitizationHelper.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
                     + SanitizationHelper.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx))
-                    + Const.EOL;
+                    + System.lineSeparator();
 
             // Replace all Unset values
             contribFragmentString = contribFragmentString.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
@@ -406,26 +413,24 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         }
 
-        for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
-            contribFragments.append(entry.getValue());
-        }
+        sortedMap.forEach((key, value) -> contribFragments.append(value));
 
         String csvPointsExplanation =
                 "In the points given below, an equal share is equal to 100 points. "
-                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL
-                + "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL
+                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + System.lineSeparator()
+                + "Claimed Contribution (CC) = the contribution claimed by the student." + System.lineSeparator()
                 + "Perceived Contribution (PC) = the average value of student's contribution "
-                + "as perceived by the team members." + Const.EOL
-                + "Team, Name, Email, CC, PC, Ratings Recieved" + Const.EOL;
-        return csvPointsExplanation + contribFragments + Const.EOL;
+                + "as perceived by the team members." + System.lineSeparator()
+                + "Team, Name, Email, CC, PC, Ratings Recieved" + System.lineSeparator();
+        return csvPointsExplanation + contribFragments + System.lineSeparator();
     }
 
     private List<String> getTeamNames(FeedbackSessionResultsBundle bundle) {
-        List<String> teamNames = new ArrayList<String>();
+        List<String> teamNames = new ArrayList<>();
         for (Set<String> teamNamesForSection : bundle.sectionTeamNameTable.values()) {
             teamNames.addAll(teamNamesForSection);
         }
-        Collections.sort(teamNames);
+        teamNames.sort(null);
         return teamNames;
     }
 
@@ -476,10 +481,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, StudentResultSummary> getStudentResults(
             Map<String, List<String>> teamMembersEmail,
             Map<String, TeamEvalResult> teamResults) {
-        Map<String, StudentResultSummary> studentResults = new LinkedHashMap<String, StudentResultSummary>();
-        for (Map.Entry<String, TeamEvalResult> entry : teamResults.entrySet()) {
-            TeamEvalResult teamResult = entry.getValue();
-            List<String> teamEmails = teamMembersEmail.get(entry.getKey());
+        Map<String, StudentResultSummary> studentResults = new LinkedHashMap<>();
+        teamResults.forEach((key, teamResult) -> {
+            List<String> teamEmails = teamMembersEmail.get(key);
             int i = 0;
             for (String studentEmail : teamEmails) {
                 StudentResultSummary summary = new StudentResultSummary();
@@ -490,14 +494,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
                 i++;
             }
-        }
+        });
         return studentResults;
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD.
     private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
             Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
-        Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
+        Map<String, TeamEvalResult> teamResults = new LinkedHashMap<>();
         for (String team : teamNames) {
             TeamEvalResult teamEvalResult = new TeamEvalResult(teamSubmissionArray.get(team));
             teamEvalResult.studentEmails = teamMembersEmail.get(team);
@@ -509,7 +512,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, int[][]> getTeamSubmissionArray(List<String> teamNames,
             Map<String, List<String>> teamMembersEmail,
             Map<String, List<FeedbackResponseAttributes>> teamResponses) {
-        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<String, int[][]>();
+        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<>();
         for (String team : teamNames) {
             int teamSize = teamMembersEmail.get(team).size();
             teamSubmissionArray.put(team, new int[teamSize][teamSize]);
@@ -538,8 +541,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private Map<String, List<FeedbackResponseAttributes>> getTeamResponses(
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
-        Map<String, List<FeedbackResponseAttributes>> teamResponses =
-                new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
+        Map<String, List<FeedbackResponseAttributes>> teamResponses = new LinkedHashMap<>();
         for (String teamName : teamNames) {
             teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
         }
@@ -554,10 +556,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     private Map<String, List<String>> getTeamMembersEmail(
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
-        Map<String, List<String>> teamMembersEmail = new LinkedHashMap<String, List<String>>();
+        Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
         for (String teamName : teamNames) {
-            List<String> memberEmails = new ArrayList<String>(bundle.rosterTeamNameMembersTable.get(teamName));
-            Collections.sort(memberEmails);
+            if (Const.USER_TEAM_FOR_INSTRUCTOR.equals(teamName)) {
+                // skip instructors team (contrib questions should only have responses from student teams)
+                continue;
+            }
+            List<String> memberEmails = new ArrayList<>(bundle.rosterTeamNameMembersTable.get(teamName));
+            memberEmails.sort(null);
             teamMembersEmail.put(teamName, memberEmails);
         }
         return teamMembersEmail;
@@ -566,7 +572,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private List<String> getTeamsWithAtLeastOneResponse(
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
-        List<String> teamNames = new ArrayList<String>();
+        List<String> teamNames = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             String teamNameOfResponseGiver = bundle.getTeamNameForEmail(response.giver);
             if (!teamNames.contains(teamNameOfResponseGiver)) {
@@ -582,18 +588,18 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         List<FeedbackResponseAttributes> responses;
         String questionId = question.getId();
         //Get all actual responses for this question.
-        responses = new ArrayList<FeedbackResponseAttributes>();
+        responses = new ArrayList<>();
         for (FeedbackResponseAttributes response : bundle.actualResponses) {
             if (response.feedbackQuestionId.equals(questionId)) {
                 responses.add(response);
             }
         }
-        Collections.sort(responses, bundle.compareByGiverRecipientQuestion);
+        responses.sort(bundle.compareByGiverRecipientQuestion);
         return responses;
     }
 
     private static String getNormalizedPointsListColorizedDescending(int[] subs, int index) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         for (int i = 0; i < subs.length; i++) {
             if (i == index) {
                 continue;
@@ -604,8 +610,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (result.isEmpty()) {
             return getPointsAsColorizedHtml(Const.POINTS_NOT_SUBMITTED);
         }
-        Collections.sort(result);
-        Collections.reverse(result);
+        result.sort(Comparator.reverseOrder());
 
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {
@@ -618,7 +623,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     private static String getNormalizedPointsListDescending(int[] subs, int index) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         for (int i = 0; i < subs.length; i++) {
             if (i == index) {
                 continue;
@@ -628,8 +633,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (result.isEmpty()) {
             return Integer.toString(Const.INT_UNINITIALIZED);
         }
-        Collections.sort(result);
-        Collections.reverse(result);
+        result.sort(Comparator.reverseOrder());
 
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {
@@ -655,7 +659,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     private static String getPointsAsColorizedHtml(int points) {
         if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
+            return "<span class=\"color-neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
                    + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
@@ -667,7 +671,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if (points < 100) {
             return "<span class=\"color-negative\">E -" + (100 - points) + "%</span>";
         } else {
-            return "<span class=\"color_neutral\">E</span>";
+            return "<span class=\"color-neutral\">E</span>";
         }
     }
 
@@ -677,7 +681,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         int diff = perceived - claimed;
         if (perceived == Const.POINTS_NOT_SUBMITTED || perceived == Const.INT_UNINITIALIZED
                 || claimed == Const.POINTS_NOT_SUBMITTED || claimed == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
+            return "<span class=\"color-neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
                    + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE
                    + "\">N/A</span>";
         } else if (perceived == Const.POINTS_NOT_SURE || claimed == Const.POINTS_NOT_SURE) {
@@ -706,14 +710,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public List<String> validateQuestionDetails() {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override
     public List<String> validateResponseAttributes(
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
             boolean validAnswer = false;
             FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) response.getResponseDetails();
@@ -868,7 +872,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 || points == Const.POINTS_EQUAL_SHARE
                 || points == Const.POINTS_NOT_SUBMITTED) {
             // Not sure, Equal Share, Not Submitted
-            return "color_neutral";
+            return "color-neutral";
         } else if (points < Const.POINTS_EQUAL_SHARE) {
             // Negative share
             return "color-negative";
@@ -904,9 +908,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     static String convertToEqualShareFormatHtml(int i) {
         if (i == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color_neutral\">N/A</span>";
+            return "<span class=\"color-neutral\">N/A</span>";
         } else if (i == Const.POINTS_NOT_SUBMITTED) {
-            return "<span class=\"color_neutral\"></span>";
+            return "<span class=\"color-neutral\"></span>";
         } else if (i == Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\">Not Sure</span>";
         } else if (i == 0) {
@@ -916,7 +920,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else if (i < 100) {
             return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
         } else {
-            return "<span class=\"color_neutral\">Equal Share</span>";
+            return "<span class=\"color-neutral\">Equal Share</span>";
         }
     }
 
@@ -941,8 +945,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private String getEqualShareHelpLinkIfNeeded(int responseIdx) {
         return responseIdx == 0
                 ? "<span class=\"glyphicon glyphicon-info-sign\"></span>"
-                      + " More info about the equal share scale"
+                      + " More info about the <code>Equal Share</code> scale"
                 : "";
     }
 
+    @Override
+    public boolean isCommentsOnResponsesAllowed() {
+        return false;
+    }
 }

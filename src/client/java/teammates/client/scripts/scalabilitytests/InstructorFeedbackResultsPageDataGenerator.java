@@ -15,7 +15,8 @@ import com.google.gson.GsonBuilder;
 /**
  * Generates test data for InstructorFeedbackResultsPageScaleTest.
  */
-@SuppressWarnings("PMD.UnusedPrivateField")//Inner classes and their fields are only used for JSON object generation.
+// Inner classes and their fields are only used for JSON object generation.
+@SuppressWarnings({"PMD.UnusedPrivateField", "unused"})
 public class InstructorFeedbackResultsPageDataGenerator {
     private Map<String, Question> feedbackQuestions = new HashMap<>();
     private Map<String, Student> students = new HashMap<>();
@@ -28,8 +29,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
     private EmptyObject feedbackResponseComments = new EmptyObject();
     private EmptyObject profiles = new EmptyObject();
 
-    class EmptyObject {
-    }
+    class EmptyObject {}
 
     class Account {
         private String email = "CFResultsScT.instr@gmail.tmt";
@@ -196,12 +196,12 @@ public class InstructorFeedbackResultsPageDataGenerator {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         for (int studentNum : studentNums) {
             for (int questionNum : questionNums) {
-                Writer writer = new FileWriter(
+                try (Writer writer = new FileWriter(
                         folderPath
                         + "InstructorFeedbackResultsPageScaleTest-" + studentNum
-                        + "Students" + questionNum + "Questions.json");
-                gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNum, studentNum), writer);
-                writer.close();
+                        + "Students" + questionNum + "Questions.json")) {
+                    gson.toJson(new InstructorFeedbackResultsPageDataGenerator(questionNum, studentNum), writer);
+                }
             }
         }
     }
