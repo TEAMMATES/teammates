@@ -9,7 +9,7 @@
 <t:staticPage jsIncludes="${jsIncludes}" currentPage="requestFeedbackLinksResend">
   <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
   <h1 class="color-orange">
-    Request for Resending of Feedback Links
+    Request for Resend of Feedback Links
   </h1>
   <p id="message">Please enter your email address, an email containing links to all the feedback sessions that you participated in the recent one month will be resend to you.</p>
   <form id="requestForm" action="/requestResendLinksResult" name="requestForm" method="POST">
