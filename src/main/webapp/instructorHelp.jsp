@@ -211,9 +211,6 @@
             <li>
               <a href="#editDeleteComments">Edit and delete comments</a>
             </li>
-            <li>
-              <a href="#searchComments">Search for comments</a>
-            </li>
           </ul>
         </div>
       </li>
