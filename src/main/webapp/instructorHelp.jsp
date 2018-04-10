@@ -1,7 +1,11 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<t:helpPage>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="jsIncludes">
+  <script type="text/javascript" src="/js/instructorHelp.js"></script>
+</c:set>
+<t:helpPage jsIncludes="${jsIncludes}">
   <h1>Help for Instructors</h1>
   <a name="#top"></a>
   <div id="contentHolder">
