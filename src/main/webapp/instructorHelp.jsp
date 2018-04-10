@@ -224,6 +224,7 @@
   <jsp:include page="partials/instructorHelpTips.jsp"/>
   <jsp:include page="partials/instructorHelpCourses.jsp"/>
   <jsp:include page="partials/instructorHelpSessions.jsp"/>
+  <jsp:include page="partials/instructorHelpQuestions.jsp"/>
   <jsp:include page="partials/instructorHelpStudents.jsp"/>
   <jsp:include page="partials/instructorHelpSearch.jsp"/>
   <jsp:include page="partials/instructorHelpComments.jsp"/>

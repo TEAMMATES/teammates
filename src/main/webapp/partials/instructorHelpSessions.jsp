@@ -3,6 +3,18 @@
 <h2 class="text-color-primary" id="sessionTypes">Sessions</h2>
 <div id="contentHolder">
   <div class="panel-group">
+    <div class="panel panel-primary" id="tips">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#tipsBody">Tips for conducting team peer evaluation sessions</a>
+        </h3>
+      </div>
+      <div id="tipsBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <jsp:include page="instructorHelpTips.jsp"/>
+        </div>
+      </div>
+    </div>
     <div class="panel panel-primary" id="fbSetupSession">
       <div class="panel-heading">
         <h3 class="panel-title">
