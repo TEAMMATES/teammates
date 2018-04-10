@@ -29,6 +29,9 @@ public enum BackDoorOperation {
     /** Operation type: deleting a student from the datastore. */
     OPERATION_DELETE_STUDENT,
 
+    /** Operation type: editing a course in the datastore. */
+    OPERATION_EDIT_COURSE,
+
     /** Operation type: editing a feedback question in the datastore. */
     OPERATION_EDIT_FEEDBACK_QUESTION,
 

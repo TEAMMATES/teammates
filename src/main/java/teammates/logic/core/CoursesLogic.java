@@ -608,6 +608,9 @@ public final class CoursesLogic {
         }
 
         coursesDb.updateCourse(newCourse);
+        if (!newCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
+            feedbackSessionsLogic.updateFeedbackSessionsTimeZoneForCourse(newCourse.getId(), newCourse.getTimeZone());
+        }
     }
 
     /**
