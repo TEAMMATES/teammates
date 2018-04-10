@@ -3,7 +3,7 @@
 <h2 class="text-color-primary" id="editCourse">Courses</h2>
 <div id="contentHolder">
   <div class="panel-group">
-    <div class="panel panel-primary" id="courseSizeLimit">
+    <div class="panel panel-default" id="courseSizeLimit">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#faqCourseSizeLimitBody">Is there a size limit for a course?</a>
@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="courseNoTeams">
+    <div class="panel panel-default" id="courseNoTeams">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#courseNoTeamsBody">What should I do if my course doesn’t have teams?</a>
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="courseAddStudents">
+    <div class="panel panel-default" id="courseAddStudents">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#courseAddStudentsBody">How do I add students to a course?</a>
@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="courseViewStudents">
+    <div class="panel panel-default" id="courseViewStudents">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#courseViewStudentsBody">How do I view a list of students in a course?</a>
@@ -81,7 +81,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="courseDeleteStudents">
+    <div class="panel panel-default" id="courseDeleteStudents">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#courseDeleteStudentsBody">How do I delete students from a course?</a>
@@ -106,7 +106,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="courseDisappearForStudent">
+    <div class="panel panel-default" id="courseDisappearForStudent">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#courseDisappearForStudentBody">What should I do if a student says his/her courses have disappeared from the system?</a>
@@ -121,7 +121,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="editCourseAddInstructor">
+    <div class="panel panel-default" id="editCourseAddInstructor">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#editCourseAddInstructorBody">How do I add instructors to my course?</a>
@@ -304,7 +304,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="editCourseEditInstructor">
+    <div class="panel panel-default" id="editCourseEditInstructor">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#editCourseEditInstructorBody">How do I edit the information of an instructor in my course?</a>
@@ -336,7 +336,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="editCourseSetAccessLevel">
+    <div class="panel panel-default" id="editCourseSetAccessLevel">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#editCourseSetAccessLevelBody">How do I set an instructor's access level?</a>
@@ -369,7 +369,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="editCourseSetCustom">
+    <div class="panel panel-default" id="editCourseSetCustom">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#editCourseSetCustomBody">How do I set custom privileges for an instructor?</a>
@@ -632,7 +632,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="sectionsWhatIsItMeantFor">
+    <div class="panel panel-default" id="sectionsWhatIsItMeantFor">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#sectionsWhatIsItMeantForBody">What are sections meant for?</a>
@@ -648,7 +648,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="sectionsEnrollingStudents">
+    <div class="panel panel-default" id="sectionsEnrollingStudents">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#sectionsEnrollingStudentsBody">How do I enroll students into sections?</a>
@@ -663,7 +663,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="sectionsEditing">
+    <div class="panel panel-default" id="sectionsEditing">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#sectionsEditingBody">How do I change a student's section?</a>
@@ -692,7 +692,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="archivingCourse">
+    <div class="panel panel-default" id="archivingCourse">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#archivingCourseBody">How do I archive a course?</a>
@@ -756,7 +756,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="archivingViewArchivedCourses">
+    <div class="panel panel-default" id="archivingViewArchivedCourses">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#archivingViewArchivedCoursesBody">How do I view courses I have archived?</a>
@@ -799,7 +799,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="archivingUnarchiveCourses">
+    <div class="panel panel-default" id="archivingUnarchiveCourses">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#archivingUnarchiveCoursesBody">How do I unarchive an archived course?</a>
