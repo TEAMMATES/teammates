@@ -38,8 +38,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception {
 
         testContent();
-        testSearch();
-        testDeleteAction();
+        testSearchAndDelete();
 
         testSanitization();
 
@@ -57,7 +56,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testSearch() throws Exception {
+    private void testSearchAndDelete() throws Exception {
 
         ______TS("search for nothing");
 
@@ -109,16 +108,8 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickSearchButton();
         searchPage.clickAndHoverPicture("studentphoto-c0.1");
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
-    }
-
-    private void testDeleteAction() throws Exception {
 
         ______TS("action: delete");
-
-        searchPage.clearSearchBox();
-        String searchContent = "\"student2 2 In Course1\"";
-        searchPage.inputSearchContent(searchContent);
-        searchPage.clickSearchButton();
 
         String studentName = testData.students.get("student2.2InCourse1").name;
         String studentEmail = testData.students.get("student2.2InCourse1").email;
