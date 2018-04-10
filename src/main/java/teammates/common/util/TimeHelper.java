@@ -10,6 +10,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -318,6 +319,50 @@ public final class TimeHelper {
      */
     public static String formatDateForSessionsForm(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM, yyyy");
+    }
+
+    /**
+     * Convenience method to perform {@link #adjustLocalDateTimeForSessionsFormInputs} followed by
+     * {@link #formatDateForSessionsForm} on a {@link LocalDateTime}.
+     * @see #adjustAndFormatDateForSessionsFormInputs
+     * @see #formatDateForSessionsForm
+     */
+    public static String adjustAndFormatDateForSessionsFormInputs(LocalDateTime localDateTime) {
+        return formatDateForSessionsForm(adjustLocalDateTimeForSessionsFormInputs(localDateTime));
+    }
+
+    /**
+     * Returns a copy of the {@link LocalDateTime} adjusted to be compatible with the format output by
+     * {@link #combineDateTime}, i.e. either the time is 23:59, or the minute is 0 and the hour is not 0.
+     * The date time is first rounded to the nearest hour, then the special case 00:00 is handled.
+     * @param ldt The {@link LocalDateTime} to be adjusted for compatibility.
+     * @return a copy of {@code ldt} adjusted for compatibility, or null if {@code ldt} is null.
+     * @see #combineDateTime
+     */
+    public static LocalDateTime adjustLocalDateTimeForSessionsFormInputs(LocalDateTime ldt) {
+        if (ldt == null) {
+            return null;
+        }
+        if (ldt.getMinute() == 0 && ldt.getHour() != 0 || ldt.getMinute() == 59 && ldt.getHour() == 23) {
+            return ldt;
+        }
+
+        // Round to the nearest hour
+        LocalDateTime rounded;
+        LocalDateTime floor = ldt.truncatedTo(ChronoUnit.HOURS);
+        LocalDateTime ceiling = floor.plusHours(1);
+        Duration distanceToCeiling = Duration.between(ldt, ceiling);
+        if (distanceToCeiling.compareTo(Duration.ofMinutes(30)) <= 0) {
+            rounded = ceiling;
+        } else {
+            rounded = floor;
+        }
+
+        // Adjust 00:00 -> 23:59
+        if (rounded.getHour() == 0) {
+            return rounded.minusMinutes(1);
+        }
+        return rounded;
     }
 
     /**
