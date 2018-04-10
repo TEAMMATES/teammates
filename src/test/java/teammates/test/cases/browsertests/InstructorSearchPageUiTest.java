@@ -121,6 +121,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickDeleteAndConfirm(courseId, studentName);
         InstructorCourseDetailsPage courseDetailsPage = searchPage.changePageType(InstructorCourseDetailsPage.class);
         courseDetailsPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_DELETED);
+        assertNull(BackDoor.getStudent(courseId, studentEmail));
     }
 
     private void testSanitization() throws IOException {
