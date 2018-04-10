@@ -12,6 +12,7 @@
   <br>
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <ti:remindParticularStudentsModal remindParticularStudentsLink="${data.remindParticularStudentsLink}" />
+  <ti:resendPublishedEmailModal sessionResendPublishedEmailLink="${data.sessionResendPublishedEmailLink}" />
   <c:if test="${data.account.instructor}">
     <home:sort isSortButtonsDisabled="${data.sortingDisabled}"/>
     <br>

@@ -4,19 +4,16 @@ import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorFeedbackAjaxStudentsListPageData;
 
-public class InstructorFeedbackRemindParticularStudentsPageAction extends Action {
+public class InstructorFeedbackResendPublishedEmailPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -28,7 +25,7 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
         InstructorFeedbackAjaxStudentsListPageData data = new InstructorFeedbackAjaxStudentsListPageData(
                 account, sessionToken, fsResponseStatus, courseId, feedbackSessionName);
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_RESEND_PUBLISHED_EMAIL_MODAL, data);
     }
 
 }
