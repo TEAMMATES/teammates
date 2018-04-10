@@ -400,10 +400,10 @@ public class EmailGenerator {
     }
 
     public EmailWrapper generateFeedbackSessionResendLinksEmail(String userEmail) {
-        Date endTime = new Date();
+        Instant endTime = new Date().toInstant();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -6);
-        Date startTime = calendar.getTime();
+        Instant startTime = calendar.getTime().toInstant();
         String subject = EmailType.FEEDBACK_LINKS_RESENT.getSubject();
         StringBuffer linksFragmentValue = new StringBuffer(1000);
         String emailBody;
