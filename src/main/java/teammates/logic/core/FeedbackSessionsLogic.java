@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -110,9 +109,8 @@ public final class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
-
-        return fsDb.getAllOpenFeedbackSessions(startUtc, endUtc);
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
     }
 
     /**
