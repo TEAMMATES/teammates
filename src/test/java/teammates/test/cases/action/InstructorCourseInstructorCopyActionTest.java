@@ -57,9 +57,10 @@ public class InstructorCourseInstructorCopyActionTest extends BaseActionTest {
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        InstructorAttributes instructor3 = typicalBundle.instructors.get("instructor3OfCourse2");
 
-        gaeSimulation.loginAsInstructor(instructor3.googleId);
+        InstructorAttributes instructor3OfCourse1n2 = typicalBundle.instructors.get("instructor3OfCourse2");
+
+        gaeSimulation.loginAsInstructor(instructor3OfCourse1n2.googleId);
 
         ______TS("Typical case: add two instructors from Course1 to Course2");
 
@@ -77,11 +78,13 @@ public class InstructorCourseInstructorCopyActionTest extends BaseActionTest {
         InstructorCourseInstructorCopyAction a = getAction(params);
         RedirectResult rr = getRedirectResult(a);
 
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 2);
+
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        instructor3.courseId,
-                        instructor3.googleId,
+                        instructor3OfCourse1n2.courseId,
+                        instructor3OfCourse1n2.googleId,
                         false),
                 rr.getDestinationWithParams());
 
@@ -95,10 +98,55 @@ public class InstructorCourseInstructorCopyActionTest extends BaseActionTest {
                 + "/page/instructorCourseInstructorCopy";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
-        ______TS("Error: Indicate no instructors to be copied to Course2");
+        ______TS("Success with error: copy the same instructor from two different courses");
+
+        InstructorAttributes instructorInChargeOfCopy =
+                typicalBundle.instructors.get("instructorInChargeOfCopyInstructorOfCourseCopyInstructorTo");
+        gaeSimulation.loginAsInstructor(instructorInChargeOfCopy.googleId);
+
+        InstructorAttributes instructorToBeCopiedOfCourse1CopyInstructorFrom =
+                typicalBundle.instructors.get("instructorToBeCopiedOfCourse1CopyInstructorFrom");
+        InstructorAttributes instructorToBeCopiedOfCourse2CopyInstructorFrom =
+                typicalBundle.instructors.get("instructorToBeCopiedOfCourse2CopyInstructorFrom");
 
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse2"
+                Const.ParamsNames.COURSE_ID, "idOfCourseCopyInstructorTo",
+                Const.ParamsNames.INSTRUCTOR_EMAIL + "-0", instructorToBeCopiedOfCourse1CopyInstructorFrom.getEmail(),
+                Const.ParamsNames.COURSE_ID + "-0", instructorToBeCopiedOfCourse1CopyInstructorFrom.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL + "-1", instructorToBeCopiedOfCourse2CopyInstructorFrom.getEmail(),
+                Const.ParamsNames.COURSE_ID + "-1", instructorToBeCopiedOfCourse2CopyInstructorFrom.getCourseId(),
+        };
+
+        a = getAction(params);
+        rr = getRedirectResult(a);
+
+        verifySpecifiedTasksAdded(a, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
+                        instructorInChargeOfCopy.courseId,
+                        instructorInChargeOfCopy.googleId,
+                        true),
+                rr.getDestinationWithParams());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseInstructorCopy|||"
+                + "instructorCourseInstructorCopy|||true|||Instructor|||"
+                + "Instructor In Charge Of Copying Other Instructors|||"
+                + "idOfInstructorInChargeOfCopyingInstructors|||instructorInChargeOfCopyingInstructors@copy.tmt|||"
+                + "Servlet Action Failure : Trying to create a Instructor that exists: "
+                + "idOfCourseCopyInstructorTo/instructorToBeCopied@copy.tmt|||/page/instructorCourseInstructorCopy";
+
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
+
+        ______TS("Error: Indicate no instructors to be copied to Course1");
+
+        InstructorAttributes instructor1Course1 = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1Course1.googleId);
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
         };
 
         a = getAction(params);
@@ -107,20 +155,21 @@ public class InstructorCourseInstructorCopyActionTest extends BaseActionTest {
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        instructor3.courseId,
-                        instructor3.googleId,
+                        instructor1Course1.courseId,
+                        instructor1Course1.googleId,
                         true),
                 rr.getDestinationWithParams());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseInstructorCopy|||"
                 + "instructorCourseInstructorCopy|||true|||Instructor|||"
-                + "Instructor 3 of Course 1 and 2|||idOfInstructor3|||instr3@course1n2.tmt|||"
-                + "|||"
-                + "/page/instructorCourseInstructorCopy";
+                + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "|||/page/instructorCourseInstructorCopy";
 
         AssertHelper.assertLogMessageEquals(expectedLogMessage, a.getLogMessage());
 
-        ______TS("Masquerade mode");
+        ______TS("Masquerade mode: copy an instructor");
+
+        gaeSimulation.loginAsInstructor(instructor3OfCourse1n2.googleId);
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
@@ -133,7 +182,7 @@ public class InstructorCourseInstructorCopyActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID + "-0", helperOfCourse1.getCourseId(),
         };
 
-        params = addUserIdToParams(instructor3.googleId, params);
+        params = addUserIdToParams(instructor3OfCourse1n2.googleId, params);
 
         a = getAction(params);
         rr = getRedirectResult(a);
@@ -141,8 +190,8 @@ public class InstructorCourseInstructorCopyActionTest extends BaseActionTest {
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE,
-                        instructor3.courseId,
-                        instructor3.googleId,
+                        instructor3OfCourse1n2.courseId,
+                        instructor3OfCourse1n2.googleId,
                         false),
                 rr.getDestinationWithParams());
 

@@ -84,6 +84,20 @@
       "email": "instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>"
     },
+    "instructorInChargeOfCopyingInstructors": {
+      "googleId": "idOfInstructorInChargeOfCopyingInstructors",
+      "name": "Instructor In Charge Of Copying Other Instructors",
+      "isInstructor": true,
+      "email": "instructorInChargeOfCopyingInstructors@copy.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructorToBeCopied": {
+      "googleId": "idOfInstructorToBeCopied",
+      "name": "Instructor To Be Copied",
+      "isInstructor": true,
+      "email": "instructorToBeCopied@copy.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
@@ -144,6 +158,24 @@
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
+      "timeZone": "UTC"
+    },
+    "courseCopyInstructorTo": {
+      "createdAt": "2018-04-09T23:59:00Z",
+      "id": "idOfCourseCopyInstructorTo",
+      "name": "Course To Copy Instructor To",
+      "timeZone": "UTC"
+    },
+    "course1CopyInstructorFrom": {
+      "createdAt": "2018-04-09T23:59:00Z",
+      "id": "idOfCourse1CopyInstructorFrom",
+      "name": "Course 1 To Copy Instructor From",
+      "timeZone": "UTC"
+    },
+    "course2CopyInstructorFrom": {
+      "createdAt": "2018-04-09T23:59:00Z",
+      "id": "idOfCourse2CopyInstructorFrom",
+      "name": "Course 2 To Copy Instructor From",
       "timeZone": "UTC"
     },
     "courseNoEvals": {
@@ -357,6 +389,78 @@
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
           "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorInChargeOfCopyInstructorOfCourseCopyInstructorTo": {
+      "googleId": "idOfInstructorInChargeOfCopyingInstructors",
+      "courseId": "idOfCourseCopyInstructorTo",
+      "name": "Instructor In Charge Of Copying Other Instructors",
+      "email": "instructorInChargeOfCopyingInstructors@copy.tmt",
+      "isArchived": false,
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": true,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorToBeCopiedOfCourse1CopyInstructorFrom": {
+      "googleId": "idOfInstructorToBeCopied",
+      "courseId": "idOfCourse1CopyInstructorFrom",
+      "name": "Instructor To Be Copied Of Course1CopyInstructorFrom",
+      "email": "instructorToBeCopied@copy.tmt",
+      "isArchived": false,
+      "role": "Manager",
+      "isDisplayedToStudents": true,
+      "displayedName": "Manager",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorToBeCopiedOfCourse2CopyInstructorFrom": {
+      "googleId": "idOfInstructorToBeCopied",
+      "courseId": "idOfCourse2CopyInstructorFrom",
+      "name": "Instructor To Be Copied Of Course2CopyInstructorFrom",
+      "email": "instructorToBeCopied@copy.tmt",
+      "isArchived": false,
+      "role": "Manager",
+      "isDisplayedToStudents": true,
+      "displayedName": "Manager",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": false,
           "canviewsessioninsection": true,
           "canmodifysession": true,
           "canmodifystudent": true,

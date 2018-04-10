@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.storage.api.InstructorsDb;
+import teammates.storage.entity.Instructor;
 import teammates.test.driver.AssertHelper;
 
 /**
@@ -25,6 +26,8 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes ins1InCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
         InstructorAttributes ins2InCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
         InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
+        InstructorAttributes insCopyInCourseToCopyTo =
+                dataBundle.instructors.get("instructorInChargeOfCopyInstructorOfCourseCopyInstructorTo");
         InstructorAttributes insInArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
         InstructorAttributes insInUnregCourse = dataBundle.instructors.get("instructor5");
         InstructorAttributes ins1InTestingSanitizationCourse =
@@ -90,7 +93,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         ______TS("success: search for instructors in whole system; instructors should be searchable by their role");
 
         results = instructorsDb.searchInstructorsInWholeSystem("Custom");
-        verifySearchResults(results, helperInCourse1);
+        verifySearchResults(results, helperInCourse1, insCopyInCourseToCopyTo);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
 

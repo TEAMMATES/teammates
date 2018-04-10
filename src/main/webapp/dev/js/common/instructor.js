@@ -298,10 +298,9 @@ function bindStudentPhotoHoverLink(elements) {
 
 /**
  * Triggered when selecting rows to copy in the copy modal table
- * @param numRowsSelectedStartToBeZero should be initiated to 0 upon page load
  */
-function bindCopyEvents(numRowsSelectedStartToBeZero) {
-    let numRowsSelected = numRowsSelectedStartToBeZero;
+function bindCopyEvents() {
+    let numRowsSelected = 0;
     $('body').on('click', '#copyTableModal > tbody > tr', function (e) {
         e.preventDefault();
 

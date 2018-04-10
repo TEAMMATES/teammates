@@ -1108,7 +1108,7 @@ function readyFeedbackEditPage() {
 
     // Copy Binding
     bindCopyButton('instructorFeedbackEdit');
-    bindCopyEvents(0);
+    bindCopyEvents();
     setupQuestionCopyModal();
 
     // Additional formatting & bindings.

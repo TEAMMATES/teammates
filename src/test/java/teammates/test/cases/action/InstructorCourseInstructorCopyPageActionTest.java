@@ -67,7 +67,7 @@ public class InstructorCourseInstructorCopyPageActionTest extends BaseActionTest
                     uae.getMessage());
         }
 
-        ______TS("failure: unsufficient permissions");
+        ______TS("failure: insufficient permissions");
         gaeSimulation.loginAsInstructor(typicalBundle.accounts.get("helperOfCourse1").googleId);
 
         submissionParams = new String[] { Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1" };

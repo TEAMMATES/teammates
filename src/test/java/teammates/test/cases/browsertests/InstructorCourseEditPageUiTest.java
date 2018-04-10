@@ -180,14 +180,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickCopySubmitButton();
         courseEditPage.verifyHtmlMainContent("/instructorCourseCopyInstructorSuccess.html");
 
+        ______TS("Success case: copy multiple instructors successfully");
+
         // delete two instructors who are in both this course and another course
         // for testing copying multiple instructors
         // delete InsCrsEdit.instructor1OftestingCopyInstructorCourse
         courseEditPage.clickDeleteInstructorLinkAndConfirm(5);
         // delete InsCrsEdit.HelperCopy
         courseEditPage.clickDeleteInstructorLinkAndConfirm(3);
-
-        ______TS("Success case: copy multiple instructors successfully");
 
         int numQuestionEditForms = courseEditPage.getNumberOfInstructorEditForms();
         courseEditPage.clickCopyButton();
@@ -227,7 +227,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 courseEditPage.isCopySubmitButtonEnabled());
 
         // delete the instructor copied from another course to restore the expected state of the test after this test
-        // courseEditPage.clickDeleteInstructorLinkAndConfirm(4);
         BackDoor.deleteInstructor(
                 "InsCrsEdit.CS2104",
                 "InsCrsEdit.instructor1OftestingCopyInstructorCourse@gmail.tmt");

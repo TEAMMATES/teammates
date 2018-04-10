@@ -22,8 +22,8 @@ public class InstructorCourseInstructorCopyPageData extends PageData {
     }
 
     public CourseInstructorCopyTable getCopyInstructorForm() {
-        List<CourseInstructorCopyTableRow> copyQuestionRows = buildCopyInstructorModalRows(instructors);
-        return new CourseInstructorCopyTable(copyQuestionRows);
+        List<CourseInstructorCopyTableRow> copyInstructorModalRows = buildCopyInstructorModalRows(instructors);
+        return new CourseInstructorCopyTable(copyInstructorModalRows);
     }
 
     private List<CourseInstructorCopyTableRow> buildCopyInstructorModalRows(

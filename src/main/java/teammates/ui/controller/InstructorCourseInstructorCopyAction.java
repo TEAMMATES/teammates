@@ -63,14 +63,9 @@ public class InstructorCourseInstructorCopyAction extends Action {
                 isError = true;
             }
         } catch (InvalidParametersException ipe) {
-            statusToUser.add(new StatusMessage(ipe.getMessage(), StatusMessageColor.DANGER));
-            statusToAdmin = ipe.getMessage();
-            isError = true;
+            setStatusForException(ipe);
         } catch (EntityAlreadyExistsException eaee) {
-            statusToUser.add(
-                    new StatusMessage(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS, StatusMessageColor.DANGER));
-            statusToAdmin = eaee.getMessage();
-            isError = true;
+            setStatusForException(eaee, Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
         }
 
         return createRedirectResult(new PageData(account, sessionToken).getInstructorCourseEditLink(thisCourseId));
