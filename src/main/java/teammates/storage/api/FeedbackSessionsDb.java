@@ -2,11 +2,10 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,27 +32,22 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
-
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startUtc);
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endUtc);
 
         // To retrieve legacy data where local dates are stored instead of UTC
         // TODO: remove after all legacy data has been converted
-        Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
-        Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
+        Instant start = rangeStart.minus(Duration.ofHours(25));
+        Instant end = rangeEnd.plus(Duration.ofHours(25));
 
         List<FeedbackSession> endEntities = load()
-                .filter("endTime >", curStart)
-                .filter("endTime <=", curEnd)
+                .filter("endTime >", TimeHelper.convertInstantToDate(start))
+                .filter("endTime <=", TimeHelper.convertInstantToDate(end))
                 .list();
 
         List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", curStart)
-                .filter("startTime <", curEnd)
+                .filter("startTime >=", TimeHelper.convertInstantToDate(start))
+                .filter("startTime <", TimeHelper.convertInstantToDate(end))
                 .list();
 
         List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
@@ -63,17 +57,15 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         startTimeEntities.removeAll(endTimeEntities);
         endTimeEntities.addAll(startTimeEntities);
 
-        Instant start = startUtc.toInstant();
-        Instant end = endUtc.toInstant();
-
         // TODO: remove after all legacy data has been converted
         for (FeedbackSession feedbackSession : endTimeEntities) {
             FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
             Instant fsStart = fs.getStartTime();
             Instant fsEnd = fs.getEndTime();
 
-            boolean isStartTimeWithinRange = (fsStart.isAfter(start) || fsStart.equals(start)) && fsStart.isBefore(end);
-            boolean isEndTimeWithinRange = fsEnd.isAfter(start) && (fsEnd.isBefore(end) || fsEnd.equals(end));
+            boolean isStartTimeWithinRange = (fsStart.isAfter(rangeStart) || fsStart.equals(rangeStart))
+                    && fsStart.isBefore(rangeEnd);
+            boolean isEndTimeWithinRange = fsEnd.isAfter(rangeStart) && (fsEnd.isBefore(rangeEnd) || fsEnd.equals(rangeEnd));
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
