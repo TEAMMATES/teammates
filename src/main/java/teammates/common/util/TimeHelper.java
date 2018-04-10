@@ -343,6 +343,9 @@ public final class TimeHelper {
         if (ldt == null) {
             return null;
         }
+        if (ldt.getMinute() == 0 && ldt.getHour() != 0 || ldt.getMinute() == 59 && ldt.getHour() == 23) {
+            return ldt;
+        }
 
         // Round to the nearest hour
         LocalDateTime rounded;
