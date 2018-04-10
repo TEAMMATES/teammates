@@ -11,13 +11,20 @@ import teammates.storage.entity.FeedbackSession;
 
 /**
  * Script to load/save all {@link FeedbackSession} entities.
- * The actual load/save operation happens in a transaction to prevent possible inconsistencies arising from concurrent
+ *
+ * <p>The actual load/save operation happens in a transaction to prevent possible inconsistencies arising from concurrent
  * modification of the entity, e.g. if a student submits or an instructor modifies the session in the midst of the load/save.
- * As a result of loading and saving entities, these changes will be made:
- * - Conversion of all time fields to UTC
- * - Conversion of the timeZone field to a ZoneId string following the course time zone; removal of the timeZoneDouble field
- * - Population of any missing is*EmailEnabled booleans to default value true
- * - Adjustment of the results visible from time TIME_REPRESENTS_NEVER -> TIME_REPRESENTS_LATER
+ * </p>
+ *
+ * <p>As a result of loading and saving entities, these changes will be made:
+ * <ul>
+ *     <li>Conversion of all time fields to UTC</li>
+ *     <li>Conversion of the timeZone field to a ZoneId string following the course time zone;
+ *         removal of the timeZoneDouble field</li>
+ *     <li>Population of any missing is*EmailEnabled booleans to default value true</li>
+ *     <li>Adjustment of the results visible from time TIME_REPRESENTS_NEVER -> TIME_REPRESENTS_LATER</li>
+ * </ul>
+ * </p>
  */
 public class DataMigrationForSessions extends DataMigrationBaseScript<Key<FeedbackSession>> {
 
