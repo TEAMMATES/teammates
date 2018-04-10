@@ -1120,7 +1120,7 @@ function getSuccessMessage() {
 }
 
 function getIncompleteQuestionMessage() {
-    return "<p><span class=\"glyphicon glyphicon-exclamation-sign\"></span> " + $(INFO_STATUS_MESSAGE).html().trim() + "</p>";
+    return "<p>&#10071; " + $(INFO_STATUS_MESSAGE).html().trim() + "</p>";
 }
 
 function hasIncompleteQuestionMessage() {
