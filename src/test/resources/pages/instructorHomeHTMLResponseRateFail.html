@@ -57,6 +57,36 @@
       </div>
     </div>
   </div>
+  <div aria-hidden="true" aria-labelledby="resendPublishedEmailModal" class="modal fade" id="resendPublishedEmailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackResendPublishedEmail?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_email_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Resend Published Email
+              <small>
+                (Select the student(s) you want to resend the published email to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentEmailList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
+            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-xs-2">
       <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">
@@ -715,6 +745,11 @@
                       <li>
                         <a class="session-unpublish-for-test" data-fsname="Fourth Feedback Session" data-sending-published-email="true" href="/page/instructorFeedbackUnpublish?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms&token=${sessionToken}">
                           Unpublish Results
+                        </a>
+                      </li>
+                      <li>
+                        <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=CHomeUiT.CS2104&fsname=Fourth+Feedback+Session&user=CHomeUiT.instructor.tmms" data-courseid="CHomeUiT.CS2104" data-fsname="Fourth Feedback Session" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
+                          Resend link to view results
                         </a>
                       </li>
                     </ul>
