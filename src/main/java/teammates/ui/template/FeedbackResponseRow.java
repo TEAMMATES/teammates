@@ -89,6 +89,10 @@ public class FeedbackResponseRow {
         return responseText;
     }
 
+    public void setResponseText(String responseText) {
+        this.responseText = responseText;
+    }
+
     public List<FeedbackResponseCommentRow> getResponseComments() {
         return responseComments;
     }
