@@ -12,6 +12,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.IgnoreSave;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnLoad;
@@ -77,6 +78,10 @@ public class FeedbackSession extends BaseEntity {
 
     @Unindex
     private boolean isFollowingCourseTimeZone;
+
+    @SuppressWarnings("PMD.UnusedPrivateField") // Used by migration script
+    @Ignore
+    private boolean wasFollowingCourseTimeZone;
 
     // TODO Remove after all legacy data has been converted
     @IgnoreSave
@@ -170,6 +175,7 @@ public class FeedbackSession extends BaseEntity {
     @SuppressWarnings("unused") // called by Objectify
     private void setTimeZoneFromCourseTimeZoneIfRequired() {
         if (isFollowingCourseTimeZone) {
+            wasFollowingCourseTimeZone = true;
             return;
         }
 
