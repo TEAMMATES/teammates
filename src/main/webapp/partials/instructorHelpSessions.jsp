@@ -6877,6 +6877,87 @@
         </div>
       </div>
     </div>
+    <div class="panel panel-primary" id="searchFeedbackSessionData">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#searchFeedbackSessionDataBody">How do I search for a feedback session question, response or comment on a response?</a>
+        </h3>
+      </div>
+      <div id="searchFeedbackSessionDataBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
+          <ol>
+            <li>
+              Check the option <b>Questions, responses, comments on responses</b> below the search bar.
+            </li>
+            <li>
+              Type in the keywords of your search.
+            </li>
+            <li>
+              Click <button class="btn btn-primary btn-xs">Search</button>.
+            </li>
+          </ol>
+          <p>
+            Assuming the relevant data exists, the results for a search with the keyword <code>good</code> would look something similar to this:
+          </p>
+          <div class="bs-example">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <strong>Questions, responses, comments on responses</strong>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <strong>
+                      Session: Session 1 (Course 1)
+                    </strong>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <b>Question 2</b>: What has been a highlight for you working on this project?
+                      </div>
+                      <table class="table">
+                        <tbody>
+                        <tr>
+                          <td>
+                            <b>From:</b> Alice Betsy (Team A)
+                            <b>To:</b> Alice Betsy (Team A)
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong>Response:</strong> A highlight for me has been putting Software Engineering skills to use.
+                          </td>
+                        </tr>
+                        <tr class="active">
+                          <td>Comment(s):</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <ul class="list-group comments">
+                              <li class="list-group-item list-group-item-warning">
+                                <div>
+                                  <span class="text-muted">
+                                    From: instructor@university.edu [Tue, 23 May 2017, 11:59 PM UTC]
+                                  </span>
+                                </div>
+                                <div style="margin-left: 15px;">Alice, <span class="highlight">good</span> to know that you liked applying software engineering skills in the project.</div>
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <p align="right">
     <a href="#Top">Back to Top</a>
