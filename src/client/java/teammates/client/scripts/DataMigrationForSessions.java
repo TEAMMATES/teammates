@@ -44,7 +44,6 @@ public class DataMigrationForSessions extends DataMigrationBaseScript<Key<Feedba
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("deprecation")
     protected List<Key<FeedbackSession>> getEntities() {
         return ofy().load().type(FeedbackSession.class).keys().list();
     }
