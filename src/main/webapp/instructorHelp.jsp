@@ -91,52 +91,52 @@
         <div style="margin: 0 auto; padding: 0 50px;">
           <ul>
             <li>
-              <a data-toggle="collapse" data-target="#fbSetupSessionBody" href="#fbSetupSession">Setting up a feedback session</a>
+              <a class="collapse-link" data-target="#fbSetupSessionBody" href="#fbSetupSession">Setting up a feedback session</a>
             </li>
             <li>
-              <a data-toggle="collapse" data-target="#fbCreateSessionBody" href="#fbCreateSession">Creating and scheduling a feedback session</a>
+              <a class="collapse-link" data-target="#fbCreateSessionBody" href="#fbCreateSession">Creating and scheduling a feedback session</a>
             </li>
             <li>
-              <a data-toggle="collapse" data-target="#fbSetupQuestionsBody" href="#fbSetupQuestions">Setting up questions</a>
+              <a class="collapse-link" data-target="#fbSetupQuestionsBody" href="#fbSetupQuestions">Setting up questions</a>
             </li>
             <li>
-              <a data-toggle="collapse" data-target="#fbPreviewBody" href="#fbPreview">Previewing a session</a>
+              <a class="collapse-link" data-target="#fbPreviewBody" href="#fbPreview">Previewing a session</a>
             </li>
             <li>
-              <a data-toggle="collapse" data-target="#fbViewResultsBody" href="#fbViewResults">Viewing results</a>
+              <a class="collapse-link" data-target="#fbViewResultsBody" href="#fbViewResults">Viewing results</a>
             </li>
             <li>
-              <a data-toggle="collapse" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes">Question Types</a>
+              <a class="collapse-link" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes">Question Types</a>
               <ul>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbEssayBody" href="#fbEssay">Essay question</a>
+                  <a class="collapse-link" data-target="#fbEssayBody" href="#fbEssay">Essay question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbMcqBody" href="#fbMcq">Multiple-choice (single answer) question</a>
+                  <a class="collapse-link" data-target="#fbMcqBody" href="#fbMcq">Multiple-choice (single answer) question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbMsqBody" href="#fbMsq">Multiple-choice (multiple answers) question</a>
+                  <a class="collapse-link" data-target="#fbMsqBody" href="#fbMsq">Multiple-choice (multiple answers) question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbNumscaleBody" href="#fbNumscale">Numerical-scale question</a>
+                  <a class="collapse-link" data-target="#fbNumscaleBody" href="#fbNumscale">Numerical-scale question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbConstSumOptionsBody" href="#fbConstSumOptions">Distribute points (among options) question</a>
+                  <a class="collapse-link" data-target="#fbConstSumOptionsBody" href="#fbConstSumOptions">Distribute points (among options) question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbConstSumRecipientsBody" href="#fbConstSumRecipients">Distribute points (among recipients) question</a>
+                  <a class="collapse-link" data-target="#fbConstSumRecipientsBody" href="#fbConstSumRecipients">Distribute points (among recipients) question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbContribBody" href="#fbContrib">Team contribution question</a>
+                  <a class="collapse-link" data-target="#fbContribBody" href="#fbContrib">Team contribution question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbRubricBody" href="#fbRubric">Rubric question</a>
+                  <a class="collapse-link" data-target="#fbRubricBody" href="#fbRubric">Rubric question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbRankOptionsBody" href="#fbRankOptions">Rank (Options) question</a>
+                  <a class="collapse-link" data-target="#fbRankOptionsBody" href="#fbRankOptions">Rank (Options) question</a>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#fbRankRecipientsBody" href="#fbRankRecipients">Rank (Recipients) question</a>
+                  <a class="collapse-link" data-target="#fbRankRecipientsBody" href="#fbRankRecipients">Rank (Recipients) question</a>
                 </li>
               </ul>
             </li>

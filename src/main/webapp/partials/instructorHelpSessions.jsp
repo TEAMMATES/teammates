@@ -15,9 +15,9 @@
             To quickly set up a feedback session, follow the following steps:
           </p>
           <ol>
-            <li><a data-toggle="collapse" data-target="#fbCreateSessionBody" href="#fbCreateSession">Create and schedule a new session</a></li>
-            <li><a data-toggle="collapse" data-target="#fbSetupQuestionsBody" href="#fbSetupQuestions">Add questions to the session</a></li>
-            <li><a data-toggle="collapse" data-target="#fbPreviewBody" href="#fbPreview">Preview the session</a></li>
+            <li><a class="collapse-link" data-target="#fbCreateSessionBody" href="#fbCreateSession">Create and schedule a new session</a></li>
+            <li><a class="collapse-link" data-target="#fbSetupQuestionsBody" href="#fbSetupQuestions">Add questions to the session</a></li>
+            <li><a class="collapse-link" data-target="#fbPreviewBody" href="#fbPreview">Preview the session</a></li>
           </ol>
           <p>
             TEAMMATES will automatically open the session at your specified session start time.
@@ -503,7 +503,7 @@
             </li>
             <li>
               Select between adding a question from our predefined
-              <a data-toggle="collapse" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes">question types</a> or
+              <a class="collapse-link" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes">question types</a> or
               copying a question from an existing feedback session.
             </li>
             <li>
@@ -549,7 +549,7 @@
           </div>
           <p>
             TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
-            <a a data-toggle="collapse" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes"href="#fbQuestionTypes">question types</a>,
+            <a class="collapse-link" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes"href="#fbQuestionTypes">question types</a>,
             you can also customize your desired:
           </p>
           <ul>
