@@ -66,29 +66,21 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
 
-        String distributeToRecipientsString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
-        String pointsPerOptionString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        String totalPointsString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
-        String pointsForEachOptionString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION);
-        String pointsForEachRecipientString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
+        String distributeToRecipientsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
+        String pointsPerOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
+        String totalPointsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
+        String pointsForEachOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION);
+        String pointsForEachRecipientString = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
 
-        String forceUnevenDistributionString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
-
-        String distributePointsOption =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS);
+        String forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+        String distributePointsOption = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS);
 
         boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
         boolean pointsPerOption = "true".equals(pointsPerOptionString);
