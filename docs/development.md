@@ -25,14 +25,14 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 Our JavaScript code is written in modular ECMAScript 6 (ES6) syntax, which is not supported in many of the existing Web browsers today.<br>
 To resolve this, we need to *bundle and transpile* ("build" afterwards) them into standard ECMAScript 5 which is supported by (almost) all browsers.
 
-Run the following command to build the JavaScript files for the application's use:
+Run the following command to build the JavaScript files for the application's use in development mode:
 ```sh
-npm run build
+npm run dev
 ```
 
-In addition, the command will also *minify* the JavaScript files to reduce the size of scripts that need to be downloaded.
-
 This command needs to be run before starting the dev server if there are updates to the JavaScript files.
+
+> Run the command `npm run build` instead for Production mode. This will optimize the build with minified JavaScript Files and produce full source maps.
 
 ### With command line
 
