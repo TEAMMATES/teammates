@@ -99,6 +99,9 @@
               <a href="#fbViewResults">Viewing results</a>
             </li>
             <li>
+              <a href="#fbSessionResendLinksRequest">Requesting resending of feedback links</a>
+            </li>
+            <li>
               <a href="#fbQuestionTypes">Question Types</a>
               <ul>
                 <li>
