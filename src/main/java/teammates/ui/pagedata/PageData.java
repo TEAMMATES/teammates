@@ -1,6 +1,7 @@
 package teammates.ui.pagedata;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -87,17 +88,13 @@ public class PageData {
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
      */
-    protected List<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
+    protected List<String> getTimeZoneOptionsAsHtml(ZoneId existingTimeZone) {
+        List<ZoneId> options = TimeHelper.getTimeZoneValues();
         ArrayList<String> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
-        }
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\""
-                       + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption
-                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
+        for (ZoneId timeZoneOption : options) {
+            result.add("<option value=\"" + timeZoneOption.getId() + "\""
+                    + (existingTimeZone.equals(timeZoneOption) ? " selected" : "") + ">" + "(" + timeZoneOption.getId()
+                    + ") " + TimeHelper.getCitiesForTimeZone(timeZoneOption) + "</option>");
         }
         return result;
     }
@@ -767,13 +764,6 @@ public class PageData {
         }
         int defaultGracePeriod = 15;
         return gracePeriodOptionValue == defaultGracePeriod;
-    }
-
-    private static String formatAsString(double num) {
-        if ((int) num == num) {
-            return Integer.toString((int) num);
-        }
-        return Double.toString(num);
     }
 
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,

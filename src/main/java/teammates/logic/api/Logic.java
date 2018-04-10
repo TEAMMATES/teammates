@@ -1,7 +1,6 @@
 package teammates.logic.api;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -388,9 +387,9 @@ public class Logic {
         return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
 
-        return feedbackSessionsLogic.getAllOpenFeedbackSessions(startUtc, endUtc);
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
     }
 
     /**
