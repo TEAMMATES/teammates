@@ -323,7 +323,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 "Instructor", "idOfInstructor1OfCourse1", now.toEpochMilli());
 
         // Role: Student
-        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, ZoneId.of("UTC")),
+        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, ZoneId.of("Africa/Johannesburg")),
                 "Student", "student1InArchivedCourse", now.toEpochMilli());
 
         // Role: Unregistered:idOfTypicalCourse1

@@ -4,11 +4,13 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
@@ -169,6 +171,37 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
 
         saveEntity(fs, newAttributes);
+    }
+
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
+    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseTimeZone);
+
+        List<Key<FeedbackSession>> sessionKeys = getFeedbackSessionKeysForCourse(courseId);
+        for (Key<FeedbackSession> sessionKey : sessionKeys) {
+            try {
+                ofy().transact(new VoidWork() {
+                    @Override
+                    public void vrun() {
+                        FeedbackSession session = ofy().load().key(sessionKey).now();
+                        if (session == null) {
+                            throw new RuntimeException(new EntityDoesNotExistException(
+                                    ERROR_UPDATE_NON_EXISTENT + sessionKey.getName()));
+                        }
+                        session.setTimeZone(courseTimeZone.getId());
+                        saveEntity(session);
+                    }
+                });
+            } catch (RuntimeException e) {
+                if (e.getCause() instanceof EntityDoesNotExistException) {
+                    log.severe(e.getMessage());
+                    continue;
+                }
+                throw e;
+            }
+        }
     }
 
     public void addInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
@@ -433,6 +466,10 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
+    }
+
+    private List<Key<FeedbackSession>> getFeedbackSessionKeysForCourse(String courseId) {
+        return load().filter("courseId =", courseId).keys().list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
