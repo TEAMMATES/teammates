@@ -12,16 +12,16 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.entity.Instructor;
 
 /**
- * Script to desanitize content of {@link InstructorAttribute} if it is sanitized.
+ * Script to desanitize content of {@link InstructorAttributes} if it is sanitized.
  */
 
-public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigrationBaseScript<InstructorAttributes> {
+public class DataMigrationForSanitizedDataInInstructorAttributes extends DataMigrationForEntities<InstructorAttributes> {
 
-    private InstructorsDb instructorDb = new InstructorsDb();
+    private InstructorsDb instructorsDb = new InstructorsDb();
 
     public static void main(String[] args) throws IOException {
-        DataMigrationForSanitizedDataInInstructorAttribute migrator =
-                     new DataMigrationForSanitizedDataInInstructorAttribute();
+        DataMigrationForSanitizedDataInInstructorAttributes migrator =
+                     new DataMigrationForSanitizedDataInInstructorAttributes();
         migrator.doOperationRemotely();
     }
 
@@ -32,7 +32,7 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
 
     @Override
     protected List<InstructorAttributes> getEntities() {
-        return getAllCourseInstructor();
+        return getAllCourseInstructors();
 
     }
 
@@ -80,18 +80,10 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
     private void updateInstructor(InstructorAttributes instructor)
                 throws InvalidParametersException, EntityDoesNotExistException {
 
-        if (!instructor.isValid()) {
-            throw new InvalidParametersException(instructor.getInvalidityInfo());
-        }
-
-        instructorDb.updateInstructorByEmail(instructor);
+        instructorsDb.updateInstructorByEmail(instructor);
     }
-    /**
-     * To extract the Instructor data.
-     */
 
-    @Deprecated
-    public List<InstructorAttributes> getAllCourseInstructor() {
+    private List<InstructorAttributes> getAllCourseInstructors() {
         ArrayList<InstructorAttributes> result = new ArrayList<>();
 
         for (Instructor instructor : getCourseInstructorEntities()) {
@@ -101,7 +93,7 @@ public class DataMigrationForSanitizedDataInInstructorAttribute extends DataMigr
         return result;
     }
 
-    public List<Instructor> getCourseInstructorEntities() {
+    private List<Instructor> getCourseInstructorEntities() {
         return ofy().load().type(Instructor.class).list();
     }
 }
