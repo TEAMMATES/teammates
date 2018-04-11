@@ -23,7 +23,7 @@ public class AdminEmailTableRow {
 
     public String getTimeForDisplay() {
         return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
-                Instant.ofEpochMilli(emailEntry.getTime()), Const.SystemParams.ADMIN_TIME_ZONE_ID));
+                Instant.ofEpochMilli(emailEntry.getTime()), Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
     public String getUnsanitizedContent() {

@@ -73,8 +73,8 @@ public final class TimeHelperExtension {
      * @return          java.time.Instant with appropriate offset from now
      */
     public static Instant getBeginOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
-        return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID)
-                .toLocalDate().atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
+        return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE)
+                .toLocalDate().atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE).toInstant();
     }
 
     /**
@@ -84,8 +84,8 @@ public final class TimeHelperExtension {
      * @return          java.time.Instant with appropriate offset from now
      */
     public static Instant getEndOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
-        return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID)
-                .toLocalDate().atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
+        return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE)
+                .toLocalDate().atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE).toInstant();
     }
 
 }

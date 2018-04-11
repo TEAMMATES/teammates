@@ -213,6 +213,6 @@ public class LogMessageGenerator {
 
     private String formatTimeForId(Instant instant) {
         return formatter.format(
-                TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE_ID));
+                TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 }

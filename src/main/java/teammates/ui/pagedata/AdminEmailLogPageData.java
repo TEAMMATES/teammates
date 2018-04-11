@@ -277,12 +277,12 @@ public class AdminEmailLogPageData extends PageData {
                 isFromDateInQuery = true;
                 LocalDateTime localDateTime = TimeHelper.parseLocalDateTime(values[0] + " 00:00", "dd/MM/yyyy HH:mm");
                 fromDateValue = TimeHelper.convertLocalDateTimeToInstant(
-                        localDateTime, Const.SystemParams.ADMIN_TIME_ZONE_ID).toEpochMilli();
+                        localDateTime, Const.SystemParams.ADMIN_TIME_ZONE).toEpochMilli();
             } else if ("before".equals(label)) {
                 isToDateInQuery = true;
                 LocalDateTime localDateTime = TimeHelper.parseLocalDateTime(values[0] + " 23:59", "dd/MM/yyyy HH:mm");
                 toDateValue = TimeHelper.convertLocalDateTimeToInstant(
-                        localDateTime, Const.SystemParams.ADMIN_TIME_ZONE_ID).toEpochMilli();
+                        localDateTime, Const.SystemParams.ADMIN_TIME_ZONE).toEpochMilli();
             } else if ("receiver".equals(label)) {
                 isReceiverInQuery = true;
                 receiverValues = values;

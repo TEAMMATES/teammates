@@ -85,7 +85,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
 
     private String formatInstantInAdminTimeZone(Instant instant) {
         return formatterAdminTime.format(
-                TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE_ID));
+                TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
     @Override

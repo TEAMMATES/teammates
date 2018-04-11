@@ -83,7 +83,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     private String formatAdminDate(Instant instant) {
-        return instant.atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toLocalDate()
+        return instant.atZone(Const.SystemParams.ADMIN_TIME_ZONE).toLocalDate()
                 .format(DateTimeFormatter.ofPattern("dd/MM/yy"));
     }
 
@@ -275,7 +275,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         AdminActivityLogPageAction action = getAction();
         String statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 11, 5, YESTERDAY);
-        verifyLocalTimeInStatusMessage(statusMessage, YESTERDAY, Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        verifyLocalTimeInStatusMessage(statusMessage, YESTERDAY, Const.SystemParams.ADMIN_TIME_ZONE);
 
         // test statusMessage with filterQuery
         String query = "person:idOfInstructor1OfCourse1";
@@ -289,7 +289,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         Instant toDate = TimeHelperExtension.getEndOfTheDayOffsetNowInAdminTimeZone(-2);
         statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 6, 3, toDate);
-        verifyLocalTimeInStatusMessage(statusMessage, toDate, Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        verifyLocalTimeInStatusMessage(statusMessage, toDate, Const.SystemParams.ADMIN_TIME_ZONE);
 
         // test statusMessage with `from`
         query = "from:" + formatAdminDate(YESTERDAY);
@@ -297,7 +297,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         Instant fromDate = TimeHelperExtension.getBeginOfTheDayOffsetNowInAdminTimeZone(-1);
         statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 17, 8, fromDate);
-        verifyLocalTimeInStatusMessage(statusMessage, fromDate, Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        verifyLocalTimeInStatusMessage(statusMessage, fromDate, Const.SystemParams.ADMIN_TIME_ZONE);
     }
 
     @Test(groups = "typicalActivityLogs")
@@ -313,9 +313,9 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 "Unregistered", now.toEpochMilli());
 
         // Role: Admin
-        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, Const.SystemParams.ADMIN_TIME_ZONE_ID),
+        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, Const.SystemParams.ADMIN_TIME_ZONE),
                 "Admin", "admin", now.toEpochMilli());
-        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, Const.SystemParams.ADMIN_TIME_ZONE_ID),
+        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, Const.SystemParams.ADMIN_TIME_ZONE),
                 "Student(M)", "admin", now.toEpochMilli());
 
         // Role: Instructor
@@ -474,7 +474,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         assertTrue(message.contains("Logs are from following version(s): 1"));
         assertTrue(message.contains("All available version(s): 1"));
         assertTrue(message.contains("The earliest log entry checked on <b>"
-                + formatActivityLogTimeTruncated(earliestDateInUtc, Const.SystemParams.ADMIN_TIME_ZONE_ID)));
+                + formatActivityLogTimeTruncated(earliestDateInUtc, Const.SystemParams.ADMIN_TIME_ZONE)));
     }
 
     private void verifyLocalTimeInStatusMessage(String message, Instant timeInUtc, ZoneId localTimeZone) {
