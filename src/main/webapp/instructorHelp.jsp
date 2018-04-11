@@ -218,11 +218,9 @@
   <jsp:include page="partials/instructorHelpGettingStarted.jsp"/>
   <jsp:include page="partials/instructorHelpFAQ.jsp"/>
   <jsp:include page="partials/instructorHelpTips.jsp"/>
-  <jsp:include page="partials/instructorHelpAddEditInstructors.jsp"/>
+  <jsp:include page="partials/instructorHelpCourses.jsp"/>
   <jsp:include page="partials/instructorHelpSessions.jsp"/>
   <jsp:include page="partials/instructorHelpProfile.jsp"/>
   <jsp:include page="partials/instructorHelpSearch.jsp"/>
-  <jsp:include page="partials/instructorHelpSections.jsp"/>
-  <jsp:include page="partials/instructorHelpArchiving.jsp"/>
   <jsp:include page="partials/instructorHelpComments.jsp"/>
 </t:helpPage>
