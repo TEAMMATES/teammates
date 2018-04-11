@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.gson.reflect.TypeToken;
 
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -61,13 +62,15 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
                 log.severe(TeammatesException.toStringWithStackTrace(e));
             }
 
-            String statusMessage;
+            String statusMessage = "";
 
-            if ("STANDARD".equals(feedbackSessionType)) {
+            if (FeedbackSessionType.STANDARD.getFeedbackSessionTemplateName().equals(feedbackSessionType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_OWN_QUESTIONS;
-            } else if ("TEAMEVALUATION".equals(feedbackSessionType)) {
+            } else if (FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName()
+                    .equals(feedbackSessionType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM;
-            } else {
+            } else if (FeedbackSessionType.OPTIMIZED_TEAM_EVALUATION.getFeedbackSessionTemplateName()
+                    .equals(feedbackSessionType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED;
             }
 
@@ -137,10 +140,11 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         String template = "";
 
-        if ("TEAMEVALUATION".equals(templateType)) {
-            template = FeedbackSessionTemplates.TEAM_EVALUATION;
-        } else if ("OPTIMIZEDTEAMEVALUATION".equals(templateType)) {
-            template = FeedbackSessionTemplates.OPTIMIZED_TEAM_EVALUATION;
+        if (FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName().equals(templateType)) {
+            template = FeedbackSessionTemplates.TEAM_EVALUATION_TEMPLATE;
+        } else if (FeedbackSessionType.OPTIMIZED_TEAM_EVALUATION
+                .getFeedbackSessionTemplateName().equals(templateType)) {
+            template = FeedbackSessionTemplates.OPTIMIZED_TEAM_EVALUATION_TEMPLATE;
         }
 
         if (!template.isEmpty()) {

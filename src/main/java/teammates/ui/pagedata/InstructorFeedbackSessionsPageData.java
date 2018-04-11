@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -43,7 +44,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
      * @param existingFeedbackSessions   list of existing feedback sessions
      * @param instructors                a map of courseId to the instructorAttributes for the current user
      * @param defaultFormValues          the feedback session which values are used as the default values in the form
-     * @param feedbackSessionType        "TEAMEVALUATION" or "STANDARD"
+     * @param feedbackSessionType        "OPTIMIZEDTEAMEVALUATION", "TEAMEVALUATION" or "STANDARD"
      * @param highlightedFeedbackSession the feedback session to highlight in the sessions table
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -230,15 +231,20 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     private List<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
         ArrayList<ElementTag> result = new ArrayList<>();
 
-        ElementTag standardFeedbackSession = createOption("session with my own questions", "STANDARD",
-                                                          "STANDARD".equals(defaultSessionType));
-        ElementTag evaluationFeedbackSession =
-                createOption("session using template: team peer evaluation", "TEAMEVALUATION",
-                        "TEAMEVALUATION".equals(defaultSessionType));
+        ElementTag standardFeedbackSession = createOption("session with my own questions",
+                FeedbackSessionType.STANDARD.getFeedbackSessionTemplateName(),
+                FeedbackSessionType.STANDARD.getFeedbackSessionTemplateName().equals(defaultSessionType));
+
+        ElementTag evaluationFeedbackSession = createOption("session using template: team peer evaluation",
+                FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName(),
+                FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName().equals(defaultSessionType));
 
         ElementTag optimizedEvaluationFeedbackSession =
-                createOption("session using template: team peer evaluation (optimized)", "OPTIMIZEDTEAMEVALUATION",
-                        defaultSessionType == null || "OPTIMIZEDTEAMEVALUATION".equals(defaultSessionType));
+                createOption("session using template: team peer evaluation (optimized)",
+                            FeedbackSessionType.OPTIMIZED_TEAM_EVALUATION.getFeedbackSessionTemplateName(),
+                        defaultSessionType == null
+                                || FeedbackSessionType.OPTIMIZED_TEAM_EVALUATION.getFeedbackSessionTemplateName()
+                                        .equals(defaultSessionType));
 
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);

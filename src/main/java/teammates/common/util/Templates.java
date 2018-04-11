@@ -496,10 +496,10 @@ public final class Templates {
     // TODO: Or simply use static strings here?
     public static class FeedbackSessionTemplates {
 
-        public static final String TEAM_EVALUATION =
+        public static final String TEAM_EVALUATION_TEMPLATE =
                 FileHelper.readResourceFile("feedbackSessionTeamEvaluationTemplate.json");
 
-        public static final String OPTIMIZED_TEAM_EVALUATION =
+        public static final String OPTIMIZED_TEAM_EVALUATION_TEMPLATE =
                 FileHelper.readResourceFile("feedbackSessionOptimizedTeamEvaluationTemplate.json");
 
     }
