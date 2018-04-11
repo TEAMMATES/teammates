@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -717,7 +718,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         // setup various dates
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy");
-        LocalDateTime initialDateTime = LocalDateTime.of(2014, 4, 16, 0, 0, 0);
+        LocalDateTime initialDateTime = LocalDateTime.of(2014, Month.APRIL, 16, 0, 0);
 
         // fill in defaut values
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, initialDateTime);
@@ -765,7 +766,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("changing visible date affects publish date range");
 
-        LocalDateTime changedVisibleDate = LocalDateTime.of(2014, 2, 10, 0, 0, 0);
+        LocalDateTime changedVisibleDate = LocalDateTime.of(2014, Month.FEBRUARY, 10, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, changedVisibleDate);
 
         String valueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
@@ -773,7 +774,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("changing publish date affects visible date range publishTime < startTime");
 
-        LocalDateTime changedPublishDate = LocalDateTime.of(2014, 2, 19, 0, 0, 0);
+        LocalDateTime changedPublishDate = LocalDateTime.of(2014, Month.FEBRUARY, 19, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
@@ -781,10 +782,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("changing publish date does not affect visible date range publishTime > startTime");
 
-        decreasedStartDate = LocalDateTime.of(2014, 1, 19, 0, 0, 0);
+        decreasedStartDate = LocalDateTime.of(2014, Month.JANUARY, 19, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, decreasedStartDate);
 
-        changedPublishDate = LocalDateTime.of(2014, 2, 21, 0, 0, 0);
+        changedPublishDate = LocalDateTime.of(2014, Month.FEBRUARY, 21, 0, 0);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         //check if maxDate is start time and not publish time

@@ -278,23 +278,32 @@ public class AdminEmailLogPageData extends PageData {
                 LocalDateTime localDateTime = TimeHelper.parseLocalDateTime(values[0] + " 00:00", "dd/MM/yyyy HH:mm");
                 fromDateValue = TimeHelper.convertLocalDateTimeToInstant(
                         localDateTime, Const.SystemParams.ADMIN_TIME_ZONE).toEpochMilli();
-            } else if ("before".equals(label)) {
+                return;
+            }
+            if ("before".equals(label)) {
                 isToDateInQuery = true;
                 LocalDateTime localDateTime = TimeHelper.parseLocalDateTime(values[0] + " 23:59", "dd/MM/yyyy HH:mm");
                 toDateValue = TimeHelper.convertLocalDateTimeToInstant(
                         localDateTime, Const.SystemParams.ADMIN_TIME_ZONE).toEpochMilli();
-            } else if ("receiver".equals(label)) {
+                return;
+            }
+            if ("receiver".equals(label)) {
                 isReceiverInQuery = true;
                 receiverValues = values;
-            } else if ("subject".equals(label)) {
+                return;
+            }
+            if ("subject".equals(label)) {
                 isSubjectInQuery = true;
                 subjectValues = values;
-            } else if ("info".equals(label)) {
+                return;
+            }
+            if ("info".equals(label)) {
                 isInfoInQuery = true;
                 infoValues = values;
-            } else {
-                throw new InvalidParametersException("Invalid label");
+                return;
             }
+            throw new InvalidParametersException("Invalid label");
+
         }
     }
 

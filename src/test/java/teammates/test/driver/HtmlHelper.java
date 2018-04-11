@@ -505,28 +505,28 @@ public final class HtmlHelper {
     public static String injectContextDependentValuesForTest(String content) {
         Instant now = Instant.now();
         return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
-                      .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
-                      .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
-                      .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
-                      .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
-                      .replace("<!-- test.student1.truncated -->",
-                               StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT))
-                      .replace("<!-- test.student2 -->", TestProperties.TEST_STUDENT2_ACCOUNT)
-                      .replace("<!-- test.student2.truncated -->",
-                               StringHelper.truncateLongId(TestProperties.TEST_STUDENT2_ACCOUNT))
-                      .replace("<!-- test.instructor -->", TestProperties.TEST_INSTRUCTOR_ACCOUNT)
-                      .replace("<!-- test.instructor.truncated -->",
-                               StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT))
-                      .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
-                      .replace("<!-- test.admin.truncated -->",
-                               StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
-                      .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(
-                              TimeHelper.convertInstantToLocalDateTime(now, Const.DEFAULT_TIME_ZONE)))
-                      .replace("<!-- now.datetime.sessions -->",
-                              TimeHelper.formatDateTimeForSessions(now, Const.DEFAULT_TIME_ZONE))
-                      .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatInstantToIso8601Utc(now))
-                      .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(
-                              now, Const.DEFAULT_TIME_ZONE));
+                .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
+                .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
+                .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
+                .replace("<!-- test.student1 -->", TestProperties.TEST_STUDENT1_ACCOUNT)
+                .replace("<!-- test.student1.truncated -->",
+                        StringHelper.truncateLongId(TestProperties.TEST_STUDENT1_ACCOUNT))
+                .replace("<!-- test.student2 -->", TestProperties.TEST_STUDENT2_ACCOUNT)
+                .replace("<!-- test.student2.truncated -->",
+                        StringHelper.truncateLongId(TestProperties.TEST_STUDENT2_ACCOUNT))
+                .replace("<!-- test.instructor -->", TestProperties.TEST_INSTRUCTOR_ACCOUNT)
+                .replace("<!-- test.instructor.truncated -->",
+                        StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT))
+                .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
+                .replace("<!-- test.admin.truncated -->",
+                        StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
+                .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(
+                        TimeHelper.convertInstantToLocalDateTime(now, Const.DEFAULT_TIME_ZONE)))
+                .replace("<!-- now.datetime.sessions -->",
+                        TimeHelper.formatDateTimeForSessions(now, Const.DEFAULT_TIME_ZONE))
+                .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatInstantToIso8601Utc(now))
+                .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(
+                        now, Const.DEFAULT_TIME_ZONE));
     }
 
 }
