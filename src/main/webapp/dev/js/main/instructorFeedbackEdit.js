@@ -26,7 +26,6 @@ import {
 } from '../common/helper';
 
 import {
-    initializeTimeZoneOptions,
     prepareInstructorPages,
     setupFsCopyModal,
 } from '../common/instructor';
@@ -1179,7 +1178,6 @@ function readyFeedbackEditPage() {
     formatNumberBoxes();
     formatCheckBoxes();
     formatQuestionNumbers();
-    initializeTimeZoneOptions($(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`));
 
     setupFsCopyModal();
 

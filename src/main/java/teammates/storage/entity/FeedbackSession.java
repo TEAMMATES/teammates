@@ -1,19 +1,25 @@
 package teammates.storage.entity;
 
+import java.time.DateTimeException;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.IgnoreSave;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnLoad;
 import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 
 /**
@@ -22,6 +28,8 @@ import teammates.common.util.TimeHelper;
 @Entity
 @Index
 public class FeedbackSession extends BaseEntity {
+
+    private static final Logger log = Logger.getLogger();
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
@@ -66,6 +74,13 @@ public class FeedbackSession extends BaseEntity {
     private boolean isTimeStoredInUtc;
 
     private String timeZone;
+
+    @Unindex
+    private boolean isFollowingCourseTimeZone;
+
+    @SuppressWarnings("PMD.UnusedPrivateField") // Used by migration script
+    @Ignore
+    private boolean wasFollowingCourseTimeZone;
 
     // TODO Remove after all legacy data has been converted
     @IgnoreSave
@@ -138,6 +153,7 @@ public class FeedbackSession extends BaseEntity {
         this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
         this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
         this.isTimeStoredInUtc = true;
+        this.isFollowingCourseTimeZone = true;
     }
 
     @OnLoad
@@ -156,18 +172,27 @@ public class FeedbackSession extends BaseEntity {
 
     @OnLoad
     @SuppressWarnings("unused") // called by Objectify
-    private void setTimeZoneFromOffsetIfRequired() {
-        if (timeZoneDouble == null) {
+    private void setTimeZoneFromCourseTimeZoneIfRequired() {
+        if (isFollowingCourseTimeZone) {
+            wasFollowingCourseTimeZone = true;
             return;
         }
 
-        double offset;
-        if (timeZone.equals(String.valueOf(Const.INT_UNINITIALIZED))) {
-            offset = timeZoneDouble;
+        Course course = Ref.create(Key.create(Course.class, courseId)).get();
+        ZoneId courseTimeZone = Const.DEFAULT_TIME_ZONE; // UTC
+        if (course == null) {
+            log.severe("Could not retrieve course \"" + courseId
+                    + "\"; defaulting to UTC for session: " + feedbackSessionId);
         } else {
-            offset = Double.valueOf(timeZone);
+            try {
+                courseTimeZone = ZoneId.of(course.getTimeZone());
+            } catch (DateTimeException e) {
+                log.severe("Invalid time zone \"" + course.getTimeZone() + "\" encountered for course \"" + courseId
+                        + "\"; defaulting to UTC for session: " + feedbackSessionId);
+            }
         }
-        timeZone = TimeHelper.convertToZoneId(offset).getId();
+        timeZone = courseTimeZone.getId();
+        isFollowingCourseTimeZone = true;
     }
 
     @OnLoad

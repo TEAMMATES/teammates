@@ -211,7 +211,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "Asia/Singapore",
                 Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD, "10",
                 Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
         };

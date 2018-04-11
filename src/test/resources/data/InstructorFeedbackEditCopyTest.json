@@ -27,7 +27,7 @@
       "id": "FeedbackEditCopy.CS2104",
       "name": "Programming Language Concepts",
       "createdAt": "2012-04-01T20:00:00Z",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "course2": {
       "id": "FeedbackEditCopy.CS1101",
@@ -54,7 +54,7 @@
     "course6": {
       "id": "FeedbackEditCopy.CS2103R",
       "name": "Software Engineering (R)",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "course7": {
       "id": "FeedbackEditCopy.CS2102",

@@ -1,9 +1,9 @@
 package teammates.logic.core;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -105,9 +105,8 @@ public final class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
-
-        return fsDb.getAllOpenFeedbackSessions(startUtc, endUtc);
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
     }
 
     /**
@@ -122,13 +121,14 @@ public final class FeedbackSessionsLogic {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
-    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName,
-            String newCourseId, String feedbackSessionName, String courseId, String instructorEmail)
+    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName, String newCourseId,
+            ZoneId newTimeZone, String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(feedbackSessionName, courseId);
         copiedFeedbackSession.setCreatorEmail(instructorEmail);
         copiedFeedbackSession.setFeedbackSessionName(newFeedbackSessionName);
         copiedFeedbackSession.setCourseId(newCourseId);
+        copiedFeedbackSession.setTimeZone(newTimeZone);
         copiedFeedbackSession.setCreatedTime(Instant.now());
         copiedFeedbackSession.setRespondingInstructorList(new HashSet<String>());
         copiedFeedbackSession.setRespondingStudentList(new HashSet<String>());
@@ -1144,6 +1144,12 @@ public final class FeedbackSessionsLogic {
         makeEmailStateConsistent(oldSession, newSession);
 
         fsDb.updateFeedbackSession(newSession);
+    }
+
+    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseTimeZone);
+        fsDb.updateFeedbackSessionsTimeZoneForCourse(courseId, courseTimeZone);
     }
 
     public void updateRespondentsForInstructor(String oldEmail, String newEmail, String courseId)
