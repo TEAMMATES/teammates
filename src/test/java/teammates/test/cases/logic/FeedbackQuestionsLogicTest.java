@@ -456,7 +456,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedQuestions = new ArrayList<>();
         expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse2"));
         expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse2"));
-        expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse2"));
 
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
@@ -473,7 +472,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Get questions created for instructors not by the creating instructor");
 
-        expectedQuestions.remove(2); //Remove qn3InSession1InCourse2 as this is not for other instructors
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
                                                           "instructor2@course2.tmt");
