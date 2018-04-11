@@ -3,7 +3,7 @@
 <h2 class="text-color-primary" id="sessionTypes">Sessions</h2>
 <div id="contentHolder">
   <div class="panel-group">
-    <div class="panel panel-primary" id="tips">
+    <div class="panel panel-default" id="tips">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#tipsBody">Tips for conducting team peer evaluation sessions</a>
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="fbSetupSession">
+    <div class="panel panel-default" id="fbSetupSession">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#fbSetupSessionBody">How do I set up a feedback session?</a>
@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="fbCreateSession">
+    <div class="panel panel-default" id="fbCreateSession">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#fbCreateSessionBody">How do I create and schedule a new feedback session?</a>
@@ -494,7 +494,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="fbSetupQuestions">
+    <div class="panel panel-default" id="fbSetupQuestions">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#fbSetupQuestionsBody">How do I add questions to a session?</a>
@@ -774,7 +774,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="fbPreview">
+    <div class="panel panel-default" id="fbPreview">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#fbPreviewBody">How do I preview a session?</a>
@@ -835,7 +835,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="sessionCannotSubmit">
+    <div class="panel panel-default" id="sessionCannotSubmit">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#sessionCannotSubmitBody">What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?</a>
@@ -850,7 +850,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="fbViewResults">
+    <div class="panel panel-default" id="fbViewResults">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#fbViewResultsBody">How do I view the results of my session?</a>
@@ -1436,7 +1436,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="addResponseComments">
+    <div class="panel panel-default" id="addResponseComments">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#addResponseCommentsBody">How do I create a comment on a response?</a>
@@ -1591,7 +1591,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="editDeleteComments">
+    <div class="panel panel-default" id="editDeleteComments">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#editDeleteCommentsBody">How do I edit or delete a comment on a response?</a>
@@ -1623,7 +1623,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="searchFeedbackSessionData">
+    <div class="panel panel-default" id="searchFeedbackSessionData">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#searchFeedbackSessionDataBody">How do I search for a feedback session question, response or comment on a response?</a>

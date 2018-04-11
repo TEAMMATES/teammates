@@ -3,7 +3,7 @@
 <h2 class="text-color-primary" id="profiles">Students</h2>
 <div id="contentHolder">
   <div class="panel-group">
-    <div class="panel panel-primary" id="viewStudentProfile">
+    <div class="panel panel-default" id="viewStudentProfile">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#viewStudentProfileBody">How do I view a student's student profile?</a>
@@ -157,7 +157,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="editStudentProfile">
+    <div class="panel panel-default" id="editStudentProfile">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#editStudentProfileBody">How do I edit a student's student profile?</a>
@@ -228,7 +228,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-primary" id="searchStudents">
+    <div class="panel panel-default" id="searchStudents">
       <div class="panel-heading">
         <h3 class="panel-title">
           <a data-toggle="collapse" href="#searchStudentsBody">How do I search for a student in my course?</a>
