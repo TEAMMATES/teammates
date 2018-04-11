@@ -41,7 +41,9 @@
         <label class="col-sm-3 control-label">Time Zone:</label>
         <div class="col-sm-9">
           <ti:timeZoneInput nameId="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
-              tooltip="The time zone for the course. This is auto-detected based on your device settings.">
+              tooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
+                  device settings.<br><br> TEAMMATES automatically adjusts to match the current time offset in your area,
+                  including clock changes due to daylight saving time.">
           </ti:timeZoneInput>
         </div>
       </div>
