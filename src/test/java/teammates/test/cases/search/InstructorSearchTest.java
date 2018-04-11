@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.storage.api.InstructorsDb;
-import teammates.storage.entity.Instructor;
 import teammates.test.driver.AssertHelper;
 
 /**
