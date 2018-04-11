@@ -1,6 +1,6 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
-<h2 class="text-color-primary" id="profiles">Students</h2>
+<h2 class="text-color-primary" id="students">Students</h2>
 <div id="contentHolder">
   <div class="panel-group">
     <div class="panel panel-default" id="viewStudentProfile">

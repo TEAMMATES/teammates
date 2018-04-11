@@ -1,6 +1,6 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
-<h2 class="text-color-primary" id="editCourse">Courses</h2>
+<h2 class="text-color-primary" id="courses">Courses</h2>
 <div id="contentHolder">
   <div class="panel-group">
     <div class="panel panel-default" id="courseSizeLimit">
