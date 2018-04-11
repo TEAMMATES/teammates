@@ -1318,15 +1318,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void fillMsqMinSelectableChoices(int qnNumber, String value) {
-        assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
-
         WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
         fillTextBox(inputBox, value);
     }
 
     public void fillMsqMaxSelectableChoices(int qnNumber, String value) {
-        assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
-
         WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
         fillTextBox(inputBox, value);
     }
