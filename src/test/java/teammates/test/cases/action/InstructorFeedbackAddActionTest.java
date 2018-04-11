@@ -72,6 +72,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
                 + "<br><span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED, rr.getStatusMessage());
 
         ______TS("Error: try to add the same session again");

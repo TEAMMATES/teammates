@@ -62,15 +62,14 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
                 log.severe(TeammatesException.toStringWithStackTrace(e));
             }
 
-            String statusMessage = "";
+            String statusMessage;
 
             if (FeedbackSessionType.STANDARD.getFeedbackSessionTemplateName().equals(feedbackSessionType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_OWN_QUESTIONS;
             } else if (FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName()
                     .equals(feedbackSessionType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM;
-            } else if (FeedbackSessionType.OPTIMIZED_TEAM_EVALUATION.getFeedbackSessionTemplateName()
-                    .equals(feedbackSessionType)) {
+            } else {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED;
             }
 
