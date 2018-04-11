@@ -184,6 +184,26 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 session.getFeedbackSessionName());
         verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailZeroTimeZone.html");
 
+        ______TS("no email alerts sent for sessions not answerable/viewable for students");
+
+        FeedbackSessionAttributes notAnswerableSession =
+                fsLogic.getFeedbackSession("Not answerable feedback session", "idOfTypicalCourse2");
+
+        emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(notAnswerableSession);
+        assertTrue(emails.isEmpty());
+
+        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(notAnswerableSession);
+        assertTrue(emails.isEmpty());
+
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(notAnswerableSession);
+        assertTrue(emails.isEmpty());
+
+        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(notAnswerableSession);
+        assertTrue(emails.isEmpty());
+
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(notAnswerableSession);
+        assertTrue(emails.isEmpty());
+
     }
 
     @Test
