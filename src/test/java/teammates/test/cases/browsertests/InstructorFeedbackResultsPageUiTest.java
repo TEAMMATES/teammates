@@ -493,12 +493,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverQuestionRecipient();
         assertFalse(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
 
-        ______TS("No Specific Section shown for giver > question > recipient with student in No Section");
+        ______TS("No Specific Section shown for giver > question > recipient with student in No Specific Section");
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Session with no sections",
                 true, "giver-question-recipient");
         assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
 
-        ______TS("No Specific Section shown for recipient > question > giver with student in No Section");
+        ______TS("No Specific Section shown for recipient > question > giver with student in No Specific Section");
         resultsPage.displayByRecipientQuestionGiver();
         assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
     }
