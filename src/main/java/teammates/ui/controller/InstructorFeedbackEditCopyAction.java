@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -66,10 +67,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
             for (String courseIdToCopyTo : coursesIdToCopyTo) {
                 InstructorAttributes instructorForCourse =
                         logic.getInstructorForGoogleId(courseIdToCopyTo, account.googleId);
-                gateKeeper.verifyAccessible(instructorForCourse, logic.getCourse(courseIdToCopyTo),
+                CourseAttributes courseToCopyTo = logic.getCourse(courseIdToCopyTo);
+                gateKeeper.verifyAccessible(instructorForCourse, courseToCopyTo,
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-                fs = logic.copyFeedbackSession(newFeedbackSessionName, courseIdToCopyTo,
+                fs = logic.copyFeedbackSession(newFeedbackSessionName, courseIdToCopyTo, courseToCopyTo.getTimeZone(),
                         originalFeedbackSessionName, originalCourseId, instructor.email);
             }
 
