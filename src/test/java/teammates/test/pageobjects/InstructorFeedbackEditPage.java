@@ -1309,11 +1309,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void fillMsqMinSelectableChoices(int qnNumber, String value) {
         WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
         fillTextBox(inputBox, value);
+
+        executeScript("$(arguments[0]).change();", inputBox);
     }
 
     public void fillMsqMaxSelectableChoices(int qnNumber, String value) {
         WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
         fillTextBox(inputBox, value);
+
+        executeScript("$(arguments[0]).change();", inputBox);
     }
 
     public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
