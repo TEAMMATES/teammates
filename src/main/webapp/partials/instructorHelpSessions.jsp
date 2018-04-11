@@ -835,6 +835,21 @@
         </div>
       </div>
     </div>
+    <div class="panel panel-primary" id="sessionCannotSubmit">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#sessionCannotSubmitBody">What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?</a>
+        </h3>
+      </div>
+      <div id="sessionCannotSubmitBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            Please ask the student to contact us with the details.
+            <br> The ability for instructors to submit on behalf of a student is coming soon.
+          </p>
+        </div>
+      </div>
+    </div>
     <div class="panel panel-primary" id="fbViewResults">
       <div class="panel-heading">
         <h3 class="panel-title">

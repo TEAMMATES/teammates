@@ -528,6 +528,37 @@
         </div>
       </div>
     </div>
+    <div class="panel panel-default" id="studentGoogleAccountNecessary">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#studentGoogleAccountNecessaryBody">Is it compulsory for students to use Google accounts?</a>
+        </h3>
+      </div>
+      <div id="studentGoogleAccountNecessaryBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            Student can submit feedback and view results without logging into TEAMMATES with their Google account.
+            TEAMMATES will send students a unique URL to access their feedback sessions and results.
+            However, students who link their TEAMMATES account with their Google account will be able to access a dashboard of all their sessions and results through the TEAMMATES website.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" id="studentChangeGoogleAccount">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#studentChangeGoogleAccountBody">How do I change the Google ID associated with a student?</a>
+        </h3>
+      </div>
+      <div id="studentChangeGoogleAccountBody" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            At the moment, there is no way for students to update their own Google IDs.<br>
+            Please <a href="mailto:teammates@comp.nus.edu.sg">contact us</a> for assistance changing the student's Google ID.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
   <p align="right">
     <a href="#Top">Back to Top</a>

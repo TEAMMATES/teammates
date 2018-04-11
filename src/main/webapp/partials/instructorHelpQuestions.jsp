@@ -2679,7 +2679,6 @@
               (Optional) Add a description for the question
             </li>
           </ol>
-          </p>
           <p>
             The feedback path for this question type is fixed: the feedback giver must be a student, and the student must give feedback about his/her team members and himself.
           </p>
@@ -3074,8 +3073,60 @@
               </div>
             </form>
           </div>
-          <p> The results and statistics are presented as follows.
-            See <a href="#faq-interpret-contribution-values-in-results">here</a> for more information on how to interpret these results.
+          <p>
+            Contribution questions in TEAMMATES are unique because they are targeted at measuring team contributions. <br>
+            Thus, TEAMMATES purposefully prevents students from influencing their own ‘perceived contribution’ value.
+          </p>
+          <p>
+            Perceived contribution is calculated based on what a student's other team members perceive as his/her contribution.
+            The student's own opinion about his own contribution is not considered for the calculation.
+          </p>
+          <p>
+            Students enter contribution estimates for self and team members, using the scale <code>Equal share + x%</code>. e.g. <code>Equal share -10%</code><br>
+            Based on those values, we try to deduce the student's answer to the following two questions:
+          </p>
+          <ol>
+            <li>
+              In your opinion, what proportion of the project did you do?
+            </li>
+            <li>
+              In your opinion, if your teammates were doing the project by themselves without you, how would they compare against each other in terms of contribution?
+            </li>
+          </ol>
+          <p>
+            In the calculation, we do not allow (1) to affect (2). We use (2) to calculate the average perceived contribution for each student. A more detailed version of this calculation can be found
+          <a href="/technicalInformation.jsp#calculatePointsContribution" target="_blank">here</a>.
+          </p>
+          <p>
+            The results and statistics are presented in the example below. Here is a summary of the terms used:
+          </p>
+          <ul>
+            <li>
+              <b>E (Equal share)</b>: a relative measure of work done. e.g. For a 3-person team, an ‘Equal share’ means ‘a third of the total work done’.
+            </li>
+            <li>
+              <b >CC (Claimed Contribution)</b>: This is what the student claimed he contributed.
+            </li>
+            <li>
+              <b>Ratings Received </b>: These are the peer opinions as to how much the student contributed. These values have been adjusted to neutralize any attempts by students to boost their own standing by rating others low.
+            </li>
+            <li>
+              <b>PC (Perceived Contribution)</b>: This is the average value of the ‘Ratings Received’. This can be considered as the
+              <i>team’s perception of how much the student contributed</i>.
+            </li>
+            <li>
+              <b>Diff</b>: The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
+            </li>
+          </ul>
+          <p>
+            The ratings in a contribution question can be used to identify relative contribution levels of students in a team.
+            If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
+            <a class="collapse-link" data-target="#tipsBody" href="#tips">tips for conducting 'team peer evaluation' sessions</a> section.
+          </p>
+          <p>
+            The actual contribution values entered by the student may appear different from the values shown in the results because the system ‘normalizes’ those values so that there is no artificial inflation of contribution.
+            For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalizes it to ‘Equal share’ because in reality that is what the student means.
+            ‘Normalize’ here means scale up/down the values so that the <code>(sum of contributions) = ( n x Equal Share)</code> where <code>n</code> is the number of students being reviewed.
           </p>
           <div class="bs-example">
             <div class="panel panel-info">
