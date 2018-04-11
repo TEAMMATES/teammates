@@ -28,7 +28,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
         FeedbackSessionPublishedRemindersAction action = getAction();
         action.execute();
 
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 2);
 
         ______TS("1 session published by moving automated publish time, "
                  + "1 session published similarly with disabled published reminder, "
@@ -60,7 +60,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
         action = getAction();
         action.execute();
 
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 3);
+        verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 4);
 
         ______TS("1 session unpublished manually");
 
@@ -69,7 +69,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
         action = getAction();
         action.execute();
 
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 2);
+        verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 3);
 
         ______TS("1 session published with emails sent");
 
@@ -79,7 +79,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseAutomatedAc
         action = getAction();
         action.execute();
 
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(action, Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 2);
 
     }
 
