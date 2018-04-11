@@ -16,7 +16,6 @@ import {
     bindPublishButtons,
     bindRemindButtons,
     bindUnpublishButtons,
-    initializeTimeZoneOptions,
     prepareInstructorPages,
     setupFsCopyModal,
 } from '../common/instructor';
@@ -187,19 +186,26 @@ function escapeXml(unsafe) {
             .replace(/'/g, '&#039;');
 }
 
+function updateCourseNameAndTimeZoneFromSelection() {
+    const selectedCourseId = $(`#${ParamsNames.COURSE_ID}`).val();
+    if (!selectedCourseId) {
+        return;
+    }
+    const selectedCourseData = $('.course-attributes-data').data(selectedCourseId);
+    $(`#${ParamsNames.COURSE_NAME}`).html(escapeXml(selectedCourseData.name));
+    $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).html(selectedCourseData.timeZone);
+}
+
 function initializeCourseName() {
-    $('.course-name-data').each((idx, obj) => {
-        $('.course-name-data').data(obj.id, obj.value);
+    $('.course-attributes-data').each((idx, obj) => {
+        const $obj = $(obj);
+        $('.course-attributes-data').data(obj.id, { name: $obj.data('name'), timeZone: $obj.data('timeZone') });
     });
-    const selectedId = $('#courseid').val();
-    $('#coursename').html(escapeXml($('.course-name-data').data(selectedId)));
+    updateCourseNameAndTimeZoneFromSelection();
 }
 
 function bindSelectField() {
-    $('#courseid').change(() => {
-        const selectedId = $('#courseid').val();
-        $('#coursename').html(escapeXml($('.course-name-data').data(selectedId)));
-    });
+    $(`#${ParamsNames.COURSE_ID}`).change(updateCourseNameAndTimeZoneFromSelection);
 }
 
 const ajaxRequest = function (e) {
@@ -252,7 +258,6 @@ function readyFeedbackPage() {
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
 
-    initializeTimeZoneOptions($(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`));
     selectDefaultStartDateTime();
     loadSessionsByAjax();
     bindUncommonSettingsEvents();

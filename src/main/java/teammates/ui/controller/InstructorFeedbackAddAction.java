@@ -36,14 +36,14 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         Assumption.assertNotEmpty(courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
 
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(
                 getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
 
-        FeedbackSessionAttributes fs = extractFeedbackSessionData(feedbackSessionName, courseId, instructor.email);
+        FeedbackSessionAttributes fs = extractFeedbackSessionData(feedbackSessionName, course, instructor.email);
 
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
 

@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
@@ -334,14 +335,23 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
         ______TS("Successful case");
 
         CourseAttributes course7 = dataBundle.courses.get("course7");
-        String copiedCourseName = "Session with valid name";
+        String feedbackSessionName = "First Session";
+        String newFeedbackSessionName = "Session with valid name";
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, copiedCourseName,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, newFeedbackSessionName,
                 Const.ParamsNames.COPIED_COURSES_ID, course6.getId(),
                 Const.ParamsNames.COPIED_COURSES_ID, course7.getId()
         };
+
+        assertNotEquals(course6.getTimeZone().getId(), course.getTimeZone().getId());
+        assertNotEquals(course7.getTimeZone().getId(), course.getTimeZone().getId());
+        assertNotEquals(course6.getTimeZone().getId(), course7.getTimeZone().getId());
+
+        String sessionTimeZone =
+                FeedbackSessionsLogic.inst().getFeedbackSession(feedbackSessionName, course.getId()).getTimeZone().getId();
+        assertEquals(course.getTimeZone().getId(), sessionTimeZone);
 
         a = getAction(params);
         ajaxResult = getAjaxResult(a);
@@ -366,6 +376,13 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
                          + "/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
+        sessionTimeZone = FeedbackSessionsLogic.inst().getFeedbackSession(newFeedbackSessionName,
+                course6.getId()).getTimeZone().getId();
+        assertEquals(course6.getTimeZone().getId(), sessionTimeZone);
+
+        sessionTimeZone = FeedbackSessionsLogic.inst().getFeedbackSession(newFeedbackSessionName,
+                course7.getId()).getTimeZone().getId();
+        assertEquals(course7.getTimeZone().getId(), sessionTimeZone);
     }
 
     @Override
