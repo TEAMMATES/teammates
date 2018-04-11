@@ -250,7 +250,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.selectSessionType("session using template: team peer evaluation (optimized)");
 
         String optimizedTemplateSessionName = "Optimized Team Peer Evaluation Session";
-        feedbackPage.addFeedbackSessionWithStandardTimeZone(
+        feedbackPage.addFeedbackSession(
                 optimizedTemplateSessionName, newSession.getCourseId(),
                 newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
