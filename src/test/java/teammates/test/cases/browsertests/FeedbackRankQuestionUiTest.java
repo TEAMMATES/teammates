@@ -262,14 +262,14 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "giver-recipient-question");
-        instructorResultsPage.loadResultSectionPanel(0, 1);
+        instructorResultsPage.loadResultSectionPanel(1, 2);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGRQView.html");
 
         ______TS("Rank instructor results : Giver > Question > Recipient");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "giver-question-recipient");
-        instructorResultsPage.loadResultSectionPanel(0, 1);
+        instructorResultsPage.loadResultSectionPanel(1, 2);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGQRView.html");
 
         ______TS("Rank instructor results : Recipient > Question > Giver ");
