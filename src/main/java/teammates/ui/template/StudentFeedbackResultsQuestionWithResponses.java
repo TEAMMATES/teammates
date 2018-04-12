@@ -3,6 +3,10 @@ package teammates.ui.template;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Manages student feedback results questions details, self-responses tables and others-responses tables separately
+ * for a specific question.
+ */
 public class StudentFeedbackResultsQuestionWithResponses {
     private FeedbackResultsQuestionDetails questionDetails;
     private List<FeedbackResultsResponseTable> responseTables;
