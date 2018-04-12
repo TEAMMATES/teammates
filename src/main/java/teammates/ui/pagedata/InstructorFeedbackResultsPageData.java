@@ -183,7 +183,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // results page to be loaded by ajax
         if (isAllSectionsSelected()) {
             if (bundle.isComplete) {
-                buildSectionPanelsForForAjaxLoading(getSections());
+                buildSectionPanelsForForAjaxLoading(getSections(), viewType);
             } else {
                 buildSectionPanelWithErrorMessage();
             }
@@ -693,15 +693,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     }
 
-    private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
+    private void buildSectionPanelsForForAjaxLoading(List<String> sections, InstructorFeedbackResultsPageViewType viewType) {
         sectionPanels = new LinkedHashMap<>();
 
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel(
-                Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
-        sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        if (hasEntitiesInNoSpecificSection(viewType)) {
+            InstructorFeedbackResultsSectionPanel sectionPanel =
+                    new InstructorFeedbackResultsSectionPanel(Const.DEFAULT_SECTION, Const.NO_SPECIFIC_SECTION, true);
+
+            sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
+        }
 
         for (String section : sections) {
-            sectionPanel = new InstructorFeedbackResultsSectionPanel(section, section, true);
+            InstructorFeedbackResultsSectionPanel sectionPanel =
+                    new InstructorFeedbackResultsSectionPanel(section, section, true);
             sectionPanels.put(section, sectionPanel);
         }
     }
@@ -1781,4 +1785,27 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return index + 1;
     }
 
+    /**
+     * Checks if there are entities in No Specific Section.
+     *
+     * <ul>
+     * <li>true if the course has teams in Default Section</li>
+     * <li>true if view is GRQ or GQR and there is feedback from Instructors</li>
+     * <li>true if view is RGQ or RQG and there is General Feedback or Feedback to Instructors</li>
+     * <li>false otherwise</li>
+     * </ul>
+     */
+    private boolean hasEntitiesInNoSpecificSection(InstructorFeedbackResultsPageViewType viewType) {
+        boolean hasFeedbackFromInstructor = bundle.hasResponseFromInstructor();
+        boolean hasFeedbackToInstructorOrGeneral = bundle.hasResponseToInstructorOrGeneral();
+        boolean viewTypeIsRecipient = viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_QUESTION_GIVER
+                || viewType == InstructorFeedbackResultsPageViewType.RECIPIENT_GIVER_QUESTION;
+        boolean viewTypeIsGiver = viewType == InstructorFeedbackResultsPageViewType.GIVER_QUESTION_RECIPIENT
+                || viewType == InstructorFeedbackResultsPageViewType.GIVER_RECIPIENT_QUESTION;
+        boolean hasTeamsInNoSection = bundle.getTeamsInSectionFromRoster(Const.DEFAULT_SECTION).size() > 0;
+
+        return hasTeamsInNoSection
+                || viewTypeIsGiver && hasFeedbackFromInstructor
+                || viewTypeIsRecipient && hasFeedbackToInstructorOrGeneral;
+    }
 }
