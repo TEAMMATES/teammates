@@ -17,7 +17,7 @@
         <feedbackResults:responseTable responseTable="${othersResponseTable}"/>
       </c:forEach>
 
-      <c:if test="${!questionWithResponses.selfResponseTablesEmpty}">
+      <c:if test="${!questionWithResponses.isSelfResponseTablesEmpty}">
 
         <h5><b>Your own responses:</b></h5>
 

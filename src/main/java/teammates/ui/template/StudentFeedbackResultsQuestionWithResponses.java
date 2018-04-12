@@ -34,7 +34,7 @@ public class StudentFeedbackResultsQuestionWithResponses {
                 .collect(Collectors.toList());
     }
 
-    public boolean isSelfResponseTablesEmpty() {
+    public boolean getIsSelfResponseTablesEmpty() {
         return getSelfResponseTables().isEmpty();
     }
 
