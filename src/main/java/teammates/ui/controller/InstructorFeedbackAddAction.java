@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.google.gson.reflect.TypeToken;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -64,10 +63,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
             String statusMessage;
 
-            if (FeedbackSessionType.STANDARD.getFeedbackSessionTemplateName().equals(feedbackSessionType)) {
+            if (Const.ParamsNames.FEEDBACK_SESSION_STANDARD.equals(feedbackSessionType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_OWN_QUESTIONS;
-            } else if (FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName()
-                    .equals(feedbackSessionType)) {
+            } else if (Const.ParamsNames.FEEDBACK_SESSION_TEAMEVALUATION.equals(feedbackSessionType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM;
             } else {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED;
@@ -139,10 +137,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         String template = "";
 
-        if (FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName().equals(templateType)) {
+        if (Const.ParamsNames.FEEDBACK_SESSION_TEAMEVALUATION.equals(templateType)) {
             template = FeedbackSessionTemplates.TEAM_EVALUATION_TEMPLATE;
-        } else if (FeedbackSessionType.OPTIMIZED_TEAM_EVALUATION
-                .getFeedbackSessionTemplateName().equals(templateType)) {
+        } else if (Const.ParamsNames.FEEDBACK_SESSION_OPTIMIZEDTEAMEVALUATION.equals(templateType)) {
             template = FeedbackSessionTemplates.OPTIMIZED_TEAM_EVALUATION_TEMPLATE;
         }
 

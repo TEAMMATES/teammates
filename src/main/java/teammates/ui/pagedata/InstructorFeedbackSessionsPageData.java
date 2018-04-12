@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -232,19 +231,19 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         ArrayList<ElementTag> result = new ArrayList<>();
 
         ElementTag standardFeedbackSession = createOption("session with my own questions",
-                FeedbackSessionType.STANDARD.getFeedbackSessionTemplateName(),
-                FeedbackSessionType.STANDARD.getFeedbackSessionTemplateName().equals(defaultSessionType));
+                Const.ParamsNames.FEEDBACK_SESSION_STANDARD,
+                Const.ParamsNames.FEEDBACK_SESSION_STANDARD.equals(defaultSessionType));
 
         ElementTag evaluationFeedbackSession = createOption("session using template: team peer evaluation",
-                FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName(),
-                FeedbackSessionType.TEAM_EVALUATION.getFeedbackSessionTemplateName().equals(defaultSessionType));
+                Const.ParamsNames.FEEDBACK_SESSION_TEAMEVALUATION,
+                Const.ParamsNames.FEEDBACK_SESSION_TEAMEVALUATION.equals(defaultSessionType));
 
         ElementTag optimizedEvaluationFeedbackSession =
                 createOption("session using template: team peer evaluation (optimized)",
-                            FeedbackSessionType.OPTIMIZED_TEAM_EVALUATION.getFeedbackSessionTemplateName(),
+                            Const.ParamsNames.FEEDBACK_SESSION_OPTIMIZEDTEAMEVALUATION,
                         defaultSessionType == null
-                                || FeedbackSessionType.OPTIMIZED_TEAM_EVALUATION.getFeedbackSessionTemplateName()
-                                        .equals(defaultSessionType));
+                                || Const.ParamsNames.FEEDBACK_SESSION_OPTIMIZEDTEAMEVALUATION
+                                .equals(defaultSessionType));
 
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);
