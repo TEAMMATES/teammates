@@ -349,13 +349,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats {@code instant} according to the ISO8601 format.
-     */
-    public static String formatInstantToIso8601Utc(Instant instant) {
-        return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
-    }
-
-    /**
      * Formats {@code instant} for the admin's activity log page.
      * Example: 23/04/2018 12:00:01.481
      *
@@ -367,6 +360,20 @@ public final class TimeHelper {
      */
     public static String formatDateTimeForAdminLog(Instant instant, ZoneId zoneId) {
         return formatInstant(instant, zoneId, STAMP_DATETIME_ADMIN_LOG);
+    }
+
+    /**
+     * Formats {@code instant} according to the ISO8601 format.
+     * Example: 2011-12-03T10:15:30Z
+     *
+     * <p>Used to inject a standardized date into date elements in Teammates for sortable tables.
+     * Should not be used for anything user-facing.
+     *
+     * @param instant the instant to be formatted
+     * @return the formatted datetime stamp in ISO8601 format
+     */
+    public static String formatDateTimeToIso8601Utc(Instant instant) {
+        return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
     /**

@@ -524,7 +524,7 @@ public final class HtmlHelper {
                         TimeHelper.convertInstantToLocalDateTime(now, Const.DEFAULT_TIME_ZONE)))
                 .replace("<!-- now.datetime.sessions -->",
                         TimeHelper.formatDateTimeForSessions(now, Const.DEFAULT_TIME_ZONE))
-                .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatInstantToIso8601Utc(now))
+                .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateTimeToIso8601Utc(now))
                 .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(
                         now, Const.DEFAULT_TIME_ZONE));
     }
