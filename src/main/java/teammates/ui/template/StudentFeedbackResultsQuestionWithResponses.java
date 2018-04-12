@@ -18,10 +18,6 @@ public class StudentFeedbackResultsQuestionWithResponses {
         return questionDetails;
     }
 
-    public List<FeedbackResultsResponseTable> getResponseTables() {
-        return responseTables;
-    }
-
     public List<FeedbackResultsResponseTable> getSelfResponseTables() {
         List<FeedbackResultsResponseTable> selfResponseTables = new ArrayList<>();
         for (int i = 0; i < responseTables.size(); i++) {
