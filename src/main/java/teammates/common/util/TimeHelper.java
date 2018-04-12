@@ -182,9 +182,9 @@ public final class TimeHelper {
      */
     public static LocalDateTime combineDateTime(String inputDate, String inputTimeHours) {
         if ("24".equals(inputTimeHours)) {
-            return parseLocalDateTimeForSessionsForm(inputDate, "23", "59");
+            return parseDateTimeFromSessionsForm(inputDate, "23", "59");
         }
-        return parseLocalDateTimeForSessionsForm(inputDate, inputTimeHours, "0");
+        return parseDateTimeFromSessionsForm(inputDate, inputTimeHours, "0");
     }
 
     /**
@@ -495,7 +495,7 @@ public final class TimeHelper {
      * @param date  date in format "EEE, dd MMM, yyyy"
      * @return      the parsed {@code LocalDate} object, or {@code null} if there are errors
      */
-    public static LocalDate parseLocalDateForSessionsForm(String date) {
+    public static LocalDate parseDateFromSessionsForm(String date) {
         return parseLocalDate(date, "EEE, dd MMM, yyyy");
     }
 
@@ -503,13 +503,13 @@ public final class TimeHelper {
      * Parses a {@code LocalDateTime} object from separated date, hour and minute strings.
      * Example: date "Tue, 01 Apr, 2014", hour "23", min "59"
      *
-     * @param date  date in format "EEE, dd MMM, yyyy"
-     * @param hour  hour-of-day (0-23)
-     * @param min   minute-of-hour (0-59)
-     * @return      the parsed {@code LocalDateTime} object, or {@code null} if there are errors
+     * @param date date in format "EEE, dd MMM, yyyy"
+     * @param hour hour-of-day (0-23)
+     * @param min  minute-of-hour (0-59)
+     * @return the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
-    public static LocalDateTime parseLocalDateTimeForSessionsForm(String date, String hour, String min) {
-        LocalDate localDate = parseLocalDateForSessionsForm(date);
+    public static LocalDateTime parseDateTimeFromSessionsForm(String date, String hour, String min) {
+        LocalDate localDate = parseDateFromSessionsForm(date);
         if (localDate == null) {
             return null;
         }
