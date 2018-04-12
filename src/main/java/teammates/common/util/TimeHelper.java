@@ -319,6 +319,17 @@ public final class TimeHelper {
         return zonedDateTime.format(formatter);
     }
 
+    /**
+     * Format a datetime stamp from an {@code instant} including time zone name.
+     * Example: Tue, 12 Apr 2018, 11:21 PM SGT
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: Tue, 12 Apr 2018, 12:00 NOON SGT
+     *
+     * @param instant         the instant to be formatted
+     * @param sessionTimeZone the time zone to compute local datetime
+     * @return the formatted datetime stamp string
+     */
     public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }
