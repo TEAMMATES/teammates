@@ -2,6 +2,7 @@ package teammates.test.cases.util;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class AdminLogQueryTest extends BaseTestCase {
         ______TS("Test constructor with parameters");
         List<String> versionList = new ArrayList<>();
         versionList.add("5-44");
-        ZonedDateTime startDateTime = LocalDateTime.of(1994, Month.MAY, 7, 15, 30, 12).atZone(Const.DEFAULT_TIME_ZONE);
+        ZonedDateTime startDateTime = LocalDateTime.of(1994, Month.MAY, 7, 15, 30, 12).atZone(ZoneId.of("UTC"));
         long startTime = startDateTime.toInstant().toEpochMilli();
         long endTime = startDateTime.plusYears(22).toInstant().toEpochMilli();
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
@@ -44,7 +45,7 @@ public class AdminLogQueryTest extends BaseTestCase {
     public void testSetQueryWindowBackward() {
         List<String> versionList = new ArrayList<>();
         versionList.add("5-44");
-        ZonedDateTime startDateTime = LocalDateTime.of(2016, Month.MAY, 7, 15, 30, 12).atZone(Const.DEFAULT_TIME_ZONE);
+        ZonedDateTime startDateTime = LocalDateTime.of(2016, Month.MAY, 7, 15, 30, 12).atZone(ZoneId.of("UTC"));
         long startTime = startDateTime.toInstant().toEpochMilli();
         long endTime = startDateTime.plusDays(3).toInstant().toEpochMilli();
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);

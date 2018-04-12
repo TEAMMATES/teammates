@@ -62,13 +62,13 @@ public class TimeHelperTest extends BaseTestCase {
         assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(
-                date.atZone(Const.DEFAULT_TIME_ZONE).toInstant(), Const.DEFAULT_TIME_ZONE));
+                date.atZone(ZoneId.of("UTC")).toInstant(), ZoneId.of("UTC")));
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
 
     @Test
     public void testFormatDateTimeForSessions() {
-        ZoneId zoneId = Const.DEFAULT_TIME_ZONE;
+        ZoneId zoneId = ZoneId.of("UTC");
         Instant instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 12, 0).atZone(zoneId).toInstant();
         assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(instant, zoneId));
 

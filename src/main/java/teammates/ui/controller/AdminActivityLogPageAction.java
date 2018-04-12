@@ -159,14 +159,13 @@ public class AdminActivityLogPageAction extends Action {
             targetTimeZone = Const.SystemParams.ADMIN_TIME_ZONE;
         }
 
-        String timeInAdminTimeZone =
-                TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime),
-                        Const.SystemParams.ADMIN_TIME_ZONE);
+        String timeInAdminTimeZone = TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime),
+                Const.SystemParams.ADMIN_TIME_ZONE);
         String timeInUserTimeZone =
                 TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime), targetTimeZone);
 
         status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone ("
-                      + Const.SystemParams.ADMIN_TIME_ZONE.getId() + ") and ");
+                + Const.SystemParams.ADMIN_TIME_ZONE.getId() + ") and ");
         if (targetTimeZone == null) {
             status.append(timeInUserTimeZone).append(".<br>");
         } else {
