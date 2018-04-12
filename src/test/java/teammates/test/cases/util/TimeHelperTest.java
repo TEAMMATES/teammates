@@ -58,7 +58,6 @@ public class TimeHelperTest extends BaseTestCase {
     @Test
     public void testEndOfYearDates() {
         LocalDateTime date = LocalDateTime.of(2015, Month.DECEMBER, 30, 12, 0);
-        assertEquals("30/12/2015", TimeHelper.formatDate(date));
         assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatTime12H(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForSessions(
