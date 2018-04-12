@@ -520,7 +520,7 @@ public final class HtmlHelper {
                         StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT))
                 .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
                 .replace("<!-- test.admin.truncated -->", StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
-                .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(
+                .replace("<!-- now.datetime -->", TimeHelper.formatDateTimeForDisplay(
                         TimeHelper.convertInstantToLocalDateTime(now, Const.DEFAULT_TIME_ZONE)))
                 .replace("<!-- now.datetime.sessions -->",
                         TimeHelper.formatDateTimeForSessions(now, Const.DEFAULT_TIME_ZONE))

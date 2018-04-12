@@ -295,10 +295,16 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd MMM yyyy, hh:mm a. 12:00 PM is especially formatted as 12:00 NOON
-     * Example: 05 May 2012, 2:04 PM<br>
+     * Format a standard pretty datetime stamp from a {@code localDateTime}.
+     * Example: Tue, 12 Apr 2018, 12:01 PM
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: Tue, 12 Apr 2018, 12:00 NOON
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @return              the formatted datetime stamp string
      */
-    public static String formatTime12H(LocalDateTime localDateTime) {
+    public static String formatDateTimeForDisplay(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM yyyy, hh:mm a");
     }
 
