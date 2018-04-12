@@ -123,7 +123,7 @@ public class AdminActivityLogPage extends AppPage {
     public Instant getDateOfEarliestLog() {
         String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > a")).getText();
 
-        return TimeHelper.parseLocalDateTime(dateTimeString, "dd/MM/yyyy HH:mm:ss.SSS")
+        return TimeHelper.parseLocalDateTime(dateTimeString, TimeHelper.STAMP_DATETIME_ADMIN_LOG)
                 .atZone(Const.SystemParams.ADMIN_TIME_ZONE).toInstant();
 
     }
