@@ -1,7 +1,7 @@
 package teammates.logic.api;
 
 import java.time.Instant;
-import java.util.Date;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -388,9 +388,9 @@ public class Logic {
         return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
 
-        return feedbackSessionsLogic.getAllOpenFeedbackSessions(startUtc, endUtc);
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
     }
 
     /**
@@ -1111,22 +1111,19 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionAttributes copyFeedbackSession(String copiedFeedbackSessionName,
-                                                         String copiedCourseId,
-                                                         String feedbackSessionName,
-                                                         String courseId,
-                                                         String instructorEmail) throws EntityAlreadyExistsException,
-                                                                                        InvalidParametersException,
-                                                                                        EntityDoesNotExistException {
+    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName, String newCourseId,
+            ZoneId newTimeZone, String feedbackSessionName, String courseId, String instructorEmail)
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 
-        Assumption.assertNotNull(copiedFeedbackSessionName);
-        Assumption.assertNotNull(copiedCourseId);
+        Assumption.assertNotNull(newFeedbackSessionName);
+        Assumption.assertNotNull(newCourseId);
+        Assumption.assertNotNull(newTimeZone);
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(instructorEmail);
 
-        return feedbackSessionsLogic.copyFeedbackSession(copiedFeedbackSessionName,
-                copiedCourseId, feedbackSessionName, courseId, instructorEmail);
+        return feedbackSessionsLogic.copyFeedbackSession(newFeedbackSessionName, newCourseId, newTimeZone,
+                feedbackSessionName, courseId, instructorEmail);
     }
 
     /**

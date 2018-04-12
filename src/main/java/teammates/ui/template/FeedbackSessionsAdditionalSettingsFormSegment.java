@@ -142,13 +142,14 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.isResponseVisibleDateChecked = hasResultVisibleDate;
 
         additionalSettings.responseVisibleDateValue = hasResultVisibleDate
-                                                    ? TimeHelper.formatDateForSessionsForm(
+                                                    ? TimeHelper.adjustAndFormatDateForSessionsFormInputs(
                                                             feedbackSession.getResultsVisibleFromTimeLocal())
                                                     : "";
         additionalSettings.responseVisibleTimeOptions =
                                         PageData.getTimeOptionsAsElementTags(
                                                   hasResultVisibleDate
-                                                ? feedbackSession.getResultsVisibleFromTimeLocal()
+                                                ? TimeHelper.adjustLocalDateTimeForSessionsFormInputs(
+                                                        feedbackSession.getResultsVisibleFromTimeLocal())
                                                 : null);
         additionalSettings.isResponseVisibleDateDisabled = !hasResultVisibleDate;
 
@@ -174,13 +175,14 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
 
         additionalSettings.isSessionVisibleDateButtonChecked = hasSessionVisibleDate;
         additionalSettings.sessionVisibleDateValue = hasSessionVisibleDate
-                                                   ? TimeHelper.formatDateForSessionsForm(
+                                                   ? TimeHelper.adjustAndFormatDateForSessionsFormInputs(
                                                            feedbackSession.getSessionVisibleFromTimeLocal())
                                                    : "";
         additionalSettings.isSessionVisibleDateDisabled = !hasSessionVisibleDate;
         additionalSettings.sessionVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(
                                                             hasSessionVisibleDate
-                                                            ? feedbackSession.getSessionVisibleFromTimeLocal()
+                                                            ? TimeHelper.adjustLocalDateTimeForSessionsFormInputs(
+                                                                    feedbackSession.getSessionVisibleFromTimeLocal())
                                                             : null);
     }
 
