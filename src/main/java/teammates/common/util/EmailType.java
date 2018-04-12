@@ -13,7 +13,7 @@ public enum EmailType {
     FEEDBACK_CLOSED("TEAMMATES: Feedback session closed [Course: %s][Feedback Session: %s]"),
     FEEDBACK_PUBLISHED("TEAMMATES: Feedback session results published [Course: %s][Feedback Session: %s]"),
     FEEDBACK_UNPUBLISHED("TEAMMATES: Feedback session results unpublished [Course: %s][Feedback Session: %s]"),
-    FEEDBACK_LINKS_RESENT("TEAMMATES: Feedback sessions resent."),
+    FEEDBACK_ACCESS_LINKS_RESENT("TEAMMATES: Feedback sessions access links resent."),
     STUDENT_EMAIL_CHANGED("TEAMMATES: Summary of course [%s][Course ID: %s]"),
     NEW_INSTRUCTOR_ACCOUNT("TEAMMATES: Welcome to TEAMMATES! %s"),
     STUDENT_COURSE_JOIN("TEAMMATES: Invitation to join course [%s][Course ID: %s]"),

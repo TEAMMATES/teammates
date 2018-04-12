@@ -404,7 +404,7 @@ public class EmailGenerator {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -6);
         Instant startTime = calendar.getTime().toInstant();
-        String subject = EmailType.FEEDBACK_LINKS_RESENT.getSubject();
+        String subject = EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject();
         StringBuffer linksFragmentValue = new StringBuffer(1000);
         String emailBody;
         String studentName = "";
@@ -444,7 +444,7 @@ public class EmailGenerator {
                 }
 
                 linksFragmentValue.append(Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SINGLE_REQUEST_RESEND_LINK,
+                        EmailTemplates.FRAGMENT_SINGLE_REQUEST_RESEND_ACCESS_LINK,
                         "${courseId}", course.getId(),
                         "${courseName}", course.getName(),
                         "${feedbackSessionName}", session.getFeedbackSessionName(),
@@ -458,11 +458,11 @@ public class EmailGenerator {
         // a different email with notification will be sent.
         if (linksFragmentValue.length() == 0) {
             emailBody = Templates.populateTemplate(
-                    EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_LINKS_WITH_NO_ACTIVE_LINKS,
+                    EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_WITH_NO_ACTIVE_LINKS,
                     "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail));
         } else {
             emailBody = Templates.populateTemplate(
-                    EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_LINKS_EMAIL,
+                    EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_EMAIL,
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
                     "${linksFragment}", linksFragmentValue.toString(),
                     "${userEmail}", userEmail);

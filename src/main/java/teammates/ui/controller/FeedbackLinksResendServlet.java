@@ -53,11 +53,11 @@ public class FeedbackLinksResendServlet extends HttpServlet {
                 EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(userEmailToResend);
                 setEmailSender(new EmailSender());
                 emailSender.sendEmail(email);
-                statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_LINKS_RESENT,
+                statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT,
                         StatusMessageColor.SUCCESS);
             } else {
                 statusMessage =
-                        new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_INVALID_EMAIL,
+                        new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL,
                                 StatusMessageColor.DANGER);
             }
 

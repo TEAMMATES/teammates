@@ -3,7 +3,7 @@ package teammates.test.pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FeedbackRequestResendLinksPage extends GenericAppPage {
+public class FeedbackRequestResendAccessLinksPage extends GenericAppPage {
 
     @FindBy(id = "email")
     private WebElement email;
@@ -11,13 +11,13 @@ public class FeedbackRequestResendLinksPage extends GenericAppPage {
     @FindBy(id = "submitButton")
     private WebElement submitButton;
 
-    public FeedbackRequestResendLinksPage(Browser browser) {
+    public FeedbackRequestResendAccessLinksPage(Browser browser) {
         super(browser);
     }
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Request for Resend of Feedback Links");
+        return getPageSource().contains("Request for Resending of Access Links");
     }
 
     public void fillEmailAddress(String emailAddress) {

@@ -2014,7 +2014,7 @@
     </li>
     <li id="fbSessionResendLinksRequest">
       <span class="text-bold">
-          <b>5. Requesting resending of feedback links</b>
+          <b>5. Requesting resending of access links</b>
       </span>
       <p>
         TEAMMATES allows students to request for resending of access links which students might accidentally deleted. Students can do so by themselves without the need to approach the instructor.

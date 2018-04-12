@@ -480,7 +480,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         String recipient = student1.getEmail();
         EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(recipient);
-        String subject = EmailType.FEEDBACK_LINKS_RESENT.getSubject();
+        String subject = EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject();
 
         ______TS("The student did not have any feedback sessions in the recent six months");
 

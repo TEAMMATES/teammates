@@ -1386,10 +1386,10 @@ public final class Const {
         public static final String FEEDBACK_SESSION_REMINDERSSENT =
                 "Reminder e-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
-        public static final String FEEDBACK_SESSION_LINKS_RESENT =
-                "Recent feedback session links has been sent out to the student who requested for a resent. "
+        public static final String FEEDBACK_SESSION_ACCESS_LINKS_RESENT =
+                "Recent feedback session access links has been sent out to the student who requested for a resent. "
                 + "Please allow up to 1 hour for the notification email to be sent out.";
-        public static final String FEEDBACK_SESSION_RESEND_LINKS_INVALID_EMAIL =
+        public static final String FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL =
                 "Invalid email address!";
         public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
                 "The feedback session is not open for submissions. "

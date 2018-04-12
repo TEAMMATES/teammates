@@ -14,7 +14,7 @@ public class HomePage extends AppPage {
     @FindBy(id = "btnStudentLogin")
     private WebElement studentLoginLink;
 
-    @FindBy(id = "requestFeedbackLinksResend")
+    @FindBy(id = "requestAccessLinksResend")
     private WebElement requestResendLinks;
 
     public HomePage(Browser browser) {
@@ -56,10 +56,10 @@ public class HomePage extends AppPage {
         return createCorrectLoginPageType(browser);
     }
 
-    public FeedbackRequestResendLinksPage clickRequestResendLink() {
+    public FeedbackRequestResendAccessLinksPage clickRequestResendLink() {
         click(requestResendLinks);
         waitForPageToLoad();
-        return getNewPageInstance(browser, FeedbackRequestResendLinksPage.class);
+        return getNewPageInstance(browser, FeedbackRequestResendAccessLinksPage.class);
     }
 
 }

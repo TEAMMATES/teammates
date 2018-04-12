@@ -40,13 +40,13 @@
               <li class="${currentPage == 'about' ? 'active' : ''}"><a href="about.jsp">About Us</a></li>
               <li class="${currentPage == 'contact' ? 'active' : ''}"><a href="contact.jsp">Contact</a></li>
               <li class="${currentPage == 'terms' ? 'active' : ''}"><a href="terms.jsp">Terms of Use</a></li>
-              <li class="${currentPage == 'requestFeedbackLinksResend' ? 'active' : ''}">
+              <li class="${currentPage == 'requestAccessLinksResend' ? 'active' : ''}">
                 <div class="dropdown-submenu pull-left-and-down">
                   <button class="dropdown-button">Request
                     <i class="fa fa-caret-down"></i>
                   </button>
                   <div class="dropdown-menu">
-                    <a id="requestFeedbackLinksResend" href="../../../requestResendLinks.jsp">Resend Feedback Links</a>
+                    <a id="requestAccessLinksResend" href="../../../requestResendLinks.jsp">Resend Access Links</a>
                   </div>
                 </div>
               </li>

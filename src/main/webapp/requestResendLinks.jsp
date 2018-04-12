@@ -6,10 +6,10 @@
   <script type="text/javascript" src="/js/requestResendLinks.js"></script>
 </c:set>
 <t:statusMessage statusMessagesToUser="${data.statusMessage}"/>
-<t:staticPage jsIncludes="${jsIncludes}" currentPage="requestFeedbackLinksResend">
+<t:staticPage jsIncludes="${jsIncludes}" currentPage="requestAccessLinksResend">
   <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
   <h1 class="color-orange">
-    Request for Resend of Feedback Links
+    Request for Resending of Access Links
   </h1>
   <p id="message">Please enter your email address, an email containing links to all the feedback sessions that you participated in the recent one month will be resend to you.</p>
   <form id="requestForm" action="/requestResendLinksResult" name="requestForm" method="POST">

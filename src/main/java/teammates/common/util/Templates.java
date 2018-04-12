@@ -42,13 +42,13 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
-        public static final String FRAGMENT_SINGLE_REQUEST_RESEND_LINK =
-                FileHelper.readResourceFile("userEmailTemplateFragment-feedbackSessionRequestResendLinks.html");
-        public static final String USER_FEEDBACK_SESSION_REQUEST_RESEND_LINKS_EMAIL =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionRequestResendLinksEmail.html");
-        public static final String USER_FEEDBACK_SESSION_REQUEST_RESEND_LINKS_WITH_NO_ACTIVE_LINKS =
+        public static final String FRAGMENT_SINGLE_REQUEST_RESEND_ACCESS_LINK =
+                FileHelper.readResourceFile("userEmailTemplateFragment-feedbackSessionRequestResendAccessLinks.html");
+        public static final String USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_EMAIL =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionRequestResendAccessLinksEmail.html");
+        public static final String USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_WITH_NO_ACTIVE_LINKS =
                 FileHelper.readResourceFile(
-                        "userEmailTemplate-feedbackSessionRequestResendLinksWithNoActiveLinks.html");
+                        "userEmailTemplate-feedbackSessionRequestResendAccessLinksWithNoActiveLinks.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =

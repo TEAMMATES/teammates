@@ -8,19 +8,19 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.FeedbackRequestResendLinksPage;
+import teammates.test.pageobjects.FeedbackRequestResendAccessLinksPage;
 
 /**
  * Loads the FeedbackRequestLinksResendPage for the tester to do a visual inspection.
  */
-public class FeedbackRequestLinksResendPageUiTest extends BaseUiTestCase {
+public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
 
-    private FeedbackRequestResendLinksPage requestResendLinksPage;
+    private FeedbackRequestResendAccessLinksPage requestResendAccessLinksPage;
     private String studentEmailAddress;
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/FeedbackRequestLinksResendPageUiTest.json");
+        testData = loadDataBundle("/FeedbackRequestAccessLinksResendPageUiTest.json");
 
         // Use the 1st student account injected for this test
 
@@ -64,20 +64,20 @@ public class FeedbackRequestLinksResendPageUiTest extends BaseUiTestCase {
 
         String emailAddress = "InvalidEmail";
 
-        requestResendLinksPage = getHomePage().clickRequestResendLink();
+        requestResendAccessLinksPage = getHomePage().clickRequestResendLink();
 
-        requestResendLinksPage.fillEmailAddress(emailAddress);
-        requestResendLinksPage.clickSubmitButton();
-        requestResendLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_RESEND_LINKS_INVALID_EMAIL);
+        requestResendAccessLinksPage.fillEmailAddress(emailAddress);
+        requestResendAccessLinksPage.clickSubmitButton();
+        requestResendAccessLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL);
     }
 
     private void testValidEmailWithFeedbackSessionsInRecentSixMonths() {
         ______TS("Valid Email Address, user with email has feedback sessions in recent six month");
 
-        requestResendLinksPage.fillEmailAddress(studentEmailAddress);
-        requestResendLinksPage.clickSubmitButton();
-        requestResendLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_LINKS_RESENT);
+        requestResendAccessLinksPage.fillEmailAddress(studentEmailAddress);
+        requestResendAccessLinksPage.clickSubmitButton();
+        requestResendAccessLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT);
     }
 }
