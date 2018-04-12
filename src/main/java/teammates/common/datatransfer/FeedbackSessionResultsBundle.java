@@ -1706,12 +1706,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Checks if bundle contains response from Instructor.
-     *
-     * <ul>
-     * <li>true if the bundle contains response from Instructor</li>
-     * <li>false otherwise</li>
-     * </ul>
+     * Returns true if bundle contains response from Instructor.
      */
     public boolean hasResponseFromInstructor() {
         for (FeedbackResponseAttributes response : responses) {
@@ -1725,12 +1720,7 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Checks if bundle contains response to Instructor or General.
-     *
-     * <ul>
-     * <li>true if the bundle contains response to Instructor or General</li>
-     * <li>false otherwise</li>
-     * </ul>
+     * Returns true if bundle contains response to Instructor or General.
      */
     public boolean hasResponseToInstructorOrGeneral() {
         for (FeedbackResponseAttributes response : responses) {
