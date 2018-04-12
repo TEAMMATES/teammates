@@ -1,7 +1,7 @@
 package teammates.ui.template;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StudentFeedbackResultsQuestionWithResponses {
     private FeedbackResultsQuestionDetails questionDetails;
@@ -18,24 +18,20 @@ public class StudentFeedbackResultsQuestionWithResponses {
         return questionDetails;
     }
 
+    /**
+     * Returns a list of responses which are provided by user himself.
+     */
     public List<FeedbackResultsResponseTable> getSelfResponseTables() {
-        List<FeedbackResultsResponseTable> selfResponseTables = new ArrayList<>();
-        for (int i = 0; i < responseTables.size(); i++) {
-            if (responseTables.get(i).isGiverNameYou()) {
-                selfResponseTables.add(responseTables.get(i));
-            }
-        }
-        return selfResponseTables;
+        return responseTables.stream().filter(responseTable -> responseTable.isGiverNameYou())
+                .collect(Collectors.toList());
     }
 
+    /**
+     * Returns a list of responses which are provided by others.
+     */
     public List<FeedbackResultsResponseTable> getOthersResponseTables() {
-        List<FeedbackResultsResponseTable> othersResponseTables = new ArrayList<>();
-        for (int i = 0; i < responseTables.size(); i++) {
-            if (!responseTables.get(i).isGiverNameYou()) {
-                othersResponseTables.add(responseTables.get(i));
-            }
-        }
-        return othersResponseTables;
+        return responseTables.stream().filter(responseTable -> !responseTable.isGiverNameYou())
+                .collect(Collectors.toList());
     }
 
     public boolean isSelfResponseTablesEmpty() {
