@@ -47,6 +47,12 @@ The [issue labels](issues.md#issue-labels) may help you in choosing which issue 
 
 ### Step 2: Start clean from a new branch
 
+In most cases, you will start the PR from the `master` branch. There are scenarios where you are required to start from another branch instead:
+* You are creating a hot patch: start from the `release` branch.
+* You are working on a *long-lived feature branch* (a branch which contains multiple commits from possibly multiple authors, used for major feature development/refactoring): start from that branch.
+
+For brevity, this instruction set will use `master` branch as the base branch. Any reference to the `master` branch should be replaced with the base branch that applies to your case.
+
 1. Start off from your `master` branch and make sure it is up-to-date with the latest version of the main repo's `master` branch.
    ```sh
    git checkout master
@@ -136,11 +142,13 @@ Make the changes to the code, tests, and documentations as needed by the issue.
 ### Step 4: Submit a PR
 
 [Create a PR](https://help.github.com/articles/creating-a-pull-request/) with the following configuration:
-* The base branch is the main repo's `master` branch (except for hot patches in which it will be the `release` branch).
+* The base branch is the main repo's `master` branch.
 * PR name: copy-and-paste the relevant issue name and include the issue number as well,
   e.g. `Remove unnecessary System.out.printlns from Java files #3942`.
 * PR description: mention the issue number in this format: `Fixes #3942`.
   Doing so will [automatically close the related issue once the PR is merged](https://github.com/blog/1506-closing-issues-via-pull-requests).
+
+  **Note**: if the PR does not fix an issue completely, use `Part of #3942` as the PR description instead. Do NOT use the above special keywords.
 * Ensure that "Allow edits from maintainers" is ticked.
 * You are encouraged to describe the changes you have made in your branch and how they resolve the issue.
 
@@ -190,7 +198,7 @@ The cycle of "code review" - "updating the PR" will be repeated until your PR is
 The core team member responsible for merging your PR might contact you for reasons such as resolving merge conflicts.
 Depending on the situation, this may necessitate more changes to be made in your PR (e.g. if your PR is functionally conflicting with a recent change), however this rarely happens.
 
-Your work on the issue is done when your PR is successfully merged to the main repo's `master` or `release` branch.
+Your work on the issue is done when your PR is successfully merged to the main repo's `master` branch.
 
 ## Reviewing a PR
 
@@ -206,8 +214,8 @@ Your work on the issue is done when your PR is successfully merged to the main r
   * Naming conventions for PR and branch are followed, and `Fixes #....` or similar keyword is present in the PR description.
   * The items in [this list](#things-to-check) are all satisfied.
   * The solution is the best possible solution to the problem under the circumstances.
-  * The code is up-to-date with the latest `master` branch, or at least no conflict.
-    If this is not the case, ask the dev to sync with it with the latest `master` branch.
+  * The code is up-to-date with the latest `master` branch (or whichever base branch applies), or at least no conflict.
+    If this is not the case, ask the dev to sync it.
 * If any of the above are not OK:
   * Add comments in the diff to suggest changes.
     Bundle the review comments with the "Start a review" and "Add review comment" features, and finish it with "Request changes", preferably with the review summary.
@@ -223,7 +231,7 @@ Your work on the issue is done when your PR is successfully merged to the main r
 
 **Role: dev (with push permission), or reviewer**
 
-This instruction set will use the issue `Remove unnecessary System.out.printlns from Java files #3942`, resolved by PR `#3944`, as an example.
+This instruction set will use the issue `Remove unnecessary System.out.printlns from Java files #3942`, resolved by PR `#3944`, with `master` branch as the base branch, as an example.
 
 * Merging can be done anytime as long as the `s.ToMerge` label is present and GitHub gives a green light for merging.
   There are a few scenarios where GitHub can prevent merging from proceeding:
@@ -239,6 +247,7 @@ This instruction set will use the issue `Remove unnecessary System.out.printlns 
     [#Issue number] Issue title as given in the original issue (#PR number)
     ```
     e.g. `[#3942] Remove unnecessary System.out.printlns from Java files (#3944)`.
+  * Where appropriate (e.g. merging a long-lived feature branch), the ["Rebase and merge"](https://help.github.com/articles/about-pull-request-merges/#rebase-and-merge-your-pull-request-commits) option can be used instead.
   * Apply an `e.*` label to the issue (not the PR) to indicate the estimated effort required to fix the issue,
     and another `e.*` label to the PR to indicate the estimated effort required to review the PR.<br>
     `e.1` is roughly equal to an hour of work, `e.2` is two hours of work, and so on.

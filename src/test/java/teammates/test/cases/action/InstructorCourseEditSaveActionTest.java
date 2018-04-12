@@ -1,11 +1,15 @@
 package teammates.test.cases.action;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.InstructorCourseEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -44,6 +48,11 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone
         };
 
+        // verify time zone will be changed
+        String oldCourseTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone().getId();
+        assertNotEquals(courseTimeZone, oldCourseTimeZone);
+        verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
+
         // execute the action
         courseEditSaveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(courseEditSaveAction);
@@ -54,6 +63,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         assertEquals(
                 getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, false, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
+        verifySessionsInCourseHaveTimeZone(courseId, courseTimeZone);
 
         ______TS("Typical case: edit course name with valid characters");
         String courseNameWithValidCharacters = courseName + " valid";
@@ -150,13 +160,21 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         courseEditSaveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(courseEditSaveAction);
 
-        statusMessage = getPopulatedErrorMessage(FieldValidator.COURSE_TIME_ZONE_ERROR_MESSAGE,
-                            courseTimeZone, FieldValidator.COURSE_TIME_ZONE_FIELD_NAME,
+        statusMessage = getPopulatedErrorMessage(FieldValidator.TIME_ZONE_ERROR_MESSAGE,
+                            courseTimeZone, FieldValidator.TIME_ZONE_FIELD_NAME,
                             FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
         assertEquals(statusMessage, redirectResult.getStatusMessage());
         assertEquals(
                 getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE, true, instructorId, courseId),
                 redirectResult.getDestinationWithParams());
+    }
+
+    private void verifySessionsInCourseHaveTimeZone(String courseId, String courseTimeZone) {
+        List<FeedbackSessionAttributes> sessions = FeedbackSessionsLogic.inst().getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSessionAttributes session : sessions) {
+            System.out.println(session);
+            assertEquals(courseTimeZone, session.getTimeZone().getId());
+        }
     }
 
     @Override
@@ -178,7 +196,7 @@ public class InstructorCourseEditSaveActionTest extends BaseActionTest {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor.courseId;
         String courseName = "Typical Course 1 with 2 Evals";
-        String courseTimeZone = "UTC";
+        String courseTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone().getId();
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.COURSE_NAME, courseName,

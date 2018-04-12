@@ -1,6 +1,6 @@
 package teammates.test.cases.browsertests;
 
-import java.util.Calendar;
+import java.time.Instant;
 
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
@@ -69,11 +69,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         assertEquals(2, logPage.getNumberOfTableHeaders());
 
         ______TS("content: ensure default search period is not more than one day");
-        Calendar yesterday = TimeHelper.now(Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        yesterday.add(Calendar.DAY_OF_MONTH, -1);
-
-        assertTrue(logPage.getDateOfEarliestLog()
-                                        .after(yesterday.getTime()));
+        Instant yesterday = TimeHelper.getInstantDaysOffsetFromNow(-1);
+        assertTrue(logPage.getDateOfEarliestLog().isAfter(yesterday));
 
         ______TS("content: show the earliest log's date in both Admin Time Zone and local Time Zone");
         String statusMessageText = logPage.getTextsForAllStatusMessagesToUser().get(0);

@@ -1,8 +1,10 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseEdit - Course Info Panel" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ attribute name="editCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="deleteCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="course" type="teammates.common.datatransfer.attributes.CourseAttributes" required="true" %>
@@ -52,17 +54,14 @@
 
       <div class="form-group">
         <label class="col-xs-12 col-sm-3 control-label">Time Zone:</label>
-        <div class="col-xs-12 col-sm-5">
-          <select class="form-control"
-              name="<%=Const.ParamsNames.COURSE_TIME_ZONE%>" id="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
-              data-toggle="tooltip" data-placement="top" title="The time zone for the course, e.g. Asia/Singapore."
-              tabindex="3" disabled>
-            <option value="">Select a time zone...</option>
-          </select>
-        </div>
-        <div class="hidden-lg hidden-md hidden-sm col-xs-12"></div>
-        <div class="col-xs-12 col-sm-4">
-          <input type="button" class="btn btn-primary" id="auto-detect-time-zone" disabled value="Auto-Detect Time Zone">
+        <div class="col-xs-12 col-sm-9">
+          <ti:timeZoneInput nameId="<%=Const.ParamsNames.COURSE_TIME_ZONE%>"
+              selectedTimeZone="${course.timeZone.id}"
+              tooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
+                  device settings.<br><br> TEAMMATES automatically adjusts to match the current time offset in your area,
+                  including clock changes due to daylight saving time."
+              isDisabled="true">
+          </ti:timeZoneInput>
         </div>
       </div>
 

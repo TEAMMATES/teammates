@@ -1,6 +1,8 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedback & instructorFeedbackEdit - feedback session form" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <%@ tag import="teammates.common.util.Const" %>
@@ -63,20 +65,14 @@
             <div class="form-group">
               <h5 class="col-sm-2 col-md-4">
                 <label class="control-label" for="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
-                  Timezone
+                  Time Zone
                 </label>
               </h5>
               <div class="col-sm-10 col-md-8">
-                <select class="form-control"
-                    name="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>"
-                    id="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
-                  <c:forEach items="${fsForm.timezoneSelectField}" var="option">
-                    <option ${option.attributesToString}>
-                      ${option.content}
-                    </option>
-                  </c:forEach>
-
-                </select>
+                <h5 id="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>" class="form-control-static font-weight-normal"
+                    data-time-zone="${fsForm.fsTimeZone}">
+                  ${fsForm.fsTimeZone}
+                </h5>
               </div>
             </div>
           </div>
@@ -94,8 +90,8 @@
                 <c:choose>
                   <c:when test="${fsForm.courseIdEditable}">
                     <c:forEach items="${courseAttributes}" var="attributes">
-                      <input class="course-name-data" id="${fn:escapeXml(attributes.id)}"
-                          type="hidden" value="${fn:escapeXml(attributes.name)}">
+                      <input class="course-attributes-data" id="${fn:escapeXml(attributes.id)}" type="hidden"
+                          data-name="${fn:escapeXml(attributes.name)}" data-time-zone="${attributes.timeZone.id}">
                     </c:forEach>
                     <h5 id="<%= Const.ParamsNames.COURSE_NAME %>" class="form-control-static font-weight-normal">
                     </h5>

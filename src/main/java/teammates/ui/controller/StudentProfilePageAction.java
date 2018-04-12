@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
 import teammates.ui.pagedata.StudentProfilePageData;
 
 /**
@@ -26,8 +25,7 @@ public class StudentProfilePageAction extends Action {
         }
 
         StudentProfilePageData data = new StudentProfilePageData(account, sessionToken, isEditingPhoto);
-        statusToAdmin = "studentProfile Page Load <br> Profile: "
-                + SanitizationHelper.sanitizeForHtmlTag(account.studentProfile.toString());
+        statusToAdmin = "studentProfile Page Load <br> Profile: " + account.googleId;
 
         return createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);
     }

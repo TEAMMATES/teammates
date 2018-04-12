@@ -93,9 +93,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 course.getName(), session.getFeedbackSessionName());
 
         String lineInEmailCopyToInstructor = "The email below has been sent to students of course:";
+        // Verify the student reminder email
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionReminderEmailForStudent.html");
+        // Verify the Student email copy send to the instructor
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
-                "/sessionReminderEmailForInstructor.html", lineInEmailCopyToInstructor);
+                "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
+        // Verify the instructor reminder email
+        String lineInEmailToInstructor =
+                "/page/instructorFeedbackSubmissionEditPage?courseid=idOfTypicalCourse1&fsname=First+feedback+session";
+        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
+                "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
 
         ______TS("feedback session closing alerts");
 
@@ -165,7 +172,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 session.getFeedbackSessionName());
         verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
 
-        setTimeZoneButMaintainLocalDate(session, ZoneId.of("UTC-09:30"));
+        setTimeZoneButMaintainLocalDate(session, ZoneId.of("Pacific/Marquesas"));
         email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
         subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
                                 session.getFeedbackSessionName());

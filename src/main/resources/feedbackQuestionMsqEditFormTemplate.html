@@ -47,6 +47,7 @@
         <option ${studentSelected} value="${FeedbackParticipantType.STUDENTS.toString()}">students</option>
         <option ${studentExcludingSelfSelected} value="${FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString()}">students (excluding self)</option>
         <option ${teamSelected} value="${FeedbackParticipantType.TEAMS.toString()}">teams</option>
+        <option ${teamExcludingSelfSelected} value="${FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString()}">teams (excluding self)</option>
         <option ${instructorSelected} value="${FeedbackParticipantType.INSTRUCTORS.toString()}">instructors</option>
       </select>
     </div>
@@ -83,8 +84,8 @@
           min="1" value="${msqMinSelectableChoices}">
     </div>
     <input type="hidden"
-        id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
-        name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}"
+        id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS}-${questionNumber}"
+        name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS}"
         value="${generateOptionsForValue}">
   </div>
   <br>

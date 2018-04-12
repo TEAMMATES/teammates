@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.FrontEndLibrary" %>
 <!DOCTYPE html>
@@ -23,6 +24,20 @@
     <div id="test-bootbox-modal-stub"></div>
     <div id="visible">Visible</div>
     <input type="text" id="date-picker-div">
+
+    <div class="panel-body rubricStatistics">
+      <div class="col-sm-4 text-right ">
+        <input class="excluding-self-response-checkbox" onclick="toggleExcludingSelfResultsForRubricStatistics(this)" type="checkbox">
+        <span class="text-nowrap tool-tip-decorate">Exclude self evaluation</span>
+      </div>
+      <div class="col-sm-12 table-responsive">
+        <table class="table table-striped table-bordered margin-0">
+          <thead></thead>
+          <tbody class="table-body-including-self"></tbody>
+          <tbody class="table-body-excluding-self hidden"></tbody>
+        </table>
+      </div>
+    </div>
 
     <!-- Library scripts -->
     <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>

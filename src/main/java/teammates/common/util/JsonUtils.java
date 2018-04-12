@@ -4,12 +4,10 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 import com.google.gson.Gson;
@@ -17,11 +15,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.google.gson.JsonSyntaxException;
 
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
@@ -71,13 +69,7 @@ public final class JsonUtils {
      * @see Gson#fromJson(String, Type)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
-        try {
-            return getTeammatesGson().fromJson(json, typeOfT);
-        } catch (JsonSyntaxException e) {
-            // some of the existing data does not use the prescribed date format
-            // TODO: remove once all search documents have been migrated
-            return new Gson().fromJson(json, typeOfT);
-        }
+        return getTeammatesGson().fromJson(json, typeOfT);
     }
 
     /**
@@ -114,8 +106,7 @@ public final class JsonUtils {
             try {
                 return dateFormat.parse(element.getAsString());
             } catch (ParseException e) {
-                // TODO: change to JsonParseException once all search documents have been migrated
-                throw new JsonSyntaxException(element.getAsString(), e);
+                throw new JsonParseException(e);
             }
         }
     }
@@ -129,12 +120,7 @@ public final class JsonUtils {
 
         @Override
         public synchronized Instant deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
-            try {
-                return Instant.parse(element.getAsString());
-            } catch (DateTimeParseException e) {
-                // TODO: remove once all search documents have been migrated
-                return new TeammatesDateAdapter().deserialize(element, type, context).toInstant();
-            }
+            return Instant.parse(element.getAsString());
         }
     }
 
@@ -147,12 +133,7 @@ public final class JsonUtils {
 
         @Override
         public synchronized ZoneId deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
-            try {
-                return ZoneId.of(element.getAsString());
-            } catch (DateTimeException e) {
-                // TODO: remove once all search documents have been migrated
-                return TimeHelper.convertToZoneId(element.getAsDouble());
-            }
+            return ZoneId.of(element.getAsString());
         }
     }
 

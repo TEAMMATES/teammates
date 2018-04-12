@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.lang.reflect.Field;
+import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -9,11 +10,12 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -28,8 +30,7 @@ public final class TimeHelper {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final Map<String, String> TIME_ZONE_CITIES_MAP = new HashMap<>();
-    private static final List<Double> TIME_ZONE_VALUES = new ArrayList<>();
+    private static final Map<ZoneId, String> TIME_ZONE_CITIES_MAP = new LinkedHashMap<>();
 
     /*
      *This time zone - city map was created by selecting major cities from each time zone.
@@ -39,46 +40,88 @@ public final class TimeHelper {
      */
 
     static {
-        map("-12.0", "Baker Island, Howland Island");
-        map("-11.0", "American Samoa, Niue");
-        map("-10.0", "Hawaii, Cook Islands");
-        map("-9.5", "Marquesas Islands");
-        map("-9.0", "Gambier Islands, Alaska");
-        map("-8.0", "Los Angeles, Vancouver, Tijuana");
-        map("-7.0", "Phoenix, Calgary, Ciudad Juárez");
-        map("-6.0", "Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg");
-        map("-5.0", "New York, Lima, Toronto, Bogotá, Havana, Kingston");
-        map("-4.5", "Caracas");
-        map("-4.0", "Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax");
-        map("-3.5", "St. John's");
-        map("-3.0", "Buenos Aires, Montevideo, São Paulo");
-        map("-2.0", "Fernando de Noronha, South Georgia and the South Sandwich Islands");
-        map("-1.0", "Cape Verde, Greenland, Azores islands");
-        map("0.0", "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
-        map("1.0", "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
-        map("2.0", "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
-        map("3.0", "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
-        map("3.5", "Tehran");
-        map("4.0", "Baku, Dubai, Moscow");
-        map("4.5", "Kabul");
-        map("5.0", "Karachi, Tashkent");
-        map("5.5", "Colombo, Delhi");
-        map("5.75", "Kathmandu");
-        map("6.0", "Almaty, Dhaka, Yekaterinburg");
-        map("6.5", "Yangon");
-        map("7.0", "Jakarta, Bangkok, Novosibirsk, Hanoi");
-        map("8.0", "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
-        map("8.75", "Eucla");
-        map("9.0", "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
-        map("9.5", "Adelaide");
-        map("10.0", "Canberra, Yakutsk, Port Moresby");
-        map("10.5", "Lord Howe Islands");
-        map("11.0", "Vladivostok, Noumea");
-        map("12.0", "Auckland, Suva");
-        map("12.75", "Chatham Islands");
-        map("13.0", "Phoenix Islands, Tokelau, Tonga");
-        map("14.0", "Line Islands");
+        map("UTC-12:00", "Baker Island, Howland Island");
+        map("UTC-11:00", "American Samoa, Niue");
+        map("UTC-10:00", "Hawaii, Cook Islands");
+        map("UTC-09:30", "Marquesas Islands");
+        map("UTC-09:00", "Gambier Islands, Alaska");
+        map("UTC-08:00", "Los Angeles, Vancouver, Tijuana");
+        map("UTC-07:00", "Phoenix, Calgary, Ciudad Juárez");
+        map("UTC-06:00", "Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg");
+        map("UTC-05:00", "New York, Lima, Toronto, Bogotá, Havana, Kingston");
+        map("UTC-04:30", "Caracas");
+        map("UTC-04:00", "Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax");
+        map("UTC-03:30", "St. John's");
+        map("UTC-03:00", "Buenos Aires, Montevideo, São Paulo");
+        map("UTC-02:00", "Fernando de Noronha, South Georgia and the South Sandwich Islands");
+        map("UTC-01:00", "Cape Verde, Greenland, Azores islands");
+        map("UTC", "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
+        map("UTC+01:00", "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
+        map("UTC+02:00", "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
+        map("UTC+03:00", "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
+        map("UTC+03:30", "Tehran");
+        map("UTC+04:00", "Baku, Dubai, Moscow");
+        map("UTC+04:30", "Kabul");
+        map("UTC+05:00", "Karachi, Tashkent");
+        map("UTC+05:30", "Colombo, Delhi");
+        map("UTC+05:45", "Kathmandu");
+        map("UTC+06:00", "Almaty, Dhaka, Yekaterinburg");
+        map("UTC+06:30", "Yangon");
+        map("UTC+07:00", "Jakarta, Bangkok, Novosibirsk, Hanoi");
+        map("UTC+08:00", "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
+        map("UTC+08:45", "Eucla");
+        map("UTC+09:00", "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
+        map("UTC+09:30", "Adelaide");
+        map("UTC+10:00", "Canberra, Yakutsk, Port Moresby");
+        map("UTC+10:30", "Lord Howe Islands");
+        map("UTC+11:00", "Vladivostok, Noumea");
+        map("UTC+12:00", "Auckland, Suva");
+        map("UTC+12:45", "Chatham Islands");
+        map("UTC+13:00", "Phoenix Islands, Tokelau, Tonga");
+        map("UTC+14:00", "Line Islands");
 
+    }
+
+    /**
+     * Represents the ambiguity status for a {@link LocalDateTime} at a given time {@code zone},
+     * brought about by Daylight Saving Time (DST).
+     */
+    public enum LocalDateTimeAmbiguityStatus {
+        /**
+         * The local date time can be unambiguously resolved to a single instant.
+         * It has only one valid interpretation.
+         */
+        UNAMBIGUOUS,
+
+        /**
+         * The local date time falls within the gap period when clocks spring forward at the start of DST.
+         * Strictly speaking, it is non-existent, and needs to be readjusted to be valid.
+         */
+        GAP,
+
+        /**
+         * The local date time falls within the overlap period when clocks fall back at the end of DST.
+         * It has more than one valid interpretation.
+         */
+        OVERLAP;
+
+        /**
+         * Gets the ambiguity status for a {@link LocalDateTime} at a given time {@code zone}.
+         */
+        public static LocalDateTimeAmbiguityStatus of(LocalDateTime localDateTime, ZoneId zone) {
+            if (localDateTime == null || zone == null) {
+                return null;
+            }
+
+            List<ZoneOffset> offsets = zone.getRules().getValidOffsets(localDateTime);
+            if (offsets.size() == 1) {
+                return UNAMBIGUOUS;
+            }
+            if (offsets.isEmpty()) {
+                return GAP;
+            }
+            return OVERLAP;
+        }
     }
 
     private TimeHelper() {
@@ -86,8 +129,7 @@ public final class TimeHelper {
     }
 
     private static void map(String timeZone, String cities) {
-        TIME_ZONE_CITIES_MAP.put(timeZone, cities);
-        TIME_ZONE_VALUES.add(Double.parseDouble(timeZone));
+        TIME_ZONE_CITIES_MAP.put(ZoneId.of(timeZone), cities);
     }
 
     /**
@@ -137,12 +179,12 @@ public final class TimeHelper {
         log.info("Time zone set to " + SystemParams.TIME_ZONE.getID() + " (was " + originalTimeZone.getID() + ")");
     }
 
-    public static String getCitiesForTimeZone(String zone) {
+    public static String getCitiesForTimeZone(ZoneId zone) {
         return TIME_ZONE_CITIES_MAP.get(zone);
     }
 
-    public static List<Double> getTimeZoneValues() {
-        return new ArrayList<>(TIME_ZONE_VALUES);
+    public static List<ZoneId> getTimeZoneValues() {
+        return new ArrayList<>(TIME_ZONE_CITIES_MAP.keySet());
     }
 
     /**
@@ -166,18 +208,13 @@ public final class TimeHelper {
             return null;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM, yyyy H.mm");
         String dateTimeString;
         if ("24".equals(inputTimeHours)) {
             dateTimeString = inputDate + " 23.59";
         } else {
             dateTimeString = inputDate + " " + inputTimeHours + ".00";
         }
-        try {
-            return LocalDateTime.parse(dateTimeString, formatter);
-        } catch (DateTimeParseException e) {
-            return null;
-        }
+        return parseLocalDateTime(dateTimeString, "EEE, dd MMM, yyyy H.mm");
     }
 
     /**
@@ -243,7 +280,7 @@ public final class TimeHelper {
      * PM is especially formatted as NOON if it's 12:00 PM, if present
      */
     private static String formatLocalDateTime(LocalDateTime localDateTime, String pattern) {
-        if (localDateTime == null) {
+        if (localDateTime == null || pattern == null) {
             return "";
         }
         String processedPattern = pattern;
@@ -285,6 +322,50 @@ public final class TimeHelper {
     }
 
     /**
+     * Convenience method to perform {@link #adjustLocalDateTimeForSessionsFormInputs} followed by
+     * {@link #formatDateForSessionsForm} on a {@link LocalDateTime}.
+     * @see #adjustAndFormatDateForSessionsFormInputs
+     * @see #formatDateForSessionsForm
+     */
+    public static String adjustAndFormatDateForSessionsFormInputs(LocalDateTime localDateTime) {
+        return formatDateForSessionsForm(adjustLocalDateTimeForSessionsFormInputs(localDateTime));
+    }
+
+    /**
+     * Returns a copy of the {@link LocalDateTime} adjusted to be compatible with the format output by
+     * {@link #combineDateTime}, i.e. either the time is 23:59, or the minute is 0 and the hour is not 0.
+     * The date time is first rounded to the nearest hour, then the special case 00:00 is handled.
+     * @param ldt The {@link LocalDateTime} to be adjusted for compatibility.
+     * @return a copy of {@code ldt} adjusted for compatibility, or null if {@code ldt} is null.
+     * @see #combineDateTime
+     */
+    public static LocalDateTime adjustLocalDateTimeForSessionsFormInputs(LocalDateTime ldt) {
+        if (ldt == null) {
+            return null;
+        }
+        if (ldt.getMinute() == 0 && ldt.getHour() != 0 || ldt.getMinute() == 59 && ldt.getHour() == 23) {
+            return ldt;
+        }
+
+        // Round to the nearest hour
+        LocalDateTime rounded;
+        LocalDateTime floor = ldt.truncatedTo(ChronoUnit.HOURS);
+        LocalDateTime ceiling = floor.plusHours(1);
+        Duration distanceToCeiling = Duration.between(ldt, ceiling);
+        if (distanceToCeiling.compareTo(Duration.ofMinutes(30)) <= 0) {
+            rounded = ceiling;
+        } else {
+            rounded = floor;
+        }
+
+        // Adjust 00:00 -> 23:59
+        if (rounded.getHour() == 0) {
+            return rounded.minusMinutes(1);
+        }
+        return rounded;
+    }
+
+    /**
      * Formats a date in the format dd MMM yyyy, hh:mm a. Example: 05 May 2012,
      * 2:04 PM<br>
      */
@@ -306,7 +387,7 @@ public final class TimeHelper {
      * PM is especially formatted as NOON if it's 12:00 PM, if present.
      */
     private static String formatInstant(Instant instant, ZoneId timeZone, String pattern) {
-        if (instant == null) {
+        if (instant == null || timeZone == null || pattern == null) {
             return "";
         }
         ZonedDateTime zonedDateTime = instant.atZone(timeZone);
@@ -325,7 +406,11 @@ public final class TimeHelper {
     }
 
     public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
-        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a 'UTC'Z");
+        return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
+    }
+
+    public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
+        return formatInstant(instant, zone, "EEE, dd MMM yyyy, hh:mm a z ('UTC'Z)");
     }
 
     /**
@@ -373,19 +458,15 @@ public final class TimeHelper {
         return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
-    public static String formatActivityLogTime(Instant instant, ZoneId adminTimeZone) {
-        return formatInstant(instant, adminTimeZone, "MM/dd/yyyy HH:mm:ss SSS");
-    }
-
     /**
-     * Converts the date string to a Date object.
+     * Formats {@code instant} in admin's activity log page.
      *
-     * @param dateInStringFormat should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
-     * @deprecated Use {@link TimeHelper#parseInstant(String)} instead
+     * @param instant   the instant to be formatted
+     * @param zoneId    the time zone to calculate local date and time
+     * @return          the formatted string
      */
-    @Deprecated
-    public static Date convertToDate(String dateInStringFormat) {
-        return convertInstantToDate(parseInstant(dateInStringFormat));
+    public static String formatActivityLogTime(Instant instant, ZoneId zoneId) {
+        return formatInstant(instant, zoneId, "dd/MM/yyyy HH:mm:ss.SSS");
     }
 
     /**
@@ -401,17 +482,6 @@ public final class TimeHelper {
             Assumption.fail("Date in String is in wrong format.");
             return null;
         }
-    }
-
-    // TODO: both Date and Calendar will become Instant so this should be removed totally
-    @Deprecated
-    public static Calendar dateToCalendar(Date date) {
-        Calendar c = Calendar.getInstance(SystemParams.TIME_ZONE);
-        if (date == null) {
-            return c;
-        }
-        c.setTime(date);
-        return c;
     }
 
     /**
@@ -498,23 +568,58 @@ public final class TimeHelper {
     }
 
     /**
-     * Parse a `LocalDateTime` object from separated date, hour and minute strings.
+     * Parses a {@code LocalDateTime} object from a date time string according to a pattern.
+     * Returns {@code null} on error.
      *
-     * <p>required parameter format:
-     * date: dd/MM/yyyy  hour: H   min:m
-     * Example: If date is 01/04/2014, hour is 23, min is 59.
+     * @param dateTimeString    the string containing the date and time
+     * @param pattern           the pattern of the date and time string
+     * @return                  the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
-    public static LocalDateTime parseLocalDateTime(String date, String hour, String min) {
-        if (date == null || hour == null || min == null) {
+    public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
+        if (dateTimeString == null || pattern == null) {
             return null;
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy H m");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         try {
-            return LocalDateTime.parse(date + " " + hour + " " + min, formatter);
+            return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException e) {
-            Assumption.fail("Date in String is in wrong format.");
             return null;
         }
     }
 
+    /**
+     * Parses a {@code LocalDateTime} object from separated date, hour and minute strings.
+     * Example: date "Tue, 01 Apr, 2014", hour "23", min "59"
+     *
+     * @param date  date in format "EEE, dd MMM, yyyy"
+     * @param hour  hour-of-day (0-23)
+     * @param min   minute-of-hour (0-59)
+     * @return      the parsed {@code LocalDateTime} object, or {@code null} if there are errors
+     */
+    public static LocalDateTime parseLocalDateTimeForSessionsForm(String date, String hour, String min) {
+        if (date == null || hour == null || min == null) {
+            return null;
+        }
+        return parseLocalDateTime(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
+    }
+
+    /**
+     * Parses a {@code ZoneId} object from a string.
+     * Example: "Asia/Singapore" or "UTC+04:00".
+     *
+     * @param timeZone  a string containing the zone ID
+     * @return          ZoneId.of(timeZone) or {@code null} if {@code timeZone} is invalid.
+     */
+    public static ZoneId parseZoneId(String timeZone) {
+        if (timeZone == null) {
+            return null;
+        }
+
+        try {
+            return ZoneId.of(timeZone);
+        } catch (DateTimeException dte) {
+            return null;
+        }
+    }
 }

@@ -15,10 +15,10 @@
           <div class="col-xs-10 tablet-no-padding" data-original-title="Select a session type here." data-placement="top" data-toggle="tooltip" title="">
             <select class="form-control" id="fstype" name="fstype">
               <option value="STANDARD">
-                Session with your own questions
+                session with my own questions
               </option>
               <option selected="" value="TEAMEVALUATION">
-                Team peer evaluation session
+                session using template: team peer evaluation
               </option>
             </select>
           </div>
@@ -63,133 +63,17 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="You should not need to change this as your timezone is auto-detected. <br><br>However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
+            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="To change this, edit the course settings. <br><br>TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" title="">
               <div class="form-group">
                 <h5 class="col-sm-2 col-md-4">
                   <label class="control-label" for="timezone">
-                    Timezone
+                    Time Zone
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <select class="form-control" id="timezone" name="timezone">
-                    <option value="-12">
-                      (UTC -12:00) Baker Island, Howland Island
-                    </option>
-                    <option value="-11">
-                      (UTC -11:00) American Samoa, Niue
-                    </option>
-                    <option value="-10">
-                      (UTC -10:00) Hawaii, Cook Islands
-                    </option>
-                    <option value="-9.5">
-                      (UTC -09:30) Marquesas Islands
-                    </option>
-                    <option value="-9">
-                      (UTC -09:00) Gambier Islands, Alaska
-                    </option>
-                    <option value="-8">
-                      (UTC -08:00) Los Angeles, Vancouver, Tijuana
-                    </option>
-                    <option value="-7">
-                      (UTC -07:00) Phoenix, Calgary, Ciudad Juárez
-                    </option>
-                    <option value="-6">
-                      (UTC -06:00) Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg
-                    </option>
-                    <option value="-5">
-                      (UTC -05:00) New York, Lima, Toronto, Bogotá, Havana, Kingston
-                    </option>
-                    <option value="-4.5">
-                      (UTC -04:30) Caracas
-                    </option>
-                    <option value="-4">
-                      (UTC -04:00) Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax
-                    </option>
-                    <option value="-3.5">
-                      (UTC -03:30) St. John's
-                    </option>
-                    <option value="-3">
-                      (UTC -03:00) Buenos Aires, Montevideo, São Paulo
-                    </option>
-                    <option value="-2">
-                      (UTC -02:00) Fernando de Noronha, South Georgia and the South Sandwich Islands
-                    </option>
-                    <option value="-1">
-                      (UTC -01:00) Cape Verde, Greenland, Azores islands
-                    </option>
-                    <option value="0">
-                      (UTC) Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London
-                    </option>
-                    <option value="1">
-                      (UTC +01:00) Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw
-                    </option>
-                    <option value="2">
-                      (UTC +02:00) Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest
-                    </option>
-                    <option value="3">
-                      (UTC +03:00) Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh
-                    </option>
-                    <option value="3.5">
-                      (UTC +03:30) Tehran
-                    </option>
-                    <option value="4">
-                      (UTC +04:00) Baku, Dubai, Moscow
-                    </option>
-                    <option value="4.5">
-                      (UTC +04:30) Kabul
-                    </option>
-                    <option value="5">
-                      (UTC +05:00) Karachi, Tashkent
-                    </option>
-                    <option value="5.5">
-                      (UTC +05:30) Colombo, Delhi
-                    </option>
-                    <option value="5.75">
-                      (UTC +05:45) Kathmandu
-                    </option>
-                    <option value="6">
-                      (UTC +06:00) Almaty, Dhaka, Yekaterinburg
-                    </option>
-                    <option value="6.5">
-                      (UTC +06:30) Yangon
-                    </option>
-                    <option value="7">
-                      (UTC +07:00) Jakarta, Bangkok, Novosibirsk, Hanoi
-                    </option>
-                    <option value="8">
-                      (UTC +08:00) Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk
-                    </option>
-                    <option value="8.75">
-                      (UTC +08:45) Eucla
-                    </option>
-                    <option value="9">
-                      (UTC +09:00) Seoul, Tokyo, Pyongyang, Ambon, Irkutsk
-                    </option>
-                    <option value="9.5">
-                      (UTC +09:30) Adelaide
-                    </option>
-                    <option value="10">
-                      (UTC +10:00) Canberra, Yakutsk, Port Moresby
-                    </option>
-                    <option value="10.5">
-                      (UTC +10:30) Lord Howe Islands
-                    </option>
-                    <option value="11">
-                      (UTC +11:00) Vladivostok, Noumea
-                    </option>
-                    <option value="12">
-                      (UTC +12:00) Auckland, Suva
-                    </option>
-                    <option value="12.75">
-                      (UTC +12:45) Chatham Islands
-                    </option>
-                    <option value="13">
-                      (UTC +13:00) Phoenix Islands, Tokelau, Tonga
-                    </option>
-                    <option value="14">
-                      (UTC +14:00) Line Islands
-                    </option>
-                  </select>
+                  <h5 class="form-control-static font-weight-normal" data-time-zone="" id="timezone">
+                    Africa/Johannesburg
+                  </h5>
                 </div>
               </div>
             </div>
@@ -204,8 +88,8 @@
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <input class="course-name-data" id="CFeedbackUiT.CS1101" type="hidden" value="Programming Methodology">
-                  <input class="course-name-data" id="CFeedbackUiT.CS2104" type="hidden" value="Programming Language Concepts">
+                  <input class="course-attributes-data" data-name="Programming Methodology" data-time-zone="Africa/Johannesburg" id="CFeedbackUiT.CS1101" type="hidden">
+                  <input class="course-attributes-data" data-name="Programming Language Concepts" data-time-zone="UTC" id="CFeedbackUiT.CS2104" type="hidden">
                   <h5 class="form-control-static font-weight-normal" id="coursename">
                     Programming Methodology
                   </h5>
@@ -1127,6 +1011,11 @@
                   <li>
                     <a class="session-unpublish-for-test" data-fsname="First Session #1" data-sending-published-email="true" href="/page/instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=CFeedbackUiT.instructor&token=${sessionToken}">
                       Unpublish Results
+                    </a>
+                  </li>
+                  <li>
+                    <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=CFeedbackUiT.CS2104&fsname=First+Session+%231&user=CFeedbackUiT.instructor" data-courseid="CFeedbackUiT.CS2104" data-fsname="First Session #1" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
+                      Resend link to view results
                     </a>
                   </li>
                 </ul>
