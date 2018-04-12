@@ -10,7 +10,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AdminLogQuery;
-import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
 /**
