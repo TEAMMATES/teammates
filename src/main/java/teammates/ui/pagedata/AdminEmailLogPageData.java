@@ -3,6 +3,7 @@ package teammates.ui.pagedata;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -275,14 +276,14 @@ public class AdminEmailLogPageData extends PageData {
         public void add(String label, String[] values) throws ParseException, InvalidParametersException {
             if ("after".equals(label)) {
                 isFromDateInQuery = true;
-                LocalDateTime localDateTime = TimeHelper.parseLocalDateTime(values[0] + " 00:00", "dd/MM/yyyy HH:mm");
+                LocalDateTime localDateTime = TimeHelper.parseLocalDate(values[0], "dd/MM/yyyy").atStartOfDay();
                 fromDateValue = TimeHelper.convertLocalDateTimeToInstant(
                         localDateTime, Const.SystemParams.ADMIN_TIME_ZONE).toEpochMilli();
                 return;
             }
             if ("before".equals(label)) {
                 isToDateInQuery = true;
-                LocalDateTime localDateTime = TimeHelper.parseLocalDateTime(values[0] + " 23:59", "dd/MM/yyyy HH:mm");
+                LocalDateTime localDateTime = TimeHelper.parseLocalDate(values[0], "dd/MM/yyyy").atTime(LocalTime.MAX);
                 toDateValue = TimeHelper.convertLocalDateTimeToInstant(
                         localDateTime, Const.SystemParams.ADMIN_TIME_ZONE).toEpochMilli();
                 return;

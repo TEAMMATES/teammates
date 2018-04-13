@@ -937,8 +937,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private boolean navigate(WebElement dateBox, LocalDate date) throws ParseException {
 
         click(dateBox);
-        LocalDate selectedDate = LocalDate.parse(
-                dateBox.getAttribute("value"), DateTimeFormatter.ofPattern("EEE, dd MMM, yyyy"));
+        LocalDate selectedDate = TimeHelper.parseLocalDateForSessionsForm(dateBox.getAttribute("value"));
         String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
         String year = Integer.toString(date.getYear());
 

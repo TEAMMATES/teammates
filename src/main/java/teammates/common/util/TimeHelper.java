@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -180,17 +181,10 @@ public final class TimeHelper {
      * @return                  a LocalDateTime at the specified date and hour
      */
     public static LocalDateTime combineDateTime(String inputDate, String inputTimeHours) {
-        if (inputDate == null || inputTimeHours == null) {
-            return null;
-        }
-
-        String dateTimeString;
         if ("24".equals(inputTimeHours)) {
-            dateTimeString = inputDate + " 23.59";
-        } else {
-            dateTimeString = inputDate + " " + inputTimeHours + ".00";
+            return parseLocalDateTimeForSessionsForm(inputDate, "23", "59");
         }
-        return parseLocalDateTime(dateTimeString, "EEE, dd MMM, yyyy H.mm");
+        return parseLocalDateTimeForSessionsForm(inputDate, inputTimeHours, "0");
     }
 
     /**
@@ -474,6 +468,38 @@ public final class TimeHelper {
     }
 
     /**
+     * Parses a {@code LocalDate} object from a date string according to a pattern.
+     * Returns {@code null} on error.
+     *
+     * @param dateString        the string containing the date
+     * @param pattern           the pattern of the date string
+     * @return                  the parsed {@code LocalDate} object, or {@code null} if there are errors
+     */
+    public static LocalDate parseLocalDate(String dateString, String pattern) {
+        if (dateString == null || pattern == null) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        try {
+            return LocalDate.parse(dateString, formatter);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Parses a {@code LocalDate} object from a date string.
+     * Example: date "Tue, 01 Apr, 2014"
+     *
+     * @param date  date in format "EEE, dd MMM, yyyy"
+     * @return      the parsed {@code LocalDate} object, or {@code null} if there are errors
+     */
+    public static LocalDate parseLocalDateForSessionsForm(String date) {
+        return parseLocalDate(date, "EEE, dd MMM, yyyy");
+    }
+
+    /**
      * Parses a {@code LocalDateTime} object from separated date, hour and minute strings.
      * Example: date "Tue, 01 Apr, 2014", hour "23", min "59"
      *
@@ -486,7 +512,15 @@ public final class TimeHelper {
         if (date == null || hour == null || min == null) {
             return null;
         }
-        return parseLocalDateTime(date + " " + hour + " " + min, "EEE, dd MMM, yyyy H m");
+        LocalDate localDate = parseLocalDate(date, "EEE, dd MMM, yyyy");
+        if (localDate == null) {
+            return null;
+        }
+        try {
+            return localDate.atTime(Integer.parseInt(hour), Integer.parseInt(min));
+        } catch (DateTimeException | NumberFormatException e) {
+            return null;
+        }
     }
 
     /**
