@@ -169,7 +169,6 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     }
     $(`#showResponseCommentAddForm${id}`).show();
 
-    tinymce.get(`responseCommentAddForm${id}`).setContent('');
 
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
@@ -181,6 +180,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     saveInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
             $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
     $(`#responseCommentAddForm${id}`).focus();
+    tinymce.get(`responseCommentAddForm${id}`).setContent('');
 }
 
 function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
