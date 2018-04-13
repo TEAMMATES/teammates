@@ -275,6 +275,16 @@ public class Logic {
         return instructorsLogic.createInstructor(instructor);
     }
 
+    /**
+     * This method is used to copy an instructor from one course to another.
+     * @param instructorEmail used to identify the instructor to be copied, 
+     *                        as some instructors might not have registered with Google ID yet
+     * @param fromCourseId id of the course from which the instructor is copied
+     * @param toCourseId id of the course to which the instructor is copied
+     * @return a new instructor object with all the same attributes as the original instructor except courseId
+     * @throws InvalidParametersException
+     * @throws EntityAlreadyExistsException
+     */
     public InstructorAttributes copyInstructor(String instructorEmail, String fromCourseId, String toCourseId)
             throws InvalidParametersException, EntityAlreadyExistsException {
         Assumption.assertNotNull(instructorEmail);

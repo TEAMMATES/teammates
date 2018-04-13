@@ -86,6 +86,9 @@ public final class InstructorsLogic {
         return instructorsDb.createInstructor(instructorToAdd);
     }
 
+    /**
+     * Create a new instructor object with all the same attributes as the original instructor except courseId
+     */
     public InstructorAttributes copyInstructor(String instructorEmail, String fromCourseId, String toCourseId)
             throws InvalidParametersException, EntityAlreadyExistsException {
         InstructorAttributes instructor = getInstructorForEmail(fromCourseId, instructorEmail);
