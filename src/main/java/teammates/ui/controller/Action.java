@@ -69,9 +69,6 @@ public abstract class Action {
     /** Execution status info to be shown to the user. */
     protected List<StatusMessage> statusToUser = new ArrayList<>();
 
-    /** This is for keeping track of where req is coming from. */
-    protected String referrer;
-
     /**
      * Whether the execution completed without any errors or
      * when we are unable to perform the requested action(s).
@@ -105,7 +102,6 @@ public abstract class Action {
     protected void initialiseAttributes(HttpServletRequest req) {
         request = req;
         requestUrl = HttpRequestHelper.getRequestedUrl(request);
-        referrer = request.getHeader("referer");
         logic = new Logic();
         gateKeeper = new GateKeeper();
         setTaskQueuer(new TaskQueuer());
@@ -163,6 +159,7 @@ public abstract class Action {
             return;
         }
 
+        String referrer = request.getHeader("referer");
         if (referrer == null) {
             // Requests with missing referrer information are given the benefit of the doubt to
             // accommodate users who choose to disable the HTTP referrer setting in their browser
@@ -707,7 +704,4 @@ public abstract class Action {
         regkey = null;
     }
 
-    public void setReferrer(String newReferrer) {
-        referrer = newReferrer;
-    }
 }

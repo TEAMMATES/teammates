@@ -71,11 +71,11 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+                Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM, Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE
         };
 
         remindAction = getAction(submissionParams);
-        remindAction.setReferrer(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
         redirectResult = getRedirectResult(remindAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE, redirectResult.destination);
@@ -91,8 +91,9 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
 
         ______TS("Typical case: Send email to remind a student to register for the course from student list page");
 
+        submissionParams[5] = Const.PageNames.INSTRUCTOR_STUDENT_LIST_PAGE;
+
         remindAction = getAction(submissionParams);
-        remindAction.setReferrer(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
         redirectResult = getRedirectResult(remindAction);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE, redirectResult.destination);
