@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="feedbackSessionDetailsPanel.tag - Displays a row of information about a feedback session" pageEncoding="UTF-8" %>
 <%@ attribute name="label" required="true" %>
 

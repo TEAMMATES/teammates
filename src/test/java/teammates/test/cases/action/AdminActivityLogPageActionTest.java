@@ -319,15 +319,15 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 "Student(M)", "admin", now.toEpochMilli());
 
         // Role: Instructor
-        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, ZoneId.of("UTC+0200")),
+        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, ZoneId.of("Africa/Johannesburg")),
                 "Instructor", "idOfInstructor1OfCourse1", now.toEpochMilli());
 
         // Role: Student
-        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, ZoneId.of("UTC")),
+        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, ZoneId.of("Africa/Johannesburg")),
                 "Student", "student1InArchivedCourse", now.toEpochMilli());
 
         // Role: Unregistered:idOfTypicalCourse1
-        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, ZoneId.of("UTC+0200")),
+        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, ZoneId.of("Africa/Johannesburg")),
                 "Unregistered:idOfTypicalCourse1", "Unregistered", now.toEpochMilli());
     }
 

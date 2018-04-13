@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorSearchPage;
 
 /**
@@ -37,7 +38,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception {
 
         testContent();
-        testSearch();
+        testSearchAndDelete();
 
         testSanitization();
 
@@ -55,7 +56,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testSearch() throws Exception {
+    private void testSearchAndDelete() throws Exception {
 
         ______TS("search for nothing");
 
@@ -107,9 +108,26 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickSearchButton();
         searchPage.clickAndHoverPicture("studentphoto-c0.1");
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
+
+        ______TS("action: delete");
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String studentEmail = testData.students.get("student2.2InCourse1").email;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickDeleteAndCancel(courseId, studentName);
+        assertNotNull(BackDoor.getStudent(courseId, studentEmail));
+
+        searchPage.clickDeleteAndConfirm(courseId, studentName);
+        InstructorCourseDetailsPage courseDetailsPage = searchPage.changePageType(InstructorCourseDetailsPage.class);
+        courseDetailsPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_DELETED);
+        assertNull(BackDoor.getStudent(courseId, studentEmail));
     }
 
     private void testSanitization() throws IOException {
+
+        ______TS("action: test sanitization");
+
         String instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
         searchPage = getInstructorSearchPage(instructorId);
 

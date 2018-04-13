@@ -10,6 +10,10 @@ import {
     BootstrapContextualColors,
 } from './const';
 
+import {
+    TimeZone,
+} from './timezone';
+
 /*
  * This JavaScript file is included in all instructor pages. Functions here
  * should be common to some/all instructor pages.
@@ -85,6 +89,23 @@ function setupFsCopyModal() {
             },
         });
     });
+}
+
+function initializeTimeZoneOptions($selectElement) {
+    if (typeof moment !== 'undefined') {
+        TimeZone.prepareTimeZoneInput($selectElement);
+
+        const existingTimeZone = $selectElement.data('timeZone');
+        if (existingTimeZone) {
+            TimeZone.updateTimeZone($selectElement, existingTimeZone);
+        } else {
+            TimeZone.autoDetectAndUpdateTimeZone($selectElement);
+        }
+
+        $('#auto-detect-time-zone').on('click', () => {
+            TimeZone.autoDetectAndUpdateTimeZone($selectElement);
+        });
+    }
 }
 
 // Student Profile Picture
@@ -360,6 +381,27 @@ function sendRemindersToStudents(urlLink) {
     });
 }
 
+function resendPublishedEmailToStudents(urlLink) {
+    const $statusMessage = $('#statusMessagesToUser');
+    $.ajax({
+        type: 'POST',
+        url: urlLink,
+        beforeSend() {
+            $statusMessage.html('<img src="/images/ajax-loader.gif">');
+            $statusMessage.css('display', 'block');
+        },
+        error() {
+            $statusMessage.html('An error has occurred while requesting for emails to be resent. Please try again.');
+        },
+        success(data) {
+            const statusToUser = $(data).find('#statusMessagesToUser').html();
+            $statusMessage.html(statusToUser);
+
+            scrollToElement($statusMessage[0], { duration: 1000 });
+        },
+    });
+}
+
 function attachEventToDeleteAllStudentLink() {
     $('body').on('click', '.course-student-delete-all-link', (event) => {
         event.preventDefault();
@@ -491,7 +533,9 @@ export {
     bindStudentPhotoLink,
     bindUnpublishButtons,
     executeCopyCommand,
+    initializeTimeZoneOptions,
     prepareInstructorPages,
+    resendPublishedEmailToStudents,
     selectElementContents,
     setupFsCopyModal,
     sendRemindersToStudents,

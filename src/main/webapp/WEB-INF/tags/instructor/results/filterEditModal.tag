@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResultsTop - Filter Panel Edit Modal" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -71,7 +72,7 @@
                   <label<c:if test="${filterPanel.sortType == 'question'}"> class="text-strike"</c:if>>
                     <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"
                         id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>"
-                        <c:if test="${filterPanel.groupedByTeam}">checked</c:if>
+                        <c:if test="${filterPanel.groupedByTeam}">checked=""</c:if>
                         <c:if test="${filterPanel.sortType != 'question'}">class="checkbox-group-by-team"</c:if>> Group by Teams
                   </label>
                 </div>
@@ -81,7 +82,7 @@
                   <label<c:if test="${filterPanel.sortType == 'recipient-giver-question' or filterPanel.sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
                     <input type="checkbox" id="show-stats-checkbox"
                         name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"
-                    <c:if test="${filterPanel.statsShown}"> checked</c:if>> Show Statistics
+                    <c:if test="${filterPanel.statsShown}"> checked=""</c:if>> Show Statistics
                   </label>
                 </div>
               </div>
@@ -91,7 +92,7 @@
                       id="indicate-missing-responses-checkbox"
                       value="true"
                       name="<%=Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES%>"
-                      <c:if test="${filterPanel.missingResponsesShown}"> checked</c:if>>
+                      <c:if test="${filterPanel.missingResponsesShown}"> checked=""</c:if>>
                   Indicate Missing Responses
                 </div>
               </div>

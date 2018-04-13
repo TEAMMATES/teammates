@@ -110,11 +110,14 @@
             Time Zone:
           </label>
           <div class="col-sm-9">
-            ${timezone.options}
-            <div class="alert alert-info time-zone-info-box">
-              <span class="glyphicon glyphicon-info-sign">
+            <div class="input-group">
+              <select class="form-control" data-original-title="The time zone for the course. You should not need to change this as it is auto-detected based on your
+                  device settings.<br><br> TEAMMATES automatically adjusts to match the current time offset in your area,
+                  including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" id="coursetimezone" name="coursetimezone" title="">
+              </select>
+              <span class="input-group-btn">
+                <input class="btn btn-primary" id="auto-detect-time-zone" type="button" value="Auto-Detect">
               </span>
-              Time zone is auto-detected based on your device settings.
             </div>
           </div>
         </div>

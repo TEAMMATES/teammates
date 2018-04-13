@@ -20,11 +20,13 @@ public class InstructorFeedbackSessionActions {
     private String submitLink;
     private String remindParticularStudentsPageLink;
     private String editCopyLink;
+    private String sessionResendPublishedEmailPageLink;
 
     private boolean isAllowedToEdit;
     private boolean isAllowedToDelete;
     private boolean isAllowedToSubmit;
     private boolean isAllowedToRemind;
+    private boolean isAllowedToResendPublishedEmail;
 
     private FeedbackSessionPublishButton publishButton;
 
@@ -45,6 +47,8 @@ public class InstructorFeedbackSessionActions {
         this.remindParticularStudentsPageLink =
                 data.getInstructorFeedbackRemindParticularStudentsPageLink(courseId, feedbackSessionName);
         this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
+        this.sessionResendPublishedEmailPageLink =
+                data.getInstructorFeedbackResendPublishedEmailPageLink(courseId, feedbackSessionName);
 
         this.isAllowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.isAllowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -64,6 +68,7 @@ public class InstructorFeedbackSessionActions {
 
         this.publishButton = new FeedbackSessionPublishButton(data, session, returnUrl, instructor,
                                                               PUBLISH_BUTTON_TYPE);
+        this.isAllowedToResendPublishedEmail = session.isPublished();
     }
 
     public boolean isPrivateSession() {
@@ -98,6 +103,10 @@ public class InstructorFeedbackSessionActions {
         return remindParticularStudentsPageLink;
     }
 
+    public String getSessionResendPublishedEmailPageLink() {
+        return sessionResendPublishedEmailPageLink;
+    }
+
     public String getEditCopyLink() {
         return editCopyLink;
     }
@@ -116,6 +125,10 @@ public class InstructorFeedbackSessionActions {
 
     public boolean isAllowedToRemind() {
         return isAllowedToRemind;
+    }
+
+    public boolean isAllowedToResendPublishedEmail() {
+        return isAllowedToResendPublishedEmail;
     }
 
     public FeedbackSessionPublishButton getPublishButton() {
