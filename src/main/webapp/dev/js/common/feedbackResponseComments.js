@@ -169,7 +169,6 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     }
     $(`#showResponseCommentAddForm${id}`).show();
 
-
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#responseCommentAddForm${id}`, {
