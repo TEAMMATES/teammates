@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
@@ -718,7 +719,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         // setup various dates
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy");
-        LocalDateTime initialDateTime = LocalDateTime.of(2014, Month.APRIL, 16, 0, 0);
+        LocalDate initialDateTime = LocalDate.of(2014, Month.APRIL, 16);
 
         // fill in defaut values
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, initialDateTime);
@@ -728,7 +729,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("increasing start date does not affect end date value");
 
-        LocalDateTime increasedStartDate = initialDateTime.plusMonths(1);
+        LocalDate increasedStartDate = initialDateTime.plusMonths(1);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, increasedStartDate);
 
         String valueOfEndDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
@@ -736,7 +737,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("decreasing start date affects visible time, end date range and publish date range");
 
-        LocalDateTime decreasedStartDate = initialDateTime.minusDays(5);
+        LocalDate decreasedStartDate = initialDateTime.minusDays(5);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, decreasedStartDate);
 
         String valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
@@ -749,7 +750,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         assertEquals(formatter.format(decreasedStartDate), minValueOfPublishDate);
 
         ______TS("decreasing end date does not affect start time or visible time");
-        LocalDateTime decreasedEndDate = initialDateTime.minusMonths(2);
+        LocalDate decreasedEndDate = initialDateTime.minusMonths(2);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, decreasedEndDate);
 
         String valueOfStartDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
@@ -766,7 +767,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("changing visible date affects publish date range");
 
-        LocalDateTime changedVisibleDate = LocalDateTime.of(2014, Month.FEBRUARY, 10, 0, 0);
+        LocalDate changedVisibleDate = LocalDate.of(2014, Month.FEBRUARY, 10);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, changedVisibleDate);
 
         String valueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
@@ -774,7 +775,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("changing publish date affects visible date range publishTime < startTime");
 
-        LocalDateTime changedPublishDate = LocalDateTime.of(2014, Month.FEBRUARY, 19, 0, 0);
+        LocalDate changedPublishDate = LocalDate.of(2014, Month.FEBRUARY, 19);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
@@ -782,10 +783,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("changing publish date does not affect visible date range publishTime > startTime");
 
-        decreasedStartDate = LocalDateTime.of(2014, Month.JANUARY, 19, 0, 0);
+        decreasedStartDate = LocalDate.of(2014, Month.JANUARY, 19);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, decreasedStartDate);
 
-        changedPublishDate = LocalDateTime.of(2014, Month.FEBRUARY, 21, 0, 0);
+        changedPublishDate = LocalDate.of(2014, Month.FEBRUARY, 21);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         //check if maxDate is start time and not publish time
