@@ -1261,6 +1261,11 @@ Default to alert color for visibility titles used within an alert context.
     padding: 14px 15px 15px;
 }
 
+#copyModal > .modal-dialog > .modal-content > .modal-body {
+    overflow: auto;
+    height: 500px;
+}
+
 /* /////////////////////////////////////////////////////////
 ////////////////// Dropdowns with Submenus /////////////////
 ///////////////////////////////////////////////////////// */
