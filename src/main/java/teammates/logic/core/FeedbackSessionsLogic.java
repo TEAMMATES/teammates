@@ -232,8 +232,7 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
         for (InstructorAttributes instructor : instructors) {
-            fsDetails.addAll(getFeedbackSessionDetailsForCourse(
-                    instructor.courseId, instructor.email));
+            fsDetails.addAll(getFeedbackSessionDetailsForCourse(instructor.courseId));
         }
 
         return fsDetails;
@@ -2035,17 +2034,14 @@ public final class FeedbackSessionsLogic {
                                                 response.recipient, roster)[pairType]);
     }
 
-    private List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForCourse(
-            String courseId, String instructorEmail)
+    private List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForCourse(String courseId)
             throws EntityDoesNotExistException {
         List<FeedbackSessionDetailsBundle> fsDetails = new ArrayList<>();
         List<FeedbackSessionAttributes> fsInCourse =
                 fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if (fsa.isCreator(instructorEmail)) {
-                fsDetails.add(getFeedbackSessionDetails(fsa));
-            }
+            fsDetails.add(getFeedbackSessionDetails(fsa));
         }
 
         return fsDetails;

@@ -89,7 +89,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             throw new InvalidPostParametersException("Invalid resultsVisibleFrom setting: " + type);
         }
 
-        // Handle session visible after results visible
         type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:

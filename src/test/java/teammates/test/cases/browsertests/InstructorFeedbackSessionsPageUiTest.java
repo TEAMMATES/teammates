@@ -49,7 +49,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .builder("New Session ##", course.getId(), "teammates.test1@gmail.tmt")
                 .withStartTime(TimeHelper.parseInstant("2035-04-01 9:59 PM +0000"))
                 .withEndTime(TimeHelper.parseInstant("2035-04-30 8:00 PM +0000"))
-                .withCreatedTime(Const.TIME_REPRESENTS_NOW)
+                .withCreatedTime(Const.TIME_REPRESENTS_NEVER)
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriodMinutes(0)
@@ -276,7 +276,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.clickEditUncommonSettingsButtons();
 
-        newSession.setFeedbackSessionName("standard session of characters12345678");
+        newSession.setFeedbackSessionName("Session of characters12345678000000000");
         newSession.setCourseId(otherCourse.getId());
         newSession.setTimeZone(otherCourse.getTimeZone());
         newSession.setStartTime(TimeHelper.parseInstant("2018-05-01 6:00 AM +0000"));

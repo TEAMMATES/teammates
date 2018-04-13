@@ -469,6 +469,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(actualSessions.get(0).toString(),
                 dataBundle.feedbackSessions.get("session1InCourse2").toString());
         assertEquals(1, actualSessions.size());
+
+        ______TS("Feedback session without questions for students but with visible responses are visible");
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfArchivedCourse", "student1InCourse1@gmail.tmt");
+        AssertHelper.assertContains(dataBundle.feedbackSessions.get("archiveCourse.session1").toString(),
+                actualSessions.toString());
     }
 
     private void testGetFeedbackSessionQuestionsForStudent() throws Exception {
