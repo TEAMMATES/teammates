@@ -8,7 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageAction;
 import teammates.ui.controller.ShowPageResult;
-import teammates.ui.pagedata.InstructorFeedbackRemindParticularStudentsPageData;
+import teammates.ui.pagedata.InstructorFeedbackAjaxStudentsListPageData;
 
 /**
  * SUT: {@link InstructorFeedbackRemindParticularStudentsPageAction}.
@@ -45,8 +45,8 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends Ba
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorFeedbackRemindParticularStudentsPageData pageData =
-                (InstructorFeedbackRemindParticularStudentsPageData) r.data;
+        InstructorFeedbackAjaxStudentsListPageData pageData =
+                (InstructorFeedbackAjaxStudentsListPageData) r.data;
         assertEquals(6, pageData.getResponseStatus().studentsWhoDidNotRespond.size());
         assertEquals(3, pageData.getResponseStatus().studentsWhoResponded.size());
 

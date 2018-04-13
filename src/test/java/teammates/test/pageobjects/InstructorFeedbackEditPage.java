@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -1133,16 +1132,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void selectTimeZone(ZoneId timeZone) {
-        selectDropdownByActualValue(timezoneDropDown, timeZone.getId());
-    }
-
-    public void editFeedbackSession(
-            LocalDateTime startTime, LocalDateTime endTime, ZoneId timeZone, Text instructions, long gracePeriod) {
-        selectTimeZone(timeZone);
-        editFeedbackSession(startTime, endTime, instructions, gracePeriod);
-    }
-
     public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
@@ -1293,11 +1282,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id(id)).isSelected();
     }
 
-    private WebElement getMsqMaxSelectableChoicesBox(int qnNumber) {
+    public WebElement getMsqMaxSelectableChoicesBox(int qnNumber) {
         return browser.driver.findElement(By.id(getMsqMaxSelectableChoicesBoxId(qnNumber)));
     }
 
-    private WebElement getMsqMinSelectableChoicesBox(int qnNumber) {
+    public WebElement getMsqMinSelectableChoicesBox(int qnNumber) {
         return browser.driver.findElement(By.id(getMsqMinSelectableChoicesBoxId(qnNumber)));
     }
 
@@ -1317,22 +1306,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         return Integer.parseInt(getMsqMinSelectableChoicesBox(qnNumber).getAttribute("max"));
     }
 
-    public void setMsqMinSelectableChoices(int qnNumber, int value) {
-        assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
-
+    public void fillMsqMinSelectableChoices(int qnNumber, String value) {
         WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
-        String id = inputBox.getAttribute("id");
+        fillTextBox(inputBox, value);
 
-        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+        executeScript("$(arguments[0]).change();", inputBox);
     }
 
-    public void setMsqMaxSelectableChoices(int qnNumber, int value) {
-        assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
-
+    public void fillMsqMaxSelectableChoices(int qnNumber, String value) {
         WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
-        String id = inputBox.getAttribute("id");
+        fillTextBox(inputBox, value);
 
-        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+        executeScript("$(arguments[0]).change();", inputBox);
     }
 
     public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
