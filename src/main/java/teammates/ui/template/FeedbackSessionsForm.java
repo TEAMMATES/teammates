@@ -107,7 +107,7 @@ public class FeedbackSessionsForm {
     }
 
     public static FeedbackSessionsForm getFormForNewFs(FeedbackSessionAttributes feedbackSession,
-                                                       List<ElementTag> fsTypeOptions,
+                                                       List<ElementTag> sessionTemplateTypeOptions,
                                                        String defaultCourseId,
                                                        List<String> courseIds, List<ElementTag> courseIdOptions,
                                                        Map<String, InstructorAttributes> instructors,
@@ -128,7 +128,7 @@ public class FeedbackSessionsForm {
 
         newFsForm.isEditFsButtonsVisible = false;
         newFsForm.isSessionTemplateTypeEditable = true;
-        newFsForm.sessionTemplateTypeOptions = fsTypeOptions;
+        newFsForm.sessionTemplateTypeOptions = sessionTemplateTypeOptions;
 
         newFsForm.fsTimeZone = feedbackSession == null ? null : feedbackSession.getTimeZone().getId();
 

@@ -45,7 +45,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData(feedbackSessionName, course, instructor.email);
 
-        String sessionTemplateType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
+        String sessionTemplateType = getRequestParamValue(Const.ParamsNames.SESSION_TEMPLATE_TYPE);
 
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(account, sessionToken);
         try {

@@ -691,7 +691,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_PUBLISHTIME = "publishtime";
         public static final String FEEDBACK_SESSION_TIMEZONE = "timezone";
         public static final String FEEDBACK_SESSION_GRACEPERIOD = "graceperiod";
-        public static final String FEEDBACK_SESSION_TYPE = "fstype";
+        public static final String SESSION_TEMPLATE_TYPE = "sessionTemplateType";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";

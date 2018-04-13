@@ -13,8 +13,8 @@
       <div class="col-xs-10 tablet-no-padding" title="Select a session type here."
           data-toggle="tooltip" data-placement="top">
         <select class="form-control"
-            name="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>"
-            id="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>">
+            name="<%= Const.ParamsNames.SESSION_TEMPLATE_TYPE %>"
+            id="<%= Const.ParamsNames.SESSION_TEMPLATE_TYPE %>">
           <c:forEach items="${fsForm.sessionTemplateTypeOptions}" var="option">
             <option ${option.attributesToString}>
               ${option.content}
