@@ -34,6 +34,8 @@ public class InstructorCourseRemindAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
+        String previousPage = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM);
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
@@ -67,9 +69,9 @@ public class InstructorCourseRemindAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
 
-            if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
+            if (isRequestedFromPage(previousPage, Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else if (isRequestedFromPage(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)) {
+            } else if (isRequestedFromPage(previousPage, Const.PageNames.INSTRUCTOR_STUDENT_LIST_PAGE)) {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
             }
         } else if (isSendingToInstructor) {
@@ -131,8 +133,8 @@ public class InstructorCourseRemindAction extends Action {
         return joinLink.substring(startIndex);
     }
 
-    private boolean isRequestedFromPage(String urlToVerify) {
-        return referrer.contains(urlToVerify);
+    private boolean isRequestedFromPage(String urlToVerify, String urlToCompareWith) {
+        return urlToVerify.equals(urlToCompareWith);
     }
 
     private static class JoinEmailData {

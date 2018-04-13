@@ -231,7 +231,7 @@ public class InstructorSearchPageData extends PageData {
                             section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             rows.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
                                                 isAllowedToModifyStudent,
-                                                emailToPhotoUrlMap, account.googleId, getSessionToken()));
+                                                emailToPhotoUrlMap, account.googleId, getSessionToken(), null));
         }
         return rows;
     }
