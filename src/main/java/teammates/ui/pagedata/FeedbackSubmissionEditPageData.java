@@ -118,7 +118,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     public boolean isSubmittable() {
-        return isSessionOpenForSubmission || isModeration;
+        return isSessionOpenForSubmission && isEntitiesToGiveFeedbackToPresent()
+                || isModeration;
     }
 
     public List<StudentFeedbackSubmissionEditQuestionsWithResponses> getQuestionsWithResponses() {
@@ -188,6 +189,16 @@ public class FeedbackSubmissionEditPageData extends PageData {
         });
 
         return result;
+    }
+
+    private boolean isEntitiesToGiveFeedbackToPresent() {
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
+                entry : bundle.questionResponseBundle.entrySet()) {
+            if (entry.getKey().numberOfEntitiesToGiveFeedbackTo >= 1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isResponseRecipientValid(FeedbackResponseAttributes existingResponse) {
