@@ -312,7 +312,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
         FeedbackSessionAttributes copiedSession = fsLogic.copyFeedbackSession(
-                "Copied Session", typicalCourse2.getId(),
+                "Copied Session", typicalCourse2.getId(), typicalCourse2.getTimeZone(),
                 session1InCourse1.getFeedbackSessionName(),
                 session1InCourse1.getCourseId(), instructor2OfCourse1.email);
         verifyPresentInDatastore(copiedSession);
@@ -346,7 +346,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         try {
             fsLogic.copyFeedbackSession(
                     session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(),
-                    session1InCourse1.getFeedbackSessionName(),
+                    session1InCourse1.getTimeZone(), session1InCourse1.getFeedbackSessionName(),
                     session1InCourse1.getCourseId(), instructor2OfCourse1.email);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {

@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.fail;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.List;
 
@@ -235,28 +234,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         clickSubmitButton();
     }
 
-    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId,
-            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, long gracePeriod, ZoneId timeZone) {
-
-        selectTimeZone(timeZone);
-
-        addFeedbackSession(
-                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
-    }
-
-    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId,
-            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, long gracePeriod) {
-
-        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime,
-                instructions, gracePeriod, ZoneId.of("Asia/Singapore"));
-    }
-
-    private void selectTimeZone(ZoneId timeZone) {
-        selectDropdownByActualValue(timezoneDropdown, timeZone.getId());
-    }
-
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
         String copyButtonId = "button_copy";
         this.waitForTextContainedInElementPresence(
@@ -390,10 +367,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public boolean isCopySubmitButtonEnabled() {
         return copySubmitButton.isEnabled();
-    }
-
-    public String getClientTimeZone() {
-        return (String) executeScript("return moment.tz.guess()");
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {
