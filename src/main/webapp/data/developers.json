@@ -439,6 +439,10 @@
       "username": "theDiablo"
     },
     {
+      "name": "Georgios Theodorou",
+      "username": "gthd"
+    },
+    {
       "name": "Gonçalo Garcia",
       "username": "GoncaloGarcia"
     },
@@ -511,12 +515,20 @@
       "username": "theitrain"
     },
     {
+      "name": "Jacob Li",
+      "username": "jacoblipech"
+    },
+    {
       "name": "Jaikirat Singh Sandhu",
       "username": "SandhuJai"
     },
     {
       "name": "Jake Akers",
       "username": "jakers821"
+    },
+    {
+      "name": "Jakub Gwizdała",
+      "username": "Bzdeco"
     },
     {
       "name": "James Murithi",
@@ -795,6 +807,9 @@
       "image": "images/teammembers/mayank.png"
     },
     {
+      "username": "mbi90"
+    },
+    {
       "name": "Megan Belle",
       "username": "onealml"
     },
@@ -805,6 +820,10 @@
     {
       "name": "Meng Lingyao",
       "username": "lingyaomeng1"
+    },
+    {
+      "name": "Metta Ong",
+      "username": "ongspxm"
     },
     {
       "multiple": true,
@@ -827,6 +846,10 @@
     {
       "multiple": true,
       "name": "Mohit Singh Kanwal"
+    },
+    {
+      "name": "Mudit Gupta",
+      "username": "mg14777"
     },
     {
       "name": "Muhammad Shehroz Sajjad",
@@ -1026,6 +1049,10 @@
       "username": "rajujha373"
     },
     {
+      "name": "Ramez Elbaroudy",
+      "username": "Ramez-"
+    },
+    {
       "multiple": true,
       "name": "Ratul Ghosh",
       "username": "RatulGhosh"
@@ -1098,6 +1125,7 @@
       "image": "images/teammembers/serhii.png"
     },
     {
+      "multiple": true,
       "name": "Shaharyar Shamshi",
       "username": "shaharyar-shamshi"
     },
@@ -1172,6 +1200,10 @@
     {
       "multiple": true,
       "name": "Shum Chee How"
+    },
+    {
+      "name": "Shyam Gaurav Venkatesh",
+      "username": "SamVenkatesh"
     },
     {
       "multiple": true,
@@ -1252,6 +1284,11 @@
     },
     {
       "multiple": true,
+      "name": "Sun Shengran",
+      "username": "dalessr"
+    },
+    {
+      "multiple": true,
       "name": "Supraja Bhavani Sekhar",
       "username": "supraja2610"
     },
@@ -1273,10 +1310,15 @@
       "username": "tainansv"
     },
     {
+      "name": "Tan Chee Wee",
+      "username": "chweeee"
+    },
+    {
       "multiple": true,
       "name": "Tan Guo Wei"
     },
     {
+      "multiple": true,
       "name": "Tan Heng Yeow",
       "username": "tanhengyeow"
     },
