@@ -509,11 +509,11 @@ public final class TimeHelper {
      * @return      the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
     public static LocalDateTime parseLocalDateTimeForSessionsForm(String date, String hour, String min) {
-        if (date == null || hour == null || min == null) {
+        LocalDate localDate = parseLocalDateForSessionsForm(date);
+        if (localDate == null) {
             return null;
         }
-        LocalDate localDate = parseLocalDate(date, "EEE, dd MMM, yyyy");
-        if (localDate == null) {
+        if (hour == null || min == null) {
             return null;
         }
         try {
