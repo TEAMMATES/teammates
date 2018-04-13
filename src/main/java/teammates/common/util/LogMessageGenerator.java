@@ -19,7 +19,7 @@ public class LogMessageGenerator {
     public static final Pattern PATTERN_ACTION_NAME = Pattern.compile("^/\\S+?/(?<actionName>[^\\s\\?]*)");
     public static final String PATTERN_ACTION_NAME_GROUP = "actionName";
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.ActivityLog.TIME_FORMAT_LOGID);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(Const.ActivityLog.TIME_FORMAT_LOGID);
 
     /**
      * Generates the log message for an *Action.
@@ -211,8 +211,7 @@ public class LogMessageGenerator {
         return String.join(Const.ActivityLog.FIELD_CONNECTOR, googleId, formatTimeForId(Instant.ofEpochMilli(time)));
     }
 
-    private String formatTimeForId(Instant instant) {
-        return formatter.format(
-                TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE));
+    private static String formatTimeForId(Instant instant) {
+        return FORMATTER.format(TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 }

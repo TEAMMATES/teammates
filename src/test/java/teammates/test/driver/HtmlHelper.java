@@ -504,7 +504,8 @@ public final class HtmlHelper {
      */
     public static String injectContextDependentValuesForTest(String content) {
         Instant now = Instant.now();
-        return content.replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
+        return content
+                .replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                 .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
                 .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
                 .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
@@ -518,8 +519,7 @@ public final class HtmlHelper {
                 .replace("<!-- test.instructor.truncated -->",
                         StringHelper.truncateLongId(TestProperties.TEST_INSTRUCTOR_ACCOUNT))
                 .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
-                .replace("<!-- test.admin.truncated -->",
-                        StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
+                .replace("<!-- test.admin.truncated -->", StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
                 .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(
                         TimeHelper.convertInstantToLocalDateTime(now, Const.DEFAULT_TIME_ZONE)))
                 .replace("<!-- now.datetime.sessions -->",

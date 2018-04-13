@@ -303,7 +303,6 @@ public class AdminEmailLogPageData extends PageData {
                 return;
             }
             throw new InvalidParametersException("Invalid label");
-
         }
     }
 

@@ -51,9 +51,9 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     // 130 seconds is chosen so that it will be around 50 logs within 2 hours before now.
     private static final int LOG_MESSAGE_INTERVAL_MANY_LOGS = 130;
 
-    private static final DateTimeFormatter FORMATTER_ADMIN_TIME = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private static final Instant TODAY = TimeHelper.getInstantDaysOffsetFromNow(0);
+    private static final Instant TODAY = Instant.now();
     private static final Instant YESTERDAY = TimeHelper.getInstantDaysOffsetFromNow(-1);
     private static final Instant TWO_DAYS_AGO = TimeHelper.getInstantDaysOffsetFromNow(-2);
 
@@ -82,8 +82,8 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
         }
     }
 
-    private String formatInstantAsDateInAdminTimeZone(Instant instant) {
-        return FORMATTER_ADMIN_TIME.format(
+    private static String formatInstantAsDateInAdminTimeZone(Instant instant) {
+        return DATE_FORMATTER.format(
                 TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
@@ -282,7 +282,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     // as they depend on different sets of log messages
     @Test(groups = "manyEmailLogs", priority = 2)
     public void statusMessageAndContinueSearch_withManyLogs_searchCorrectly() {
-        Instant today = TimeHelper.getInstantDaysOffsetFromNow(0);
+        Instant today = Instant.now();
 
         // default search will stop at #logs around 50
         AdminEmailLogPageAction action = getAction();
