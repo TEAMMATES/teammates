@@ -571,8 +571,8 @@ public final class TimeHelper {
      * Parses a {@code ZoneId} object from a string.
      * Example: "Asia/Singapore" or "UTC+04:00".
      *
-     * @param timeZone  a string containing the zone ID
-     * @return          ZoneId.of(timeZone) or {@code null} if {@code timeZone} is invalid.
+     * @param timeZone a string containing the zone ID
+     * @return {@code ZoneId.of(timeZone)}, or {@code null} if {@code timeZone} is invalid.
      */
     public static ZoneId parseZoneId(String timeZone) {
         if (timeZone == null) {
