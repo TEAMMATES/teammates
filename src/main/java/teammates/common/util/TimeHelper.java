@@ -430,9 +430,13 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns whether the given instant is being used as a special representation,
-     * signifying its face value should not be used without proper processing.
-     * A null instant is not a special time.
+     * Returns whether the given {@code instant} is being used as a special representation, signifying its face value
+     * should not be used without proper processing.
+     *
+     * <p>A {@code null} instant is not a special time.
+     *
+     * @param instant the instant to test
+     * @return {@code true} if the given instant is used as special representation, {@code false} otherwise
      */
     public static boolean isSpecialTime(Instant instant) {
         if (instant == null) {
