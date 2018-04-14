@@ -308,8 +308,15 @@ public final class TimeHelper {
     }
 
     /**
-     * Format {@code instant} at a {@code timeZone} according to a specified {@code pattern}.
-     * PM is especially formatted as NOON if it's 12:00 PM, if present.
+     * Format a datetime stamp from an {@code instant} using a formatting pattern.
+     *
+     * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
+     * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".
+     *
+     * @param instant  the instant to be formatted
+     * @param timeZone the time zone to compute local datetime
+     * @param pattern  formatting pattern, see Oracle docs for DateTimeFormatter for pattern table
+     * @return the formatted datetime stamp string
      */
     private static String formatInstant(Instant instant, ZoneId timeZone, String pattern) {
         if (instant == null || timeZone == null || pattern == null) {
