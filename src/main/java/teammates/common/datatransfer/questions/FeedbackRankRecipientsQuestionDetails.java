@@ -12,6 +12,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -238,6 +239,72 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
     }
 
+    private List<FeedbackResponseAttributes> getActualResponses(
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        List<FeedbackResponseAttributes> responses;
+        String questionId = question.getId();
+        //Get all actual responses for this question.
+        responses = new ArrayList<>();
+        for (FeedbackResponseAttributes response : bundle.actualResponses) {
+            if (response.feedbackQuestionId.equals(questionId)) {
+                responses.add(response);
+            }
+        }
+        return responses;
+    }
+
+    private String getStudentQuestionResultsStatisticsHtml(
+            List<FeedbackResponseAttributes> responses, String studentEmail,
+            FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
+        if (responses.isEmpty()) {
+            return "";
+        }
+        StringBuilder fragments = new StringBuilder();
+        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(actualResponses);
+
+        Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
+
+        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(actualResponses);
+
+        Map<String, Integer> recipientOverallRankExceptSelf =
+                generateNormalizedOverallRankMapping(recipientRanksExcludingSelf);
+
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(actualResponses);
+
+        String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
+        String templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
+
+        boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM;
+
+        String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
+        String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
+        String ranksReceived = getListOfRanksReceivedAsString(recipientRanks.get(currentUserIdentifier));
+        String overallRank = Integer.toString(recipientOverallRank.get(currentUserIdentifier));
+        String name = bundle.getNameForEmail(currentUserIdentifier);
+        String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(currentUserIdentifier)
+                ? Integer.toString(recipientOverallRankExceptSelf.get(currentUserIdentifier)) : "-";
+        String selfRank = recipientSelfRanks.containsKey(currentUserIdentifier)
+                ? Integer.toString(recipientSelfRanks.get(currentUserIdentifier)) : "-";
+
+        fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
+                Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
+                Slots.TEAM, SanitizationHelper.sanitizeForHtml(currentUserTeam),
+                Slots.RANK_RECIEVED, ranksReceived,
+                Slots.RANK_SELF, selfRank,
+                Slots.RANK_OVERALL, overallRank,
+                Slots.RANK_EXCLUDING_SELF_OVERALL, overallRankExceptSelf));
+
+        String statsTitle = isRecipientTypeTeam ? "Summary of responses received by your team"
+                : "Summary of responses received by you";
+        return Templates.populateTemplate(templateToUse,
+                Slots.SUMMARY_TITLE, statsTitle,
+                Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
+                Slots.FRAGMENTS, fragments.toString());
+    }
+
     @Override
     public String getQuestionResultStatisticsHtml(
                         List<FeedbackResponseAttributes> responses,
@@ -246,10 +313,19 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         FeedbackSessionResultsBundle bundle,
                         String view) {
 
-        if ("student".equals(view) || responses.isEmpty()) {
+        if (responses.isEmpty()) {
             return "";
+        } else if ("student".equals(view)) {
+            return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
+        } else {
+            return getInstructorQuestionResultsStatisticsHtml(responses, bundle);
         }
 
+    }
+
+    private String getInstructorQuestionResultsStatisticsHtml(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
         StringBuilder fragments = new StringBuilder();
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(responses);
@@ -288,9 +364,9 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         });
 
         return Templates.populateTemplate(templateToUse,
+                Slots.SUMMARY_TITLE, "Response Summary",
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                 Slots.FRAGMENTS, fragments.toString());
-
     }
 
     @Override
@@ -451,6 +527,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         return "<li data-questiontype = \"" + FeedbackQuestionType.RANK_RECIPIENTS.name() + "\"><a href=\"javascript:;\">"
               + Const.FeedbackQuestionTypeNames.RANK_RECIPIENT + "</a></li>";
     }
+
 
     @Override
     public List<String> validateQuestionDetails() {
