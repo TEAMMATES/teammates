@@ -229,8 +229,14 @@ public final class TimeHelper {
     }
 
     /**
-     * Format {@code localDateTime} according to a specified {@code pattern}.
-     * PM is especially formatted as NOON if it's 12:00 PM, if present
+     * Format a datetime stamp from a {@code LocalDateTime} using a formatting pattern.
+     *
+     * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
+     * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @param pattern       formatting pattern, see Oracle docs for DateTimeFormatter for pattern table
+     * @return the formatted datetime stamp string
      */
     private static String formatLocalDateTime(LocalDateTime localDateTime, String pattern) {
         if (localDateTime == null || pattern == null) {
