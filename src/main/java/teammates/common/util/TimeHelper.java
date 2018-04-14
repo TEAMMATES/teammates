@@ -26,8 +26,6 @@ import teammates.common.util.Const.SystemParams;
  * Time zone is assumed as UTC unless specifically mentioned.
  */
 public final class TimeHelper {
-    public static final String STAMP_DATETIME_ADMIN_LOG = "dd/MM/yyyy HH:mm:ss.SSS";
-
     private static final Logger log = Logger.getLogger();
     private static final Map<ZoneId, String> TIME_ZONE_CITIES_MAP = new LinkedHashMap<>();
 
@@ -415,7 +413,7 @@ public final class TimeHelper {
      * @return the formatted timestamp string
      */
     public static String formatDateTimeForAdminLog(Instant instant, ZoneId zoneId) {
-        return formatInstant(instant, zoneId, STAMP_DATETIME_ADMIN_LOG);
+        return formatInstant(instant, zoneId, "dd/MM/yyyy HH:mm:ss.SSS");
     }
 
     /**
