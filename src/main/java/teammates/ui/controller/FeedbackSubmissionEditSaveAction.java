@@ -295,33 +295,48 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             FeedbackQuestionAttributes feedbackQuestionAttributes) {
 
         FeedbackQuestionDetails questionDetails = feedbackQuestionAttributes.getQuestionDetails();
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        FeedbackResponseAttributes.Builder responseBuilder = FeedbackResponseAttributes.builder().withCourseId(courseId);
 
-        // This field can be null if the response is new
-        String feedbackResponseId = getRequestParamValue(
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx);
+        responseBuilder = extractFeedbackResponseId(questionIndx, responseIndx, responseBuilder);
 
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        responseBuilder = extractFeedbackResponseFeedbackSessionName(responseBuilder);
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        responseBuilder = extractFeedbackResponseQuestionId(questionIndx, feedbackQuestionAttributes, responseBuilder);
 
-        String feedbackQuestionId = getRequestParamValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx,
-                feedbackQuestionId);
-        Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
-                                feedbackQuestionId);
+        responseBuilder = extractFeedbackResponseQuestionType(questionIndx, responseBuilder);
 
-        String recipient = getRequestParamValue(
+        responseBuilder = extractFeedbackResponseRecipient(questionIndx, responseIndx, feedbackQuestionAttributes,
+                responseBuilder, courseId);
+
+        responseBuilder = extractFeedbackResponseMetaData(requestParameters, questionIndx, responseIndx,
+                responseBuilder, questionDetails);
+
+        return responseBuilder.build();
+    }
+
+    private FeedbackResponseAttributes.Builder extractFeedbackResponseMetaData(Map<String, String[]> requestParameters,
+            int questionIndx, int responseIndx, FeedbackResponseAttributes.Builder responseBuilder,
+            FeedbackQuestionDetails questionDetails) {
+        // This field can be null if the question is skipped
+        String paramName = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx;
+        String[] answer = getRequestParamValues(paramName);
+
+        FeedbackResponseDetails responseDetails = null;
+        if (!questionDetails.isQuestionSkipped(answer)) {
+            responseDetails =
+                    FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
+                                                                  questionDetails, requestParameters,
+                                                                  questionIndx, responseIndx);
+        }
+        return responseBuilder.withReponseMetaDataFromFeedbackResponseDetails(responseDetails);
+    }
+
+    private FeedbackResponseAttributes.Builder extractFeedbackResponseRecipient(int questionIndx, int responseIndx,
+            FeedbackQuestionAttributes feedbackQuestionAttributes, FeedbackResponseAttributes.Builder responseBuilder,
+            String courseId) {
+        String recipient = getNonNullRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-"
-                + responseIndx, recipient);
-
-        String feedbackQuestionType = getRequestParamValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx,
-                feedbackQuestionType);
 
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;
         String recipientSection;
@@ -336,28 +351,38 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             recipientSection = getUserSectionForCourse();
         }
 
-        // This field can be null if the question is skipped
-        String paramName = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx;
-        String[] answer = getRequestParamValues(paramName);
+        return responseBuilder.withRecipient(recipient).withRecipientSection(recipientSection);
+    }
 
-        FeedbackResponseDetails responseDetails = null;
-        if (!questionDetails.isQuestionSkipped(answer)) {
-            responseDetails =
-                    FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
-                                                                  questionDetails, requestParameters,
-                                                                  questionIndx, responseIndx);
-        }
+    private FeedbackResponseAttributes.Builder extractFeedbackResponseQuestionType(int questionIndx,
+            FeedbackResponseAttributes.Builder responseBuilder) {
+        String feedbackQuestionType = getNonNullRequestParamValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
+        return responseBuilder.withFeedbackQuestionType(FeedbackQuestionType.valueOf(feedbackQuestionType));
+    }
 
-        return FeedbackResponseAttributes.builder()
-                .withFeedbackResponseId(feedbackResponseId)
-                .withFeedbackSessionName(feedbackSessionName)
-                .withCourseId(courseId)
-                .withFeedbackQuestionId(feedbackQuestionId)
-                .withFeedbackQuestionType(FeedbackQuestionType.valueOf(feedbackQuestionType))
-                .withRecipient(recipient)
-                .withRecipientSection(recipientSection)
-                .withReponseMetaDataFromFeedbackResponseDetails(responseDetails)
-                .build();
+    private FeedbackResponseAttributes.Builder extractFeedbackResponseQuestionId(int questionIndx,
+            FeedbackQuestionAttributes feedbackQuestionAttributes, FeedbackResponseAttributes.Builder responseBuilder) {
+        String feedbackQuestionId = getNonNullRequestParamValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+        Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(),
+                                feedbackQuestionId);
+        return responseBuilder.withFeedbackQuestionId(feedbackQuestionId);
+    }
+
+    private FeedbackResponseAttributes.Builder extractFeedbackResponseFeedbackSessionName(
+            FeedbackResponseAttributes.Builder responseBuilder) {
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        responseBuilder = responseBuilder.withFeedbackSessionName(feedbackSessionName);
+        return responseBuilder;
+    }
+
+    private FeedbackResponseAttributes.Builder extractFeedbackResponseId(int questionIndx, int responseIndx,
+            FeedbackResponseAttributes.Builder responseBuilder) {
+        // This field can be null if the response is new
+        String feedbackResponseId = getRequestParamValue(
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx);
+        return responseBuilder.withFeedbackResponseId(feedbackResponseId);
     }
 
     /**

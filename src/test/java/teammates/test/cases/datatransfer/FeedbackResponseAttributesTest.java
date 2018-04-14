@@ -30,7 +30,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testDefaultTimestamp() {
+    public void timestamp_testDefaultTimestamp() {
         FeedbackResponseAttributesWithModifiableTimestamp fra =
                 new FeedbackResponseAttributesWithModifiableTimestamp();
 
@@ -48,8 +48,13 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(defaultTimeStamp, fra.getUpdatedAt());
     }
 
+    /*
+     * Builder values are not enforced, defaulted to {@code null}
+     * and {@code TIME_REPRESENTS_DEFAULT_TIMESTAMP} for timestamps
+     * and are not mutable.
+     */
     @Test
-    public void testBuilderWithDefaultValues() {
+    public void builder_testBuilderWithDefaultValues_nullValues() {
         FeedbackResponseAttributes observedFeedbackResponseAttributes =
                 FeedbackResponseAttributes.builder().build();
 
@@ -67,8 +72,12 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, observedFeedbackResponseAttributes.getUpdatedAt());
     }
 
+    /*
+     * Not all possible states are tested, but there is an implicit invariant
+     * that all values must be non-{@code null} that was not imbued in the builder.
+     */
     @Test
-    public void testBuilderWithPopulatedFieldValues() {
+    public void builder_testBuilderWithPopulatedFieldValues_valuePropagated() {
         String expectedSessionName = "dummyName";
         String expectedCourseId = "dummyCourseId";
         String expectedQuestionId = "dummyQuestionId";
@@ -112,14 +121,13 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testBuilderCopy() {
+    public void builder_testBuilderCopy_valuesCopied() {
         String originalGiver = "giver";
         String originalRecipient = "recipient";
         String originalQuestionId = "someQuestionId";
         String originalId = originalQuestionId + "%" + originalGiver + "%" + originalRecipient;
         FeedbackResponseAttributes original = FeedbackResponseAttributes.builder()
                 .withFeedbackResponseId(originalId)
-                .withFeedbackResponseId("originalFeedbackQuestionId%originalGiver%")
                 .withFeedbackSessionName("originalName")
                 .withCourseId("originalCourseId")
                 .withFeedbackQuestionId(originalQuestionId)
@@ -127,8 +135,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .withGiver(originalGiver)
                 .withRecipient(originalRecipient)
                 .withResponseMetaData(new Text("original meta data"))
-                .withCreatedAt(Instant.now())
-                .withUpdatedAt(Instant.now())
+                .withCreatedAt(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
+                .withUpdatedAt(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
                 .build();
 
         FeedbackResponseAttributes copy = original.getCopy();
@@ -149,7 +157,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testValueOf() {
+    public void builder_testValueOf_valuesTransferred() {
         FeedbackResponse genericResponse = new FeedbackResponse("genericName", "genericCourseId",
                 "genericFeedbackQuestionId", FeedbackQuestionType.TEXT, "genericGiver",
                 Const.DEFAULT_SECTION, "genericRecipient", Const.DEFAULT_SECTION, new Text("genericAnswer"));

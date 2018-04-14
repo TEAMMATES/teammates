@@ -44,9 +44,12 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     protected transient Instant updatedAt;
     private String feedbackResponseId;
 
-    protected FeedbackResponseAttributes() {
-        // Empty constructor for Builder to construct the object
-    }
+    /**
+     * Empty constructor for {@code Builder} to construct the object and for
+     * {@code FeedbackResponseAttributesWithModifiableTimestamp} class that
+     * inherits from this class to construct.
+     */
+    protected FeedbackResponseAttributes() {}
 
     public static Builder builder() {
         return new Builder();
@@ -89,9 +92,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     /**
      * A Builder class for {@link FeedbackResponseAttributes}.
      */
-
     public static class Builder {
-
         private final FeedbackResponseAttributes feedbackResponseAttributes;
 
         public Builder() {
