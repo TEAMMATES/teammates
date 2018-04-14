@@ -513,9 +513,11 @@ public final class TimeHelper {
         if (localDate == null) {
             return null;
         }
+
         if (hour == null || min == null) {
             return null;
         }
+
         try {
             return localDate.atTime(Integer.parseInt(hour), Integer.parseInt(min));
         } catch (DateTimeException | NumberFormatException e) {

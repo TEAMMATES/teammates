@@ -16,6 +16,10 @@ dist: trusty
 addons:
   firefox: "46.0"
 
+env:
+  - SUITE=lint
+  - SUITE=tests
+
 before_install:
   - |
       git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md)|(\.txt)|(\.png)|(\.jpg)|(\.gif)|^(LICENSE)|^(docs)|^(\.templates)'
@@ -40,23 +44,23 @@ before_script:
   - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
   - cd $TRAVIS_BUILD_DIR
   - gcloud -q components install app-engine-java
-
   - ./gradlew createConfigs testClasses
-  - ./gradlew downloadStaticAnalysisTools
-  - ./gradlew lint --continue
   - npm install
-  - npm run lint
 
-install: true
-script:
-  - npm run build
-  - ./gradlew appengineStart
-  - ./gradlew ciTests
+if: env(SUITE) = lint
+    script: scripts/run-static-analysis.sh
 
-after_failure:
-  - gem install gist
-  - ./gradlew generateFailedCmd
-
-after_success:
-  - ./gradlew jacocoReport
-  - bash <(curl -s https://codecov.io/bash)
+if: env(SUITE) = tests
+  install: true
+  script:
+    - npm run build
+    - ./gradlew appengineStart
+    - ./gradlew ciTests
+  
+  after_failure:
+    - gem install gist
+    - ./gradlew generateFailedCmd
+  
+  after_success:
+    - ./gradlew jacocoReport
+    - bash <(curl -s https://codecov.io/bash)
