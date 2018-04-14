@@ -796,7 +796,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"requireMin\":true,\"minPoints\":20,\"requireMax\":true,\"maxPoints\":90,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
+        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"minPointsConstraint\":20,\"maxPointsConstraint\":90,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
       },
       "questionNumber": 1,
       "questionType": "CONSTSUM",

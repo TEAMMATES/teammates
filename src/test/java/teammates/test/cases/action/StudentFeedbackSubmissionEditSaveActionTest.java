@@ -755,6 +755,35 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         "CONSTSUM+Session"),
                 r.getDestinationWithParams());
 
+        ______TS("Successful case: const sum: within min max bound");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "70",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "30",
+        };
+
+        a = getAction(submissionParams);
+        r = getRedirectResult(a);
+
+        assertFalse(r.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session"),
+                r.getDestinationWithParams());
+
         ______TS("Successful case: const sum: question skipped");
 
         submissionParams = new String[] {
