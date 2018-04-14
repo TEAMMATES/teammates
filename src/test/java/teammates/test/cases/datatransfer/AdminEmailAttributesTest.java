@@ -274,7 +274,7 @@ public class AdminEmailAttributesTest extends BaseAttributesTest {
     }
 
     private LocalDateTime convertToAdminTime(Instant date) {
-        return TimeHelper.convertInstantToLocalDateTime(date, Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        return TimeHelper.convertInstantToLocalDateTime(date, Const.SystemParams.ADMIN_TIME_ZONE);
     }
 
     private String getInvalidityInfoForSubject(String emailSubject) throws Exception {
