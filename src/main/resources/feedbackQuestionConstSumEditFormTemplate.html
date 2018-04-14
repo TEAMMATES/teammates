@@ -115,10 +115,10 @@
         <div class="col-xs-3 padding-0 col-sm-3 padding-left-7px">
           <div data-toggle="tooltip" data-placement="top"
                title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MIN}">
-            <input type="number" class="form-control width-100-pc pointsBox"
+            <input type="number" disabled class="form-control width-100-pc pointsBox"
                    name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}"
                    id="constSumPointsMin-${questionNumber}" value="${constSumPointsMin}" min="0"
-                   step="1" onChange="updateConstSumPointsValue(${questionNumber})" disabled>
+                   step="1" onChange="updateConstSumPointsValue(${questionNumber})">
           </div>
         </div>
         <div class="col-xs-2 col-sm-1 checkbox margin-left-7px">
@@ -131,10 +131,10 @@
         <div class="col-xs-3 padding-0 col-sm-3 padding-left-7px">
           <div data-toggle="tooltip" data-placement="top"
                title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MAX}">
-            <input type="number" class="form-control width-100-pc pointsBox"
+            <input type="number" disabled class="form-control width-100-pc pointsBox"
                    name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}"
                    id="constSumPointsMax-${questionNumber}" value="${constSumPointsMax}" min="1"
-                   step="1" onChange="updateConstSumPointsValue(${questionNumber})" disabled>
+                   step="1" onChange="updateConstSumPointsValue(${questionNumber})">
           </div>
         </div>
       </div>
