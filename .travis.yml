@@ -47,10 +47,10 @@ before_script:
   - ./gradlew createConfigs testClasses
   - npm install
 
-if: SUITE = lint
-  script: scripts/run-static-analysis.sh
+if: env(SUITE) = lint
+    script: scripts/run-static-analysis.sh
 
-if: SUITE = tests
+if: env(SUITE) = tests
   install: true
   script:
     - npm run build
