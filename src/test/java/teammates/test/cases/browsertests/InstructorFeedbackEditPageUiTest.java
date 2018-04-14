@@ -129,7 +129,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testEditSessionAction() throws Exception {
+    @Test
+    public void testEditSessionAction() throws Exception {
 
         ______TS("typical success case");
 
@@ -246,6 +247,58 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(expectedString);
+
+        ______TS("Test discard changes to feedback session");
+
+        By feedbackSessionEditFormSection = By.id("form_feedbacksession");
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
+        feedbackEditPage.clickEditUncommonSettingsSendEmailsButton();
+        // Edit and save FS to accommodate changes to DOM due to enableEditFS() and disableEditFS() JS methods.
+        feedbackEditPage.clickSaveSessionButton();
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
+
+        // Make changes to Feedback session
+        feedbackEditPage.clickEditSessionButton();
+        editedSession.setStartTime(Const.TIME_REPRESENTS_NOW);
+        editedSession.setEndTime(Const.TIME_REPRESENTS_LATER);
+        editedSession.setInstructions(new Text("Made some more changes"));
+        editedSession.setGracePeriodMinutes(15);
+        feedbackEditPage.editFeedbackSession(
+                editedSession.getStartTimeLocal(), editedSession.getEndTimeLocal(),
+                editedSession.getInstructions(), editedSession.getGracePeriodMinutes(), false);
+
+        // Click discard changes button, then click cancel and verify html
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
+        feedbackEditPage.clickFsDiscardChangesButton();
+        feedbackEditPage.waitForConfirmationModalAndClickCancel();
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
+
+        // Click discard changes button, then click ok and verify html
+        feedbackEditPage.clickFsDiscardChangesButton();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
+
+        /**
+         * Changing session visible time to 'never' hides response visible time, start time, end time
+         * instruction fields. Check whether they are shown again after discarding changes.
+         */
+        ______TS("Check session form after editing visible time to 'never' then discarding changes");
+
+        feedbackEditPage = getFeedbackEditPage();
+        feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
+        feedbackEditPage.clickNeverVisibleTimeButton();
+
+        assertTrue(feedbackEditPage.isHidden(By.id("timeFramePanel")));
+        assertTrue(feedbackEditPage.isHidden(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackEditPage.isHidden(By.id("instructionsRow")));
+
+        feedbackEditPage.clickFsDiscardChangesButton();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        assertTrue(feedbackEditPage.isVisible(By.id("timeFramePanel")));
+        assertTrue(feedbackEditPage.isVisible(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackEditPage.isVisible(By.id("instructionsRow")));
+
     }
 
     private void testNewQuestionLink() {

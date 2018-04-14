@@ -172,6 +172,7 @@ const DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = 'Feedback session visible d
 const DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = 'Feedback session publish date must not be empty';
 
 const questionsBeforeEdit = [];
+let fsDetails = {};
 
 function getCustomDateTimeFields() {
     return $(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHDATE}`).add(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHTIME}`)
@@ -244,6 +245,70 @@ function checkEditFeedbackSession(form) {
     }
 
     return true;
+}
+
+/**
+* Returns an id-value pair dictionary of the selected input elements of the given form.
+* Required params: formSelector
+* Optional params: tinyMCEDivId (defaults to null)
+*                  favourableSelector (defaults to ':input:enabled')
+*                  unfavourableSelector (defaults to 'button,[type="hidden"]')
+*/
+function backupFormHtml(formSelector, tinyMCEDivId, favourableSelector, unfavourableSelector) {
+    const allFieldsDict = {}; // A dictionary to store id-value pairs of all the necessary input elements.
+
+    // Selecting all the form elements that need to be backed up.
+    const $allFields = $(formSelector)
+            .find(favourableSelector || ':input:enabled')
+            .not(unfavourableSelector || 'button,[type="hidden"]');
+
+    if (tinyMCEDivId) {
+        allFieldsDict[tinyMCEDivId] = tinymce.get(tinyMCEDivId).getContent();
+    }
+
+    for (let i = 0; i < $allFields.length; i += 1) {
+        const field = $allFields.get(i); // .get() returns a jQuery object.
+        if (field.type === 'radio' || field.type === 'checkbox') {
+            // Set the value to true or false based on if the radio button/checkbox is checked or not.
+            allFieldsDict[field.id] = field.checked;
+        } else {
+            // All other types of input stored with their full values.
+            allFieldsDict[field.id] = field.value;
+        }
+    }
+
+    return allFieldsDict;
+}
+
+/**
+* Changes the values of the fields in the given form to match those stored in allFieldsDict.
+* Required params: formSelector
+                   allFieldsDict
+* Optional params: tinyMCEDivId (defaults to null)
+*/
+function restoreFormHtml(formSelector, allFieldsDict, tinyMCEDivId) {
+    if (tinyMCEDivId) {
+        tinymce.get(tinyMCEDivId).setContent(allFieldsDict[tinyMCEDivId]);
+    }
+    /* eslint-disable no-restricted-syntax */ // Using for..in loop is optimum here
+    for (const fieldId in allFieldsDict) {
+        if ({}.hasOwnProperty.call(allFieldsDict, fieldId)) {
+            const field = $(formSelector).find(`:input[id=${fieldId}]`); // jQuery selector returns a DOM element.
+            if (field.prop('type') === 'checkbox') {
+                // Change the checked property of the DOM element for radio button/checkbox
+                field.prop('checked', allFieldsDict[fieldId]);
+            } else if (field.prop('type') === 'radio') {
+                field.prop('checked', allFieldsDict[fieldId]);
+                if (field.val() !== 'never') {
+                    collapseIfPrivateSession();
+                }
+            } else {
+                // For all other input types, change the value of the DOM element.
+                field.val(allFieldsDict[fieldId]);
+            }
+        }
+    }
+    /* eslint-enable no-restricted-syntax */
 }
 
 /**
@@ -418,6 +483,12 @@ function enableEditFS() {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
             inline: true,
+            setup: (editor) => {
+                // wait for tinyMCE editor to initialise before backing up HTML.
+                editor.on('init', () => {
+                    fsDetails = backupFormHtml('#form_feedbacksession', 'instructions');
+                });
+            },
         });
         /* eslint-enable camelcase */
     }
@@ -1211,6 +1282,15 @@ $(document).ready(() => {
     prepareInstructorPages();
 
     prepareDatepickers();
+
+    $(document).on('click', '#fsDiscardChangesLink', () => {
+        const okCallback = () => {
+            restoreFormHtml('#form_feedbacksession', fsDetails, 'instructions');
+            disableEditFS();
+        };
+        showModalConfirmation(WARNING_DISCARD_CHANGES, CONFIRM_DISCARD_CHANGES, okCallback, null, null, null,
+                BootstrapContextualColors.WARNING);
+    });
 
     readyFeedbackEditPage();
     bindUncommonSettingsEvents();
