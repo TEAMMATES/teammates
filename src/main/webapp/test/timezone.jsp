@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="teammates.common.util.FrontEndLibrary" %>
 <%@ page import="java.time.ZoneId" %>
@@ -22,7 +23,7 @@
           for (String timeZone: zoneIds) {
             if (!timeZone.contains("SystemV")) {
               int offset = ZoneId.of(timeZone).getRules().getOffset(now).getTotalSeconds() / 60; %>
-              <%= timeZone %> <%= offset %><br>
+              <%= timeZone %><%= " " %><%= offset %><br>
           <% } %>
           <% } %>
         </td>
@@ -42,7 +43,7 @@
       var d = new Date();
       var text = moment.tz.dataVersion + '<br>';
       moment.tz.names().filter(isSupportedByJava).forEach(function(timeZone) {
-        var offset = moment.tz.zone(timeZone).offset(d) * -1;
+        var offset = moment.tz.zone(timeZone).utcOffset(d) * -1;
         text += timeZone + ' ' + offset + '<br>';
       });
       document.getElementById('momentjs').innerHTML = text;

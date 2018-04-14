@@ -2,9 +2,8 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -235,38 +234,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         clickSubmitButton();
     }
 
-    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId,
-            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, long gracePeriod, ZoneId timeZone) {
-
-        selectTimeZone(timeZone);
-
-        addFeedbackSession(
-                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
-    }
-
-    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId,
-            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, long gracePeriod) {
-
-        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime,
-                instructions, gracePeriod, ZoneId.of("UTC+08:00"));
-    }
-
-    private void selectTimeZone(ZoneId timeZone) {
-        double offset = TimeHelper.convertToOffset(timeZone);
-
-        String timeZoneString = Double.toString(offset);
-
-        double fractionalPart = offset % 1;
-
-        if (fractionalPart == 0.0) {
-            timeZoneString = Integer.toString((int) offset);
-        }
-
-        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
-    }
-
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
         String copyButtonId = "button_copy";
         this.waitForTextContainedInElementPresence(
@@ -332,11 +299,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.
     */
-    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) {
+    public void fillTimeValueForDatePickerTest(String timeId, LocalDate newValue) {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.getTime()));
+        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.atStartOfDay()));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {
@@ -400,10 +367,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public boolean isCopySubmitButtonEnabled() {
         return copySubmitButton.isEnabled();
-    }
-
-    public String getClientTimeZone() {
-        return (String) executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {

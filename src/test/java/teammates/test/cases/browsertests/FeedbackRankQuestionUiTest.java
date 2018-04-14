@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -17,6 +18,7 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE},
  *      specifically for rank questions.
+ * TODO: Backend validation. Blocked by #8646
  */
 public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage feedbackEditPage;
@@ -276,14 +278,14 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "recipient-question-giver");
-        instructorResultsPage.loadResultSectionPanel(1, 2);
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRQGView.html");
 
         ______TS("Rank instructor results : Recipient > Giver > Question");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "recipient-giver-question");
-        instructorResultsPage.loadResultSectionPanel(1, 2);
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }
 
@@ -383,6 +385,54 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         assertEquals("Blank options should have been removed", 2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
 
+        ______TS("Rank edit: Invalid empty input in number of options a respondent must rank");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
+        feedbackEditPage.waitForPageToScroll();
+
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
+        feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
+        feedbackEditPage.fillRankOptionForNewQuestion(1, "Option 2");
+
+        feedbackEditPage.clickEnableMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+        feedbackEditPage.clickMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+        feedbackEditPage.clearMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+
+        WebElement minOptionsInputElement =
+                feedbackEditPage.getMinOptionsToBeRankedInputElement(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+
+        assertFalse(feedbackEditPage.isInputElementValid(minOptionsInputElement));
+
+        ______TS("Rank edit: Invalid letters in number of options a respondent must rank");
+        feedbackEditPage.fillMinOptionsToBeRanked(InstructorFeedbackEditPage.NEW_QUESTION_NUM, "1");
+        assertTrue(feedbackEditPage.isInputElementValid(minOptionsInputElement));
+
+        feedbackEditPage.fillMinOptionsToBeRanked(InstructorFeedbackEditPage.NEW_QUESTION_NUM, "invalid letters");
+        assertFalse(feedbackEditPage.isInputElementValid(minOptionsInputElement));
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        ______TS("Rank edit: Auto fill with 1 in number of options a respondent must rank success");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
+        feedbackEditPage.waitForPageToScroll();
+
+        // Ensure that rank options is cleared.
+        feedbackEditPage.clickMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+        feedbackEditPage.clearMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+
+        // Unchecks and check to auto-fill with 1
+        feedbackEditPage.clickEnableMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+        feedbackEditPage.clickEnableMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        feedbackEditPage.clickDeleteQuestionLink(2);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
         ______TS("Rank edit: add rank recipient question action success");
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
@@ -470,29 +520,29 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         // when maxOptionsToBeRanked = minOptionsToBeRanked,
         // decreasing maxOptionsToBeRanked must decrease minOptionsToBeRanked too
-        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 3);
+        feedbackEditPage.fillMaxOptionsToBeRanked(qNum, "3");
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-        feedbackEditPage.setMinOptionsToBeRanked(qNum, 3);
+        feedbackEditPage.fillMinOptionsToBeRanked(qNum, "3");
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 2);
+        feedbackEditPage.fillMaxOptionsToBeRanked(qNum, "2");
         assertEquals(2, feedbackEditPage.getMinOptionsToBeRanked(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
         // when maxOptionsToBeRanked = minOptionsToBeRanked,
         // increasing minOptionsToBeRanked must increase maxOptionsToBeRanked too
-        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 2);
+        feedbackEditPage.fillMaxOptionsToBeRanked(qNum, "2");
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-        feedbackEditPage.setMinOptionsToBeRanked(qNum, 2);
+        feedbackEditPage.fillMinOptionsToBeRanked(qNum, "2");
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
-        feedbackEditPage.setMinOptionsToBeRanked(qNum, 3);
+        feedbackEditPage.fillMinOptionsToBeRanked(qNum, "3");
         assertEquals(3, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
         // when maxOptionsToBeRanked = numOfOptions and maxOptionsToBeRanked = minOptionsToBeRanked,
         // removing an option must decrease maxOptionsToBeRanked and minOptionsToBeRanked
         feedbackEditPage.clickAddMoreRankOptionLink(qNum);
-        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 4);
-        feedbackEditPage.setMinOptionsToBeRanked(qNum, 4);
+        feedbackEditPage.fillMaxOptionsToBeRanked(qNum, "4");
+        feedbackEditPage.fillMinOptionsToBeRanked(qNum, "4");
         feedbackEditPage.clickRemoveRankOptionLink(qNum, 3);
         assertEquals(3, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
         assertEquals(3, feedbackEditPage.getMinOptionsToBeRanked(qNum));
@@ -534,13 +584,13 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         // when maxOptionsToBeRanked = minOptionsToBeRanked,
         // increasing minOptionsToBeRanked must increase maxOptionsToBeRanked too
-        feedbackEditPage.setMinOptionsToBeRanked(qNum, 2);
+        feedbackEditPage.fillMinOptionsToBeRanked(qNum, "2");
         assertEquals(2, feedbackEditPage.getMaxOptionsToBeRanked(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 
         // when maxOptionsToBeRanked = minOptionsToBeRanked,
         // decreasing maxOptionsToBeRanked must decrease minOptionsToBeRanked too
-        feedbackEditPage.setMaxOptionsToBeRanked(qNum, 1);
+        feedbackEditPage.fillMaxOptionsToBeRanked(qNum, "1");
         assertEquals(1, feedbackEditPage.getMinOptionsToBeRanked(qNum));
         feedbackEditPage.verifyMinMaxOptionsToBeSelectedRestrictions(qNum);
 

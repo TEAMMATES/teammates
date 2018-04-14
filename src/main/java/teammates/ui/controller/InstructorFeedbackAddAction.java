@@ -18,6 +18,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
@@ -31,29 +32,24 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
     @Override
     protected ActionResult execute() {
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotEmpty(courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
 
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        FeedbackSessionAttributes fs = extractFeedbackSessionData(true);
+        String feedbackSessionName = SanitizationHelper.sanitizeTitle(
+                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
 
-        // Set creator email as instructors' email
-        fs.setCreatorEmail(instructor.email);
-
-        // A session opening reminder email is always sent as students
-        // without accounts need to receive the email to be able to respond
-        fs.setOpeningEmailEnabled(true);
+        FeedbackSessionAttributes fs = extractFeedbackSessionData(feedbackSessionName, course, instructor.email);
 
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
 
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(account, sessionToken);
         try {
+            validateTimeData(fs);
             logic.createFeedbackSession(fs);
 
             try {

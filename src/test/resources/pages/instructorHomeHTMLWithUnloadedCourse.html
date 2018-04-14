@@ -18,7 +18,7 @@
             </span>
           </div>
           <input name="searchstudents" type="hidden" value="true">
-          <input name="searchcommentforresponses" type="hidden" value="false">
+          <input name="searchfeedbacksessiondata" type="hidden" value="false">
           <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded">
         </form>
       </div>
@@ -51,6 +51,36 @@
               Cancel
             </button>
             <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="resendPublishedEmailModal" class="modal fade" id="resendPublishedEmailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackResendPublishedEmail?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_email_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Resend Published Email
+              <small>
+                (Select the student(s) you want to resend the published email to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentEmailList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
             <input name="user" type="hidden" value="CHomeUiT.instructor.tmms.unloaded">
           </div>
         </form>
@@ -158,6 +188,11 @@
                   </a>
                 </li>
                 <li>
+                  <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=ins.wit-demo1&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                    View / Edit
+                  </a>
+                </li>
+                <li>
                   <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo1" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo1&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Delete
                   </a>
@@ -185,12 +220,12 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 Start Date
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 End Date
                 <span class="icon-sort unsorted">
                 </span>
@@ -304,6 +339,11 @@
                   </a>
                 </li>
                 <li>
+                  <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=ins.wit-demo2&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                    View / Edit
+                  </a>
+                </li>
+                <li>
                   <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo2" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo2&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Delete
                   </a>
@@ -331,12 +371,12 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 Start Date
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 End Date
                 <span class="icon-sort unsorted">
                 </span>
@@ -450,6 +490,11 @@
                   </a>
                 </li>
                 <li>
+                  <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=ins.wit-demo3&user=CHomeUiT.instructor.tmms.unloaded" title="">
+                    View / Edit
+                  </a>
+                </li>
+                <li>
                   <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="ins.wit-demo3" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=ins.wit-demo3&next=%2Fpage%2FinstructorHomePage&user=CHomeUiT.instructor.tmms.unloaded&token=${sessionToken}" title="">
                     Delete
                   </a>
@@ -477,12 +522,12 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 Start Date
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 End Date
                 <span class="icon-sort unsorted">
                 </span>

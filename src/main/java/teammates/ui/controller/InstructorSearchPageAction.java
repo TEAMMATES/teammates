@@ -32,8 +32,8 @@ public class InstructorSearchPageAction extends Action {
             numberOfSearchOptions++;
         }
 
-        boolean isSearchCommentForResponses = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES);
-        if (isSearchCommentForResponses) {
+        boolean isSearchFeedbackSessionData = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA);
+        if (isSearchFeedbackSessionData) {
             numberOfSearchOptions++;
         }
 
@@ -47,7 +47,7 @@ public class InstructorSearchPageAction extends Action {
         } else {
             //Start searching
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
-            if (isSearchCommentForResponses) {
+            if (isSearchFeedbackSessionData) {
                 frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, instructors);
             }
             if (isSearchForStudents) {
@@ -69,7 +69,7 @@ public class InstructorSearchPageAction extends Action {
         }
 
         InstructorSearchPageData data = new InstructorSearchPageData(account, sessionToken);
-        data.init(frCommentSearchResults, studentSearchResults, searchKey, isSearchCommentForResponses, isSearchForStudents);
+        data.init(frCommentSearchResults, studentSearchResults, searchKey, isSearchFeedbackSessionData, isSearchForStudents);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }

@@ -5,15 +5,14 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,7 +29,7 @@ import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackEditPage extends AppPage {
 
-    private static final int NEW_QUESTION_NUM = -1;
+    public static final int NEW_QUESTION_NUM = -1;
 
     @FindBy(id = "starttime")
     private WebElement startTimeDropdown;
@@ -895,8 +894,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     private boolean areDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) throws ParseException {
 
-        Calendar previousMonth = Calendar.getInstance();
-        previousMonth.add(Calendar.MONTH, -1);
+        LocalDate previousMonth = LocalDate.now().minusMonths(1);
 
         // Navigate to the previous month
         if (!navigate(dateBox, previousMonth)) {
@@ -930,25 +928,19 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}.
      *
      * @param dateBox is a {@link WebElement} that triggers a datepicker
-     * @param date is a {@link Calendar} that specifies the date that needs to be navigated to
+     * @param date is a {@link LocalDate} that specifies the date that needs to be navigated to
      * @return true if navigated to the {@code date} successfully, otherwise
      *         false
      * @throws ParseException if the string in {@code dateBox} cannot be parsed
      */
-    private boolean navigate(WebElement dateBox, Calendar date) throws ParseException {
+    private boolean navigate(WebElement dateBox, LocalDate date) throws ParseException {
 
         click(dateBox);
+        LocalDate selectedDate = TimeHelper.parseLocalDateForSessionsForm(dateBox.getAttribute("value"));
+        String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        String year = Integer.toString(date.getYear());
 
-        Calendar selectedDate = Calendar.getInstance();
-
-        String month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
-        String year = Integer.toString(date.get(Calendar.YEAR));
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM, yyyy");
-
-        selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
-
-        if (selectedDate.after(date)) {
+        if (selectedDate.isAfter(date)) {
 
             while (!getDatepickerMonth().equals(month) || !getDatepickerYear().equals(year)) {
 
@@ -1156,6 +1148,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public String getFeedbackSessionEndTimeValue() {
+        return getDropdownSelectedValue(endTimeDropdown);
+    }
+
     public InstructorFeedbackSessionsPage deleteSession() {
         clickAndConfirm(getDeleteSessionLink());
         waitForPageToLoad();
@@ -1279,11 +1275,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id(id)).isSelected();
     }
 
-    private WebElement getMsqMaxSelectableChoicesBox(int qnNumber) {
+    public WebElement getMsqMaxSelectableChoicesBox(int qnNumber) {
         return browser.driver.findElement(By.id(getMsqMaxSelectableChoicesBoxId(qnNumber)));
     }
 
-    private WebElement getMsqMinSelectableChoicesBox(int qnNumber) {
+    public WebElement getMsqMinSelectableChoicesBox(int qnNumber) {
         return browser.driver.findElement(By.id(getMsqMinSelectableChoicesBoxId(qnNumber)));
     }
 
@@ -1303,22 +1299,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         return Integer.parseInt(getMsqMinSelectableChoicesBox(qnNumber).getAttribute("max"));
     }
 
-    public void setMsqMinSelectableChoices(int qnNumber, int value) {
-        assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
-
+    public void fillMsqMinSelectableChoices(int qnNumber, String value) {
         WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
-        String id = inputBox.getAttribute("id");
+        fillTextBox(inputBox, value);
 
-        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+        executeScript("$(arguments[0]).change();", inputBox);
     }
 
-    public void setMsqMaxSelectableChoices(int qnNumber, int value) {
-        assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
-
+    public void fillMsqMaxSelectableChoices(int qnNumber, String value) {
         WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
-        String id = inputBox.getAttribute("id");
+        fillTextBox(inputBox, value);
 
-        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+        executeScript("$(arguments[0]).change();", inputBox);
     }
 
     public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
@@ -1621,7 +1613,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(getMaxOptionsToBeRankedCheckbox(qnNumber));
     }
 
-    private WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
+    public WebElement getMinOptionsToBeRankedInputElement(int qnNumber) {
         if (isRankOptionsQuestion(qnNumber)) {
             return browser.driver.findElement(By.id("minOptionsToBeRanked-" + qnNumber));
         }
@@ -1629,7 +1621,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id("minRecipientsToBeRanked-" + qnNumber));
     }
 
-    private WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
+    public WebElement getMaxOptionsToBeRankedInputElement(int qnNumber) {
         if (isRankOptionsQuestion(qnNumber)) {
             return browser.driver.findElement(By.id("maxOptionsToBeRanked-" + qnNumber));
         }
@@ -1685,24 +1677,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         return Integer.parseInt(elem.getAttribute("value"));
     }
 
-    public void setMinOptionsToBeRanked(int qnNumber, int value) {
-        assertTrue(isMinOptionsToBeRankedEnabled(qnNumber));
-
-        WebElement inputBox = getMinOptionsToBeRankedInputElement(qnNumber);
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
-        String id = inputBox.getAttribute("id");
-
-        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    public void fillMinOptionsToBeRanked(int qnNumber, String value) {
+        WebElement rankMinOption = getMinOptionsToBeRankedInputElement(qnNumber);
+        fillTextBox(rankMinOption, value);
     }
 
-    public void setMaxOptionsToBeRanked(int qnNumber, int value) {
-        assertTrue(isMaxOptionsToBeRankedEnabled(qnNumber));
-
-        WebElement inputBox = getMaxOptionsToBeRankedInputElement(qnNumber);
-        JavascriptExecutor exec = (JavascriptExecutor) browser.driver;
-        String id = inputBox.getAttribute("id");
-
-        exec.executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+    public void fillMaxOptionsToBeRanked(int qnNumber, String value) {
+        WebElement rankMaxOption = getMaxOptionsToBeRankedInputElement(qnNumber);
+        fillTextBox(rankMaxOption, value);
     }
 
     public void verifyMinMaxOptionsToBeSelectedRestrictions(int qnNumber) {
@@ -1924,5 +1906,23 @@ public class InstructorFeedbackEditPage extends AppPage {
                                                        + "']." + checkboxClass);
         WebElement checkbox = browser.driver.findElement(checkboxSelector);
         return checkbox.isSelected();
+    }
+
+    public void clickEnableMinRankOptions(int questionNumber) {
+        WebElement minNumberOfOptionsToRankCheckbox = getMinOptionsToBeRankedCheckbox(questionNumber);
+
+        minNumberOfOptionsToRankCheckbox.click();
+    }
+
+    public void clickMinRankOptions(int questionNumber) {
+        WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
+
+        minRecipientsToBeRankedInput.click();
+    }
+
+    public void clearMinRankOptions(int questionNumber) {
+        WebElement minRecipientsToBeRankedInput = getMinOptionsToBeRankedInputElement(questionNumber);
+
+        minRecipientsToBeRankedInput.clear();
     }
 }

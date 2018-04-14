@@ -18,7 +18,7 @@
             </span>
           </div>
           <input name="searchstudents" type="hidden" value="true">
-          <input name="searchcommentforresponses" type="hidden" value="false">
+          <input name="searchfeedbacksessiondata" type="hidden" value="false">
           <input name="user" type="hidden" value="${test.instructor}">
         </form>
       </div>
@@ -66,6 +66,36 @@
               Cancel
             </button>
             <input class="btn btn-primary remind-particular-button" data-dismiss="modal" type="button" value="Remind">
+            <input name="user" type="hidden" value="${test.instructor}">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="resendPublishedEmailModal" class="modal fade" id="resendPublishedEmailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form action="/page/instructorFeedbackResendPublishedEmail?next=%2Fpage%2FinstructorHomePage&token=${sessionToken}" method="post" name="form_email_list" role="form">
+          <div class="modal-header">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+              ×
+            </button>
+            <h4 class="modal-title">
+              Resend Published Email
+              <small>
+                (Select the student(s) you want to resend the published email to)
+              </small>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group" id="studentEmailList">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">
+              Cancel
+            </button>
+            <input class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" type="button" value="Send">
             <input name="user" type="hidden" value="${test.instructor}">
           </div>
         </form>
@@ -173,6 +203,11 @@
                   </a>
                 </li>
                 <li>
+                  <a class="btn-tm-actions course-edit-for-test" data-original-title="Edit Course information and instructor list" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=AHPUiT____.instr1_.gma-demo&user=${test.instructor}" title="">
+                    View / Edit
+                  </a>
+                </li>
+                <li>
                   <a class="btn-tm-actions course-delete-for-test course-delete-link" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="left" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT____.instr1_.gma-demo&next=%2Fpage%2FinstructorHomePage&user=${test.instructor}&token=${sessionToken}" title="">
                     Delete
                   </a>
@@ -200,12 +235,12 @@
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortstartdate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 Start Date
                 <span class="icon-sort unsorted">
                 </span>
               </th>
-              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="tooltipExtractor">
+              <th class="button_sortenddate button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor">
                 End Date
                 <span class="icon-sort unsorted">
                 </span>
@@ -231,13 +266,13 @@
               <td>
                 Second team feedback session
               </td>
-              <td class="text-nowrap">
-                <span class="tool-tip-decorate" data-original-title="Sun, 01 Apr 2012, 11:59 PM UTC+0800" data-toggle="tooltip" title="">
+              <td class="text-nowrap" data-date-stamp="2012-04-01T15:59:00Z">
+                <span class="tool-tip-decorate" data-original-title="Sun, 01 Apr 2012, 11:59 PM SGT" data-toggle="tooltip" title="">
                   1 Apr 11:59 PM
                 </span>
               </td>
-              <td class="text-nowrap">
-                <span class="tool-tip-decorate" data-original-title="Thu, 02 Apr 2037, 11:59 PM UTC+0800" data-toggle="tooltip" title="">
+              <td class="text-nowrap" data-date-stamp="2037-04-02T15:59:00Z">
+                <span class="tool-tip-decorate" data-original-title="Thu, 02 Apr 2037, 11:59 PM SGT" data-toggle="tooltip" title="">
                   2 Apr 11:59 PM
                 </span>
               </td>
@@ -325,13 +360,13 @@
               <td>
                 First team feedback session
               </td>
-              <td class="text-nowrap">
-                <span class="tool-tip-decorate" data-original-title="Sun, 01 Apr 2012, 11:59 PM UTC+0800" data-toggle="tooltip" title="">
+              <td class="text-nowrap" data-date-stamp="2012-04-01T15:59:00Z">
+                <span class="tool-tip-decorate" data-original-title="Sun, 01 Apr 2012, 11:59 PM SGT" data-toggle="tooltip" title="">
                   1 Apr 11:59 PM
                 </span>
               </td>
-              <td class="text-nowrap">
-                <span class="tool-tip-decorate" data-original-title="Mon, 02 Apr 2012, 11:59 PM UTC+0800" data-toggle="tooltip" title="">
+              <td class="text-nowrap" data-date-stamp="2012-04-02T15:59:00Z">
+                <span class="tool-tip-decorate" data-original-title="Mon, 02 Apr 2012, 11:59 PM SGT" data-toggle="tooltip" title="">
                   2 Apr 11:59 PM
                 </span>
               </td>
@@ -387,6 +422,11 @@
                           Unpublish Results
                         </a>
                       </li>
+                      <li>
+                        <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=First+team+feedback+session&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="First team feedback session" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
+                          Resend link to view results
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -419,13 +459,13 @@
               <td>
                 Session with different question types
               </td>
-              <td class="text-nowrap">
-                <span class="tool-tip-decorate" data-original-title="Sun, 01 Apr 2012, 11:59 PM UTC+0800" data-toggle="tooltip" title="">
+              <td class="text-nowrap" data-date-stamp="2012-04-01T15:59:00Z">
+                <span class="tool-tip-decorate" data-original-title="Sun, 01 Apr 2012, 11:59 PM SGT" data-toggle="tooltip" title="">
                   1 Apr 11:59 PM
                 </span>
               </td>
-              <td class="text-nowrap">
-                <span class="tool-tip-decorate" data-original-title="Mon, 02 Apr 2012, 11:59 PM UTC+0800" data-toggle="tooltip" title="">
+              <td class="text-nowrap" data-date-stamp="2012-04-02T15:59:00Z">
+                <span class="tool-tip-decorate" data-original-title="Mon, 02 Apr 2012, 11:59 PM SGT" data-toggle="tooltip" title="">
                   2 Apr 11:59 PM
                 </span>
               </td>
@@ -479,6 +519,11 @@
                       <li>
                         <a class="session-unpublish-for-test" data-fsname="Session with different question types" data-sending-published-email="true" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorHomePage&user=${test.instructor}&token=${sessionToken}">
                           Unpublish Results
+                        </a>
+                      </li>
+                      <li>
+                        <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
+                          Resend link to view results
                         </a>
                       </li>
                     </ul>

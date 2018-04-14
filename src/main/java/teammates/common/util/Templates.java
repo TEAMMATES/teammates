@@ -239,11 +239,14 @@ public final class Templates {
             public static final String STUDENT_SELECTED = "${studentSelected}";
             public static final String STUDENT_EXCLUDING_SELF_SELECTED = "${studentExcludingSelfSelected}";
             public static final String TEAM_SELECTED = "${teamSelected}";
+            public static final String TEAM_EXCLUDING_SELF_SELECTED = "${teamExcludingSelfSelected}";
             public static final String INSTRUCTOR_SELECTED = "${instructorSelected}";
             public static final String STUDENTS_TO_STRING = "${FeedbackParticipantType.STUDENTS.toString()}";
             public static final String STUDENTS_EXCLUDING_SELF_TO_STRING =
                     "${FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toString()}";
             public static final String TEAMS_TO_STRING = "${FeedbackParticipantType.TEAMS.toString()}";
+            public static final String TEAMS_EXCLUDING_SELF_TO_STRING =
+                    "${FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString()}";
             public static final String INSTRUCTORS_TO_STRING = "${FeedbackParticipantType.INSTRUCTORS.toString()}";
             public static final String QUESTION_ADDITIONAL_INFO = "${questionAdditionalInfo}";
             public static final String ADDITIONAL_INFO_ID = "${additionalInfoId}";
@@ -451,21 +454,21 @@ public final class Templates {
             public static final String RANK_PARAM_NUMBER_OF_CHOICE_CREATED =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}";
             public static final String RANK_PARAM_MIN_OPTIONS_CHECKBOX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSCHECKBOX}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_CHECKBOX}";
             public static final String RANK_PARAM_MIN_OPTIONS_TO_BE_RANKED =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED}";
             public static final String RANK_PARAM_MAX_OPTIONS_CHECKBOX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSCHECKBOX}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_CHECKBOX}";
             public static final String RANK_PARAM_MAX_OPTIONS_TO_BE_RANKED =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED}";
             public static final String RANK_PARAM_MIN_RECIPIENTS_CHECKBOX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSCHECKBOX}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_CHECKBOX}";
             public static final String RANK_PARAM_MIN_RECIPIENTS_TO_BE_RANKED =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMINRECIPIENTSTOBERANKED}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED}";
             public static final String RANK_PARAM_MAX_RECIPIENTS_CHECKBOX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSCHECKBOX}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_CHECKBOX}";
             public static final String RANK_PARAM_MAX_RECIPIENTS_TO_BE_RANKED =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANKMAXRECIPIENTSTOBERANKED}";
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED}";
 
             // Rubric
             public static final String CURRENT_ROWS = "${currRows}";
@@ -473,6 +476,8 @@ public final class Templates {
             public static final String RUBRIC_ROW_BODY_FRAGMENTS = "${rubricRowBodyFragments}";
             public static final String TABLE_HEADER_ROW_FRAGMENT_HTML = "${tableHeaderRowFragmentHtml}";
             public static final String TABLE_BODY_HTML = "${tableBodyHtml}";
+            public static final String TABLE_BODY_EXCLUDING_SELF_HTML = "${tableBodyExcludingSelfHtml}";
+            public static final String EXCLUDING_SELF_OPTION_VISIBLE = "${isExcludingSelfOptionAvailable}";
             public static final String SUB_QUESTION = "${subQuestion}";
             public static final String ROW = "${row}";
             public static final String COL = "${col}";

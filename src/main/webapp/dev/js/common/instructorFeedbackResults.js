@@ -65,6 +65,25 @@ function showHideStats() {
     }
 }
 
+// Toggles Rubric Questions excluding self
+function toggleExcludingSelfResultsForRubricStatistics(checkbox) {
+    if ($(checkbox).prop('checked')) {
+        $(checkbox).closest('.rubricStatistics')
+                .find('.table-body-including-self')
+                .addClass('hidden');
+        $(checkbox).closest('.rubricStatistics')
+                .find('.table-body-excluding-self')
+                .removeClass('hidden');
+    } else {
+        $(checkbox).closest('.rubricStatistics')
+                .find('.table-body-including-self')
+                .removeClass('hidden');
+        $(checkbox).closest('.rubricStatistics')
+                .find('.table-body-excluding-self')
+                .addClass('hidden');
+    }
+}
+
 /**
  * @return {DOM} the element that needs to be clicked to trigger AJAX-loading of data to the panel,
  *         identified by the presence of ajax_auto or ajax-response-auto class(not both) attached to the
@@ -390,13 +409,8 @@ const seeMoreRequest = function (e) {
                     + 'Please choose to view the results by questions or download the results.');
             } else {
                 const $appendedSection = $(data).find('#sectionBody-0');
-                const sectionId = $panelHeading.attr('id').match(/section-(\d+)/)[1];
 
                 if (isEmptySection($appendedSection)) {
-                    if (parseInt(sectionId, 10) === 0) {
-                        removeSection(sectionId);
-                        return;
-                    }
                     $sectionBody.html('There are no responses for this section yet '
                         + 'or you do not have access to the responses collected so far.');
                 }
@@ -436,4 +450,5 @@ export {
     removeSection,
     showHideStats,
     seeMoreRequest,
+    toggleExcludingSelfResultsForRubricStatistics,
 };

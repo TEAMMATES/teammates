@@ -199,7 +199,7 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -222,7 +222,7 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -245,7 +245,7 @@
       "endTime": "2012-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": false,
@@ -268,7 +268,7 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -291,7 +291,7 @@
       "endTime": "2035-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": false,
@@ -314,7 +314,7 @@
       "endTime": "2035-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2035-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2035-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": false,
@@ -932,6 +932,52 @@
         "value": "{\"msqChoices\":[],\"questionText\":\"Who do you like working with?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS_EXCLUDING_SELF\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
       },
       "questionNumber": 26,
+      "questionType": "MSQ",
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn27InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":0,\"mcqChoices\":[],\"questionText\":\"Which is the best team?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"TEAMS_EXCLUDING_SELF\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 27,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn28InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "SFSubmitUiT.CS2104",
+      "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you like working with?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS_EXCLUDING_SELF\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+      },
+      "questionNumber": 28,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
