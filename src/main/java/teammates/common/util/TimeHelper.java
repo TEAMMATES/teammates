@@ -245,11 +245,33 @@ public final class TimeHelper {
     }
 
     /**
+     * Format a datetime stamp from a {@code localDateTime}.
+     * Example: Tue, 12 Apr 2018, 12:01 PM
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: Tue, 12 Apr 2018, 12:00 NOON
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @return the formatted datetime stamp string
+     */
+    public static String formatDateTimeForDisplay(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "EEE, dd MMM yyyy, hh:mm a");
+    }
+
+    /**
      * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
      */
     public static String formatDateForSessionsForm(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM, yyyy");
     }
+
+    /**
+     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
+     */
+    public static String formatDateTimeForInstructorHomePage(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "d MMM h:mm a");
+    }
+
 
     /**
      * Convenience method to perform {@link #adjustLocalDateTimeForSessionsFormInputs} followed by
@@ -293,20 +315,6 @@ public final class TimeHelper {
             return rounded.minusMinutes(1);
         }
         return rounded;
-    }
-
-    /**
-     * Format a standard pretty datetime stamp from a {@code localDateTime}.
-     * Example: Tue, 12 Apr 2018, 12:01 PM
-     *
-     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Tue, 12 Apr 2018, 12:00 NOON
-     *
-     * @param localDateTime the LocalDateTime to be formatted
-     * @return              the formatted datetime stamp string
-     */
-    public static String formatDateTimeForDisplay(LocalDateTime localDateTime) {
-        return formatLocalDateTime(localDateTime, "EEE, dd MMM yyyy, hh:mm a");
     }
 
     /**
@@ -363,13 +371,6 @@ public final class TimeHelper {
      */
     public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
         return formatInstant(instant, zone, "EEE, dd MMM yyyy, hh:mm a z ('UTC'Z)");
-    }
-
-    /**
-     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
-     */
-    public static String formatDateTimeForInstructorHomePage(LocalDateTime localDateTime) {
-        return formatLocalDateTime(localDateTime, "d MMM h:mm a");
     }
 
     /**
