@@ -474,14 +474,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
         return load()
-                .filter("startTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("startTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentOpenEmail =", false)
                 .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
         return load()
-                .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("endTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentClosingEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
@@ -489,7 +489,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
         return load()
-                .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("endTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentClosedEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();

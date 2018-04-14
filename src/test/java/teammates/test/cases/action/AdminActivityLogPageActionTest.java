@@ -3,7 +3,6 @@ package teammates.test.cases.action;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.Instant;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.controller.AdminActivityLogPageAction;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.ShowPageResult;
@@ -83,7 +83,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     private String formatAdminDate(Instant instant) {
-        return instant.atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toLocalDate()
+        return instant.atZone(Const.SystemParams.ADMIN_TIME_ZONE).toLocalDate()
                 .format(DateTimeFormatter.ofPattern("dd/MM/yy"));
     }
 
@@ -275,7 +275,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         AdminActivityLogPageAction action = getAction();
         String statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 11, 5, YESTERDAY);
-        verifyLocalTimeInStatusMessage(statusMessage, YESTERDAY, Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        verifyLocalTimeInStatusMessage(statusMessage, YESTERDAY, Const.SystemParams.ADMIN_TIME_ZONE);
 
         // test statusMessage with filterQuery
         String query = "person:idOfInstructor1OfCourse1";
@@ -286,18 +286,18 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         // test statusMessage with `to`
         query = "to:" + formatAdminDate(YESTERDAY);
         action = getAction("filterQuery", query);
-        Instant toDate = getEndOfTheDayOffsetNowInAdminTimeZone(-2);
+        Instant toDate = TimeHelperExtension.getEndOfTheDayOffsetNowInAdminTimeZone(-2);
         statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 6, 3, toDate);
-        verifyLocalTimeInStatusMessage(statusMessage, toDate, Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        verifyLocalTimeInStatusMessage(statusMessage, toDate, Const.SystemParams.ADMIN_TIME_ZONE);
 
         // test statusMessage with `from`
         query = "from:" + formatAdminDate(YESTERDAY);
         action = getAction("filterQuery", query);
-        Instant fromDate = getBeginOfTheDayOffsetNowInAdminTimeZone(-1);
+        Instant fromDate = TimeHelperExtension.getBeginOfTheDayOffsetNowInAdminTimeZone(-1);
         statusMessage = getShowPageResult(action).getStatusMessage();
         verifyStatusMessage(statusMessage, 17, 8, fromDate);
-        verifyLocalTimeInStatusMessage(statusMessage, fromDate, Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        verifyLocalTimeInStatusMessage(statusMessage, fromDate, Const.SystemParams.ADMIN_TIME_ZONE);
     }
 
     @Test(groups = "typicalActivityLogs")
@@ -313,9 +313,9 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 "Unregistered", now.toEpochMilli());
 
         // Role: Admin
-        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, Const.SystemParams.ADMIN_TIME_ZONE_ID),
+        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, Const.SystemParams.ADMIN_TIME_ZONE),
                 "Admin", "admin", now.toEpochMilli());
-        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, Const.SystemParams.ADMIN_TIME_ZONE_ID),
+        verifyLoadingLocalTimeAjaxResult(getExpectedAjaxTimeString(now, Const.SystemParams.ADMIN_TIME_ZONE),
                 "Student(M)", "admin", now.toEpochMilli());
 
         // Role: Instructor
@@ -360,17 +360,17 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
                 "searchTimeOffset", String.valueOf(YESTERDAY.toEpochMilli()),
                 "filterQuery", String.format("from:%s", formatAdminDate(YESTERDAY))
         };
-        Instant yesterdayBegin = getBeginOfTheDayOffsetNowInAdminTimeZone(-1);
+        Instant yesterdayBegin = TimeHelperExtension.getBeginOfTheDayOffsetNowInAdminTimeZone(-1);
         verifyContinueSearch(params, expected, 17, 8, yesterdayBegin);
 
         // `to` present, search with 1 day interval
         expected = new int[][] { {}, {}, {0, 1} };
-        Instant toDate = getEndOfTheDayOffsetNowInAdminTimeZone(-2);
+        Instant toDate = TimeHelperExtension.getEndOfTheDayOffsetNowInAdminTimeZone(-2);
         params = new String[] {
                 "searchTimeOffset", String.valueOf(toDate.toEpochMilli()),
                 "filterQuery", String.format("to:%s", formatAdminDate(YESTERDAY))
         };
-        toDate = getEndOfTheDayOffsetNowInAdminTimeZone(-3);
+        toDate = TimeHelperExtension.getEndOfTheDayOffsetNowInAdminTimeZone(-3);
         verifyContinueSearch(params, expected, 4, 2, toDate);
 
     }
@@ -474,7 +474,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         assertTrue(message.contains("Logs are from following version(s): 1"));
         assertTrue(message.contains("All available version(s): 1"));
         assertTrue(message.contains("The earliest log entry checked on <b>"
-                + formatActivityLogTimeTruncated(earliestDateInUtc, Const.SystemParams.ADMIN_TIME_ZONE_ID)));
+                + formatActivityLogTimeTruncated(earliestDateInUtc, Const.SystemParams.ADMIN_TIME_ZONE)));
     }
 
     private void verifyLocalTimeInStatusMessage(String message, Instant timeInUtc, ZoneId localTimeZone) {
@@ -541,16 +541,6 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
         gaeSimulation.addLogRequestInfo(testStr, defaultVersion, String.valueOf(timeMillis), testStr,
                 testStr, timeMillis * 1000, timeMillis * 1000, testStr, testStr, testStr, testStr,
                 true, 200, testStr);
-    }
-
-    private Instant getBeginOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
-        return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID)
-                .toLocalDate().atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
-    }
-
-    private Instant getEndOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
-        return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID)
-                .toLocalDate().atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
     }
 
     @Override
