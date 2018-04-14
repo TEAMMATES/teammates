@@ -265,7 +265,13 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
+     * Format a date stamp from a {@code localDateTime} for populating the sessions form.
+     * Example: Tue, 12 Apr, 2018
+     *
+     * <p>This method discards the time stored in the {@code localDateTime}.
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @return the formatted date stamp string
      */
     public static String formatDateForSessionsForm(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM, yyyy");
