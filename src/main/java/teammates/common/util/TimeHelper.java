@@ -172,21 +172,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Convert and combine a date string, and time string of only the hour, into a LocalDateTime object.
-     * If the {@code inputTimeHours} is "24", it is converted to "23:59".
-     *
-     * @param inputDate      date in format "EEE, dd MMM, yyyy"
-     * @param inputTimeHours hour-of-day (0-24)
-     * @return LocalDateTime at the specified date and hour, or null for invalid parameters
-     */
-    public static LocalDateTime combineDateTime(String inputDate, String inputTimeHours) {
-        if ("24".equals(inputTimeHours)) {
-            return parseDateTimeFromSessionsForm(inputDate, "23", "59");
-        }
-        return parseDateTimeFromSessionsForm(inputDate, inputTimeHours, "0");
-    }
-
-    /**
      * Returns an Instant that is offset by a number of days from now.
      *
      * @param offsetInDays integer number of days offset by
@@ -301,11 +286,11 @@ public final class TimeHelper {
 
     /**
      * Returns a copy of the {@link LocalDateTime} adjusted to be compatible with the format output by
-     * {@link #combineDateTime}, i.e. either the time is 23:59, or the minute is 0 and the hour is not 0.
+     * {@link #parseDateTimeFromSessionsForm}, i.e. either the time is 23:59, or the minute is 0 and the hour is not 0.
      * The date time is first rounded to the nearest hour, then the special case 00:00 is handled.
      * @param ldt The {@link LocalDateTime} to be adjusted for compatibility.
      * @return a copy of {@code ldt} adjusted for compatibility, or null if {@code ldt} is null.
-     * @see #combineDateTime
+     * @see #parseDateTimeFromSessionsForm
      */
     public static LocalDateTime adjustLocalDateTimeForSessionsFormInputs(LocalDateTime ldt) {
         if (ldt == null) {
@@ -585,6 +570,21 @@ public final class TimeHelper {
         } catch (DateTimeException | NumberFormatException e) {
             return null;
         }
+    }
+
+    /**
+     * Convert and combine a date string, and time string of only the hour, into a LocalDateTime object.
+     * If the {@code inputTimeHours} is "24", it is converted to "23:59".
+     *
+     * @param inputDate      date in format "EEE, dd MMM, yyyy"
+     * @param inputTimeHours hour-of-day (0-24)
+     * @return the parsed {@code LocalDateTime} at the specified date and hour, or null for invalid parameters
+     */
+    public static LocalDateTime parseDateTimeFromSessionsForm(String inputDate, String inputTimeHours) {
+        if ("24".equals(inputTimeHours)) {
+            return parseDateTimeFromSessionsForm(inputDate, "23", "59");
+        }
+        return parseDateTimeFromSessionsForm(inputDate, inputTimeHours, "0");
     }
 
     /**

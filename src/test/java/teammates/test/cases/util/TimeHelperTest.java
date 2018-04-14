@@ -19,40 +19,40 @@ import teammates.test.cases.BaseTestCase;
 public class TimeHelperTest extends BaseTestCase {
 
     @Test
-    public void testCombineDateTime() {
+    public void testParseDateTimeFromSessionsForm() {
         String testDate = "Fri, 01 Feb, 2013";
         String testTime = "0";
         LocalDateTime expectedOutput = LocalDateTime.of(2013, Month.FEBRUARY, 1, 0, 0);
 
         testTime = "0";
         ______TS("boundary case: time = 0");
-        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
+        assertEquals(expectedOutput, TimeHelper.parseDateTimeFromSessionsForm(testDate, testTime));
 
         ______TS("boundary case: time = 24");
         testTime = "24";
         expectedOutput = LocalDateTime.of(2013, Month.FEBRUARY, 1, 23, 59);
-        assertEquals(expectedOutput, TimeHelper.combineDateTime(testDate, testTime));
+        assertEquals(expectedOutput, TimeHelper.parseDateTimeFromSessionsForm(testDate, testTime));
 
         ______TS("negative time");
-        assertNull(TimeHelper.combineDateTime(testDate, "-5"));
+        assertNull(TimeHelper.parseDateTimeFromSessionsForm(testDate, "-5"));
 
         ______TS("large time");
-        assertNull(TimeHelper.combineDateTime(testDate, "68"));
+        assertNull(TimeHelper.parseDateTimeFromSessionsForm(testDate, "68"));
 
         ______TS("date null");
-        assertNull(TimeHelper.combineDateTime(null, testTime));
+        assertNull(TimeHelper.parseDateTimeFromSessionsForm(null, testTime));
 
         ______TS("time null");
-        assertNull(TimeHelper.combineDateTime(testDate, null));
+        assertNull(TimeHelper.parseDateTimeFromSessionsForm(testDate, null));
 
         ______TS("invalid time");
-        assertNull(TimeHelper.combineDateTime(testDate, "invalid time"));
+        assertNull(TimeHelper.parseDateTimeFromSessionsForm(testDate, "invalid time"));
 
         ______TS("fractional time");
-        assertNull(TimeHelper.combineDateTime(testDate, "5.5"));
+        assertNull(TimeHelper.parseDateTimeFromSessionsForm(testDate, "5.5"));
 
         ______TS("invalid date");
-        assertNull(TimeHelper.combineDateTime("invalid date", testDate));
+        assertNull(TimeHelper.parseDateTimeFromSessionsForm("invalid date", testDate));
     }
 
     @Test
