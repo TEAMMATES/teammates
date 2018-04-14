@@ -393,10 +393,15 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
+     * Format a date stamp from an {@code instant} for the instructor's courses page.
+     * Example: 5 May 2017
+     *
+     * @param instant the instant to be formatted
+     * @param zoneId  the time zone to calculate local date
+     * @return the formatted date stamp string
      */
-    public static String formatDateTimeForInstructorCoursesPage(Instant instant, ZoneId timeZoneId) {
-        return formatInstant(instant, timeZoneId, "d MMM yyyy");
+    public static String formatDateForInstructorCoursesPage(Instant instant, ZoneId zoneId) {
+        return formatInstant(instant, zoneId, "d MMM yyyy");
     }
 
     /**

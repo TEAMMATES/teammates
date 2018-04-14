@@ -525,7 +525,7 @@ public final class HtmlHelper {
                 .replace("<!-- now.datetime.sessions -->",
                         TimeHelper.formatDateTimeForHomePage(now, Const.DEFAULT_TIME_ZONE))
                 .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateTimeToIso8601Utc(now))
-                .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(
+                .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateForInstructorCoursesPage(
                         now, Const.DEFAULT_TIME_ZONE));
     }
 
