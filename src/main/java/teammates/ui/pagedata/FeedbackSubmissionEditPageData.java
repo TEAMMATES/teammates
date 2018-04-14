@@ -1,6 +1,7 @@
 package teammates.ui.pagedata;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -232,7 +233,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                     FeedbackQuestionAttributes questionAttributes, int qnIndx, int numOfResponseBoxes) {
         List<FeedbackSubmissionEditResponse> responses = new ArrayList<>();
 
-        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
+        List<FeedbackResponseAttributes> existingResponses = getSortedExistingResponses(questionAttributes);
         int responseIndx = 0;
 
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
@@ -267,5 +268,23 @@ public class FeedbackSubmissionEditPageData extends PageData {
         }
 
         return responses;
+    }
+
+    private List<FeedbackResponseAttributes> getSortedExistingResponses(FeedbackQuestionAttributes questionAttributes) {
+        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
+        Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(questionAttributes.getFeedbackQuestionId());
+
+        Comparator<FeedbackResponseAttributes> responsesComparator = (response1, response2) -> {
+            if (emailNamePair.containsKey(response1.recipient) && emailNamePair.containsKey(response2.recipient)) {
+                return emailNamePair.get(response1.recipient).compareTo(emailNamePair.get(response2.recipient));
+            } else {
+                // if the recipients list does not contain the recipient, compare recipients by email
+                // this only could happen due to failures in the test data, should never happen in production
+                return response1.recipient.compareTo(response2.recipient);
+            }
+        };
+        existingResponses.sort(responsesComparator);
+
+        return existingResponses;
     }
 }
