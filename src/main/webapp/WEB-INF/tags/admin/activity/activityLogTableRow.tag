@@ -1,5 +1,7 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Activity Log Table in Admin Activity Log Page" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="log" type="teammates.ui.template.AdminActivityLogTableRow" required="true" %>
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -57,7 +59,7 @@
           </c:choose>
           <c:choose>
             <c:when test="${log.hasUserEmail}">
-              <a href="mailto:${log.userEmail}" target="_blank">${log.userEmail}</a>
+              <a href="mailto:${fn:escapeXml(log.userEmail)}" target="_blank">${fn:escapeXml(log.userEmail)}</a>
             </c:when>
             <c:otherwise>
               <%= Const.ActivityLog.UNKNOWN %>
@@ -69,7 +71,7 @@
             : log.isActionErrorReport ? "btn-danger" : "btn-info"}">
           <span class="glyphicon glyphicon-zoom-in"></span>
         </button>
-        <input type="hidden" name="filterQuery" value="person:${log.userIdentity}">
+        <input type="hidden" name="filterQuery" value="person:${fn:escapeXml(log.userIdentity)}">
         <input class="ifShowAll_for_person" type="hidden" name="all" value="false">
         <input class="ifShowTestData_for_person" type="hidden" name="testdata" value="false">
       </h4>

@@ -558,7 +558,7 @@ public class FeedbackSessionResultsBundle {
             return roster.getStudentForEmail(participantIdentifier)
                     .section;
         } else if (isInstructor || participantIsGeneral) {
-            return Const.NO_SPECIFIC_RECIPIENT;
+            return Const.NO_SPECIFIC_SECTION;
         } else {
             return "";
         }
@@ -1703,5 +1703,33 @@ public class FeedbackSessionResultsBundle {
             }
         }
         return SanitizationHelper.sanitizeForCsv(comment.toString());
+    }
+
+    /**
+     * Returns true if bundle contains response from Instructor.
+     */
+    public boolean hasResponseFromInstructor() {
+        for (FeedbackResponseAttributes response : responses) {
+            String giverIdentifier = response.giver;
+            // If a instructor is also a student, the response should be considered as student's response.
+            if (isParticipantIdentifierInstructor(giverIdentifier) && !isParticipantIdentifierStudent(giverIdentifier)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if bundle contains response to Instructor or General.
+     */
+    public boolean hasResponseToInstructorOrGeneral() {
+        for (FeedbackResponseAttributes response : responses) {
+            String recipientIdentifier = response.recipient;
+            // getSectionFromRoster will return NO_SPECIFIC_SECTION for recipient who is Instructor or Nobody specific.
+            if (getSectionFromRoster(recipientIdentifier) == Const.NO_SPECIFIC_SECTION) {
+                return true;
+            }
+        }
+        return false;
     }
 }

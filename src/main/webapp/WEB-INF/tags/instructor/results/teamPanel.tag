@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbackResults - team panel containing participant panels, and optionally, statistics tables" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -40,7 +41,7 @@
         <%-- Statistics Tables for entire team --%>
         <div class="resultStatistics">
           <c:if test="${isTeamHasResponses}">
-            <h3>${fn:escapeXml(teamName)} ${statisticsHeaderText}</h3>
+            <h3>${fn:escapeXml(teamName)}${" "}${statisticsHeaderText}</h3>
             <hr class="margin-top-0">
             <c:choose>
               <%-- Not all questions have statistics, so we still need to test for the non-emptiness of statsTable --%>
@@ -57,7 +58,7 @@
             </c:choose>
             <div class="row">
               <div class="col-sm-9">
-                <h3>${fn:escapeXml(teamName)} ${detailedResponsesHeaderText}</h3>
+                <h3>${fn:escapeXml(teamName)}${" "}${detailedResponsesHeaderText}</h3>
               </div>
               <div class="col-sm-3 h3">
                 <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
