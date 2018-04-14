@@ -514,6 +514,19 @@ function updateConstSumMessageQn(qnNum) {
             inputFieldElement.val(0);
         }
     }
+    const inputForm = $(`input[name^="responsetext-${qnNum}"]`);
+    const minConstSum = inputForm.attr('min');
+    const maxConstSum = inputForm.attr('max');
+
+    function checkAndDisplayMinMaxMessage(minMessageElement, maxMessageElement, pointsAllocated) {
+        if (minConstSum > 0 && pointsAllocated) {
+            minMessageElement.prop('hidden', pointsAllocated >= minConstSum);
+        }
+
+        if (maxConstSum !== 'any' && pointsAllocated) {
+            maxMessageElement.prop('hidden', pointsAllocated <= maxConstSum);
+        }
+    }
 
     function checkAndDisplayMessage(messageElement) {
         let message = '';
@@ -588,9 +601,12 @@ function updateConstSumMessageQn(qnNum) {
 
     if (distributeToRecipients) {
         const $constSumMessageElement = $(`#constSumMessage-${qnNum}-${numOptions - 1}`);
+        const $constSumMinMessageElement = $(`#constSumMinMessage-${qnNum}-${numOptions - 1}`);
+        const $constSumMaxMessageElement = $(`#constSumMaxMessage-${qnNum}-${numOptions - 1}`);
 
         for (let i = 0; i < numOptions; i += 1) {
             const pointsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(), 10);
+            checkAndDisplayMinMaxMessage($constSumMinMessageElement, $constSumMaxMessageElement, pointsAllocated);
 
             updateSumBasedOn(pointsAllocated);
         }
@@ -607,9 +623,12 @@ function updateConstSumMessageQn(qnNum) {
             remainingPoints = points;
 
             const $constSumMsgElement = $(`#constSumMessage-${qnNum}-${j}`);
+            const $constSumMinMessageElement = $(`#constSumMinMessage-${qnNum}-${j}`);
+            const $constSumMaxMessageElement = $(`#constSumMaxMessage-${qnNum}-${j}`);
 
             for (let k = 0; k < numOptions; k += 1) {
                 const ptsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${j}-${k}`).val(), 10);
+                checkAndDisplayMinMaxMessage($constSumMinMessageElement, $constSumMaxMessageElement, ptsAllocated);
 
                 updateSumBasedOn(ptsAllocated);
             }
