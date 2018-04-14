@@ -371,7 +371,7 @@ public final class TimeHelper {
      * @param sessionTimeZone the time zone to compute local datetime
      * @return the formatted datetime stamp string
      */
-    public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
+    public static String formatDateTimeForHomePage(Instant instant, ZoneId sessionTimeZone) {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }
 
