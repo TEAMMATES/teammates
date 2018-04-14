@@ -96,6 +96,12 @@
       "username": "a-dhaliwal"
     },
     {
+      "major": true,
+      "name": "Amar Prakash Pandey",
+      "username": "amarlearning",
+      "image": "images/teammembers/amar.png"
+    },
+    {
       "multiple": true,
       "name": "Anagh Hegde",
       "username": "AnaghHegde"
@@ -238,11 +244,6 @@
     },
     {
       "multiple": true,
-      "name": "Cara Leong",
-      "username": "craaaa"
-    },
-    {
-      "multiple": true,
       "name": "Chan Junwei",
       "username": "chanjunweimy"
     },
@@ -314,11 +315,6 @@
     {
       "name": "Daniel Esponda",
       "username": "desponda"
-    },
-    {
-      "multiple": true,
-      "name": "Darren Wee",
-      "username": "darrenwee"
     },
     {
       "multiple": true,
@@ -443,6 +439,10 @@
       "username": "theDiablo"
     },
     {
+      "name": "Georgios Theodorou",
+      "username": "gthd"
+    },
+    {
       "name": "Gonçalo Garcia",
       "username": "GoncaloGarcia"
     },
@@ -477,6 +477,12 @@
       "username": "Harshvardhan58"
     },
     {
+      "major": true,
+      "name": "Hirday Gupta",
+      "username": "HirdayGupta",
+      "image": "images/teammembers/hirday.png"
+    },
+    {
       "name": "Hiresh Trivedi",
       "username": "hiresh"
     },
@@ -509,12 +515,20 @@
       "username": "theitrain"
     },
     {
+      "name": "Jacob Li",
+      "username": "jacoblipech"
+    },
+    {
       "name": "Jaikirat Singh Sandhu",
       "username": "SandhuJai"
     },
     {
       "name": "Jake Akers",
       "username": "jakers821"
+    },
+    {
+      "name": "Jakub Gwizdała",
+      "username": "Bzdeco"
     },
     {
       "name": "James Murithi",
@@ -553,11 +567,6 @@
       "multiple": true,
       "name": "Jiang Yaoxuan",
       "username": "said9999"
-    },
-    {
-      "multiple": true,
-      "name": "Joanne Ong",
-      "username": "joanneong"
     },
     {
       "name": "John Svanberg",
@@ -685,6 +694,12 @@
       "username": "enaru"
     },
     {
+      "major": true,
+      "name": "Lakmal Padmakumara",
+      "username": "rclakmal",
+      "image": "images/teammembers/lakmal.png"
+    },
+    {
       "multiple": true,
       "name": "Le Minh Khue",
       "username": "lmk19922000"
@@ -732,11 +747,6 @@
       "multiple": true,
       "name": "Loke Yan Hao",
       "username": "lokeyanhao"
-    },
-    {
-      "multiple": true,
-      "name": "Lu Lechuan",
-      "username": "LuLechuan"
     },
     {
       "multiple": true,
@@ -791,6 +801,15 @@
       "username": "matteushast"
     },
     {
+      "major": true,
+      "name": "Mayank Harsani",
+      "username": "Mynk96",
+      "image": "images/teammembers/mayank.png"
+    },
+    {
+      "username": "mbi90"
+    },
+    {
       "name": "Megan Belle",
       "username": "onealml"
     },
@@ -801,6 +820,10 @@
     {
       "name": "Meng Lingyao",
       "username": "lingyaomeng1"
+    },
+    {
+      "name": "Metta Ong",
+      "username": "ongspxm"
     },
     {
       "multiple": true,
@@ -823,6 +846,10 @@
     {
       "multiple": true,
       "name": "Mohit Singh Kanwal"
+    },
+    {
+      "name": "Mudit Gupta",
+      "username": "mg14777"
     },
     {
       "name": "Muhammad Shehroz Sajjad",
@@ -865,11 +892,6 @@
       "multiple": true,
       "name": "Nguyen Quang Phuc",
       "username": "quangphuc789"
-    },
-    {
-      "multiple": true,
-      "name": "Nguyen Quoc Bao",
-      "username": "bqnguyen94"
     },
     {
       "multiple": true,
@@ -936,11 +958,6 @@
       "username": "pakglen"
     },
     {
-      "multiple": true,
-      "name": "Pan Haozhe",
-      "username": "Haozhe321"
-    },
-    {
       "name": "Paramsothy Sanshayan"
     },
     {
@@ -961,10 +978,6 @@
       "multiple": true,
       "name": "Phan Thi Quynh Trang",
       "username": "quynhtrang"
-    },
-    {
-      "name": "Phang Chun Rong",
-      "username": "Crphang"
     },
     {
       "multiple": true,
@@ -1036,6 +1049,10 @@
       "username": "rajujha373"
     },
     {
+      "name": "Ramez Elbaroudy",
+      "username": "Ramez-"
+    },
+    {
       "multiple": true,
       "name": "Ratul Ghosh",
       "username": "RatulGhosh"
@@ -1102,6 +1119,13 @@
       "username": "SELVAKUMAR-S"
     },
     {
+      "major": true,
+      "name": "Serhii Beliablia",
+      "username": "belyabl9",
+      "image": "images/teammembers/serhii.png"
+    },
+    {
+      "multiple": true,
       "name": "Shaharyar Shamshi",
       "username": "shaharyar-shamshi"
     },
@@ -1152,11 +1176,6 @@
       "username": "shivanshsoni"
     },
     {
-      "multiple": true,
-      "name": "Shradheya Thakre",
-      "username": "tshradheya"
-    },
-    {
       "name": "Shreya Gupta",
       "username": "shreyag12"
     },
@@ -1181,6 +1200,10 @@
     {
       "multiple": true,
       "name": "Shum Chee How"
+    },
+    {
+      "name": "Shyam Gaurav Venkatesh",
+      "username": "SamVenkatesh"
     },
     {
       "multiple": true,
@@ -1249,9 +1272,20 @@
       "username": "suhas355"
     },
     {
+      "major": true,
+      "name": "Sujeet Kumar",
+      "username": "sujeet14108",
+      "image": "images/teammembers/sujeet.png"
+    },
+    {
       "multiple": true,
       "name": "Sukanta Roy",
       "username": "sukanta-27"
+    },
+    {
+      "multiple": true,
+      "name": "Sun Shengran",
+      "username": "dalessr"
     },
     {
       "multiple": true,
@@ -1276,10 +1310,15 @@
       "username": "tainansv"
     },
     {
+      "name": "Tan Chee Wee",
+      "username": "chweeee"
+    },
+    {
       "multiple": true,
       "name": "Tan Guo Wei"
     },
     {
+      "multiple": true,
       "name": "Tan Heng Yeow",
       "username": "tanhengyeow"
     },
@@ -1317,7 +1356,18 @@
       "username": "Tanya16107"
     },
     {
+      "major": true,
+      "name": "Taras Sakharchuk",
+      "username": "LimeTheCoder"
+    },
+    {
       "name": "Tarun Bansal"
+    },
+    {
+      "major": true,
+      "name": "Tarun Kumar Yadav",
+      "username": "tarun14110",
+      "image": "images/teammembers/tarun.png"
     },
     {
       "name": "Tatiana Pascal",
@@ -1345,11 +1395,6 @@
     },
     {
       "multiple": true,
-      "name": "Tran Tien Dat",
-      "username": "tran-tien-dat"
-    },
-    {
-      "multiple": true,
       "name": "Truong Hoang Phuoc",
       "username": "hoangphuoc25"
     },
@@ -1372,6 +1417,12 @@
     },
     {
       "name": "Vaibhav Desai"
+    },
+    {
+      "major": true,
+      "name": "Vamsi Sangam",
+      "username": "VamsiSangam",
+      "image": "images/teammembers/vamsi.png"
     },
     {
       "name": "Varsha Venkatesh",
@@ -1405,11 +1456,6 @@
     {
       "name": "Warren Schrader",
       "username": "wwSchrader"
-    },
-    {
-      "multiple": true,
-      "name": "Wen Xin",
-      "username": "wenmogu"
     },
     {
       "multiple": true,
@@ -1496,40 +1542,89 @@
   ],
   "committers": [
     {
+      "name": "Cara Leong",
+      "username": "craaaa",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Darren Wee",
+      "username": "darrenwee",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Joanne Ong",
+      "username": "joanneong",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Lu Lechuan",
+      "username": "LuLechuan",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Nguyen Quoc Bao",
+      "username": "bqnguyen94",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Pan Haozhe",
+      "username": "Haozhe321",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Phang Chun Rong",
+      "username": "Crphang",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Shradheya Thakre",
+      "username": "tshradheya",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Tran Tien Dat",
+      "username": "tran-tien-dat",
+      "startPeriod": "Jan 2018"
+    },
+    {
+      "name": "Wen Xin",
+      "username": "wenmogu",
+      "startPeriod": "Jan 2018"
+    },
+    {
       "name": "Ch'ng Ming Shin",
       "username": "ablyx",
       "image": "images/teammembers/mingshin.png",
-      "startPeriod": "Jan 2017"
+      "startPeriod": "Jan 2017",
+      "endPeriod": "Apr 2017"
     },
     {
       "name": "Dickson Tan",
       "username": "Neurrone",
       "image": "images/teammembers/dickson.png",
-      "startPeriod": "Jan 2017"
+      "startPeriod": "Jan 2017",
+      "endPeriod": "Apr 2017"
     },
     {
       "name": "Li Kai",
       "username": "li-kai",
       "image": "images/teammembers/likai.png",
-      "startPeriod": "Jan 2017"
+      "startPeriod": "Jan 2017",
+      "endPeriod": "Apr 2017"
     },
     {
       "name": "Samson Tan",
       "username": "samsontmr",
       "image": "images/teammembers/samson.png",
-      "startPeriod": "Jan 2017"
-    },
-    {
-      "name": "Xiao Pu",
-      "username": "xpdavid",
-      "image": "images/teammembers/xiaopu.png",
-      "startPeriod": "Jan 2017"
+      "startPeriod": "Jan 2017",
+      "endPeriod": "Apr 2017"
     },
     {
       "name": "Yang Boxin",
       "username": "boxin-yang",
       "image": "images/teammembers/boxin.png",
-      "startPeriod": "Jan 2017"
+      "startPeriod": "Jan 2017",
+      "endPeriod": "Apr 2017"
     },
     {
       "name": "John Kevin Tjahjadi",
@@ -1577,22 +1672,12 @@
       ]
     },
     {
-      "name": "Chow Yuan Bin",
-      "username": "chowyb",
-      "image": "images/teammembers/yuanbin.png",
-      "currentPosition": "Project Lead (Jun 2017 - )",
-      "pastPositions": [
-        "Area Lead (Jan 2017 - May 2017)",
-        "Snr Developer (Aug 2016 - Dec 2016)",
-        "Committer (May 2016 - Jul 2016)"
-      ]
-    },
-    {
       "name": "John Yong",
       "username": "whipermr5",
       "image": "images/teammembers/john.png",
-      "currentPosition": "Area Lead (Aug 2017 - )",
+      "currentPosition": "Project Lead (Jan 2018 - )",
       "pastPositions": [
+        "Area Lead (Aug 2017 - Dec 2017)",
         "Snr Developer (May 2017 - Jul 2017)",
         "Committer (Jan 2017 - Apr 2017)"
       ]
@@ -1618,48 +1703,34 @@
       ]
     },
     {
+      "name": "Xiao Pu",
+      "username": "xpdavid",
+      "image": "images/teammembers/xiaopu.png",
+      "currentPosition": "Area Lead (Jan 2018 - )",
+      "pastPositions": [
+        "Committer (Jan 2017 - Apr 2017)"
+      ]
+    },
+    {
       "name": "Tan Li Hao",
       "username": "LiHaoTan",
       "image": "images/teammembers/lihao.png",
-      "currentPosition": "Snr Developer (Aug 2017 - )",
+      "currentPosition": "Area Lead (Jan 2018 - )",
       "pastPositions": [
+        "Snr Developer (Aug 2017 - Dec 2017)",
         "Committer (May 2017 - Jul 2017)"
       ]
     },
     {
-      "name": "Amar Prakash Pandey",
-      "username": "amarlearning",
-      "image": "images/teammembers/amar.png",
-      "currentPosition": "Major Contributor (May 2017 - )"
-    },
-    {
-      "name": "Hirday Gupta",
-      "username": "HirdayGupta",
-      "image": "images/teammembers/hirday.png",
-      "currentPosition": "Major Contributor (May 2017 - )"
-    },
-    {
-      "name": "Mayank Harsani",
-      "username": "Mynk96",
-      "image": "images/teammembers/mayank.png",
-      "currentPosition": "Major Contributor (May 2017 - )"
-    },
-    {
-      "name": "Sujeet Kumar",
-      "username": "sujeet14108",
-      "image": "images/teammembers/sujeet.png",
-      "currentPosition": "Major Contributor (May 2017 - )"
-    },
-    {
-      "name": "Vamsi Sangam",
-      "username": "VamsiSangam",
-      "image": "images/teammembers/vamsi.png",
-      "currentPosition": "Major Contributor (May 2017 - )"
-    },
-    {
-      "name": "Taras Sakharchuk",
-      "username": "LimeTheCoder",
-      "currentPosition": "Major Contributor (May 2017 - )"
+      "name": "Chow Yuan Bin",
+      "username": "chowyb",
+      "image": "images/teammembers/yuanbin.png",
+      "pastPositions": [
+        "Project Lead (Jun 2017 - Dec 2017)",
+        "Area Lead (Jan 2017 - May 2017)",
+        "Snr Developer (Aug 2016 - Dec 2016)",
+        "Committer (May 2016 - Jul 2016)"
+      ]
     },
     {
       "name": "Josephine Kwa",
@@ -1711,30 +1782,6 @@
       "pastPositions": [
         "Snr Developer (Aug 2016 - Dec 2016)",
         "Committer (May 2016 - Jul 2016)"
-      ]
-    },
-    {
-      "name": "Lakmal Padmakumara",
-      "username": "rclakmal",
-      "image": "images/teammembers/lakmal.png",
-      "pastPositions": [
-        "Major Contributor (May 2016 - Dec 2016)"
-      ]
-    },
-    {
-      "name": "Serhii Beliablia",
-      "username": "belyabl9",
-      "image": "images/teammembers/serhii.png",
-      "pastPositions": [
-        "Major Contributor (May 2016 - Dec 2016)"
-      ]
-    },
-    {
-      "name": "Tarun Kumar Yadav",
-      "username": "tarun14110",
-      "image": "images/teammembers/tarun.png",
-      "pastPositions": [
-        "Major Contributor (May 2016 - Dec 2016)"
       ]
     },
     {
