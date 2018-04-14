@@ -513,12 +513,11 @@ public final class TimeHelper {
     }
 
     /**
-     * Parses a {@code LocalDate} object from a date string according to a pattern.
-     * Returns {@code null} on error.
+     * Parses a {@code LocalDate} object from a date string and parsing pattern.
      *
-     * @param dateString        the string containing the date
-     * @param pattern           the pattern of the date string
-     * @return                  the parsed {@code LocalDate} object, or {@code null} if there are errors
+     * @param dateString the string containing the date
+     * @param pattern    the parsing pattern of the datetime string
+     * @return the parsed {@code LocalDate} object, or {@code null} if there are errors
      */
     public static LocalDate parseLocalDate(String dateString, String pattern) {
         if (dateString == null || pattern == null) {
