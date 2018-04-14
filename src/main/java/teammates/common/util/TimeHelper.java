@@ -188,9 +188,10 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns an java.time.Instant object that is offset by a number of days from now.
-     * @param offsetInDays number of days offset by (integer).
-     * @return java.time.Instant offset by offsetInDays days.
+     * Returns an Instant that is offset by a number of days from now.
+     *
+     * @param offsetInDays integer number of days offset by
+     * @return an Instant offset by {@code offsetInDays} days
      */
     public static Instant getInstantDaysOffsetFromNow(long offsetInDays) {
         return Instant.now().plus(Duration.ofDays(offsetInDays));
