@@ -289,7 +289,6 @@ public final class TimeHelper {
         return formatLocalDateTime(localDateTime, "d MMM h:mm a");
     }
 
-
     /**
      * Convenience method to perform {@link #adjustLocalDateTimeForSessionsFormInputs} followed by
      * {@link #formatDateForSessionsForm} on a {@link LocalDateTime}.
