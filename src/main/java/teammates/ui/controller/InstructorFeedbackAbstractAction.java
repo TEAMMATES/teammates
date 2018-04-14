@@ -141,7 +141,8 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             return;
         case GAP:
             String gapWarningText = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP, fieldName,
-                    TimeHelper.formatDateTimeForDisplay(dateTime), TimeHelper.formatDateTimeForDisambiguation(resolved, zone));
+                    TimeHelper.formatDateTimeForDisplay(dateTime),
+                    TimeHelper.formatDateTimeForDisambiguation(resolved, zone));
             statusToUser.add(new StatusMessage(gapWarningText, StatusMessageColor.WARNING));
             break;
         case OVERLAP:

@@ -29,7 +29,6 @@ public final class TimeHelper {
     public static final String STAMP_DATETIME_ADMIN_LOG = "dd/MM/yyyy HH:mm:ss.SSS";
 
     private static final Logger log = Logger.getLogger();
-
     private static final Map<ZoneId, String> TIME_ZONE_CITIES_MAP = new LinkedHashMap<>();
 
     /*
@@ -420,7 +419,6 @@ public final class TimeHelper {
      * A null instant is not a special time.
      */
     public static boolean isSpecialTime(Instant instant) {
-
         if (instant == null) {
             return false;
         }
@@ -430,7 +428,6 @@ public final class TimeHelper {
                 || instant.equals(Const.TIME_REPRESENTS_LATER)
                 || instant.equals(Const.TIME_REPRESENTS_NEVER)
                 || instant.equals(Const.TIME_REPRESENTS_NOW);
-
     }
 
     /**
@@ -471,7 +468,6 @@ public final class TimeHelper {
      * <p>Example: 1200 milliseconds ---> 0:1:200.
      */
     public static String convertToStandardDuration(Long timeInMilliseconds) {
-
         return timeInMilliseconds == null
              ? ""
              : String.format("%d:%d:%d",
