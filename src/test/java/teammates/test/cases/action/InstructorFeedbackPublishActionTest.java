@@ -1,6 +1,6 @@
 package teammates.test.cases.action;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Map;
 
 import org.testng.annotations.Test;
@@ -119,9 +119,9 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
 
     private void modifyFeedbackSessionPublishState(FeedbackSessionAttributes session, boolean isPublished) throws Exception {
         // startTime < endTime <= resultsVisibleFromTime
-        Date startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        Date endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        Date resultsVisibleFromTimeForPublishedSession = TimeHelper.getDateOffsetToCurrentTime(-1);
+        Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(-2);
+        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(-1);
+        Instant resultsVisibleFromTimeForPublishedSession = TimeHelper.getInstantDaysOffsetFromNow(-1);
 
         session.setStartTime(startTime);
         session.setEndTime(endTime);

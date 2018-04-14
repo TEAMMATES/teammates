@@ -74,7 +74,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase {
 
         String idOfInstructorToDelete = "AAMgtUiT.instr1";
         accountsPage.clickDeleteInstructorStatus(idOfInstructorToDelete)
-            .verifyStatus(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED);
+            .waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.INSTRUCTOR_STATUS_DELETED);
         assertFalse(BackDoor.getAccount(idOfInstructorToDelete).isInstructor);
     }
 

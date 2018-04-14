@@ -1,11 +1,12 @@
 package teammates.test.cases.browsertests;
 
+import java.time.Instant;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.StudentHelpPage;
@@ -39,8 +40,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         FeedbackSessionAttributes gracedFeedbackSession =
                 BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
-        gracedFeedbackSession.setEndTime(TimeHelper.convertLocalDateToUtc(
-                TimeHelper.getDateOffsetToCurrentTime(0), gracedFeedbackSession.getTimeZone()));
+        gracedFeedbackSession.setEndTime(Instant.now());
         BackDoor.editFeedbackSession(gracedFeedbackSession);
     }
 
@@ -145,7 +145,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: link of Grace period feedback");
 
-        assertEquals("true", studentHomePage.getViewFeedbackButton("Graced Feedback Session").getAttribute("disabled"));
+        assertTrue(studentHomePage.getViewFeedbackButton("Graced Feedback Session")
+                .getAttribute("class").contains("disabled"));
 
         studentHomePage.clickSubmitFeedbackButton("Graced Feedback Session");
         studentHomePage.reloadPage();
@@ -158,7 +159,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("link: link of pending feedback");
 
-        assertEquals("true", studentHomePage.getViewFeedbackButton("First Feedback Session").getAttribute("disabled"));
+        assertTrue(studentHomePage.getViewFeedbackButton("First Feedback Session")
+                .getAttribute("class").contains("disabled"));
 
         studentHomePage.clickSubmitFeedbackButton("First Feedback Session");
         studentHomePage.reloadPage();

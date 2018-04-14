@@ -214,6 +214,15 @@ public final class BackDoor {
     }
 
     /**
+     * Edits a course in the datastore.
+     */
+    public static String editCourse(CourseAttributes course) {
+        Map<String, String> params = createParamMap(BackDoorOperation.OPERATION_EDIT_COURSE);
+        params.put(BackDoorOperation.PARAMETER_JSON_STRING, JsonUtils.toJson(course));
+        return makePostRequest(params);
+    }
+
+    /**
      * Deletes a course from the datastore.
      */
     public static String deleteCourse(String courseId) {

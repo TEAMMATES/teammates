@@ -70,7 +70,8 @@ public class StudentHomePageData extends PageData {
                     getStudentPublishedTooltipForSession(feedbackSession),
                     getStudentSubmissionStatusForSession(feedbackSession, hasSubmitted),
                     getStudentPublishedStatusForSession(feedbackSession),
-                    TimeHelper.formatTime12H(feedbackSession.getEndTimeLocal()),
+                    TimeHelper.formatDateTimeForSessions(feedbackSession.getEndTime(), feedbackSession.getTimeZone()),
+                    feedbackSession.getEndTimeInIso8601UtcFormat(),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
 
@@ -99,10 +100,6 @@ public class StudentHomePageData extends PageData {
     }
 
     private String getStudentPublishedStatusForSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "-";
-        }
-
         if (session.isPublished()) {
             return "Published";
         }
@@ -135,9 +132,7 @@ public class StudentHomePageData extends PageData {
     }
 
     private String getStudentPublishedTooltipForSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
-        } else if (session.isPublished()) {
+        if (session.isPublished()) {
             return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED;
         } else {
             return Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;

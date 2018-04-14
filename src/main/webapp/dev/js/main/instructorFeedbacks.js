@@ -54,66 +54,33 @@ import {
 let isSessionsAjaxSending = false;
 let oldStatus = null;
 
-const TIMEZONE_SELECT_UNINITIALISED = '-9999';
-
 const DISPLAY_FEEDBACK_SESSION_COPY_INVALID = 'There is no feedback session to be copied.';
 const DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE =
         'This feedback session name already existed in this course. Please use another name.';
 
-function isTimeZoneIntialized() {
-    return $('#timezone').val() !== TIMEZONE_SELECT_UNINITIALISED;
-}
-
 /**
- * Format a number to be two digits
- */
-function formatDigit(num) {
-    return (num < 10 ? '0' : '') + num;
-}
-
-/**
- * Format a date object into DD/MM/YYYY format
- * @param date
- * @returns {String}
- */
-function convertDateToDDMMYYYY(date) {
-    return `${formatDigit(date.getDate())}/${formatDigit(date.getMonth() + 1)}/${date.getFullYear()}`;
-}
-
-/**
- * Format a date object into HHMM format
- * @param date
- * @returns {String}
- */
-function convertDateToHHMM(date) {
-    return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
-}
-
-/**
- * To be run on page finish loading, this will select the input: start date,
- * start time, and timezone based on client's time.
+ * To be run on page finish loading. This will fill the start date and
+ * start time inputs based on the client's time.
  *
  * The default values will not be set if the form was submitted previously and
  * failed validation.
  */
-function selectDefaultTimeOptions() {
+function selectDefaultStartDateTime() {
+    const isFormSubmittedPreviously = $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).data('timeZone');
+    if (isFormSubmittedPreviously) {
+        return;
+    }
+
     const now = new Date();
 
-    const currentDate = convertDateToDDMMYYYY(now);
-    const hours = convertDateToHHMM(now).substring(0, 2);
-    const currentTime = parseInt(hours, 10) + 1;
-    const timeZone = -now.getTimezoneOffset() / 60;
+    /*
+     * A workaround to hide the datepicker which opens up at the bottom of the page
+     * when setting the start date using the datepicker.
+     */
+    $('#ui-datepicker-div').css('display', 'none');
 
-    if (!isTimeZoneIntialized()) {
-        $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).val(currentDate);
-        $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(currentTime);
-        $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).val(timeZone);
-    }
-
-    const uninitializedTimeZone = $(`#timezone > option[value='${TIMEZONE_SELECT_UNINITIALISED}']`);
-    if (uninitializedTimeZone) {
-        uninitializedTimeZone.remove();
-    }
+    $(`#${ParamsNames.FEEDBACK_SESSION_STARTDATE}`).datepicker('setDate', now);
+    $(`#${ParamsNames.FEEDBACK_SESSION_STARTTIME}`).val(now.getHours() + 1);
 }
 
 function bindCopyButton() {
@@ -217,6 +184,34 @@ function bindEventsAfterAjax() {
     setupFsCopyModal();
 }
 
+function escapeXml(unsafe) {
+    return (unsafe || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+}
+
+function updateCourseNameAndTimeZoneFromSelection() {
+    const selectedCourseId = $(`#${ParamsNames.COURSE_ID}`).val();
+    if (!selectedCourseId) {
+        return;
+    }
+    const selectedCourseData = $('.course-attributes-data').data(selectedCourseId);
+    $(`#${ParamsNames.COURSE_NAME}`).html(escapeXml(selectedCourseData.name));
+    $(`#${ParamsNames.FEEDBACK_SESSION_TIMEZONE}`).html(selectedCourseData.timeZone);
+}
+
+function initializeCourseName() {
+    $('.course-attributes-data').each((idx, obj) => {
+        const $obj = $(obj);
+        $('.course-attributes-data').data(obj.id, { name: $obj.data('name'), timeZone: $obj.data('timeZone') });
+    });
+    updateCourseNameAndTimeZoneFromSelection();
+}
+
+function bindSelectField() {
+    $(`#${ParamsNames.COURSE_ID}`).change(updateCourseNameAndTimeZoneFromSelection);
+}
+
 const ajaxRequest = function (e) {
     e.preventDefault();
 
@@ -267,7 +262,7 @@ function readyFeedbackPage() {
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
 
-    selectDefaultTimeOptions();
+    selectDefaultStartDateTime();
     loadSessionsByAjax();
     bindUncommonSettingsEvents();
 
@@ -275,6 +270,9 @@ function readyFeedbackPage() {
     bindRemindButtons();
     bindPublishButtons();
     bindUnpublishButtons();
+
+    initializeCourseName();
+    bindSelectField();
 
     updateUncommonSettingsInfo();
     showUncommonPanelsIfNotInDefaultValues();

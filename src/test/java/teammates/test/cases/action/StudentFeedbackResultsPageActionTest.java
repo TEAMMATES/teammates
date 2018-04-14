@@ -1,7 +1,8 @@
 package teammates.test.cases.action;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -193,7 +194,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageData pageData = (StudentFeedbackResultsPageData) pageResult.data;
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
-        typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(new Date());
+        typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(Instant.now());
 
         /*
          * The above test can fail if the time elapsed between pageData... and dataBundle...
@@ -201,11 +202,12 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
          * To solve that, verify that the time elapsed is less than one second (or else the test
          * fails after all) and if it does, change the value in the dataBundle to match.
          */
-        long pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.getResultsVisibleFromTime().getTime();
-        long dataBundleResultsVisibleFromTime = typicalBundle.feedbackSessions.get("session1InCourse1")
-                                                                           .getResultsVisibleFromTime().getTime();
+        Instant pageDataResultsVisibleFromTime = pageData.getBundle().feedbackSession.getResultsVisibleFromTime();
+        Instant dataBundleResultsVisibleFromTime =
+                typicalBundle.feedbackSessions.get("session1InCourse1").getResultsVisibleFromTime();
+        Duration difference = Duration.between(pageDataResultsVisibleFromTime, dataBundleResultsVisibleFromTime);
         long toleranceTimeInMs = 1000;
-        if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < toleranceTimeInMs) {
+        if (difference.compareTo(Duration.ofMillis(toleranceTimeInMs)) < 0) {
             // change to the value that will never make the test fail
             typicalBundle.feedbackSessions.get("session1InCourse1").setResultsVisibleFromTime(
                     pageData.getBundle().feedbackSession.getResultsVisibleFromTime());

@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorFeedbackSessionsPageData;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
@@ -61,17 +60,16 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
+        assertEquals("session using template: team peer evaluation",
+                formModel.getFeedbackSessionTypeOptions().get(1).getContent());
         assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
         assertEquals("", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
-
-        String dateAsString = TimeHelper.formatDate(TimeHelper.getNextHour());
-
-        assertEquals(dateAsString, formModel.getFsStartDate());
+        assertEquals("", formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
+        assertEquals("", formModel.getFsTimeZone());
 
         assertEquals(7, formModel.getGracePeriodOptions().size());
 
@@ -88,12 +86,10 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
         assertEquals("", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
-        assertEquals(40, formModel.getTimezoneSelectField().size());
 
         assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
 
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
@@ -261,15 +257,16 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
+        assertEquals("session using template: team peer evaluation",
+                formModel.getFeedbackSessionTypeOptions().get(1).getContent());
         assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
 
-        assertEquals("30/04/2027", formModel.getFsEndDate());
+        assertEquals("Fri, 30 Apr, 2027", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("First feedback session", formModel.getFsName());
 
-        assertEquals("01/04/2012", formModel.getFsStartDate());
+        assertEquals("Sun, 01 Apr, 2012", formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
 
         assertEquals(7, formModel.getGracePeriodOptions().size());
@@ -283,15 +280,14 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
                             .getAttributes().containsKey("selected"));
 
         assertEquals("Please please fill in the following questions.", formModel.getInstructions());
-        assertEquals("01/05/2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
+        assertEquals("Sat, 01 May, 2027", formModel.getAdditionalSettings().getResponseVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
-        assertEquals("28/03/2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
+        assertEquals("Wed, 28 Mar, 2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
 
         assertFalse(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
 
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
@@ -348,7 +344,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals("idOfTypicalCourse1", formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
+        assertEquals("session with my own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
         assertNull(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
         assertTrue(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().containsKey("selected"));
 

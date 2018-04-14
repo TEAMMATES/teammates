@@ -246,6 +246,12 @@ public class BackDoorLogic extends Logic {
         updateAccount(account);
     }
 
+    public void editCourseAsJson(String newValues)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = JsonUtils.fromJson(newValues, CourseAttributes.class);
+        updateCourse(course.getId(), course.getName(), course.getTimeZone().getId());
+    }
+
     public void editStudentAsJson(String originalEmail, String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = JsonUtils.fromJson(newValues, StudentAttributes.class);
@@ -499,14 +505,14 @@ public class BackDoorLogic extends Logic {
     private void cleanSessionData(FeedbackSessionAttributes session) {
         if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
             session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         }
     }
 
     private void populateNullStudentProfiles(Collection<AccountAttributes> accounts) {
         for (AccountAttributes account : accounts) {
             if (account.studentProfile == null) {
-                account.studentProfile = StudentProfileAttributes.builder().withGoogleId(account.googleId).build();
+                account.studentProfile = StudentProfileAttributes.builder(account.googleId).build();
             }
         }
     }

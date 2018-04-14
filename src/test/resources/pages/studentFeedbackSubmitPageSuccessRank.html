@@ -16,8 +16,13 @@
     <input name="courseid" type="hidden" value="FRankUiT.CS4221">
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="FRankUiT.alice.tmms">
-    <div id="statusMessagesToUser" style="display: none;">
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-info icon-info statusMessage">
+        Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session.
+      </div>
     </div>
+    <script defer="" src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">
@@ -47,8 +52,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM UTC+0200
+                <p class="form-control-static" data-date-stamp="2012-04-01T21:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -57,8 +62,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static" data-end-time="2026-04-30T21:59:00Z" id="end-time">
-                  Thu, 30 Apr 2026, 11:59 PM UTC+0200
+                <p class="form-control-static" data-date-stamp="2026-04-30T21:59:00Z" id="end-time">
+                  Thu, 30 Apr 2026, 11:59 PM SAST
                 </p>
               </div>
             </div>
@@ -127,7 +132,7 @@
                   Teammates Helper who can only see section 1
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div>
@@ -260,7 +265,7 @@
                   Teammates Test
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div>
@@ -430,7 +435,7 @@
                   Teammates Helper who can only see section 1
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div>
@@ -487,7 +492,7 @@
                   Teammates Test
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div>
@@ -584,7 +589,7 @@
                   Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -641,7 +646,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -732,7 +737,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -832,7 +837,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -901,7 +906,7 @@
                   Charlie Davis
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -970,7 +975,7 @@
                   Danny Engrid
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -1038,7 +1043,7 @@
                   Emily F.
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -1138,7 +1143,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div>
@@ -1195,7 +1200,7 @@
                   Team 3
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div>
@@ -1278,7 +1283,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div>
@@ -1440,7 +1445,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div>
@@ -1528,7 +1533,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div>
@@ -1733,7 +1738,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div>
@@ -1958,7 +1963,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -2135,7 +2140,7 @@
                   Charlie Davis
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -2312,7 +2317,7 @@
                   Danny Engrid
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -2489,7 +2494,7 @@
                   Emily F.
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -2711,7 +2716,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -2779,7 +2784,7 @@
                   Charlie Davis
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -2847,7 +2852,7 @@
                   Danny Engrid
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -2915,7 +2920,7 @@
                   Emily F.
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -3029,7 +3034,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -3097,7 +3102,7 @@
                   Charlie Davis
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -3165,7 +3170,7 @@
                   Danny Engrid
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -3233,7 +3238,7 @@
                   Emily F.
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -3350,7 +3355,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -3418,7 +3423,7 @@
                   Charlie Davis
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -3486,7 +3491,7 @@
                   Danny Engrid
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>
@@ -3554,7 +3559,7 @@
                   Emily F.
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div>

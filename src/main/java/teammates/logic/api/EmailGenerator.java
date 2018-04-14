@@ -1,7 +1,7 @@
 package teammates.logic.api;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -85,15 +85,18 @@ public class EmailGenerator {
      */
     public List<EmailWrapper> generateFeedbackSessionReminderEmails(
             FeedbackSessionAttributes session, List<StudentAttributes> students,
-            List<InstructorAttributes> instructorsToRemind, List<InstructorAttributes> instructorsToNotify) {
+            List<InstructorAttributes> instructorsToRemind, InstructorAttributes instructorToNotify) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
         String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+        List<InstructorAttributes> instructorToNotifyAsList = new ArrayList<>();
+        instructorToNotifyAsList.add(instructorToNotify);
+
         List<EmailWrapper> emails =
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
-                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject());
-        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorsToNotify, template,
+                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), additionalContactInformation);
+        emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorToNotifyAsList, template,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                                                         FEEDBACK_ACTION_SUBMIT, additionalContactInformation));
 
@@ -181,7 +184,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code student}.
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
-            FeedbackSessionAttributes session, StudentAttributes student, Calendar timestamp) {
+            FeedbackSessionAttributes session, StudentAttributes student, Instant timestamp) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -197,7 +200,7 @@ public class EmailGenerator {
      * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
      */
     public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
-            FeedbackSessionAttributes session, InstructorAttributes instructor, Calendar timestamp) {
+            FeedbackSessionAttributes session, InstructorAttributes instructor, Instant timestamp) {
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
@@ -210,19 +213,19 @@ public class EmailGenerator {
 
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, List<InstructorAttributes> instructors,
-            String template, String subject) {
+            String template, String subject, String additionalContactInformation) {
 
         List<EmailWrapper> emails = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, instructor,
-                    template, subject));
+                    template, subject, additionalContactInformation));
         }
         return emails;
     }
 
     private EmailWrapper generateSubmissionConfirmationEmail(
             CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
-            String userName, String userEmail, Calendar timestamp) {
+            String userName, String userEmail, Instant timestamp) {
         String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
         String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
@@ -234,7 +237,7 @@ public class EmailGenerator {
                 "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                 "${submitUrl}", submitUrl,
                 "${timeStamp}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatDateTimeForSessions(timestamp.getTime(), session.getTimeZone())),
+                        TimeHelper.formatDateTimeForSessions(timestamp, session.getTimeZone())),
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
@@ -246,7 +249,7 @@ public class EmailGenerator {
 
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructorReminders(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
-            String template, String subject) {
+            String template, String subject, String additionalContactInformation) {
 
         String submitUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                  .withCourseId(course.getId())
@@ -268,7 +271,8 @@ public class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT);
+                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT,
+                "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
@@ -331,10 +335,12 @@ public class EmailGenerator {
             log.severe("Course " + session.getCourseId() + " does not exist or "
                     + "session " + session.getFeedbackSessionName() + " does not exist");
         }
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId());
+        List<InstructorAttributes> instructors = isEmailNeededForStudents
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<>();
         List<StudentAttributes> students = isEmailNeededForStudents
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                                           : new ArrayList<StudentAttributes>();
+                                           : new ArrayList<>();
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
@@ -347,16 +353,26 @@ public class EmailGenerator {
      */
     public List<EmailWrapper> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session) {
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
-
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToStudents(session);
         List<InstructorAttributes> instructors = isEmailNeeded
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                                                 : new ArrayList<InstructorAttributes>();
+                                                 : new ArrayList<>();
         List<StudentAttributes> students = isEmailNeeded
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                                           : new ArrayList<StudentAttributes>();
+                                           : new ArrayList<>();
+        return generateFeedbackSessionPublishedEmails(session, students, instructors);
+    }
+
+    /**
+     * Generates the feedback session published emails for the given {@code students} and
+     * {@code instructors} in {@code session}.
+     */
+    public List<EmailWrapper> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session,
+            List<StudentAttributes> students, List<InstructorAttributes> instructors) {
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
+
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
 
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,

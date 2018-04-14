@@ -92,8 +92,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals("", r.getStatusMessage());
 
         InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
-        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder().build();
-        expectedProfile.googleId = student.googleId;
+        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student.googleId).build();
         expectedProfile.modifiedDate = actualData.spa.modifiedDate;
         expectedProfile.pictureKey = actualData.spa.pictureKey;
 

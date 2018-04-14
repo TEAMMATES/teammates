@@ -1,7 +1,7 @@
 package teammates.test.cases.storage;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -120,7 +120,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         accountsDb.createAccount(a);
 
         ______TS("success case: duplicate account");
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes spa = StudentProfileAttributes.builder(a.googleId).build();
         spa.shortName = "test acc na";
         spa.email = "test@personal.com";
         spa.gender = Const.GenderTypes.MALE;
@@ -201,7 +201,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         ______TS("success: profile not modified in the default case");
 
-        Date expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
+        Instant expectedModifiedDate = actualAccount.studentProfile.modifiedDate;
 
         String expectedNationality = actualAccount.studentProfile.nationality;
         actualAccount.studentProfile.nationality = "Andorran";
@@ -313,9 +313,9 @@ public class AccountsDbTest extends BaseComponentTestCase {
                 .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        a.studentProfile = StudentProfileAttributes.builder().build();
-        a.studentProfile.googleId = a.googleId;
-        a.studentProfile.institute = "TEAMMATES Test Institute 1";
+        a.studentProfile = StudentProfileAttributes.builder(a.googleId)
+                .withInstitute(a.institute)
+                .build();
 
         return a;
     }

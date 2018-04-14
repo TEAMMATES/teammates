@@ -350,12 +350,12 @@
       "instructions": {
         "value": "Instructions for first session"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 3:59 PM UTC",
-      "endTime": "2026-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 3:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -373,12 +373,12 @@
       "instructions": {
         "value": "Please please fill in the second feedback session"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-02 3:59 PM UTC",
-      "endTime": "2026-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
-      "resultsVisibleFromTime": "2026-05-01 3:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -396,12 +396,12 @@
       "instructions": {
         "value": "Please please fill in the last feedback session"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-02 3:59 PM UTC",
-      "endTime": "2026-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 3:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -419,12 +419,12 @@
       "instructions": {
         "value": "This session has errors"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-02 3:59 PM UTC",
-      "endTime": "2026-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 3:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -442,12 +442,12 @@
       "instructions": {
         "value": "This session has errors"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-02 3:59 PM UTC",
-      "endTime": "2026-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 3:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -465,12 +465,12 @@
       "instructions": {
         "value": "This session has errors"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-02 3:59 PM UTC",
-      "endTime": "2026-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 3:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -488,12 +488,12 @@
       "instructions": {
         "value": "Session with Instructors as Givers"
       },
-      "createdTime": "2012-04-01 11:59 PM UTC",
-      "startTime": "2012-04-01 3:59 PM UTC",
-      "endTime": "2026-04-30 3:59 PM UTC",
-      "sessionVisibleFromTime": "2012-04-01 3:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 3:59 PM UTC",
-      "timeZone": 8.0,
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -1786,12 +1786,12 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-01 11:59 PM UTC",
+      "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "<p> Some comment from instructor </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>"
       },
       "lastEditorEmail": "CFResultsUiT.instr@gmail.tmt",
-      "lastEditedAt": "2026-03-02 11:59 PM UTC"
+      "lastEditedAt": "2026-03-02T23:59:00Z"
     },
     "comment2ToBeEditedByDifferentInstructor": {
       "courseId": "CFResultsUiT.CS2104",
@@ -1816,12 +1816,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2012-04-02 11:59 PM UTC",
+      "createdAt": "2012-04-02T23:59:00Z",
       "commentText": {
         "value": "Comment to be edited by different instructor."
       },
       "lastEditorEmail": "CFResultsUiT.instr2@gmail.tmt",
-      "lastEditedAt": "2012-04-02 11:59 PM UTC"
+      "lastEditedAt": "2012-04-02T23:59:00Z"
     }
   },
   "profiles": {}

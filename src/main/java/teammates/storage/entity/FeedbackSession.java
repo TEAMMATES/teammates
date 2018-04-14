@@ -1,15 +1,18 @@
 package teammates.storage.entity;
 
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.IgnoreSave;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnLoad;
@@ -17,6 +20,7 @@ import com.googlecode.objectify.annotation.Unindex;
 
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 
 /**
@@ -25,6 +29,8 @@ import teammates.common.util.TimeHelper;
 @Entity
 @Index
 public class FeedbackSession extends BaseEntity {
+
+    private static final Logger log = Logger.getLogger();
 
     // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
@@ -70,12 +76,19 @@ public class FeedbackSession extends BaseEntity {
 
     private String timeZone;
 
+    @Unindex
+    private boolean isFollowingCourseTimeZone;
+
+    @SuppressWarnings("PMD.UnusedPrivateField") // Used by migration script
+    @Ignore
+    private boolean wasFollowingCourseTimeZone;
+
     // TODO Remove after all legacy data has been converted
     @IgnoreSave
     private Double timeZoneDouble;
 
     @Unindex
-    private int gracePeriod;
+    private long gracePeriod;
 
     private FeedbackSessionType feedbackSessionType;
 
@@ -100,20 +113,20 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double offset, int gracePeriod,
+            String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, offset, gracePeriod, feedbackSessionType,
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
              sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
              isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId,
-            String creatorEmail, Text instructions, Date createdTime, Date startTime, Date endTime,
-            Date sessionVisibleFromTime, Date resultsVisibleFromTime, double offset, int gracePeriod,
+            String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
+            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -122,12 +135,12 @@ public class FeedbackSession extends BaseEntity {
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
         this.instructions = instructions;
-        this.createdTime = createdTime;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
-        this.timeZone = convertOffsetToZoneId(offset);
+        this.createdTime = TimeHelper.convertInstantToDate(createdTime);
+        this.startTime = TimeHelper.convertInstantToDate(startTime);
+        this.endTime = TimeHelper.convertInstantToDate(endTime);
+        this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
+        this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
+        this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
         this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
@@ -141,6 +154,7 @@ public class FeedbackSession extends BaseEntity {
         this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
         this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
         this.isTimeStoredInUtc = true;
+        this.isFollowingCourseTimeZone = true;
     }
 
     @OnLoad
@@ -159,18 +173,27 @@ public class FeedbackSession extends BaseEntity {
 
     @OnLoad
     @SuppressWarnings("unused") // called by Objectify
-    private void setTimeZoneFromOffsetIfRequired() {
-        if (timeZoneDouble == null) {
+    private void setTimeZoneFromCourseTimeZoneIfRequired() {
+        if (isFollowingCourseTimeZone) {
+            wasFollowingCourseTimeZone = true;
             return;
         }
 
-        double offset;
-        if (timeZone.equals(String.valueOf(Const.INT_UNINITIALIZED))) {
-            offset = timeZoneDouble;
+        Course course = Ref.create(Key.create(Course.class, courseId)).get();
+        ZoneId courseTimeZone = Const.DEFAULT_TIME_ZONE; // UTC
+        if (course == null) {
+            log.severe("Could not retrieve course \"" + courseId
+                    + "\"; defaulting to UTC for session: " + feedbackSessionId);
         } else {
-            offset = Double.valueOf(timeZone);
+            try {
+                courseTimeZone = ZoneId.of(course.getTimeZone());
+            } catch (DateTimeException e) {
+                log.severe("Invalid time zone \"" + course.getTimeZone() + "\" encountered for course \"" + courseId
+                        + "\"; defaulting to UTC for session: " + feedbackSessionId);
+            }
         }
-        timeZone = convertOffsetToZoneId(offset);
+        timeZone = courseTimeZone.getId();
+        isFollowingCourseTimeZone = true;
     }
 
     @OnLoad
@@ -184,6 +207,14 @@ public class FeedbackSession extends BaseEntity {
         }
         if (isPublishedEmailEnabled == null) {
             isPublishedEmailEnabled = true;
+        }
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void adjustResultsVisibleFromTimeIfRequired() {
+        if (Const.TIME_REPRESENTS_NEVER.equals(getResultsVisibleFromTime())) {
+            setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         }
     }
 
@@ -219,59 +250,59 @@ public class FeedbackSession extends BaseEntity {
         this.instructions = instructions;
     }
 
-    public Date getCreatedTime() {
-        return createdTime;
+    public Instant getCreatedTime() {
+        return TimeHelper.convertDateToInstant(createdTime);
     }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public void setCreatedTime(Instant createdTime) {
+        this.createdTime = TimeHelper.convertInstantToDate(createdTime);
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Instant getStartTime() {
+        return TimeHelper.convertDateToInstant(startTime);
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartTime(Instant startTime) {
+        this.startTime = TimeHelper.convertInstantToDate(startTime);
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Instant getEndTime() {
+        return TimeHelper.convertDateToInstant(endTime);
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndTime(Instant endTime) {
+        this.endTime = TimeHelper.convertInstantToDate(endTime);
     }
 
-    public Date getSessionVisibleFromTime() {
-        return sessionVisibleFromTime;
+    public Instant getSessionVisibleFromTime() {
+        return TimeHelper.convertDateToInstant(sessionVisibleFromTime);
     }
 
-    public void setSessionVisibleFromTime(Date sessionVisibleFromTime) {
-        this.sessionVisibleFromTime = sessionVisibleFromTime;
+    public void setSessionVisibleFromTime(Instant sessionVisibleFromTime) {
+        this.sessionVisibleFromTime = TimeHelper.convertInstantToDate(sessionVisibleFromTime);
     }
 
-    public Date getResultsVisibleFromTime() {
-        return resultsVisibleFromTime;
+    public Instant getResultsVisibleFromTime() {
+        return TimeHelper.convertDateToInstant(resultsVisibleFromTime);
     }
 
-    public void setResultsVisibleFromTime(Date resultsVisibleFromTime) {
-        this.resultsVisibleFromTime = resultsVisibleFromTime;
+    public void setResultsVisibleFromTime(Instant resultsVisibleFromTime) {
+        this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
     }
 
-    public double getOffset() {
-        return convertZoneIdToOffset(timeZone);
+    public String getTimeZone() {
+        return timeZone;
     }
 
-    public void setOffset(double offset) {
-        this.timeZone = convertOffsetToZoneId(offset);
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 
-    public int getGracePeriod() {
+    public long getGracePeriod() {
         return gracePeriod;
     }
 
-    public void setGracePeriod(int gracePeriod) {
+    public void setGracePeriod(long gracePeriod) {
         this.gracePeriod = gracePeriod;
     }
 
@@ -370,14 +401,6 @@ public class FeedbackSession extends BaseEntity {
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
-    }
-
-    private String convertOffsetToZoneId(double offset) {
-        return ZoneId.ofOffset("UTC", ZoneOffset.ofTotalSeconds((int) (offset * 60 * 60))).getId();
-    }
-
-    private double convertZoneIdToOffset(String zoneId) {
-        return ((double) ZoneId.of(zoneId).getRules().getOffset(Instant.now()).getTotalSeconds()) / 60 / 60;
     }
 
 }

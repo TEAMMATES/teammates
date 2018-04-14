@@ -1,6 +1,6 @@
 package teammates.logic.core;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -77,8 +77,8 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseComment(feedbackResponseCommentId);
     }
 
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId, String giverEmail,
-                                                                        Date creationDate) {
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
+            String responseId, String giverEmail, Instant creationDate) {
         return frcDb.getFeedbackResponseComment(responseId, giverEmail, creationDate);
     }
 

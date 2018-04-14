@@ -156,7 +156,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         int unregisteredInstructorIndex = 4;
 
         courseEditPage.clickInviteInstructorLink(unregisteredInstructorIndex);
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
     private void testAddInstructorAction() throws Exception {
@@ -184,8 +185,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         courseEditPage.clickAddInstructorButton();
 
-        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, "Teammates Instructor",
-                                                  "InsCrsEdit.instructor@gmail.tmt"));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
+                        "Teammates Instructor", "InsCrsEdit.instructor@gmail.tmt"));
 
         AppUrl courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                                     .withCourseId(courseId)
@@ -201,19 +203,21 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("failure: add an existing instructor");
 
         courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.tmt");
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
 
         ______TS("failure: add an instructor with an invalid parameter");
 
         String invalidEmail = "InsCrsEdit.email.tmt";
 
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
 
         courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                new FieldValidator().getInvalidityInfoForPersonName(invalidName));
     }
 
     private void testEditInstructorAction() throws Exception {
@@ -230,7 +234,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("success: edit instructor, make hidden and verify changes");
         courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", false, "",
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
         courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "new_email@email.tmt",
                 false, "", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
@@ -238,7 +243,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         courseEditPage.editInstructor(editInstructorIndex, "New name", "new_email@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
         courseEditPage.verifyInstructorDetails(editInstructorIndex, "New name", "new_email@email.tmt",
                 true, "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
@@ -247,14 +253,16 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         editInstructorIndex = 3;
         courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", false, "",
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
         assertTrue(courseEditPage.isInstructorListSortedByName());
 
         ______TS("success: unhide yet-to-join instructor and verify changes");
 
         courseEditPage.editInstructor(editInstructorIndex, "New name", "InsCrsEdit.instructor@gmail.tmt", true,
                 "New display name", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.verifyStatus(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                String.format(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, "New name"));
 
         ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
 
@@ -398,13 +406,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail, true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
 
         courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        courseEditPage.verifyStatus(new FieldValidator().getInvalidityInfoForPersonName(invalidName));
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                new FieldValidator().getInvalidityInfoForPersonName(invalidName));
 
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
         editInstructorIndex = 2;
@@ -662,7 +672,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
         String expectedMsg = "The instructor has been deleted from the course.";
-        courseEditPage.verifyStatus(expectedMsg);
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(expectedMsg);
 
         ______TS("delete all other instructors");
 
@@ -692,13 +702,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         // Delete own instructor role
         courseEditPage.clickDeleteInstructorLinkAndConfirm(2);
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED);
 
         // Delete other instructors
         courseEditPage.clickDeleteInstructorLinkAndConfirm(3);
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
         courseEditPage.clickDeleteInstructorLinkAndConfirm(1);
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
 
         ______TS("delete own instructor role and redirect to courses page");
 
@@ -711,8 +722,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         InstructorCoursesPage coursesPage = courseEditPage.changePageType(InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
-        coursesPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_DELETED + "\n"
-                                 + Const.StatusMessages.COURSE_EMPTY);
+        coursesPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, Const.StatusMessages.COURSE_EMPTY);
 
         // Restore own instructor role to ensure remaining test cases work properly
         BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.test"));
@@ -732,7 +743,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_EDITED);
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.COURSE_EDITED);
 
         ______TS("edit course invalid name");
         assertFalse(courseEditPage.isCourseEditFormEnabled());
@@ -741,7 +752,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editCourseName("");
         courseEditPage.clickSaveCourseButton();
         courseEditPage.changePageType(InstructorCourseEditPage.class);
-        courseEditPage.verifyStatus(
+        courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 getPopulatedEmptyStringErrorMessage(
                                      FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                                      FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH));
@@ -759,7 +770,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("delete course then proceed");
 
         InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLinkAndConfirm();
-        assertTrue(coursePage.getStatus().contains(String.format(Const.StatusMessages.COURSE_DELETED, courseId)));
+        assertTrue(coursePage.getTextsForAllStatusMessagesToUser()
+                .contains(String.format(Const.StatusMessages.COURSE_DELETED, courseId)));
     }
 
     private void testUnregisteredInstructorEmailNotEditable() {

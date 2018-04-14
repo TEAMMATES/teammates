@@ -1,5 +1,6 @@
 package teammates.storage.entity;
 
+import java.time.Instant;
 import java.util.Date;
 
 import com.googlecode.objectify.Ref;
@@ -7,6 +8,8 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
+
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents a unique user in the system.
@@ -29,9 +32,6 @@ public class Account extends BaseEntity {
     private Date createdAt;
 
     private Ref<StudentProfile> studentProfile;
-
-    @Ignore // used in local attribute tests that give a shell student profile (empty googleId)
-    private StudentProfile localStudentProfile;
 
     @Ignore // session-specific based on whether profile retrieval is enabled
     private boolean isStudentProfileEnabled = true;
@@ -65,7 +65,7 @@ public class Account extends BaseEntity {
         this.setIsInstructor(isInstructor);
         this.setEmail(email);
         this.setInstitute(institute);
-        this.setCreatedAt(new Date());
+        this.setCreatedAt(Instant.now());
         this.setStudentProfile(studentProfile);
     }
 
@@ -114,25 +114,21 @@ public class Account extends BaseEntity {
         this.institute = institute;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Instant getCreatedAt() {
+        return TimeHelper.convertDateToInstant(createdAt);
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = TimeHelper.convertInstantToDate(createdAt);
     }
 
     /**
      * Fetches the student profile from the datastore the first time this is called. Returns null if student profile was
-     * explicitly set to null (e.g. when the student profile is intentionally not retrieved). If a shell student profile
-     * with an empty Google ID was set, simply returns this shell student profile without interacting with the datastore.
+     * explicitly set to null (e.g. when the student profile is intentionally not retrieved).
      */
     public StudentProfile getStudentProfile() {
         if (!isStudentProfileEnabled) {
             return null;
-        }
-        if (localStudentProfile != null && localStudentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
-            return localStudentProfile;
         }
         if (studentProfile == null) {
             return null;
@@ -142,9 +138,8 @@ public class Account extends BaseEntity {
 
     /**
      * Sets a reference to {@code studentProfile} which subsequent calls to {@code getStudentProfile()} will use to fetch
-     * from. To disable this behaviour (e.g. when the student profile is intentionally not retrieved), set to null. If a
-     * shell student profile with an empty Google ID is set, subsequent calls to {@code getStudentProfile()} will simply
-     * return the shell student profile without interacting with the datastore.
+     * the profile from the datastore. To disable this behaviour (e.g. when the student profile is intentionally not
+     * retrieved), set to null.
      */
     public void setStudentProfile(StudentProfile studentProfile) {
         if (studentProfile == null) {
@@ -152,10 +147,6 @@ public class Account extends BaseEntity {
             return;
         }
         setIsStudentProfileEnabled(true);
-        if (studentProfile.getGoogleId().isEmpty()) { // only in local attribute tests
-            this.localStudentProfile = studentProfile;
-            return;
-        }
         this.studentProfile = Ref.create(studentProfile);
     }
 

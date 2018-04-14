@@ -10,8 +10,13 @@
     <input name="courseid" type="hidden" value="IFSubmitUiT.CS2104">
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IFSubmitUiT.instr2">
-    <div id="statusMessagesToUser" style="display: none;">
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-info icon-info statusMessage">
+        Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session.
+      </div>
     </div>
+    <script defer="" src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">
@@ -41,8 +46,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM UTC+0800
+                <p class="form-control-static" data-date-stamp="2012-04-01T15:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -51,8 +56,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static" data-end-time="2026-04-30T15:59:00Z" id="end-time">
-                  Thu, 30 Apr 2026, 11:59 PM UTC+0800
+                <p class="form-control-static" data-date-stamp="2026-04-30T15:59:00Z" id="end-time">
+                  Thu, 30 Apr 2026, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -110,7 +115,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
@@ -195,7 +200,7 @@
                   </option>
                 </select>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-7">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-0" data-recommended-text="0" id="responsetext-2-0" name="responsetext-2-0" spellcheck="false" style="position: relative;">
@@ -243,7 +248,7 @@
                   </option>
                 </select>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-7">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-1" data-recommended-text="0" id="responsetext-2-1" name="responsetext-2-1" spellcheck="false" style="position: relative;">
@@ -291,7 +296,7 @@
                   </option>
                 </select>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-7">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-2-2" data-recommended-text="0" id="responsetext-2-2" name="responsetext-2-2" spellcheck="false" style="position: relative;">
@@ -444,7 +449,7 @@
                   Teammates Test
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-0" data-recommended-text="0" id="responsetext-4-0" name="responsetext-4-0" spellcheck="false" style="position: relative;">
@@ -495,7 +500,7 @@
                   Teammates Test3
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-1" data-recommended-text="0" id="responsetext-4-1" name="responsetext-4-1" spellcheck="false" style="position: relative;">
@@ -546,7 +551,7 @@
                   Teammates Test4
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-2" data-recommended-text="0" id="responsetext-4-2" name="responsetext-4-2" spellcheck="false" style="position: relative;">
@@ -597,7 +602,7 @@
                   Teammates Test5
                 </span>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-9">
               <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-4-3" data-recommended-text="0" id="responsetext-4-3" name="responsetext-4-3" spellcheck="false" style="position: relative;">
@@ -668,7 +673,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -752,7 +757,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <table>
@@ -802,7 +807,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <table>
@@ -852,7 +857,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <table>
@@ -925,7 +930,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">
@@ -1039,7 +1044,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <p class="text-muted" hidden="">
@@ -1119,7 +1124,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <p class="text-muted" hidden="">
@@ -1199,7 +1204,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <p class="text-muted" hidden="">
@@ -1302,7 +1307,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -1425,7 +1430,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">
@@ -1568,7 +1573,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -1651,7 +1656,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">
@@ -1754,7 +1759,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
@@ -1823,7 +1828,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <div class="col-sm-3 mobile-no-padding">
@@ -1858,7 +1863,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <div class="col-sm-3 mobile-no-padding">
@@ -1893,7 +1898,7 @@
                   </option>
                 </select>
               </label>
-              (Instructor) :
+              (Instructor):
             </div>
             <div class="col-sm-7">
               <div class="col-sm-3 mobile-no-padding">
@@ -1951,7 +1956,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <table>
@@ -2054,7 +2059,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">
@@ -2177,7 +2182,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-6 width-auto">
               <div class="margin-bottom-15px flex">
@@ -2264,7 +2269,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-6 width-auto">
               <div class="margin-bottom-15px flex">
@@ -2342,7 +2347,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-6 width-auto">
               <div class="margin-bottom-15px flex">
@@ -2420,7 +2425,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-6 width-auto">
               <div class="margin-bottom-15px flex">
@@ -2507,7 +2512,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <p class="text-muted" hidden="">

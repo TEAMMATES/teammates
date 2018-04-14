@@ -3,16 +3,15 @@ package teammates.test.driver;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 
 /**
  * Provides additional assertion methods that are often used during testing.
@@ -24,15 +23,15 @@ public final class AssertHelper {
     }
 
     /**
-     * Assert date is now +- 1 min.
+     * Assert instant is now +- 1 min.
      */
-    public static void assertDateIsNow(Date date) {
-        assertDateWithinRange(date, TimeHelper.getMsOffsetToCurrentTime(-1000 * 60),
-                                    TimeHelper.getMsOffsetToCurrentTime(1000 * 60));
+    public static void assertInstantIsNow(Instant instant) {
+        assertInstantWithinRange(instant, TimeHelperExtension.getInstantMinutesOffsetFromNow(-1),
+                TimeHelperExtension.getInstantMinutesOffsetFromNow(1));
     }
 
-    private static void assertDateWithinRange(Date date, Date startDate, Date endDate) {
-        assertTrue(!(date.before(startDate) || date.after(endDate)));
+    private static void assertInstantWithinRange(Instant instant, Instant start, Instant end) {
+        assertTrue(!(instant.isBefore(start) || instant.isAfter(end)));
     }
 
     /**

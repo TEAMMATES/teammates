@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h4 class="text-color-primary" id="faq">
   Frequently Asked Questions
@@ -122,7 +123,7 @@
             <br>
           </div>
           In the calculation, we do not allow (a) to affect (b). We use (b) to calculate the average perceived contribution for each student. A more detailed version of this calculation can be found
-          <a href="https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true#h.n5u2xs6z9y0g">here</a>.
+          <a href="/technicalInformation.jsp#calculatePointsContribution" target="_blank">here</a>.
         </div>
       </li>
       <br>
@@ -130,7 +131,7 @@
         <b>How are the contribution numbers calculated?</b>
         <div class="helpSectionContent">
           You can find the details of the contribution calculation scheme
-          <a href="https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true#h.n5u2xs6z9y0g">here</a>.
+          <a href="/technicalInformation.jsp#calculatePointsContribution" target="_blank">here</a>.
         </div>
       </li>
       <br>

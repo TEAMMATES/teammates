@@ -3,6 +3,8 @@ package teammates.test.cases.storage;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -31,7 +33,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
         ______TS("success: typical case");
         CourseAttributes c = CourseAttributes
-                .builder("Computing101-fresh", "Basic Computing", "UTC")
+                .builder("Computing101-fresh", "Basic Computing", ZoneId.of("UTC"))
                 .build();
         coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatastore(c);
@@ -52,7 +54,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
         ______TS("fails: invalid parameters");
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("invalid id spaces", "Basic Computing", "UTC")
+                .builder("invalid id spaces", "Basic Computing", ZoneId.of("UTC"))
                 .build();
         try {
             coursesDb.createEntity(invalidCourse);

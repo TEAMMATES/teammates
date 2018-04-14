@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -76,7 +76,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
                 .withFeedbackQuestionId(feedbackQuestionId)
                 .withFeedbackResponseId(feedbackResponseId)
-                .withCreatedAt(new Date())
+                .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
                 .build();

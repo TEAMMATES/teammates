@@ -2,10 +2,10 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +26,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
@@ -97,7 +98,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * @return Null if not found.
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
-            String feedbackResponseId, String giverEmail, Date createdAt) {
+            String feedbackResponseId, String giverEmail, Instant createdAt) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
@@ -113,7 +114,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * @return Null if not found.
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
-            String courseId, Date createdAt, String giverEmail) {
+            String courseId, Instant createdAt, String giverEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
@@ -332,10 +333,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         ofy().delete().keys(getEntityQueryKeys(id)).now();
     }
 
-    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
+    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
-                .filter("createdAt =", createdAt)
+                .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
                 .filter("giverEmail =", giverEmail)
                 .first().now();
     }
@@ -345,11 +346,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(
-            String feedbackResponseId, String giverEmail, Date createdAt) {
+            String feedbackResponseId, String giverEmail, Instant createdAt) {
         return load()
                 .filter("feedbackResponseId =", feedbackResponseId)
                 .filter("giverEmail =", giverEmail)
-                .filter("createdAt =", createdAt)
+                .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
                 .first().now();
     }
 
@@ -439,7 +440,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
         return load()
                 .filter("courseId =", attributes.courseId)
-                .filter("createdAt =", attributes.createdAt)
+                .filter("createdAt =", TimeHelper.convertInstantToDate(attributes.createdAt))
                 .filter("giverEmail =", attributes.giverEmail)
                 .keys();
     }

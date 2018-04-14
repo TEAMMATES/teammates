@@ -4,9 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.W3CDom;
@@ -41,10 +38,9 @@ public final class HtmlHelper {
     private static final String REGEX_COMMENT_ID = "[0-9]{16}";
     private static final String REGEX_DISPLAY_TIME = "(0[0-9]|1[0-2]):[0-5][0-9] ([AP]M|NOON)";
     private static final String REGEX_DISPLAY_TIME_ISO_8601_UTC =
-            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z";
+            "([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.([0-9]{3}|[0-9]{6}))?Z";
     private static final String REGEX_ADMIN_INSTITUTE_FOOTER = ".*?";
     private static final String REGEX_SESSION_TOKEN = REGEX_UPPERCASE_HEXADECIMAL_CHAR_32;
-    private static final String REGEX_TIMEZONE_OFFSET = "UTC([+-]\\d{4})";
 
     private HtmlHelper() {
         // utility class
@@ -159,17 +155,23 @@ public final class HtmlHelper {
                         || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
+                } else if (isTinymceStyleDiv(attribute)) {
+                    // ignore as the style definition differs across browsers
+                    return ignoreNode();
                 } else if (isMotdContainerAttribute(attribute)) {
                     // replace MOTD content with placeholder
                     return generateStudentMotdPlaceholder(indentation);
+                } else if (isDatepickerAttribute(attribute)) {
+                    // replace datepicker with placeholder
+                    return generateDatepickerPlaceholder(indentation);
                 }
             }
-        } else if (currentNode.getNodeName().equalsIgnoreCase("select")) {
-            NamedNodeMap attributes = currentNode.getAttributes();
-            for (int i = 0; i < attributes.getLength(); i++) {
-                Node attribute = attributes.item(i);
-                if (isTimeZoneSelectorAttribute(attribute)) {
-                    return generateTimeZoneSelectorPlaceholder(indentation);
+        } else if (currentNode.getNodeName().equalsIgnoreCase("option")) {
+            NamedNodeMap parentAttributes = currentNode.getParentNode().getAttributes();
+            for (int i = 0; i < parentAttributes.getLength(); i++) {
+                Node parentAttribute = parentAttributes.item(i);
+                if (isTimeZoneSelectorAttribute(parentAttribute)) {
+                    return ignoreNode();
                 }
             }
         } else if (currentNode.getNodeName().equalsIgnoreCase("style")) {
@@ -177,8 +179,7 @@ public final class HtmlHelper {
             for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 if (isTinymceStyleAttribute(attribute)) {
-                    // the style definition differs across browsers; replace with placeholder
-                    // return generateTinymceStylePlaceholder(indentation);
+                    // ignore as the style definition differs across browsers
                     return ignoreNode();
                 }
             }
@@ -195,13 +196,9 @@ public final class HtmlHelper {
         return indentation + "${studentmotd.container}" + System.lineSeparator();
     }
 
-    private static String generateTimeZoneSelectorPlaceholder(String indentation) {
-        return indentation + "${timezone.options}" + System.lineSeparator();
+    private static String generateDatepickerPlaceholder(String indentation) {
+        return indentation + "${datepicker}" + System.lineSeparator();
     }
-
-    // private static String generateTinymceStylePlaceholder(String indentation) {
-    //     return indentation + "${tinymce.style}" + System.lineSeparator();
-    // }
 
     private static String generateNodeStringRepresentation(Node currentNode, String indentation, boolean isPart) {
         StringBuilder currentHtmlText = new StringBuilder();
@@ -245,6 +242,15 @@ public final class HtmlHelper {
                  || "body".equals(currentNodeName));
     }
 
+    private static boolean isTinymceStyleDiv(Node attribute) {
+        if (!"style".equalsIgnoreCase(attribute.getNodeName())) {
+            return false;
+        }
+        String value = attribute.getNodeValue();
+        return value.contains("position: static") && value.contains("height: 0px") && value.contains("width: 0px")
+                && value.contains("padding: 0px") && value.contains("margin: 0px");
+    }
+
     private static boolean isTinymceStyleAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "mceDefaultStyles");
     }
@@ -280,10 +286,18 @@ public final class HtmlHelper {
     }
 
     /**
+     * Checks for datepicker (i.e a <code>div</code> with id <code>ui-datepicker-div</code>).
+     */
+    private static boolean isDatepickerAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "ui-datepicker-div");
+    }
+
+    /**
      * Checks for timezone selectors (i.e a <code>select</code> with id <code>coursetimezone</code>).
      */
     private static boolean isTimeZoneSelectorAttribute(Node attribute) {
-        return checkForAttributeWithSpecificValue(attribute, "id", "coursetimezone");
+        return checkForAttributeWithSpecificValue(attribute, "id", Const.ParamsNames.COURSE_TIME_ZONE)
+                || checkForAttributeWithSpecificValue(attribute, "id", Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
     }
 
     private static boolean checkForAttributeWithSpecificValue(Node attribute, String attrType, String attrValue) {
@@ -391,16 +405,16 @@ public final class HtmlHelper {
      */
     private static String replaceUnpredictableValuesWithPlaceholders(String content) {
         Date now = new Date();
+        Date nowMinusOneDay = TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        Date nowPlusOneDay = TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(1));
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, ");
-        // get session's time zone from content.
-        // this method is not applicable for pages with multiple time zones like InstructorSearchPage
-        sdf.setTimeZone(getTimeZone(content));
-        String dateTimeNow = sdf.format(now);
+        String dateToday = sdf.format(now);
+        String dateYesterday = sdf.format(nowMinusOneDay);
+        String dateTomorrow = sdf.format(nowPlusOneDay);
         SimpleDateFormat sdfForIso8601 = new SimpleDateFormat("yyyy-MM-dd'T'");
-        String dateTimeNowInIso8601 = sdfForIso8601.format(now);
+        String dateTodayInIso8601 = sdfForIso8601.format(now);
         SimpleDateFormat sdfForCoursesPage = new SimpleDateFormat("d MMM yyyy");
-        String dateTimeNowInCoursesPageFormat = sdfForCoursesPage.format(now);
-        String dateOfNextHour = TimeHelper.formatDate(TimeHelper.getNextHour());
+        String dateTodayInCoursesPageFormat = sdfForCoursesPage.format(now);
         return content // dev server admin absolute URLs (${teammates.url}/_ah/...)
                       .replace("\"" + TestProperties.TEAMMATES_URL + "/_ah", "\"/_ah")
                       // logout URL generated by Google
@@ -449,12 +463,12 @@ public final class HtmlHelper {
                       .replaceAll("responseCommentRow-" + REGEX_COMMENT_ID, "responseCommentRow-\\${comment\\.id}")
                       .replaceAll("commentBar-" + REGEX_COMMENT_ID, "commentBar-\\${comment\\.id}")
                       .replaceAll("plainCommentText-" + REGEX_COMMENT_ID, "plainCommentText-\\${comment\\.id}")
-                      // date of next hour (datepicker's date is generated based on next hour's date)
-                      .replace(dateOfNextHour, "${date.nexthour}")
                       // date/time now e.g [Thu, 07 May 2015, 07:52 PM]
-                      .replaceAll(dateTimeNow + REGEX_DISPLAY_TIME, "\\${datetime\\.now}")
-                      .replaceAll(dateTimeNowInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
-                      .replaceAll(dateTimeNowInCoursesPageFormat, "\\${datetime\\.now\\.courses}")
+                      // account for time zone differences by accepting dates within one day from now
+                      .replaceAll("(" + dateToday + "|" + dateYesterday + "|" + dateTomorrow + ")" + REGEX_DISPLAY_TIME,
+                              "\\${datetime\\.now}")
+                      .replaceAll(dateTodayInIso8601 + REGEX_DISPLAY_TIME_ISO_8601_UTC, "\\${datetime\\.now\\.iso8601utc}")
+                      .replaceAll(dateTodayInCoursesPageFormat, "\\${datetime\\.now\\.courses}")
                       // admin footer, test institute section
                       .replaceAll("(?s)<div( class=\"col-md-8\"| id=\"adminInstitute\"){2}>"
                                               + REGEX_ADMIN_INSTITUTE_FOOTER + "</div>",
@@ -509,23 +523,11 @@ public final class HtmlHelper {
                       .replace("<!-- test.admin -->", TestProperties.TEST_ADMIN_ACCOUNT)
                       .replace("<!-- test.admin.truncated -->",
                                StringHelper.truncateLongId(TestProperties.TEST_ADMIN_ACCOUNT))
-                      .replace("<!-- nexthour.date -->", TimeHelper.formatDate(TimeHelper.getNextHour()))
                       .replace("<!-- now.datetime -->", TimeHelper.formatTime12H(now))
                       .replace("<!-- now.datetime.sessions -->", TimeHelper.formatDateTimeForSessions(now, 0))
                       .replace("<!-- now.datetime.iso8601utc -->", TimeHelper.formatDateToIso8601Utc(now))
-                      .replace("<!-- now.datetime.courses -->", TimeHelper.formatDateTimeForInstructorCoursesPage(now));
-    }
-
-    private static TimeZone getTimeZone(String content) {
-        // searches for first String of pattern "UTC+xxxx" in the content.
-        Pattern pattern = Pattern.compile(REGEX_TIMEZONE_OFFSET);
-        Matcher matcher = pattern.matcher(content);
-        // set default time zone offset.
-        String timeZoneOffset = "+0000";
-        if (matcher.find()) {
-            timeZoneOffset = matcher.group(1);
-        }
-        return TimeZone.getTimeZone("GMT" + timeZoneOffset);
+                      .replace("<!-- now.datetime.courses -->",
+                              TimeHelper.formatDateTimeForInstructorCoursesPage(now, "UTC"));
     }
 
 }

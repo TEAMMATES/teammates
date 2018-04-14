@@ -33,8 +33,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNotNull(student);
 
         // Assert dates are now.
-        AssertHelper.assertDateIsNow(student.getCreatedAt());
-        AssertHelper.assertDateIsNow(student.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(student.getCreatedAt());
+        AssertHelper.assertInstantIsNow(student.getUpdatedAt());
 
         ______TS("success : update lastUpdated");
 
@@ -45,7 +45,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         // Assert lastUpdate has changed, and is now.
         assertFalse(student.getUpdatedAt().equals(updatedStudent.getUpdatedAt()));
-        AssertHelper.assertDateIsNow(updatedStudent.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(updatedStudent.getUpdatedAt());
 
         ______TS("success : keep lastUpdated");
 

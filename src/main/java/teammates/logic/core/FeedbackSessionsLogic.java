@@ -1,8 +1,9 @@
 package teammates.logic.core;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -109,9 +110,8 @@ public final class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
-
-        return fsDb.getAllOpenFeedbackSessions(startUtc, endUtc);
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
     }
 
     /**
@@ -126,14 +126,15 @@ public final class FeedbackSessionsLogic {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
-    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName,
-            String newCourseId, String feedbackSessionName, String courseId, String instructorEmail)
+    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName, String newCourseId,
+            ZoneId newTimeZone, String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(feedbackSessionName, courseId);
         copiedFeedbackSession.setCreatorEmail(instructorEmail);
         copiedFeedbackSession.setFeedbackSessionName(newFeedbackSessionName);
         copiedFeedbackSession.setCourseId(newCourseId);
-        copiedFeedbackSession.setCreatedTime(new Date());
+        copiedFeedbackSession.setTimeZone(newTimeZone);
+        copiedFeedbackSession.setCreatedTime(Instant.now());
         copiedFeedbackSession.setRespondingInstructorList(new HashSet<String>());
         copiedFeedbackSession.setRespondingStudentList(new HashSet<String>());
         fsDb.createEntity(copiedFeedbackSession);
@@ -1153,6 +1154,12 @@ public final class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(newSession);
     }
 
+    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseTimeZone);
+        fsDb.updateFeedbackSessionsTimeZoneForCourse(courseId, courseTimeZone);
+    }
+
     public void updateRespondentsForInstructor(String oldEmail, String newEmail, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -1378,7 +1385,7 @@ public final class FeedbackSessionsLogic {
             throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
         }
 
-        sessionToPublish.setResultsVisibleFromTime(new Date());
+        sessionToPublish.setResultsVisibleFromTime(Instant.now());
         updateFeedbackSession(sessionToPublish);
     }
 
@@ -2026,7 +2033,6 @@ public final class FeedbackSessionsLogic {
         responseCommentList.sort(Comparator.comparing(responseComment -> responseComment.createdAt));
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive by PMD
     private void addVisibilityToTable(Map<String, boolean[]> visibilityTable,
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
@@ -2171,9 +2177,9 @@ public final class FeedbackSessionsLogic {
         }
         instructorNoResponses.removeAll(fsa.getRespondingInstructorList());
 
-        responseStatus.noResponse.addAll(studentNoResponses);
+        responseStatus.studentsWhoDidNotRespond.addAll(studentNoResponses);
         responseStatus.studentsWhoResponded.addAll(studentResponded);
-        responseStatus.noResponse.addAll(instructorNoResponses);
+        responseStatus.studentsWhoDidNotRespond.addAll(instructorNoResponses);
 
         return responseStatus;
     }

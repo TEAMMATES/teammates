@@ -1,15 +1,14 @@
 package teammates.common.util;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
-import org.joda.time.DateTimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -40,7 +39,6 @@ public final class Const {
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
 
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
@@ -69,7 +67,7 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
-    public static final String DEFAULT_TIMEZONE = DateTimeZone.UTC.getID();
+    public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
     /*
      * These constants are used as variable values to mean that the variable
@@ -92,25 +90,23 @@ public final class Const {
     public static final String USER_IS_NOBODY = "%NOBODY%";
     public static final String USER_IS_MISSING = "%MISSING%";
 
-    public static final Date TIME_REPRESENTS_FOLLOW_OPENING;
-    public static final Date TIME_REPRESENTS_FOLLOW_VISIBLE;
-    public static final Date TIME_REPRESENTS_NEVER;
-    public static final Date TIME_REPRESENTS_LATER;
-    public static final Date TIME_REPRESENTS_NOW;
-    public static final Date TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+    public static final Instant TIME_REPRESENTS_FOLLOW_OPENING;
+    public static final Instant TIME_REPRESENTS_FOLLOW_VISIBLE;
+    public static final Instant TIME_REPRESENTS_NEVER;
+    public static final Instant TIME_REPRESENTS_LATER;
+    public static final Instant TIME_REPRESENTS_NOW;
+    public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 12:00 AM UTC");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.convertToDate("1970-06-22 12:00 AM UTC");
-        TIME_REPRESENTS_NEVER = TimeHelper.convertToDate("1970-11-27 12:00 AM UTC");
-        TIME_REPRESENTS_LATER = TimeHelper.convertToDate("1970-01-01 12:00 AM UTC");
-        TIME_REPRESENTS_NOW = TimeHelper.convertToDate("1970-02-14 12:00 AM UTC");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.convertToDate("2011-01-01 12:00 AM UTC");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
+        TIME_REPRESENTS_NEVER = TimeHelper.parseInstant("1970-11-27 12:00 AM +0000");
+        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
     }
-
-    public static final String TIME_FORMAT_ISO_8601_UTC = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     /*
      * Other Constants
@@ -141,7 +137,12 @@ public final class Const {
         /* Field sizes and error messages for invalid fields can be found
          * in the FieldValidator class.
          */
-        public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
+
+        // TODO: rename back to ADMIN_TIME_ZONE once the String version has been deleted
+        public static final ZoneId ADMIN_TIME_ZONE_ID = ZoneId.of("Asia/Singapore");
+        @Deprecated // use ZoneId version
+        public static final String ADMIN_TIME_ZONE = ADMIN_TIME_ZONE_ID.getId();
+        @Deprecated // use ZoneId version
         public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
 
         public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
@@ -189,6 +190,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
@@ -287,8 +289,6 @@ public final class Const {
                 "The responses for the session have been published and can now be viewed.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_NOT_PUBLISHED =
                 "The responses for the session have not yet been published and cannot be viewed.";
-        public static final String STUDENT_FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
-                "The instructor has set the results for this feedback session to not be published.";
 
         public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
         public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED =
@@ -337,8 +337,6 @@ public final class Const {
                 + "when the session becomes visible to users.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER =
                 "Select this option if you intend to manually publish the responses for this session later on.";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER =
-                "Select this option if you intend never to publish the responses.";
         public static final String FEEDBACK_SESSION_SENDOPENEMAIL =
                 "Select this option to automatically send an email to students to notify them "
                 + "when the session is open for submission.";
@@ -360,13 +358,11 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STATUS_NOT_PUBLISHED = "The responses for this session are not visible.";
         public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION =
                 "This feedback session is not published as it is private and only visible to you.";
-        public static final String FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED =
-                "The responses for this feedback session have been set to never get published.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
-                "You should not need to change this as your timezone is auto-detected. <br><br>"
-                + "However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is "
-                + "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
+                "To change this, edit the course settings. <br><br>"
+                + "TEAMMATES automatically adjusts to match the current time offset in your area, "
+                + "including clock changes due to daylight saving time.";
 
         public static final String FEEDBACK_SESSION_INPUT_GRACEPERIOD =
                 "Please select the amount of time that the system will continue accepting <br>"
@@ -690,7 +686,6 @@ public final class Const {
 
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_INDEX = "fsindex";
-        public static final String FEEDBACK_SESSION_CREATOR = "fscreator";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_STARTHOUR = "starthour";
@@ -743,7 +738,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
         public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
-        public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
+        public static final String FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS = "mcqGeneratedOptions";
+        public static final String FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS = "msqGeneratedOptions";
         public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
         public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
@@ -773,14 +769,18 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RANKTORECIPIENTS = "rankToRecipients";
         public static final String FEEDBACK_QUESTION_RANKNUMOPTIONS = "rankNumOptions";
         public static final String FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED = "rankAreDuplicatesAllowed";
-        public static final String FEEDBACK_QUESTION_RANKISMINOPTIONSTOBERANKEDENABLED = "minOptionsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKISMAXOPTIONSTOBERANKEDENABLED = "maxOptionsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKMINOPTIONSTOBERANKED = "minOptionsToBeRanked";
-        public static final String FEEDBACK_QUESTION_RANKMAXOPTIONSTOBERANKED = "maxOptionsToBeRanked";
-        public static final String FEEDBACK_QUESTION_RANKISMINRECIPIENTSTOBERANKEDENABLED = "minRecipientsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKISMAXRECIPIENTSTOBERANKEDENABLED = "maxRecipientsToBeRankedEnabled";
-        public static final String FEEDBACK_QUESTION_RANKMINRECIPIENTSTOBERANKED = "minRecipientsToBeRanked";
-        public static final String FEEDBACK_QUESTION_RANKMAXRECIPIENTSTOBERANKED = "maxRecipientsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED =
+                "minOptionsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED =
+                "maxOptionsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED = "minOptionsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED = "maxOptionsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANK_IS_MIN_RECIPIENTS_TO_BE_RANKED_ENABLED =
+                "minRecipientsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANK_IS_MAX_RECIPIENTS_TO_BE_RANKED_ENABLED =
+                "maxRecipientsToBeRankedEnabled";
+        public static final String FEEDBACK_QUESTION_RANK_MIN_RECIPIENTS_TO_BE_RANKED = "minRecipientsToBeRanked";
+        public static final String FEEDBACK_QUESTION_RANK_MAX_RECIPIENTS_TO_BE_RANKED = "maxRecipientsToBeRanked";
 
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
         public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
@@ -860,6 +860,7 @@ public final class Const {
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_FEEDBACK = "feedback";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
+        public static final String SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST = "usersToResendEmail";
 
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 
@@ -882,7 +883,7 @@ public final class Const {
         public static final String PROFILE_PICTURE_ROTATE = "picturerotate";
 
         public static final String SEARCH_STUDENTS = "searchstudents";
-        public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
+        public static final String SEARCH_FEEDBACK_SESSION_DATA = "searchfeedbacksessiondata";
 
         public static final String ERROR_FEEDBACK_EMAIL_RECEIVER_ADDRESS = "errorfeedbackemailreceiveraddress";
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
@@ -970,6 +971,10 @@ public final class Const {
                 "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
+        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE =
+                "/page/instructorFeedbackResendPublishedEmailPage";
+        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL =
+                "/page/instructorFeedbackResendPublishedEmail";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE = "/page/instructorFeedbackEditCopyPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY = "/page/instructorFeedbackEditCopy";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
@@ -1081,6 +1086,11 @@ public final class Const {
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionPublishedEmail";
 
+        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-resend-published-email-queue";
+        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionResendPublishedEmail";
+
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
 
@@ -1141,6 +1151,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
                 "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_AJAX_RESEND_PUBLISHED_EMAIL_MODAL =
+                "/jsp/instructorFeedbackAjaxResendPublishedEmailModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
@@ -1362,6 +1374,14 @@ public final class Const {
         public static final String FEEDBACK_SESSION_PUBLISHED =
                 "The feedback session has been published. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_NOT_PUBLISHED =
+                "The feedback session is not published. "
+                + "You cannot resend published notification emails for a session that is not published.";
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT =
+                "You have not selected any student to email.";
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_SENT =
+                "Session published notification emails have been resent to those students and instructors. "
+                + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT =
                 "Reminder e-mails have been sent out to those students and instructors. "
@@ -1403,6 +1423,10 @@ public final class Const {
                 "<strong>The feedback session is currently not open for submissions.</strong> "
                 + "You can view the questions and any submitted responses for this feedback session "
                 + "but cannot submit new responses.";
+        public static final String FEEDBACK_SUBMISSIONS_CAN_SUBMIT_PARTIAL_ANSWER =
+                "Note that you can use the Submit button to save responses already entered, "
+                + "and continue to answer remaining questions after that. "
+                + "You may also edit your submission any number of times before the closing time of this session.";
 
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW =
                 "You have received feedback from others. Please see below.";
@@ -1525,6 +1549,14 @@ public final class Const {
         public static final String ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD =
                 "instructorCourseEnroll Page Load" + Const.HTML_BR_TAG
                 + "Enrollment for Course <span class=\"bold\">[%s]</span>";
+
+        public static final String AMBIGUOUS_LOCAL_DATE_TIME_GAP =
+                "The %s, %s, falls within the gap period when clocks spring forward at the start of DST. "
+                        + "It was resolved to %s.";
+
+        public static final String AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP =
+                "The %s, %s, falls within the overlap period when clocks fall back at the end of DST. "
+                        + "It can refer to %s or %s. It was resolved to %s.";
 
         public static final String ERROR_FEEDBACK_SUBMIT_SUCCESS = "Your error report has been recorded. "
                 + "We will follow up with you in due course, usually, within 24 hours.";

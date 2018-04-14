@@ -1,11 +1,10 @@
 package teammates.ui.pagedata;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -77,10 +76,6 @@ public class PageData {
         return StringHelper.truncate(untruncatedString, truncateLength);
     }
 
-    public static String displayDateTime(Date date) {
-        return TimeHelper.formatTime12H(date);
-    }
-
     public String addUserIdToUrl(String link) {
         return Url.addParamToUrl(link, Const.ParamsNames.USER_ID, account.googleId);
     }
@@ -93,38 +88,13 @@ public class PageData {
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
      */
-    protected List<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
+    protected List<String> getTimeZoneOptionsAsHtml(ZoneId existingTimeZone) {
+        List<ZoneId> options = TimeHelper.getTimeZoneValues();
         ArrayList<String> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
-        }
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\""
-                       + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption
-                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
-        }
-        return result;
-    }
-
-    public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
-        ArrayList<ElementTag> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-            ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
-            result.add(option);
-        }
-
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            String textToDisplay = "(" + utcFormatOption
-                                            + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-            boolean isExistingTimeZone = existingTimeZone == timeZoneOption;
-
-            ElementTag option = createOption(textToDisplay,
-                                             formatAsString(timeZoneOption), isExistingTimeZone);
-            result.add(option);
+        for (ZoneId timeZoneOption : options) {
+            result.add("<option value=\"" + timeZoneOption.getId() + "\""
+                    + (existingTimeZone.equals(timeZoneOption) ? " selected" : "") + ">" + "(" + timeZoneOption.getId()
+                    + ") " + TimeHelper.getCitiesForTimeZone(timeZoneOption) + "</option>");
         }
         return result;
     }
@@ -180,7 +150,7 @@ public class PageData {
     /**
      * Returns the grace period options as HTML code.
      */
-    public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
+    public static List<ElementTag> getGracePeriodOptionsAsElementTags(long existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<>();
         for (int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(i + " mins", String.valueOf(i),
@@ -194,7 +164,7 @@ public class PageData {
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
      */
-    public static List<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+    public static List<ElementTag> getTimeOptionsAsElementTags(LocalDateTime timeToShowAsSelected) {
         List<ElementTag> result = new ArrayList<>();
         for (int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)),
@@ -518,6 +488,33 @@ public class PageData {
         return link;
     }
 
+    /**
+     * Retrieves the link to load data for the resend session published email modal.
+     * @param courseId the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load data for the modal
+     */
+    public String getInstructorFeedbackResendPublishedEmailPageLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
+    /**
+     * Retrieves the link to submit the request for resending the session published email.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackResendPublishedEmailLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorFeedbackUnpublishLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -632,9 +629,7 @@ public class PageData {
     }
 
     public static String getInstructorPublishedStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "-";
-        } else if (session.isPublished()) {
+        if (session.isPublished()) {
             return "Published";
         } else {
             return "Not Published";
@@ -670,8 +665,6 @@ public class PageData {
     public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isPrivateSession()) {
             return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
-        } else if (session.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-            return Const.Tooltips.FEEDBACK_SESSION_STATUS_NEVER_PUBLISHED;
         } else if (session.isPublished()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
         } else {
@@ -744,13 +737,11 @@ public class PageData {
         return str.substring(0, str.length() - 2);
     }
 
-    private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
+    private static boolean isTimeToBeSelected(LocalDateTime timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = timeToShowAsSelected != null;
         if (isEditingExistingFeedbackSession) {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            cal.setTime(timeToShowAsSelected);
-            if (cal.get(Calendar.MINUTE) == 0) {
-                if (cal.get(Calendar.HOUR_OF_DAY) == hourOfTheOption) {
+            if (timeToShowAsSelected.getMinute() == 0) {
+                if (timeToShowAsSelected.getHour() == hourOfTheOption) {
                     return true;
                 }
             } else {
@@ -766,20 +757,13 @@ public class PageData {
         return false;
     }
 
-    private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
+    private static boolean isGracePeriodToBeSelected(long existingGracePeriodValue, long gracePeriodOptionValue) {
         boolean isEditingExistingEvaluation = existingGracePeriodValue != Const.INT_UNINITIALIZED;
         if (isEditingExistingEvaluation) {
             return gracePeriodOptionValue == existingGracePeriodValue;
         }
         int defaultGracePeriod = 15;
         return gracePeriodOptionValue == defaultGracePeriod;
-    }
-
-    private static String formatAsString(double num) {
-        if ((int) num == num) {
-            return Integer.toString((int) num);
-        }
-        return Double.toString(num);
     }
 
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,

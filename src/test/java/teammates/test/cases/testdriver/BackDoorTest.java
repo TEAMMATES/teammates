@@ -1,5 +1,7 @@
 package teammates.test.cases.testdriver;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -156,7 +158,7 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
 
         String courseId = "tmapitt.tcc.course";
         CourseAttributes course = CourseAttributes
-                .builder(courseId, "Name of tmapitt.tcc.instructor", "UTC")
+                .builder(courseId, "Name of tmapitt.tcc.instructor", ZoneId.of("UTC"))
                 .build();
 
         // Make sure not already inside

@@ -4,8 +4,8 @@ import static teammates.common.util.FieldValidator.SESSION_END_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.SESSION_START_TIME_FIELD_NAME;
 import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +22,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -87,7 +86,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         ______TS("invalid params");
 
         try {
-            fsa.setStartTime(new Date());
+            fsa.setStartTime(Instant.now());
             fsDb.createEntity(fsa);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
@@ -249,10 +248,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         FeedbackSessionAttributes invalidFs = getNewFeedbackSession();
         fsDb.deleteEntity(invalidFs);
         fsDb.createEntity(invalidFs);
-        Calendar calendar = TimeHelper.dateToCalendar(invalidFs.getEndTime());
-        calendar.add(Calendar.MONTH, 1);
-        invalidFs.setStartTime(calendar.getTime());
-        invalidFs.setResultsVisibleFromTime(calendar.getTime());
+        Instant afterEndTime = invalidFs.getEndTime().plus(Duration.ofDays(30));
+        invalidFs.setStartTime(afterEndTime);
+        invalidFs.setResultsVisibleFromTime(afterEndTime);
         try {
             fsDb.updateFeedbackSession(invalidFs);
             signalFailureToDetectException();
@@ -278,7 +276,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.createEntity(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
         modifiedSession.setInstructions(new Text("new instructions"));
-        modifiedSession.setGracePeriod(0);
+        modifiedSession.setGracePeriodMinutes(0);
         modifiedSession.setSentOpenEmail(false);
         fsDb.updateFeedbackSession(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
@@ -287,12 +285,12 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.com")
                 .withFeedbackSessionType(FeedbackSessionType.STANDARD)
-                .withCreatedTime(new Date())
-                .withStartTime(new Date())
-                .withEndTime(new Date())
-                .withSessionVisibleFromTime(new Date())
-                .withResultsVisibleFromTime(new Date())
-                .withGracePeriod(5)
+                .withCreatedTime(Instant.now())
+                .withStartTime(Instant.now())
+                .withEndTime(Instant.now())
+                .withSessionVisibleFromTime(Instant.now())
+                .withResultsVisibleFromTime(Instant.now())
+                .withGracePeriodMinutes(5)
                 .withSentOpenEmail(true)
                 .withSentPublishedEmail(true)
                 .withInstructions(new Text("Give feedback."))

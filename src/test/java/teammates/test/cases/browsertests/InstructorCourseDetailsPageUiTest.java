@@ -181,7 +181,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         } else {
             // TODO: use GAE LocalMailService
         }
-        detailsPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student2.email);
+        detailsPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.COURSE_REMINDER_SENT_TO + student2.email);
 
         // Hiding of the 'Send invite' link is already covered by content test.
         //  (i.e., they contain cases of both hidden and visible 'Send invite' links.

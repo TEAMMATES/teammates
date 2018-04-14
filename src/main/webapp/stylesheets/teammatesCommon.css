@@ -6,6 +6,11 @@ body {
     padding: 60px 0 30px;
 }
 
+code {
+    color: black;
+    background-color: #F5F5F5;
+}
+
 .edit-uncommon-settings-button:hover {
     cursor: pointer;
 }
@@ -1485,7 +1490,7 @@ Prevent Long URL From Breaking Out of Container
 .icon-info::before {
     /* Icon font has no generic fallback */
 
-    /* noinspection CssNoGenericFontName */
+    /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
     font-family: 'Glyphicons Halflings';
     display: inline-block;
     padding-right: .5em;

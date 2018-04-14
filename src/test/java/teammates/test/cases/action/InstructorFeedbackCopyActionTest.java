@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackCopyAction;
 import teammates.ui.controller.RedirectResult;
@@ -65,19 +66,29 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
         ______TS("Typical case");
 
+        String feedbackSessionName = "First feedback session";
+        String courseId = "idOfTypicalCourse1";
         String[] params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Copied Session",
-                Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+                Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse2",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, courseId
         };
+
+        String oldTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone().getId();
+        String newTimeZone = typicalBundle.courses.get("typicalCourse2").getTimeZone().getId();
+        assertNotEquals(oldTimeZone, newTimeZone);
+
+        String sessionTimeZone =
+                FeedbackSessionsLogic.inst().getFeedbackSession(feedbackSessionName, courseId).getTimeZone().getId();
+        assertEquals(sessionTimeZone, oldTimeZone);
 
         InstructorFeedbackCopyAction a = getAction(params);
         RedirectResult rr = getRedirectResult(a);
 
         expectedString = getPageResultDestination(
                 Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                instructor1ofCourse1.courseId,
+                "idOfTypicalCourse2",
                 "Copied+Session",
                 instructor1ofCourse1.googleId,
                 false);
@@ -88,22 +99,26 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
                 + "instr1@course1.tmt|||New Feedback Session "
                 + "<span class=\"bold\">(Copied Session)</span> for Course "
-                + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Sun Apr 01 21:59:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Fri Apr 30 21:59:00 UTC 2027<br>"
-                + "<span class=\"bold\">Session visible from:</span> Wed Mar 28 21:59:00 UTC 2012<br>"
-                + "<span class=\"bold\">Results visible from:</span> Sat May 01 21:59:00 UTC 2027<br><br>"
+                + "<span class=\"bold\">[idOfTypicalCourse2]</span> created.<br>"
+                + "<span class=\"bold\">From:</span> 2012-04-01T21:59:00Z"
+                + "<span class=\"bold\"> to</span> 2027-04-30T21:59:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 2012-03-28T21:59:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 2027-05-01T21:59:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
+
+        sessionTimeZone = FeedbackSessionsLogic.inst().getFeedbackSession("Copied Session",
+                "idOfTypicalCourse2").getTimeZone().getId();
+        assertEquals(sessionTimeZone, newTimeZone);
 
         ______TS("Error: Trying to copy with existing feedback session name");
 
         params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Second feedback session",
-                Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+                Const.ParamsNames.COPIED_COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, courseId
         };
 
         a = getAction(params);
@@ -129,9 +144,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
         params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
-                Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+                Const.ParamsNames.COPIED_COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, courseId
         };
 
         a = getAction(params);
@@ -163,9 +178,9 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
 
         params = new String[] {
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "Second copied feedback session",
-                Const.ParamsNames.COPIED_COURSE_ID, "idOfTypicalCourse1",
+                Const.ParamsNames.COPIED_COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
+                Const.ParamsNames.COURSE_ID, courseId
         };
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
@@ -186,10 +201,10 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||New Feedback Session "
                 + "<span class=\"bold\">(Second copied feedback session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> Sat Jun 01 21:59:00 UTC 2013"
-                + "<span class=\"bold\"> to</span> Tue Apr 28 21:59:00 UTC 2026<br>"
-                + "<span class=\"bold\">Session visible from:</span> Wed Mar 20 21:59:00 UTC 2013<br>"
-                + "<span class=\"bold\">Results visible from:</span> Wed Apr 29 21:59:00 UTC 2026<br><br>"
+                + "<span class=\"bold\">From:</span> 2013-06-01T21:59:00Z"
+                + "<span class=\"bold\"> to</span> 2026-04-28T21:59:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 2013-03-20T21:59:00Z<br>"
+                + "<span class=\"bold\">Results visible from:</span> 2026-04-29T21:59:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);

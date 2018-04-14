@@ -98,7 +98,7 @@
       "timeZone": "UTC"
     },
     "testingSanitizationCourse": {
-      "createdAt": "2012-04-01 11:58 PM UTC",
+      "createdAt": "2012-04-01T23:58:00Z",
       "id": "searchUI.idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
@@ -280,12 +280,12 @@
       "instructions": {
         "value": "Please please fill in the following questions."
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 9:59 PM UTC",
-      "endTime": "2027-04-30 9:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 9:59 PM UTC",
-      "resultsVisibleFromTime": "2012-05-01 9:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -303,12 +303,12 @@
       "instructions": {
         "value": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>"
       },
-      "createdTime": "2012-03-20 11:59 PM UTC",
-      "startTime": "2012-04-01 9:59 PM UTC",
-      "endTime": "2027-04-30 9:59 PM UTC",
-      "sessionVisibleFromTime": "2012-03-28 9:59 PM UTC",
-      "resultsVisibleFromTime": "2027-05-01 9:59 PM UTC",
-      "timeZone": 2.0,
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
@@ -559,7 +559,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-01 11:59 PM UTC",
+      "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback"
       }
@@ -578,7 +578,7 @@
       ],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2015-02-02 11:59 PM UTC",
+      "createdAt": "2015-02-02T23:59:00Z",
       "commentText": {
         "value": "Anonymous comment to feedback Question 2"
       }
@@ -602,7 +602,7 @@
         "RECEIVER_TEAM_MEMBERS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2015-02-03 11:59 PM UTC",
+      "createdAt": "2015-02-03T23:59:00Z",
       "commentText": {
         "value": "Instructor 2 comment to feedback Question 2 (Student 3 see this as anonymous comment)"
       }
@@ -618,7 +618,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2015-02-01 11:59 PM UTC",
+      "createdAt": "2015-02-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to feedback Question 2"
       }
@@ -638,12 +638,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2015-02-04 11:59 PM UTC",
+      "createdAt": "2015-02-04T23:59:00Z",
       "commentText": {
         "value": "Instructor 3 edited comment to feedback Question 2"
       },
       "lastEditorEmail": "searchUI.instructor3@course1.tmt",
-      "lastEditedAt": "2015-02-05 11:59 PM UTC"
+      "lastEditedAt": "2015-02-05T23:59:00Z"
     },
     "comment1ForR1S1TSC": {
       "courseId": "searchUI.idOfTestingSanitizationCourse",
@@ -656,7 +656,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "createdAt": "2026-03-01 11:59 PM UTC",
+      "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
       }

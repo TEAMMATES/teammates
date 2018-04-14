@@ -46,8 +46,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 fqDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
 
         // Assert dates are now.
-        AssertHelper.assertDateIsNow(feedbackQuestion.getCreatedAt());
-        AssertHelper.assertDateIsNow(feedbackQuestion.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(feedbackQuestion.getCreatedAt());
+        AssertHelper.assertInstantIsNow(feedbackQuestion.getUpdatedAt());
 
         ______TS("success : update lastUpdated");
 
@@ -59,7 +59,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
-        AssertHelper.assertDateIsNow(updatedFq.getUpdatedAt());
+        AssertHelper.assertInstantIsNow(updatedFq.getUpdatedAt());
 
         ______TS("success : keep lastUpdated");
 

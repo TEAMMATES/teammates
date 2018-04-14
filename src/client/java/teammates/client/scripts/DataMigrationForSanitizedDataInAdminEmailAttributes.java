@@ -18,7 +18,7 @@ import teammates.storage.api.AdminEmailsDb;
  * all emails will have unsanitized content.
  */
 public class DataMigrationForSanitizedDataInAdminEmailAttributes
-        extends DataMigrationBaseScript<AdminEmailAttributes> {
+        extends DataMigrationForEntities<AdminEmailAttributes> {
 
     private AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
 

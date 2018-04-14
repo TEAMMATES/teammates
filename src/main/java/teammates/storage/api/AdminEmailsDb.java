@@ -2,7 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -19,6 +19,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AdminEmail;
 
 /**
@@ -29,7 +30,7 @@ import teammates.storage.entity.AdminEmail;
  */
 public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> {
 
-    public Date createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
+    public Instant createAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException {
         try {
             AdminEmail ae = createEntity(adminEmailToAdd);
             return ae.getCreateDate();
@@ -144,7 +145,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
      * Gets an admin email by subject and createDate.
      * @return null if no matched email found
      */
-    public AdminEmailAttributes getAdminEmail(String subject, Date createDate) {
+    public AdminEmailAttributes getAdminEmail(String subject, Instant createDate) {
         return makeAttributesOrNull(getAdminEmailEntity(subject, createDate));
     }
 
@@ -204,10 +205,10 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
         return ofy().load().key(key).now();
     }
 
-    private AdminEmail getAdminEmailEntity(String subject, Date createDate) {
+    private AdminEmail getAdminEmailEntity(String subject, Instant createDate) {
         return load()
                 .filter("subject =", subject)
-                .filter("createDate =", createDate)
+                .filter("createDate =", TimeHelper.convertInstantToDate(createDate))
                 .first().now();
     }
 
@@ -226,8 +227,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
             return getAdminEmailEntity(adminEmailToGet.getEmailId());
         }
 
-        return getAdminEmailEntity(adminEmailToGet.getSubject(),
-                                   adminEmailToGet.getCreateDate());
+        return getAdminEmailEntity(adminEmailToGet.getSubject(), adminEmailToGet.getCreateDate());
     }
 
     @Override
@@ -238,7 +238,7 @@ public class AdminEmailsDb extends EntitiesDb<AdminEmail, AdminEmailAttributes> 
         if (key == null) {
             query = load()
                     .filter("subject =", attributes.subject)
-                    .filter("createDate =", attributes.createDate);
+                    .filter("createDate =", TimeHelper.convertInstantToDate(attributes.createDate));
         } else {
             query = load().filterKey(key);
         }

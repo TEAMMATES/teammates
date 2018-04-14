@@ -2,8 +2,8 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -15,6 +15,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackSessionsPage extends AppPage {
 
@@ -59,9 +60,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
     private WebElement neverSessionVisibleTimeButton;
-
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_never")
-    private WebElement neverResultsVisibleTimeButton;
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
     private WebElement defaultSessionVisibleTimeButton;
@@ -164,10 +162,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(neverSessionVisibleTimeButton);
     }
 
-    public void clickNeverPublishTimeButton() {
-        click(neverResultsVisibleTimeButton);
-    }
-
     public void clickManualPublishTimeButton() {
         click(manualResultsVisibleTimeButton);
     }
@@ -209,12 +203,12 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,
-            Date startTime,
-            Date endTime,
-            Date visibleTime,
-            Date publishTime,
+            LocalDateTime startTime,
+            LocalDateTime endTime,
+            LocalDateTime visibleTime,
+            LocalDateTime publishTime,
             Text instructions,
-            int gracePeriod) {
+            long gracePeriod) {
 
         fillTextBox(fsNameTextBox, feedbackSessionName);
 
@@ -234,38 +228,10 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         // Select grace period
         if (gracePeriod != -1) {
-            selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod) + " mins");
+            selectDropdownByVisibleValue(gracePeriodDropdown, Long.toString(gracePeriod) + " mins");
         }
 
         clickSubmitButton();
-    }
-
-    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId, Date startTime,
-            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod, double timeZone) {
-
-        selectTimeZone(timeZone);
-
-        addFeedbackSession(
-                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
-    }
-
-    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId, Date startTime,
-            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
-
-        addFeedbackSessionWithTimeZone(
-                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod, 8.0);
-    }
-
-    private void selectTimeZone(double timeZone) {
-        String timeZoneString = Double.toString(timeZone);
-
-        double fractionalPart = timeZone % 1;
-
-        if (fractionalPart == 0.0) {
-            timeZoneString = Integer.toString((int) timeZone);
-        }
-
-        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
     }
 
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
@@ -302,28 +268,28 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(button);
     }
 
-    public void fillStartTime(Date startTime) {
+    public void fillStartTime(LocalDateTime startTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startTime, startTimeDropdown);
     }
 
-    public void fillEndTime(Date endTime) {
+    public void fillEndTime(LocalDateTime endTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, endTime, endTimeDropdown);
     }
 
-    public void fillVisibleTime(Date visibleTime) {
+    public void fillVisibleTime(LocalDateTime visibleTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, visibleTime, visibleTimeDropdown);
     }
 
-    public void fillPublishTime(Date publishTime) {
+    public void fillPublishTime(LocalDateTime publishTime) {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown);
     }
 
-    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown) {
+    public void fillTimeValueIfNotNull(String dateId, LocalDateTime datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
-            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
+            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateForSessionsForm(datetimeValue) + "');");
 
             String timeDropdownId = timeDropdown.getAttribute("id");
-            int timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            int timeDropdownVal = TimeHelperExtension.convertToOptionValueInTimeDropDown(datetimeValue);
             executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
@@ -337,8 +303,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        dateInputElement.sendKeys(newValue.get(Calendar.DATE) + "/" + (newValue.get(Calendar.MONTH) + 1)
-                                  + "/" + newValue.get(Calendar.YEAR));
+        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.getTime()));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {
@@ -402,10 +367,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public boolean isCopySubmitButtonEnabled() {
         return copySubmitButton.isEnabled();
-    }
-
-    public String getClientTimeZone() {
-        return (String) executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {

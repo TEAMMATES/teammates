@@ -30,12 +30,9 @@ function toggleReference() {
 }
 
 function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
-    const params = `logTimeInAdminTimeZone=${time}&logRole=${role}&logGoogleId=${googleId}`;
+    const params = `logUnixTimeMillis=${time}&logRole=${role}&logGoogleId=${googleId}`;
 
-    const link = $(entry);
     const localTimeDisplay = $(entry).parent().children()[1];
-
-    const originalTime = $(link).html();
 
     $.ajax({
         type: 'POST',
@@ -51,7 +48,7 @@ function submitLocalTimeAjaxRequest(time, googleId, role, entry) {
                 if (data.isError) {
                     $(localTimeDisplay).html('Loading error, please retry');
                 } else {
-                    $(link).parent().html(`${originalTime}<mark><br>${data.logLocalTime}</mark>`);
+                    $(localTimeDisplay).html(`<mark>${data.logLocalTime}</mark>`);
                 }
 
                 setStatusMessage(data.statusForAjax, BootstrapContextualColors.INFO);

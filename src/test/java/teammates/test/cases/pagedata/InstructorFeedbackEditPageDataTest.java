@@ -84,10 +84,10 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                                                           fs.getFeedbackSessionName(),
                                                           Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE),
                      fsForm.getFsDeleteLink());
-        assertEquals(TimeHelper.formatDate(fs.getEndTime()), fsForm.getFsEndDate());
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getEndTimeLocal()), fsForm.getFsEndDate());
 
         assertEquals(fs.getFeedbackSessionName(), fsForm.getFsName());
-        assertEquals(TimeHelper.formatDate(fs.getStartTime()), fsForm.getFsStartDate());
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getStartTimeLocal()), fsForm.getFsStartDate());
 
         assertEquals(SanitizationHelper.sanitizeForHtml(fs.getInstructions().getValue()), fsForm.getInstructions());
         assertEquals("Save Changes", fsForm.getSubmitButtonText());
@@ -98,15 +98,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(fsForm.isSubmitButtonDisabled());
 
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = data.getFsForm().getAdditionalSettings();
-        assertEquals(TimeHelper.formatDate(fs.getResultsVisibleFromTime()),
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getResultsVisibleFromTimeLocal()),
                                            additionalSettings.getResponseVisibleDateValue());
-        assertEquals(TimeHelper.formatDate(fs.getSessionVisibleFromTime()),
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getSessionVisibleFromTimeLocal()),
                                            additionalSettings.getSessionVisibleDateValue());
 
         assertFalse(additionalSettings.isResponseVisiblePublishManuallyChecked());
         assertTrue(additionalSettings.isResponseVisibleDateChecked());
         assertFalse(additionalSettings.isResponseVisibleImmediatelyChecked());
-        assertFalse(additionalSettings.isResponseVisibleNeverChecked());
         assertFalse(additionalSettings.isResponseVisibleDateDisabled());
 
         assertFalse(additionalSettings.isSessionVisibleAtOpenChecked());
@@ -234,15 +233,14 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertNull(fsForm.getFeedbackSessionTypeOptions());
 
         additionalSettings = data.getFsForm().getAdditionalSettings();
-        assertEquals(TimeHelper.formatDate(fs.getResultsVisibleFromTime()),
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getResultsVisibleFromTimeLocal()),
                                            additionalSettings.getResponseVisibleDateValue());
-        assertEquals(TimeHelper.formatDate(fs.getSessionVisibleFromTime()),
+        assertEquals(TimeHelper.formatDateForSessionsForm(fs.getSessionVisibleFromTimeLocal()),
                                            additionalSettings.getSessionVisibleDateValue());
 
         assertFalse(additionalSettings.isResponseVisiblePublishManuallyChecked());
         assertTrue(additionalSettings.isResponseVisibleDateChecked());
         assertFalse(additionalSettings.isResponseVisibleImmediatelyChecked());
-        assertFalse(additionalSettings.isResponseVisibleNeverChecked());
         assertFalse(additionalSettings.isResponseVisibleDateDisabled());
 
         assertFalse(additionalSettings.isSessionVisibleAtOpenChecked());
@@ -272,6 +270,21 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                          .withCourseId(fs.getCourseId())
                          .withSessionName(fs.getFeedbackSessionName()).toString(),
                      newQuestionForm.getDoneEditingLink());
+
+        ______TS("Resolved time fields map");
+        data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken);
+
+        assertNotNull("Should be empty map if unused", data.getResolvedTimeFields());
+        assertTrue(data.getResolvedTimeFields().isEmpty());
+
+        Map<String, String> expected = new HashMap<>();
+        String startDate = "start date";
+        String startTime = "start time";
+        expected.put(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startDate);
+        expected.put(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, startTime);
+        data.putResolvedTimeField(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startDate);
+        data.putResolvedTimeField(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, startTime);
+        assertEquals(expected, data.getResolvedTimeFields());
     }
 
     private InstructorAttributes getInstructorFromBundle(String instructor) {

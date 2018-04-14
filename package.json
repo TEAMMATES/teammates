@@ -1,16 +1,18 @@
 {
   "devDependencies": {
     "babel-core": "6.26.0",
-    "babel-loader": "7.1.2",
+    "babel-loader": "7.1.4",
     "babel-preset-env": "1.6.1",
-    "eslint": "4.11.0",
+    "eslint": "4.18.2",
     "eslint-config-airbnb-base": "12.1.0",
-    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-import": "2.9.0",
     "eslint-plugin-json": "1.2.0",
     "lintspaces-cli": "0.6.0",
-    "stylelint": "8.2.0",
-    "stylelint-config-standard": "17.0.0",
-    "webpack": "3.8.1"
+    "stylelint": "9.1.1",
+    "stylelint-config-standard": "18.2.0",
+    "webpack": "4.4.1",
+    "webpack-cli": "2.0.13",
+    "webpack-merge": "4.1.2"
   },
   "babel": {
     "presets": [
@@ -27,9 +29,11 @@
     ]
   },
   "scripts": {
-    "build:src": "webpack --config webpack-main.config.js",
+    "build:dev": "webpack --config webpack-main-dev.config.js",
+    "build:prod": "webpack --config webpack-main-prod.config.js",
     "build:test": "webpack --config webpack-test.config.js",
-    "build": "npm run build:src && npm run build:test",
+    "dev": "npm run build:dev && npm run build:test",
+    "build": "npm run build:prod && npm run build:test",
     "lint:js": "eslint *.js src/main/webapp/dev -c static-analysis/teammates-eslint.yml",
     "lint:json": "eslint src/main/webapp/data/*.json src/main/resources/*.json src/test/resources/data/*.json -c static-analysis/teammates-eslint-json.yml",
     "lint:css": "stylelint src/main/webapp/stylesheets/*.css --config static-analysis/teammates-stylelint.yml",

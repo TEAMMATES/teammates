@@ -1,7 +1,7 @@
 package teammates.test.cases.datatransfer;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.testng.annotations.Test;
 
@@ -41,7 +41,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                 .withLastEditorEmail(null)
                 .withReceiverSection(null)
                 .withGiverSection(null)
-                .withCreatedAt(new Date())
+                .withCreatedAt(Instant.now())
                 .withLastEditedAt(null)
                 .withFeedbackResponseCommentId(null)
                 .withVisibilityFollowingFeedbackQuestion(null)
@@ -58,7 +58,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf() {
         FeedbackResponseComment responseComment = new FeedbackResponseComment("course", "name",
-                "question", "giver", "response", new Date(),
+                "question", "giver", "response", Instant.now(),
                 new Text("comment"), "giverSection", "receiverSection",
                 null, null, null, null);
 

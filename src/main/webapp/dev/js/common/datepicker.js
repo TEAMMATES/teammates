@@ -44,9 +44,10 @@ function prepareDatepickers() {
     yesterday.setDate(yesterday.getDate() - 1);
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateFormatDddMyy = 'D, dd M, yy';
 
     $('#startdate').datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: today,
@@ -61,14 +62,14 @@ function prepareDatepickers() {
     });
 
     $('#enddate').datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: tomorrow,
     });
 
     $('#visibledate').datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: yesterday,
@@ -80,7 +81,7 @@ function prepareDatepickers() {
     });
 
     $('#publishdate').datepicker({
-        dateFormat: 'dd/mm/yy',
+        dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: tomorrow,

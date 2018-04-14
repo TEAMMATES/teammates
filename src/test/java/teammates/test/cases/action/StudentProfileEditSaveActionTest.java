@@ -45,7 +45,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: invalid parameters");
 
         String[] submissionParams = createInvalidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         expectedProfile.googleId = student.googleId;
 
         StudentProfileEditSaveAction action = getAction(submissionParams);
@@ -79,7 +79,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         ______TS("Failure case: invalid parameters with attempted script injection");
 
         submissionParams = createInvalidParamsForProfileWithScriptInjection();
-        expectedProfile = getProfileAttributesFrom(submissionParams);
+        expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         expectedProfile.googleId = student.googleId;
 
         action = getAction(submissionParams);
@@ -127,7 +127,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
     private void testActionSuccess(AccountAttributes student, String caseDescription) {
         String[] submissionParams = createValidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
 
         ______TS(caseDescription);
@@ -151,7 +151,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin.user");
 
         String[] submissionParams = createValidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(student.googleId, submissionParams);
         expectedProfile.googleId = student.googleId;
 
         StudentProfileEditSaveAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
@@ -183,8 +183,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(
-            String[] submissionParams) {
-        StudentProfileAttributes spa = StudentProfileAttributes.builder().build();
+            String googleId, String[] submissionParams) {
+        StudentProfileAttributes spa = StudentProfileAttributes.builder(googleId).build();
 
         spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
         spa.email = StringHelper.trimIfNotNull(submissionParams[3]);

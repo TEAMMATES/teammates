@@ -1,5 +1,6 @@
 package teammates.test.cases.pagedata;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,7 +131,9 @@ public class StudentHomePageDataTest extends BaseTestCase {
             String expectedPublishedStatus) {
         StudentHomeFeedbackSessionRow studentRow = (StudentHomeFeedbackSessionRow) row;
         assertEquals(session.getFeedbackSessionName(), studentRow.getName());
-        assertEquals(TimeHelper.formatTime12H(session.getEndTimeLocal()), studentRow.getEndTime());
+        assertEquals(TimeHelper.formatDateTimeForSessions(session.getEndTime(), session.getTimeZone()),
+                studentRow.getEndTime());
+        assertEquals(session.getEndTimeInIso8601UtcFormat(), studentRow.getEndTimeIso8601Utc());
         assertEquals(expectedSubmissionsTooltip, studentRow.getSubmissionsTooltip());
         assertEquals(expectedPublishedTooltip, studentRow.getPublishedTooltip());
         assertEquals(expectedSubmissionStatus, studentRow.getSubmissionStatus());
@@ -149,10 +152,10 @@ public class StudentHomePageDataTest extends BaseTestCase {
     private StudentHomePageData createData() {
         // Courses
         CourseAttributes course1 = CourseAttributes
-                .builder("course-id-1", "old-course", "UTC")
+                .builder("course-id-1", "old-course", ZoneId.of("UTC"))
                 .build();
         CourseAttributes course2 = CourseAttributes
-                .builder("course-id-2", "new-course", "UTC")
+                .builder("course-id-2", "new-course", ZoneId.of("UTC"))
                 .build();
 
         // Feedback sessions
@@ -206,10 +209,10 @@ public class StudentHomePageDataTest extends BaseTestCase {
     private FeedbackSessionAttributes createFeedbackSession(String name,
             int offsetStart, int offsetEnd, int offsetPublish) {
         return FeedbackSessionAttributes.builder(name, "", "")
-                .withStartTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetStart))
-                .withEndTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetEnd))
-                .withResultsVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(offsetPublish))
-                .withSessionVisibleFromTime(TimeHelperExtension.getHoursOffsetToCurrentTime(-1))
+                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(offsetStart))
+                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(offsetEnd))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(offsetPublish))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
                 .build();
     }
 

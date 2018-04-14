@@ -64,7 +64,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
                 "Session with no sections", true, "question");
-        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING);
+        resultsPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING);
 
         ______TS("Typical case: standard session results");
 
@@ -566,14 +566,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.deselectUsersInRemindAllForm();
         resultsPage.clickRemindButtonInModal();
         resultsPage.waitForAjaxLoaderGifToDisappear();
-        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+        resultsPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
 
         ______TS("Typical case: remind all: click on remind with students selected");
 
         resultsPage.clickRemindAllButtonAndWaitForFormToLoad();
         resultsPage.clickRemindButtonInModal();
         resultsPage.waitForAjaxLoaderGifToDisappear();
-        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        resultsPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
     }
 
     @Test

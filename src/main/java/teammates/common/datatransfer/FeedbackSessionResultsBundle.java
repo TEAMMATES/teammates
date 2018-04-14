@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -1667,7 +1668,7 @@ public class FeedbackSessionResultsBundle {
         return isComplete;
     }
 
-    public double getTimeZone() {
+    public ZoneId getTimeZone() {
         return feedbackSession.getTimeZone();
     }
 

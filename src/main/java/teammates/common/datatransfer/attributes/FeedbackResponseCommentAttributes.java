@@ -1,8 +1,8 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,9 +32,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion;
-    public Date createdAt;
+    public Instant createdAt;
     public String lastEditorEmail;
-    public Date lastEditedAt;
+    public Instant lastEditedAt;
     public Long feedbackResponseCommentId;
     public String giverSection;
     public String receiverSection;
@@ -45,7 +45,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         showCommentTo = new ArrayList<>();
         showGiverNameTo = new ArrayList<>();
         isVisibilityFollowingFeedbackQuestion = true;
-        createdAt = new Date();
+        createdAt = Instant.now();
     }
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
@@ -215,7 +215,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
-        public Builder withCreatedAt(Date createdAt) {
+        public Builder withCreatedAt(Instant createdAt) {
             if (createdAt != null) {
                 frca.createdAt = createdAt;
             }
@@ -230,7 +230,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
-        public Builder withLastEditedAt(Date lastEditedAt) {
+        public Builder withLastEditedAt(Instant lastEditedAt) {
             frca.lastEditedAt = lastEditedAt == null
                     ? frca.createdAt
                     : lastEditedAt;

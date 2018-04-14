@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h4 class="text-color-primary" id="gs">Getting Started</h4>
 <div id="contentHolder">
@@ -35,23 +36,14 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label">Time Zone:</label>
                 <div class="col-sm-9">
-                  <select class="form-control" name="coursetimezone" id="coursetimezone" tabindex="3" placeholder="Select a time zone...">
-                    <option value="">Select a time zone...</option>
-                    <option value="Africa/Abidjan">Africa/Abidjan (UTC)</option>
-                    <option value="Africa/Accra">Africa/Accra (UTC)</option>
-                    <option value="Africa/Addis_Ababa">Africa/Addis_Ababa (UTC +03:00)</option>
-                    <option value="Africa/Algiers">Africa/Algiers (UTC +01:00)</option>
-                    <option value="Africa/Asmara">Africa/Asmara (UTC +03:00)</option>
-                    <option value="Africa/Asmera">Africa/Asmera (UTC +03:00)</option>
-                    <option value="Africa/Bamako">Africa/Bamako (UTC)</option>
-                    <option value="Africa/Bangui">Africa/Bangui (UTC +01:00)</option>
-                    <option value="Africa/Banjul">Africa/Banjul (UTC)</option>
-                    <option value="Africa/Bissau">Africa/Bissau (UTC)</option>
-                    <option value="Other">Other options omitted...</option>
-                  </select>
-                  <div class="alert alert-info time-zone-info-box">
-                    <span class="glyphicon glyphicon-info-sign"></span>
-                    Time zone is auto-detected based on your device settings.
+                  <div class="input-group">
+                    <select class="form-control" title="" data-toggle="tooltip" data-placement="top" data-original-title="The time zone for the course. This is auto-detected based on your device settings.">
+                      <option>UTC</option>
+                      <option>Other options omitted...</option>
+                    </select>
+                    <span class="input-group-btn">
+                      <input type="button" class="btn btn-primary" value="Auto-Detect">
+                    </span>
                   </div>
                 </div>
               </div>
@@ -109,10 +101,10 @@
                 <div class="col-xs-10 tablet-no-padding" title="" data-toggle="tooltip" data-placement="top" data-original-title="Select a session type here.">
                   <select class="form-control" name="fstype" id="fstype">
                     <option value="STANDARD" selected="">
-                      Session with your own questions
+                      session with my own questions
                     </option>
                     <option value="TEAMEVALUATION" selected>
-                      Team peer evaluation session
+                      session using template: team peer evaluation
                     </option>
                   </select>
                 </div>
@@ -147,27 +139,23 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" title="" data-toggle="tooltip" data-placement="top" data-original-title="You should not need to change this as your timezone is auto-detected. <br><br>However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings.">
+                  <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" title="" data-toggle="tooltip" data-placement="top" data-original-title="You should not need to change this as your timezone is auto-detected. Daylight saving time is supported.">
                     <div class="form-group">
                       <h5 class="col-sm-2 col-md-4">
-                        <label class="control-label" for="timezone">
-                          Timezone
+                        <label class="control-label">
+                          Time Zone
                         </label>
                       </h5>
                       <div class="col-sm-10 col-md-8">
-                        <select class="form-control" name="timezone" id="timezone">
-                          <option value="-12">(UTC -12:00) Baker Island, Howland Island</option>
-                          <option value="-11">(UTC -11:00) American Samoa, Niue</option>
-                          <option value="-10">(UTC -10:00) Hawaii, Cook Islands</option>
-                          <option value="-9.5">(UTC -09:30) Marquesas Islands</option>
-                          <option value="-9">(UTC -09:00) Gambier Islands, Alaska</option>
-                          <option value="-8">(UTC -08:00) Los Angeles, Vancouver, Tijuana</option>
-                          <option value="-7">(UTC -07:00) Phoenix, Calgary, Ciudad Juárez</option>
-                          <option value="-6">(UTC -06:00) Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg</option>
-                          <option value="-5">(UTC -05:00) New York, Lima, Toronto, Bogotá, Havana, Kingston</option>
-                          <option value="-4.5">(UTC -04:30) Caracas</option>
-                          <option value="Other">Other options omitted...</option>
-                        </select>
+                        <div class="input-group">
+                          <select class="form-control">
+                            <option>UTC</option>
+                            <option>Other options omitted...</option>
+                          </select>
+                          <span class="input-group-btn">
+                              <input type="button" class="btn btn-primary" value="Auto-Detect">
+                            </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -319,7 +307,7 @@
         <div class="helpSectionContent">
 
           <ul>
-            <li>Session with your own questions</li>
+            <li>"session with my own questions"</li>
             <div style="margin: 0 auto; padding: 0 50px;">
               <ul>
                 <li>Creates an empty feedback session</li>
@@ -328,7 +316,7 @@
             </div>
           </ul>
           <ul>
-            <li>Team peer evaluation session</li>
+            <li>"session using template: team peer evaluation"</li>
             <div style="margin: 0 auto; padding: 0 50px;">
               <ul>
                 <li>Provides 5 standard questions for team peer evaluations</li>

@@ -26,6 +26,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     private FeedbackSessionsTable fsList;
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
+    private List<CourseAttributes> courseAttributes;
 
     public InstructorFeedbackSessionsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -62,6 +63,8 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
         buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
                            defaultFormValues, highlightedFeedbackSession);
+
+        courseAttributes = courses;
     }
 
     public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -214,6 +217,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         return copyFromModal;
     }
 
+    public List<CourseAttributes> getCourseAttributes() {
+        return courseAttributes;
+    }
+
     /**
      * Creates a list of options (STANDARD and TEAMEVALUATION). If defaultSessionType is null,
      *     TEAMEVALUATION is selected by default.
@@ -222,10 +229,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     private List<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
         ArrayList<ElementTag> result = new ArrayList<>();
 
-        ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD",
+        ElementTag standardFeedbackSession = createOption("session with my own questions", "STANDARD",
                                                           "STANDARD".equals(defaultSessionType));
         ElementTag evaluationFeedbackSession =
-                createOption("Team peer evaluation session", "TEAMEVALUATION",
+                createOption("session using template: team peer evaluation", "TEAMEVALUATION",
                              defaultSessionType == null || "TEAMEVALUATION".equals(defaultSessionType));
 
         result.add(standardFeedbackSession);

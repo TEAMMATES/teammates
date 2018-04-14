@@ -41,9 +41,11 @@ import {
 
 import {
     addConstSumOption,
+    bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
+    toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -85,6 +87,7 @@ import {
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
     toggleMinOptionsToBeRanked,
+    bindAutoFillEmptyRankOptionsChangeEvent,
 } from '../common/questionRank';
 
 import {
@@ -111,6 +114,7 @@ import {
 } from '../common/scrollTo';
 
 import {
+    appendNewStatusMessage,
     clearStatusMessages,
     setStatusMessage,
     setStatusMessageToForm,
@@ -276,6 +280,12 @@ function bindFeedbackSessionEditFormSubmission() {
             tinymce.get('instructions').save();
         }
         const $form = $(event.currentTarget);
+
+        // LEGACY IMPLEMENTATION: Ensure the 'editType' to be 'edit' before submitting,
+        // as the global state below might be modified erroneously elsewhere
+        const questionNum = $($form).data('qnnumber');
+        $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
+
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -285,14 +295,36 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success(result) {
-                if (result.hasError) {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.DANGER);
-                } else {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.SUCCESS);
+                const { statusMessagesToUser, resolvedTimeFields, hasError } = result;
+
+                for (let i = 0; i < statusMessagesToUser.length; i += 1) {
+                    const statusMessageToUser = statusMessagesToUser[i];
+                    appendNewStatusMessage(statusMessageToUser.text, BootstrapContextualColors[statusMessageToUser.color]);
+                }
+
+                const resolvedTimeInputIds = Object.keys(resolvedTimeFields);
+                for (let i = 0; i < resolvedTimeInputIds.length; i += 1) {
+                    const resolvedTimeInputId = resolvedTimeInputIds[i];
+                    const resolvedTimeInputValue = resolvedTimeFields[resolvedTimeInputId];
+                    $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
+                }
+
+                if (!hasError) {
                     disableEditFS();
                 }
             },
         });
+    });
+}
+
+/**
+ * If an input field is hidden, removes required attribute when saving changes. See issue #8688.
+ *
+ * TODO: Remove this function when #8688 is fixed.
+ */
+function removeRequiredIfElementHidden() {
+    $('#form_editquestion--1').on('click', '#button_submit_add', () => {
+        $('input:hidden').prop('required', false);
     });
 }
 
@@ -458,9 +490,10 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Recipient-${questionNum}`).show();
     } else {
         $(`#constSumOptionTable-${questionNum}`).show();
+        $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
-
+    toggleConstSumOptionsRadioButton(questionNum);
     $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
 
     if ($(`#questionTable-${questionNum}`).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
@@ -483,7 +516,7 @@ function enableQuestion(questionNum) {
 }
 
 /**
-* Enables editing of question fields and enables the "save changes" button for
+ *Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
  */
@@ -512,6 +545,8 @@ function enableNewQuestion() {
         /* eslint-enable camelcase */
     }
 
+    removeRequiredIfElementHidden(); // TODO: Remove this function call when #8688 is fixed.
+
     const $newQuestionTable = $(`#questionTable-${NEW_QUESTION}`);
 
     $newQuestionTable.find('text,button,textarea,select,input')
@@ -537,17 +572,8 @@ function enableNewQuestion() {
 
     moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    if ($(`#generateOptionsCheckbox-${NEW_QUESTION}`).prop('checked')) {
-        $(`#mcqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).hide();
-        $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', false);
-    } else {
-        $(`#mcqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#msqChoiceTable-${NEW_QUESTION}`).show();
-        $(`#mcqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
-        $(`#msqGenerateForSelect-${NEW_QUESTION}`).prop('disabled', true);
-    }
+    toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
@@ -559,6 +585,7 @@ function enableNewQuestion() {
     toggleMaxOptionsToBeRanked(NEW_QUESTION);
     toggleMinOptionsToBeRanked(NEW_QUESTION);
     hideInvalidRankRecipientFeedbackPaths(NEW_QUESTION);
+    toggleConstSumOptionsRadioButton(NEW_QUESTION);
 }
 
 /**
@@ -730,10 +757,12 @@ function prepareQuestionForm(type) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${NEW_QUESTION}`).val(2);
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}-${NEW_QUESTION}`).val('false');
         $(`#constSumOption_Recipient-${NEW_QUESTION}`).hide();
+        $(`#constSumOption_Option-${NEW_QUESTION}`).show();
         showConstSumOptionTable(NEW_QUESTION);
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         break;
     case 'CONSTSUM_RECIPIENT': {
         const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
@@ -746,6 +775,7 @@ function prepareQuestionForm(type) {
         $('#questionTypeHeader').html(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
 
         $('#constSumForm').show();
+        $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         $(`#constSum_labelText-${NEW_QUESTION}`).text(optionText.replace('option', 'recipient'));
         $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title', tooltipText.replace('option', 'recipient'));
         break;
@@ -1103,7 +1133,15 @@ function readyFeedbackEditPage() {
         }
     });
 
-    $('form.form_question').submit(function () {
+    $('form.form_question').submit(function (event) {
+        // LEGACY IMPLEMENTATION: Submission and deletion logic are coupled and determined by the global state.
+        // However, validating the form does not make sense when deleting.
+        const questionNum = $(event.currentTarget).data('qnnumber');
+        const editType = $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val();
+        if (editType === 'delete') {
+            return true;
+        }
+
         addLoadingIndicator($('#button_submit_add'), 'Saving ');
         const formStatus = checkFeedbackQuestion(this);
         if (!formStatus) {
@@ -1149,6 +1187,9 @@ function readyFeedbackEditPage() {
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
+    bindConstSumOptionsRadioButtons();
+
+    bindAutoFillEmptyRankOptionsChangeEvent();
 
     // Bind feedback session edit form submission
     bindFeedbackSessionEditFormSubmission();

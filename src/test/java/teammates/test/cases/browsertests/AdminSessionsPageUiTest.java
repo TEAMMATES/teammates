@@ -73,7 +73,7 @@ public class AdminSessionsPageUiTest extends BaseUiTestCase {
             }
             return true;
         }
-        sessionsPage.verifyStatus("Currently No Ongoing Sessions");
+        sessionsPage.waitForTextsForAllStatusMessagesToUserEquals("Currently No Ongoing Sessions");
         return true;
 
     }

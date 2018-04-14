@@ -42,9 +42,8 @@ public class StudentProfileEditSaveAction extends Action {
     }
 
     private StudentProfileAttributes extractProfileData() {
-        StudentProfileAttributes editedProfile = StudentProfileAttributes.builder().build();
+        StudentProfileAttributes editedProfile = StudentProfileAttributes.builder(account.googleId).build();
 
-        editedProfile.googleId = account.googleId;
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
         editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
         editedProfile.institute = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION);

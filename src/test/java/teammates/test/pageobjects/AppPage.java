@@ -3,10 +3,14 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -26,6 +30,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.collect.ObjectArrays;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -306,6 +312,18 @@ public abstract class AppPage {
         waitForModalToDisappear();
     }
 
+    public void cancelModalForm(WebElement modal) {
+        click(modal.findElement(By.tagName("button")));
+        waitForModalToDisappear();
+    }
+
+    public void checkCheckboxesInForm(WebElement form, String elementsName) {
+        List<WebElement> formElements = form.findElements(By.name(elementsName));
+        for (WebElement e : formElements) {
+            markCheckBoxAsChecked(e);
+        }
+    }
+
     /**
      * Waits for a confirmation modal to appear and click the cancel button.
      */
@@ -325,11 +343,6 @@ public abstract class AppPage {
     public void waitForModalToDisappear() {
         By modalBackdrop = By.className("modal-backdrop");
         waitForElementToDisappear(modalBackdrop);
-    }
-
-    public void waitForRemindModalPresence() {
-        By modalBackdrop = By.className("modal-backdrop");
-        waitForElementPresence(modalBackdrop);
     }
 
     /**
@@ -354,6 +367,14 @@ public abstract class AppPage {
     public void waitForTextContainedInElementAbsence(By by, String text) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
+    }
+
+    /**
+     * Waits for page to scroll for 1 second.
+     * Temporary solution until we can detect specifically when page scrolling.
+     */
+    public void waitForPageToScroll() {
+        ThreadHelper.waitFor(1000);
     }
 
     /**
@@ -591,12 +612,22 @@ public abstract class AppPage {
         assertEquals(value, selectedVisibleValue);
     }
 
+    public String getDropdownSelectedValue(WebElement element) {
+        Select select = new Select(element);
+        return select.getFirstSelectedOption().getAttribute("value");
+    }
+
     /**
-     * Returns the status message in the page. Returns "" if there is no
-     *         status message in the page.
+     * Returns a list containing the texts of the user status messages in the page.
+     * @see WebElement#getText()
      */
-    public String getStatus() {
-        return statusMessage == null ? "" : statusMessage.getText();
+    public List<String> getTextsForAllStatusMessagesToUser() {
+        List<WebElement> statusMessagesToUser = statusMessage.findElements(By.tagName("div"));
+        List<String> statusMessageTexts = new ArrayList<String>();
+        for (WebElement statusMessage : statusMessagesToUser) {
+            statusMessageTexts.add(statusMessage.getText());
+        }
+        return statusMessageTexts;
     }
 
     /**
@@ -795,7 +826,11 @@ public abstract class AppPage {
     }
 
     public void verifyUnclickable(WebElement element) {
-        assertNotNull(element.getAttribute("disabled"));
+        if (element.getTagName().equals("a")) {
+            assertTrue(element.getAttribute("class").contains("disabled"));
+        } else {
+            assertNotNull(element.getAttribute("disabled"));
+        }
     }
 
     /**
@@ -949,27 +984,35 @@ public abstract class AppPage {
         return this;
     }
 
-    public void verifyContainsElement(By by) {
-        List<WebElement> elements = browser.driver.findElements(by);
-        assertFalse(elements.isEmpty());
+    public void verifyContainsElement(By childBy) {
+        assertFalse(browser.driver.findElements(childBy).isEmpty());
+    }
+
+    public void verifyElementContainsElement(WebElement parentElement, By childBy) {
+        assertFalse(parentElement.findElements(childBy).isEmpty());
+    }
+
+    public void verifyElementDoesNotContainElement(WebElement parentElement, By childBy) {
+        assertTrue(parentElement.findElements(childBy).isEmpty());
     }
 
     /**
-     * Verifies the status message in the page is same as the one specified.
+     * Verifies that the texts of user status messages in the page are equal to the expected texts.
      * The check is done multiple times with waiting times in between to account for
      * timing issues due to page load, inconsistencies in Selenium API, etc.
      */
-    public void verifyStatus(final String expectedStatus) {
+    public void waitForTextsForAllStatusMessagesToUserEquals(String firstExpectedText, String... remainingExpectedTexts) {
+        List<String> expectedTexts = Arrays.asList(ObjectArrays.concat(firstExpectedText, remainingExpectedTexts));
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
                     waitForElementVisibility(statusMessage);
-                    assertEquals(expectedStatus, getStatus());
+                    assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
                 }
             }, WebDriverException.class, AssertionError.class);
         } catch (MaximumRetriesExceededException e) {
-            assertEquals(expectedStatus, getStatus());
+            assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
         }
     }
 
@@ -1026,6 +1069,16 @@ public abstract class AppPage {
         assertEquals(TestProperties.TEAMMATES_URL + Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH,
                 browser.driver.getCurrentUrl());
         browser.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    /**
+     * Returns if the input element is valid (satisfies constraint validation). Note: This method will return false if the
+     * input element is not a candidate for constraint validation (e.g. when input element is disabled).
+     */
+    public boolean isInputElementValid(WebElement inputElement) {
+        checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
+
+        return (boolean) executeScript("return arguments[0].willValidate && arguments[0].checkValidity();", inputElement);
     }
 
     public void changeToMobileView() {
