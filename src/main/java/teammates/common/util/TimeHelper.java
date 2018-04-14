@@ -278,7 +278,14 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
+     * Format a short datetime stamp from a {@code localDateTime} for the instructor's home page.
+     * Example: 5 Apr 12:01 PM
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: 5 Apr 12:01 NOON
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @return the formatted datetime stamp string
      */
     public static String formatDateTimeForInstructorHomePage(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "d MMM h:mm a");
