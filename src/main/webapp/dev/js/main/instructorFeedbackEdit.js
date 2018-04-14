@@ -42,10 +42,12 @@ import {
 import {
     addConstSumOption,
     bindConstSumOptionsRadioButtons,
+    bindConstSumOptionsCheckbox,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
     toggleConstSumOptionsRadioButton,
+    toggleConstSumOptionsCheckBox,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
 
@@ -494,6 +496,8 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
     toggleConstSumOptionsRadioButton(questionNum);
+    toggleConstSumOptionsCheckBox(questionNum);
+
     $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
 
     if ($(`#questionTable-${questionNum}`).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
@@ -763,6 +767,9 @@ function prepareQuestionForm(type) {
 
         $('#constSumForm').show();
         $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
+
+        $(`#constSumPointsRequireMin-${NEW_QUESTION}`).prop('checked', false);
+        $(`#constSumPointsRequireMax-${NEW_QUESTION}`).prop('checked', false);
         break;
     case 'CONSTSUM_RECIPIENT': {
         const optionText = $(`#constSum_labelText-${NEW_QUESTION}`).text();
@@ -778,6 +785,9 @@ function prepareQuestionForm(type) {
         $(`#constSumPointsTotal-${NEW_QUESTION}`).prop('checked', true);
         $(`#constSum_labelText-${NEW_QUESTION}`).text(optionText.replace('option', 'recipient'));
         $(`#constSum_tooltipText-${NEW_QUESTION}`).attr('data-original-title', tooltipText.replace('option', 'recipient'));
+
+        $(`#constSumPointsRequireMin-${NEW_QUESTION}`).prop('checked', false);
+        $(`#constSumPointsRequireMax-${NEW_QUESTION}`).prop('checked', false);
         break;
     }
     case 'CONTRIB':
@@ -1188,6 +1198,7 @@ function readyFeedbackEditPage() {
     bindMoveRubricColButtons();
     bindRankEvents();
     bindConstSumOptionsRadioButtons();
+    bindConstSumOptionsCheckbox();
 
     bindAutoFillEmptyRankOptionsChangeEvent();
 

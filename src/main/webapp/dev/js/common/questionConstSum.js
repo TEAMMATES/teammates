@@ -91,6 +91,29 @@ function bindConstSumOptionsRadioButtons() {
     });
 }
 
+/**
+ * If the checkbox is checked, the corresponding number field will be enabled,
+ * otherwise it will be disabled.
+ */
+function toggleConstSumOptionsCheckBox(questionNum) {
+    const isConstSumRequireMinChecked = $(`#constSumPointsRequireMin-${questionNum}`).prop('checked');
+    const linkedMinInputId = $(`#constSumPointsRequireMin-${questionNum}`).data('linkedInputId');
+    const linkedMinInput = $(`#${linkedMinInputId}`);
+    $(linkedMinInput).prop('disabled', !isConstSumRequireMinChecked);
+
+    const isConstSumRequireMaxChecked = $(`#constSumPointsRequireMax-${questionNum}`).prop('checked');
+    const linkedMaxInputId = $(`#constSumPointsRequireMax-${questionNum}`).data('linkedInputId');
+    const linkedMaxInput = $(`#${linkedMaxInputId}`);
+    $(linkedMaxInput).prop('disabled', !isConstSumRequireMaxChecked);
+}
+
+function bindConstSumOptionsCheckbox() {
+    $('input[name^="constSumPointsRequire"]').change((e) => {
+        const questionNumber = $(e.currentTarget).closest('form').attr('data-qnnumber');
+        toggleConstSumOptionsCheckBox(questionNumber);
+    });
+}
+
 export {
     addConstSumOption,
     bindConstSumOptionsRadioButtons,
@@ -99,4 +122,6 @@ export {
     showConstSumOptionTable,
     toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
+    bindConstSumOptionsCheckbox,
+    toggleConstSumOptionsCheckBox,
 };

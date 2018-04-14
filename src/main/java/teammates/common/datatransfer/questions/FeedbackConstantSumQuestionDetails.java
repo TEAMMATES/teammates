@@ -367,8 +367,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_SELECTED_POINTS_PER_OPTION, pointsPerOption ? "selected" : "",
                 Slots.CONSTSUM_OPTION_TABLE_VISIBILITY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.CONSTSUM_POINTS, points == 0 ? "100" : Integer.toString(points),
-                Slots.CONSTSUM_POINTS_MIN, minPointsConstraint == NO_MIN_MAX_CONSTRAINT ? "0" : Integer.toString(minPointsConstraint),
-                Slots.CONSTSUM_POINTS_MAX, maxPointsConstraint == NO_MIN_MAX_CONSTRAINT ? "100" : Integer.toString(maxPointsConstraint),
+                Slots.CONSTSUM_POINTS_MIN, minPointsConstraint == NO_MIN_MAX_CONSTRAINT
+                        ? "0" : Integer.toString(minPointsConstraint),
+                Slots.CONSTSUM_POINTS_MAX, maxPointsConstraint == NO_MIN_MAX_CONSTRAINT
+                        ? "100" : Integer.toString(maxPointsConstraint),
                 Slots.OPTION_DISPLAY, distributeToRecipients ? "style=\"display:none\"" : "",
                 Slots.RECIPIENT_DISPLAY, distributeToRecipients ? "" : "style=\"display:none\"",
                 Slots.PER_OPTION_CHECKED, !distributeToRecipients && pointsPerOption ? "checked" : "",

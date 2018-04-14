@@ -108,35 +108,33 @@
         <div class="col-xs-2 col-sm-1 checkbox">
           <label class="bold-label">
             <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN}"
-                   disabled id="constSumPointsRequireMin-${questionNumber}"
-                   data-linked-input-id="constSumPointsMin-${questionNumber}" ${requireMin}>
+                   id="constSumPointsRequireMin-${questionNumber}" data-linked-input-id="constSumPointsMin-${questionNumber}" ${requireMin}>
             <span>Min</span>
           </label>
         </div>
         <div class="col-xs-3 padding-0 col-sm-3 padding-left-7px">
           <div data-toggle="tooltip" data-placement="top"
                title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MIN}">
-            <input type="number" disabled class="form-control width-100-pc pointsBox"
+            <input type="number" class="form-control width-100-pc pointsBox"
                    name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}"
                    id="constSumPointsMin-${questionNumber}" value="${constSumPointsMin}" min="0"
-                   step="1" onChange="updateConstSumPointsValue(${questionNumber})">
+                   step="1" onChange="updateConstSumPointsValue(${questionNumber})" disabled>
           </div>
         </div>
         <div class="col-xs-2 col-sm-1 checkbox margin-left-7px">
           <label class="bold-label">
             <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX}"
-                   disabled id="constSumPointsRequireMax-${questionNumber}"
-                   data-linked-input-id="constSumPointsMax-${questionNumber}" ${requireMax}>
+                   id="constSumPointsRequireMax-${questionNumber}" data-linked-input-id="constSumPointsMax-${questionNumber}" ${requireMax}>
             <span>Max</span>
           </label>
         </div>
         <div class="col-xs-3 padding-0 col-sm-3 padding-left-7px">
           <div data-toggle="tooltip" data-placement="top"
                title="${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MAX}">
-            <input type="number" disabled class="form-control width-100-pc pointsBox"
+            <input type="number" class="form-control width-100-pc pointsBox"
                    name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}"
                    id="constSumPointsMax-${questionNumber}" value="${constSumPointsMax}" min="1"
-                   step="1" onChange="updateConstSumPointsValue(${questionNumber})">
+                   step="1" onChange="updateConstSumPointsValue(${questionNumber})" disabled>
           </div>
         </div>
       </div>
