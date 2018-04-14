@@ -536,8 +536,8 @@ public final class TimeHelper {
      * Parses a {@code LocalDate} object from a date string.
      * Example: date "Tue, 01 Apr, 2014"
      *
-     * @param date  date in format "EEE, dd MMM, yyyy"
-     * @return      the parsed {@code LocalDate} object, or {@code null} if there are errors
+     * @param date date in format "EEE, dd MMM, yyyy"
+     * @return the parsed {@code LocalDate} object, or {@code null} if there are errors
      */
     public static LocalDate parseDateFromSessionsForm(String date) {
         return parseLocalDate(date, "EEE, dd MMM, yyyy");
