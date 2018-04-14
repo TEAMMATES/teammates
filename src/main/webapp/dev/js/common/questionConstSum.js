@@ -12,6 +12,14 @@ function updateConstSumPointsValue(questionNum) {
     if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}-${questionNum}`).val() < 1) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT}-${questionNum}`).val(100);
     }
+
+    if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}-${questionNum}`).val() < 0) {
+        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}-${questionNum}`).val(0);
+    }
+
+    if ($(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}-${questionNum}`).val() < 1) {
+        $(`#${ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}-${questionNum}`).val(100);
+    }
 }
 
 function addConstSumOption(questionNum) {
