@@ -3,13 +3,13 @@
 <h2 class="text-color-primary" id="students">Students</h2>
 <div id="contentHolder">
   <div class="panel-group">
-    <div class="panel panel-default" id="viewStudentProfile">
+    <div class="panel panel-default" id="student-view-profile">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#viewStudentProfileBody">How do I view a student's student profile?</a>
+          <a data-toggle="collapse" href="#student-view-profile-body">How do I view a student's student profile?</a>
         </h3>
       </div>
-      <div id="viewStudentProfileBody" class="panel-collapse collapse">
+      <div id="student-view-profile-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To view the profile of Student A from Course B:
@@ -157,13 +157,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="editStudentProfile">
+    <div class="panel panel-default" id="student-edit-profile">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#editStudentProfileBody">How do I edit a student's student profile?</a>
+          <a data-toggle="collapse" href="#student-edit-profile-body">How do I edit a student's student profile?</a>
         </h3>
       </div>
-      <div id="editStudentProfileBody" class="panel-collapse collapse">
+      <div id="student-edit-profile-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To edit the name, section, team, contact email, or instructor comments of Student A from Course B:
@@ -228,13 +228,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="searchStudents">
+    <div class="panel panel-default" id="student-search">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#searchStudentsBody">How do I search for a student in my course?</a>
+          <a data-toggle="collapse" href="#student-search-body">How do I search for a student in my course?</a>
         </h3>
       </div>
-      <div id="searchStudentsBody" class="panel-collapse collapse">
+      <div id="student-search-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             You can search for students from the <b>Search</b> page. Click the <b>Search</b> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
@@ -528,13 +528,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="studentGoogleAccountNecessary">
+    <div class="panel panel-default" id="student-google-account">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#studentGoogleAccountNecessaryBody">Is it compulsory for students to use Google accounts?</a>
+          <a data-toggle="collapse" href="#student-google-account-body">Is it compulsory for students to use Google accounts?</a>
         </h3>
       </div>
-      <div id="studentGoogleAccountNecessaryBody" class="panel-collapse collapse">
+      <div id="student-google-account-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Student can submit feedback and view results without logging into TEAMMATES with their Google account.
@@ -544,13 +544,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="studentChangeGoogleAccount">
+    <div class="panel panel-default" id="student-change-google-account">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#studentChangeGoogleAccountBody">How do I change the Google ID associated with a student?</a>
+          <a data-toggle="collapse" href="#student-change-google-account-body">How do I change the Google ID associated with a student?</a>
         </h3>
       </div>
-      <div id="studentChangeGoogleAccountBody" class="panel-collapse collapse">
+      <div id="student-change-google-account-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             At the moment, there is no way for students to update their own Google IDs.<br>

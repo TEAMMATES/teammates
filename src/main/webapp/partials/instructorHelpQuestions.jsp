@@ -1,15 +1,15 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
-<h2 class="text-color-primary" id="fbQuestionTypes">Questions</h2>
+<h2 class="text-color-primary" id="questions">Questions</h2>
 <div id="contentHolder">
   <div class="panel-group">
-    <div class="panel panel-default" id="fbEssay">
+    <div class="panel panel-default" id="question-essay">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbEssayBody">Essay Question</a>
+          <a data-toggle="collapse" href="#question-essay-body">Essay Question</a>
         </h4>
       </div>
-      <div id="fbEssayBody" class="panel-collapse collapse">
+      <div id="question-essay-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Essay questions are open-ended questions that allow respondents to give text feedback about a question.<br>
@@ -334,13 +334,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbMcq">
+    <div class="panel panel-default" id="question-mcq">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbMcqBody">Multiple Choice (Single Answer) Question</a>
+          <a data-toggle="collapse" href="#question-mcq-body">Multiple Choice (Single Answer) Question</a>
         </h4>
       </div>
-      <div id="fbMcqBody" class="panel-collapse collapse">
+      <div id="question-mcq-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Multiple-choice (single answer) questions allow respondents to choose one answer from your list of answer options.<br>
@@ -945,29 +945,29 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbMsq">
+    <div class="panel panel-default" id="question-msq">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbMsqBody">Multiple Choice (Multiple Answers) Question</a>
+          <a data-toggle="collapse" href="#question-msq-body">Multiple Choice (Multiple Answers) Question</a>
         </h4>
       </div>
-      <div id="fbMsqBody" class="panel-collapse collapse">
+      <div id="question-msq-body" class="panel-collapse collapse">
         <div class="panel-body">
-          <p>
+          <p>data-toggle="
             Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
             <br> The setup and result statistics is similar to the single answer version. See
-            <a href="#fbMcq">above</a> for details.
+            <a class="collapse-link" data-target="question-mcq-body" href="#question-mcq">above</a> for details.
           </p>
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbNumscale">
+    <div class="panel panel-default" id="question-numscale">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbNumscaleBody">Numerical Scale Question</a>
+          <a data-toggle="collapse" href="#question-numscale-body">Numerical Scale Question</a>
         </h4>
       </div>
-      <div id="fbNumscaleBody" class="panel-collapse collapse">
+      <div id="question-numscale-body" class="panel-collapse collapse">
         <div class="panel-body">
           Numerical scale questions allow numerical responses from respondents
           </p>
@@ -1511,13 +1511,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbConstSumOptions">
+    <div class="panel panel-default" id="question-constsum-options">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbConstSumOptionsBody">Distribute Points (Among Options) Question</a>
+          <a data-toggle="collapse" href="#question-constsum-options-body">Distribute Points (Among Options) Question</a>
         </h4>
       </div>
-      <div id="fbConstSumOptionsBody" class="panel-collapse collapse">
+      <div id="question-constsum-options-body" class="panel-collapse collapse">
         <div class="panel-body">
           Distribute points (among options) questions allow respondents to split a fixed number of points among options that you specify.<br>
           </p>
@@ -2159,13 +2159,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbConstSumRecipients">
+    <div class="panel panel-default" id="question-constsum-recipients">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbConstSumRecipientsBody">Distribute Points (Among Recipients) Question</a>
+          <a data-toggle="collapse" href="#question-constsum-recipients-body">Distribute Points (Among Recipients) Question</a>
         </h4>
       </div>
-      <div id="fbConstSumRecipientsBody" class="panel-collapse collapse">
+      <div id="question-constsum-recipients-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Distribute points (among recipients) questions allow respondents to split points among a list of recipients.<br>
@@ -2652,18 +2652,17 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbContrib">
+    <div class="panel panel-default" id="question-contrib">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbContribBody">Team Contribution Question</a>
+          <a data-toggle="collapse" href="#question-contrib-body">Team Contribution Question</a>
         </h4>
       </div>
-      <div id="fbContribBody" class="panel-collapse collapse">
+      <div id="question-contrib-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Team contribution questions are a specialized question type designed to evaluate a student's level of contribution in a team.<br>
-            They estimate the perceived contribution of a student and prevent students from inflating their own scores.<br>
-            For more details about how contribution scores are calculated and other common questions, see the FAQ <a href="#faq-interpret-contribution-values-in-results">here</a>.
+            They estimate the perceived contribution of a student and prevent students from inflating their own scores.
           </p>
           <p>
             If you do not wish to use TEAMMATES's specialized calculation scheme, you may choose to use a distribute points (among recipients) question type.
@@ -3121,7 +3120,7 @@
           <p>
             The ratings in a contribution question can be used to identify relative contribution levels of students in a team.
             If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
-            <a class="collapse-link" data-target="#tipsBody" href="#tips">tips for conducting 'team peer evaluation' sessions</a> section.
+            <a class="collapse-link" data-target="#session-tips-body" href="#session-tips">tips for conducting 'team peer evaluation' sessions</a> section.
           </p>
           <p>
             The actual contribution values entered by the student may appear different from the values shown in the results because the system ‘normalizes’ those values so that there is no artificial inflation of contribution.
@@ -3156,7 +3155,7 @@
                         </div>
                         <div class="col-sm-3 pull-right">
                           [
-                          <a href="#faq-interpret-contribution-values-in-results" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
+                          <a href="#question-contrib" target="_blank" rel="noopener noreferrer" id="interpret_help_link">How do I interpret/use these values?</a>]
                         </div>
                       </div>
                       <div class="row">
@@ -3547,13 +3546,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbRubric">
+    <div class="panel panel-default" id="question-rubric">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbRubricBody">Rubric Question</a>
+          <a data-toggle="collapse" href="#question-rubric-body">Rubric Question</a>
         </h4>
       </div>
-      <div id="fbRubricBody" class="panel-collapse collapse">
+      <div id="question-rubric-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Rubric questions allow instructors to create multiple sub-questions with highly customizable choices and descriptions.
@@ -4378,13 +4377,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbRankOptions">
+    <div class="panel panel-default" id="question-rank-options">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbRankOptionsBody">Rank (Options) Question</a>
+          <a data-toggle="collapse" href="#question-rank-options-body">Rank (Options) Question</a>
         </h4>
       </div>
-      <div id="fbRankOptionsBody" class="panel-collapse collapse">
+      <div id="question-rank-options-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Rank options questions allow respondents to rank the options that you create.
@@ -4811,13 +4810,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbRankRecipients">
+    <div class="panel panel-default" id="question-rank-recipients">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#fbRankRecipientsBody">Rank (Recipients) Question</a>
+          <a data-toggle="collapse" href="#question-rank-recipients-body">Rank (Recipients) Question</a>
         </h4>
       </div>
-      <div id="fbRankRecipientsBody" class="panel-collapse collapse">
+      <div id="question-rank-recipients-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Rank recipients questions allow respondents to rank themselves, students, teams, or instructors.

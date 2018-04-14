@@ -1,35 +1,35 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
-<h2 class="text-color-primary" id="sessionTypes">Sessions</h2>
+<h2 class="text-color-primary" id="sessions">Sessions</h2>
 <div id="contentHolder">
   <div class="panel-group">
-    <div class="panel panel-default" id="tips">
+    <div class="panel panel-default" id="session-tips">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#tipsBody">Tips for conducting team peer evaluation sessions</a>
+          <a data-toggle="collapse" href="#session-tips-body">Tips for conducting team peer evaluation sessions</a>
         </h3>
       </div>
-      <div id="tipsBody" class="panel-collapse collapse">
+      <div id="session-tips-body" class="panel-collapse collapse">
         <div class="panel-body">
           <jsp:include page="instructorHelpTips.jsp"/>
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbSetupSession">
+    <div class="panel panel-default" id="session-setup">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#fbSetupSessionBody">How do I set up a feedback session?</a>
+          <a data-toggle="collapse" href="#session-setup-body">How do I set up a feedback session?</a>
         </h3>
       </div>
-      <div id="fbSetupSessionBody" class="panel-collapse collapse">
+      <div id="session-setup-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To quickly set up a feedback session, follow the following steps:
           </p>
           <ol>
-            <li><a class="collapse-link" data-target="#fbCreateSessionBody" href="#fbCreateSession">Create and schedule a new session</a></li>
-            <li><a class="collapse-link" data-target="#fbSetupQuestionsBody" href="#fbSetupQuestions">Add questions to the session</a></li>
-            <li><a class="collapse-link" data-target="#fbPreviewBody" href="#fbPreview">Preview the session</a></li>
+            <li><a class="collapse-link" data-target="#session-create-body" href="#session-create">Create and schedule a new session</a></li>
+            <li><a class="collapse-link" data-target="#session-questions-body" href="#session-questions">Add questions to the session</a></li>
+            <li><a class="collapse-link" data-target="#session-preview-body" href="#session-preview">Preview the session</a></li>
           </ol>
           <p>
             TEAMMATES will automatically open the session at your specified session start time.
@@ -37,13 +37,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbCreateSession">
+    <div class="panel panel-default" id="session-create">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#fbCreateSessionBody">How do I create and schedule a new feedback session?</a>
+          <a data-toggle="collapse" href="#session-create-body">How do I create and schedule a new feedback session?</a>
         </h3>
       </div>
-      <div id="fbCreateSessionBody" class="panel-collapse collapse">
+      <div id="session-create-body" class="panel-collapse collapse">
         <div class="panel-body">
           To create a new feedback session, click the <b>Sessions</b> tab at the top of the page. Then,
           fill out and submit the <b>Add New Feedback Session</b> form:
@@ -494,13 +494,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbSetupQuestions">
+    <div class="panel panel-default" id="session-questions">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#fbSetupQuestionsBody">How do I add questions to a session?</a>
+          <a data-toggle="collapse" href="#session-questions-body">How do I add questions to a session?</a>
         </h3>
       </div>
-      <div id="fbSetupQuestionsBody" class="panel-collapse collapse">
+      <div id="session-questions-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             After setting up a session, you can start adding questions.<br>
@@ -514,8 +514,7 @@
               Scroll to the bottom of the page.
             </li>
             <li>
-              Select between adding a question from our predefined
-              <a class="collapse-link" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes">question types</a> or
+              Select between adding a question from our predefined <a href="#questions">question types</a> or
               copying a question from an existing feedback session.
             </li>
             <li>
@@ -561,7 +560,7 @@
           </div>
           <p>
             TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
-            <a class="collapse-link" data-target="#fbQuestionTypesBody" href="#fbQuestionTypes"href="#fbQuestionTypes">question types</a>,
+            <a href="#questions">question types</a>,
             you can also customize your desired:
           </p>
           <ul>
@@ -774,13 +773,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbPreview">
+    <div class="panel panel-default" id="session-preview">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#fbPreviewBody">How do I preview a session?</a>
+          <a data-toggle="collapse" href="#session-preview-body">How do I preview a session?</a>
         </h3>
       </div>
-      <div id="fbPreviewBody" class="panel-collapse collapse">
+      <div id="session-preview-body" class="panel-collapse collapse">
         <div class="panel-body">
           To see what the current session looks like to anyone in the course when they are submitting responses, use the <b>Preview</b> feature.<br>
           You can quickly and easily confirm that the questions and their settings are correct after editing questions.
@@ -835,13 +834,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="sessionCannotSubmit">
+    <div class="panel panel-default" id="session-cannot-submit">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#sessionCannotSubmitBody">What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?</a>
+          <a data-toggle="collapse" href="#session-cannot-submit-body">What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?</a>
         </h3>
       </div>
-      <div id="sessionCannotSubmitBody" class="panel-collapse collapse">
+      <div id="session-cannot-submit-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Please ask the student to contact us with the details.
@@ -850,13 +849,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="fbViewResults">
+    <div class="panel panel-default" id="session-view-results">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#fbViewResultsBody">How do I view the results of my session?</a>
+          <a data-toggle="collapse" href="#session-view-results-body">How do I view the results of my session?</a>
         </h3>
       </div>
-      <div id="fbViewResultsBody" class="panel-collapse collapse">
+      <div id="session-view-results-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             View responses to a session by clicking the <b>Results</b> button of a session in the Home or Sessions tab.<br>
@@ -1436,16 +1435,16 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="addResponseComments">
+    <div class="panel panel-default" id="session-add-comments">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#addResponseCommentsBody">How do I create a comment on a response?</a>
+          <a data-toggle="collapse" href="#session-add-comments-body">How do I create a comment on a response?</a>
         </h3>
       </div>
-      <div id="addResponseCommentsBody" class="panel-collapse collapse">
+      <div id="session-add-comments-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            While <a class="collapse-link" data-target='#fbViewResultsBody' href="#fbViewResults">viewing the results</a> of a session, you can add comments to respondents' answers.
+            While <a class="collapse-link" data-target='#session-view-results-body' href="#session-view-results">viewing the results</a> of a session, you can add comments to respondents' answers.
           </p>
           <p>
             To create comments on a response in a session:
@@ -1591,20 +1590,20 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="editDeleteComments">
+    <div class="panel panel-default" id="session-edit-delete-comments">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#editDeleteCommentsBody">How do I edit or delete a comment on a response?</a>
+          <a data-toggle="collapse" href="#session-edit-delete-comments-body">How do I edit or delete a comment on a response?</a>
         </h3>
       </div>
-      <div id="editDeleteCommentsBody" class="panel-collapse collapse">
+      <div id="session-edit-delete-comments-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To edit or delete a comment that you previously made on a response:
           </p>
           <ol>
             <li>
-              Navigate to the page where you <a class="collapse-link" data-target="#addResponseCommentsBody" href="#addResponseComments">added the comment</a> that you want to edit or delete.
+              Navigate to the page where you <a class="collapse-link" data-target="#session-add-comments-body" href="#session-add-comments">added the comment</a> that you want to edit or delete.
             </li>
             <li>
               Hover over the comment which you want to edit or delete.
@@ -1623,13 +1622,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="searchFeedbackSessionData">
+    <div class="panel panel-default" id="session-search">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#searchFeedbackSessionDataBody">How do I search for a feedback session question, response or comment on a response?</a>
+          <a data-toggle="collapse" href="#session-search-body">How do I search for a feedback session question, response or comment on a response?</a>
         </h3>
       </div>
-      <div id="searchFeedbackSessionDataBody" class="panel-collapse collapse">
+      <div id="session-search-body" class="panel-collapse collapse">
         <div class="panel-body">
           You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
           <ol>

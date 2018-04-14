@@ -3,28 +3,28 @@
 <h2 class="text-color-primary" id="courses">Courses</h2>
 <div id="contentHolder">
   <div class="panel-group">
-    <div class="panel panel-default" id="courseSizeLimit">
+    <div class="panel panel-default" id="course-size">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#faqCourseSizeLimitBody">Is there a size limit for a course?</a>
+          <a data-toggle="collapse" href="#course-size-body">Is there a size limit for a course?</a>
         </h3>
       </div>
-      <div id="faqCourseSizeLimitBody" class="panel-collapse collapse">
+      <div id="course-size-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            No. However, if courses with an enrollment of more than 100 students need to be <a class="collapse-link" data-target="#sectionsEnrollingStudentsBody" href="#sectionsEnrollingStudents">divided into sections</a>.<br>
+            No. However, if courses with an enrollment of more than 100 students need to be <a class="collapse-link" data-target="#course-enroll-sections-body" href="#course-enroll-sections">divided into sections</a>.<br>
             This is so that TEAMMATES knows how to paginate reports when the entire report is too big to show in one go.
           </p>
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="courseNoTeams">
+    <div class="panel panel-default" id="course-teams">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#courseNoTeamsBody">What should I do if my course doesn’t have teams?</a>
+          <a data-toggle="collapse" href="#course-teams-body">What should I do if my course doesn’t have teams?</a>
         </h3>
       </div>
-      <div id="courseNoTeamsBody" class="panel-collapse collapse">
+      <div id="course-teams-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             When you enroll students in a course, TEAMMATES requires you to specify a <b>Team</b> for each student.<br>
@@ -33,13 +33,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="courseAddStudents">
+    <div class="panel panel-default" id="course-add-students">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#courseAddStudentsBody">How do I add students to a course?</a>
+          <a data-toggle="collapse" href="#course-add-students-body">How do I add students to a course?</a>
         </h3>
       </div>
-      <div id="courseAddStudentsBody" class="panel-collapse collapse">
+      <div id="course-add-students-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To enroll students in a course:
@@ -55,13 +55,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="courseViewStudents">
+    <div class="panel panel-default" id="course-view-students">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#courseViewStudentsBody">How do I view a list of students in a course?</a>
+          <a data-toggle="collapse" href="#course-view-students-body">How do I view a list of students in a course?</a>
         </h3>
       </div>
-      <div id="courseViewStudentsBody" class="panel-collapse collapse">
+      <div id="course-view-students-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             There are two ways to access the list of students in a course.
@@ -81,20 +81,20 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="courseDeleteStudents">
+    <div class="panel panel-default" id="course-delete-students">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#courseDeleteStudentsBody">How do I delete students from a course?</a>
+          <a data-toggle="collapse" href="#course-delete-students-body">How do I delete students from a course?</a>
         </h3>
       </div>
-      <div id="courseDeleteStudentsBody" class="panel-collapse collapse">
+      <div id="course-delete-students-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To remove Student A from Course B:
           </p>
           <ol>
             <li>
-              <a class="collapse-link" data-target="#courseViewStudentsBody" href="#courseViewStudents">View the student list</a> of Course B.
+              <a class="collapse-link" data-target="#course-view-students-body" href="#course-view-students">View the student list</a> of Course B.
             </li>
             <li>
               In the row corresponding to Student A, click the <button class="btn btn-default btn-xs">Delete</button> button.
@@ -106,13 +106,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="courseDisappearForStudent">
+    <div class="panel panel-default" id="course-disappear">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#courseDisappearForStudentBody">What should I do if a student says his/her courses have disappeared from the system?</a>
+          <a data-toggle="collapse" href="#course-disappear-body">What should I do if a student says his/her courses have disappeared from the system?</a>
         </h3>
       </div>
-      <div id="courseDisappearForStudentBody" class="panel-collapse collapse">
+      <div id="course-disappear-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID. Please ask the student to email
@@ -121,13 +121,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="editCourseAddInstructor">
+    <div class="panel panel-default" id="course-add-instructor">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#editCourseAddInstructorBody">How do I add instructors to my course?</a>
+          <a data-toggle="collapse" href="#course-add-instructor-body">How do I add instructors to my course?</a>
         </h3>
       </div>
-      <div id="editCourseAddInstructorBody" class="panel-collapse collapse">
+      <div id="course-add-instructor-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-default btn-xs" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page, which will look similar to the example below.<br>
@@ -304,13 +304,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="editCourseEditInstructor">
+    <div class="panel panel-default" id="course-edit-instructor">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#editCourseEditInstructorBody">How do I edit the information of an instructor in my course?</a>
+          <a data-toggle="collapse" href="#course-edit-instructor-body">How do I edit the information of an instructor in my course?</a>
         </h3>
       </div>
-      <div id="editCourseEditInstructorBody" class="panel-collapse collapse">
+      <div id="course-edit-instructor-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To edit the name, email and visible role of Instructor A from Course B, first go to the <b>Edit Course</b> page of Course B.<br>
@@ -336,16 +336,16 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="editCourseSetAccessLevel">
+    <div class="panel panel-default" id="course-instructor-access">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#editCourseSetAccessLevelBody">How do I set an instructor's access level?</a>
+          <a data-toggle="collapse" href="#course-instructor-access-body">How do I set an instructor's access level?</a>
         </h3>
       </div>
-      <div id="editCourseSetAccessLevelBody" class="panel-collapse collapse">
+      <div id="course-instructor-access-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            When <a data-toggle="collapse" data-target="#editCourseAddInstructorBody" href="#editCourseAddInstructor">adding an instructor</a> or <a data-toggle="collapse" data-target="#editCourseEditInstructorBody" href="#editCourseEditInstructor"> editing an instructor's information</a>, you can set the instructor's access level.
+            When <a class="collapse-link" data-target="#course-add-instructor-body" href="#course-add-instructor">adding an instructor</a> or <a class="collapse-link" data-target="#course-edit-instructor-body" href="#course-edit-instructor"> editing an instructor's information</a>, you can set the instructor's access level.
             There are 4 pre-defined privilege options for you to choose from:
           </p>
           <ul>
@@ -369,13 +369,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="editCourseSetCustom">
+    <div class="panel panel-default" id="course-custom-instructor-access">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#editCourseSetCustomBody">How do I set custom privileges for an instructor?</a>
+          <a data-toggle="collapse" href="#course-custom-instructor-access-body">How do I set custom privileges for an instructor?</a>
         </h3>
       </div>
-      <div id="editCourseSetCustomBody" class="panel-collapse collapse">
+      <div id="course-custom-instructor-access-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             When you set the access level for an instructor to <b>Custom</b>, detailed privilege settings will appear.<br>
@@ -632,13 +632,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="sectionsWhatIsItMeantFor">
+    <div class="panel panel-default" id="course-sections">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#sectionsWhatIsItMeantForBody">What are sections meant for?</a>
+          <a data-toggle="collapse" href="#course-sections-body">What are sections meant for?</a>
         </h3>
       </div>
-      <div id="sectionsWhatIsItMeantForBody" class="panel-collapse collapse">
+      <div id="course-sections-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             Sections are used to organize students in courses with significantly large numbers of students.
@@ -648,13 +648,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="sectionsEnrollingStudents">
+    <div class="panel panel-default" id="course-enroll-sections">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#sectionsEnrollingStudentsBody">How do I enroll students into sections?</a>
+          <a data-toggle="collapse" href="#course-enroll-sections-body">How do I enroll students into sections?</a>
         </h3>
       </div>
-      <div id="sectionsEnrollingStudentsBody" class="panel-collapse collapse">
+      <div id="course-enroll-sections-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To specify a section for each student at the time of enrollment, include a <b>Section</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
@@ -663,13 +663,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="sectionsEditing">
+    <div class="panel panel-default" id="course-change-student-section">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#sectionsEditingBody">How do I change a student's section?</a>
+          <a data-toggle="collapse" href="#course-change-student-section-body">How do I change a student's section?</a>
         </h3>
       </div>
-      <div id="sectionsEditingBody" class="panel-collapse collapse">
+      <div id="course-change-student-section-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To edit the section Student A from Course B is enrolled in:
@@ -682,7 +682,7 @@
               Click the <button class="btn btn-default btn-xs">Edit</button> button in the last column of the row corresponding to Student A.
             </li>
             <li>
-              A new page will open that allows you to <a href="#studentEditProfile">edit the student's profile</a>, including a field to edit the student's section.<br>
+              A new page will open that allows you to <a class="collapse-link" data-target="student-edit-profile-body" href="#student-edit-profile">edit the student's profile</a>, including a field to edit the student's section.<br>
             </li>
             <li>
               After editing the section name, click <button class="btn btn-primary btn-s">Save Changes</button> to confirm Student A's new section.
@@ -692,13 +692,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="archivingCourse">
+    <div class="panel panel-default" id="course-archive">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#archivingCourseBody">How do I archive a course?</a>
+          <a data-toggle="collapse" href="#course-archive-body">How do I archive a course?</a>
         </h3>
       </div>
-      <div id="archivingCourseBody" class="panel-collapse collapse">
+      <div id="course-archive-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             When a course has ended, you can archive it so that it doesn't appear in your home page. You cannot edit, create feedback sessions for or enroll students in an archived course.
@@ -756,13 +756,13 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="archivingViewArchivedCourses">
+    <div class="panel panel-default" id="course-view-archived">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#archivingViewArchivedCoursesBody">How do I view courses I have archived?</a>
+          <a data-toggle="collapse" href="#course-view-archived-body">How do I view courses I have archived?</a>
         </h3>
       </div>
-      <div id="archivingViewArchivedCoursesBody" class="panel-collapse collapse">
+      <div id="course-view-archived-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             You can view all your archived courses by navigating to the <b>Courses</b> page.<br>
@@ -794,21 +794,21 @@
           </div>
           <p>
             The courses you have previously archived are listed here.
-            In order to access information in an archived course, <a data-toggle="collapse" data-target="#archivingUnarchiveCoursesBody" href="#archivingUnarchiveCourses">unarchive the course</a>.
+            In order to access information in an archived course, <a class="collapse-link" data-target="#course-unarchive-body" href="#course-unarchive">unarchive the course</a>.
           </p>
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="archivingUnarchiveCourses">
+    <div class="panel panel-default" id="course-unarchive">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#archivingUnarchiveCoursesBody">How do I unarchive an archived course?</a>
+          <a data-toggle="collapse" href="#course-unarchive-body">How do I unarchive an archived course?</a>
         </h3>
       </div>
-      <div id="archivingUnarchiveCoursesBody" class="panel-collapse collapse">
+      <div id="course-unarchive-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            To unarchive a course, first <a data-toggle="collapse" data-target="#archivingViewArchivedCoursesBody" href="#archivingViewArchivedCourses">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
+            To unarchive a course, first <a class="collapse-link" data-target="#course-view-archived-body" href="#course-view-archived">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
             Then, click on the <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
           </p>
           <div class="bs-example">
