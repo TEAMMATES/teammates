@@ -1,9 +1,8 @@
 package teammates.common.util;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +18,8 @@ import teammates.common.util.ActivityLogEntry.Builder;
 public class LogMessageGenerator {
     public static final Pattern PATTERN_ACTION_NAME = Pattern.compile("^/\\S+?/(?<actionName>[^\\s\\?]*)");
     public static final String PATTERN_ACTION_NAME_GROUP = "actionName";
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(Const.ActivityLog.TIME_FORMAT_LOGID);
 
     /**
      * Generates the log message for an *Action.
@@ -192,7 +193,7 @@ public class LogMessageGenerator {
 
     private String generateLogIdForAutomatedAction(long time) {
         return String.join(Const.ActivityLog.FIELD_CONNECTOR,
-                Const.ActivityLog.ROLE_AUTO, formatTimeForId(new Date(time)));
+                Const.ActivityLog.ROLE_AUTO, formatTimeForId(Instant.ofEpochMilli(time)));
     }
 
     private String generateLogIdWithoutGoogleId(Map<String, String[]> params, long time) {
@@ -200,19 +201,17 @@ public class LogMessageGenerator {
         String studentEmail = HttpRequestHelper.getValueFromParamMap(params, Const.ParamsNames.STUDENT_EMAIL);
         if (courseId != null && studentEmail != null) {
             return String.join(Const.ActivityLog.FIELD_CONNECTOR,
-                    studentEmail, courseId, formatTimeForId(new Date(time)));
+                    studentEmail, courseId, formatTimeForId(Instant.ofEpochMilli(time)));
         }
         return String.join(Const.ActivityLog.FIELD_CONNECTOR,
-                Const.ActivityLog.AUTH_NOT_LOGIN, formatTimeForId(new Date(time)));
+                Const.ActivityLog.AUTH_NOT_LOGIN, formatTimeForId(Instant.ofEpochMilli(time)));
     }
 
     private String generateLogIdWithGoogleId(String googleId, long time) {
-        return String.join(Const.ActivityLog.FIELD_CONNECTOR, googleId, formatTimeForId(new Date(time)));
+        return String.join(Const.ActivityLog.FIELD_CONNECTOR, googleId, formatTimeForId(Instant.ofEpochMilli(time)));
     }
 
-    private String formatTimeForId(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Const.ActivityLog.TIME_FORMAT_LOGID);
-        sdf.setTimeZone(TimeZone.getTimeZone(Const.SystemParams.ADMIN_TIME_ZONE));
-        return sdf.format(date.getTime());
+    private static String formatTimeForId(Instant instant) {
+        return FORMATTER.format(TimeHelper.convertInstantToLocalDateTime(instant, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 }
