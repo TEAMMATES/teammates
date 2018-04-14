@@ -129,7 +129,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    @Test
     public void testEditSessionAction() throws Exception {
 
         ______TS("typical success case");
