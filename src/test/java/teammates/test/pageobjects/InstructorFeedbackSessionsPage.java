@@ -2,8 +2,8 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -299,11 +299,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.
     */
-    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) {
+    public void fillTimeValueForDatePickerTest(String timeId, LocalDate newValue) {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.getTime()));
+        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.atStartOfDay()));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {

@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -138,14 +137,7 @@ public final class Const {
          * in the FieldValidator class.
          */
 
-        // TODO: rename back to ADMIN_TIME_ZONE once the String version has been deleted
-        public static final ZoneId ADMIN_TIME_ZONE_ID = ZoneId.of("Asia/Singapore");
-        @Deprecated // use ZoneId version
-        public static final String ADMIN_TIME_ZONE = ADMIN_TIME_ZONE_ID.getId();
-        @Deprecated // use ZoneId version
-        public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
-
-        public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
+        public static final ZoneId ADMIN_TIME_ZONE = ZoneId.of("Asia/Singapore");
 
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
 
