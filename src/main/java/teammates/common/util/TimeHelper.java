@@ -433,21 +433,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Converts the datetime string to an Instant object.
-     *
-     * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
-     */
-    public static Instant parseInstant(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
-        try {
-            return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
-        } catch (DateTimeParseException e) {
-            Assumption.fail("Date in String is in wrong format.");
-            return null;
-        }
-    }
-
-    /**
      * Returns whether the given {@code instant} is being used as a special representation, signifying its face value
      * should not be used without proper processing.
      *
@@ -512,6 +497,22 @@ public final class TimeHelper {
                 timeInMilliseconds / 60000,
                 (timeInMilliseconds % 60000) / 1000,
                 timeInMilliseconds % 1000);
+    }
+
+    /**
+     * Parses an {@code Instant} object from a datetime string in the {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.
+     *
+     * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
+     * @return the parsed {@code Instant} object, or {@code null} if there are errors
+     */
+    public static Instant parseInstant(String dateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
+        try {
+            return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
+        } catch (DateTimeParseException e) {
+            Assumption.fail("Date in String is in wrong format.");
+            return null;
+        }
     }
 
     /**
