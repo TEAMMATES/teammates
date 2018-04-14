@@ -328,22 +328,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1");
     }
 
-    private int numOfChoicesForMsq(String courseId, FeedbackParticipantType generatedOption) {
-        if (generatedOption == FeedbackParticipantType.NONE) {
+    public int getNumOfChoicesForMsq(String courseId, FeedbackParticipantType generateOptionsFor) {
+        if (generateOptionsFor == FeedbackParticipantType.NONE) {
             return msqChoices.size();
-        } else if (generatedOption == FeedbackParticipantType.STUDENTS
-                || generatedOption == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+        } else if (generateOptionsFor == FeedbackParticipantType.STUDENTS
+                || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
             List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
             int sizeOfStudentlist = studentList.size();
 
-            return generatedOption == FeedbackParticipantType.STUDENTS ? sizeOfStudentlist : sizeOfStudentlist - 1;
-        } else if (generatedOption == FeedbackParticipantType.TEAMS
-                || generatedOption == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
+            return generateOptionsFor == FeedbackParticipantType.STUDENTS ? sizeOfStudentlist : sizeOfStudentlist - 1;
+        } else if (generateOptionsFor == FeedbackParticipantType.TEAMS
+                || generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
             try {
                 List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
                 int sizeOfTeamlist = teamList.size();
 
-                return generatedOption == FeedbackParticipantType.TEAMS ? sizeOfTeamlist : sizeOfTeamlist - 1;
+                return generateOptionsFor == FeedbackParticipantType.TEAMS ? sizeOfTeamlist : sizeOfTeamlist - 1;
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
             }
@@ -611,7 +611,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
 
         if (isMaxSelectableChoicesEnabled) {
-            int numOfMsqChoicesForGeneratedOptions = numOfChoicesForMsq(courseId, generateOptionsFor);
+            int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);
             if (numOfMsqChoicesForGeneratedOptions < maxSelectableChoices) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
             } else if (maxSelectableChoices < 2) {
@@ -671,10 +671,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
-    }
-
-    public int getNumOfMsqChoices() {
-        return msqChoices.size();
     }
 
     public List<String> getMsqChoices() {

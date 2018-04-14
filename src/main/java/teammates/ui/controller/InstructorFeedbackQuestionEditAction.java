@@ -85,7 +85,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             isError = true;
         }
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         FeedbackQuestionDetails updatedQuestionDetails = updatedQuestion.getQuestionDetails();
         List<String> questionDetailsErrors = updatedQuestionDetails.validateQuestionDetails(courseId);
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<>();
