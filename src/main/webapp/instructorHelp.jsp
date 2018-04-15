@@ -20,10 +20,10 @@
         <a href="#courses">Courses</a>
       </li>
       <li>
-        <a href="#sessionTypes">Sessions</a>
+        <a href="#sessions">Sessions</a>
       </li>
       <li>
-        <a href="#questionTypes">Questions</a>
+        <a href="#questions">Questions</a>
       </li>
     </ul>
   </div>
