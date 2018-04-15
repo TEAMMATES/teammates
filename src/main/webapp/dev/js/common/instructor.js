@@ -13,7 +13,7 @@ import {
 
 import {
     updateCharLeft,
-} from './updateCharCount';
+} from './updateCharLeft';
 
 import {
     TimeZone,

@@ -1,6 +1,6 @@
 /**
  * Updates the number of characters left in the text area
- * @param textArea - Text area for which char are to be counted
+ * @param textArea - Text area for which the number of characters are to be counted
  * @param letterCountId - Id of Label to display length of text area
  */
 function updateCharLeftCount(textArea, letterCountId) {

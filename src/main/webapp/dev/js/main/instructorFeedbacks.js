@@ -49,7 +49,7 @@ import {
 
 import {
     updateCharLeft,
-} from '../common/updateCharCount';
+} from '../common/updateCharLeft';
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;
