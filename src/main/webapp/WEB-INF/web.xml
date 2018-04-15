@@ -45,12 +45,22 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>FeedbackLinksResendServlet</servlet-name>
-        <servlet-class>teammates.ui.controller.FeedbackLinksResendServlet</servlet-class>
+        <servlet-name>FeedbackAccessLinksResendServlet</servlet-name>
+        <servlet-class>teammates.ui.controller.FeedbackAccessLinksResendServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>FeedbackLinksResendServlet</servlet-name>
+        <servlet-name>FeedbackAccessLinksResendServlet</servlet-name>
         <url-pattern>/requestResendLinksResult</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ResendAccessLinksServlet</servlet-name>
+        <jsp-file>/requestResendLinks.jsp</jsp-file>
+    </servlet>
+    <!--mapping-->
+    <servlet-mapping>
+        <servlet-name>ResendAccessLinksServlet</servlet-name>
+        <url-pattern>/resendLinks</url-pattern>
     </servlet-mapping>
 
     <servlet>

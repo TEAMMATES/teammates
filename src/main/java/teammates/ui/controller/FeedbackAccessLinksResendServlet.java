@@ -22,7 +22,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 
-public class FeedbackLinksResendServlet extends HttpServlet {
+public class FeedbackAccessLinksResendServlet extends HttpServlet {
 
     /**
      * This is a email regex to test whether the input is a valid email.
