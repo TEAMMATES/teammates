@@ -1,7 +1,7 @@
 package teammates.ui.automated;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -38,7 +38,7 @@ public class CompileLogsAction extends AutomatedAction {
     private List<AppLogLine> getErrorLogs() {
         LogService logService = LogServiceFactory.getLogService();
 
-        long endTime = new Date().getTime();
+        long endTime = Instant.now().toEpochMilli();
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
         long queryRange = 1000 * 60 * 6;
         long startTime = endTime - queryRange;

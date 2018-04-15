@@ -5,7 +5,7 @@
 
 <c:forEach items="${data.studentCourseDetailsPanel.instructors}" var="instructor">
   <c:if test="${instructor.displayedToStudents}">
-    ${instructor.displayedName}:
+    ${fn:escapeXml(instructor.displayedName)}:
     <a href="mailto:${instructor.email}">
       ${fn:escapeXml(instructor.name)} (${instructor.email})
     </a>

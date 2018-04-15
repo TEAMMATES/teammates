@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -17,7 +16,6 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidPostParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -38,27 +36,22 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      * Creates a feedback session attributes object from the request parameters.
      * The created time is always set to now, and the opening email enabled flag is always set to true.
      * @param fsName the name of the feedback session (should be sanitized when creating a new session).
-     * @param courseId the ID of the course the feedback session is in.
+     * @param course the course the feedback session is in.
      * @param creatorEmail the email address of the feedback session's creator.
      * @return feedback session attributes object.
      * @throws InvalidPostParametersException if any of the request parameters are not in the expected format.
      */
-    protected FeedbackSessionAttributes extractFeedbackSessionData(String fsName, String courseId, String creatorEmail) {
+    protected FeedbackSessionAttributes extractFeedbackSessionData(
+            String fsName, CourseAttributes course, String creatorEmail) {
         Assumption.assertNotNull(fsName);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(course);
         Assumption.assertNotNull(creatorEmail);
 
-        FeedbackSessionAttributes attributes = FeedbackSessionAttributes.builder(fsName, courseId, creatorEmail)
-                // For existing sessions, this will be overridden to its existing value at the logic layer
+        FeedbackSessionAttributes attributes = FeedbackSessionAttributes.builder(fsName, course.getId(), creatorEmail)
+                // For existing sessions, creation time will be overwritten to its existing value at the logic layer
                 .withCreatedTime(Instant.now())
+                .withTimeZone(course.getTimeZone())
                 .build();
-
-        String paramTimeZone = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        try {
-            attributes.setTimeZone(ZoneId.of(paramTimeZone));
-        } catch (DateTimeException e) {
-            throw new InvalidPostParametersException("Failed to parse time zone parameter: " + paramTimeZone, e);
-        }
 
         inputStartTimeLocal = TimeHelper.combineDateTime(
                 getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
@@ -134,21 +127,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         return attributes;
     }
 
-    protected void validateTimeData(FeedbackSessionAttributes attributes)
-            throws InvalidParametersException {
-        FieldValidator validator = new FieldValidator();
-
-        // Stop if invalid or fixed offset time zone is detected
-        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(paramTimeZone);
-        if (!timeZoneErrorMessage.isEmpty()) {
-            // Collect other errors before throwing an exception
-            List<String> errors = new ArrayList<>(attributes.getInvalidityInfo());
-            errors.add(timeZoneErrorMessage);
-            throw new InvalidParametersException(errors);
-        }
-
-        // The time zone is valid at this point and can be used for future calculations
+    protected void validateTimeData(FeedbackSessionAttributes attributes) {
         ZoneId timeZone = attributes.getTimeZone();
 
         // Warn if ambiguity of time fields (brought about by DST) is detected

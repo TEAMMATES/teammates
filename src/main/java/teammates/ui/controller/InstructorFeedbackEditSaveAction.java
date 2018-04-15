@@ -31,7 +31,7 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         String dummyCreatorEmail = "dummy@example.com";
 
         FeedbackSessionAttributes feedbackSession =
-                extractFeedbackSessionData(feedbackSessionName, courseId, dummyCreatorEmail);
+                extractFeedbackSessionData(feedbackSessionName, logic.getCourse(courseId), dummyCreatorEmail);
 
         try {
             validateTimeData(feedbackSession);

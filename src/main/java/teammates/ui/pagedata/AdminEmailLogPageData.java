@@ -1,10 +1,10 @@
 package teammates.ui.pagedata;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -64,7 +64,7 @@ public class AdminEmailLogPageData extends PageData {
      */
     public long getToDate() {
         if (this.q == null || !this.q.isToDateInQuery) {
-            return TimeHelper.now(0.0).getTimeInMillis();
+            return Instant.now().toEpochMilli();
         }
         return this.q.toDateValue;
     }
@@ -276,33 +276,34 @@ public class AdminEmailLogPageData extends PageData {
         public void add(String label, String[] values) throws ParseException, InvalidParametersException {
             if ("after".equals(label)) {
                 isFromDateInQuery = true;
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 0:00");
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-                fromDateValue = cal.getTime().getTime();
-
-            } else if ("before".equals(label)) {
+                LocalDateTime localDateTime = TimeHelper.parseLocalDate(values[0], "dd/MM/yyyy").atStartOfDay();
+                fromDateValue = TimeHelper.convertLocalDateTimeToInstant(
+                        localDateTime, Const.SystemParams.ADMIN_TIME_ZONE).toEpochMilli();
+                return;
+            }
+            if ("before".equals(label)) {
                 isToDateInQuery = true;
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 23:59");
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(d);
-                cal = TimeHelper.convertToUserTimeZone(cal, -Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-                toDateValue = cal.getTime().getTime();
-            } else if ("receiver".equals(label)) {
+                LocalDateTime localDateTime = TimeHelper.parseLocalDate(values[0], "dd/MM/yyyy").atTime(LocalTime.MAX);
+                toDateValue = TimeHelper.convertLocalDateTimeToInstant(
+                        localDateTime, Const.SystemParams.ADMIN_TIME_ZONE).toEpochMilli();
+                return;
+            }
+            if ("receiver".equals(label)) {
                 isReceiverInQuery = true;
                 receiverValues = values;
-            } else if ("subject".equals(label)) {
+                return;
+            }
+            if ("subject".equals(label)) {
                 isSubjectInQuery = true;
                 subjectValues = values;
-            } else if ("info".equals(label)) {
+                return;
+            }
+            if ("info".equals(label)) {
                 isInfoInQuery = true;
                 infoValues = values;
-            } else {
-                throw new InvalidParametersException("Invalid label");
+                return;
             }
+            throw new InvalidParametersException("Invalid label");
         }
     }
 

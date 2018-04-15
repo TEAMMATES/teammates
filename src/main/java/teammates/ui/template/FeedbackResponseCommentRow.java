@@ -47,7 +47,12 @@ public class FeedbackResponseCommentRow {
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForSessions(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
+<<<<<<< HEAD
         // TODO REMOVE AFTER DATA MIGRATION
+=======
+
+        //TODO TO REMOVE AFTER DATA MIGRATION
+>>>>>>> 63bf359f522ee29df53244378dba348650a667b8
         this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(giverDisplay));
         this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }

@@ -1,9 +1,9 @@
 package teammates.test.pageobjects;
 
-import static org.junit.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.File;
@@ -312,6 +312,18 @@ public abstract class AppPage {
         waitForModalToDisappear();
     }
 
+    public void cancelModalForm(WebElement modal) {
+        click(modal.findElement(By.tagName("button")));
+        waitForModalToDisappear();
+    }
+
+    public void checkCheckboxesInForm(WebElement form, String elementsName) {
+        List<WebElement> formElements = form.findElements(By.name(elementsName));
+        for (WebElement e : formElements) {
+            markCheckBoxAsChecked(e);
+        }
+    }
+
     /**
      * Waits for a confirmation modal to appear and click the cancel button.
      */
@@ -331,11 +343,6 @@ public abstract class AppPage {
     public void waitForModalToDisappear() {
         By modalBackdrop = By.className("modal-backdrop");
         waitForElementToDisappear(modalBackdrop);
-    }
-
-    public void waitForRemindModalPresence() {
-        By modalBackdrop = By.className("modal-backdrop");
-        waitForElementPresence(modalBackdrop);
     }
 
     /**
@@ -977,9 +984,16 @@ public abstract class AppPage {
         return this;
     }
 
-    public void verifyContainsElement(By by) {
-        List<WebElement> elements = browser.driver.findElements(by);
-        assertFalse(elements.isEmpty());
+    public void verifyContainsElement(By childBy) {
+        assertFalse(browser.driver.findElements(childBy).isEmpty());
+    }
+
+    public void verifyElementContainsElement(WebElement parentElement, By childBy) {
+        assertFalse(parentElement.findElements(childBy).isEmpty());
+    }
+
+    public void verifyElementDoesNotContainElement(WebElement parentElement, By childBy) {
+        assertTrue(parentElement.findElements(childBy).isEmpty());
     }
 
     /**

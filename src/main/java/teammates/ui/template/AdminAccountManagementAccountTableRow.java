@@ -36,7 +36,7 @@ public class AdminAccountManagementAccountTableRow {
 
     public String getCreatedAt() {
         return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
-                account.createdAt, Const.SystemParams.ADMIN_TIME_ZONE_ID));
+                account.createdAt, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
     public String getAdminViewAccountDetailsLink() {

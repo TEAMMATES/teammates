@@ -165,13 +165,13 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         if (role == null) {
             role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            role = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(role));
+            role = SanitizationHelper.sanitizeName(role);
         }
 
         if (displayedName == null) {
             displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            displayedName = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(displayedName));
+            displayedName = SanitizationHelper.sanitizeName(displayedName);
         }
 
         if (privileges == null) {
