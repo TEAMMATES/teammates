@@ -66,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="You should not need to change this as your time zone is auto-detected. <br><br>TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" title="">
+            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="To change this, edit the course settings. <br><br>TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" title="">
               <div class="form-group">
                 <h5 class="col-sm-2 col-md-4">
                   <label class="control-label" for="timezone">
@@ -74,13 +74,9 @@
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <div class="input-group">
-                    <select class="form-control" id="timezone" name="timezone">
-                    </select>
-                    <span class="input-group-btn">
-                      <input class="btn btn-primary" id="auto-detect-time-zone" type="button" value="Auto-Detect">
-                    </span>
-                  </div>
+                  <h5 class="form-control-static font-weight-normal" data-time-zone="" id="timezone">
+                    UTC
+                  </h5>
                 </div>
               </div>
             </div>
@@ -95,10 +91,10 @@
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <input class="course-name-data" id="FeedbackEditCopy.CS2103" type="hidden" value="Software Engineering">
-                  <input class="course-name-data" id="FeedbackEditCopy.CS2104" type="hidden" value="Programming Language Concepts">
-                  <input class="course-name-data" id="FeedbackEditCopy.CS2105" type="hidden" value="Introduction to Computer Networks">
-                  <input class="course-name-data" id="FeedbackEditCopy.CS2107" type="hidden" value="Introduction to Information and System Security">
+                  <input class="course-attributes-data" data-name="Software Engineering" data-time-zone="UTC" id="FeedbackEditCopy.CS2103" type="hidden">
+                  <input class="course-attributes-data" data-name="Programming Language Concepts" data-time-zone="Africa/Johannesburg" id="FeedbackEditCopy.CS2104" type="hidden">
+                  <input class="course-attributes-data" data-name="Introduction to Computer Networks" data-time-zone="UTC" id="FeedbackEditCopy.CS2105" type="hidden">
+                  <input class="course-attributes-data" data-name="Introduction to Information and System Security" data-time-zone="UTC" id="FeedbackEditCopy.CS2107" type="hidden">
                   <h5 class="form-control-static font-weight-normal" id="coursename">
                     Software Engineering
                   </h5>

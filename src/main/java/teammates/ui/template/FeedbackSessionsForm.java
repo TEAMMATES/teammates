@@ -83,11 +83,13 @@ public class FeedbackSessionsForm {
 
         fsForm.instructions = SanitizationHelper.sanitizeForRichText(existingFs.getInstructions().getValue());
 
-        fsForm.fsStartDate = TimeHelper.formatDateForSessionsForm(existingFs.getStartTimeLocal());
-        fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getStartTimeLocal());
+        fsForm.fsStartDate = TimeHelper.adjustAndFormatDateForSessionsFormInputs(existingFs.getStartTimeLocal());
+        fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(
+                TimeHelper.adjustLocalDateTimeForSessionsFormInputs(existingFs.getStartTimeLocal()));
 
-        fsForm.fsEndDate = TimeHelper.formatDateForSessionsForm(existingFs.getEndTimeLocal());
-        fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.getEndTimeLocal());
+        fsForm.fsEndDate = TimeHelper.adjustAndFormatDateForSessionsFormInputs(existingFs.getEndTimeLocal());
+        fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(
+                TimeHelper.adjustLocalDateTimeForSessionsFormInputs(existingFs.getEndTimeLocal()));
 
         fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.getGracePeriodMinutes());
 

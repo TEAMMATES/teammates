@@ -24,9 +24,15 @@ Contributors:
 * Can close issues and PRs opened by themselves.
 * Can comment on any issue and PR.
 
+Contributors who have shown contributions sustained over a long period of time will be duly recognized as **major contributors**, and will be invited to join the TEAMMATES organization. Major contributors:
+* Can be assigned to issues.
+
 ## Committer
 
-Committers are community members who have shown significant contributions sustained over a long period of time.
+Committers are community members who have shown:
+* Significant contributions beyond that of contributors,
+* Good knowledge of TEAMMATES both as a product and a project, and
+* Commitment to continue contributing for a longer period of time.
 
 On top of contributor's privileges, committers:
 * Have "push" access to the main repository and has the option to submit their fixes via PRs from the main repository.
@@ -38,7 +44,7 @@ On top of contributor's privileges, committers:
 
 ## Core team member
 
-Core team members are community members who have shown significant and sustained contributions in recent times,
+Core team members are community members who have shown significant and sustained contributions and knowledge beyond that of committers,
 and are trusted to be responsible for determining the direction of the project for a set period of time.
 They are expected to be familiar with the development workflow.
 

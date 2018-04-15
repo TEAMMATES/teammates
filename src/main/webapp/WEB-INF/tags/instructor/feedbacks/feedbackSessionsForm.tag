@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedback & instructorFeedbackEdit - feedback session form" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -68,9 +69,10 @@
                 </label>
               </h5>
               <div class="col-sm-10 col-md-8">
-                <ti:timeZoneInput nameId="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
-                    selectedTimeZone="${fsForm.fsTimeZone}">
-                </ti:timeZoneInput>
+                <h5 id="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>" class="form-control-static font-weight-normal"
+                    data-time-zone="${fsForm.fsTimeZone}">
+                  ${fsForm.fsTimeZone}
+                </h5>
               </div>
             </div>
           </div>
@@ -88,8 +90,8 @@
                 <c:choose>
                   <c:when test="${fsForm.courseIdEditable}">
                     <c:forEach items="${courseAttributes}" var="attributes">
-                      <input class="course-name-data" id="${fn:escapeXml(attributes.id)}"
-                          type="hidden" value="${fn:escapeXml(attributes.name)}">
+                      <input class="course-attributes-data" id="${fn:escapeXml(attributes.id)}" type="hidden"
+                          data-name="${fn:escapeXml(attributes.name)}" data-time-zone="${attributes.timeZone.id}">
                     </c:forEach>
                     <h5 id="<%= Const.ParamsNames.COURSE_NAME %>" class="form-control-static font-weight-normal">
                     </h5>
