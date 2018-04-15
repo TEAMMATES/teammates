@@ -20,7 +20,7 @@
   </c:choose>
 
   <%-- Name --%>
-  <td>${instructor.name}</td>
+  <td>${fn:escapeXml(instructor.name)}</td>
 
   <%-- Google ID --%>
   <td>
