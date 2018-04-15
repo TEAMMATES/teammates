@@ -9,7 +9,7 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Google ID:</label>
         <div class="col-sm-10">
-          <p class="form-control-static">${accountInformation.googleId}</p>
+          <p class="form-control-static">${fn:escapeXml(accountInformation.googleId)}</p>
         </div>
       </div>
 
