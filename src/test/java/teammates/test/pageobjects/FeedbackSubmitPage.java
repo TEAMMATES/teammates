@@ -202,11 +202,16 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void submitWithoutConfirmationEmail() {
-        WebElement sendEmailChecbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
-        if (sendEmailChecbox.isSelected()) {
-            click(sendEmailChecbox);
+        WebElement sendEmailCheckbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        if (sendEmailCheckbox.isSelected()) {
+            click(sendEmailCheckbox);
         }
         clickSubmitButton();
+    }
+
+    public boolean isConfirmationEmailBoxTicked() {
+        WebElement sendEmailCheckbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        return sendEmailCheckbox.isSelected();
     }
 
     public void clickSubmitButton() {
