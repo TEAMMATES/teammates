@@ -20,7 +20,8 @@ public class InstructorCourseInstructorEditSaveAction extends InstructorCourseIn
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
+        String instructorName =
+                SanitizationHelper.desanitizeIfHtmlSanitized(getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME));
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
