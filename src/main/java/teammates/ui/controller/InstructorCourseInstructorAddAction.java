@@ -20,8 +20,7 @@ public class InstructorCourseInstructorAddAction extends InstructorCourseInstruc
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        String instructorName =
-                SanitizationHelper.desanitizeIfHtmlSanitized(getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME));
+        String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
