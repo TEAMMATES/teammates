@@ -13,7 +13,7 @@
         <div class="panel-body">
           <p>
             No. However, if courses with an enrollment of more than 100 students need to be <a class="collapse-link" data-target="#course-enroll-sections-body" href="#course-enroll-sections">divided into sections</a>.<br>
-            This is so that TEAMMATES knows how to paginate reports when the entire report is too big to show in one go.
+            TEAMMATES uses section information to organize the results of your sessions into a downloadable report.
           </p>
         </div>
       </div>
@@ -643,7 +643,11 @@
           <p>
             Sections are used to organize students in courses with significantly large numbers of students.
             It is mandatory for courses with more than 100 students to organize students into sections.
-            You are allowed to have sections for courses with less than 100 students, but it is not mandatory.
+            Courses with less than 100 students do not need to be split into sections.
+          </p>
+          <p>
+            Section information is used to paginate the downloadable report of a session's results.
+            When you download the results of a session as an Excel spreadsheet, each section will be given its own page in the file.
           </p>
         </div>
       </div>
@@ -701,7 +705,7 @@
       <div id="course-archive-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            When a course has ended, you can archive it so that it doesn't appear in your home page. You cannot edit, create feedback sessions for or enroll students in an archived course.
+            When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
           </p>
           <p>
             In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>

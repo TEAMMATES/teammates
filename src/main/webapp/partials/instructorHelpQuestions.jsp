@@ -356,7 +356,7 @@
               (Optional) Add a description for the question
             </li>
             <li>
-              Specify answer options by writing them manually, or generate options from TEAMMATES's list of students, instructors or teams
+              Specify answer options by writing them manually, or generate options from your course's list of students, instructors or teams
             </li>
           </ol>
           </p>

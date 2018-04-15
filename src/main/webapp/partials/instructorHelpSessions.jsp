@@ -521,7 +521,7 @@
               Save changes to the question when you have finished creating the question
             </li>
             <li>
-              When you are finished adding questions, click <button class="btn btn-primary">Done Editing"</button>.
+              When you are finished adding questions, click <button class="btn btn-primary">Done Editing</button>.
             </li>
           </ol>
           <div class="bs-example" id="addQuestion">
