@@ -49,7 +49,9 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      * {@code FeedbackResponseAttributesWithModifiableTimestamp} class that
      * inherits from this class to construct.
      */
-    protected FeedbackResponseAttributes() {}
+    protected FeedbackResponseAttributes() {
+        // Empty constructor
+    }
 
     public static Builder builder() {
         return new Builder();

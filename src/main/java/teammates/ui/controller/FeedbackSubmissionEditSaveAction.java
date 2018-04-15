@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -322,14 +324,17 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String paramName = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx;
         String[] answer = getRequestParamValues(paramName);
 
-        FeedbackResponseDetails responseDetails = null;
-        if (!questionDetails.isQuestionSkipped(answer)) {
-            responseDetails =
+        if (questionDetails.isQuestionSkipped(answer)) {
+            Text responseMetaData = new Text("");
+            responseBuilder = responseBuilder.withResponseMetaData(responseMetaData);
+        } else {
+            FeedbackResponseDetails responseDetails =
                     FeedbackResponseDetails.createResponseDetails(answer, questionDetails.getQuestionType(),
                                                                   questionDetails, requestParameters,
                                                                   questionIndx, responseIndx);
+            responseBuilder = responseBuilder.withReponseMetaDataFromFeedbackResponseDetails(responseDetails);
         }
-        return responseBuilder.withReponseMetaDataFromFeedbackResponseDetails(responseDetails);
+        return responseBuilder;
     }
 
     private FeedbackResponseAttributes.Builder extractFeedbackResponseRecipient(int questionIndx, int responseIndx,
@@ -373,8 +378,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     private FeedbackResponseAttributes.Builder extractFeedbackResponseFeedbackSessionName(
             FeedbackResponseAttributes.Builder responseBuilder) {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        responseBuilder = responseBuilder.withFeedbackSessionName(feedbackSessionName);
-        return responseBuilder;
+        return responseBuilder.withFeedbackSessionName(feedbackSessionName);
     }
 
     private FeedbackResponseAttributes.Builder extractFeedbackResponseId(int questionIndx, int responseIndx,
