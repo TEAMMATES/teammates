@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseEdit - Panel Heading of Instructor List" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ attribute name="addInstructorButton" type="teammates.ui.template.ElementTag" required="true" %>
@@ -21,7 +22,7 @@
     <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>" name="formAddInstructor"
         class="form form-horizontal" id="formAddInstructor">
       <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
-      <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+      <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${fn:escapeXml(data.account.googleId)}">
       <input type="hidden" name="<%=Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
 
       <div id="instructorAddTable">

@@ -8,7 +8,7 @@
 <tr>
   <td class="${log.isActionTimeTakenModerate ? "warning"
       : log.isActionTimeTakenSlow ? "danger" : "" }">
-    <a class="log-entry" data-logtime="${log.logTime}" data-googleid="${log.userGoogleId}" data-displayedrole="${log.displayedRole}">
+    <a class="log-entry" data-logtime="${log.logTime}" data-googleid="${fn:escapeXml(log.userGoogleId)}" data-displayedrole="${log.displayedRole}">
       ${log.displayedLogTime}
     </a>
     <p class="localTime"></p>
@@ -50,7 +50,7 @@
           id: ${log.logId} [${log.userName}
           <c:choose>
             <c:when test="${log.hasUserHomeLink}">
-              <a href="${log.userHomeLink}" target="_blank">${log.userGoogleId}</a>
+              <a href="${log.userHomeLink}" target="_blank">${fn:escapeXml(log.userGoogleId)}</a>
             </c:when>
             <c:otherwise>
               <%-- Display user role for user who don't have home link --%>

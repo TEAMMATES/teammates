@@ -1,5 +1,6 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Student/Instructor feedback submission form" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
@@ -14,7 +15,7 @@
 
   <c:choose>
     <c:when test="${not empty data.account.googleId}">
-      <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+      <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(data.account.googleId)}">
     </c:when>
     <c:otherwise>
       <input type="hidden" name="<%=Const.ParamsNames.REGKEY %>" value="${data.encryptedRegkey}">

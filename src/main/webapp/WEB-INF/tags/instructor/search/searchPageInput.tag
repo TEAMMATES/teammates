@@ -2,6 +2,7 @@
 <%@ tag description="instructorSearch.jsp - Instructor search page input" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div>
   <form method="get" action="${data.instructorSearchLink}" name="search_form">
@@ -23,7 +24,7 @@
           </span>
         </div>
 
-        <input type="hidden" name="user" value="${data.account.googleId}">
+        <input type="hidden" name="user" value="${fn:escapeXml(data.account.googleId)}">
       </div>
 
       <div class="form-group">

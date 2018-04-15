@@ -34,7 +34,7 @@
           <tr class="accountEntry">
             <td>
               <span class="bold">Google ID: </span>
-              <a href="${row.instructorHomePageViewLink}" target="_blank" rel="noopener noreferrer">${row.account.googleId}</a>
+              <a href="${row.instructorHomePageViewLink}" target="_blank" rel="noopener noreferrer">${fn:escapeXml(row.account.googleId)}</a>
               <br>
               <span class="bold">Name: </span>${row.account.name}
               <br>
@@ -66,7 +66,7 @@
                 <span class="glyphicon glyphicon-remove"></span> Delete Instructor Status
               </a>
               <a class="admin-delete-account-link btn btn-link btn-xs" id="${row.account.googleId}_deleteAccount"
-                  href="${row.adminDeleteAccountLink}" data-google-id="${row.account.googleId}">
+                  href="${row.adminDeleteAccountLink}" data-google-id="${fn:escapeXml(row.account.googleId)}">
                 <span class="glyphicon glyphicon-trash"></span> Delete Entire Account
               </a>
 
@@ -75,7 +75,7 @@
                   <span class="glyphicon glyphicon-zoom-in"></span>
                   View Recent Actions
                 </button>
-                <input type="hidden" name="filterQuery" value="person:${row.account.googleId}">
+                <input type="hidden" name="filterQuery" value="person:${fn:escapeXml(row.account.googleId)}">
               </form>
             </td>
           </tr>

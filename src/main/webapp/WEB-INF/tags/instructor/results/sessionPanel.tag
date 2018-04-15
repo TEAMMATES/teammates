@@ -53,7 +53,7 @@
                     name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                     value="Download Results">
               </div>
-              <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+              <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${fn:escapeXml(data.account.googleId)}">
               <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${sessionPanel.feedbackSessionName}">
               <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${sessionPanel.courseId}">
               <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="${fn:escapeXml(sessionPanel.selectedSection)}">

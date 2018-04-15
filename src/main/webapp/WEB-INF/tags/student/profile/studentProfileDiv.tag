@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="studentProfile - Edit profile div" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="profile" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
 <%@ attribute name="sessionToken" required="true" %>
@@ -159,7 +160,7 @@
     <p class="text-muted text-color-disclaimer">
       <i>* This profile will be visible to all your Instructors and Coursemates</i>
     </p>
-    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${profile.googleId}">
+    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(profile.googleId)}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${sessionToken}">
   </form>
 </div>

@@ -333,7 +333,7 @@
     <c:if test="${!fsForm.courseIdEditable}">
       <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseId}">
     </c:if>
-    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(data.account.googleId)}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN%>" value="${data.sessionToken}">
   </form>
 </div>

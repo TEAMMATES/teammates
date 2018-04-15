@@ -25,7 +25,7 @@
   <%-- Google ID --%>
   <td>
     <a href="${instructor.googleIdLink}" target="_blank" rel="noopener noreferrer" class="homePageLink">
-      ${empty instructor.googleId ? "" : instructor.googleId} <%-- also checks if it is null --%>
+      ${empty instructor.googleId ? "" : fn:escapeXml(instructor.googleId)} <%-- also checks if it is null --%>
     </a>
   </td>
 
@@ -49,7 +49,7 @@
           <button type="submit" id="" class="btn btn-link btn-xs optionButton">
             <span class="glyphicon glyphicon-edit"></span>Manage this account
           </button>
-          <input type="hidden" name="googleId" value="${instructor.googleId}">
+          <input type="hidden" name="googleId" value="${fn:escapeXml(instructor.googleId)}">
         </form>
       </c:if>
     </c:if>

@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks - new feedback question form" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
@@ -137,6 +138,6 @@
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO %>" >
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO %>" >
   <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO %>" >
-  <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+  <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(data.account.googleId)}">
   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
 </form>

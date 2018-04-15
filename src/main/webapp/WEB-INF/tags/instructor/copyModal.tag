@@ -1,5 +1,6 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorHome / instructorFeedbacks / instructorFeedbackEdit - Copy modal" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="editCopyActionLink" required="true" %>
 
@@ -22,7 +23,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
           <input type="submit" class="btn btn-primary" id="fscopy_submit" value="Copy">
-          <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+          <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(data.account.googleId)}">
         </div>
       </form>
     </div>

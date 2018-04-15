@@ -32,7 +32,7 @@
           <input id="button_preview_student" type="submit" class="btn btn-primary" value="Preview as Student"
               <c:if test="${empty previewForm.studentToPreviewAsOptions}"> disabled style="background: #66727A;"</c:if>>
         </div>
-        <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+        <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(data.account.googleId)}">
       </form>
     </div>
     <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_PREVIEW_ASINSTRUCTOR %>">

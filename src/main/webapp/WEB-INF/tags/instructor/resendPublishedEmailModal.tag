@@ -1,4 +1,5 @@
 <%@ tag description="instructorHome - Resend published email modal" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="sessionResendPublishedEmailLink" required="true" %>
 
@@ -24,7 +25,7 @@
               data-dismiss="modal">Cancel</button>
           <input type="button" class="btn btn-primary resend-published-email-particular-button" data-dismiss="modal" value="Send">
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>"
-              value="${data.account.googleId}">
+              value="${fn:escapeXml(data.account.googleId)}">
         </div>
       </form>
     </div>

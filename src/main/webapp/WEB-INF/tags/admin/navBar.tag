@@ -62,7 +62,7 @@
             <span class="glyphicon glyphicon-user"></span> Logout
 
             (<span class="text-info" data-toggle="tooltip" title="${data.account.googleId}" data-placement="bottom">
-              ${data.account.truncatedGoogleId}
+              ${fn:escapeXml(data.account.truncatedGoogleId)}
             </span>)
           </a>
         </li>

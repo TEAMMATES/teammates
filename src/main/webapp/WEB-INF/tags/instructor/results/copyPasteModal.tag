@@ -10,7 +10,7 @@
 <form id="csvToHtmlForm">
   <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
   <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${feedbackSession}">
-  <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+  <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${fn:escapeXml(data.account.googleId)}">
   <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="${fn:escapeXml(selectedSection)}">
   <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value="true">
 </form>

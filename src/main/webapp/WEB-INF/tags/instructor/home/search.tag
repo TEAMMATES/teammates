@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorHome - Student search bar" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <div class="well well-plain">
   <div class="row">
@@ -23,7 +24,7 @@
         </div>
         <input type="hidden" name="<%= Const.ParamsNames.SEARCH_STUDENTS %>" value="true">
         <input type="hidden" name="<%= Const.ParamsNames.SEARCH_FEEDBACK_SESSION_DATA %>" value="false">
-        <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+        <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(data.account.googleId)}">
       </form>
     </div>
   </div>

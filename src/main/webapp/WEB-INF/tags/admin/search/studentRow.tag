@@ -38,7 +38,7 @@
   <%-- Google ID [Details] --%>
   <td>
     <a href="${student.links.homePageLink}" target="_blank" rel="noopener noreferrer" class="homePageLink">
-      ${empty student.links.homePageLink ? "" : student.googleId} <%-- also checks if it is null --%>
+      ${empty student.links.homePageLink ? "" : fn:escapeXml(student.googleId)} <%-- also checks if it is null --%>
     </a>
   </td>
 
@@ -64,7 +64,7 @@
     <%-- Reset Google ID --%>
     <c:if test="${not empty student.googleId}">
       <button type="button" id="${student.googleId}_resetGoogleId"
-          data-courseid="${student.courseId}" data-studentemail="${student.email}" data-googleid="${student.googleId}"
+          data-courseid="${student.courseId}" data-studentemail="${student.email}" data-googleid="${fn:escapeXml(student.googleId)}"
           class="btn btn-link btn-xs resetGoogleIdButton">
 
         <span class="glyphicon glyphicon-refresh"></span>Reset Google Id

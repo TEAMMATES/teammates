@@ -68,7 +68,7 @@
       </div>
       <br>
       <br>
-      <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+      <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${fn:escapeXml(data.account.googleId)}">
     </form>
   </div>
 </div>

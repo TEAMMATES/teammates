@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseDetails - Student Information Helper" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib Google uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="courseDetails" type="teammates.common.datatransfer.CourseDetailsBundle" required="true" %>
@@ -20,7 +21,7 @@
         <span class="glyphicon glyphicon-download-alt"></span>
         Download Student List
       </button>
-      <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+      <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${fn:escapeXml(data.account.googleId)}">
       <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseDetails.course.id}">
     </form>
 

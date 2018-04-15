@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="studentProfile - Upload photo modal" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="modal" type="teammates.ui.template.StudentProfileUploadPhotoModal" required="true" %>
 <%@ attribute name="sessionToken" required="true" %>
@@ -45,7 +46,7 @@
                     disabled>
                   Upload Picture
                 </button>
-                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
+                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(modal.googleId)}">
               </form>
             </div>
           </div>
@@ -110,7 +111,7 @@
                   <input id="cropBoxBottomY" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_BOTTOMY %>" value="">
                   <input id="rotate" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_ROTATE %>" value="">
                   <input id="blobKey" type="hidden" name="<%= Const.ParamsNames.BLOB_KEY %>" value="${modal.pictureKey}">
-                  <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
+                  <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(modal.googleId)}">
                   <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${sessionToken}">
                   <button type="button"
                       id="profileEditPictureSubmit"

@@ -13,7 +13,7 @@
         class="seeMoreForm-${index}"
         action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE %>">
       <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${course.courseId}">
-      <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${course.googleId}">
+      <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${fn:escapeXml(course.googleId)}">
       <input type="hidden" id="numStudents-${index}" value="0">
     </form>
     <div class="pull-right margin-left-7px">
