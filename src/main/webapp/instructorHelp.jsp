@@ -23,7 +23,7 @@
         <a href="#sessionTypes">Sessions</a>
       </li>
       <li>
-        <a href="#fbQuestionTypes">Questions</a>
+        <a href="#questionTypes">Questions</a>
       </li>
     </ul>
   </div>
