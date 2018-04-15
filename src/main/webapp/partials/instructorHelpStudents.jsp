@@ -228,6 +228,28 @@
         </div>
       </div>
     </div>
+    <div class="panel panel-default" id="student-view-responses">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#student-view-responses-body">How do I view all the responses a student has given and received?</a>
+        </h3>
+      </div>
+      <div id="student-view-responses-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            To view the responses that Student A from Course B has given and received:
+          </p>
+          <ol>
+            <li>
+              Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+            </li>
+            <li>
+              Click <button class="btn btn-xs btn-default">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
     <div class="panel panel-default" id="student-search">
       <div class="panel-heading">
         <h3 class="panel-title">
