@@ -61,6 +61,7 @@
     <servlet-mapping>
         <servlet-name>ResendAccessLinksServlet</servlet-name>
         <url-pattern>/resendLinks</url-pattern>
+        <url-pattern>/resendlinks</url-pattern>
     </servlet-mapping>
 
     <servlet>
