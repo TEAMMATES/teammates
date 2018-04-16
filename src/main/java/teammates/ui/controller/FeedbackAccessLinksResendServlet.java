@@ -56,9 +56,8 @@ public class FeedbackAccessLinksResendServlet extends HttpServlet {
                 statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT,
                         StatusMessageColor.SUCCESS);
             } else {
-                statusMessage =
-                        new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL,
-                                StatusMessageColor.DANGER);
+                statusMessage = new StatusMessage(Const.StatusMessages
+                        .FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL, StatusMessageColor.DANGER);
             }
 
             map.put("isValid", isValid);
@@ -67,10 +66,7 @@ public class FeedbackAccessLinksResendServlet extends HttpServlet {
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(new Gson().toJson(map));
-        } catch (EmailSendingException e) {
-            log.severe("Email of feedback session links failed to send: "
-                    + TeammatesException.toStringWithStackTrace(e));
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.severe("Email of feedback session links failed to send: "
                     + TeammatesException.toStringWithStackTrace(e));
         }

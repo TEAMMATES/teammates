@@ -465,7 +465,7 @@ public class EmailGenerator {
                     EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_EMAIL,
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
                     "${linksFragment}", linksFragmentValue.toString(),
-                    "${userEmail}", userEmail);
+                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail));
         }
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);

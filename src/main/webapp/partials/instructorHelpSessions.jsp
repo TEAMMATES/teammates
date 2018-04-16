@@ -2017,8 +2017,8 @@
           <b>5. Requesting resending of access links</b>
       </span>
       <p>
-        TEAMMATES allows students to request for resending of access links which students might accidentally deleted. Students can do so by themselves without the need to approach the instructor.
-        The student can go to the <b>Home</b> page, click <b>Request</b> tab and choose <b>Resend Feedback Links</b>, this will allow him/her to be directed to the request page. The student then key in his/her email address and
+        TEAMMATES allows students to request for access links which students might accidentally deleted to be resent. Students can do so by themselves without the need to approach the instructor.
+        The student can go to the <b>Home</b> page, click <b>Request</b> tab and choose <b>Resend Feedback Links</b>, this will allow him/her to be directed to the request page. The student then keys in his/her email address and
         all access links for the feedback sessions in which the student has participated in last six months will be sent to that email address.
       </p>
       <p>
