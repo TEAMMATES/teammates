@@ -161,12 +161,10 @@ public class FeedbackSessionsForm {
 
         newFsForm.additionalSettings = additionalSettings;
 
-        newFsForm.submissionStatus = feedbackSession == null
-                                     ? ""
-                                     : PageData.getInstructorSubmissionStatusForFeedbackSession(feedbackSession);
-        newFsForm.publishedStatus = feedbackSession == null
-                                    ? ""
-                                    : PageData.getInstructorPublishedStatusForFeedbackSession(feedbackSession);
+        // These statuses are only used in the form for existing feedback sessions
+        newFsForm.submissionStatus = "";
+        newFsForm.publishedStatus = "";
+
         return newFsForm;
     }
 

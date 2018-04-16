@@ -86,11 +86,12 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertTrue(pr.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, pr.getStatusMessage());
 
-        ______TS("Error: Invalid parameters (invalid session name, > 38 characters)");
+        ______TS("Error: Invalid parameters (invalid session name > 38 characters, invalid publish date)");
 
         String longFsName = StringHelperExtension.generateStringOfLength(39);
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, longFsName, 0);
+                         instructor1ofCourse1.courseId, longFsName, 1);
+        params[21] = "invalid publish date";
         a = getAction(params);
         pr = getShowPageResult(a);
         expectedString = getPageResultDestination(
@@ -101,7 +102,9 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         expectedString = teammatesLog + "Servlet Action Failure : " + "\"" + longFsName + "\" "
                 + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
                 + "The value of a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty."
+                + "It should not be empty.<br>"
+                + "The provided time for the responses to become visible is not acceptable to TEAMMATES as "
+                + "it cannot be empty."
                 + "|||/page/instructorFeedbackAdd";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
