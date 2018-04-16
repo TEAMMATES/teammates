@@ -1633,7 +1633,7 @@
           You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
           <ol>
             <li>
-              Check the option <b>Questions, responses, comments on responses</b> below the search bar.
+              Tick the option <b>Questions, responses, comments on responses</b> below the search bar.
             </li>
             <li>
               Type in the keywords of your search.

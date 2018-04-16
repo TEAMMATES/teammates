@@ -117,7 +117,7 @@
           </ul>
           <p>
             Below this is the <b>More Info</b> section containing a personal description given by the student, if any.<br>
-            You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right corner to display the information in a modal for better readability.
+            You can press the <span class="text-muted glyphicon glyphicon-resize-full"></span> button in the top-right corner to display the information in a lightbox for better readability.
           </p>
           <div class="bs-example">
             <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -305,7 +305,7 @@
           </p>
           <ol>
             <li>
-              Check the option <b>Students</b> below the search box.
+              Tick the option <b>Students</b> below the search box.
             </li>
             <li>
               Type your search terms into the search bar. You can search for a student record based on:
@@ -576,16 +576,13 @@
         <div class="panel-body">
           <p>
             At the moment, there is no way for students to update their own Google IDs.<br>
-            Please <a href="mailto:teammates@comp.nus.edu.sg">contact us</a> for assistance changing the student's Google ID.
+            Please ask the student to <a href="mailto:teammates@comp.nus.edu.sg">contact us</a> for assistance changing his/her Google ID.
           </p>
         </div>
       </div>
     </div>
   </div>
-  <p align="right">
+</div>
+<p align="right">
     <a href="#Top">Back to Top</a>
   </p>
-  <div class="separate-content-holder">
-    <hr>
-  </div>
-</div>
