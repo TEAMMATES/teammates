@@ -561,16 +561,13 @@ public final class Const {
                 + "To skip a distribution question, leave the boxes blank.";
         public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
-<<<<<<< HEAD
         public static final String CONST_SUM_ERROR_MIN_POINTS =
                 "Points for response less than minimum points required";
         public static final String CONST_SUM_ERROR_MAX_POINTS =
                 "Points for response more than maximum points allowed";
-=======
         public static final String CONST_SUM_ERROR_SOME_UNIQUE =
                 "At least some options must be given a different number of points.";
 
->>>>>>> master
         // Rubric
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
         public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES =
