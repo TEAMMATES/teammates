@@ -178,7 +178,6 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     } else {
         responseCommentEditor.setContent('');
     }
-    
     saveInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
             $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
     $(`#responseCommentAddForm${id}`).focus();
