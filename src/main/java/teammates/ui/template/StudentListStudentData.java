@@ -18,6 +18,7 @@ public class StudentListStudentData {
     private String courseStudentDeleteLink;
     private String courseStudentRecordsLink;
     private String sessionToken;
+    private String courseStudentRemindRawLink;
 
     public StudentListStudentData(String googleId, String studentName, String studentEmail, String course,
                                   String studentStatus, String photoUrl, String sessionToken, String previousPage) {
@@ -28,28 +29,29 @@ public class StudentListStudentData {
         this.courseIdForJs = SanitizationHelper.sanitizeForJs(course);
         this.photoUrl = photoUrl;
         this.sessionToken = sessionToken;
+        this.courseStudentRemindRawLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_REMIND,
+                                                            Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM, previousPage);
         this.courseStudentDetailsLink =
                 furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
-                                                    course, studentEmail, googleId, null);
+                                                    course, studentEmail, googleId);
         this.courseStudentEditLink =
                 furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT,
-                                                    course, studentEmail, googleId, null);
-        this.courseStudentRemindLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_REMIND,
-                                                                           course, studentEmail, googleId, previousPage);
+                                                    course, studentEmail, googleId);
+        this.courseStudentRemindLink = furnishLinkWithCourseEmailAndUserId(courseStudentRemindRawLink, course,
+                                                                           studentEmail, googleId);
         this.courseStudentDeleteLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
-                                                                           course, studentEmail, googleId, null);
+                                                                           course, studentEmail, googleId);
         this.courseStudentRecordsLink = furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
-                                                                            course, studentEmail, googleId, null);
+                                                                            course, studentEmail, googleId);
     }
 
     private String furnishLinkWithCourseEmailAndUserId(String rawLink, String course, String studentEmail,
-                                                       String googleId, String previousPage) {
+                                                       String googleId) {
         String link = rawLink;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         link = Url.addParamToUrl(link, Const.ParamsNames.SESSION_TOKEN, sessionToken);
-        link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM, previousPage);
         return link;
     }
 
