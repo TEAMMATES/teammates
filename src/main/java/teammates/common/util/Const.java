@@ -701,9 +701,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_TIMEZONE = "timezone";
         public static final String FEEDBACK_SESSION_GRACEPERIOD = "graceperiod";
         public static final String FEEDBACK_SESSION_TYPE = "fstype";
-        public static final String FEEDBACK_SESSION_STANDARD = "STANDARD";
-        public static final String FEEDBACK_SESSION_TEAMEVALUATION = "TEAMEVALUATION";
-        public static final String FEEDBACK_SESSION_OPTIMIZEDTEAMEVALUATION = "OPTIMIZEDTEAMEVALUATION";
+        public static final String FEEDBACK_SESSION_TEMPLATE_STANDARD = "STANDARD";
+        public static final String FEEDBACK_SESSION_TEMPLATE_TEAMEVALUATION = "TEAMEVALUATION";
+        public static final String FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION = "OPTIMIZEDTEAMEVALUATION";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
