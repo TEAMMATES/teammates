@@ -331,13 +331,17 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public int getNumOfChoicesForMsq(String courseId, FeedbackParticipantType generateOptionsFor) {
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
             return msqChoices.size();
-        } else if (generateOptionsFor == FeedbackParticipantType.STUDENTS
+        }
+
+        if (generateOptionsFor == FeedbackParticipantType.STUDENTS
                 || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
             List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
             int sizeOfStudentlist = studentList.size();
 
             return generateOptionsFor == FeedbackParticipantType.STUDENTS ? sizeOfStudentlist : sizeOfStudentlist - 1;
-        } else if (generateOptionsFor == FeedbackParticipantType.TEAMS
+        }
+
+        if (generateOptionsFor == FeedbackParticipantType.TEAMS
                 || generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
             try {
                 List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
@@ -347,12 +351,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
             }
-        } else {
-            List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(courseId);
-
-            return instructorList.size();
         }
-        return 0;
+        List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(courseId);
+
+        return instructorList.size();
     }
 
     private List<String> generateOptionList(String courseId) {
@@ -482,8 +484,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
              + "</div>";
     }
 
-    //Confusing Ternary flagged for the `else if` condition below.
-    //Note: Exclusion to this rule will be added in future PMD patch.
+    // Confusing Ternary flagged for the `else if` condition below.
+    // Note: Exclusion to this rule will be added in future PMD patch.
     @SuppressWarnings("PMD.ConfusingTernary")
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
