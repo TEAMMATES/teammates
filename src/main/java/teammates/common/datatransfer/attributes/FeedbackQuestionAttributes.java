@@ -73,11 +73,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                 .build();
 
     }
+
     /**
      * A Builder class for {@link FeedbackQuestionAttributes}.
      */
     public static class Builder {
-
         private final FeedbackQuestionAttributes feedbackQuestionAttributes;
 
         public Builder() {
@@ -202,7 +202,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         public FeedbackQuestionAttributes build() {
             feedbackQuestionAttributes.questionDescription =
                     SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
-            if(feedbackQuestionAttributes.recipientType != null) {
+            if (feedbackQuestionAttributes.recipientType != null) {
                 feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
             }
 

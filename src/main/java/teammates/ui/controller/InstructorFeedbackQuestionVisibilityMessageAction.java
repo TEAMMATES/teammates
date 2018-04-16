@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorFeedbackQuestionVisibilityMessagePageData;
 
@@ -28,7 +27,8 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
 
         FeedbackParticipantType giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
 
-        String feedbackQuestionRecipientType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+        String feedbackQuestionRecipientType =
+                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
 
         FeedbackParticipantType recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);
 
