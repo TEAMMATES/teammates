@@ -128,6 +128,37 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
         assertTrue(feedbackEditPage.isElementSelected("msqOtherOptionFlag--1"));
         feedbackEditPage.clickAddQuestionButton();
+
+        ______TS("Check that Max/Min selectable choices cannot be blank");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
+
+        feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
+        feedbackEditPage.fillMsqMaxSelectableChoices(NEW_QUESTION_INDEX, "");
+        assertFalse(feedbackEditPage.isInputElementValid(
+                feedbackEditPage.getMsqMaxSelectableChoicesBox(NEW_QUESTION_INDEX)));
+        feedbackEditPage.fillMsqMaxSelectableChoices(NEW_QUESTION_INDEX, "2");
+        assertTrue(feedbackEditPage.isInputElementValid(
+                feedbackEditPage.getMsqMaxSelectableChoicesBox(NEW_QUESTION_INDEX)));
+        feedbackEditPage.toggleMsqMaxSelectableChoices(NEW_QUESTION_INDEX);
+
+        feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
+        feedbackEditPage.fillMsqMinSelectableChoices(NEW_QUESTION_INDEX, "");
+        assertFalse(feedbackEditPage.isInputElementValid(
+                feedbackEditPage.getMsqMinSelectableChoicesBox(NEW_QUESTION_INDEX)));
+        feedbackEditPage.fillMsqMinSelectableChoices(NEW_QUESTION_INDEX, "1");
+        assertTrue(feedbackEditPage.isInputElementValid(
+                feedbackEditPage.getMsqMinSelectableChoicesBox(NEW_QUESTION_INDEX)));
+        feedbackEditPage.toggleMsqMinSelectableChoices(NEW_QUESTION_INDEX);
+
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
     }
 
     @Override
@@ -323,7 +354,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         // when maxSelectableChoices = numOfOptions and
         // an option is removed, maxSelectableChoices should decrease
-        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, maxSelectableChoices);
+        feedbackEditPage.fillMsqMaxSelectableChoices(qnNumber, String.valueOf(maxSelectableChoices));
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
         feedbackEditPage.clickRemoveMsqOptionLink(0, qnNumber);
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
@@ -346,7 +377,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         // when minSelectableChoices = numOfOptions and
         // an option is removed, minSelectableChoices should decrease
-        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, minSelectableChoices);
+        feedbackEditPage.fillMsqMinSelectableChoices(qnNumber, String.valueOf(minSelectableChoices));
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
         feedbackEditPage.clickRemoveMsqOptionLink(1, qnNumber);
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
@@ -366,7 +397,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         // if maxSelectableChoices = minSelectableChoices and
         // maxSelectableChoices is decreased, minSelectableChoices should also decrease
-        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, --maxSelectableChoices);
+        feedbackEditPage.fillMsqMaxSelectableChoices(qnNumber, String.valueOf(--maxSelectableChoices));
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
         assertEquals(--minSelectableChoices, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
 
@@ -374,8 +405,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         // is removed, both minSelectableChoices and maxSelectableChoices should decrease
         maxSelectableChoices = numOfOptions;
         minSelectableChoices = numOfOptions;
-        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, maxSelectableChoices);
-        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, minSelectableChoices);
+        feedbackEditPage.fillMsqMaxSelectableChoices(qnNumber, String.valueOf(maxSelectableChoices));
+        feedbackEditPage.fillMsqMinSelectableChoices(qnNumber, String.valueOf(minSelectableChoices));
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
         feedbackEditPage.clickRemoveMsqOptionLink(2, qnNumber);
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
@@ -440,10 +471,10 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         // set maxSelectableChoices = numOfOptions and minSelectableChoices = numOfOptions,
         // then decreasing maxSelectableChoices must decrease minSelectableChoices too
-        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, numOfOptions);
-        feedbackEditPage.setMsqMinSelectableChoices(qnNumber, numOfOptions);
+        feedbackEditPage.fillMsqMaxSelectableChoices(qnNumber, String.valueOf(numOfOptions));
+        feedbackEditPage.fillMsqMinSelectableChoices(qnNumber, String.valueOf(numOfOptions));
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
-        feedbackEditPage.setMsqMaxSelectableChoices(qnNumber, numOfOptions - 1);
+        feedbackEditPage.fillMsqMaxSelectableChoices(qnNumber, String.valueOf(numOfOptions - 1));
         feedbackEditPage.verifyMsqMinMaxSelectableChoices(qnNumber);
         assertEquals(numOfOptions - 1, feedbackEditPage.getMsqMinSelectableChoices(qnNumber));
         assertEquals(numOfOptions - 1, feedbackEditPage.getMsqMaxSelectableChoices(qnNumber));
