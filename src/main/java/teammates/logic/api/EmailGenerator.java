@@ -415,7 +415,9 @@ public class EmailGenerator {
             StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
 
             if (student != null) {
-                studentName = student.getName();
+                if (studentName.length() == 0) {
+                    studentName = student.getName();
+                }
                 String submitUrlHtml = "(Feedback session is not yet opened)";
                 String reportUrlHtml = "(Feedback session is not yet published)";
 

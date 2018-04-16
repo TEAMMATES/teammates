@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -64,7 +66,7 @@ public class FeedbackAccessLinksResendServlet extends HttpServlet {
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(new Gson().toJson(map));
-        } catch (Exception e) {
+        } catch (EmailSendingException | IOException e) {
             log.severe("Email of feedback session links failed to send: "
                     + TeammatesException.toStringWithStackTrace(e));
         }
