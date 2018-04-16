@@ -218,53 +218,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCopy() {
-        List<FeedbackParticipantType> participants = new ArrayList<>();
-        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-        participants.add(FeedbackParticipantType.RECEIVER);
-        participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        List<FeedbackParticipantType> participantsForShowResponseTo = new ArrayList<>(participants);
-        participantsForShowResponseTo.add(FeedbackParticipantType.STUDENTS);
-
-        FeedbackQuestionAttributes original = FeedbackQuestionAttributes.builder()
-                .withFeedbackSessionName("test session")
-                .withCourseId("some course")
-                .withCreatorEmail("test@case.com")
-                .withQuestionMetaData(new Text("test qn from teams->none."))
-                .withQuestionNumber(1)
-                .withQuestionType(FeedbackQuestionType.TEXT)
-                .withGiverType(FeedbackParticipantType.TEAMS)
-                .withRecipientType(FeedbackParticipantType.NONE)
-                .withShowGiverNameTo(new ArrayList<>(participants))
-                .withShowRecipientNameTo(new ArrayList<>(participants))
-                .withShowResponseTo(new ArrayList<>(participantsForShowResponseTo))
-                .withCreatedAt(Instant.now())
-                .withUpdatedAt(Instant.MAX)
-                .withQuestionDescription(new Text("some description"))
-                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
-                .build();
-
-        FeedbackQuestionAttributes copy = original.getCopy();
-
-        assertNotSame(copy, original);
-        assertEquals(copy.getFeedbackSessionName(), original.getFeedbackSessionName());
-        assertEquals(copy.getCourseId(), original.getCourseId());
-        assertEquals(copy.getCreatorEmail(), original.getCreatorEmail());
-        assertEquals(copy.getQuestionMetaData(), original.getQuestionMetaData());
-        assertEquals(copy.getQuestionNumber(), original.getQuestionNumber());
-        assertEquals(copy.getQuestionType(), original.getQuestionType());
-        assertEquals(copy.getGiverType(), original.getGiverType());
-        assertEquals(copy.getRecipientType(), original.getRecipientType());
-        assertEquals(copy.getShowGiverNameTo(), original.getShowGiverNameTo());
-        assertEquals(copy.getShowRecipientNameTo(), original.getShowRecipientNameTo());
-        assertEquals(copy.getShowResponsesTo(), copy.getShowResponsesTo());
-        assertEquals(copy.getCreatedAt(), original.getCreatedAt());
-        assertEquals(copy.getUpdatedAt(), original.getUpdatedAt());
-        assertEquals(copy.getNumberOfEntitiesToGiveFeedbackTo(), original.getNumberOfEntitiesToGiveFeedbackTo());
-        assertEquals(copy.getFeedbackQuestionId(), original.getFeedbackQuestionId());
-    }
-
-    @Test
     public void testDefaultTimestamp() {
 
         FeedbackQuestionAttributesWithModifiableTimestamp fq =
