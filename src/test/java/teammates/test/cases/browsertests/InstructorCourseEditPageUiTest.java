@@ -227,8 +227,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 courseEditPage.isCopySubmitButtonEnabled());
 
         // delete the instructor copied from another course to restore the expected state of the test after this test
-        BackDoor.deleteInstructor(
-                "InsCrsEdit.CS2104",
+        BackDoor.deleteInstructor("InsCrsEdit.CS2104",
                 "InsCrsEdit.instructor1OftestingCopyInstructorCourse@gmail.tmt");
     }
 
