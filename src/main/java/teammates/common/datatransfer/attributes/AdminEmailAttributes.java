@@ -138,12 +138,12 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
             return "Draft";
         }
         return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
-                this.sendDate, Const.SystemParams.ADMIN_TIME_ZONE_ID));
+                this.sendDate, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
     public String getCreateDateForDisplay() {
         return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
-                this.createDate, Const.SystemParams.ADMIN_TIME_ZONE_ID));
+                this.createDate, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
     public String getFirstAddressReceiver() {

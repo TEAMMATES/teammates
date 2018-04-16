@@ -1,12 +1,12 @@
 package teammates.test.cases.browsertests;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
@@ -718,87 +718,80 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomPublishTimeButton();
 
         // setup various dates
-        Calendar initialCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        initialCal.set(2014, 3, 16, 0, 0, 0);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy");
+        LocalDate initialDateTime = LocalDate.of(2014, Month.APRIL, 16);
 
         // fill in defaut values
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, initialCal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, initialCal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, initialCal);
-        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, initialCal);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, initialDateTime);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, initialDateTime);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, initialDateTime);
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, initialDateTime);
 
         ______TS("increasing start date does not affect end date value");
 
-        Calendar increasedStartDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        increasedStartDate.set(2014, 4, 16, 0, 0, 0);
+        LocalDate increasedStartDate = initialDateTime.plusMonths(1);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, increasedStartDate);
 
         String valueOfEndDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE);
-        assertEquals(sdf.format(initialCal.getTime()), valueOfEndDate);
+        assertEquals(formatter.format(initialDateTime), valueOfEndDate);
 
         ______TS("decreasing start date affects visible time, end date range and publish date range");
 
-        Calendar decreasedStartDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        decreasedStartDate.set(2014, 3, 11, 0, 0, 0);
+        LocalDate decreasedStartDate = initialDateTime.minusDays(5);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, decreasedStartDate);
 
         String valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(decreasedStartDate.getTime()), valueOfVisibleDate);
+        assertEquals(formatter.format(decreasedStartDate), valueOfVisibleDate);
 
         String maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(decreasedStartDate.getTime()), maxValueOfVisibleDate);
+        assertEquals(formatter.format(decreasedStartDate), maxValueOfVisibleDate);
 
         String minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        assertEquals(sdf.format(decreasedStartDate.getTime()), minValueOfPublishDate);
+        assertEquals(formatter.format(decreasedStartDate), minValueOfPublishDate);
 
         ______TS("decreasing end date does not affect start time or visible time");
-        Calendar decreasedEndDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        decreasedEndDate.set(2014, 1, 20, 0, 0, 0);
+        LocalDate decreasedEndDate = initialDateTime.minusMonths(2);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, decreasedEndDate);
 
         String valueOfStartDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
-        assertEquals(sdf.format(decreasedStartDate.getTime()), valueOfStartDate);
+        assertEquals(formatter.format(decreasedStartDate), valueOfStartDate);
 
         valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(decreasedStartDate.getTime()), valueOfVisibleDate);
+        assertEquals(formatter.format(decreasedStartDate), valueOfVisibleDate);
 
         maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(decreasedStartDate.getTime()), maxValueOfVisibleDate);
+        assertEquals(formatter.format(decreasedStartDate), maxValueOfVisibleDate);
 
         minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        assertEquals(sdf.format(decreasedStartDate.getTime()), minValueOfPublishDate);
+        assertEquals(formatter.format(decreasedStartDate), minValueOfPublishDate);
 
         ______TS("changing visible date affects publish date range");
 
-        Calendar changedVisibleDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedVisibleDate.set(2014, 1, 10, 0, 0, 0);
+        LocalDate changedVisibleDate = LocalDate.of(2014, Month.FEBRUARY, 10);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, changedVisibleDate);
 
         String valueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
-        assertEquals(sdf.format(changedVisibleDate.getTime()), valueOfPublishDate);
+        assertEquals(formatter.format(changedVisibleDate), valueOfPublishDate);
 
         ______TS("changing publish date affects visible date range publishTime < startTime");
 
-        Calendar changedPublishDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        changedPublishDate.set(2014, 1, 19, 0, 0, 0);
+        LocalDate changedPublishDate = LocalDate.of(2014, Month.FEBRUARY, 19);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         valueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(changedPublishDate.getTime()), valueOfVisibleDate);
+        assertEquals(formatter.format(changedPublishDate), valueOfVisibleDate);
 
         ______TS("changing publish date does not affect visible date range publishTime > startTime");
 
-        decreasedStartDate.set(2014, 1, 19, 0, 0, 0);
+        decreasedStartDate = LocalDate.of(2014, Month.JANUARY, 19);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, decreasedStartDate);
 
-        changedPublishDate.set(2014, 2, 21, 0, 0, 0);
+        changedPublishDate = LocalDate.of(2014, Month.FEBRUARY, 21);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, changedPublishDate);
 
         //check if maxDate is start time and not publish time
         maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
-        assertEquals(sdf.format(decreasedStartDate.getTime()), maxValueOfVisibleDate);
+        assertEquals(formatter.format(decreasedStartDate), maxValueOfVisibleDate);
     }
 
     private void testResponseRateLink() {

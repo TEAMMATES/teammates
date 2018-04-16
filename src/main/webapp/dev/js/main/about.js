@@ -3,8 +3,12 @@
         return `<a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>`;
     }
 
-    function getGitHubLink(username, name) {
-        return getLinkToUrl(`https://github.com/${username}`, name || `@${username}`);
+    function getDisplayedName(username, name) {
+        return name || `@${username}`;
+    }
+
+    function getGitHubLink(username, displayedName) {
+        return getLinkToUrl(`https://github.com/${username}`, displayedName);
     }
 
     function listDownPastPositions(pastPositions) {
@@ -21,10 +25,20 @@
         $('#contributors-count').html(data.contributors.length + data.committers.length + data.teammembers.length);
 
         $.each(data.contributors, (i, contributor) => {
-            const $div = contributor.multiple ? $('#contributors-multiple') : $('#contributors-single');
+            let $div;
+            if (contributor.major) {
+                $div = $('#contributors-major');
+            } else if (contributor.multiple) {
+                $div = $('#contributors-multiple');
+            } else {
+                $div = $('#contributors-single');
+            }
+            const displayedName = getDisplayedName(contributor.username, contributor.name);
             $div.append(
                     `<li>
-                        ${contributor.username ? getGitHubLink(contributor.username, contributor.name) : contributor.name}
+                        ${contributor.image
+                                ? `<img src="${contributor.image}" alt="${displayedName}" width="120px"><br>` : ''}
+                        ${contributor.username ? getGitHubLink(contributor.username, displayedName) : contributor.name}
                     </li>`
             );
         });
