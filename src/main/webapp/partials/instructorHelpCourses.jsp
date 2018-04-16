@@ -42,6 +42,9 @@
       <div id="course-add-students-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
+            There are two ways to enroll students in a course.
+          </p>
+          <p>
             To enroll students in a course:
           </p>
           <ul>
@@ -686,7 +689,7 @@
               Click the <button class="btn btn-default btn-xs">Edit</button> button in the last column of the row corresponding to Student A.
             </li>
             <li>
-              A new page will open that allows you to <a class="collapse-link" data-target="student-edit-profile-body" href="#student-edit-profile">edit the student's profile</a>, including a field to edit the student's section.<br>
+              A new page will open that allows you to <a class="collapse-link" data-target="#student-edit-profile-body" href="#student-edit-profile">edit the student's profile</a>, including a field to edit the student's section.<br>
             </li>
             <li>
               After editing the section name, click <button class="btn btn-primary btn-s">Save Changes</button> to confirm Student A's new section.

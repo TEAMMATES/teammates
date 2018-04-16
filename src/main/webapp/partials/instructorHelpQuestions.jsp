@@ -6,7 +6,7 @@
     <div class="panel panel-default" id="question-essay">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-essay-body">Essay Question</a>
+          <a data-toggle="collapse" href="#question-essay-body">Essay Questions</a>
         </h4>
       </div>
       <div id="question-essay-body" class="panel-collapse collapse">
@@ -337,7 +337,7 @@
     <div class="panel panel-default" id="question-mcq">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-mcq-body">Multiple Choice (Single Answer) Question</a>
+          <a data-toggle="collapse" href="#question-mcq-body">Multiple Choice (Single Answer) Questions</a>
         </h4>
       </div>
       <div id="question-mcq-body" class="panel-collapse collapse">
@@ -948,15 +948,15 @@
     <div class="panel panel-default" id="question-msq">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-msq-body">Multiple Choice (Multiple Answers) Question</a>
+          <a data-toggle="collapse" href="#question-msq-body">Multiple Choice (Multiple Answers) Questions</a>
         </h4>
       </div>
       <div id="question-msq-body" class="panel-collapse collapse">
         <div class="panel-body">
-          <p>data-toggle="
+          <p>
             Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
             <br> The setup and result statistics is similar to the single answer version. See
-            <a class="collapse-link" data-target="question-mcq-body" href="#question-mcq">above</a> for details.
+            <a class="collapse-link" data-target="#question-mcq-body" href="#question-mcq">above</a> for details.
           </p>
         </div>
       </div>
@@ -964,7 +964,7 @@
     <div class="panel panel-default" id="question-numscale">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-numscale-body">Numerical Scale Question</a>
+          <a data-toggle="collapse" href="#question-numscale-body">Numerical Scale Questions</a>
         </h4>
       </div>
       <div id="question-numscale-body" class="panel-collapse collapse">
@@ -1514,7 +1514,7 @@
     <div class="panel panel-default" id="question-constsum-options">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-constsum-options-body">Distribute Points (Among Options) Question</a>
+          <a data-toggle="collapse" href="#question-constsum-options-body">Distribute Points (Among Options) Questions</a>
         </h4>
       </div>
       <div id="question-constsum-options-body" class="panel-collapse collapse">
@@ -2162,7 +2162,7 @@
     <div class="panel panel-default" id="question-constsum-recipients">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-constsum-recipients-body">Distribute Points (Among Recipients) Question</a>
+          <a data-toggle="collapse" href="#question-constsum-recipients-body">Distribute Points (Among Recipients) Questions</a>
         </h4>
       </div>
       <div id="question-constsum-recipients-body" class="panel-collapse collapse">
@@ -2655,7 +2655,7 @@
     <div class="panel panel-default" id="question-contrib">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-contrib-body">Team Contribution Question</a>
+          <a data-toggle="collapse" href="#question-contrib-body">Team Contribution Questions</a>
         </h4>
       </div>
       <div id="question-contrib-body" class="panel-collapse collapse">
@@ -3549,7 +3549,7 @@
     <div class="panel panel-default" id="question-rubric">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-rubric-body">Rubric Question</a>
+          <a data-toggle="collapse" href="#question-rubric-body">Rubric Questions</a>
         </h4>
       </div>
       <div id="question-rubric-body" class="panel-collapse collapse">
@@ -4380,7 +4380,7 @@
     <div class="panel panel-default" id="question-rank-options">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-rank-options-body">Rank (Options) Question</a>
+          <a data-toggle="collapse" href="#question-rank-options-body">Rank (Options) Questions</a>
         </h4>
       </div>
       <div id="question-rank-options-body" class="panel-collapse collapse">
@@ -4813,7 +4813,7 @@
     <div class="panel panel-default" id="question-rank-recipients">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-rank-recipients-body">Rank (Recipients) Question</a>
+          <a data-toggle="collapse" href="#question-rank-recipients-body">Rank (Recipients) Questions</a>
         </h4>
       </div>
       <div id="question-rank-recipients-body" class="panel-collapse collapse">

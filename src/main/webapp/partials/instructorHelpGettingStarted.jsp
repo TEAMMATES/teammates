@@ -67,7 +67,7 @@
             <li>
               <b>Add instructors to the course.</b><br>
                 From the <b>Courses</b> page, click the <button class="btn btn-default btn-xs" type="button">Edit</button> button of the course you would like to add instructors to. You will be directed to the <b>Edit Course</b> page where you can add a new instructor to your course.
-              You can specify the <a class="collapse-link" data-target="#course-instructor-access-body" href="#course-instructor-access">access level</a> of any instructor you add to a course. For more information about how to add an instructor to your course, click <a class="collapse-link" data-target="course-add-instructor-body" href="course-add-instructor">here</a>.
+              You can specify the <a class="collapse-link" data-target="#course-instructor-access-body" href="#course-instructor-access">access level</a> of any instructor you add to a course. For more information about how to add an instructor to your course, click <a class="collapse-link" data-target="#course-add-instructor-body" href="#course-add-instructor">here</a>.
             </li>
           </ol>
         </div>
@@ -97,7 +97,7 @@
             </ul>
           </ul>
           <p>
-            Then, <a class="collapse-link" data-target="session-questions-body" href="#session-questions">add questions</a> to your session to suit your needs.<br>
+            Then, <a class="collapse-link" data-target="#session-questions-body" href="#session-questions">add questions</a> to your session to suit your needs.<br>
             For each question, you can set the following:
           </p>
           <ul>
@@ -164,7 +164,7 @@
               <a class="collapse-link" data-target="#student-edit-profile-body" href="#student-edit-profile">Edit a student's data</a>: change a student's registered name, section or team name, or email address. You can also note down comments on students, for example to inform other instructors of information about a student that they should take note of.
             </li>
             <li>
-              <a class="collapse-link" data-target="#student-view-profile-body" href="#student-view-profile">View a student's profile</a> and <a class="collapse-link" data-target="student-view-responses-body" href="student-view-responses">all past records of a student</a>: view profile of a student and see in one place all submissions given/received by a student. Handy for examining how a student progressed through a course.
+              <a class="collapse-link" data-target="#student-view-profile-body" href="#student-view-profile">View a student's profile</a> and <a class="collapse-link" data-target="#student-view-responses-body" href="#student-view-responses">all past records of a student</a>: view profile of a student and see in one place all submissions given/received by a student. Handy for examining how a student progressed through a course.
             </li>
             <li>
               Search: <a class="collapse-link" data-target="#student-search-body" href="#student-search">search for students, teams or sections</a>, or <a class="collapse-link" data-target="#session-search-body" href="#session-search">search for questions, responses or comments</a>.
@@ -178,7 +178,7 @@
           </p>
           <ul>
             <li>
-              <a class="collapse-link" data-target="#session-view-results" href="#session-view-results">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-default btn-xs">Results</button> button.
+              <a class="collapse-link" data-target="#session-view-results-body" href="#session-view-results">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-default btn-xs">Results</button> button.
             </li>
           </ul>
           <p>

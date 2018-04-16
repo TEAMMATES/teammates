@@ -13,6 +13,7 @@
   <li>
     <b>Ignore early peer evaluations.</b><br>
       Consider not using initial peer evaluations for grading. Let students know that in advance. This gives students time to get used to the system and be more relaxed in giving early feedback to peers.
+    <br><br>
   </li>
   <li>
    <b>Interpret contribution numbers with care.</b><br>
@@ -33,7 +34,7 @@
   <li>
     <b>Announce a 'cooling off' period.</b><br>
       This may be a good guidelines to give to students:
-      <br>
+      <br><br>
       <i>If you are unhappy about the peer-feedback received, please allow at least one day to lapse before you fire off a response email. You are likely to respond more rationally when you had some time to think it over. Also keep in mind that we do take note of how well you handle such a situation. You need to act professionally when facing conflicting views, opposition, and even deliberate sabotage.</i>
   </li>
 </ul>

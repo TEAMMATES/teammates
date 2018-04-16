@@ -504,7 +504,7 @@
         <div class="panel-body">
           <p>
             After setting up a session, you can start adding questions.<br>
-            You can also access this page by clicking the edit button of a particular session.
+            You can also access this page by clicking the <button class="btn btn-xs btn-default">Edit</button> button of the desired session from the <b>Home</b> or <b>Sessions</b> page.
           </p>
           <p>
             To add a question:
@@ -785,8 +785,8 @@
           You can quickly and easily confirm that the questions and their settings are correct after editing questions.
           </p>
           <p>
-            To access the preview panel of a specific session, click the "Edit" button for that session. The preview
-            panel is located at the bottom of the Edit page.
+            To access the preview panel of a specific session, click the <button class="btn btn-xs btn-default">Edit</button> button for that session in the <b>Home</b> or <b>Sessions</b> page. The preview
+            panel is located at the bottom of the Edit Feedback Session page.
           </p>
           <div class="bs-example" id="preview">
             <div class="well well-plain" id="questionPreviewTable">
@@ -858,8 +858,8 @@
       <div id="session-view-results-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            View responses to a session by clicking the <b>Results</b> button of a session in the Home or Sessions tab.<br>
-            Click <b>Edit View</b> to sort the results in an order that best suits you.
+            View responses to a session by clicking the <button class="btn btn-xs btn-default">Results</button> button of a session in the <b>Home</b> or <b>Sessions</b> page.<br>
+            Click <button class="btn btn-primary btn-s">Edit View</button> to sort the results in an order that best suits you.
           </p>
           <p>5 different views are available, each denoting the order in which responses are grouped.
             Additionally, you can group the results by team, show or hide statistics, view missing responses and filter responses from a particular section.
@@ -1632,6 +1632,9 @@
         <div class="panel-body">
           You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
           <ol>
+            <li>
+              Go to the <b>Search</b> page using the top navigation bar.
+            </li>
             <li>
               Tick the option <b>Questions, responses, comments on responses</b> below the search bar.
             </li>
