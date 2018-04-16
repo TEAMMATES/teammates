@@ -104,8 +104,12 @@ public class BackDoorServlet extends HttpServlet {
             String studentEmail = req.getParameter(BackDoorOperation.PARAMETER_STUDENT_EMAIL);
             backDoorLogic.deleteStudent(courseId, studentEmail);
             break;
-        case OPERATION_EDIT_FEEDBACK_QUESTION:
+        case OPERATION_EDIT_COURSE:
             String newValues = req.getParameter(BackDoorOperation.PARAMETER_JSON_STRING);
+            backDoorLogic.editCourseAsJson(newValues);
+            break;
+        case OPERATION_EDIT_FEEDBACK_QUESTION:
+            newValues = req.getParameter(BackDoorOperation.PARAMETER_JSON_STRING);
             backDoorLogic.editFeedbackQuestionAsJson(newValues);
             break;
         case OPERATION_EDIT_FEEDBACK_SESSION:
