@@ -1449,6 +1449,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickRemoveConstSumOptionLink(optionIndex, NEW_QUESTION_NUM);
     }
 
+    public void clickDistributePointsOptionsCheckbox(int qnIndex) {
+        String idSuffix = getIdSuffix(qnIndex);
+
+        WebElement distributePointsOptionsCheckbox =
+                browser.driver.findElement(By.id("constSum_UnevenDistribution" + idSuffix));
+        click(distributePointsOptionsCheckbox);
+    }
+
+    public void selectConstSumDistributePointsOptions(String distributePointsFor, int questionNumber) {
+        selectDropdownByVisibleValue(
+                browser.driver.findElement(By.id("constSumDistributePointsSelect-" + questionNumber)),
+                distributePointsFor);
+    }
+
     public void clickAssignWeightsCheckbox(int qnIndex) {
         By by = By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED + getIdSuffix(qnIndex));
         WebElement assignWeightsCheckbox = browser.driver.findElement(by);

@@ -357,7 +357,6 @@ public final class Templates {
             public static final String CONSTSUM_EDIT_FORM_OPTION_FRAGMENT = "${constSumEditFormOptionFragments}";
             public static final String CONSTSUM_NUM_OPTION_VALUE = "${constSumNumOptionValue}";
             public static final String CONSTSUM_POINTS_PER_OPTION_VALUE = "${constSumPointsPerOptionValue}";
-            public static final String CONSTSUM_UNEVEN_DISTRIBUTION_VALUE = "${constSumUnevenDistributionValue}";
             public static final String CONSTSUM_NUM_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}";
             public static final String CONSTSUM_POINTS_VALUE = "${constSumPointsValue}";
             public static final String CONSTSUM_NUMBER_OF_OPTIONS = "${numOfConstSumOptions}";
@@ -366,6 +365,7 @@ public final class Templates {
             public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${distributeUnevenly}";
             public static final String CONSTSUM_REQUIRE_MIN = "${requireMin}";
             public static final String CONSTSUM_REQUIRE_MAX = "${requireMax}";
+            public static final String CONSTSUM_UNEVEN_DISTRIBUTION_VALUE = "${constSumUnevenDistributionValue}";
             public static final String CONSTSUM_POINTS = "${constSumPoints}";
             public static final String CONSTSUM_POINTS_MIN = "${constSumPointsMin}";
             public static final String CONSTSUM_POINTS_MAX = "${constSumPointsMax}";
@@ -373,8 +373,18 @@ public final class Templates {
             public static final String CONSTSUM_AVERAGE_POINTS = "${averagePoints}";
             public static final String CONSTSUM_TOTAL_POINTS = "${totalPoints}";
             public static final String CONSTSUM_PARAM_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}";
+            public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${distributeUnevenly}";
             public static final String CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}";
+            public static final String CONSTSUM_DISTRIBUTE_POINTS_OPTIONS =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS}";
+            public static final String CONSTSUM_DISTRIBUTE_POINTS_FOR_VALUE = "${distributePointsForValue}";
+            public static final String CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_SELECTED = "${distributeAllUnevenlySelected}";
+            public static final String CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_SELECTED = "${distributeSomeUnevenlySelected}";
+            public static final String CONSTSUM_DISTRIBUTE_ALL_UNEVENLY_TO_STRING =
+                    "${FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()}";
+            public static final String CONSTSUM_DISTRIBUTE_SOME_UNEVENLY_TO_STRING =
+                    "${FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()}";
             public static final String CONSTSUM_POINTS_PER_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
             public static final String CONSTSUM_PARAM_REQUIREMIN =

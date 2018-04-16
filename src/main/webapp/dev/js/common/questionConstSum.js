@@ -122,6 +122,25 @@ function bindConstSumOptionsCheckbox() {
     });
 }
 
+function toggleConstSumDistributePointsOptions(checkbox, questionNum) {
+    const constSumDistributePointsSelect = `#constSumDistributePointsSelect-${questionNum}`;
+    const constSumDistributePointsOptions = `#constSumDistributePointsOptions-${questionNum}`;
+
+    if (checkbox.checked) {
+        $(constSumDistributePointsSelect).prop('disabled', false);
+        $(constSumDistributePointsOptions).attr('value',
+                $(constSumDistributePointsSelect).prop('value'));
+    } else {
+        $(constSumDistributePointsSelect).prop('disabled', true);
+        $(constSumDistributePointsOptions).attr('value', 'None');
+    }
+}
+
+function changeConstSumDistributePointsFor(questionNum) {
+    $(`#constSumDistributePointsOptions-${questionNum}`).attr('value',
+            $(`#constSumDistributePointsSelect-${questionNum}`).prop('value'));
+}
+
 export {
     addConstSumOption,
     bindConstSumOptionsRadioButtons,
@@ -132,4 +151,6 @@ export {
     updateConstSumPointsValue,
     bindConstSumOptionsCheckbox,
     toggleConstSumOptionsCheckBox,
+    toggleConstSumDistributePointsOptions,
+    changeConstSumDistributePointsFor,
 };
