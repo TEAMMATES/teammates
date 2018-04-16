@@ -21,7 +21,10 @@
             <li>
               (Optional) Add a description for the question
             </li>
-          </ol>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
+        </ol>
           </p>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form">
@@ -348,6 +351,7 @@
           </p>
           <p>
             To set up a multiple choice (single answer) question:
+          </p>
           <ol>
             <li>
               Specify the question text
@@ -358,8 +362,10 @@
             <li>
               Specify answer options by writing them manually, or generate options from your course's list of students, instructors or teams
             </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
           </ol>
-          </p>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post">
               <div class="panel panel-primary questionTable" id="specifiedOptionsTable">
@@ -969,10 +975,12 @@
       </div>
       <div id="question-numscale-body" class="panel-collapse collapse">
         <div class="panel-body">
-          Numerical scale questions allow numerical responses from respondents
+          <p>
+            Numerical scale questions allow numerical responses from respondents
           </p>
           <p>
             To set up a numerical scale question:
+          </p>
           <ol>
             <li>
               Specify the question text
@@ -986,8 +994,10 @@
             <li>
               Specify the precision at which input values should increment — TEAMMATES uses this value to enumerate all possible acceptable responses
             </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
           </ol>
-          </p>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
               <div class="panel panel-primary questionTable" id="numericalQuestionTable">
@@ -1519,10 +1529,12 @@
       </div>
       <div id="question-constsum-options-body" class="panel-collapse collapse">
         <div class="panel-body">
-          Distribute points (among options) questions allow respondents to split a fixed number of points among options that you specify.<br>
+          <p>
+            Distribute points (among options) questions allow respondents to split a fixed number of points among options that you specify.
           </p>
           <p>
             To setup a distribute points (among options) question:
+          </p>
           <ol>
             <li>
               Specify the question text
@@ -1536,8 +1548,10 @@
             <li>
               Choose the number of points students will get to split among the options — you can also choose to specify <b>points to distribute X number of options</b>, which gives students a total of <code>(specified points) x (number of options)</code> points
             </li>
+            <li>
+              Specify the feedback path that should be used to generate the appropriate feedback recipients
+            </li>
           </ol>
-          </p>
           <div class="bs-example">
             <form class="form-horizontal form_question" role="form" method="post" >
               <div class="panel panel-primary questionTable" id="amongOptionsTable">
