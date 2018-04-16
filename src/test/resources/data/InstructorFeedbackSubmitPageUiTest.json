@@ -799,7 +799,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
+        "value": "{\"distributeToRecipients\":false,\"forceUnevenDistribution\":false,\"distributePointsFor\":\"None\",\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
       },
       "questionNumber": 19,
       "questionType": "CONSTSUM",
@@ -822,7 +822,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+        "value": "{\"distributeToRecipients\":true,\"forceUnevenDistribution\":false,\"distributePointsFor\":\"None\",\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
       },
       "questionNumber": 20,
       "questionType": "CONSTSUM",
@@ -867,7 +867,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":true,\"forceUnevenDistribution\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams, based on how much effort you think the teams have put into the project\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+        "value": "{\"distributeToRecipients\":true,\"forceUnevenDistribution\":true,\"distributePointsFor\":\"All options\",\"pointsPerOption\":true,\"questionText\":\"Split points among the teams, based on how much effort you think the teams have put into the project\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
       },
       "questionNumber": 22,
       "questionType": "CONSTSUM",
@@ -890,7 +890,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":false,\"forceUnevenDistribution\":true,\"pointsPerOption\":false,\"questionText\":\"How much more time should the teams spend on the following, regarding their product? Give points accordingly.\",\"numOfConstSumOptions\":3,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Design\",\"Usability\",\"Algo\"]}"
+        "value": "{\"distributeToRecipients\":false,\"forceUnevenDistribution\":true,\"distributePointsFor\":\"All options\",\"pointsPerOption\":false,\"questionText\":\"How much more time should the teams spend on the following, regarding their product? Give points accordingly.\",\"numOfConstSumOptions\":3,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Design\",\"Usability\",\"Algo\"]}"
       },
       "questionNumber": 23,
       "questionType": "CONSTSUM",
@@ -913,9 +913,55 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Which teams would you like to be an instructor of again?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"distributeToRecipients\":true,\"forceUnevenDistribution\":true,\"distributePointsFor\":\"At least some options\",\"pointsPerOption\":true,\"questionText\":\"Split points among the teams, based on how much effort you think the teams have put into the project\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
       },
       "questionNumber": 24,
+      "questionType": "CONSTSUM",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn25InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFSubmitUiT.CS2104",
+      "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":false,\"forceUnevenDistribution\":true,\"distributePointsFor\":\"At least some options\",\"pointsPerOption\":false,\"questionText\":\"How much more time should the teams spend on the following, regarding their product? Give points accordingly.\",\"numOfConstSumOptions\":3,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Design\",\"Usability\",\"Algo\"]}"
+      },
+      "questionNumber": 25,
+      "questionType": "CONSTSUM",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn26InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFSubmitUiT.CS2104",
+      "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"msqChoices\":[],\"questionText\":\"Which teams would you like to be an instructor of again?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+      },
+      "questionNumber": 26,
       "questionType": "MSQ",
       "giverType": "INSTRUCTORS",
       "recipientType": "SELF",
@@ -1024,7 +1070,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
+        "value": "{\"distributeToRecipients\":false,\"forceUnevenDistribution\":false,\"distributePointsFor\":\"None\",\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
       },
       "questionNumber": 5,
       "questionType": "CONSTSUM",
@@ -1047,7 +1093,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
+        "value": "{\"distributeToRecipients\":true,\"forceUnevenDistribution\":false,\"distributePointsFor\":\"None\",\"pointsPerOption\":true,\"questionText\":\"Split points among the teams\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
       },
       "questionNumber": 6,
       "questionType": "CONSTSUM",
