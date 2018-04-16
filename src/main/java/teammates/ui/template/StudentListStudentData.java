@@ -18,7 +18,6 @@ public class StudentListStudentData {
     private String courseStudentDeleteLink;
     private String courseStudentRecordsLink;
     private String sessionToken;
-    private String courseStudentRemindRawLink;
 
     public StudentListStudentData(String googleId, String studentName, String studentEmail, String course,
                                   String studentStatus, String photoUrl, String sessionToken, String previousPage) {
@@ -29,8 +28,8 @@ public class StudentListStudentData {
         this.courseIdForJs = SanitizationHelper.sanitizeForJs(course);
         this.photoUrl = photoUrl;
         this.sessionToken = sessionToken;
-        this.courseStudentRemindRawLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_REMIND,
-                                                            Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM, previousPage);
+        String courseStudentRemindRawLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_REMIND,
+                Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM, previousPage);
         this.courseStudentDetailsLink =
                 furnishLinkWithCourseEmailAndUserId(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
                                                     course, studentEmail, googleId);
