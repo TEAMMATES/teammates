@@ -169,14 +169,14 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     }
     $(`#showResponseCommentAddForm${id}`).show();
 
-    const responseCommentAddFormId = `responseCommentAddForm${id}`;
-    const responseCommentEditor = tinymce.get(responseCommentAddFormId);
-    if (responseCommentEditor === null) {
-        richTextEditorBuilder.initEditor(responseCommentAddFormId, {
+    if (tinymce.get(`responseCommentAddForm${id}`) === null) {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor(`#responseCommentAddForm${id}`, {
             inline: true,
         });
+        /* eslint-enable camelcase */
     } else {
-        responseCommentEditor.setContent('');
+        tinymce.get(`responseCommentAddForm${id}`).setContent('');
     }
     saveInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
             $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
