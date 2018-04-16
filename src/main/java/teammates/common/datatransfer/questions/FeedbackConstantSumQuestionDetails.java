@@ -181,7 +181,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     private void setConstantSumQuestionDetails(boolean pointsPerOption, int points, boolean unevenDistribution,
-        int minPointsConstraint, int maxPointsConstraint, String distributePointsOption) {
+            int minPointsConstraint, int maxPointsConstraint, String distributePointsOption) {
         this.numOfConstSumOptions = 0;
         this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = true;
