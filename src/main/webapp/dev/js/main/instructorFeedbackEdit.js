@@ -42,9 +42,11 @@ import {
 import {
     addConstSumOption,
     bindConstSumOptionsRadioButtons,
+    changeConstSumDistributePointsFor,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
+    toggleConstSumDistributePointsOptions,
     toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
@@ -493,8 +495,13 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
+
     toggleConstSumOptionsRadioButton(questionNum);
-    $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
+    if ($(`#constSum_UnevenDistribution-${questionNum}`).prop('checked')) {
+        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', false);
+    } else {
+        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', true);
+    }
 
     if ($(`#questionTable-${questionNum}`).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
         fixContribQnGiverRecipient(questionNum);
@@ -574,6 +581,8 @@ function enableNewQuestion() {
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+
+    toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`, NEW_QUESTION));
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
@@ -1251,6 +1260,8 @@ $(document).ready(() => {
 window.updateConstSumPointsValue = updateConstSumPointsValue;
 window.addConstSumOption = addConstSumOption;
 window.removeConstSumOption = removeConstSumOption;
+window.toggleConstSumDistributePointsOptions = toggleConstSumDistributePointsOptions;
+window.changeConstSumDistributePointsFor = changeConstSumDistributePointsFor;
 window.addMcqOption = addMcqOption;
 window.removeMcqOption = removeMcqOption;
 window.toggleMcqGeneratedOptions = toggleMcqGeneratedOptions;
