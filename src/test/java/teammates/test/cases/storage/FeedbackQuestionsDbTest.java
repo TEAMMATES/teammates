@@ -362,7 +362,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 .withShowGiverNameTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowResponseTo(new ArrayList<>())
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
     }
 
     private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {

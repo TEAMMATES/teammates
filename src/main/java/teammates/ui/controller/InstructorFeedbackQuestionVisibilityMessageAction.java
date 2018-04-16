@@ -24,29 +24,21 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
     }
 
     private FeedbackQuestionAttributes extractFeedbackQuestionData(String creatorEmail) {
-        String feedbackQuestionGiverType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, feedbackQuestionGiverType);
+        String feedbackQuestionGiverType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
 
         FeedbackParticipantType giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
 
-        String feedbackQuestionRecipientType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, feedbackQuestionRecipientType);
+        String feedbackQuestionRecipientType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
 
         FeedbackParticipantType recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);
 
-        String numberOfEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, numberOfEntityTypes);
+        String numberOfEntityTypes = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
 
         int numberOfEntitiesToGiveFeedbackTo;
         if ("custom".equals(numberOfEntityTypes)
                 && (recipientType == FeedbackParticipantType.STUDENTS
                         || recipientType == FeedbackParticipantType.TEAMS)) {
-            String numberOfEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
-
-            Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, numberOfEntities);
+            String numberOfEntities = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
 
             numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
         } else {
@@ -61,8 +53,7 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
                 FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
-        String questionTypeInString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, questionTypeInString);
+        String questionTypeInString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
         questionTypeInString = FeedbackQuestionType.standardizeIfConstSum(questionTypeInString);
 
         FeedbackQuestionType questionType = FeedbackQuestionType.valueOf(questionTypeInString);

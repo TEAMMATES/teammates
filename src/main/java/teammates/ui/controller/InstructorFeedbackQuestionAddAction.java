@@ -137,7 +137,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 .withQuestionType(questionType)
                 .withQuestionMetaData(questionDetails)
                 .withQuestionDescription(new Text(questionDescription))
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
     }
 
 }

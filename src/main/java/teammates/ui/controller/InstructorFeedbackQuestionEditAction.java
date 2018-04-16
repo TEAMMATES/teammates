@@ -228,7 +228,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 .withQuestionType(questionType)
                 .withQuestionMetaData(questionDetails)
                 .withQuestionDescription(new Text(questionDescription))
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
     }
 
     private static boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType, String nEntityTypes) {

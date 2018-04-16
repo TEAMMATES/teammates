@@ -76,7 +76,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     /**
      * A Builder class for {@link FeedbackQuestionAttributes}.
      */
-
     public static class Builder {
 
         private final FeedbackQuestionAttributes feedbackQuestionAttributes;
@@ -203,13 +202,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         public FeedbackQuestionAttributes build() {
             feedbackQuestionAttributes.questionDescription =
                     SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
-            feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
-            return feedbackQuestionAttributes;
-        }
+            if(feedbackQuestionAttributes.recipientType != null) {
+                feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
+            }
 
-        public FeedbackQuestionAttributes buildWithoutRemovingIrrelevantVisibilityOptions() {
-            feedbackQuestionAttributes.questionDescription =
-                    SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
             return feedbackQuestionAttributes;
         }
     }

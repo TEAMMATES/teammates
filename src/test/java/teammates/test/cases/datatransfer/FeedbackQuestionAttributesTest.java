@@ -106,7 +106,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         FeedbackParticipantType recipientType = FeedbackParticipantType.TEAMS;
 
         List<FeedbackParticipantType> participants = new ArrayList<>();
-        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
         Instant createdAt = Instant.now();
         Instant updatedAt = Instant.ofEpochMilli(9876545);
@@ -129,7 +128,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                 .withCreatedAt(createdAt)
                 .withUpdatedAt(updatedAt)
                 .withFeedbackQuestionId(feedbackQuestionId)
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
 
         assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(courseId, feedbackQuestionAttributes.getCourseId());
@@ -158,7 +157,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withQuestionMetaData(new Text("test qn from teams->none."))
                 .withQuestionDescription(contentWithWhitespaces)
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
 
         assertEquals(new Text("content to be sanitized by removing leading/trailing whitespace"),
                 feedbackQuestionAttributes.getQuestionDescription());
@@ -169,7 +168,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withQuestionMetaData(new Text("test qn from teams->none."))
                 .withQuestionDescription(codeblock)
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
 
         assertEquals(new Text("<code>System.out.println(&#34;Hello World&#34;);</code>"),
                 feedbackQuestionAttributes.getQuestionDescription());
@@ -181,7 +180,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withQuestionMetaData(new Text("test qn from teams->none."))
                 .withQuestionDescription(superscript)
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
 
         assertEquals(new Text("f(x) &#61; x<sup>2</sup>"), feedbackQuestionAttributes.getQuestionDescription());
 
@@ -191,7 +190,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withQuestionMetaData(new Text("test qn from teams->none."))
                 .withQuestionDescription(chemicalFormula)
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
 
         assertEquals(new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>"),
                 feedbackQuestionAttributes.getQuestionDescription());
@@ -200,7 +199,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     @Test
     public void testBuilderWithDefaultValues() {
         FeedbackQuestionAttributes observedFeedbackQuestionAttributes =
-                FeedbackQuestionAttributes.builder().buildWithoutRemovingIrrelevantVisibilityOptions();
+                FeedbackQuestionAttributes.builder().build();
 
         assertEquals(0, observedFeedbackQuestionAttributes.questionNumber);
         assertNull(observedFeedbackQuestionAttributes.recipientType);
@@ -238,7 +237,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidate() throws Exception {
+    public void testValidate() {
 
         List<FeedbackParticipantType> showGiverNameToList = new ArrayList<>();
         showGiverNameToList.add(FeedbackParticipantType.SELF);
@@ -262,7 +261,7 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
                 .withShowGiverNameTo(new ArrayList<>(showGiverNameToList))
                 .withShowRecipientNameTo(new ArrayList<>(showRecipientNameToList))
                 .withShowResponseTo(new ArrayList<>(showResponseToList))
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
 
         assertFalse(fq.isValid());
 

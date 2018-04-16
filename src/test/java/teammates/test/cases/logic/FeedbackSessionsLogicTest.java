@@ -296,7 +296,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withShowResponseTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowGiverNameTo(new ArrayList<>())
-                .buildWithoutRemovingIrrelevantVisibilityOptions();
+                .build();
 
         fqLogic.createFeedbackQuestion(fq);
 
