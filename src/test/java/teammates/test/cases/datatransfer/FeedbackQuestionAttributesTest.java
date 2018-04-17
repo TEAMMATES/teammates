@@ -7,24 +7,24 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.entity.FeedbackQuestion;
-import teammates.test.cases.BaseTestCase;
 
 /**
  * SUT: {@link FeedbackQuestionAttributes}.
  */
-public class FeedbackQuestionAttributesTest extends BaseTestCase {
+public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
     private DataBundle typicalBundle = getTypicalDataBundle();
 
@@ -40,31 +40,52 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
     }
 
+    @Override
     @Test
-    public void testValueOf() {
-        /* Solves the problem of "java.lang.NullPointerException: No API environment is registered for this thread on
-         Unit testing".
-         https://stackoverflow.com/questions/31994264/java-lang-nullpointerexception-no-api-environment-
-         is-registered-for-this-thread */
-        LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-        helper.setUp();
+    public void testToEntity() {
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestion expectedQuestion = new FeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(),
+                fqa.getCreatorEmail(), fqa.getQuestionMetaData(), fqa.getQuestionDescription(), fqa.getQuestionNumber(),
+                fqa.getQuestionType(), fqa.getGiverType(), fqa.getRecipientType(), fqa.getNumberOfEntitiesToGiveFeedbackTo(),
+                fqa.getShowResponsesTo(), fqa.showGiverNameTo, fqa.showRecipientNameTo);
 
+        FeedbackQuestion actualQuestion = fqa.toEntity();
+
+        assertEquals(expectedQuestion.getFeedbackSessionName(), actualQuestion.getFeedbackSessionName());
+        assertEquals(expectedQuestion.getCourseId(), actualQuestion.getCourseId());
+        assertEquals(expectedQuestion.getCreatorEmail(), actualQuestion.getCreatorEmail());
+        assertEquals(expectedQuestion.getQuestionDescription(), actualQuestion.getQuestionDescription());
+        assertEquals(expectedQuestion.getQuestionNumber(), actualQuestion.getQuestionNumber());
+        assertEquals(expectedQuestion.getQuestionType(), actualQuestion.getQuestionType());
+        assertEquals(expectedQuestion.getNumberOfEntitiesToGiveFeedbackTo(),
+                actualQuestion.getNumberOfEntitiesToGiveFeedbackTo());
+        assertEquals(expectedQuestion.getQuestionMetaData(), actualQuestion.getQuestionMetaData());
+        assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
+        assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
+        assertEquals(expectedQuestion.getShowGiverNameTo(), actualQuestion.getShowGiverNameTo());
+        assertEquals(expectedQuestion.getShowRecipientNameTo(), actualQuestion.getShowRecipientNameTo());
+        assertEquals(expectedQuestion.getShowResponsesTo(), actualQuestion.getShowResponsesTo());
+        assertEquals(expectedQuestion.getCreatedAt(), actualQuestion.getCreatedAt());
+        assertEquals(expectedQuestion.getUpdatedAt(), actualQuestion.getUpdatedAt());
+    }
+
+    @Test
+    public void testValueOf() throws InvalidParametersException, EntityAlreadyExistsException {
         List<FeedbackParticipantType> participants = new ArrayList<>();
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER);
+
+        FeedbackQuestionsDb db = new FeedbackQuestionsDb();
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestion qn = db.createEntity(fqa);
+
+        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.valueOf(qn);
 
         List<FeedbackParticipantType> participantTypesAfterRemovingIrrelevantVisibilitiesOptions =
                 new ArrayList<>(participants);
         participantTypesAfterRemovingIrrelevantVisibilitiesOptions.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participantTypesAfterRemovingIrrelevantVisibilitiesOptions.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
 
-        FeedbackQuestion qn = new FeedbackQuestion("test session", "cs1101", "test@example.com",
-                new Text("question text"), new Text("description"), 1, FeedbackQuestionType.TEXT,
-                FeedbackParticipantType.TEAMS, FeedbackParticipantType.TEAMS, 5, participants,
-                participants, participants);
-        qn.setId(12345678910L);
-
-        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.valueOf(qn);
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
         assertEquals(qn.getCreatorEmail(), feedbackQuestionAttributes.getCreatorEmail());
@@ -77,8 +98,8 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertEquals(qn.getGiverType(), feedbackQuestionAttributes.getGiverType());
         assertEquals(qn.getRecipientType(), feedbackQuestionAttributes.getRecipientType());
 
-        /* .build() in valueOf() will remove irrelevant visibilities options, so the lists showResponsesTo,
-        showGiverNameTo, and showRecipientNameTo are not the same as the ones in qn */
+        // .build() in valueOf() will remove irrelevant visibilities options, so the lists showResponsesTo,
+        // showGiverNameTo, and showRecipientNameTo are not the same as the ones in qn
         assertEquals(participantTypesAfterRemovingIrrelevantVisibilitiesOptions,
                 feedbackQuestionAttributes.getShowGiverNameTo());
         assertEquals(participantTypesAfterRemovingIrrelevantVisibilitiesOptions,
@@ -88,8 +109,6 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertEquals(qn.getCreatedAt(), feedbackQuestionAttributes.getCreatedAt());
         assertEquals(qn.getUpdatedAt(), qn.getUpdatedAt());
         assertEquals(qn.getId(), feedbackQuestionAttributes.getFeedbackQuestionId());
-
-        helper.tearDown();
     }
 
     @Test
@@ -531,6 +550,29 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
         assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+    }
+
+    private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
+        FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
+
+        List<FeedbackParticipantType> participants = new ArrayList<>();
+        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.RECEIVER);
+
+        return FeedbackQuestionAttributes.builder()
+                .withCourseId("testingCourse")
+                .withCreatorEmail("instructor@email.com")
+                .withFeedbackSessionName("testFeedbackSession")
+                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withRecipientType(FeedbackParticipantType.SELF)
+                .withNumOfEntitiesToGiveFeedbackTo(1)
+                .withQuestionNumber(1)
+                .withQuestionType(FeedbackQuestionType.TEXT)
+                .withQuestionMetaData(questionDetails)
+                .withShowGiverNameTo(new ArrayList<>(participants))
+                .withShowRecipientNameTo(new ArrayList<>(participants))
+                .withShowResponseTo(new ArrayList<>(participants))
+                .build();
     }
 
 }

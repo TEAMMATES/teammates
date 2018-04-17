@@ -128,12 +128,6 @@ public class FeedbackQuestion extends BaseEntity {
         return Key.create(FeedbackQuestion.class, feedbackQuestionId).toWebSafeString();
     }
 
-    //for unit testing of valueOf() in FeedbackAttributeTest
-    public void setId(long id) {
-        Key key = Key.create(FeedbackQuestion.class, id);
-        feedbackQuestionId = key.getId();
-    }
-
     public String getFeedbackSessionName() {
         return feedbackSessionName;
     }
