@@ -409,7 +409,7 @@ public class EmailGenerator {
         String subject = EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject();
         StringBuffer linksFragmentValue = new StringBuffer(1000);
         String emailBody;
-        String studentName = "";
+        String studentName = null;
 
         List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime);
         for (FeedbackSessionAttributes session : sessions) {
@@ -417,7 +417,7 @@ public class EmailGenerator {
             StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
 
             if (student != null) {
-                if (studentName.length() == 0) {
+                if (studentName == null) {
                     studentName = student.getName();
                 }
                 String submitUrlHtml = "(Feedback session is not yet opened)";
