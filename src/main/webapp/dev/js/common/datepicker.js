@@ -78,6 +78,16 @@ function prepareDatepickers() {
             const newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
         },
+        onClose() {
+            const startDate = $('#startdate');
+            const currentVisibleDate = $('#visibledate');
+
+            if (startDate.val() === currentVisibleDate.val()) {
+                const startTime = $('#starttime');
+                const visibleTime = $('#visibletime');
+                visibleTime.val(startTime.val());
+            }
+        },
     });
 
     $('#publishdate').datepicker({
