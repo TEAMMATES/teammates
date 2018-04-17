@@ -4107,10 +4107,22 @@
                           </div>
                           <div class="row">
                             <div class="col-sm-12">
-                              <div class="checkbox" id="constSum_tooltipText-6" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options">
+                              <div class="checkbox" id="constSum_tooltipText-6"
+                                   data-toggle="tooltip" data-placement="top" data-container="body"
+                                   title="This determines whether a giver can distribute the same number of points to multiple options">
                                 <label class="bold-label">
-                                  <input type="checkbox" name="constSumUnevenDistribution" disabled="" id="constSum_UnevenDistribution-6">
-                                  <span id="constSum_labelText-6">Every option to receive a different number of points</span>
+                                  <span class="inline-block">
+                                    <input type="checkbox" name="constSumUnevenDistribution" disabled id="constSum_UnevenDistribution-6">
+                                  </span>
+                                  <select class="form-control width-auto inline" id="constSumDistributePointsSelect-6" disabled>
+                                    <option value="All options">
+                                      Every option
+                                    </option>
+                                    <option value="At least some options">
+                                      At least some options
+                                    </option>
+                                  </select>
+                                  to receive a different number of points
                                 </label>
                               </div>
                             </div>
@@ -4720,10 +4732,22 @@
                           </div>
                           <div class="row">
                             <div class="col-sm-12">
-                              <div class="checkbox" id="constSum_tooltipText-6" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple recipients">
+                              <div class="checkbox" id="constSum_tooltipText-6"
+                                   data-toggle="tooltip" data-placement="top" data-container="body"
+                                   title="This determines whether a giver can distribute the same number of points to multiple recipients">
                                 <label class="bold-label">
-                                  <input type="checkbox" name="constSumUnevenDistribution" disabled="" id="constSum_UnevenDistribution-6">
-                                  <span id="constSum_labelText-6">Every recipient to receive a different number of points</span>
+                                  <span class="inline-block">
+                                    <input type="checkbox" name="constSumUnevenDistribution" disabled id="constSum_UnevenDistribution-6">
+                                  </span>
+                                  <select class="form-control width-auto inline" id="constSumDistributePointsSelect-6" disabled>
+                                    <option value="All options">
+                                      Every option
+                                    </option>
+                                    <option value="At least some options">
+                                      At least some options
+                                    </option>
+                                  </select>
+                                  to receive a different number of points
                                 </label>
                               </div>
                             </div>
