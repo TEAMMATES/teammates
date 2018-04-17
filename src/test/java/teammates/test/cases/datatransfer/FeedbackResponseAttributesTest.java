@@ -87,7 +87,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         String expectedGiverSection = Const.DEFAULT_SECTION;
         String expectedRecipientSection = Const.DEFAULT_SECTION;
         Text expectedResponseMetaData = new Text("dummy meta data");
-        String expectedId = expectedQuestionId + "%" + expectedGiver + "%" + expectedRecipient;
+        String expectedId = "dummyId";
         Instant expectedCreatedAt = Instant.now();
         Instant expectedUpdatedAt = Instant.now();
 
@@ -125,9 +125,8 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         String originalGiver = "giver";
         String originalRecipient = "recipient";
         String originalQuestionId = "someQuestionId";
-        String originalId = originalQuestionId + "%" + originalGiver + "%" + originalRecipient;
         FeedbackResponseAttributes original = FeedbackResponseAttributes.builder()
-                .withFeedbackResponseId(originalId)
+                .withFeedbackResponseId("originalId")
                 .withFeedbackSessionName("originalName")
                 .withCourseId("originalCourseId")
                 .withFeedbackQuestionId(originalQuestionId)
