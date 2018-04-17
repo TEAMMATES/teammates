@@ -142,18 +142,18 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         FeedbackResponseAttributes copy = original.getCopy();
 
         assertNotSame(copy, original);
-        assertEquals(copy.getId(), original.getId());
-        assertEquals(copy.feedbackSessionName, original.feedbackSessionName);
-        assertEquals(copy.courseId, original.courseId);
-        assertEquals(copy.feedbackQuestionId, original.feedbackQuestionId);
-        assertEquals(copy.feedbackQuestionType, original.feedbackQuestionType);
-        assertEquals(copy.giver, original.giver);
-        assertEquals(copy.recipient, original.recipient);
-        assertEquals(copy.giverSection, original.giverSection);
-        assertEquals(copy.recipientSection, original.recipientSection);
-        assertEquals(copy.responseMetaData, original.responseMetaData);
-        assertEquals(copy.getCreatedAt(), original.getCreatedAt());
-        assertEquals(copy.getUpdatedAt(), original.getUpdatedAt());
+        assertSame(copy.getId(), original.getId());
+        assertSame(copy.feedbackSessionName, original.feedbackSessionName);
+        assertSame(copy.courseId, original.courseId);
+        assertSame(copy.feedbackQuestionId, original.feedbackQuestionId);
+        assertSame(copy.feedbackQuestionType, original.feedbackQuestionType);
+        assertSame(copy.giver, original.giver);
+        assertSame(copy.recipient, original.recipient);
+        assertSame(copy.giverSection, original.giverSection);
+        assertSame(copy.recipientSection, original.recipientSection);
+        assertSame(copy.responseMetaData, original.responseMetaData);
+        assertSame(copy.getCreatedAt(), original.getCreatedAt());
+        assertSame(copy.getUpdatedAt(), original.getUpdatedAt());
     }
 
     @Test

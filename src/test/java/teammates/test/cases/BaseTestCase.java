@@ -203,6 +203,10 @@ public class BaseTestCase {
         AssertJUnit.assertNotNull(message, object);
     }
 
+    protected static void assertSame(Object expected, Object actual) {
+        AssertJUnit.assertSame(expected, actual);
+    }
+
     protected static void fail(String message) {
         AssertJUnit.fail(message);
     }

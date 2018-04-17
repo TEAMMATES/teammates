@@ -151,7 +151,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             return this;
         }
 
-        public Builder withReponseMetaDataFromFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+        public Builder withResponseMetaDataFromFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
             feedbackResponseAttributes.setResponseDetails(responseDetails);
             return this;
         }
