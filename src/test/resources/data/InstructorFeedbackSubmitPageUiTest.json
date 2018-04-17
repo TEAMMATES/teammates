@@ -571,7 +571,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":3,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 9,
       "questionType": "MSQ",
@@ -594,7 +594,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What do you think is the other instructors' best feature?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":3,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What do you think is the other instructors' best feature?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 10,
       "questionType": "MSQ",
@@ -639,7 +639,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Who are the best students?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who are the best students?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
       },
       "questionNumber": 12,
       "questionType": "MSQ",
@@ -685,7 +685,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Who are the best teams?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who are the best teams?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
       },
       "questionNumber": 14,
       "questionType": "MSQ",
@@ -776,7 +776,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutors?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"INSTRUCTORS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutors?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"INSTRUCTORS\",\"otherEnabled\":false}"
       },
       "questionNumber": 18,
       "questionType": "MSQ",
@@ -1026,7 +1026,7 @@
       "courseId": "IFSubmitUiT.CS2104",
       "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":2,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 3,
       "questionType": "MSQ",
