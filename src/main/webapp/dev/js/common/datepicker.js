@@ -73,7 +73,7 @@ function prepareDatepickers() {
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: yesterday,
-        maxDate: today,
+        maxDate: $('#startdate').val(),
         onSelect() {
             const newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
