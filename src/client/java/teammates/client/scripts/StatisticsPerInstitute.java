@@ -167,7 +167,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
     private String getInstituteForStudent(
             CourseStudent student, List<Instructor> allInstructors, List<Account> allAccounts) {
-        
         courseIdToInstituteMap.computeIfAbsent(student.getCourseId(), key -> {
             List<Instructor> instructorList = getInstructorsOfCourse(allInstructors, student.getCourseId());
             return getInstituteForInstructors(instructorList, allAccounts);
