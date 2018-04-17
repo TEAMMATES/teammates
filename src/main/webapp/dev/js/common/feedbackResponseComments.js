@@ -172,9 +172,11 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     const responseCommentAddFormId = `responseCommentAddForm${id}`;
     const responseCommentEditor = tinymce.get(responseCommentAddFormId);
     if (responseCommentEditor === null) {
-        richTextEditorBuilder.initEditor(responseCommentAddFormId, {
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor(`#${responseCommentAddFormId}`, {
             inline: true,
         });
+        /* eslint-enable camelcase */
     } else {
         responseCommentEditor.setContent('');
     }
