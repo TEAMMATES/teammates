@@ -71,7 +71,7 @@ public class InstructorCourseRemindAction extends Action {
 
             if (isRequestedFromPage(previousPage, Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else if (isRequestedFromPage(previousPage, Const.PageNames.INSTRUCTOR_STUDENT_LIST_PAGE)) {
+            } else {
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
             }
         } else if (isSendingToInstructor) {
