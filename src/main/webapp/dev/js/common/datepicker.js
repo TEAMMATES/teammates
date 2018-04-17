@@ -85,7 +85,9 @@ function prepareDatepickers() {
             if (startDate.val() === currentVisibleDate.val()) {
                 const startTime = $('#starttime');
                 const visibleTime = $('#visibletime');
-                visibleTime.val(startTime.val());
+                if (startTime.val() < visibleTime.val()) { // the visible time should be before the start time
+                    visibleTime.val(startTime.val());
+                }
             }
         },
     });
