@@ -701,7 +701,7 @@
       "courseId": "CFResultsUiT.CS2104",
       "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":4,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 8,
       "questionType": "MSQ",
