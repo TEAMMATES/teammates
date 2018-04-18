@@ -167,6 +167,11 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         }
 
         public FeedbackResponseAttributes build() {
+            if (feedbackResponseAttributes.getId() == null) {
+                feedbackResponseAttributes.setId(feedbackResponseAttributes.feedbackQuestionId
+                        + "%" + feedbackResponseAttributes.giver
+                        + "%" + feedbackResponseAttributes.recipient);
+            }
             return feedbackResponseAttributes;
         }
     }

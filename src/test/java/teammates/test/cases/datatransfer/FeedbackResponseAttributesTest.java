@@ -58,7 +58,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         FeedbackResponseAttributes observedFeedbackResponseAttributes =
                 FeedbackResponseAttributes.builder().build();
 
-        assertNull(observedFeedbackResponseAttributes.getId());
+        assertEquals("null%null%null", observedFeedbackResponseAttributes.getId());
         assertNull(observedFeedbackResponseAttributes.feedbackSessionName);
         assertNull(observedFeedbackResponseAttributes.courseId);
         assertNull(observedFeedbackResponseAttributes.feedbackQuestionId);
@@ -87,12 +87,11 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         String expectedGiverSection = Const.DEFAULT_SECTION;
         String expectedRecipientSection = Const.DEFAULT_SECTION;
         Text expectedResponseMetaData = new Text("dummy meta data");
-        String expectedId = "dummyId";
+        String expectedId = expectedQuestionId + "%" + expectedGiver + "%" + expectedRecipient;
         Instant expectedCreatedAt = Instant.now();
         Instant expectedUpdatedAt = Instant.now();
 
         FeedbackResponseAttributes observedFeedbackResponseAttributes = FeedbackResponseAttributes.builder()
-                .withFeedbackResponseId(expectedId)
                 .withFeedbackSessionName(expectedSessionName)
                 .withCourseId(expectedCourseId)
                 .withFeedbackQuestionId(expectedQuestionId)
@@ -122,17 +121,13 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
 
     @Test
     public void builder_testBuilderCopy_valuesCopied() {
-        String originalGiver = "giver";
-        String originalRecipient = "recipient";
-        String originalQuestionId = "someQuestionId";
         FeedbackResponseAttributes original = FeedbackResponseAttributes.builder()
-                .withFeedbackResponseId("originalId")
                 .withFeedbackSessionName("originalName")
                 .withCourseId("originalCourseId")
-                .withFeedbackQuestionId(originalQuestionId)
+                .withFeedbackQuestionId("originalQuestionId")
                 .withFeedbackQuestionType(FeedbackQuestionType.TEXT)
-                .withGiver(originalGiver)
-                .withRecipient(originalRecipient)
+                .withGiver("originalGiver")
+                .withRecipient("originalRecipient")
                 .withResponseMetaData(new Text("original meta data"))
                 .withCreatedAt(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
                 .withUpdatedAt(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)

@@ -312,7 +312,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         if (questionDetails.isQuestionSkipped(answer)) {
             return FeedbackResponseAttributes.builder()
-                    .withFeedbackResponseId(extractFeedbackResponseId(questionIndx, responseIndx))
                     .withFeedbackSessionName(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME))
                     .withCourseId(getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID))
                     .withFeedbackQuestionId(extractFeedbackResponseQuestionId(questionIndx, feedbackQuestionAttributes))
@@ -327,7 +326,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                                   questionDetails, requestParameters,
                                                                   questionIndx, responseIndx);
             return FeedbackResponseAttributes.builder()
-                    .withFeedbackResponseId(extractFeedbackResponseId(questionIndx, responseIndx))
                     .withFeedbackSessionName(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME))
                     .withCourseId(getRequestParamValue(Const.ParamsNames.COURSE_ID))
                     .withFeedbackQuestionId(extractFeedbackResponseQuestionId(questionIndx, feedbackQuestionAttributes))
@@ -368,12 +366,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             recipientSection = getUserSectionForCourse();
         }
         return recipientSection;
-    }
-
-    private String extractFeedbackResponseId(int questionIndx, int responseIndx) {
-        // This field can be null if the response is new
-        return getRequestParamValue(
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx);
     }
 
     /**

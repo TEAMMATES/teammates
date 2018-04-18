@@ -272,7 +272,6 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         fq = BackDoor.getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
 
         FeedbackResponseAttributes fr = FeedbackResponseAttributes.builder()
-                .withFeedbackResponseId(fq.getId() + "%" + student.email + "%" + student.email)
                 .withFeedbackSessionName(fq.feedbackSessionName)
                 .withCourseId(fq.courseId)
                 .withFeedbackQuestionId(fq.getId())
