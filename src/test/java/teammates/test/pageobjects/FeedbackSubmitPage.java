@@ -69,10 +69,9 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public WebElement getResponseTextElement(int qnNumber, int responseNumber, int responseSubNumber) {
-        WebElement element = browser.driver.findElement(
-                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
+        return browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                         + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
-        return element;
+
     }
 
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {
