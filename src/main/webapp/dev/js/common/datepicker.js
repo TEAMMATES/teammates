@@ -46,6 +46,8 @@ function prepareDatepickers() {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const dateFormatDddMyy = 'D, dd M, yy';
 
+    const defaultStartDate = $('#startdate').val() === '' ? today : $('#startdate').val();
+
     $('#startdate').datepicker({
         dateFormat: dateFormatDddMyy,
         showOtherMonths: true,
@@ -73,16 +75,16 @@ function prepareDatepickers() {
         showOtherMonths: true,
         gotoCurrent: true,
         defaultDate: yesterday,
-        maxDate: $('#startdate').val(),
+        maxDate: defaultStartDate,
         onSelect() {
             const newPublishDate = getMinDateForPublishDate($('#visibledate').datepicker('getDate'));
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
         },
         onClose() {
-            const startDate = $('#startdate');
+            const currentStartDate = $('#startdate');
             const currentVisibleDate = $('#visibledate');
 
-            if (startDate.val() === currentVisibleDate.val()) {
+            if (currentStartDate.val() === currentVisibleDate.val()) {
                 const startTime = $('#starttime');
                 const visibleTime = $('#visibletime');
                 // the visible time should be before the start time
