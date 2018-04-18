@@ -68,6 +68,13 @@ public class FeedbackSubmitPage extends AppPage {
         executeScript("$(arguments[0]).change();", element);
     }
 
+    public WebElement getResponseTextElement(int qnNumber, int responseNumber, int responseSubNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
+                        + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
+        return element;
+    }
+
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
@@ -114,6 +121,20 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement element = browser.driver.findElement(
                 By.id("constSumMessage-" + qnNumber + "-" + responseNumber));
         return element.getText();
+    }
+
+    public boolean isConstSumMinMessageDisplayed(int qnNumber, int responseNumber) {
+        WebElement constSumMinMessage = browser.driver.findElement(
+                By.id("constSumMinMessage-" + qnNumber + '-' + responseNumber)
+        );
+        return constSumMinMessage.isDisplayed();
+    }
+
+    public boolean isConstSumMaxMessageDisplayed(int qnNumber, int responseNumber) {
+        WebElement constSumMaxMessage = browser.driver.findElement(
+                By.id("constSumMaxMessage-" + qnNumber + '-' + responseNumber)
+        );
+        return constSumMaxMessage.isDisplayed();
     }
 
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName) {

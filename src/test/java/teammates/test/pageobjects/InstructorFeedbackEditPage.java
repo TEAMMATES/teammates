@@ -1424,6 +1424,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
 
+    public void fillConstSumMinOptionInput(int qnIndex, String minValue) {
+        WebElement constSumMinOptionInput = browser.driver.findElement(By.id("constSumPointsMin-" + qnIndex));
+        fillTextBox(constSumMinOptionInput, minValue);
+    }
+
+    public void fillConstSumMaxOptionInput(int qnIndex, String maxValue) {
+        WebElement constSumMaxOptionInput = browser.driver.findElement(By.id("constSumPointsMin-" + qnIndex));
+        fillTextBox(constSumMaxOptionInput, maxValue);
+    }
+
     public void fillConstSumOptionForNewQuestion(int optionIndex, String optionText) {
         fillConstSumOption(optionIndex, optionText, NEW_QUESTION_NUM);
     }
@@ -1461,6 +1471,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(
                 browser.driver.findElement(By.id("constSumDistributePointsSelect-" + questionNumber)),
                 distributePointsFor);
+    }
+
+    public void clickRequireMinCheckBox(int qnIndex) {
+        WebElement requireMinCheckBox = browser.driver.findElement(By.id("constSumPointsRequireMin-" + qnIndex));
+        click(requireMinCheckBox);
+    }
+
+    public void clickRequireMaxCheckBox(int qnIndex) {
+        WebElement requireMaxCheckBox = browser.driver.findElement(By.id("constSumPointsRequireMax-" + qnIndex));
+        click(requireMaxCheckBox);
     }
 
     public void clickAssignWeightsCheckbox(int qnIndex) {

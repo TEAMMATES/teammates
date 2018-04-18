@@ -528,16 +528,27 @@ function updateConstSumMessageQn(qnNum) {
     const minConstSum = inputForm.attr('min');
     const maxConstSum = inputForm.attr('max');
 
-    function checkAndDisplayMinMaxMessage(minMessageElement, maxMessageElement, pointsAllocated) {
-        if (minConstSum > 0 && pointsAllocated) {
-            minMessageElement.prop('hidden', pointsAllocated >= minConstSum);
+    function isMinPointsConstraintViolated(minMessageElement, pointsAllocated) {
+        if (minConstSum > 0 && pointsAllocated && pointsAllocated < minConstSum) {
+            return true;
         }
-
-        if (maxConstSum !== 'any' && pointsAllocated) {
-            maxMessageElement.prop('hidden', pointsAllocated <= maxConstSum);
-        }
+        return false;
     }
 
+    function isMaxPointsConstraintViolated(maxMessageElement, pointsAllocated) {
+        if (maxConstSum !== 'any' && pointsAllocated && pointsAllocated > maxConstSum) {
+            return true;
+        }
+        return false;
+    }
+
+    function displayOrHideMessage(messageElement, shouldDisplayElement) {
+        if (shouldDisplayElement) {
+            messageElement.show();
+        } else {
+            messageElement.hide();
+        }
+    }
     function checkAndDisplayMessage(messageElement) {
         let message = '';
 
@@ -625,17 +636,23 @@ function updateConstSumMessageQn(qnNum) {
         const $constSumMessageElement = $(`#constSumMessage-${qnNum}-${numOptions - 1}`);
         const $constSumMinMessageElement = $(`#constSumMinMessage-${qnNum}-${numOptions - 1}`);
         const $constSumMaxMessageElement = $(`#constSumMaxMessage-${qnNum}-${numOptions - 1}`);
+        let shouldDisplayMinMessage = false;
+        let shouldDisplayMaxMessage = false;
 
         for (let i = 0; i < numOptions; i += 1) {
             const pointsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(), 10);
-            checkAndDisplayMinMaxMessage($constSumMinMessageElement, $constSumMaxMessageElement, pointsAllocated);
-
+            shouldDisplayMinMessage = shouldDisplayMinMessage ||
+                    isMinPointsConstraintViolated($constSumMinMessageElement, pointsAllocated);
+            shouldDisplayMaxMessage = shouldDisplayMaxMessage ||
+                    isMaxPointsConstraintViolated($constSumMaxMessageElement, pointsAllocated);
             updateSumBasedOn(pointsAllocated);
         }
 
         remainingPoints = points - sum;
 
         checkAndDisplayMessage($constSumMessageElement);
+        displayOrHideMessage($constSumMinMessageElement, shouldDisplayMinMessage);
+        displayOrHideMessage($constSumMaxMessageElement, shouldDisplayMaxMessage);
     } else {
         for (let j = 0; j < numRecipients; j += 1) {
             sum = 0;
@@ -647,17 +664,23 @@ function updateConstSumMessageQn(qnNum) {
             const $constSumMsgElement = $(`#constSumMessage-${qnNum}-${j}`);
             const $constSumMinMessageElement = $(`#constSumMinMessage-${qnNum}-${j}`);
             const $constSumMaxMessageElement = $(`#constSumMaxMessage-${qnNum}-${j}`);
+            let shouldDisplayMinMessage = false;
+            let shouldDisplayMaxMessage = false;
 
             for (let k = 0; k < numOptions; k += 1) {
                 const ptsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${j}-${k}`).val(), 10);
-                checkAndDisplayMinMaxMessage($constSumMinMessageElement, $constSumMaxMessageElement, ptsAllocated);
-
+                shouldDisplayMinMessage = shouldDisplayMinMessage ||
+                        isMinPointsConstraintViolated($constSumMinMessageElement, ptsAllocated);
+                shouldDisplayMaxMessage = shouldDisplayMaxMessage ||
+                        isMaxPointsConstraintViolated($constSumMaxMessageElement, ptsAllocated);
                 updateSumBasedOn(ptsAllocated);
             }
 
             remainingPoints = points - sum;
 
             checkAndDisplayMessage($constSumMsgElement);
+            displayOrHideMessage($constSumMinMessageElement, shouldDisplayMinMessage);
+            displayOrHideMessage($constSumMaxMessageElement, shouldDisplayMaxMessage);
         }
     }
 }

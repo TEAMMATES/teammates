@@ -761,7 +761,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
+        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"minPointsConstraint\":5,\"maxPointsConstraint\":95,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
       },
       "questionNumber": 19,
       "questionType": "CONSTSUM",

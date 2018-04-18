@@ -233,6 +233,35 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
+
+        ______TS("CONST SUM: edit to require min");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertFalse(feedbackEditPage.isElementEnabled("constSumPointsMin-1"));
+
+        feedbackEditPage.clickRequireMinCheckBox(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumPointsMin-1"));
+
+        feedbackEditPage.fillConstSumMinOptionInput(1, "20");
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        ______TS("CONST SUM: edit to require max");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertFalse(feedbackEditPage.isElementEnabled("constSumPointsMax-1"));
+
+        feedbackEditPage.clickRequireMaxCheckBox(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumPointsMax-1"));
+
+        feedbackEditPage.fillConstSumMaxOptionInput(1, "80");
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
     }
 
     @Override
