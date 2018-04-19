@@ -843,9 +843,25 @@
       <div id="session-cannot-submit-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            Please ask the student to contact us with the details.
-            <br> The ability for instructors to submit on behalf of a student is coming soon.
+            Instructors can submit responses on behalf of a student. To do so:
           </p>
+          <ol>
+            <li>
+              Ask the student to view the submission page and send you his/her answers to the session questions.
+            </li>
+            <li>
+              <a class="collapse-link" data-target="#session-view-results-body" href="#session-view-results">View the results</a> of the session.
+            </li>
+            <li>
+              Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
+            </li>
+            <li>
+              Click the <button class="btn btn-xs btn-default">Submit Responses</button> button of the corresponding student. You will be directed to a page where you can submit responses on behalf of the student.
+            </li>
+            <li>
+              Copy the student's responses to the corresponding questions, and click the <button class="btn btn-primary btn-s">Submit Feedback</button> button.
+            </li>
+          </ol>
         </div>
       </div>
     </div>
