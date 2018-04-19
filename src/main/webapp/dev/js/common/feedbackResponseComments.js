@@ -220,11 +220,9 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
         if (tinymce.get(`responsecommenttext${id}`)) {
             return;
         }
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor(`#responsecommenttext${id}`, {
             inline: true,
         });
-        /* eslint-enable camelcase */
     }
 }
 
