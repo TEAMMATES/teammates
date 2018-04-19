@@ -96,6 +96,8 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         assertEquals("", questionBundle1.getQuestionDetails().getAdditionalInfo());
         assertEquals("", questionBundle2.getQuestionDetails().getAdditionalInfo());
 
+        ______TS("giver & receiver in self/others response tables");
+
         assertNotNull(questionBundle1.getSelfResponseTables());
         assertNotNull(questionBundle1.getOthersResponseTables());
         assertNotNull(questionBundle2.getSelfResponseTables());
