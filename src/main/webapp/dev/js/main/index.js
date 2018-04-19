@@ -62,8 +62,8 @@ function loopTestimonials() {
 // Setting submission count at page load
 $('document').ready(() => {
     // Parameters for the estimation calculation
-    const baseDate = new Date('Nov 12, 2017 20:00:00'); // The date the parameters were adjusted
-    const baseCount = 7900000; // The submission count on the above date
+    const baseDate = new Date('Apr 8, 2018 00:00:00'); // The date the parameters were adjusted
+    const baseCount = 10000000; // The submission count on the above date
     const submissionPerHour = 128; // The rate at which the submission count is growing
 
     // set the submission count in the page

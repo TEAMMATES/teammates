@@ -41,7 +41,7 @@
         There are no questions for you to answer here!
       </c:when>
       <c:otherwise>
-        <input type="checkbox" name="sendsubmissionemail">
+        <input type="checkbox" name="sendsubmissionemail" ${data.isResponsePresent ? "" : "checked"}>
         Send me a confirmation email
         <button type="submit" class="btn btn-primary center-block margin-top-7px"
             id="response_submit_button" data-toggle="tooltip"
