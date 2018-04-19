@@ -420,7 +420,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"C\",\"C++\",\"Java\",\"Python\"],\"questionText\":\"Which programming languages do you know?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":4,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"C\",\"C++\",\"Java\",\"Python\"],\"questionText\":\"Which programming languages do you know?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 6,
       "questionType": "MSQ",

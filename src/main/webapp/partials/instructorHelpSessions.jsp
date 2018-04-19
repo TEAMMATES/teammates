@@ -1568,7 +1568,6 @@
                                     <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS" checked="">
                                   </td>
                                 </tr>
-
                                 </tbody>
                               </table>
                             </div>

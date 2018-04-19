@@ -120,7 +120,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.name), actualAccount.name);
-        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.email), actualAccount.email);
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.institute), actualAccount.institute);
         expectedAccount.studentProfile.sanitizeForSaving();
         assertEquals(expectedAccount.studentProfile.toString(), actualAccount.studentProfile.toString());
