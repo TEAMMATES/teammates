@@ -77,7 +77,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         FeedbackQuestionsDb db = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
-        FeedbackQuestion qn = db.createEntity(fqa);
+        FeedbackQuestion qn = db.createEntityWithoutExistenceCheck(fqa);
 
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.valueOf(qn);
 
@@ -179,39 +179,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .build();
 
         assertEquals(new Text("content to be sanitized by removing leading/trailing whitespace"),
-                feedbackQuestionAttributes.getQuestionDescription());
-
-        ______TS("sanitize code block");
-
-        Text codeblock = new Text("<code>System.out.println(\"Hello World\");</code>");
-        feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
-                .withQuestionMetaData(new Text("test qn from teams->none."))
-                .withQuestionDescription(codeblock)
-                .build();
-
-        assertEquals(new Text("<code>System.out.println(&#34;Hello World&#34;);</code>"),
-                feedbackQuestionAttributes.getQuestionDescription());
-
-        ______TS("sanitize superscript");
-
-        Text superscript = new Text("f(x) = x<sup>2</sup>");
-
-        feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
-                .withQuestionMetaData(new Text("test qn from teams->none."))
-                .withQuestionDescription(superscript)
-                .build();
-
-        assertEquals(new Text("f(x) &#61; x<sup>2</sup>"), feedbackQuestionAttributes.getQuestionDescription());
-
-        ______TS("sanitize chemical formula");
-
-        Text chemicalFormula = new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>");
-        feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
-                .withQuestionMetaData(new Text("test qn from teams->none."))
-                .withQuestionDescription(chemicalFormula)
-                .build();
-
-        assertEquals(new Text("<p>Chemical formula: C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>"),
                 feedbackQuestionAttributes.getQuestionDescription());
     }
 

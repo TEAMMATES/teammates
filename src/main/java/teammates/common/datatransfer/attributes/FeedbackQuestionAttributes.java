@@ -202,9 +202,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         public FeedbackQuestionAttributes build() {
             feedbackQuestionAttributes.questionDescription =
                     SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
-            if (feedbackQuestionAttributes.recipientType != null) {
-                feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
-            }
+            feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
 
             return feedbackQuestionAttributes;
         }
@@ -614,37 +612,49 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public void removeIrrelevantVisibilityOptions() {
         List<FeedbackParticipantType> optionsToRemove = new ArrayList<>();
 
-        switch (recipientType) {
-        case NONE:
-            optionsToRemove.add(FeedbackParticipantType.RECEIVER);
-            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-            break;
-        case TEAMS:
-        case INSTRUCTORS:
-        case OWN_TEAM:
-        case OWN_TEAM_MEMBERS:
-            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-            break;
-        default:
-            break;
+        if (recipientType != null) {
+            switch (recipientType) {
+            case NONE:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER);
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
+            case TEAMS:
+            case INSTRUCTORS:
+            case OWN_TEAM:
+            case OWN_TEAM_MEMBERS:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
+            default:
+                break;
+            }
         }
 
-        switch (giverType) {
-        case TEAMS:
-        case INSTRUCTORS:
-            optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-            break;
-        default:
-            break;
+        if (giverType != null) {
+            switch (giverType) {
+            case TEAMS:
+            case INSTRUCTORS:
+                optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                break;
+            default:
+                break;
+            }
         }
 
         removeVisibilities(optionsToRemove);
     }
 
     private void removeVisibilities(List<FeedbackParticipantType> optionsToRemove) {
-        showResponsesTo.removeAll(optionsToRemove);
-        showGiverNameTo.removeAll(optionsToRemove);
-        showRecipientNameTo.removeAll(optionsToRemove);
+        if (showRecipientNameTo != null) {
+            showResponsesTo.removeAll(optionsToRemove);
+        }
+
+        if (showGiverNameTo != null) {
+            showGiverNameTo.removeAll(optionsToRemove);
+        }
+
+        if (showRecipientNameTo != null) {
+            showRecipientNameTo.removeAll(optionsToRemove);
+        }
     }
 
     @Override
