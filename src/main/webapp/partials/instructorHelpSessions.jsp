@@ -2,6 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <h2 class="text-color-primary" id="sessions">Sessions</h2>
 <div id="contentHolder">
+  <h3>Setting Up Sessions</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="session-tips">
       <div class="panel-heading">
@@ -12,28 +13,6 @@
       <div id="session-tips-body" class="panel-collapse collapse">
         <div class="panel-body">
           <jsp:include page="instructorHelpTips.jsp"/>
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default" id="session-setup">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-setup-body">How do I set up a feedback session?</a>
-        </h3>
-      </div>
-      <div id="session-setup-body" class="panel-collapse collapse">
-        <div class="panel-body">
-          <p>
-            To quickly set up a feedback session, follow the following steps:
-          </p>
-          <ol>
-            <li><a class="collapse-link" data-target="#session-create-body" href="#session-create">Create and schedule a new session</a></li>
-            <li><a class="collapse-link" data-target="#session-questions-body" href="#session-questions">Add questions to the session</a></li>
-            <li><a class="collapse-link" data-target="#session-preview-body" href="#session-preview">Preview the session</a></li>
-          </ol>
-          <p>
-            TEAMMATES will automatically open the session at your specified session start time.
-          </p>
         </div>
       </div>
     </div>
@@ -834,6 +813,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <h3>Managing Sessions</h3>
+  <div class="panel-group">
     <div class="panel panel-default" id="session-cannot-submit">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -1451,6 +1433,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <h3>Adding Comments to Responses</h3>
+  <div class="panel-group">
     <div class="panel panel-default" id="session-add-comments">
       <div class="panel-heading">
         <h3 class="panel-title">

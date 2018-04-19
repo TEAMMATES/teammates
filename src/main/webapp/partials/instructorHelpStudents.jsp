@@ -2,6 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <h2 class="text-color-primary" id="students">Students</h2>
 <div id="contentHolder">
+  <h3>Student Records</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="student-view-profile">
       <div class="panel-heading">
@@ -250,6 +251,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <h3>Finding Students</h3>
+  <div class="panel-group">
     <div class="panel panel-default" id="student-search">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -572,6 +576,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <h3>Student Accounts</h3>
+  <div class="panel-group">
     <div class="panel panel-default" id="student-google-account">
       <div class="panel-heading">
         <h3 class="panel-title">

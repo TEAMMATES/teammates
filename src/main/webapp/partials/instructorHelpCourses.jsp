@@ -2,7 +2,33 @@
 <%@ page pageEncoding="UTF-8" %>
 <h2 class="text-color-primary" id="courses">Courses</h2>
 <div id="contentHolder">
+  <h3>Enrolling Students in Courses</h3>
   <div class="panel-group">
+    <div class="panel panel-default" id="course-add-students">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#course-add-students-body">How do I add students to a course?</a>
+        </h3>
+      </div>
+      <div id="course-add-students-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            There are two ways to enroll students in a course.
+          </p>
+          <p>
+            To enroll students in a course:
+          </p>
+          <ul>
+            <li>
+              From the <b>Home</b> page, click on the <button class="btn btn-primary btn-xs">Students</button> button of the corresponding course, and choose <b>Enroll</b>.
+            </li>
+            <li>
+              From the <b>Courses</b> page, click on the <button class="btn btn-default btn-xs">Enroll</button> button of the corresponding course.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div class="panel panel-default" id="course-size">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -33,97 +59,44 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-add-students">
+    <div class="panel panel-default" id="course-sections">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-add-students-body">How do I add students to a course?</a>
+          <a data-toggle="collapse" href="#course-sections-body">What are sections meant for?</a>
         </h3>
       </div>
-      <div id="course-add-students-body" class="panel-collapse collapse">
+      <div id="course-sections-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            There are two ways to enroll students in a course.
+            Sections are used to organize students in courses with significantly large numbers of students.
+            It is mandatory for courses with more than 100 students to organize students into sections.
+            Courses with less than 100 students do not need to be split into sections.
           </p>
           <p>
-            To enroll students in a course:
-          </p>
-          <ul>
-            <li>
-              From the <b>Home</b> page, click on the <button class="btn btn-primary btn-xs">Students</button> button of the corresponding course, and choose <b>Enroll</b>.
-            </li>
-            <li>
-              From the <b>Courses</b> page, click on the <button class="btn btn-default btn-xs">Enroll</button> button of the corresponding course.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default" id="course-view-students">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-view-students-body">How do I view a list of students in a course?</a>
-        </h3>
-      </div>
-      <div id="course-view-students-body" class="panel-collapse collapse">
-        <div class="panel-body">
-          <p>
-            There are two ways to access the list of students in a course.
-          </p>
-          <p>
-            To view the list of students in Course A:
-          </p>
-          <ul>
-            <li>
-              From the <b>Home</b> page, find the panel corresponding to Course A. On the right hand side, click <button class="btn btn-primary btn-xs">Students <span class="caret dropdown-toggle"></span></button>
-              and then select <b>View/Edit</b>.
-            </li>
-            <li>
-              From the <b>Courses</b> page, click <button class="btn btn-default btn-xs">View</button> button of the row corresponding to Course A.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default" id="course-delete-students">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-delete-students-body">How do I delete students from a course?</a>
-        </h3>
-      </div>
-      <div id="course-delete-students-body" class="panel-collapse collapse">
-        <div class="panel-body">
-          <p>
-            To remove Student A from Course B:
-          </p>
-          <ol>
-            <li>
-              <a class="collapse-link" data-target="#course-view-students-body" href="#course-view-students">View the student list</a> of Course B.
-            </li>
-            <li>
-              In the row corresponding to Student A, click the <button class="btn btn-default btn-xs">Delete</button> button.
-            </li>
-            <li>
-              Click <b>OK</b> to confirm that you would like to delete Student A from Course B.
-            </li>
-           </ol>
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default" id="course-disappear">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-disappear-body">What should I do if a student says his/her courses have disappeared from the system?</a>
-        </h3>
-      </div>
-      <div id="course-disappear-body" class="panel-collapse collapse">
-        <div class="panel-body">
-          <p>
-            The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID. Please ask the student to email
-            <a href="mailto:teammates@comp.nus.edu.sg">teammates@comp.nus.edu.sg</a> so that we help to rectify the problem.
+            Section information is used to paginate the downloadable report of a session's results.
+            When you download the results of a session as an Excel spreadsheet, each section will be given its own page in the file.
           </p>
         </div>
       </div>
     </div>
+    <div class="panel panel-default" id="course-enroll-sections">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#course-enroll-sections-body">How do I enroll students into sections?</a>
+        </h3>
+      </div>
+      <div id="course-enroll-sections-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            To specify a section for each student at the time of enrollment, include a <b>Section</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
+            To view more information, go to the <b>Courses</b> page, click on the <button class="btn btn-default btn-xs" type="button">Enroll</button> button for any course and scroll down to the <b>More Info</b> section.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3>Adding Instructors to Courses</h3>
+  <div class="panel-group">
     <div class="panel panel-default" id="course-add-instructor">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -635,38 +608,32 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="course-sections">
+  </div>
+  <h3>Managing Courses</h3>
+  <div class="panel-group">
+    <div class="panel panel-default" id="course-view-students">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-sections-body">What are sections meant for?</a>
+          <a data-toggle="collapse" href="#course-view-students-body">How do I view a list of students in a course?</a>
         </h3>
       </div>
-      <div id="course-sections-body" class="panel-collapse collapse">
+      <div id="course-view-students-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            Sections are used to organize students in courses with significantly large numbers of students.
-            It is mandatory for courses with more than 100 students to organize students into sections.
-            Courses with less than 100 students do not need to be split into sections.
+            There are two ways to access the list of students in a course.
           </p>
           <p>
-            Section information is used to paginate the downloadable report of a session's results.
-            When you download the results of a session as an Excel spreadsheet, each section will be given its own page in the file.
+            To view the list of students in Course A:
           </p>
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default" id="course-enroll-sections">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-enroll-sections-body">How do I enroll students into sections?</a>
-        </h3>
-      </div>
-      <div id="course-enroll-sections-body" class="panel-collapse collapse">
-        <div class="panel-body">
-          <p>
-            To specify a section for each student at the time of enrollment, include a <b>Section</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
-            To view more information, go to the <b>Courses</b> page, click on the <button class="btn btn-default btn-xs" type="button">Enroll</button> button for any course and scroll down to the <b>More Info</b> section.
-          </p>
+          <ul>
+            <li>
+              From the <b>Home</b> page, find the panel corresponding to Course A. On the right hand side, click <button class="btn btn-primary btn-xs">Students <span class="caret dropdown-toggle"></span></button>
+              and then select <b>View/Edit</b>.
+            </li>
+            <li>
+              From the <b>Courses</b> page, click <button class="btn btn-default btn-xs">View</button> button of the row corresponding to Course A.
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -699,6 +666,49 @@
         </div>
       </div>
     </div>
+    <div class="panel panel-default" id="course-disappear">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#course-disappear-body">What should I do if a student says his/her courses have disappeared from the system?</a>
+        </h3>
+      </div>
+      <div id="course-disappear-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID. Please ask the student to email
+            <a href="mailto:teammates@comp.nus.edu.sg">teammates@comp.nus.edu.sg</a> so that we help to rectify the problem.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" id="course-delete-students">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#course-delete-students-body">How do I delete students from a course?</a>
+        </h3>
+      </div>
+      <div id="course-delete-students-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            To remove Student A from Course B:
+          </p>
+          <ol>
+            <li>
+              <a class="collapse-link" data-target="#course-view-students-body" href="#course-view-students">View the student list</a> of Course B.
+            </li>
+            <li>
+              In the row corresponding to Student A, click the <button class="btn btn-default btn-xs">Delete</button> button.
+            </li>
+            <li>
+              Click <b>OK</b> to confirm that you would like to delete Student A from Course B.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3>Archiving Courses</h3>
+  <div class="panel-group">
     <div class="panel panel-default" id="course-archive">
       <div class="panel-heading">
         <h3 class="panel-title">
