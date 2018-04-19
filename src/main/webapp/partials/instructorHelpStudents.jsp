@@ -550,6 +550,28 @@
         </div>
       </div>
     </div>
+    <div class="panel panel-default" id="student-email">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <a data-toggle="collapse" href="#student-email-body">How do I email a student or students in my course?</a>
+        </h3>
+      </div>
+      <div id="student-email-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <ol>
+            <li>
+              On the <b>Students</b> page, filter out the selected student/students.
+            </li>
+            <li>
+              Click <button class="btn btn-xs btn-default">Copy Emails</button> to copy their email addresses to your clipboard
+            </li>
+            <li>
+              Use your preferred email provider to email the students
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
     <div class="panel panel-default" id="student-google-account">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -582,7 +604,10 @@
       </div>
     </div>
   </div>
-</div>
-<p align="right">
+  <p align="right">
     <a href="#Top">Back to Top</a>
   </p>
+  <div class="separate-content-holder">
+    <hr>
+  </div>
+</div>
