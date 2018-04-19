@@ -64,6 +64,8 @@
 
     <section class="row">
       <h3>Contributors</h3>
+      <h4>Major contributions:</h4>
+      <ol id="contributors-major"></ol>
       <h4>Multiple contributions:</h4>
       <ol id="contributors-multiple"></ol>
       <h4>One-time contributions:</h4>

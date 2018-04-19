@@ -5,11 +5,10 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -895,8 +894,7 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     private boolean areDatesOfPreviousCurrentAndNextMonthEnabled(WebElement dateBox) throws ParseException {
 
-        Calendar previousMonth = Calendar.getInstance();
-        previousMonth.add(Calendar.MONTH, -1);
+        LocalDate previousMonth = LocalDate.now().minusMonths(1);
 
         // Navigate to the previous month
         if (!navigate(dateBox, previousMonth)) {
@@ -930,25 +928,19 @@ public class InstructorFeedbackEditPage extends AppPage {
      * Navigate the datepicker associated with {@code dateBox} to the specified {@code date}.
      *
      * @param dateBox is a {@link WebElement} that triggers a datepicker
-     * @param date is a {@link Calendar} that specifies the date that needs to be navigated to
+     * @param date is a {@link LocalDate} that specifies the date that needs to be navigated to
      * @return true if navigated to the {@code date} successfully, otherwise
      *         false
      * @throws ParseException if the string in {@code dateBox} cannot be parsed
      */
-    private boolean navigate(WebElement dateBox, Calendar date) throws ParseException {
+    private boolean navigate(WebElement dateBox, LocalDate date) throws ParseException {
 
         click(dateBox);
+        LocalDate selectedDate = TimeHelper.parseLocalDateForSessionsForm(dateBox.getAttribute("value"));
+        String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        String year = Integer.toString(date.getYear());
 
-        Calendar selectedDate = Calendar.getInstance();
-
-        String month = date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
-        String year = Integer.toString(date.get(Calendar.YEAR));
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM, yyyy");
-
-        selectedDate.setTime(dateFormat.parse(dateBox.getAttribute("value")));
-
-        if (selectedDate.after(date)) {
+        if (selectedDate.isAfter(date)) {
 
             while (!getDatepickerMonth().equals(month) || !getDatepickerYear().equals(year)) {
 
@@ -1133,16 +1125,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         enableOtherFeedbackPathOptions(NEW_QUESTION_NUM);
     }
 
-    public void selectTimeZone(ZoneId timeZone) {
-        selectDropdownByActualValue(timezoneDropDown, timeZone.getId());
-    }
-
-    public void editFeedbackSession(
-            LocalDateTime startTime, LocalDateTime endTime, ZoneId timeZone, Text instructions, long gracePeriod) {
-        selectTimeZone(timeZone);
-        editFeedbackSession(startTime, endTime, instructions, gracePeriod);
-    }
-
     public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, Text instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
@@ -1293,11 +1275,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.id(id)).isSelected();
     }
 
-    private WebElement getMsqMaxSelectableChoicesBox(int qnNumber) {
+    public WebElement getMsqMaxSelectableChoicesBox(int qnNumber) {
         return browser.driver.findElement(By.id(getMsqMaxSelectableChoicesBoxId(qnNumber)));
     }
 
-    private WebElement getMsqMinSelectableChoicesBox(int qnNumber) {
+    public WebElement getMsqMinSelectableChoicesBox(int qnNumber) {
         return browser.driver.findElement(By.id(getMsqMinSelectableChoicesBoxId(qnNumber)));
     }
 
@@ -1317,22 +1299,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         return Integer.parseInt(getMsqMinSelectableChoicesBox(qnNumber).getAttribute("max"));
     }
 
-    public void setMsqMinSelectableChoices(int qnNumber, int value) {
-        assertTrue(isMsqMinSelectableChoicesEnabled(qnNumber));
-
+    public void fillMsqMinSelectableChoices(int qnNumber, String value) {
         WebElement inputBox = getMsqMinSelectableChoicesBox(qnNumber);
-        String id = inputBox.getAttribute("id");
+        fillTextBox(inputBox, value);
 
-        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+        executeScript("$(arguments[0]).change();", inputBox);
     }
 
-    public void setMsqMaxSelectableChoices(int qnNumber, int value) {
-        assertTrue(isMsqMaxSelectableChoicesEnabled(qnNumber));
-
+    public void fillMsqMaxSelectableChoices(int qnNumber, String value) {
         WebElement inputBox = getMsqMaxSelectableChoicesBox(qnNumber);
-        String id = inputBox.getAttribute("id");
+        fillTextBox(inputBox, value);
 
-        executeScript(String.format("$('#%s').val(%d);$('#%s').change();", id, value, id));
+        executeScript("$(arguments[0]).change();", inputBox);
     }
 
     public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
@@ -1469,6 +1447,20 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void clickRemoveConstSumOptionLinkForNewQuestion(int optionIndex) {
         clickRemoveConstSumOptionLink(optionIndex, NEW_QUESTION_NUM);
+    }
+
+    public void clickDistributePointsOptionsCheckbox(int qnIndex) {
+        String idSuffix = getIdSuffix(qnIndex);
+
+        WebElement distributePointsOptionsCheckbox =
+                browser.driver.findElement(By.id("constSum_UnevenDistribution" + idSuffix));
+        click(distributePointsOptionsCheckbox);
+    }
+
+    public void selectConstSumDistributePointsOptions(String distributePointsFor, int questionNumber) {
+        selectDropdownByVisibleValue(
+                browser.driver.findElement(By.id("constSumDistributePointsSelect-" + questionNumber)),
+                distributePointsFor);
     }
 
     public void clickAssignWeightsCheckbox(int qnIndex) {

@@ -65,6 +65,20 @@ public class InstructorSearchPage extends AppPage {
         return this;
     }
 
+    public InstructorSearchPage clickDeleteAndCancel(String courseId, String studentName) {
+        String rowId = getStudentRowId(courseId, studentName);
+        click(getDeleteLink(rowId));
+        waitForConfirmationModalAndClickCancel();
+        return this;
+    }
+
+    public InstructorSearchPage clickDeleteAndConfirm(String courseId, String studentName) {
+        String rowId = getStudentRowId(courseId, studentName);
+        click(getDeleteLink(rowId));
+        waitForConfirmationModalAndClickOk();
+        return this;
+    }
+
     private WebElement getSearchBox() {
         return browser.driver.findElement(By.id("searchBox"));
     }
@@ -130,6 +144,16 @@ public class InstructorSearchPage extends AppPage {
             return fourthLink;
         }
         return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
+    }
+
+    private WebElement getDeleteLink(String rowId) {
+        WebElement studentRow = browser.driver.findElement(By.id("student-c" + rowId));
+        WebElement thirdLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(3)"));
+
+        if ("Delete".equals(thirdLink.getText())) {
+            return thirdLink;
+        }
+        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
     }
 
     public void clickAndHoverPicture(String cellId) {

@@ -3,6 +3,10 @@ package teammates.test.driver;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 /**
  * Holds additional methods for {@link teammates.common.util.TimeHelper} used only in tests.
@@ -61,4 +65,27 @@ public final class TimeHelperExtension {
     public static Instant getInstantHoursOffsetFromNow(long offsetInHours) {
         return Instant.now().plus(Duration.ofHours(offsetInHours));
     }
+
+    /**
+     * Returns an java.time.Instant object that is offset by a number of days from now,
+     * and adjusted to the start of the day in admin's time zone.
+     * @param dayOffset number of days offset by (integer).
+     * @return          java.time.Instant with appropriate offset from now
+     */
+    public static Instant getBeginOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
+        return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE)
+                .toLocalDate().atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE).toInstant();
+    }
+
+    /**
+     * Returns an java.time.Instant object that is offset by a number of days from now,
+     * and adjusted to the end of the day in admin's time zone.
+     * @param dayOffset number of days offset by (integer).
+     * @return          java.time.Instant with appropriate offset from now
+     */
+    public static Instant getEndOfTheDayOffsetNowInAdminTimeZone(int dayOffset) {
+        return TimeHelper.getInstantDaysOffsetFromNow(dayOffset).atZone(Const.SystemParams.ADMIN_TIME_ZONE)
+                .toLocalDate().atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE).toInstant();
+    }
+
 }

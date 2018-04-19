@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorSearchPage;
@@ -45,6 +46,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         testViewAction();
         testEditAction();
         testAllRecordsAction();
+        testDeleteAction();
 
         testSanitization();
 
@@ -175,7 +177,27 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
+    private void testDeleteAction() {
+
+        ______TS("action: delete");
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String studentEmail = testData.students.get("student2.2InCourse1").email;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickDeleteAndCancel(courseId, studentName);
+        assertNotNull(BackDoor.getStudent(courseId, studentEmail));
+
+        searchPage.clickDeleteAndConfirm(courseId, studentName);
+        InstructorCourseDetailsPage courseDetailsPage = searchPage.changePageType(InstructorCourseDetailsPage.class);
+        courseDetailsPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_DELETED);
+        assertNull(BackDoor.getStudent(courseId, studentEmail));
+    }
+
     private void testSanitization() throws IOException {
+
+        ______TS("action: test sanitization");
+
         String instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
         searchPage = getInstructorSearchPage(instructorId);
 
