@@ -15,7 +15,7 @@ import teammates.common.exception.TeammatesException;
  */
 public final class Config {
 
-    /** The value of the application URL. */
+    /** The value of the application URL, or null if no server instance is running. */
     public static final String APP_URL;
 
     /** The value of the "app.gcs.bucketname" in build.properties file. */
@@ -64,13 +64,7 @@ public final class Config {
     public static final String MAILJET_SECRETKEY;
 
     static {
-        String hostname = ApiProxy.getCurrentEnvironment().getAttributes()
-                .get("com.google.appengine.runtime.default_version_hostname").toString();
-        if (isDevServer()) {
-            APP_URL = "http://" + hostname;
-        } else {
-            APP_URL = "https://" + hostname;
-        }
+        APP_URL = readAppUrl();
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
@@ -114,12 +108,21 @@ public final class Config {
         return appVersion == null ? null : appVersion.split("\\.")[0].replace("-", ".");
     }
 
-    /**
-     * This method is not to be used by classes not compiled by GAE (e.g non-production codes).
-     * @return true if the system is running at development environment
-     */
-    public static boolean isDevServer() {
-        return SystemProperty.environment.value() == SystemProperty.Environment.Value.Development;
+    private static String readAppUrl() {
+        ApiProxy.Environment serverEnvironment = ApiProxy.getCurrentEnvironment();
+        if (serverEnvironment == null) {
+            return null;
+        }
+        String hostname = (String) serverEnvironment.getAttributes()
+                .get("com.google.appengine.runtime.default_version_hostname");
+        if (hostname == null) {
+            return null;
+        }
+        return (isDevServer() ? "http://" : "https://") + hostname;
+    }
+
+    private static boolean isDevServer() {
+        return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
     }
 
     /**
