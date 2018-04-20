@@ -1013,6 +1013,7 @@ public final class Const {
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
+        public static final String STUDENT_FEEDBACK_RESEND_LINKS = "/page/resendLinks";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";
         public static final String STUDENT_PROFILE_EDIT_SAVE = "/page/studentProfileEditSave";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";

@@ -1,28 +1,22 @@
 package teammates.ui.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-
 import teammates.common.exception.EmailSendingException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
+import teammates.ui.pagedata.FeedbackResendLinksPageData;
+import teammates.ui.pagedata.PageData;
 
-public class FeedbackAccessLinksResendServlet extends HttpServlet {
+public class FeedbackResendLinksAction extends Action {
 
     /**
      * This is a email regex to test whether the input is a valid email.
@@ -33,47 +27,39 @@ public class FeedbackAccessLinksResendServlet extends HttpServlet {
                     + "(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$", Pattern.CASE_INSENSITIVE);
     private static final Logger log = Logger.getLogger();
 
-    private EmailSender emailSender;
-    private StatusMessage statusMessage;
-
     @Override
-    public final void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        this.doPost(req, resp);
+    protected void authenticateUser() {
+        // This feature does not require to authenticate
     }
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected ActionResult execute() throws EntityDoesNotExistException {
         try {
-            Map<String, Object> map = new HashMap<>();
-            String userEmailToResend = req.getParameter(Const.ParamsNames.STUDENT_EMAIL);
-            boolean isValid = false;
+            String userEmailToResend = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+            Assumption.assertNotNull(userEmailToResend);
+            statusToAdmin = "Action Student Clicked Request Resending Links"
+                    + "<br>Email: " + userEmailToResend;
+            boolean isValid = isValidEmailAddress(userEmailToResend);
 
-            if (isValidEmailAddress(userEmailToResend)) {
-                isValid = true;
+            if (isValid) {
                 EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(userEmailToResend);
-                setEmailSender(new EmailSender());
                 emailSender.sendEmail(email);
-                statusMessage = new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT,
-                        StatusMessageColor.SUCCESS);
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT,
+                        StatusMessageColor.SUCCESS));
             } else {
-                statusMessage = new StatusMessage(Const.StatusMessages
-                        .FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL, StatusMessageColor.DANGER);
+                statusToUser.add(new StatusMessage(Const.StatusMessages
+                        .FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL, StatusMessageColor.DANGER));
             }
 
-            map.put("isValid", isValid);
-            map.put("message", statusMessage.getText());
+            PageData data = new FeedbackResendLinksPageData(account, sessionToken, isValid);
 
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
-            resp.getWriter().write(new Gson().toJson(map));
-        } catch (EmailSendingException | IOException e) {
+            return createAjaxResult(data);
+        } catch (EmailSendingException e) {
             log.severe("Email of feedback session links failed to send: "
                     + TeammatesException.toStringWithStackTrace(e));
         }
-    }
 
-    public void setEmailSender(EmailSender emailSender) {
-        this.emailSender = emailSender;
+        return null;
     }
 
     /**
@@ -85,5 +71,4 @@ public class FeedbackAccessLinksResendServlet extends HttpServlet {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailAddress);
         return matcher.find();
     }
-
 }

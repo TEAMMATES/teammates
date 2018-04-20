@@ -131,6 +131,8 @@ public class ActionFactory {
         map(CREATE_IMAGE_UPLOAD_URL, CreateImageUploadUrlAction.class);
         map(IMAGE_UPLOAD, ImageUploadAction.class);
 
+        map(STUDENT_FEEDBACK_RESEND_LINKS, FeedbackResendLinksAction.class);
+
         map(ERROR_FEEDBACK_SUBMIT, ErrorUserReportLogAction.class);
     }
 

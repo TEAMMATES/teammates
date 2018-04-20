@@ -45,15 +45,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>FeedbackAccessLinksResendServlet</servlet-name>
-        <servlet-class>teammates.ui.controller.FeedbackAccessLinksResendServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FeedbackAccessLinksResendServlet</servlet-name>
-        <url-pattern>/requestResendLinksResult</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>ResendAccessLinksServlet</servlet-name>
         <jsp-file>/requestResendLinks.jsp</jsp-file>
     </servlet>
