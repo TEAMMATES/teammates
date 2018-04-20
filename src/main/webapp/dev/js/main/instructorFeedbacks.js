@@ -49,7 +49,7 @@ import {
 
 import {
     countRemainingCharacterOfInput,
-} from '../common/updateCharLeft';
+} from '../common/countRemainingCharacterOfInput';
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;
