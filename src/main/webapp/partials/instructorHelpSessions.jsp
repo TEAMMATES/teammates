@@ -1,3 +1,4 @@
+<%@ page import="teammates.common.util.Config" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h4 class="text-color-primary" id="sessionTypes">Sessions</h4>
@@ -2022,7 +2023,7 @@
         all access links for the feedback sessions in which the student has participated in last six months will be sent to that email address.
       </p>
       <p>
-        The student can also go to the request page via url: https://teammatesv4.appspot.com/resendLinks.
+        The student can also go to the request page via url: <%= Config.TEAMMATE_RESEND_ACCESS_LINKS %>.
       </p>
       <div class="bs-example" id="requestResendLinks">
         <div class="well well-plain" id="RequestResendLinksTable">

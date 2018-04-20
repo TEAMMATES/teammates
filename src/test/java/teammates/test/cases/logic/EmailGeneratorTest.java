@@ -472,7 +472,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionResendEmail()
+    public void testGenerateFeedbackSessionEmail()
             throws InvalidParametersException, EntityDoesNotExistException, IOException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
