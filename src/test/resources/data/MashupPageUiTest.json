@@ -545,7 +545,7 @@
       "courseId": "CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like about our product?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"NONE\",\"numOfMsqChoices\":2,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like about our product?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"NONE\",\"otherEnabled\":false}"
       },
       "questionNumber": 6,
       "questionType": "MSQ",
@@ -576,7 +576,7 @@
       "courseId": "CS2104",
       "creatorEmail": "teammates.test@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Which team is good?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Which team is good?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
       },
       "questionNumber": 7,
       "questionType": "MSQ",
