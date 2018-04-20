@@ -455,7 +455,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
                 && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
