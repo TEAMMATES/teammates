@@ -239,7 +239,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickEditQuestionButton(1);
         assertFalse(feedbackEditPage.isElementEnabled("constSumPointsMin-1"));
 
-        feedbackEditPage.clickRequireMinCheckBox(1);
+        feedbackEditPage.clickHasMinPointsConstraintCheckBox(1);
         assertTrue(feedbackEditPage.isElementEnabled("constSumPointsMin-1"));
 
         feedbackEditPage.fillConstSumMinOptionInput(1, "20");
@@ -252,7 +252,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickEditQuestionButton(1);
         assertFalse(feedbackEditPage.isElementEnabled("constSumPointsMax-1"));
 
-        feedbackEditPage.clickRequireMaxCheckBox(1);
+        feedbackEditPage.clickHasMaxPointsConstraintCheckBox(1);
         assertTrue(feedbackEditPage.isElementEnabled("constSumPointsMax-1"));
 
         feedbackEditPage.fillConstSumMaxOptionInput(1, "80");

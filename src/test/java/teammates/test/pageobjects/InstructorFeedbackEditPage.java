@@ -1473,14 +1473,16 @@ public class InstructorFeedbackEditPage extends AppPage {
                 distributePointsFor);
     }
 
-    public void clickRequireMinCheckBox(int qnIndex) {
-        WebElement requireMinCheckBox = browser.driver.findElement(By.id("constSumPointsRequireMin-" + qnIndex));
-        click(requireMinCheckBox);
+    public void clickHasMinPointsConstraintCheckBox(int qnIndex) {
+        WebElement hasMinPointsConstraintCheckbox =
+                browser.driver.findElement(By.id("constSumPointsHasMinPointsConstraint-" + qnIndex));
+        click(hasMinPointsConstraintCheckbox);
     }
 
-    public void clickRequireMaxCheckBox(int qnIndex) {
-        WebElement requireMaxCheckBox = browser.driver.findElement(By.id("constSumPointsRequireMax-" + qnIndex));
-        click(requireMaxCheckBox);
+    public void clickHasMaxPointsConstraintCheckBox(int qnIndex) {
+        WebElement hasMaxConstraintCheckbox =
+                browser.driver.findElement(By.id("constSumPointsHasMaxPointsConstraint-" + qnIndex));
+        click(hasMaxConstraintCheckbox);
     }
 
     public void clickAssignWeightsCheckbox(int qnIndex) {
