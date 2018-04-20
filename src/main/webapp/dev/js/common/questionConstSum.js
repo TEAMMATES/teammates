@@ -105,20 +105,21 @@ function bindConstSumOptionsRadioButtons() {
  */
 function toggleConstSumOptionsCheckBox(questionNum) {
     const isConstSumRequireMinChecked = $(`#constSumPointsHasMinPointsConstraint-${questionNum}`).prop('checked');
-    const minPointsConstraintInputId = $(`#constSumPointsHasMinPointsConstraint-${questionNum}`).data('minPointsConstraintInputId');
+    const minPointsConstraintInputId =
+            $(`#constSumPointsHasMinPointsConstraint-${questionNum}`).data('minPointsConstraintInputId');
     const minPointsConstraintInput = $(`#${minPointsConstraintInputId}`);
     $(minPointsConstraintInput).prop('disabled', !isConstSumRequireMinChecked);
 
     const isConstSumRequireMaxChecked = $(`#constSumPointsHasMaxPointsConstraint-${questionNum}`).prop('checked');
-    const maxPointsConstraintInputId = $(`#constSumPointsHasMaxPointsConstraint-${questionNum}`).data('maxPointsConstraintInputId');
-    console.log(isConstSumRequireMinChecked);
-    console.log(maxPointsConstraintInputId);
+    const maxPointsConstraintInputId =
+            $(`#constSumPointsHasMaxPointsConstraint-${questionNum}`).data('maxPointsConstraintInputId');
     const maxPointsConstraintInput = $(`#${maxPointsConstraintInputId}`);
     $(maxPointsConstraintInput).prop('disabled', !isConstSumRequireMaxChecked);
 }
 
 function bindConstSumOptionsCheckbox() {
-    $('input[name^="constSumPointsHasMinPointsConstraint"], input[name^="constSumPointsHasMaxPointsConstraint"]').change((e) => {
+    $('input[name^="constSumPointsHasMinPointsConstraint"], ' +
+            'input[name^="constSumPointsHasMaxPointsConstraint"]').change((e) => {
         const questionNumber = $(e.currentTarget).closest('form').attr('data-qnnumber');
         toggleConstSumOptionsCheckBox(questionNumber);
     });

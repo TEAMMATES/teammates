@@ -1027,7 +1027,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // All existing responses should be deleted as the options are edited
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
-
         ______TS("edit min and max points constraint -> edit success ");
 
         String[] editPointsConstraintSuccessParams = {
