@@ -567,6 +567,8 @@ public final class Const {
                 "Points for response more than maximum points allowed";
         public static final String CONST_SUM_ERROR_SOME_UNIQUE =
                 "At least some options must be given a different number of points.";
+        public static final String CONST_SUM_ERROR_MIN_CONSTRAINT_GREATER_THAN_MAX =
+                "Min points constraint must be less than max points constraint";
 
         // Rubric
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
@@ -738,8 +740,10 @@ public final class Const {
         // TODO: rename FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION to a more accurate name
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
-        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN = "constSumPointsRequireMin";
-        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX = "constSumPointsRequireMax";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT =
+                "constSumPointsHasMinPointsConstraint";
+        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT =
+                "constSumPointsHasMaxPointsConstraint";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSMIN = "constSumPointsMin";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSMAX = "constSumPointsMax";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";

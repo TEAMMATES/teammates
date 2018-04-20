@@ -903,6 +903,10 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Fun",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "false",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN, "20",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "90",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -947,6 +951,10 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Fun",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "false",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN, "20",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "90",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -967,6 +975,103 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
+
+        // All existing responses should be deleted as the options are edited
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+        ______TS("edit min and max points constraint -> edit failure ");
+
+        String[] editPointsConstraintFailureParams = {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "1000",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "300",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "500",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-0", "Grades",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Fun",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "29",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        a = getAction(editPointsConstraintFailureParams);
+        r = getRedirectResult(a);
+        assertTrue(r.isError);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        true),
+                r.getDestinationWithParams());
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_CONSTRAINT_GREATER_THAN_MAX, r.getStatusMessage());
+
+        // All existing responses should be deleted as the options are edited
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+
+        ______TS("edit min and max points constraint -> edit success ");
+
+        String[] editPointsConstraintSuccessParams = {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "1000",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "300",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "500",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-0", "Grades",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Fun",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "31",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        a = getAction(editPointsConstraintSuccessParams);
+        r = getRedirectResult(a);
+        assertFalse(r.isError);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        false),
+                r.getDestinationWithParams());
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
 
         // All existing responses should be deleted as the options are edited
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());

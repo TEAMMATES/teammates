@@ -27,7 +27,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
-    public static final transient int NO_MIN_MAX_CONSTRAINT = -1;
+    public static final transient int NO_MIN_MAX_CONSTRAINT = 0;
 
     private int numOfConstSumOptions;
     private List<String> constSumOptions;
@@ -98,21 +98,21 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String forceUnevenDistributionString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
-        String requireMinString =
+        String hasMinPointsConstraintString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN);
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT);
 
-        String requireMaxString =
+        String hasMaxPointsConstraintString =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX);
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT);
 
         String distributePointsOption = HttpRequestHelper.getValueFromParamMap(requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS);
 
         boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
         boolean pointsPerOption = "true".equals(pointsPerOptionString);
-        boolean hasMinPointConstraint = "on".equals(requireMinString);
-        boolean hasMaxPointConstraint = "on".equals(requireMaxString);
+        boolean hasMinPointConstraint = "on".equals(hasMinPointsConstraintString);
+        boolean hasMaxPointConstraint = "on".equals(hasMaxPointsConstraintString);
 
         int points = 0;
         if (pointsPerOption) {
@@ -135,7 +135,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
 
         if (minPoints != NO_MIN_MAX_CONSTRAINT && maxPoints != NO_MIN_MAX_CONSTRAINT) {
-            Assumption.assertTrue(minPoints <= maxPoints);
+            Assumption.assertTrue(minPoints >= 0);
+            Assumption.assertTrue(maxPoints >= 0);
         }
 
         boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
@@ -271,8 +272,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
-                Slots.CONSTSUM_REQUIRE_MIN, hasMinPointsConstraint ? "" : "hidden",
-                Slots.CONSTSUM_REQUIRE_MAX, hasMaxPointsConstraint ? "" : "hidden",
                 Slots.CONSTSUM_POINTS_MIN, hasMinPointsConstraint ? Integer.toString(minPointsConstraint) : "0",
                 Slots.CONSTSUM_POINTS_MAX, hasMaxPointsConstraint ? Integer.toString(maxPointsConstraint) : "any",
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, distributePointsFor.equals(
@@ -355,8 +354,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
-                Slots.CONSTSUM_REQUIRE_MIN, hasMinPointsConstraint ? "" : "hidden",
-                Slots.CONSTSUM_REQUIRE_MAX, hasMaxPointsConstraint ? "" : "hidden",
                 Slots.CONSTSUM_POINTS_MIN, hasMinPointsConstraint ? Integer.toString(minPointsConstraint) : "0",
                 Slots.CONSTSUM_POINTS_MAX, hasMaxPointsConstraint ? Integer.toString(maxPointsConstraint) : "any",
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, distributePointsFor.equals(
@@ -423,8 +420,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_TOOLTIP_POINTS_MIN, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MIN,
                 Slots.CONSTSUM_TOOLTIP_POINTS_MAX, Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS_MAX,
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, forceUnevenDistribution ? "checked" : "",
-                Slots.CONSTSUM_REQUIRE_MIN, hasMinPointsConstraint ? "checked" : "",
-                Slots.CONSTSUM_REQUIRE_MAX, hasMaxPointsConstraint ? "checked" : "",
+                Slots.CONSTSUM_HAS_MINPOINTS_CONSTRAINT, hasMinPointsConstraint ? "checked" : "",
+                Slots.CONSTSUM_HAS_MAXPOINTS_CONSTRAINT, hasMaxPointsConstraint ? "checked" : "",
                 Slots.CONSTSUM_TO_RECIPIENTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 Slots.CONSTSUM_POINTS_PER_OPTION, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 Slots.CONSTSUM_PARAM_POINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
@@ -433,8 +430,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
-                Slots.CONSTSUM_PARAM_REQUIREMIN, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN,
-                Slots.CONSTSUM_PARAM_REQUIREMAX, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX,
+                Slots.CONSTSUM_PARAM_HAS_MINPOINTS_CONSTRAINT,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT,
+                Slots.CONSTSUM_PARAM_HAS_MAXPOINTS_CONSTRAINT,
+                        Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT,
                 Slots.CONSTSUM_PARAM_MIN, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN,
                 Slots.CONSTSUM_PARAM_MAX, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX,
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, distributePointsFor.equals(
@@ -767,6 +766,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return true;
         }
 
+        if (this.minPointsConstraint != newConstSumDetails.minPointsConstraint) {
+            return true;
+        }
+
+        if (this.maxPointsConstraint != newConstSumDetails.maxPointsConstraint) {
+            return true;
+        }
+
         return !this.distributePointsFor.equals(newConstSumDetails.distributePointsFor);
     }
 
@@ -805,6 +812,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         if (!FieldValidator.areElementsUnique(constSumOptions)) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        }
+
+        if (maxPointsConstraint != NO_MIN_MAX_CONSTRAINT && minPointsConstraint > maxPointsConstraint) {
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_CONSTRAINT_GREATER_THAN_MAX);
         }
 
         return errors;

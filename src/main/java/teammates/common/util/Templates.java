@@ -363,8 +363,8 @@ public final class Templates {
             public static final String CONSTSUM_SELECTED_POINTS_PER_OPTION = "${selectedConstSumPointsPerOption}";
             public static final String CONSTSUM_OPTION_TABLE_VISIBILITY = "${constSumOptionTableVisibility}";
             public static final String CONSTSUM_DISTRIBUTE_UNEVENLY = "${distributeUnevenly}";
-            public static final String CONSTSUM_REQUIRE_MIN = "${requireMin}";
-            public static final String CONSTSUM_REQUIRE_MAX = "${requireMax}";
+            public static final String CONSTSUM_HAS_MINPOINTS_CONSTRAINT = "${hasMinPointsConstraint}";
+            public static final String CONSTSUM_HAS_MAXPOINTS_CONSTRAINT = "${hasMaxPointsConstraint}";
             public static final String CONSTSUM_UNEVEN_DISTRIBUTION_VALUE = "${constSumUnevenDistributionValue}";
             public static final String CONSTSUM_POINTS = "${constSumPoints}";
             public static final String CONSTSUM_POINTS_MIN = "${constSumPointsMin}";
@@ -386,10 +386,10 @@ public final class Templates {
                     "${FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()}";
             public static final String CONSTSUM_POINTS_PER_OPTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}";
-            public static final String CONSTSUM_PARAM_REQUIREMIN =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN}";
-            public static final String CONSTSUM_PARAM_REQUIREMAX =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX}";
+            public static final String CONSTSUM_PARAM_HAS_MINPOINTS_CONSTRAINT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT}";
+            public static final String CONSTSUM_PARAM_HAS_MAXPOINTS_CONSTRAINT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT}";
             public static final String CONSTSUM_PARAM_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}";
             public static final String CONSTSUM_PARAM_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}";
             public static final String CONSTSUM_TOOLTIP_POINTS = "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS}";

@@ -234,7 +234,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
 
-        ______TS("CONST SUM: edit to require min");
+        ______TS("CONST SUM: edit to min option constraint -> edit sucessfully");
 
         feedbackEditPage.clickEditQuestionButton(1);
         assertFalse(feedbackEditPage.isElementEnabled("constSumPointsMin-1"));
@@ -247,7 +247,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
-        ______TS("CONST SUM: edit to require max");
+        ______TS("CONST SUM: edit to max option constraint -> edit sucessfully");
 
         feedbackEditPage.clickEditQuestionButton(1);
         assertFalse(feedbackEditPage.isElementEnabled("constSumPointsMax-1"));

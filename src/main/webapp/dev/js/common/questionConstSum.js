@@ -104,19 +104,21 @@ function bindConstSumOptionsRadioButtons() {
  * otherwise it will be disabled.
  */
 function toggleConstSumOptionsCheckBox(questionNum) {
-    const isConstSumRequireMinChecked = $(`#constSumPointsRequireMin-${questionNum}`).prop('checked');
-    const linkedMinInputId = $(`#constSumPointsRequireMin-${questionNum}`).data('linkedInputId');
-    const linkedMinInput = $(`#${linkedMinInputId}`);
-    $(linkedMinInput).prop('disabled', !isConstSumRequireMinChecked);
+    const isConstSumRequireMinChecked = $(`#constSumPointsHasMinPointsConstraint-${questionNum}`).prop('checked');
+    const minPointsConstraintInputId = $(`#constSumPointsHasMinPointsConstraint-${questionNum}`).data('minPointsConstraintInputId');
+    const minPointsConstraintInput = $(`#${minPointsConstraintInputId}`);
+    $(minPointsConstraintInput).prop('disabled', !isConstSumRequireMinChecked);
 
-    const isConstSumRequireMaxChecked = $(`#constSumPointsRequireMax-${questionNum}`).prop('checked');
-    const linkedMaxInputId = $(`#constSumPointsRequireMax-${questionNum}`).data('linkedInputId');
-    const linkedMaxInput = $(`#${linkedMaxInputId}`);
-    $(linkedMaxInput).prop('disabled', !isConstSumRequireMaxChecked);
+    const isConstSumRequireMaxChecked = $(`#constSumPointsHasMaxPointsConstraint-${questionNum}`).prop('checked');
+    const maxPointsConstraintInputId = $(`#constSumPointsHasMaxPointsConstraint-${questionNum}`).data('maxPointsConstraintInputId');
+    console.log(isConstSumRequireMinChecked);
+    console.log(maxPointsConstraintInputId);
+    const maxPointsConstraintInput = $(`#${maxPointsConstraintInputId}`);
+    $(maxPointsConstraintInput).prop('disabled', !isConstSumRequireMaxChecked);
 }
 
 function bindConstSumOptionsCheckbox() {
-    $('input[name^="constSumPointsRequire"]').change((e) => {
+    $('input[name^="constSumPointsHasMinPointsConstraint"], input[name^="constSumPointsHasMaxPointsConstraint"]').change((e) => {
         const questionNumber = $(e.currentTarget).closest('form').attr('data-qnnumber');
         toggleConstSumOptionsCheckBox(questionNumber);
     });

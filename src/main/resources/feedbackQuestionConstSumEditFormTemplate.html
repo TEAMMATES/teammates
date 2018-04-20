@@ -131,8 +131,9 @@
       <div class="col-xs-12 col-sm-12">
         <div class="col-xs-2 col-sm-1 checkbox">
           <label class="bold-label">
-            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMIN}"
-                   id="constSumPointsRequireMin-${questionNumber}" data-linked-input-id="constSumPointsMin-${questionNumber}" ${requireMin}>
+            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT}"
+                   id="constSumPointsHasMinPointsConstraint-${questionNumber}"
+                   data-min-points-constraint-input-id="constSumPointsMin-${questionNumber}" ${hasMinPointsConstraint}>
             <span>Min</span>
           </label>
         </div>
@@ -147,8 +148,9 @@
         </div>
         <div class="col-xs-2 col-sm-1 checkbox margin-left-7px">
           <label class="bold-label">
-            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_REQUIREMAX}"
-                   id="constSumPointsRequireMax-${questionNumber}" data-linked-input-id="constSumPointsMax-${questionNumber}" ${requireMax}>
+            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT}"
+                   id="constSumPointsHasMaxPointsConstraint-${questionNumber}"
+                   data-max-points-constraint-input-id="constSumPointsMax-${questionNumber}" ${hasMaxPointsConstraint}>
             <span>Max</span>
           </label>
         </div>
