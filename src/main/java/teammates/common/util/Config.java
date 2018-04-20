@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.google.appengine.api.utils.SystemProperty;
+import com.google.apphosting.api.ApiProxy;
 
 import teammates.common.exception.TeammatesException;
 
@@ -14,7 +15,7 @@ import teammates.common.exception.TeammatesException;
  */
 public final class Config {
 
-    /** The value of the "app.url" in build.properties file. */
+    /** The value of the application URL. */
     public static final String APP_URL;
 
     /** The value of the "app.gcs.bucketname" in build.properties file. */
@@ -63,13 +64,19 @@ public final class Config {
     public static final String MAILJET_SECRETKEY;
 
     static {
+        String hostname = ApiProxy.getCurrentEnvironment().getAttributes()
+                .get("com.google.appengine.runtime.default_version_hostname").toString();
+        if (isDevServer()) {
+            APP_URL = "http://" + hostname;
+        } else {
+            APP_URL = "https://" + hostname;
+        }
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
         } catch (IOException e) {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
-        APP_URL = Url.trimTrailingSlash(properties.getProperty("app.url"));
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         GCS_BUCKETNAME = properties.getProperty("app.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
@@ -117,7 +124,7 @@ public final class Config {
 
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
-     * The base URL will be the value of app.url in build.properties.
+     * The base URL will be the application URL.
      * {@code relativeUrl} must start with a "/".
      */
     public static AppUrl getAppUrl(String relativeUrl) {
