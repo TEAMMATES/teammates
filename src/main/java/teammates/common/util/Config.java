@@ -89,8 +89,8 @@ public final class Config {
         MAILGUN_DOMAINNAME = properties.getProperty("app.mailgun.domainname");
         MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
         MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
-        TEAMMATE_HOME_PAGE_LINK = "<a href=\"https://teammatesv4.appspot.com\">TEAMMATES</a>";
-        TEAMMATE_RESEND_ACCESS_LINKS = "https://teammatesv4.appspot.com/resendLinks";
+        TEAMMATE_HOME_PAGE_LINK = properties.getProperty("webapp.url");
+        TEAMMATE_RESEND_ACCESS_LINKS = properties.getProperty("webapp.resendLinks.url");
     }
 
     private Config() {
