@@ -11,9 +11,6 @@
   <div id="contentHolder">
     <ul>
       <li>
-        <a href="#gs">Getting Started</a>
-      </li>
-      <li>
         <a href="#students">Students</a>
       </li>
       <li>
@@ -30,7 +27,6 @@
   <div class="separate-content-holder">
     <hr>
   </div>
-  <jsp:include page="partials/instructorHelpGettingStarted.jsp"/>
   <jsp:include page="partials/instructorHelpStudents.jsp"/>
   <jsp:include page="partials/instructorHelpCourses.jsp"/>
   <jsp:include page="partials/instructorHelpSessions.jsp"/>
