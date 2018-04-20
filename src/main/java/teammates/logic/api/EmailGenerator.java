@@ -408,6 +408,7 @@ public class EmailGenerator {
         Instant startTime = calendar.getTime().toInstant();
         String subject = EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject();
         StringBuffer linksFragmentValue = new StringBuffer(1000);
+        String teammateHomePageLink = Const.TEAMMATE_HOME_PAGE_LINK;
         String emailBody;
         String studentName = null;
 
@@ -463,13 +464,16 @@ public class EmailGenerator {
         if (linksFragmentValue.length() == 0) {
             emailBody = Templates.populateTemplate(
                     EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_WITH_NO_ACTIVE_LINKS,
-                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail));
+                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
         } else {
             emailBody = Templates.populateTemplate(
                     EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_EMAIL,
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
                     "${linksFragment}", linksFragmentValue.toString(),
-                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail));
+                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
+                    "${teammateHomePageLink}", teammateHomePageLink,
+                    "${supportEmail}", Config.SUPPORT_EMAIL);
         }
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);

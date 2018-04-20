@@ -96,6 +96,8 @@ public final class Const {
     public static final Instant TIME_REPRESENTS_NOW;
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
+    public static final String TEAMMATE_HOME_PAGE_LINK = "<a href=\"teammatesv4.appspot.com\">TEAMMATES</a>";
+
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
