@@ -311,6 +311,16 @@ function restoreFormHtml(formSelector, allFieldsDict, tinyMCEDivId) {
         }
     }
     /* eslint-enable no-restricted-syntax */
+
+    // The custom date/time fields remains active on enabling edit mode even if custom button is not checked,
+    // as enableEditFs() checks for the last saved state of these fields, which is why disable these fields,
+    // if the button is not selected after restoring of the session form is done.
+    const isCustomSessionVisibleButtonEnabled = $('#sessionVisibleFromButton_custom').prop('checked');
+    const isCustomResultsVisibleButtonEnabled = $('#resultsVisibleFromButton_custom').prop('checked');
+    $(`#${ParamsNames.FEEDBACK_SESSION_VISIBLEDATE}`).prop('disabled', !isCustomSessionVisibleButtonEnabled);
+    $(`#${ParamsNames.FEEDBACK_SESSION_VISIBLETIME}`).prop('disabled', !isCustomSessionVisibleButtonEnabled);
+    $(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHDATE}`).prop('disabled', !isCustomResultsVisibleButtonEnabled);
+    $(`#${ParamsNames.FEEDBACK_SESSION_PUBLISHTIME}`).prop('disabled', !isCustomResultsVisibleButtonEnabled);
 }
 
 /**
