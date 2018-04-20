@@ -2024,7 +2024,7 @@
         all access links for the feedback sessions in which the student has participated in last six months will be sent to that email address.
       </p>
       <p>
-        The student can also go to the request page via url: <%= Config.APP_URL + Const.ActionURIs.RESEND_ACCESS_LINKS %>.
+        The student can also go to the request page via url: <%= Config.getAppUrl(Const.ActionURIs.RESEND_ACCESS_LINKS) %>.
       </p>
       <div class="bs-example" id="requestResendLinks">
         <div class="well well-plain" id="RequestResendLinksTable">
