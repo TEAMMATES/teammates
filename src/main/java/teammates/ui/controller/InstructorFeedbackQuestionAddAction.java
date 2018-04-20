@@ -31,7 +31,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                     false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(instructorDetailForCourse.email);
-        List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
+        List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails(courseId);
 
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<>();
 
