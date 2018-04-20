@@ -40,5 +40,8 @@
     "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/**/*.jsp\" \"src/**/*.tag\" \"src/main/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.css\" \"src/**/*.java\" \"src/main/webapp/dev/**/*.js\" \"src/**/*.properties\" \"*.js\" \"*.yml\" \"*.gradle\" \"static-analysis/*.*ml\"",
     "lint": "npm run lint:js && npm run lint:json && npm run lint:css && npm run lint:spaces"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "npm": "^5.8.0"
+  }
 }

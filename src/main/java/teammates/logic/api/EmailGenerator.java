@@ -44,7 +44,7 @@ public class EmailGenerator {
             + "but you will not be able to edit existing responses or submit new responses";
 
     // feedback action strings
-    private static final String FEEDBACK_ACTION_SUBMIT = "submit";
+    private static final String FEEDBACK_ACTION_SUBMIT = "submit (or to edit/view)";
     private static final String FEEDBACK_ACTION_VIEW = "view";
     private static final String HTML_NO_ACTION_REQUIRED =
             "<p>No action is required if you have already submitted.</p>" + System.lineSeparator();
