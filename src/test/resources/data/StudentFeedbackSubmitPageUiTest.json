@@ -517,7 +517,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":3,\"otherEnabled\":true}"
+        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MSQ\",\"otherEnabled\":true}"
       },
       "questionNumber": 9,
       "questionType": "MSQ",
@@ -542,7 +542,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What do you think is the other teams' best feature?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":3,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"questionText\":\"What do you think is the other teams' best feature?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 10,
       "questionType": "MSQ",
@@ -589,7 +589,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutor?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutor?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
       },
       "questionNumber": 12,
       "questionType": "MSQ",
@@ -639,7 +639,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutor?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutor?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
       },
       "questionNumber": 14,
       "questionType": "MSQ",
@@ -736,7 +736,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutors?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"INSTRUCTORS\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you recommend as tutors?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"INSTRUCTORS\",\"otherEnabled\":false}"
       },
       "questionNumber": 18,
       "questionType": "MSQ",
@@ -856,7 +856,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Nominate and rank at least 2 students for prizes.\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"minSelectableChoices\":2,\"maxSelectableChoices\":3,\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Nominate and rank at least 2 students for prizes.\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"minSelectableChoices\":2,\"maxSelectableChoices\":3,\"otherEnabled\":false}"
       },
       "questionNumber": 23,
       "questionType": "MSQ",
@@ -881,7 +881,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"A\",\"B\",\"C\",\"D\",\"E\"],\"questionText\":\"Rank exactly 3 options.\",\"questionType\":\"MSQ\",\"minSelectableChoices\":3,\"maxSelectableChoices\":3,\"numOfMsqChoices\":5,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"A\",\"B\",\"C\",\"D\",\"E\"],\"questionText\":\"Rank exactly 3 options.\",\"questionType\":\"MSQ\",\"minSelectableChoices\":3,\"maxSelectableChoices\":3,\"otherEnabled\":false}"
       },
       "questionNumber": 24,
       "questionType": "MSQ",
@@ -929,7 +929,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you like working with?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS_EXCLUDING_SELF\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you like working with?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS_EXCLUDING_SELF\",\"otherEnabled\":false}"
       },
       "questionNumber": 26,
       "questionType": "MSQ",
@@ -975,7 +975,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you like working with?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS_EXCLUDING_SELF\",\"numOfMsqChoices\":0,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[],\"questionText\":\"Who do you like working with?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS_EXCLUDING_SELF\",\"otherEnabled\":false}"
       },
       "questionNumber": 28,
       "questionType": "MSQ",
@@ -1042,7 +1042,7 @@
       "courseId": "SFSubmitUiT.CS2104",
       "creatorEmail": "SFSubmitUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":2,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 3,
       "questionType": "MSQ",
