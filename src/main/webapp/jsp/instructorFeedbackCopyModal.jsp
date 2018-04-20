@@ -16,7 +16,6 @@
       value="${data.fsName}">
 </div>
 
-<div class="char-count-above">
 <c:forEach items="${data.courses}" var="course">
   <div class="checkbox">
     <label>
@@ -36,7 +35,7 @@
     </label>
   </div>
 </c:forEach>
-</div>
+
 
 <div id="feedback-copy-modal-status"></div>
 

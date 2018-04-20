@@ -1,39 +1,38 @@
 /**
- * Updates the number of characters left in the text area
- * @param textArea - Text area for which the number of characters are to be counted
- * @param letterCountId - Id of Label to display length of text area
+ * Computes the number of characters left in the text area
+ * @param textInput - The text input for which the number of characters are to be counted
+ * @param remainingCharactersElementId - The ID of the HTML element that displays the value of the remaining characters
  */
-function updateCharLeftCount(textArea, letterCountId) {
-    const letterCountArea = $(`#${letterCountId}`);
-    const maxLength = textArea.attr('maxLength');
-    const charLength = textArea.val().length;
-    letterCountArea.text(maxLength - charLength);
+function computeRemainingCharactersCount(textInput, remainingCharactersElementId) {
+    const maxLength = textInput.attr('maxLength');
+    const currentLength = textInput.val().length;
+    $(`#${remainingCharactersElementId}`).text(maxLength - currentLength);
 }
 /**
- * Create the div to display the number of characters left in textArea
- * @param textArea - Text area for which char are to be counted
- * @param letterCountId - Id of area for letter count display
+ * Inserts the remaining characters count for the text input into the designated HTML element
+ * @param textInput - The text input for which the number of characters are to be counted
+ * @param remainingCharactersElementId - The ID of the HTML element that displays the value of the remaining characters
  */
-function insertLetterCountArea(textArea, letterCountId) {
-    const maxLength = textArea.attr('maxlength');
-    if ($(`#${letterCountId}`).length === 0) {
-        const letterCountAreaTemplate = `<div class="col-md-6 padding-0">
-            <span id="${letterCountId}">${maxLength}</span> characters left </div>`;
-        $(letterCountAreaTemplate).insertAfter(textArea);
+function insertRemainingCharactersCount(textInput, remainingCharactersElementId) {
+    const maxLength = textInput.attr('maxlength');
+    if ($(`#${remainingCharactersElementId}`).length === 0) {
+        const charactersLeftSpan = `<span id="${remainingCharactersElementId}">${maxLength}</span>`;
+        const remainingCharactersTemplate =
+                `<div class="row"><div class="col-md-12">${charactersLeftSpan} characters left </div></div>`;
+        $(remainingCharactersTemplate).insertAfter(textInput);
     }
 }
 
-function updateCharLeft(textAreaId) {
-    const feedbackSessionName = $(`#${textAreaId}`);
-    const letterCountAreaId = `charLeft-${textAreaId}`;
+function countRemainingCharacterOfInput(textInputId) {
+    const testInput = $(`#${textInputId}`);
+    const letterCountAreaId = `charLeft-${textInputId}`;
 
-    insertLetterCountArea(feedbackSessionName, letterCountAreaId);
+    insertRemainingCharactersCount(testInput, letterCountAreaId);
 
-    updateCharLeftCount(feedbackSessionName, letterCountAreaId);
-    feedbackSessionName.on('keyup', () => updateCharLeftCount(feedbackSessionName, letterCountAreaId));
-    feedbackSessionName.on('keydown', () => updateCharLeftCount(feedbackSessionName, letterCountAreaId));
+    computeRemainingCharactersCount(testInput, letterCountAreaId);
+    testInput.on('input', () => computeRemainingCharactersCount(testInput, letterCountAreaId));
 }
 
 export {
-    updateCharLeft,
+    countRemainingCharacterOfInput,
 };
