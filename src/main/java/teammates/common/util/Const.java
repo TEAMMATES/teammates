@@ -1058,6 +1058,8 @@ public final class Const {
 
         public static final String ERROR_FEEDBACK_SUBMIT = "/page/errorFeedbackSubmit";
 
+        public static final String RESEND_ACCESS_LINKS = "/resendLinks";
+
         public static final String BACKDOOR = "/backdoor";
 
     }

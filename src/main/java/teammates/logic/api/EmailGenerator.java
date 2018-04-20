@@ -408,7 +408,7 @@ public class EmailGenerator {
         Instant startTime = calendar.getTime().toInstant();
         String subject = EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject();
         StringBuffer linksFragmentValue = new StringBuffer(1000);
-        String teammateHomePageLink = Config.TEAMMATE_HOME_PAGE_LINK;
+        String teammateHomePageLink = Config.APP_URL;
         String emailBody;
         String studentName = null;
 
