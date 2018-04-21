@@ -12,7 +12,7 @@ import {
 } from './const';
 
 import {
-    countRemainingCharacterOfInput,
+    countRemainingCharacterOnInput,
 } from './countRemainingCharacterOfInput';
 
 import {
@@ -59,7 +59,7 @@ function setupFsCopyModal() {
                             $('#fscopy_submit').closest('form').submit();
                         });
                 $('#fscopy_submit').prop('disabled', false);
-                countRemainingCharacterOfInput(ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
+                countRemainingCharacterOnInput(ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
             },
         });
     });

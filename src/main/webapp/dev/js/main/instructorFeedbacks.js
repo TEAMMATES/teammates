@@ -48,7 +48,7 @@ import {
 } from '../common/ui';
 
 import {
-    countRemainingCharacterOfInput,
+    countRemainingCharacterOnInput,
 } from '../common/countRemainingCharacterOfInput';
 
 let isSessionsAjaxSending = false;
@@ -125,11 +125,12 @@ function bindCopyButton() {
             const $modalSessionName = $('#modalSessionName');
             if (!$modalSessionName.val().trim()) {
                 $modalSessionName.val(firstSessionName);
-                countRemainingCharacterOfInput('modalCopiedSessionName');
             }
 
             $('#copyModal').modal('show');
         }
+        countRemainingCharacterOnInput('modalCopiedSessionName');
+
         return false;
     });
 
@@ -299,7 +300,7 @@ $(document).ready(() => {
         /* eslint-enable camelcase */
     }
 
-    countRemainingCharacterOfInput(ParamsNames.FEEDBACK_SESSION_NAME);
+    countRemainingCharacterOnInput(ParamsNames.FEEDBACK_SESSION_NAME);
 
     readyFeedbackPage();
 });
