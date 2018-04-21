@@ -548,7 +548,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
 
             // Compute number of responses including user's self response
             numResponses.putIfAbsent(recipientEmail, 0);
-            numResponses.computeIfPresent(recipientEmail, (k,v) -> {
+            numResponses.computeIfPresent(recipientEmail, (k, v) -> {
                 int numOfResponses = numResponses.getOrDefault(recipientEmail, 0) + 1;
                 return numOfResponses;
             });
@@ -557,7 +557,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             numResponsesExcludingSelf.putIfAbsent(recipientEmail, 0);
             boolean isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
             if (!isSelfResponse) {
-                numResponsesExcludingSelf.computeIfPresent(recipientEmail, (k,v) -> {
+                numResponsesExcludingSelf.computeIfPresent(recipientEmail, (k, v) -> {
                     int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
                     return numOfResponsesExcludingSelf;
                 });
@@ -572,8 +572,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             max.put(recipientEmail, maxScoreReceived);
 
             // Compute total score received
-            total.putIfAbsent(recipientEmail, (double)0);
-            total.computeIfPresent(recipientEmail, (k,v)->{
+            total.putIfAbsent(recipientEmail, (double) 0);
+            total.computeIfPresent(recipientEmail, (k, v) -> {
                 double totalScore = total.getOrDefault(recipientEmail, 0.0) + answer;
                 return totalScore;
             });

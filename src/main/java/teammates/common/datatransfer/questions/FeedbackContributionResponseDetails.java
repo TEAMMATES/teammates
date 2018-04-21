@@ -209,6 +209,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             contribQnStats = fqcd.getTeamEvalResults(feedbackSessionResultsBundle, question);
             return contribQnStats;
         });
-    return feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
+        return feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
     }
 }
