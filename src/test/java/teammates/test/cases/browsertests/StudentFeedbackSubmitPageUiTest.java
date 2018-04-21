@@ -121,6 +121,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
+        assertTrue(submitPage.isConfirmationEmailBoxTicked());
+
         String responseText = "Test Self Feedback";
         submitPage.fillResponseRichTextEditor(1, 0, responseText);
         assertEquals(responseText.trim().split(" +").length, submitPage.getResponseTextBoxLengthLabelValue(1, 0));
@@ -228,6 +230,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
                                                 "SFSubmitUiT.benny.c@gmail.tmt"));
         submitPage.submitWithoutConfirmationEmail();
+        assertFalse(submitPage.isConfirmationEmailBoxTicked());
 
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -267,6 +270,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(7, 1, "Algo"); // toggle 'Algo' radio option
 
         submitPage.submitWithoutConfirmationEmail();
+        assertFalse(submitPage.isConfirmationEmailBoxTicked());
 
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(), aliceTeam, "Team 3"));
@@ -344,6 +348,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                 "Team 3"));
 
         submitPage.submitWithoutConfirmationEmail();
+        assertFalse(submitPage.isConfirmationEmailBoxTicked());
 
         //check new response
         fqPartial = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104", "First Session", 4);
@@ -504,6 +509,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(), "drop.out@gmail.tmt", "SFSubmitUiT.charlie.d@gmail.tmt"));
 
         submitPage.submitWithoutConfirmationEmail();
+        assertFalse(submitPage.isConfirmationEmailBoxTicked());
+
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
