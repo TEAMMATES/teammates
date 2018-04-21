@@ -1,8 +1,10 @@
 package teammates.test.cases.util;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -19,11 +21,9 @@ public class AdminLogQueryTest extends BaseTestCase {
         ______TS("Test constructor with parameters");
         List<String> versionList = new ArrayList<>();
         versionList.add("5-44");
-        Calendar cal = new GregorianCalendar();
-        cal.set(1994, Calendar.MAY, 7, 15, 30, 12);
-        long startTime = cal.getTimeInMillis();
-        cal.add(Calendar.YEAR, 22);
-        long endTime = cal.getTimeInMillis();
+        ZonedDateTime startDateTime = LocalDateTime.of(1994, Month.MAY, 7, 15, 30, 12).atZone(ZoneId.of("UTC"));
+        long startTime = startDateTime.toInstant().toEpochMilli();
+        long endTime = startDateTime.plusYears(22).toInstant().toEpochMilli();
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
         assertEquals(startTime, query.getStartTime());
         assertEquals(endTime, query.getEndTime());
@@ -44,11 +44,9 @@ public class AdminLogQueryTest extends BaseTestCase {
     public void testSetQueryWindowBackward() {
         List<String> versionList = new ArrayList<>();
         versionList.add("5-44");
-        Calendar cal = new GregorianCalendar();
-        cal.set(2016, 4, 7, 15, 30, 12);
-        long startTime = cal.getTimeInMillis();
-        cal.add(Calendar.DATE, 3);
-        long endTime = cal.getTimeInMillis();
+        ZonedDateTime startDateTime = LocalDateTime.of(2016, Month.MAY, 7, 15, 30, 12).atZone(ZoneId.of("UTC"));
+        long startTime = startDateTime.toInstant().toEpochMilli();
+        long endTime = startDateTime.plusDays(3).toInstant().toEpochMilli();
         AdminLogQuery query = new AdminLogQuery(versionList, startTime, endTime);
         Long fourHours = Long.valueOf(4 * 60 * 60 * 1000);
         query.moveTimePeriodBackward(fourHours); // 4 hours before endTime
