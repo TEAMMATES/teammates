@@ -69,11 +69,11 @@ public class InstructorCourseRemindAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
 
-            if (isRequestedFromPage(previousPage, Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE)) {
-                redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-            } else {
-                redirectUrl = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
-            }
+            boolean isRequestedFromCourseDetailsPage = Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE.equals
+                    (previousPage);
+            redirectUrl = isRequestedFromCourseDetailsPage
+                    ? Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
+                    : Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId,
                     instructorEmail, courseId);
