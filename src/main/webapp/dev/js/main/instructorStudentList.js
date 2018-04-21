@@ -538,5 +538,6 @@ $(document).ready(() => {
             toggleSort($(this));
         }
     });
+
     $('.ajax_submit').click(seeMoreRequest);
 });
