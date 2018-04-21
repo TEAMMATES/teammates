@@ -132,10 +132,6 @@ public class InstructorCourseRemindAction extends Action {
         return joinLink.substring(startIndex);
     }
 
-    private boolean isRequestedFromPage(String urlToVerify, String urlToCompareWith) {
-        return urlToVerify.equals(urlToCompareWith);
-    }
-
     private static class JoinEmailData {
         String userName;
         String regKey;
