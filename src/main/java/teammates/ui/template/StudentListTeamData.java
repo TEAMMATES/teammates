@@ -13,7 +13,7 @@ public class StudentListTeamData {
     private List<StudentListStudentData> students;
 
     public StudentListTeamData(TeamDetailsBundle team, Map<String, String> emailPhotoUrlMapping, String googleId,
-                               String sessionToken, String previousPage) {
+            String sessionToken, String previousPage) {
         this.teamName = team.name;
         List<StudentListStudentData> studentsDetails = new ArrayList<>();
         for (StudentAttributes student : team.students) {
