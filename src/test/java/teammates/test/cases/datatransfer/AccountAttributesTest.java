@@ -261,7 +261,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         boolean isInstructor = false;
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
-        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(googleId).build();
 
         return AccountAttributes.builder()
                 .withGoogleId(googleId)
@@ -269,7 +268,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(studentProfile)
+                .withStudentProfileAttributes(StudentProfileAttributes.builder(googleId)
+                        .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
+                        .build())
                 .build();
     }
 
@@ -287,7 +288,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withDefaultStudentProfileAttributes(googleId)
+                .withStudentProfileAttributes(StudentProfileAttributes.builder(googleId)
+                        .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
+                        .build())
                 .build();
     }
 
