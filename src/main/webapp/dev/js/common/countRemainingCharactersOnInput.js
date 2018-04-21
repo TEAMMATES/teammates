@@ -27,7 +27,7 @@ function insertRemainingCharactersCount($textInput, remainingCharactersElementId
  * Computes the number of remaining characters left in the text input upon 'input' event
  * @param textInputId - The ID of the text input for which the number of characters are to be counted
  */
-function countRemainingCharacterOnInput(textInputId) {
+function countRemainingCharactersOnInput(textInputId) {
     const $textInput = $(`#${textInputId}`);
     const remainingCharactersElementId = `charLeft-${textInputId}`;
 
@@ -38,5 +38,5 @@ function countRemainingCharacterOnInput(textInputId) {
 }
 
 export {
-    countRemainingCharacterOnInput,
+    countRemainingCharactersOnInput,
 };

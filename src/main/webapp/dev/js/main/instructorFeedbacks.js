@@ -48,8 +48,8 @@ import {
 } from '../common/ui';
 
 import {
-    countRemainingCharacterOnInput,
-} from '../common/countRemainingCharacterOnInput';
+    countRemainingCharactersOnInput,
+} from '../common/countRemainingCharactersOnInput';
 
 let isSessionsAjaxSending = false;
 let oldStatus = null;
@@ -129,7 +129,7 @@ function bindCopyButton() {
 
             $('#copyModal').modal('show');
         }
-        countRemainingCharacterOnInput('modalCopiedSessionName');
+        countRemainingCharactersOnInput('modalCopiedSessionName');
 
         return false;
     });
@@ -300,7 +300,7 @@ $(document).ready(() => {
         /* eslint-enable camelcase */
     }
 
-    countRemainingCharacterOnInput(ParamsNames.FEEDBACK_SESSION_NAME);
+    countRemainingCharactersOnInput(ParamsNames.FEEDBACK_SESSION_NAME);
 
     readyFeedbackPage();
 });

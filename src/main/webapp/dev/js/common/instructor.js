@@ -12,8 +12,8 @@ import {
 } from './const';
 
 import {
-    countRemainingCharacterOnInput,
-} from './countRemainingCharacterOnInput';
+    countRemainingCharactersOnInput,
+} from './countRemainingCharactersOnInput';
 
 import {
     TimeZone,
@@ -59,7 +59,7 @@ function setupFsCopyModal() {
                             $('#fscopy_submit').closest('form').submit();
                         });
                 $('#fscopy_submit').prop('disabled', false);
-                countRemainingCharacterOnInput(ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
+                countRemainingCharactersOnInput(ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
             },
         });
     });
