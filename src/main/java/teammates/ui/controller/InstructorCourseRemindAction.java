@@ -69,8 +69,8 @@ public class InstructorCourseRemindAction extends Action {
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
 
-            boolean isRequestedFromCourseDetailsPage = Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE.equals
-                    (previousPage);
+            boolean isRequestedFromCourseDetailsPage =
+                    Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE.equals(previousPage);
             redirectUrl = isRequestedFromCourseDetailsPage
                     ? Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
                     : Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
