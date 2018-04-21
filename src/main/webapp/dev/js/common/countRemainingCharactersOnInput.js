@@ -17,8 +17,7 @@ function insertRemainingCharactersCount($textInput, remainingCharactersElementId
     const maxLength = $textInput.attr('maxlength');
     if ($(`#${remainingCharactersElementId}`).length === 0) {
         const charactersLeftSpan = `<span id="${remainingCharactersElementId}">${maxLength}</span>`;
-        const remainingCharactersTemplate =
-                `<div class="col-md-12 padding-0">${charactersLeftSpan} characters left </div>`;
+        const remainingCharactersTemplate = `<div>${charactersLeftSpan} characters left </div>`;
         $(remainingCharactersTemplate).insertAfter($textInput);
     }
 }
