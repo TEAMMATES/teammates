@@ -13,7 +13,7 @@ import {
 
 import {
     countRemainingCharacterOnInput,
-} from './countRemainingCharacterOfInput';
+} from './countRemainingCharacterOnInput';
 
 import {
     TimeZone,
