@@ -212,18 +212,17 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private String getInstituteFromGoogleId(String googleId, List<Account> allAccounts) {
-        if (googleIdToInstituteMap.containsKey(googleId)) {
-            return googleIdToInstituteMap.get(googleId);
-        }
 
-        for (Account account : allAccounts) {
-            if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
-                googleIdToInstituteMap.put(googleId, account.getInstitute());
-                return account.getInstitute();
+        googleIdToInstituteMap.computeIfAbsent(googleId, key -> {
+            for (Account account : allAccounts) {
+                if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
+                    return account.getInstitute();
+                }
             }
-        }
+            return null;
+        });
 
-        return null;
+        return googleIdToInstituteMap.get(googleId);
     }
 
     private void print(List<InstituteStats> statList) {

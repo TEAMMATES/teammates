@@ -202,14 +202,13 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     public Map<String, TeamEvalResult> getContribQnTeamEvalResult(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        Map<String, TeamEvalResult> contribQnStats =
-                feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
-        if (contribQnStats == null) {
+        feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.computeIfAbsent(question.getId(), key -> {
+            Map<String, TeamEvalResult> contribQnStats =
+                    feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
             FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
             contribQnStats = fqcd.getTeamEvalResults(feedbackSessionResultsBundle, question);
-            feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.put(question.getId(), contribQnStats);
-        }
-
-        return contribQnStats;
+            return contribQnStats;
+        });
+    return feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
     }
 }

@@ -547,15 +547,20 @@ public class FeedbackNumericalScaleQuestionDetails extends
             String recipientEmail = response.recipient;
 
             // Compute number of responses including user's self response
-            int numOfResponses = numResponses.getOrDefault(recipientEmail, 0) + 1;
-            numResponses.put(recipientEmail, numOfResponses);
+            numResponses.putIfAbsent(recipientEmail, 0);
+            numResponses.computeIfPresent(recipientEmail, (k,v) -> {
+                int numOfResponses = numResponses.getOrDefault(recipientEmail, 0) + 1;
+                return numOfResponses;
+            });
 
             // Compute number of responses excluding user's self response
             numResponsesExcludingSelf.putIfAbsent(recipientEmail, 0);
             boolean isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
             if (!isSelfResponse) {
-                int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
-                numResponsesExcludingSelf.put(recipientEmail, numOfResponsesExcludingSelf);
+                numResponsesExcludingSelf.computeIfPresent(recipientEmail, (k,v) -> {
+                    int numOfResponsesExcludingSelf = numResponsesExcludingSelf.get(recipientEmail) + 1;
+                    return numOfResponsesExcludingSelf;
+                });
             }
 
             // Compute minimum score received
@@ -567,8 +572,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
             max.put(recipientEmail, maxScoreReceived);
 
             // Compute total score received
-            double totalScore = total.getOrDefault(recipientEmail, 0.0) + answer;
-            total.put(recipientEmail, totalScore);
+            total.putIfAbsent(recipientEmail, (double)0);
+            total.computeIfPresent(recipientEmail, (k,v)->{
+                double totalScore = total.getOrDefault(recipientEmail, 0.0) + answer;
+                return totalScore;
+            });
 
             // Compute total score received excluding self
             totalExcludingSelf.putIfAbsent(recipientEmail, null);
