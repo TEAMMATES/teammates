@@ -269,10 +269,10 @@ public final class InstructorPrivileges {
     }
 
     private void verifyExistenceOfsectionName(String sectionName) {
-        if (!this.sessionLevel.containsKey(sectionName)) {
+        this.sessionLevel.computeIfAbsent(sectionName, key -> {
             addSectionWithDefaultPrivileges(sectionName);
-            this.sessionLevel.put(sectionName, new LinkedHashMap<String, Map<String, Boolean>>());
-        }
+            return new LinkedHashMap<>();
+        });
     }
 
     public void addSectionWithDefaultPrivileges(String sectionName) {
