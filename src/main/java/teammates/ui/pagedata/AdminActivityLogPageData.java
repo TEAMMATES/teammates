@@ -262,12 +262,12 @@ public class AdminActivityLogPageData extends PageData {
 
             } else if ("from".equals(label)) {
                 fromDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy"))
-                        .atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant().toEpochMilli();
+                        .atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE).toInstant().toEpochMilli();
                 isFromDateSpecifiedInQuery = true;
 
             } else if ("to".equals(label)) {
                 toDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy"))
-                        .atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant().toEpochMilli();
+                        .atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE).toInstant().toEpochMilli();
             } else {
                 q.add(label, values);
             }

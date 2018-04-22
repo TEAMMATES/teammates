@@ -1,9 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -216,33 +214,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
 
-        ______TS("test fixed offset modal warning");
-        savedSession = getFeedbackSessionWithRetry(
-                editedSession.getCourseId(), editedSession.getFeedbackSessionName());
-        ZoneId originalTimeZone = savedSession.getTimeZone();
-        ZoneId fixedOffsetTimeZone = originalTimeZone.getRules().getOffset(Instant.now());
-
-        // Backdoor set to fixed offset time zone to simulate legacy data
-        savedSession.setTimeZone(fixedOffsetTimeZone);
-        status = BackDoor.editFeedbackSession(savedSession);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-
-        // Check for modal
-        feedbackEditPage.reloadPage();
-        feedbackEditPage.waitForConfirmationModalAndClickOk();
-
-        // Restore defaults
-        feedbackEditPage.selectTimeZone(editedSession.getTimeZone());
-        feedbackEditPage.clickSaveSessionButton();
-
         ______TS("test ambiguous date times");
-        ZoneId dstTimeZone = ZoneId.of("Australia/Victoria");
+        feedbackEditPage = getFeedbackEditPageOfSessionIndDstCourse();
+        FeedbackSessionAttributes dstSession = testData.feedbackSessions.get("dstSession");
+
         LocalDateTime overlapStartTime = TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 05 Apr, 2015", "2", "0");
         LocalDateTime gapEndTime = TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 01 Oct, 2017", "2", "0");
 
-        feedbackEditPage.clickEditSessionButton();
-        feedbackEditPage.editFeedbackSession(overlapStartTime, gapEndTime, dstTimeZone,
-                editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
+        feedbackEditPage.editFeedbackSession(overlapStartTime, gapEndTime,
+                dstSession.getInstructions(), dstSession.getGracePeriodMinutes());
 
         String overlapStartWarning = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP,
                 "start time", "Sun, 05 Apr 2015, 02:00 AM", "Sun, 05 Apr 2015, 02:00 AM AEDT (UTC+1100)",
@@ -255,16 +235,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals("End time on form should be updated to 3am",
                 "3", feedbackEditPage.getFeedbackSessionEndTimeValue());
 
-        savedSession = getFeedbackSessionWithRetry(editedSession.getCourseId(), editedSession.getFeedbackSessionName());
+        savedSession = getFeedbackSessionWithRetry(dstSession.getCourseId(), dstSession.getFeedbackSessionName());
         assertEquals("Saved end time should be 3am", 3, savedSession.getEndTimeLocal().getHour());
 
-        // Restore defaults
-        feedbackEditPage.clickEditSessionButton();
-        feedbackEditPage.editFeedbackSession(editedSession.getStartTimeLocal(), editedSession.getEndTimeLocal(),
-                editedSession.getTimeZone(), editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
-
         ______TS("test end time earlier than start time");
-        feedbackEditPage.clickEditSessionButton();
+        feedbackEditPage = getFeedbackEditPage();
         editedSession.setInstructions(new Text("Made some changes"));
         feedbackEditPage.editFeedbackSession(editedSession.getEndTimeLocal(), editedSession.getStartTimeLocal(),
                                         editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
@@ -1180,6 +1155,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions)
                                     .withEnableSessionEditDetails(true);
+        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+    }
+
+    private InstructorFeedbackEditPage getFeedbackEditPageOfSessionIndDstCourse() {
+        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+                .withUserId(testData.instructors.get("instructorOfDstCourse").googleId)
+                .withCourseId(testData.courses.get("courseWithDstTimeZone").getId())
+                .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName())
+                .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 
@@ -138,14 +137,7 @@ public final class Const {
          * in the FieldValidator class.
          */
 
-        // TODO: rename back to ADMIN_TIME_ZONE once the String version has been deleted
-        public static final ZoneId ADMIN_TIME_ZONE_ID = ZoneId.of("Asia/Singapore");
-        @Deprecated // use ZoneId version
-        public static final String ADMIN_TIME_ZONE = ADMIN_TIME_ZONE_ID.getId();
-        @Deprecated // use ZoneId version
-        public static final double ADMIN_TIME_ZONE_DOUBLE = 8.0;
-
-        public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
+        public static final ZoneId ADMIN_TIME_ZONE = ZoneId.of("Asia/Singapore");
 
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
 
@@ -190,6 +182,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
@@ -359,7 +352,7 @@ public final class Const {
                 "This feedback session is not published as it is private and only visible to you.";
 
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
-                "You should not need to change this as your time zone is auto-detected. <br><br>"
+                "To change this, edit the course settings. <br><br>"
                 + "TEAMMATES automatically adjusts to match the current time offset in your area, "
                 + "including clock changes due to daylight saving time.";
 
@@ -562,6 +555,8 @@ public final class Const {
                 + "To skip a distribution question, leave the boxes blank.";
         public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
+        public static final String CONST_SUM_ERROR_SOME_UNIQUE =
+                "At least some options must be given a different number of points.";
 
         // Rubric
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
@@ -736,6 +731,10 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION = "constSumPointsForEachOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT = "constSumPointsForEachRecipient";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
+        public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS = "constSumDistributePointsOptions";
+        public static final String FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION = "All options";
+        public static final String FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION = "At least some options";
+        public static final String FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION = "None";
         public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
         public static final String FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS = "mcqGeneratedOptions";
         public static final String FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS = "msqGeneratedOptions";
@@ -859,6 +858,7 @@ public final class Const {
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_FEEDBACK = "feedback";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
+        public static final String SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST = "usersToResendEmail";
 
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
 
@@ -969,6 +969,10 @@ public final class Const {
                 "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
+        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE =
+                "/page/instructorFeedbackResendPublishedEmailPage";
+        public static final String INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL =
+                "/page/instructorFeedbackResendPublishedEmail";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE = "/page/instructorFeedbackEditCopyPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY = "/page/instructorFeedbackEditCopy";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
@@ -1080,6 +1084,11 @@ public final class Const {
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
                 "/worker/feedbackSessionPublishedEmail";
 
+        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME =
+                "feedback-session-resend-published-email-queue";
+        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL =
+                "/worker/feedbackSessionResendPublishedEmail";
+
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
 
@@ -1140,6 +1149,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
                 "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_AJAX_RESEND_PUBLISHED_EMAIL_MODAL =
+                "/jsp/instructorFeedbackAjaxResendPublishedEmailModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
@@ -1360,6 +1371,14 @@ public final class Const {
                 "The feedback session has been deleted and is no longer accessible.";
         public static final String FEEDBACK_SESSION_PUBLISHED =
                 "The feedback session has been published. "
+                + "Please allow up to 1 hour for all the notification emails to be sent out.";
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_NOT_PUBLISHED =
+                "The feedback session is not published. "
+                + "You cannot resend published notification emails for a session that is not published.";
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT =
+                "You have not selected any student to email.";
+        public static final String FEEDBACK_SESSION_RESEND_EMAIL_SENT =
+                "Session published notification emails have been resent to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT =

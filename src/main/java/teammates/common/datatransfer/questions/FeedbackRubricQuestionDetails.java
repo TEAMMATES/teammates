@@ -981,7 +981,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         // For rubric questions,
         // 1) Description size should be valid
         // 2) At least 2 choices

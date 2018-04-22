@@ -3,8 +3,10 @@ package teammates.test.cases.action;
 import org.apache.commons.lang3.ArrayUtils;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -25,8 +27,9 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
     @Override
     @Test
-    public void testExecuteAndPostProcess() {
+    public void testExecuteAndPostProcess() throws TeammatesException {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String expectedString = "";
@@ -58,32 +61,18 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "instr1@course1.tmt|||Updated Feedback Session "
                 + "<span class=\"bold\">(First feedback session)</span> for Course "
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
-                + "<span class=\"bold\">From:</span> 2012-01-31T16:00:00Z"
-                + "<span class=\"bold\"> to</span> 2014-12-31T16:00:00Z<br>"
-                + "<span class=\"bold\">Session visible from:</span> 2011-12-31T16:00:00Z<br>"
+                + "<span class=\"bold\">From:</span> 2012-01-31T22:00:00Z"
+                + "<span class=\"bold\"> to</span> 2014-12-31T22:00:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 2011-12-31T22:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 1970-06-22T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
-        ______TS("failure: Fixed offset time zone");
-
-        params[25] = "UTC+08:00";
-
-        a = getAction(params);
-        ar = getAjaxResult(a);
-        pageData = (InstructorFeedbackEditPageData) ar.data;
-
-        expectedString = "\"UTC+08:00\" is not acceptable to TEAMMATES as a/an time zone because it is not "
-                + "available as a choice. The value must be one of the values from the time zone dropdown selector.";
-        statusMessage = pageData.getStatusMessagesToUser().get(0);
-        verifyStatusMessage(statusMessage, expectedString, StatusMessageColor.DANGER);
-        assertTrue(pageData.getHasError());
-
         ______TS("failure: Invalid parameters");
 
         params[15] = "Thu, 01 Mar, 2012";
-        params[25] = "UTC";
+        // params[25] = "UTC";
 
         a = getAction(params);
         ar = getAjaxResult(a);
@@ -97,7 +86,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         ______TS("success: Time zone with DST, gap start time, overlap end time");
 
-        params[25] = "Europe/Andorra";
+        backDoorLogic.updateCourse(course.getId(), course.getName(), "Europe/Andorra");
         // After Sun, 25 Mar 2012, 01:59:59 AM: clocks sprang forward to Sun, 25 Mar 2012, 03:00:00 AM
         params[5] = "Sun, 25 Mar, 2012";
         params[7] = "2";
@@ -128,7 +117,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
-        params[25] = "Asia/Kathmandu";
+        backDoorLogic.updateCourse(course.getId(), course.getName(), "Asia/Kathmandu");
         params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
 
@@ -158,8 +147,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         params = createParamsCombinationForFeedbackSession(
                          instructor1ofCourse1.courseId, session.getFeedbackSessionName(), 1);
-
-        params[25] = "UTC";
+        backDoorLogic.updateCourse(course.getId(), course.getName(), "UTC");
 
         a = getAction(params);
         ar = getAjaxResult(a);
@@ -191,7 +179,6 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-        params[25] = "UTC";
 
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
@@ -217,20 +204,9 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedString, a.getLogMessage(), adminUserId);
 
-        ______TS("failure: Invalid time zone");
-
-        params[27] = "invalid time zone";
-        verifyAssumptionFailure(params);
-
-        ______TS("failure: Null time zone");
-
-        params = ArrayUtils.remove(params, 26);
-        params = ArrayUtils.remove(params, 26);
-        verifyAssumptionFailure(params);
-
         ______TS("failure: Invalid grace period");
 
-        params[25] = "12dsf";
+        params[26] = "12dsf";
         verifyAssumptionFailure(params);
 
         ______TS("failure: Null grace period");
