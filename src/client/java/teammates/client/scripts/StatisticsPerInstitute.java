@@ -120,9 +120,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             String institute = getInstituteForInstructor(instructor, allAccounts);
 
-            institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(INSTRUCTOR_INDEX, new HashSet<>());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>()).computeIfAbsent(INSTRUCTOR_INDEX, k -> new HashSet<>()).add(instructor.getEmail().toLowerCase());
             institutes.get(institute).put(STUDENT_INDEX, new HashSet<>());
-            institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
 
             allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
             instructorEmailCounter++;
@@ -138,8 +137,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             String institute = getInstituteForStudent(student, allInstructors, allAccounts);
 
             institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(INSTRUCTOR_INDEX, new HashSet<>());
-            institutes.get(institute).put(STUDENT_INDEX, new HashSet<>());
-            institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
+            institutes.get(institute).computeIfAbsent(STUDENT_INDEX, k -> new HashSet<>()).add(student.getEmail().toLowerCase());
 
             allStudentEmailSet.add(student.getEmail().toLowerCase());
             studentEmailCounter++;
@@ -203,7 +201,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private String getInstituteFromGoogleId(String googleId, List<Account> allAccounts) {
-
         googleIdToInstituteMap.computeIfAbsent(googleId, key -> {
             for (Account account : allAccounts) {
                 if (account.getGoogleId().equals(googleId) && account.getInstitute() != null) {
@@ -212,7 +209,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             }
             return null;
         });
-
         return googleIdToInstituteMap.get(googleId);
     }
 
