@@ -120,7 +120,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
             String institute = getInstituteForInstructor(instructor, allAccounts);
 
-            institutes.computeIfAbsent(institute, key -> new HashMap<>()).computeIfAbsent(INSTRUCTOR_INDEX, k -> new HashSet<>()).add(instructor.getEmail().toLowerCase());
+            institutes.computeIfAbsent(institute, key -> new HashMap<>())
+                    .computeIfAbsent(INSTRUCTOR_INDEX, k -> new HashSet<>()).add(instructor.getEmail().toLowerCase());
             institutes.get(institute).put(STUDENT_INDEX, new HashSet<>());
 
             allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
@@ -137,7 +138,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             String institute = getInstituteForStudent(student, allInstructors, allAccounts);
 
             institutes.computeIfAbsent(institute, key -> new HashMap<>()).put(INSTRUCTOR_INDEX, new HashSet<>());
-            institutes.get(institute).computeIfAbsent(STUDENT_INDEX, k -> new HashSet<>()).add(student.getEmail().toLowerCase());
+            institutes.get(institute).computeIfAbsent(STUDENT_INDEX, k -> new HashSet<>())
+                    .add(student.getEmail().toLowerCase());
 
             allStudentEmailSet.add(student.getEmail().toLowerCase());
             studentEmailCounter++;
