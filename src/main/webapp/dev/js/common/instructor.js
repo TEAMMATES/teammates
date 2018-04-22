@@ -8,7 +8,12 @@ import {
 
 import {
     BootstrapContextualColors,
+    ParamsNames,
 } from './const';
+
+import {
+    countRemainingCharactersOnInput,
+} from './countRemainingCharactersOnInput';
 
 import {
     TimeZone,
@@ -54,6 +59,7 @@ function setupFsCopyModal() {
                             $('#fscopy_submit').closest('form').submit();
                         });
                 $('#fscopy_submit').prop('disabled', false);
+                countRemainingCharactersOnInput(ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
             },
         });
     });
@@ -381,6 +387,27 @@ function sendRemindersToStudents(urlLink) {
     });
 }
 
+function resendPublishedEmailToStudents(urlLink) {
+    const $statusMessage = $('#statusMessagesToUser');
+    $.ajax({
+        type: 'POST',
+        url: urlLink,
+        beforeSend() {
+            $statusMessage.html('<img src="/images/ajax-loader.gif">');
+            $statusMessage.css('display', 'block');
+        },
+        error() {
+            $statusMessage.html('An error has occurred while requesting for emails to be resent. Please try again.');
+        },
+        success(data) {
+            const statusToUser = $(data).find('#statusMessagesToUser').html();
+            $statusMessage.html(statusToUser);
+
+            scrollToElement($statusMessage[0], { duration: 1000 });
+        },
+    });
+}
+
 function attachEventToDeleteAllStudentLink() {
     $('body').on('click', '.course-student-delete-all-link', (event) => {
         event.preventDefault();
@@ -514,6 +541,7 @@ export {
     executeCopyCommand,
     initializeTimeZoneOptions,
     prepareInstructorPages,
+    resendPublishedEmailToStudents,
     selectElementContents,
     setupFsCopyModal,
     sendRemindersToStudents,

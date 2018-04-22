@@ -200,11 +200,13 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         constSumOptions.add("Option 2");
 
         boolean isPointsPerOption = false;
+        boolean shouldForceUevenDistribution = false;
         int points = 100;
-        boolean shouldForceUnevenDistribution = false;
+        String distributePointsOption = "None";
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
                 new FeedbackConstantSumQuestionDetails(questionText, constSumOptions,
-                                                       isPointsPerOption, points, shouldForceUnevenDistribution);
+                                                       isPointsPerOption, points,
+                                                        shouldForceUevenDistribution, distributePointsOption);
 
         requestParameters.put("questiontype-7", new String[] { "CONSTSUM" });
         requestParameters.put("responsetext-7-0", new String[] { "20", "80" });
