@@ -46,6 +46,10 @@ import {
     addLoadingIndicator,
 } from '../common/ui';
 
+import {
+    countRemainingCharactersOnInput,
+} from '../common/countRemainingCharactersOnInput';
+
 let isSessionsAjaxSending = false;
 let oldStatus = null;
 
@@ -111,7 +115,6 @@ function bindCopyButton() {
             const firstSessionCourseId = $($firstSession[0]).text();
             const firstSessionName = $($firstSession[1]).text();
 
-            $('#copyModal').modal('show');
             $('#modalCopiedSessionName').val(newFeedbackSessionName.trim());
             $('#modalCopiedCourseId').val(selectedCourseId.trim());
             const $modalCourseId = $('#modalCourseId');
@@ -122,7 +125,10 @@ function bindCopyButton() {
             if (!$modalSessionName.val().trim()) {
                 $modalSessionName.val(firstSessionName);
             }
+
+            $('#copyModal').modal('show');
         }
+        countRemainingCharactersOnInput('modalCopiedSessionName');
 
         return false;
     });
@@ -291,6 +297,8 @@ $(document).ready(() => {
         });
         /* eslint-enable camelcase */
     }
+
+    countRemainingCharactersOnInput(ParamsNames.FEEDBACK_SESSION_NAME);
 
     readyFeedbackPage();
 });
