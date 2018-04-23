@@ -8,7 +8,12 @@ import {
 
 import {
     BootstrapContextualColors,
+    ParamsNames,
 } from './const';
+
+import {
+    countRemainingCharactersOnInput,
+} from './countRemainingCharactersOnInput';
 
 import {
     TimeZone,
@@ -54,6 +59,7 @@ function setupFsCopyModal() {
                             $('#fscopy_submit').closest('form').submit();
                         });
                 $('#fscopy_submit').prop('disabled', false);
+                countRemainingCharactersOnInput(ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
             },
         });
     });

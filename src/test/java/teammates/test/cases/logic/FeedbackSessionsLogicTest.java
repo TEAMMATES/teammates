@@ -283,19 +283,20 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("test delete");
         fs = getNewFeedbackSession();
         // Create a question under the session to test for cascading during delete.
-        FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
-        fq.feedbackSessionName = fs.getFeedbackSessionName();
-        fq.courseId = fs.getCourseId();
-        fq.questionNumber = 1;
-        fq.creatorEmail = fs.getCreatorEmail();
-        fq.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
-        fq.giverType = FeedbackParticipantType.STUDENTS;
-        fq.recipientType = FeedbackParticipantType.TEAMS;
-        fq.questionMetaData = new Text("question to be deleted through cascade");
-        fq.questionType = FeedbackQuestionType.TEXT;
-        fq.showResponsesTo = new ArrayList<>();
-        fq.showRecipientNameTo = new ArrayList<>();
-        fq.showGiverNameTo = new ArrayList<>();
+        FeedbackQuestionAttributes fq = FeedbackQuestionAttributes.builder()
+                .withFeedbackSessionName(fs.getFeedbackSessionName())
+                .withCourseId(fs.getCourseId())
+                .withQuestionNumber(1)
+                .withCreatorEmail(fs.getCreatorEmail())
+                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.TEAMS)
+                .withQuestionMetaData(new Text("question to be deleted through cascade"))
+                .withQuestionType(FeedbackQuestionType.TEXT)
+                .withShowResponseTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .build();
 
         fqLogic.createFeedbackQuestion(fq);
 
