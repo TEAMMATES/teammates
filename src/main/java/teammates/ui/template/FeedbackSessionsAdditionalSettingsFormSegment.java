@@ -13,7 +13,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     private boolean isSessionVisibleDateDisabled;
     private List<ElementTag> sessionVisibleTimeOptions;
     private boolean isSessionVisibleAtOpenChecked;
-    private boolean isSessionVisiblePrivateChecked;
 
     private boolean isResponseVisibleDateChecked;
     private String responseVisibleDateValue;
@@ -44,10 +43,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
 
     public boolean isSessionVisibleAtOpenChecked() {
         return isSessionVisibleAtOpenChecked;
-    }
-
-    public boolean isSessionVisiblePrivateChecked() {
-        return isSessionVisiblePrivateChecked;
     }
 
     public boolean isResponseVisibleDateChecked() {
@@ -99,7 +94,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.sessionVisibleDateValue = "";
         additionalSettings.isSessionVisibleDateDisabled = true;
         additionalSettings.sessionVisibleTimeOptions = PageData.getTimeOptionsAsElementTags(null);
-        additionalSettings.isSessionVisiblePrivateChecked = false;
 
         additionalSettings.isResponseVisibleDateChecked = false;
         additionalSettings.responseVisibleDateValue = "";
@@ -169,9 +163,6 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         additionalSettings.isSessionVisibleAtOpenChecked =
                                         Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
                                              feedbackSession.getSessionVisibleFromTime());
-        additionalSettings.isSessionVisiblePrivateChecked =
-                                        Const.TIME_REPRESENTS_NEVER.equals(
-                                            feedbackSession.getSessionVisibleFromTime());
 
         additionalSettings.isSessionVisibleDateButtonChecked = hasSessionVisibleDate;
         additionalSettings.sessionVisibleDateValue = hasSessionVisibleDate
