@@ -1027,7 +1027,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         // LEGACY IMPLEMENTATION: Coupled to the implementation instructorFeedbackEdit.js#showNewQuestionFrame
         // Creating a new question will result in scrolling, so it is assumed that all initialization is completed after
         // scrolling is complete.
-        waitForNoScrolling();
+        waitForScrollingToComplete();
     }
 
     public void selectMcqGenerateOptionsFor(String generateFor, int questionNumber) {
@@ -1920,7 +1920,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         // scrolling behavior.
         // PROBABLE BETTER IMPLEMENTATION: All AJAX Status messages (not just error status messages) always cause scrolling
         // so waiting for the status messages will include waiting for no scrolling before verifying the status messages.
-        waitForNoScrolling();
+        waitForScrollingToComplete();
         waitForTextsForAllStatusMessagesToUserEquals(firstExpectedErrorText, remainingExpectedErrorTexts);
     }
 

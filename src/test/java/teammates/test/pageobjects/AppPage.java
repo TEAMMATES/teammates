@@ -319,11 +319,11 @@ public abstract class AppPage {
     }
 
     /**
-     * Waits until there is no scrolling on the page. Note: The detection of whether the page is scrolling is coupled to our
+     * Waits until scrolling on the page is complete. Note: The detection of whether the page is scrolling is coupled to our
      * own implementation of scrolling {@code (scrollTo.js)} and is not a true detection.
      * @throws org.openqa.selenium.TimeoutException if the timeout defined in {@link TestProperties#TEST_TIMEOUT} expires
      */
-    void waitForNoScrolling() {
+    void waitForScrollingToComplete() {
         // Note: The implementation compares previous and current scroll positions so the polling interval should not be
         // changed or set to too low a value or the comparisons may unexpectedly be equal.
         waitFor(new ExpectedCondition<Boolean>() {
