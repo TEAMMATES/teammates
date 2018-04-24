@@ -1013,12 +1013,15 @@ public abstract class AppPage {
      * @see ExpectedConditions
      */
     private boolean isExpectedCondition(ExpectedCondition<?> expectedCondition) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 0);
-        try {
-            wait.until(expectedCondition);
-            return true;
-        } catch (TimeoutException e) {
+        Object value = expectedCondition.apply(browser.driver);
+        if (value == null) {
             return false;
+        }
+
+        if (value.getClass() == Boolean.class) {
+            return (boolean) value;
+        } else {
+            return true;
         }
     }
 
