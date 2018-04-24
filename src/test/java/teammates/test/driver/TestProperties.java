@@ -64,9 +64,9 @@ public final class TestProperties {
 
     /** The value of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER;
-    /** One of the allowed value of "test.selenium.browser" in test.properties file. */
+    /** One of the allowed values of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER_CHROME = "chrome";
-    /** One of the allowed value of "test.selenium.browser" in test.properties file. */
+    /** One of the allowed values of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER_FIREFOX = "firefox";
 
     /** The value of "test.firefox.path" in test.properties file. */

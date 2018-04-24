@@ -277,7 +277,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Wait until an element is no longer attached to the DOM or the timeout expires.
+     * Waits until an element is no longer attached to the DOM or the timeout expires.
      * @param element the WebElement
      * @throws org.openqa.selenium.TimeoutException if the timeout defined in
      * {@link TestProperties#TEST_TIMEOUT} expires
@@ -288,7 +288,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Wait until an element belongs to the class or the timeout expires.
+     * Waits until an element belongs to the class or the timeout expires.
      * @param element the WebElement
      * @param elementClass the class that the element must belong to
      * @throws org.openqa.selenium.TimeoutException if the timeout defined in
@@ -587,7 +587,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Simulates the clearing and sending keys to an element.
+     * Simulates the clearing and sending of keys to an element.
      *
      * <p><b>Note:</b> This method is not the same as using {@link WebElement#clear} followed by {@link WebElement#sendKeys}.
      * It avoids double firing of the {@code change} event which may occur when {@link WebElement#clear} is followed by
@@ -607,8 +607,9 @@ public abstract class AppPage {
     }
 
     /**
-     * Clears any editable elements but does not fire the {@code change} event like {@link WebElement#clear()}. Avoid using
-     * this method if {@link WebElement#clear()} meets the requirements as this method depends on implementation details.
+     * Clears any kind of editable element,  but without firing the {@code change} event (unlike {@link WebElement#clear()}).
+     * Avoid using this method if {@link WebElement#clear()} meets the requirements as this method depends on implementation
+     * details.
      */
     private Map<String, Object> clearWithoutEvents(WebElement element) {
         // This method is a close mirror of HtmlUnitWebElement#clear(), except that events are not handled. Note that
@@ -707,7 +708,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Simulates the clearing and setting value of a TinyMCE Editor. This method is a legacy helper for filling rich text
+     * Simulates the clearing and setting of value for a TinyMCE Editor. This method is a legacy helper for filling rich text
      * editors and should not be used unless necessary.
      */
     private void clearAndSetNewValueForTinyMce(String id, String preparedContent) {
@@ -1026,7 +1027,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns true if, and only if, element is invisible or stale as defined in the WebDriver specification.
+     * Returns true if the element is invisible or stale as defined in the WebDriver specification.
      * @param locator used to find the element
      */
     public boolean isElementInvisibleOrStale(By locator) {
@@ -1408,7 +1409,7 @@ public abstract class AppPage {
      * <p>ChromeDriver also automatically scrolls to an element when clicking an element if it is not in the viewport.
      */
     void scrollElementToCenterAndClick(WebElement element) {
-        // TODO: migrate to `scrollIntoView` Geckodriver is adopted
+        // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
         executeScript("const elementRect = arguments[0].getBoundingClientRect();"
                 + "const elementAbsoluteTop = elementRect.top + window.pageYOffset;"
                 + "const center = elementAbsoluteTop - (window.innerHeight / 2);"
@@ -1581,7 +1582,7 @@ public abstract class AppPage {
 
         /**
          * Fires a {@value CHANGE_EVENT} event on the element if not already fired.
-         * Requires that a hook ({@link FirefoxChangeHandler#addChangeEventHook(WebElement)}) to be added before to detect
+         * Requires a hook ({@link FirefoxChangeHandler#addChangeEventHook(WebElement)}) to be added before to detect
          * events.
          * Note that sometimes the {@value CHANGE_EVENT} event may need to be fired multiple times but this method only fires
          * one {@value CHANGE_EVENT} event in place of multiple {@value CHANGE_EVENT} events. This reinforces the notion that
@@ -1616,7 +1617,7 @@ public abstract class AppPage {
         }
 
         /**
-         * Returns if a {@value CHANGE_EVENT} event has not been fired for the element for which the hook is associated to.
+         * Returns if a {@value CHANGE_EVENT} event has not been fired for the element to which the hook is associated.
          * Note that this only detects the presence of firing of {@value CHANGE_EVENT} events and not does not keep track of
          * how many {@value CHANGE_EVENT} events are fired.
          */
@@ -1632,8 +1633,8 @@ public abstract class AppPage {
 
         /**
          * Fires the {@value CHANGE_EVENT} event on the element.
-         * Note that this method should not be called usually because events should not be fired manually,
-         * and may also result in unexpected <strong>multiple firings </strong> of the event.
+         * Note that this method should not usually be called because events should not be fired manually,
+         * and may also result in unexpected <strong>multiple firings</strong> of the event.
          */
         private void fireChangeEvent(WebElement element) {
             if (!isFirefox) {

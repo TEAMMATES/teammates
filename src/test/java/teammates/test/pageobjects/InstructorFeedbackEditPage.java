@@ -740,7 +740,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the visibility option and wait for the visibility message to load.
+     * Selects the visibility option and waits for the visibility message to load.
      * <b>Note: </b> The custom visibility options allow for more customization after the option is selected and
      * the visibility message would not be loaded until the custom options are modified, which implies that there is no need
      * to wait for the visibility message to load if the custom visibility options is selected.
@@ -778,7 +778,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the visibility option and wait for the visibility message to load for the new question.
+     * Selects the visibility option and waits for the visibility message to load for the new question.
      *
      * @see InstructorFeedbackEditPage#clickVisibilityDropdownAndWaitForVisibilityMessageToLoad(String, int)
      */
@@ -1073,7 +1073,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the recipient type in the feedback path and wait for the corresponding visibility message to load.
+     * Selects the recipient type in the feedback path and waits for the corresponding visibility message to load.
      */
     public void selectRecipientTypeForNewQuestionAndWaitForVisibilityMessageToLoad(String recipientType) {
         final WebElement selectElement = browser.driver.findElement(By.id("recipienttype-" + NEW_QUESTION_NUM));
@@ -1144,7 +1144,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the giver in the feedback path to be students in the course and wait for the corresponding visibility message
+     * Selects the giver in the feedback path to be students in the course and waits for the corresponding visibility message
      * to load.
      */
     public void selectGiverToBeStudentsAndWaitForVisibilityMessageToLoad() {
@@ -1152,7 +1152,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the giver in the feedback path to be instructors in the course and wait for the corresponding visibility
+     * Selects the giver in the feedback path to be instructors in the course and waits for the corresponding visibility
      * message to load.
      */
     public void selectGiverToBeInstructorsAndWaitForVisibilityMessageToLoad() {
@@ -1160,7 +1160,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the recipients in the feedback path to be other students in the course and wait for the corresponding
+     * Selects the recipients in the feedback path to be other students in the course and waits for the corresponding
      * visibility message to load.
      */
     public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad() {
@@ -1169,8 +1169,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the recipients in the feedback path to be the team members and giver and wait for the corresponding visibility
-     * message to load.
+     * Selects the recipients in the feedback path to be the team members and giver and waits for the corresponding
+     * visibility message to load.
      */
     public void selectRecipientsToBeGiverTeamMembersAndGiverAndWaitForVisibilityMessageToLoad() {
         selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
@@ -1178,8 +1178,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the recipients in the feedback path to be instructors in the course and wait for the corresponding visibility
-     * message to load.
+     * Selects the recipients in the feedback path to be instructors in the course and waits for the corresponding
+     * visibility message to load.
      */
     public void selectRecipientsToBeInstructorsAndWaitForVisibilityMessageToLoad() {
         selectDropdownByVisibleValueAndWaitForAjaxRequestComplete(
@@ -1187,7 +1187,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     /**
-     * Selects the recipients in the feedback path to be other students in the course and wait for the corresponding
+     * Selects the recipients in the feedback path to be other students in the course and waits for the corresponding
      * visibility message to load.
      */
     public void selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad(int qnNumber) {
@@ -1923,7 +1923,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         // faster because the text should already be visible. Any tests that follows will then also not get affected by the
         // scrolling behavior.
         // PROBABLE BETTER IMPLEMENTATION: All AJAX Status messages (not just error status messages) always cause scrolling
-        // so waiting for the status messages will compose of waiting for no scrolling before verifying the status messages.
+        // so waiting for the status messages will include waiting for no scrolling before verifying the status messages.
         waitForNoScrolling();
         waitForTextsForAllStatusMessagesToUserEquals(firstExpectedErrorText, remainingExpectedErrorTexts);
     }
