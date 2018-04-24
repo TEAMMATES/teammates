@@ -713,10 +713,10 @@ public abstract class AppPage {
      */
     private void clearAndSetNewValueForTinyMce(String id, String preparedContent) {
         executeScript(
-                // clear content programmatically, e.g. does not add undo level in the TinyMCE editor
+                // clear content programmatically, one implication is that an undo level is not added to the TinyMCE editor
                 "tinyMCE.get(arguments[0]).setContent('');"
-                        // insert like a user does it but may fire some events immediately, e.g. this adds an undo level
-                        // and result in `Change` event being fired.
+                        // insert like a user does (one implication is that an undo level is added); this may result in some
+                        // events (e.g. `Change`) firing immediately
                         + "tinyMCE.get(arguments[0]).insertContent(arguments[1]);"
                         + "tinyMCE.get(arguments[0]).focus();", // for consistent HTML verification across browsers
                 id, preparedContent);
