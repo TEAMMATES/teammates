@@ -480,8 +480,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
     /**
      * Returns the mocked HTML content set by TinyMCE. Note: This is a basic mock that only adds paragraph tags to the
-     * content, which simulates the behavior that TinyMCE does to a plain string. There is a lot more complicated behavior
-     * that is not mocked.
+     * content, which simulates TinyMCE's behavior for plain strings. TinyMCE's more complicated behavior for other scenarios
+     * is not mocked.
      */
     private String getMockedTinyMceContent(String content) {
         return "<p>" + content + "</p>";
