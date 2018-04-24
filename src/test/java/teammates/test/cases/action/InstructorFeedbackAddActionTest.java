@@ -215,7 +215,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
 
         params = createParamsCombinationForFeedbackSession(
-                         instructor1ofCourse1.courseId, "masquerade session", 3);
+                         instructor1ofCourse1.courseId, "masquerade session", 2);
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
         a = getAction(params);

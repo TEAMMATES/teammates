@@ -70,9 +70,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_later")
     private WebElement manualResultsVisibleTimeButton;
 
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
-    private WebElement neverSessionVisibleTimeButton;
-
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL + "_closing")
     private WebElement closingSessionEmailReminderButton;
 
@@ -806,14 +803,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean verifyEditSessionBoxIsEnabled() {
         boolean isEditSessionEnabled = fsSaveLink.isDisplayed() && timezoneDropDown.isEnabled()
                                        // && "Session visible from" radio buttons
-                                       && neverSessionVisibleTimeButton.isEnabled()
                                        && defaultSessionVisibleTimeButton.isEnabled()
                                        && customSessionVisibleTimeButton.isEnabled()
                                        // && "Send emails for" checkboxes
                                        && closingSessionEmailReminderButton.isEnabled()
                                        && publishedSessionEmailReminderButton.isEnabled();
 
-        if (isEditSessionEnabled && !neverSessionVisibleTimeButton.isSelected()) {
+        if (isEditSessionEnabled) {
             isEditSessionEnabled = gracePeriodDropdown.isEnabled() // && Submission times inputs
                                    && startDateBox.isEnabled() && startTimeDropdown.isEnabled()
                                    && endDateBox.isEnabled() && endTimeDropdown.isEnabled()

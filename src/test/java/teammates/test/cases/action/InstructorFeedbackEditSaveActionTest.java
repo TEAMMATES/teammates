@@ -113,12 +113,12 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
 
         assertFalse(pageData.getHasError());
 
-        ______TS("success: Custom time zone, 'never' show session, 'custom' show results");
+        ______TS("success: Custom time zone, At open show session, 'later' show results");
 
         params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
                                                        session.getFeedbackSessionName());
         backDoorLogic.updateCourse(course.getId(), course.getName(), "Asia/Kathmandu");
-        params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
+        params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN;
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
 
         a = getAction(params);
@@ -137,7 +137,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
                 + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
                 + "<span class=\"bold\">From:</span> 2012-01-31T18:15:00Z"
                 + "<span class=\"bold\"> to</span> 2014-12-31T18:15:00Z<br>"
-                + "<span class=\"bold\">Session visible from:</span> 1970-11-27T00:00:00Z<br>"
+                + "<span class=\"bold\">Session visible from:</span> 1970-12-31T00:00:00Z<br>"
                 + "<span class=\"bold\">Results visible from:</span> 1970-01-01T00:00:00Z<br><br>"
                 + "<span class=\"bold\">Instructions:</span> "
                 + "<Text: instructions>|||/page/instructorFeedbackEditSave";

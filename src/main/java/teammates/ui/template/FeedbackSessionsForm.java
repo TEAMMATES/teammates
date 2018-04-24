@@ -23,9 +23,9 @@ public class FeedbackSessionsForm {
     private String courseId;
 
     private boolean isEditFsButtonsVisible;
-    private boolean isFeedbackSessionTypeEditable;
+    private boolean isSessionTemplateTypeEditable;
     // List of options for feedback session type
-    private List<ElementTag> feedbackSessionTypeOptions;
+    private List<ElementTag> sessionTemplateTypeOptions;
 
     private String fsDeleteLink;
     private String copyToLink;
@@ -75,7 +75,7 @@ public class FeedbackSessionsForm {
         fsForm.fsName = existingFs.getFeedbackSessionName();
 
         fsForm.isCourseIdEditable = false;
-        fsForm.isFeedbackSessionTypeEditable = false;
+        fsForm.isSessionTemplateTypeEditable = false;
 
         fsForm.isEditFsButtonsVisible = true;
 
@@ -107,7 +107,7 @@ public class FeedbackSessionsForm {
     }
 
     public static FeedbackSessionsForm getFormForNewFs(FeedbackSessionAttributes feedbackSession,
-                                                       List<ElementTag> fsTypeOptions,
+                                                       List<ElementTag> sessionTemplateTypeOptions,
                                                        String defaultCourseId,
                                                        List<String> courseIds, List<ElementTag> courseIdOptions,
                                                        Map<String, InstructorAttributes> instructors,
@@ -127,8 +127,8 @@ public class FeedbackSessionsForm {
         newFsForm.coursesSelectField = courseIdOptions;
 
         newFsForm.isEditFsButtonsVisible = false;
-        newFsForm.isFeedbackSessionTypeEditable = true;
-        newFsForm.feedbackSessionTypeOptions = fsTypeOptions;
+        newFsForm.isSessionTemplateTypeEditable = true;
+        newFsForm.sessionTemplateTypeOptions = sessionTemplateTypeOptions;
 
         newFsForm.fsTimeZone = feedbackSession == null ? null : feedbackSession.getTimeZone().getId();
 
@@ -182,8 +182,8 @@ public class FeedbackSessionsForm {
         return courses;
     }
 
-    public List<ElementTag> getFeedbackSessionTypeOptions() {
-        return feedbackSessionTypeOptions;
+    public List<ElementTag> getSessionTemplateTypeOptions() {
+        return sessionTemplateTypeOptions;
     }
 
     public boolean isShowNoCoursesMessage() {
@@ -238,8 +238,8 @@ public class FeedbackSessionsForm {
         return formSubmitActionLink;
     }
 
-    public boolean isFeedbackSessionTypeEditable() {
-        return isFeedbackSessionTypeEditable;
+    public boolean isSessionTemplateTypeEditable() {
+        return isSessionTemplateTypeEditable;
     }
 
     public boolean isCourseIdEditable() {

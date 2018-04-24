@@ -653,8 +653,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // test that responses from other courses are unaffected
         String otherCourse = "idOfTypicalCourse2";
         assertFalse(frLogic.getFeedbackResponsesForSession("Instructor feedback session", otherCourse).isEmpty());
-        assertFalse(frLogic.getFeedbackResponsesForSession("Private feedback session", otherCourse).isEmpty());
-
     }
 
     private FeedbackQuestionAttributes getQuestionFromDatastore(DataBundle dataBundle, String jsonId) {
