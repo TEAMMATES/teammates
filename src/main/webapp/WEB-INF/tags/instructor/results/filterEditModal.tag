@@ -26,16 +26,16 @@
                       Group by - Question
                     </option>
                     <option value="<%=Const.FeedbackSessionResults.GRQ_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'giver-recipient-question'}"> selected</c:if>>
-                      Group by - Giver > Recipient > Question
+                      Group by - Giver &#8594; Recipient &#8594; Question
                     </option>
                     <option value="<%=Const.FeedbackSessionResults.RGQ_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'recipient-giver-question'}"> selected</c:if>>
-                      Group by - Recipient > Giver > Question
+                      Group by - Recipient &#8594; Giver &#8594; Question
                     </option>
                     <option value="<%=Const.FeedbackSessionResults.GQR_SORT_TYPE%>"<c:if test="${filterPanel.sortType == 'giver-question-recipient'}"> selected</c:if>>
-                      Group by - Giver > Question > Recipient
+                      Group by - Giver &#8594; Question &#8594; Recipient
                     </option>
                     <option value="<%=Const.FeedbackSessionResults.RQG_SORT_TYPE%>"<c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}"> selected</c:if>>
-                      Group by - Recipient > Question > Giver
+                      Group by - Recipient &#8594; Question &#8594; Giver
                     </option>
                   </select>
                 </div>
