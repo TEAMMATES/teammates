@@ -19,8 +19,8 @@ import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackSessionsPage extends AppPage {
 
-    @FindBy(id = "fstype")
-    private WebElement fsType;
+    @FindBy(id = "sessionTemplateType")
+    private WebElement sessionTemplateType;
 
     @FindBy(id = "courseid")
     private WebElement courseIdDropdown;
@@ -57,9 +57,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_custom")
     private WebElement customResultsVisibleTimeButton;
-
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
-    private WebElement neverSessionVisibleTimeButton;
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
     private WebElement defaultSessionVisibleTimeButton;
@@ -117,7 +114,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public void selectSessionType(String visibleText) {
-        selectDropdownByVisibleValue(fsType, visibleText);
+        selectDropdownByVisibleValue(sessionTemplateType, visibleText);
     }
 
     public AppPage sortByName() {
@@ -156,10 +153,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void clickCustomPublishTimeButton() {
         click(customResultsVisibleTimeButton);
-    }
-
-    public void clickNeverVisibleTimeButton() {
-        click(neverSessionVisibleTimeButton);
     }
 
     public void clickManualPublishTimeButton() {
@@ -330,7 +323,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public String getSessionType() {
-        return fsType.getAttribute("value");
+        return sessionTemplateType.getAttribute("value");
     }
 
     public String getStartTime() {
