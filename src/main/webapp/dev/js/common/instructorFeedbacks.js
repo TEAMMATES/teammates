@@ -77,17 +77,6 @@ function toggleDisabledAndStoreLast(id, bool) {
 }
 
 /**
- * Collapses/hides unnecessary fields/cells/tables if private session option is selected.
- */
-function collapseIfPrivateSession() {
-    if ($(`[name=${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`).filter(':checked').val() === 'never') {
-        $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').hide();
-    } else {
-        $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
-    }
-}
-
-/**
  * Toggles whether custom fields are enabled or not for session visible time based
  * on checkbox selection.
  * @param $privateBtn
@@ -115,7 +104,6 @@ function formatResponsesVisibilityGroup() {
 function formatSessionVisibilityGroup() {
     const $sessionVisibilityBtnGroup = $(`[name=${ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON}]`);
     $sessionVisibilityBtnGroup.change(() => {
-        collapseIfPrivateSession();
         if ($sessionVisibilityBtnGroup.filter(':checked').val() === 'custom') {
             toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, false);
             toggleDisabledAndStoreLast(ParamsNames.FEEDBACK_SESSION_VISIBLETIME, false);
@@ -128,7 +116,6 @@ function formatSessionVisibilityGroup() {
 
 export {
     bindUncommonSettingsEvents,
-    collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
     showUncommonPanelsIfNotInDefaultValues,

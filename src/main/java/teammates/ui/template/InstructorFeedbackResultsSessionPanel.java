@@ -79,8 +79,6 @@ public class InstructorFeedbackResultsSessionPanel {
         if (feedbackSession.getResultsVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
                 return TimeHelper.formatDateTimeForSessions(feedbackSession.getStartTime(), feedbackSession.getTimeZone());
-            } else if (feedbackSession.getSessionVisibleFromTime().equals(Const.TIME_REPRESENTS_NEVER)) {
-                return "Never";
             } else {
                 return TimeHelper.formatDateTimeForSessions(
                         feedbackSession.getSessionVisibleFromTime(), feedbackSession.getTimeZone());

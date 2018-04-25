@@ -18,7 +18,6 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnLoad;
 import com.googlecode.objectify.annotation.Unindex;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -87,10 +86,11 @@ public class FeedbackSession extends BaseEntity {
     @IgnoreSave
     private Double timeZoneDouble;
 
+    @IgnoreSave
+    private String feedbackSessionType;
+
     @Unindex
     private long gracePeriod;
-
-    private FeedbackSessionType feedbackSessionType;
 
     private boolean sentOpenEmail;
 
@@ -115,11 +115,11 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            FeedbackSessionType feedbackSessionType, boolean sentOpenEmail,
+            boolean sentOpenEmail,
             boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, startTime, endTime,
-             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod, feedbackSessionType,
+             sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
              sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
              isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
     }
@@ -127,7 +127,7 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId,
             String creatorEmail, Text instructions, Instant createdTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            FeedbackSessionType feedbackSessionType, boolean sentOpenEmail, boolean sentClosingEmail,
+            boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
             Set<String> instructorList, Set<String> studentList) {
@@ -142,7 +142,6 @@ public class FeedbackSession extends BaseEntity {
         this.resultsVisibleFromTime = TimeHelper.convertInstantToDate(resultsVisibleFromTime);
         this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
-        this.feedbackSessionType = feedbackSessionType;
         this.sentOpenEmail = sentOpenEmail;
         this.sentClosingEmail = sentClosingEmail;
         this.sentClosedEmail = sentClosedEmail;
@@ -215,6 +214,16 @@ public class FeedbackSession extends BaseEntity {
     private void adjustResultsVisibleFromTimeIfRequired() {
         if (Const.TIME_REPRESENTS_NEVER.equals(getResultsVisibleFromTime())) {
             setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        }
+    }
+
+    @OnLoad
+    @SuppressWarnings("unused") // called by Objectify
+    private void adjustOpeningAndClosingAndVisibleTimeForPrivateSessions() {
+        if ("PRIVATE".equals(feedbackSessionType)) {
+            setStartTime(TimeHelper.parseInstant("2118-01-01 12:00 AM +0000"));
+            setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+            setEndTime(TimeHelper.parseInstant("2118-01-01 12:00 AM +0000"));
         }
     }
 
@@ -306,14 +315,6 @@ public class FeedbackSession extends BaseEntity {
         this.gracePeriod = gracePeriod;
     }
 
-    public FeedbackSessionType getFeedbackSessionType() {
-        return feedbackSessionType;
-    }
-
-    public void setFeedbackSessionType(FeedbackSessionType feedbackSessionType) {
-        this.feedbackSessionType = feedbackSessionType;
-    }
-
     public boolean isSentOpenEmail() {
         return sentOpenEmail;
     }
@@ -395,8 +396,8 @@ public class FeedbackSession extends BaseEntity {
                 + endTime + ", sessionVisibleFromTime="
                 + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
-                + ", gracePeriod=" + gracePeriod + ", feedbackSessionType="
-                + feedbackSessionType + ", sentOpenEmail=" + sentOpenEmail
+                + ", gracePeriod=" + gracePeriod
+                + ", sentOpenEmail=" + sentOpenEmail
                 + ", sentPublishedEmail=" + sentPublishedEmail
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled

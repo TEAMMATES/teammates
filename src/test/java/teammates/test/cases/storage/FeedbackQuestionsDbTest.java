@@ -347,25 +347,22 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
-        FeedbackQuestionAttributes fqa = new FeedbackQuestionAttributes();
-
-        fqa.courseId = "testCourse";
-        fqa.creatorEmail = "instructor@email.com";
-        fqa.feedbackSessionName = "testFeedbackSession";
-        fqa.giverType = FeedbackParticipantType.INSTRUCTORS;
-        fqa.recipientType = FeedbackParticipantType.SELF;
-        fqa.numberOfEntitiesToGiveFeedbackTo = 1;
-        fqa.questionNumber = 1;
-
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
-        fqa.questionType = FeedbackQuestionType.TEXT;
-        fqa.setQuestionDetails(questionDetails);
 
-        fqa.showGiverNameTo = new ArrayList<>();
-        fqa.showRecipientNameTo = new ArrayList<>();
-        fqa.showResponsesTo = new ArrayList<>();
-
-        return fqa;
+        return FeedbackQuestionAttributes.builder()
+                .withCourseId("testCourse")
+                .withCreatorEmail("instructor@email.com")
+                .withFeedbackSessionName("testFeedbackSession")
+                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withRecipientType(FeedbackParticipantType.SELF)
+                .withNumOfEntitiesToGiveFeedbackTo(1)
+                .withQuestionNumber(1)
+                .withQuestionType(FeedbackQuestionType.TEXT)
+                .withQuestionMetaData(questionDetails)
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .withShowResponseTo(new ArrayList<>())
+                .build();
     }
 
     private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
