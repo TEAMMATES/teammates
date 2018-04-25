@@ -194,7 +194,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 instructions, newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME);
-        assertEquals("<p>" + instructions.getValue() + "</p>", feedbackPage.getInstructions());
+        assertEquals(getMockedTinyMceContent(instructions.getValue()), feedbackPage.getInstructions());
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -205,8 +205,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
 
-        // TinyMCE wraps text with <p> tag
-        newSession.setInstructions(new Text("<p>" + instructions.getValue() + "</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
         assertEquals(newSession.toString(), savedSession.toString());
         newSession.setInstructions(instructions);
 
@@ -292,7 +291,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.toggleSendClosingEmailCheckbox();
 
         // fill in defaults
-        newSession.setInstructions(new Text("<p>Please answer all the given questions.</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent("Please answer all the given questions.")));
         newSession.setGracePeriodMinutes(15);
 
         feedbackPage.addFeedbackSession(
@@ -360,7 +359,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriodMinutes(25);
-        newSession.setInstructions(instructions);
+        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
 
@@ -374,8 +373,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
-
-        newSession.setInstructions(new Text("<p>cannot see responses$^/&#61;?</p>"));
 
         assertEquals(newSession.toString(), savedSession.toString());
 
@@ -406,7 +403,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
-        newSession.setInstructions(new Text("<p>" + newSession.getInstructionsString() + "</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent(newSession.getInstructionsString())));
         assertEquals(newSession.toString(), savedSession.toString());
 
         ______TS("failure case: invalid input: (end < start < visible) and (publish < visible)");
@@ -464,6 +461,15 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "bad name %% #",
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR));
 
+    }
+
+    /**
+     * Returns the mocked HTML content set by TinyMCE. Note: This is a basic mock that only adds paragraph tags to the
+     * content, which simulates TinyMCE's behavior for plain strings. TinyMCE's more complicated behavior for other scenarios
+     * is not mocked.
+     */
+    private String getMockedTinyMceContent(String content) {
+        return "<p>" + content + "</p>";
     }
 
     private void testCopyFromAction() throws Exception {
