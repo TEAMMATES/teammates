@@ -12,7 +12,10 @@ import teammates.common.util.JsonUtils;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
+import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorSearchPage;
+import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_SEARCH_PAGE}.
@@ -38,7 +41,12 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception {
 
         testContent();
-        testSearchAndDelete();
+        testSearch();
+
+        testViewAction();
+        testEditAction();
+        testAllRecordsAction();
+        testDeleteAction();
 
         testSanitization();
 
@@ -56,7 +64,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testSearchAndDelete() throws Exception {
+    private void testSearch() throws Exception {
 
         ______TS("search for nothing");
 
@@ -108,6 +116,68 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickSearchButton();
         searchPage.clickAndHoverPicture("studentphoto-c0.1");
         searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentsForStudent2.html");
+    }
+
+    private void testViewAction() {
+
+        ______TS("action: view");
+
+        searchPage.clearSearchBox();
+        String searchContent = "\"student2 2 In Course1\"";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String studentEmail = testData.students.get("student2.2InCourse1").email;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickViewStudent(courseId, studentName);
+        InstructorCourseStudentDetailsViewPage studentDetailsViewPage = searchPage
+                .changePageType(InstructorCourseStudentDetailsViewPage.class);
+        studentDetailsViewPage.verifyIsCorrectPage(studentEmail);
+        studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    private void testEditAction() {
+
+        ______TS("action: edit");
+
+        searchPage.clearSearchBox();
+        String searchContent = "\"student2 2 In Course1\"";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String studentEmail = testData.students.get("student2.2InCourse1").email;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickEditStudent(courseId, studentName);
+        InstructorCourseStudentDetailsEditPage studentDetailsEditPage = searchPage
+                .changePageType(InstructorCourseStudentDetailsEditPage.class);
+        studentDetailsEditPage.verifyIsCorrectPage(studentEmail);
+        studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    private void testAllRecordsAction() {
+
+        ______TS("action: all records");
+
+        searchPage.clearSearchBox();
+        String searchContent = "\"student2 2 In Course1\"";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+
+        String studentName = testData.students.get("student2.2InCourse1").name;
+        String courseId = testData.courses.get("typicalCourse1").getId();
+
+        searchPage.clickAllRecordsLink(courseId, studentName);
+        InstructorStudentRecordsPage studentRecordsPage = searchPage
+                .changePageType(InstructorStudentRecordsPage.class);
+        studentRecordsPage.verifyIsCorrectPage(studentName);
+        studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    private void testDeleteAction() {
 
         ______TS("action: delete");
 

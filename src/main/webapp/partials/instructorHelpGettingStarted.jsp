@@ -99,7 +99,7 @@
               <h4 class="label-control col-md-2 text-md">Create new </h4>
               <div class="col-md-5">
                 <div class="col-xs-10 tablet-no-padding" title="" data-toggle="tooltip" data-placement="top" data-original-title="Select a session type here.">
-                  <select class="form-control" name="fstype" id="fstype">
+                  <select class="form-control" name="sessionTemplateType" id="sessionTemplateType">
                     <option value="STANDARD" selected="">
                       session with my own questions
                     </option>
