@@ -10,6 +10,9 @@ import {
     BootstrapContextualColors,
     ParamsNames,
 } from './const';
+import {
+    setStatusMessage,
+} from './statusMessage';
 
 import {
     countRemainingCharactersOnInput,
@@ -350,6 +353,26 @@ function bindSessionDeleteLinks() {
     });
 }
 
+function attachEventToSendInviteLink() {
+    $(document).on('click', '.course-student-remind-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = 'Usually, there is no need to use this feature because TEAMMATES sends an automatic '
+                + 'invite to students at the opening time of each session. Send a join request anyway?';
+        const okCallback = function okCallback() {
+            $.get($clickedLink.attr('href'), () => {
+                const studentEmail = $clickedLink.parent().siblings("td[id|='studentemail']").html().trim();
+                const message = `An email has been sent to ${studentEmail}`;
+                setStatusMessage(message, 'success');
+            });
+        };
+
+        showModalConfirmation('Confirm sending join request', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.INFO);
+    });
+}
+
 function attachEventToDeleteStudentLink() {
     $(document).on('click', '.course-student-delete-link', (event) => {
         event.preventDefault();
@@ -532,6 +555,7 @@ function prepareInstructorPages() {
 export {
     attachEventToDeleteStudentLink,
     attachEventToDeleteAllStudentLink,
+    attachEventToSendInviteLink,
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,
