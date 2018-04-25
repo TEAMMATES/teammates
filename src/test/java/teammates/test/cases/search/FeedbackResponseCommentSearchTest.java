@@ -25,8 +25,8 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                 .get("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes frc1I1Q2S1C1 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q2S1C1");
-        FeedbackResponseCommentAttributes frc1I3Q1S1C2 = dataBundle.feedbackResponseComments
-                .get("comment1FromT1C1ToR1Q1S1C2");
+        FeedbackResponseCommentAttributes frc1I3Q1S2C2 = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S2C2");
 
         ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
 
@@ -49,7 +49,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         ______TS("success: search for comments; query string matches single comment");
 
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
-        verifySearchResults(bundle, frc1I3Q1S1C2);
+        verifySearchResults(bundle, frc1I3Q1S2C2);
 
         ______TS("success: search for comments in instructor's course; query string matches some comments");
 
@@ -78,7 +78,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for comments; confirms deleted comments are not included in results");
 
-        commentsDb.deleteDocument(frc1I3Q1S1C2);
+        commentsDb.deleteDocument(frc1I3Q1S2C2);
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
         verifySearchResults(bundle);
     }

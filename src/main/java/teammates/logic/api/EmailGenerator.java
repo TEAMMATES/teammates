@@ -117,7 +117,7 @@ public class EmailGenerator {
         List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if (!fsa.isPrivateSession() && (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail())) {
+            if (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail()) {
                 sessions.add(fsa);
             }
         }
@@ -321,10 +321,6 @@ public class EmailGenerator {
      * Generates the feedback session closed emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
-
-        if (session.isPrivateSession()) {
-            return new ArrayList<>();
-        }
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         boolean isEmailNeededForStudents = false;

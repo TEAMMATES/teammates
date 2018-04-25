@@ -110,9 +110,6 @@
                     When the students can see the questions (but cannot submit, until the session is
                     <i>open</i>)
                   </li>
-                  <li>
-                    Note the options for making the session private (for you to record your feedback about students, only you can see the session)
-                  </li>
                 </ul>
               </span>
             </li>
@@ -139,18 +136,6 @@
                 </ul>
               </span>
             </li>
-            <li>
-              <b>Private session</b>
-              <span class="text-muted">
-                <ul>
-                  <li>
-                    A private session is a session that is never visible to others.
-                    This is for you to record your feedback about students, only you can see this session.
-                    If you want to create a private session then set the "Session visible from" to Never.
-                  </li>
-                </ul>
-              </span>
-            </li>
           </ul>
         </div>
       </div>
@@ -170,7 +155,7 @@
               <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
                 <h4 class="label-control col-md-2 text-md">Create new </h4>
                 <div class="col-md-5">
-                  <select class="form-control" name="fstype" id="fstype">
+                  <select class="form-control" name="sessionTemplateType" id="sessionTemplateType">
                     <option value="STANDARD" selected="">
                       session with my own questions
                     </option>
@@ -419,12 +404,6 @@
                         <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Select this option to have the feedback session become visible when it is open for submissions (as selected above).">
                           <label for="sessionVisibleFromButton_atopen">Submission opening time </label>
                           <input type="radio" name="sessionVisibleFromButton" id="sessionVisibleFromButton_atopen" value="atopen">
-                        </div>
-                      </div>
-                      <div class="row radio">
-                        <div class="col-md-6" data-toggle="tooltip" data-placement="top" title="Select this option if you want the feedback session to never be visible. Use this option if you want to use this as a private feedback session.">
-                          <label for="sessionVisibleFromButton_never">Never</label>
-                          <input type="radio" name="sessionVisibleFromButton" id="sessionVisibleFromButton_never" value="never">
                         </div>
                       </div>
                     </div>

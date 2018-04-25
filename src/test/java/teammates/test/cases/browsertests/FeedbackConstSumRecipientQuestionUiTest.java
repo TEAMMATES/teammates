@@ -61,7 +61,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         ______TS("CONSTSUM-recipient: new question (frame) link");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_RECIPIENT");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
 
@@ -91,7 +91,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     @Override
     public void testCustomizeOptions() {
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_RECIPIENT");
 
         ______TS("CONST SUM: set points options");
 
@@ -106,7 +106,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("const sum qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
@@ -198,7 +198,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
         ______TS("Success case: CONSTSUM-recipient points to distribute field disables when radio button is unchecked");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_RECIPIENT");
 
         // Make sure that constSumPointsTotal radio button is selected by default
         assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());

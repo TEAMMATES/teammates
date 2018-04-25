@@ -67,21 +67,6 @@
                 <c:if test="${additionalSettings.sessionVisibleAtOpenChecked}">checked=""</c:if>>
           </div>
         </div>
-        <div class="row radio">
-          <div class="col-xs-12"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER %>"
-              data-toggle="tooltip"
-              data-placement="top">
-            <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_never">
-              Never
-            </label>
-            <input type="radio"
-                name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_never"
-                value="never"
-                <c:if test="${additionalSettings.sessionVisiblePrivateChecked}">checked=""</c:if>>
-          </div>
-        </div>
       </div>
 
       <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">

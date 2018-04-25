@@ -4,6 +4,7 @@ import {
 
 import {
     attachEventToDeleteStudentLink,
+    attachEventToSendInviteLink,
     bindStudentPhotoLink,
     executeCopyCommand,
     prepareInstructorPages,
@@ -339,6 +340,7 @@ const seeMoreRequest = function (e) {
 $(document).ready(() => {
     prepareInstructorPages();
     attachEventToDeleteStudentLink();
+    attachEventToSendInviteLink();
 
     $('a[id^="enroll-"]').on('click', function (e) {
         e.stopImmediatePropagation(); // not executing click event for parent elements
