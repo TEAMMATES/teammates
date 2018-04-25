@@ -81,15 +81,12 @@ function prepareDatepickers() {
             $('#publishdate').datepicker('option', 'minDate', newPublishDate);
         },
         onClose() {
-            const currentStartDate = $('#startdate');
-            const currentVisibleDate = $('#visibledate');
-
-            if (currentStartDate.val() === currentVisibleDate.val()) {
-                const startTime = $('#starttime');
-                const visibleTime = $('#visibletime');
+            if ($('#startdate').val() === $('#visibledate').val()) {
+                const $startTime = $('#starttime');
+                const $visibleTime = $('#visibletime');
                 // the visible time should be before the start time
-                if (parseInt(startTime.val(), 10) < parseInt(visibleTime.val(), 10)) {
-                    visibleTime.val(startTime.val());
+                if (parseInt($startTime.val(), 10) < parseInt($visibleTime.val(), 10)) {
+                    $visibleTime.val($startTime.val());
                 }
             }
         },
