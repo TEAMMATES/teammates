@@ -607,7 +607,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Clears any kind of editable element,  but without firing the {@code change} event (unlike {@link WebElement#clear()}).
+     * Clears any kind of editable element, but without firing the {@code change} event (unlike {@link WebElement#clear()}).
      * Avoid using this method if {@link WebElement#clear()} meets the requirements as this method depends on implementation
      * details.
      */
@@ -713,10 +713,10 @@ public abstract class AppPage {
      */
     private void clearAndSetNewValueForTinyMce(String id, String preparedContent) {
         executeScript(
-                // clear content programmatically, one implication is that an undo level is not added to the TinyMCE editor
+                // clear content programmatically; one implication is that an undo level is not added to the TinyMCE editor
                 "tinyMCE.get(arguments[0]).setContent('');"
-                        // insert like a user does (one implication is that an undo level is added); this may result in some
-                        // events (e.g. `Change`) firing immediately
+                        // insert like a user does (one implication is that an undo level is added);
+                        // this may result in some events (e.g. `Change`) firing immediately
                         + "tinyMCE.get(arguments[0]).insertContent(arguments[1]);"
                         + "tinyMCE.get(arguments[0]).focus();", // for consistent HTML verification across browsers
                 id, preparedContent);
@@ -801,7 +801,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Selects the option by visible text and wait for the associated AJAX request to complete.
+     * Selects the option by visible text and waits for the associated AJAX request to complete.
      *
      * @see AppPage#selectDropdownByVisibleValue(WebElement, String)
      */
@@ -838,7 +838,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Selects the option by value and wait for the associated AJAX request to complete.
+     * Selects the option by value and waits for the associated AJAX request to complete.
      *
      * @see AppPage#selectDropdownByActualValue(WebElement, String)
      */
@@ -1371,7 +1371,7 @@ public abstract class AppPage {
     }
 
     /**
-     * Click a button (can be inside or outside the modal) that dismisses the modal and wait for the modal to be hidden.
+     * Clicks a button (can be inside or outside the modal) that dismisses the modal and waits for the modal to be hidden.
      * The caller must ensure the button is in the modal or a timeout will occur while waiting for the modal to be hidden.
      * @param dismissModalButton a button that dismisses the modal
      */
