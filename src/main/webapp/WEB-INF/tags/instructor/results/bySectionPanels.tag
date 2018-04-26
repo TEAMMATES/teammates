@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorFeedbackResults - by Giver > Question > Recipient or Recipient > Question > Giver" pageEncoding="UTF-8" %>
+<%@ tag description="instructorFeedbackResults - by Giver &#8594; Question &#8594; Recipient or Recipient &#8594; Question &#8594; Giver" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

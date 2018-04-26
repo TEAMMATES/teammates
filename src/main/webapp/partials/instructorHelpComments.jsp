@@ -13,8 +13,8 @@
         <b>‘Sessions’</b> page, click
         <b>'View Results'</b> for the relevant session.
         <br> Change the view type to
-        <b>'Group by - Giver &gt; Recipient &gt; Question'</b> or
-        <b>'Group by - Recipient &gt; Giver &gt; Question'</b>
+        <b>'Group by - Giver &#8594; Recipient &#8594; Question'</b> or
+        <b>'Group by - Recipient &#8594; Giver &#8594; Question'</b>
         <br> Click the
         <b>'Add'</b>
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span> button at the right-hand side inside a response, then you can create a comment for response in the following form.
