@@ -235,10 +235,10 @@ public final class TimeHelper {
 
     /**
      * Formats a datetime stamp from a {@code localDateTime}.
-     * Example: Tue, 12 Apr 2018, 12:01 PM
+     * Example: Sun, 01 Apr 2018, 12:01 PM
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Tue, 12 Apr 2018, 12:00 NOON</p>
+     * Example: Sun, 01 Apr 2018, 12:00 NOON</p>
      *
      * @param localDateTime the LocalDateTime to be formatted
      * @return the formatted datetime stamp string
@@ -249,7 +249,7 @@ public final class TimeHelper {
 
     /**
      * Formats a date stamp from a {@code localDateTime} for populating the sessions form.
-     * Example: Tue, 12 Apr, 2018
+     * Example: Sun, 01 Apr, 2018
      *
      * <p>This method discards the time stored in the {@code localDateTime}.</p>
      *
@@ -344,10 +344,10 @@ public final class TimeHelper {
 
     /**
      * Formats a datetime stamp from an {@code instant} including time zone name.
-     * Example: Tue, 12 Apr 2018, 11:21 PM SGT
+     * Example: Sun, 01 Apr 2018, 11:21 PM SGT
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Tue, 12 Apr 2018, 12:00 NOON SGT</p>
+     * Example: Sun, 01 Apr 2018, 12:00 NOON SGT</p>
      *
      * @param instant         the instant to be formatted
      * @param sessionTimeZone the time zone to compute local datetime
@@ -359,12 +359,12 @@ public final class TimeHelper {
 
     /**
      * Formats a datetime stamp from an {@code instant} for DST disambiguation including time zone name and offset.
-     * Example: Tue, 12 Apr 2018, 11:23 PM SGT (UTC+0800)
+     * Example: Sun, 01 Apr 2018, 11:23 PM SGT (UTC+0800)
      *
      * <p>This is used to generate the warning to instructors for datetimes that fall in DST overlaps.</p>
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Tue, 12 Apr 2018, 12:00 NOON SGT (UTC+0800)</p>
+     * Example: Sun, 01 Apr 2018, 12:00 NOON SGT (UTC+0800)</p>
      *
      * @param instant the interpreted instant to be formatted
      * @param zone    the time zone causing the DST overlap
@@ -388,7 +388,7 @@ public final class TimeHelper {
 
     /**
      * Formats {@code instant} for the admin's activity log page.
-     * Example: 23/04/2018 12:00:01.481
+     * Example: 01/04/2018 12:00:01.481
      *
      * <p>Timestamp precision to millisecond. Used for dev/admin-facing pages only.</p>
      *
