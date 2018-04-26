@@ -70,7 +70,7 @@ public class StudentHomePageData extends PageData {
                     getStudentPublishedTooltipForSession(feedbackSession),
                     getStudentSubmissionStatusForSession(feedbackSession, hasSubmitted),
                     getStudentPublishedStatusForSession(feedbackSession),
-                    TimeHelper.formatDateTimeForHomePage(feedbackSession.getEndTime(), feedbackSession.getTimeZone()),
+                    TimeHelper.formatDateTimeForDisplayFull(feedbackSession.getEndTime(), feedbackSession.getTimeZone()),
                     feedbackSession.getEndTimeInIso8601UtcFormat(),
                     getStudentFeedbackSessionActions(feedbackSession, hasSubmitted),
                     sessionIdx));
