@@ -174,7 +174,7 @@ public final class TimeHelper {
     /**
      * Returns an Instant that is offset by a number of days from now.
      *
-     * @param offsetInDays integer number of days offset by
+     * @param offsetInDays integer number of days to offset by
      * @return an Instant offset by {@code offsetInDays} days
      */
     public static Instant getInstantDaysOffsetFromNow(long offsetInDays) {
