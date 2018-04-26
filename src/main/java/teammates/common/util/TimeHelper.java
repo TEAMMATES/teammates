@@ -215,7 +215,7 @@ public final class TimeHelper {
      * Formats a datetime stamp from a {@code LocalDateTime} using a formatting pattern.
      *
      * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
-     * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".
+     * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".</p>
      *
      * @param localDateTime the LocalDateTime to be formatted
      * @param pattern       formatting pattern, see Oracle docs for DateTimeFormatter for pattern table
@@ -238,7 +238,7 @@ public final class TimeHelper {
      * Example: Tue, 12 Apr 2018, 12:01 PM
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Tue, 12 Apr 2018, 12:00 NOON
+     * Example: Tue, 12 Apr 2018, 12:00 NOON</p>
      *
      * @param localDateTime the LocalDateTime to be formatted
      * @return the formatted datetime stamp string
@@ -251,7 +251,7 @@ public final class TimeHelper {
      * Formats a date stamp from a {@code localDateTime} for populating the sessions form.
      * Example: Tue, 12 Apr, 2018
      *
-     * <p>This method discards the time stored in the {@code localDateTime}.
+     * <p>This method discards the time stored in the {@code localDateTime}.</p>
      *
      * @param localDateTime the LocalDateTime to be formatted
      * @return the formatted date stamp string
@@ -265,7 +265,7 @@ public final class TimeHelper {
      * Example: 5 Apr 12:01 PM
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: 5 Apr 12:01 NOON
+     * Example: 5 Apr 12:01 NOON</p>
      *
      * @param localDateTime the LocalDateTime to be formatted
      * @return the formatted datetime stamp string
@@ -322,7 +322,7 @@ public final class TimeHelper {
      * Formats a datetime stamp from an {@code instant} using a formatting pattern.
      *
      * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
-     * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".
+     * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".</p>
      *
      * @param instant  the instant to be formatted
      * @param timeZone the time zone to compute local datetime
@@ -347,7 +347,7 @@ public final class TimeHelper {
      * Example: Tue, 12 Apr 2018, 11:21 PM SGT
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Tue, 12 Apr 2018, 12:00 NOON SGT
+     * Example: Tue, 12 Apr 2018, 12:00 NOON SGT</p>
      *
      * @param instant         the instant to be formatted
      * @param sessionTimeZone the time zone to compute local datetime
@@ -361,10 +361,10 @@ public final class TimeHelper {
      * Formats a datetime stamp from an {@code instant} for DST disambiguation including time zone name and offset.
      * Example: Tue, 12 Apr 2018, 11:23 PM SGT (UTC+0800)
      *
-     * <p>This is used to generate the warning to instructors for datetimes that fall in DST overlaps.
+     * <p>This is used to generate the warning to instructors for datetimes that fall in DST overlaps.</p>
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
-     * Example: Tue, 12 Apr 2018, 12:00 NOON SGT (UTC+0800)
+     * Example: Tue, 12 Apr 2018, 12:00 NOON SGT (UTC+0800)</p>
      *
      * @param instant the interpreted instant to be formatted
      * @param zone    the time zone causing the DST overlap
@@ -390,7 +390,7 @@ public final class TimeHelper {
      * Formats {@code instant} for the admin's activity log page.
      * Example: 23/04/2018 12:00:01.481
      *
-     * <p>Timestamp precision to millisecond. Used for dev/admin-facing pages only.
+     * <p>Timestamp precision to millisecond. Used for dev/admin-facing pages only.</p>
      *
      * @param instant the instant to be formatted
      * @param zoneId  the time zone to calculate local date and time
@@ -405,7 +405,7 @@ public final class TimeHelper {
      * Example: 2011-12-03T10:15:30Z
      *
      * <p>Used to inject a standardized date into date elements in Teammates for sortable tables.
-     * Should not be used for anything user-facing.
+     * Should not be used for anything user-facing.</p>
      *
      * @param instant the instant to be formatted
      * @return the formatted datetime stamp in ISO8601 format
@@ -418,7 +418,7 @@ public final class TimeHelper {
      * Returns whether the given {@code instant} is being used as a special representation, signifying its face value
      * should not be used without proper processing.
      *
-     * <p>A {@code null} instant is not a special time.
+     * <p>A {@code null} instant is not a special time.</p>
      *
      * @param instant the instant to test
      * @return {@code true} if the given instant is used as special representation, {@code false} otherwise
