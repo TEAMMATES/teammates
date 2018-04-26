@@ -573,7 +573,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Convert and combine a date string, and time string of only the hour, into a LocalDateTime object.
+     * Parses a date string and a time string of only the hour into a LocalDateTime object.
      * If the {@code inputTimeHours} is "24", it is converted to "23:59".
      *
      * @param inputDate      date in format "EEE, dd MMM, yyyy"
