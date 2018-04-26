@@ -66,19 +66,17 @@ public class TimeHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testFormatDateTimeForSessions() {
+    public void testFormatDateTimeForDisplayFull() {
         ZoneId zoneId = ZoneId.of("UTC");
         Instant instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 12, 0).atZone(zoneId).toInstant();
         assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForDisplayFull(instant, zoneId));
 
         zoneId = ZoneId.of("Asia/Singapore");
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 16, 0).atZone(zoneId).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 04:00 PM SGT",
-                TimeHelper.formatDateTimeForDisplayFull(instant, zoneId));
+        assertEquals("Mon, 30 Nov 2015, 04:00 PM SGT", TimeHelper.formatDateTimeForDisplayFull(instant, zoneId));
 
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 4, 0).atZone(zoneId).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT",
-                TimeHelper.formatDateTimeForDisplayFull(instant, zoneId));
+        assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT", TimeHelper.formatDateTimeForDisplayFull(instant, zoneId));
     }
 
     @Test
