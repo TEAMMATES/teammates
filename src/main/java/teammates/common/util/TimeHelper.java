@@ -212,7 +212,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Format a datetime stamp from a {@code LocalDateTime} using a formatting pattern.
+     * Formats a datetime stamp from a {@code LocalDateTime} using a formatting pattern.
      *
      * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
      * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".
@@ -234,7 +234,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Format a datetime stamp from a {@code localDateTime}.
+     * Formats a datetime stamp from a {@code localDateTime}.
      * Example: Tue, 12 Apr 2018, 12:01 PM
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
@@ -248,7 +248,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Format a date stamp from a {@code localDateTime} for populating the sessions form.
+     * Formats a date stamp from a {@code localDateTime} for populating the sessions form.
      * Example: Tue, 12 Apr, 2018
      *
      * <p>This method discards the time stored in the {@code localDateTime}.
@@ -261,7 +261,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Format a short datetime stamp from a {@code localDateTime} for the instructor's home page.
+     * Formats a short datetime stamp from a {@code localDateTime} for the instructor's home page.
      * Example: 5 Apr 12:01 PM
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
@@ -319,7 +319,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Format a datetime stamp from an {@code instant} using a formatting pattern.
+     * Formats a datetime stamp from an {@code instant} using a formatting pattern.
      *
      * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
      * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".
@@ -343,7 +343,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Format a datetime stamp from an {@code instant} including time zone name.
+     * Formats a datetime stamp from an {@code instant} including time zone name.
      * Example: Tue, 12 Apr 2018, 11:21 PM SGT
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
@@ -358,7 +358,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Format a datetime stamp from an {@code instant} for DST disambiguation including time zone name and offset.
+     * Formats a datetime stamp from an {@code instant} for DST disambiguation including time zone name and offset.
      * Example: Tue, 12 Apr 2018, 11:23 PM SGT (UTC+0800)
      *
      * <p>This is used to generate the warning to instructors for datetimes that fall in DST overlaps.
@@ -375,7 +375,7 @@ public final class TimeHelper {
     }
 
     /**
-     * Format a date stamp from an {@code instant} for the instructor's courses page.
+     * Formats a date stamp from an {@code instant} for the instructor's courses page.
      * Example: 5 May 2017
      *
      * @param instant the instant to be formatted
