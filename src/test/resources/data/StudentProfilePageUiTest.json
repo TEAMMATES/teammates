@@ -57,7 +57,7 @@
     },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "SHomeUiT.sanitizationInstruct",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "isInstructor": true,
       "email": "SHomeUiT.instruct@sanitization.tmt",
       "institute": "inst\"</td></div>"
@@ -130,7 +130,7 @@
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "SHomeUiT.sanitizationInstruct",
       "courseId": "SHomeUiT.sanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "email": "SHomeUiT.instruct@sanitization.tmt",
       "isArchived": false,
       "role": "Co-owner",

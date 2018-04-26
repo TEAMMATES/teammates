@@ -48,10 +48,10 @@
       <c:forEach items="${instructors}" var="instructor" varStatus="i">
         <c:choose>
           <c:when test="${empty instructor.role}">
-            <%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER %>: ${instructor.name} (${instructor.email})
+            <%= Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER %>: ${fn:escapeXml(instructor.name)} (${instructor.email})
           </c:when>
           <c:otherwise>
-            ${instructor.role}: ${instructor.name} (${instructor.email})
+            ${instructor.role}: ${fn:escapeXml(instructor.name)} (${instructor.email})
           </c:otherwise>
         </c:choose>
         <br>

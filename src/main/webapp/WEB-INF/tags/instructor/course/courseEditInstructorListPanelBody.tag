@@ -45,7 +45,7 @@
         <label class="col-sm-3 control-label">Name:</label>
         <div class="col-sm-9">
           <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"
-              id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${instructorPanel.instructor.name}"
+              id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${fn:escapeXml(instructorPanel.instructor.name)}"
               data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor."
               maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="4" disabled>
         </div>

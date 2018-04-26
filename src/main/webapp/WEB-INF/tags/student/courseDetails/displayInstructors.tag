@@ -7,7 +7,7 @@
   <c:if test="${instructor.displayedToStudents}">
     ${fn:escapeXml(instructor.displayedName)}:
     <a href="mailto:${instructor.email}">
-      ${instructor.name} (${instructor.email})
+      ${fn:escapeXml(instructor.name)} (${instructor.email})
     </a>
     <br>
   </c:if>

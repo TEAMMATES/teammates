@@ -61,7 +61,7 @@
     },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "ISR.sanitizationInstruct",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "isInstructor": true,
       "email": "ISR.instruct@sanitization.tmt",
       "institute": "inst\"</td></div>"
@@ -249,7 +249,7 @@
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "ISR.teammates.instr",
       "courseId": "ISR.sanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
+      "name": "Instructor'\"/><script> alert('hi!'); </script>",
       "email": "ISR.instruct@sanitization.tmt",
       "isArchived": false,
       "role": "Co-owner",

@@ -37,6 +37,7 @@ public class CourseEditInstructorPanel {
 
         //TODO TO REMOVE AFTER DATA MIGRATION
         if (this.instructor != null) {
+            this.instructor.name = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.name);
             this.instructor.displayedName = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.displayedName);
             this.instructor.role = SanitizationHelper.desanitizeIfHtmlSanitized(this.instructor.role);
 
