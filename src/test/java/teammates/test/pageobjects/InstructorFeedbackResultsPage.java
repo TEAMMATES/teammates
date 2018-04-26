@@ -92,7 +92,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         displayEditSettingsWindow();
 
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
-        select.selectByVisibleText("Group by - Giver > Recipient > Question");
+        select.selectByVisibleText("Group by - Giver → Recipient → Question");
 
         submitEditForm();
     }
@@ -101,7 +101,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         displayEditSettingsWindow();
 
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
-        select.selectByVisibleText("Group by - Recipient > Giver > Question");
+        select.selectByVisibleText("Group by - Recipient → Giver → Question");
 
         submitEditForm();
     }
@@ -110,7 +110,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         displayEditSettingsWindow();
 
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
-        select.selectByVisibleText("Group by - Giver > Question > Recipient");
+        select.selectByVisibleText("Group by - Giver → Question → Recipient");
 
         submitEditForm();
     }
@@ -119,7 +119,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         displayEditSettingsWindow();
 
         Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE)));
-        select.selectByVisibleText("Group by - Recipient > Question > Giver");
+        select.selectByVisibleText("Group by - Recipient → Question → Giver");
 
         submitEditForm();
     }
