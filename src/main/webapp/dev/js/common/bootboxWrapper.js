@@ -30,6 +30,7 @@ function showModalAlert(titleText, messageText, okButtonText, bootstrapContextua
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
+        show: false,
         buttons: {
             okay: {
                 label: okButtonText || DEFAULT_OK_TEXT,
@@ -38,6 +39,8 @@ function showModalAlert(titleText, messageText, okButtonText, bootstrapContextua
         },
     });
     applyStyleToModal(modal, bootstrapContextualColor);
+
+    modal.modal('show');
 }
 
 /**
@@ -47,12 +50,15 @@ function showModalAlert(titleText, messageText, okButtonText, bootstrapContextua
  *                  okButtonText (defaults to "OK")
  *                  cancelButtonText (defaults to "Cancel")
  *                  bootstrapContextualColor (defaults to BootstrapContextualColors.INFO)
+ *                  onHiddenCallback - triggers when the event `hidden.bs.modal` is triggered
  */
 function showModalConfirmation(titleText, messageText, okCallback, cancelCallback,
-        okButtonText, cancelButtonText, bootstrapContextualColor) {
+        okButtonText, cancelButtonText, bootstrapContextualColor, onHiddenCallback) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
+        onEscape: cancelCallback || true,
+        show: false,
         buttons: {
             cancel: {
                 label: cancelButtonText || DEFAULT_CANCEL_TEXT,
@@ -66,7 +72,14 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
             },
         },
     });
+
+    if (onHiddenCallback) {
+        modal.on('hidden.bs.modal', onHiddenCallback);
+    }
+
     applyStyleToModal(modal, bootstrapContextualColor);
+
+    modal.modal('show');
 }
 
 /**
@@ -75,14 +88,18 @@ function showModalConfirmation(titleText, messageText, okCallback, cancelCallbac
  * Optional params: cancelButtonCallBack (defaults to null)
  *                  yesButtonText (defaults to "Yes")
  *                  noButtonText (defaults to "No")
- *                  canelButtonText (defaults to "Cancel")
+ *                  cancelButtonText (defaults to "Cancel")
  *                  bootstrapContextualColor (defaults to BootstrapContextualColors.INFO)
+ *                  onHiddenCallback - triggers when the event `hidden.bs.modal` is triggered
  */
 function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallback, noButtonCallback,
-        cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, bootstrapContextualColor) {
+        cancelButtonCallback, yesButtonText, noButtonText, cancelButtonText, bootstrapContextualColor,
+        onHiddenCallback) {
     const modal = bootbox.dialog({
         title: titleText,
         message: messageText,
+        onEscape: cancelButtonCallback || true,
+        show: false,
         buttons: {
             yes: {
                 label: yesButtonText || DEFAULT_YES_TEXT,
@@ -101,7 +118,14 @@ function showModalConfirmationWithCancel(titleText, messageText, yesButtonCallba
             },
         },
     });
+
+    if (onHiddenCallback) {
+        modal.on('hidden.bs.modal', onHiddenCallback);
+    }
+
     applyStyleToModal(modal, bootstrapContextualColor);
+
+    modal.modal('show');
 }
 
 export {

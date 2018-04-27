@@ -185,7 +185,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("RUBRIC: new question (frame) link");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RUBRIC");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RUBRIC");
         assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
     }
 
@@ -236,7 +236,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("RUBRIC: add question action success");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RUBRIC");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RUBRIC");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("RUBRIC qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
@@ -384,7 +384,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         // check buttons for new rubric question
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RUBRIC");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RUBRIC");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Edit rubric question 2");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details about this new question");
         feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
@@ -474,7 +474,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         // add a new question
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RUBRIC");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RUBRIC");
 
         // start editing it
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("RUBRIC qn JS validation test");
