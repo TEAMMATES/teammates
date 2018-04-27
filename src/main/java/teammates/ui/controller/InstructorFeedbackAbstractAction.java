@@ -92,7 +92,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            inputVisibleTimeLocal = TimeHelper.combineDateTime(
+            inputVisibleTimeLocal = TimeHelper.parseDayandDate(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
