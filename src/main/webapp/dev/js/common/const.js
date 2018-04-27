@@ -41,6 +41,7 @@ BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
 // Mirrored subset of Const#ParamsNames
 const ParamsNames = {
     SESSION_TOKEN: 'token',
+    COPIED_FEEDBACK_SESSION_NAME: 'copiedfsname',
 
     COURSE_ID: 'courseid',
     COURSE_NAME: 'coursename',
@@ -69,6 +70,9 @@ const ParamsNames = {
     FEEDBACK_QUESTION_CONSTSUMPOINTS: 'constSumPoints',
     FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION: 'constSumPointsForEachOption',
     FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT: 'constSumPointsForEachRecipient',
+    FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION: 'All options',
+    FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION: 'At least some options',
+    FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION: 'None',
     FEEDBACK_QUESTION_RECIPIENTTYPE: 'recipienttype',
     FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE: 'numofrecipientstype',
     FEEDBACK_QUESTION_EDITTEXT: 'questionedittext',

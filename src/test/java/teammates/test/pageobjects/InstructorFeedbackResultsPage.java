@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static com.google.common.base.Preconditions.checkState;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
@@ -16,13 +17,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTask;
-import teammates.test.driver.TestProperties;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
@@ -192,6 +191,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickRemindAllButtonAndWaitForFormToLoad() {
+        checkState(isElementInvisibleOrStale(By.className("modal")),
+                "The Remind All button is not clickable when a modal is opened");
+
         click(remindAllButton);
         waitForElementVisibility(remindModal);
         WebElement remindButton = browser.driver.findElement(By.className("remind-particular-button"));
@@ -200,8 +202,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void cancelRemindAllForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
-        click(remindModal.findElement(By.tagName("button")));
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(remindModal.findElement(By.tagName("button")));
     }
 
     public void deselectUsersInRemindAllForm() {
@@ -213,7 +214,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickRemindButtonInModal() {
-        click(By.className("remind-particular-button"));
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+
+        clickDismissModalButtonAndWaitForModalHidden(remindModal.findElement(By.className("remind-particular-button")));
     }
 
     public InstructorFeedbackEditPage clickEditLink() {
@@ -307,7 +310,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement commentModal = browser.driver.findElement(By.id("commentModal" + commentId));
         WebElement modalFooter = commentModal.findElement(By.className("modal-footer"));
         WebElement closeButton = modalFooter.findElement(By.className("commentModalClose"));
-        click(closeButton);
+
+        clickDismissModalButtonAndWaitForModalHidden(closeButton);
     }
 
     /**
@@ -374,10 +378,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * @param ajaxClass the class removed from {@code panelElement} when Ajax loading finished
      */
     public void waitForAjaxLoadedPanelToExpand(String panelId, String ajaxClass) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         WebElement panelElement = browser.driver.findElement(By.id(panelId));
-        wait.until(ExpectedConditions.not(ExpectedConditions.attributeContains(
-                panelElement, "class", ajaxClass)));
+        waitFor(ExpectedConditions.not(ExpectedConditions.attributeContains(panelElement, "class", ajaxClass)));
     }
 
     public boolean verifyAllStatsVisibility() {
@@ -394,19 +396,32 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return pendingResponses.isEmpty();
     }
 
-    public void deleteFeedbackResponseComment(String commentIdSuffix) {
-        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix)));
-        waitForConfirmationModalAndClickOk();
-        ThreadHelper.waitFor(1500);
+    public void deleteFeedbackResponseCommentInModal(String commentIdSuffix) {
+        deleteFeedbackResponseComment(commentIdSuffix, true);
     }
 
-    public void deleteFeedbackResponseCommentInQuestionsView(String commentIdSuffix) {
+    public void deleteFeedbackResponseCommentInline(String commentIdSuffix) {
+        deleteFeedbackResponseComment(commentIdSuffix, false);
+    }
+
+    private void deleteFeedbackResponseComment(String commentIdSuffix, boolean hasParentCommentModal) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
-        click(commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix)));
-        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
-        waitForElementToBeClickable(okayButton);
-        click(okayButton);
+        final WebElement deleteCommentButton =
+                commentRow.findElement(By.tagName("form")).findElement(By.id("commentdelete" + commentIdSuffix));
+
+        WebElement modalBackdrop = null;
+        if (hasParentCommentModal) {
+            modalBackdrop = browser.driver.findElement(By.className("modal-backdrop"));
+        }
+
+        click(deleteCommentButton);
+
+        if (hasParentCommentModal) {
+            waitForModalHidden(modalBackdrop);
+        }
+
+        waitForConfirmationModalAndClickOk();
+        ThreadHelper.waitFor(1500);
     }
 
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {

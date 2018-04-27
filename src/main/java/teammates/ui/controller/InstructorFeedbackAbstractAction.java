@@ -12,7 +12,6 @@ import java.util.Map;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -69,7 +68,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             throw new InvalidPostParametersException("Failed to parse grace period parameter: " + paramGracePeriod, nfe);
         }
 
-        attributes.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         attributes.setInstructions(new Text(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
 
         String type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
@@ -91,8 +89,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             throw new InvalidPostParametersException("Invalid resultsVisibleFrom setting: " + type);
         }
 
-        // Handle session visible after results visible to avoid having a
-        // results visible date when session is private (session not visible)
         type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
@@ -104,12 +100,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            // Overwrite if private
-            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-            attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:
             throw new InvalidPostParametersException("Invalid sessionVisibleFrom setting: " + type);

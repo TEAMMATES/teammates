@@ -45,7 +45,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData(feedbackSessionName, course, instructor.email);
 
-        String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
+        String sessionTemplateType = getRequestParamValue(Const.ParamsNames.SESSION_TEMPLATE_TYPE);
 
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(account, sessionToken);
         try {
@@ -54,7 +54,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
             try {
                 createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(),
-                                                fs.getCreatorEmail(), feedbackSessionType);
+                                                fs.getCreatorEmail(), sessionTemplateType);
             } catch (InvalidParametersException e) {
                 // Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -97,19 +97,19 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         }
 
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
-                                       feedbackSessionType);
+                                       sessionTemplateType);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, data);
     }
 
     private void createTemplateFeedbackQuestions(String courseId, String feedbackSessionName,
-            String creatorEmail, String feedbackSessionType) throws InvalidParametersException {
-        if (feedbackSessionType == null) {
+            String creatorEmail, String sessionTemplateType) throws InvalidParametersException {
+        if (sessionTemplateType == null) {
             return;
         }
 
         List<FeedbackQuestionAttributes> questions =
-                getFeedbackSessionTemplateQuestions(feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
+                getFeedbackSessionTemplateQuestions(sessionTemplateType, courseId, feedbackSessionName, creatorEmail);
 
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {

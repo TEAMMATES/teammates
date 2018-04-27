@@ -268,4 +268,17 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
         return responses;
     }
+
+    /**
+     * Returns true if there is an existing response in the form.
+     */
+    public boolean getIsResponsePresent() {
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>
+                entry : bundle.questionResponseBundle.entrySet()) {
+            if (!entry.getValue().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
