@@ -1,7 +1,7 @@
 package teammates.test.cases.browsertests;
 
-import java.util.Calendar;
-
+import java.time.Duration;
+import java.time.Instant;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -42,12 +42,9 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes gracedFeedbackSession =
                 BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
 
-        Calendar fsCalendar = Calendar.getInstance();
-        fsCalendar.add(Calendar.DATE, -10);
-        gracedFeedbackSession.setStartTime(fsCalendar.getTime().toInstant());
-        gracedFeedbackSession.setSessionVisibleFromTime(fsCalendar.getTime().toInstant());
-        fsCalendar.add(Calendar.DATE, +20);
-        gracedFeedbackSession.setEndTime(fsCalendar.getTime().toInstant());
+        gracedFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(10)));
+        gracedFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(10)));
+        gracedFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(10)));
 
         BackDoor.editFeedbackSession(gracedFeedbackSession);
     }

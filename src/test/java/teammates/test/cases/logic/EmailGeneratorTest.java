@@ -1,11 +1,12 @@
 package teammates.test.cases.logic;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+
 import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import org.testng.annotations.AfterSuite;
@@ -494,9 +495,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         FeedbackSessionAttributes session2 =
                 fsLogic.getFeedbackSession("Second feedback session", "idOfTypicalCourse1");
         Instant startTime = session2.getStartTime();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -10);
-        Instant newStartTime = calendar.toInstant();
+        Instant newStartTime = Instant.now().minus(Duration.ofDays(10));
         session2.setStartTime(newStartTime);
         fsLogic.updateFeedbackSession(session2);
 

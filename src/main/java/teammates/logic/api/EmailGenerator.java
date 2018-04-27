@@ -1,9 +1,8 @@
 package teammates.logic.api;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -402,10 +401,8 @@ public class EmailGenerator {
     }
 
     public EmailWrapper generateFeedbackSessionResendLinksEmail(String userEmail) {
-        Instant endTime = new Date().toInstant();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -6);
-        Instant startTime = calendar.getTime().toInstant();
+        Instant endTime = Instant.now();
+        Instant startTime = endTime.minus(Duration.ofDays(180));
         String subject = EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject();
         StringBuffer linksFragmentValue = new StringBuffer(1000);
         String teammateHomePageLink = Config.APP_URL;
