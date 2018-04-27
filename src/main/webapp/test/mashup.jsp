@@ -400,7 +400,7 @@
 
       <div class="pageinfo">Request Access Links Resend</div>
       <div id="requestResendLinks">
-        <iframe class="full-width" src="/requestResendLinks.jsp"></iframe>
+        <iframe class="full-width" src="/resendLinks"></iframe>
       </div>
       <br><hr class="hr-bold"><br>
 

@@ -2019,9 +2019,9 @@
           <b>5. Requesting resending of access links</b>
       </span>
       <p>
-        TEAMMATES allows students to request for access links which students might accidentally deleted to be resent. Students can do so by themselves without the need to approach the instructor.
-        The student can go to the <b>Home</b> page, click <b>Request</b> tab and choose <b>Resend Feedback Links</b>, this will allow him/her to be directed to the request page. The student then keys in his/her email address and
-        all access links for the feedback sessions in which the student has participated in last six months will be sent to that email address.
+        TEAMMATES allows students to request for access links which students might have accidentally deleted to be resent. Students can do so by themselves without the need to approach the instructor.
+        The student can go to the <b>Home</b> page, click <b>Request</b> tab and choose <b>Resend Feedback Links</b>. The student then keys in his/her email address and
+        all access links for the feedback sessions in which the student has participated over the last six months will be sent to that email address.
       </p>
       <p>
         The student can also go to the request page via url: <%= Config.getAppUrl(Const.ActionURIs.RESEND_ACCESS_LINKS) %>.

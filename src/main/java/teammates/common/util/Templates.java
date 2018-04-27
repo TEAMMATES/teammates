@@ -47,8 +47,7 @@ public final class Templates {
         public static final String USER_FEEDBACK_SESSIONS_ACCESS_LINKS =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionsAccessLinks.html");
         public static final String USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE =
-                FileHelper.readResourceFile(
-                        "userEmailTemplate-feedbackSessionsAccessLinksNone.html");
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionsAccessLinksNone.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =

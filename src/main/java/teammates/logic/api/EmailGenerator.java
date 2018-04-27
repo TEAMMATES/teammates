@@ -456,7 +456,7 @@ public class EmailGenerator {
             }
         }
 
-        // If the user does not have any feedback sessions in recent six months,
+        // If the user does not have any feedback sessions over the recent six months,
         // a different email with notification will be sent.
         if (linksFragmentValue.length() == 0) {
             emailBody = Templates.populateTemplate(

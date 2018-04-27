@@ -71,7 +71,7 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
     }
 
     private void testValidEmailWithFeedbackSessionsInRecentSixMonths() {
-        ______TS("Valid Email Address, user with email has feedback sessions in recent six month");
+        ______TS("Valid Email Address, user with email has feedback sessions over the recent six months");
 
         requestResendAccessLinksPage.fillEmailAddress(studentEmailAddress);
         requestResendAccessLinksPage.clickSubmitButton();

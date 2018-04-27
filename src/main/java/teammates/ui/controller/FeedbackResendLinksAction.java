@@ -33,7 +33,7 @@ public class FeedbackResendLinksAction extends Action {
                     + "<br>Email: " + userEmailToResend;
             String error = validator.getInvalidityInfoForEmail(userEmailToResend);
 
-            if (error.length() == 0) {
+            if (error.isEmpty()) {
                 EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(userEmailToResend);
                 emailSender.sendEmail(email);
                 statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT,
