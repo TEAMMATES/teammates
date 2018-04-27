@@ -255,7 +255,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickEditUncommonSettingsSendEmailsButton();
         // Edit and save FS to accommodate changes to DOM due to enableEditFS() and disableEditFS() JS methods.
         feedbackEditPage.clickSaveSessionButton();
-        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
 
         // Make changes to Feedback session
         feedbackEditPage.clickEditSessionButton();
@@ -268,7 +267,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                 editedSession.getInstructions(), editedSession.getGracePeriodMinutes(), false);
 
         // Click discard changes button, then click cancel and verify html
-        feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
         feedbackEditPage.clickFsDiscardChangesButton();
         feedbackEditPage.waitForConfirmationModalAndClickCancel();
         feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesCancel.html");
