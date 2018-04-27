@@ -278,26 +278,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.verifyHtmlPart(feedbackSessionEditFormSection, "/instructorFeedbackEditDiscardChangesOk.html");
 
-        /**
-         * Changing session visible time to 'never' hides response visible time, start time, end time
-         * instruction fields. Check whether they are shown again after discarding changes.
-         */
-        ______TS("Check session form after editing visible time to 'never' then discarding changes");
-
-        feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.clickEditUncommonSettingsSessionResponsesVisibleButton();
-        feedbackEditPage.clickNeverVisibleTimeButton();
-
-        assertTrue(feedbackEditPage.isHidden(By.id("timeFramePanel")));
-        assertTrue(feedbackEditPage.isHidden(By.id("responsesVisibleFromColumn")));
-        assertTrue(feedbackEditPage.isHidden(By.id("instructionsRow")));
-
-        feedbackEditPage.clickFsDiscardChangesButton();
-        feedbackEditPage.waitForConfirmationModalAndClickOk();
-        assertTrue(feedbackEditPage.isVisible(By.id("timeFramePanel")));
-        assertTrue(feedbackEditPage.isVisible(By.id("responsesVisibleFromColumn")));
-        assertTrue(feedbackEditPage.isVisible(By.id("instructionsRow")));
-
     }
 
     private void testNewQuestionLink() {

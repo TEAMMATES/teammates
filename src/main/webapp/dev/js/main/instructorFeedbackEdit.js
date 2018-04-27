@@ -300,9 +300,6 @@ function restoreFormHtml(formSelector, allFieldsDict, tinyMCEDivId) {
                 field.prop('checked', allFieldsDict[fieldId]);
             } else if (field.prop('type') === 'radio') {
                 field.prop('checked', allFieldsDict[fieldId]);
-                if (field.val() !== 'never') {
-                    collapseIfPrivateSession();
-                }
             } else {
                 // For all other input types, change the value of the DOM element.
                 field.val(allFieldsDict[fieldId]);

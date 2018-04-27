@@ -640,10 +640,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(defaultSessionVisibleTimeButton);
     }
 
-    public void clickNeverVisibleTimeButton() {
-        click(neverSessionVisibleTimeButton);
-    }
-
     public void clickDefaultPublishTimeButton() {
         click(defaultResultsVisibleTimeButton);
     }
