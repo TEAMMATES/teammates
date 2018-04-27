@@ -173,6 +173,14 @@ public final class TimeHelper {
         return new ArrayList<>(TIME_ZONE_CITIES_MAP.keySet());
     }
 
+    public static LocalDateTime parseDayandDate(String inputDate, String inputTimeHours) {
+    	String date = inputDate.trim().substring(5, 17);
+    	LocalDate localDate = parseLocalDateForSessionsForm(date);
+    	String day = localDate.getDayOfWeek().name().substring(0, 3);
+    	String originalDate = day.concat(", ").concat(date);
+    	return combineDateTime(originalDate, inputTimeHours);
+    }
+
     /**
      * Convert a date string and time string of only the hour into a Date object.
      * If the hour is 24, it is converted to 23:59. Returns null on error.
