@@ -21,7 +21,7 @@ $(document).ready(() => {
             dataType: 'json',
             data: $('#requestForm').serialize(),
             success: (data) => {
-                if (data.isValid) {
+                if (data.error.length === 0) {
                     hideComponents();
                 }
                 setStatusMessageToForm(data.statusMessagesToUser[0].text,

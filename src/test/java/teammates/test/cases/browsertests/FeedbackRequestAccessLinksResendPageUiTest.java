@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.FeedbackRequestResendAccessLinksPage;
@@ -58,6 +59,7 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
     }
 
     private void testInvalidEmailAddress() {
+        FieldValidator validator = new FieldValidator();
         ______TS("Invalid Email Address");
 
         String emailAddress = "InvalidEmail";
@@ -67,7 +69,7 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
         requestResendAccessLinksPage.fillEmailAddress(emailAddress);
         requestResendAccessLinksPage.clickSubmitButton();
         requestResendAccessLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL);
+                validator.getInvalidityInfoForEmail(emailAddress));
     }
 
     private void testValidEmailWithFeedbackSessionsInRecentSixMonths() {

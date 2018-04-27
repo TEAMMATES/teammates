@@ -421,7 +421,7 @@ public class EmailGenerator {
                 if (studentName == null) {
                     studentName = student.getName();
                 }
-                String submitUrlHtml = "(Feedback session is not yet opened)";
+                String submitUrlHtml = "(Feedback session is not yet open)";
                 String reportUrlHtml = "(Feedback session is not yet published)";
 
                 if (session.isOpened()) {
@@ -449,7 +449,7 @@ public class EmailGenerator {
                 }
 
                 linksFragmentValue.append(Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SINGLE_REQUEST_RESEND_ACCESS_LINK,
+                        EmailTemplates.FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK,
                         "${courseId}", course.getId(),
                         "${courseName}", course.getName(),
                         "${feedbackSessionName}", session.getFeedbackSessionName(),
@@ -463,12 +463,12 @@ public class EmailGenerator {
         // a different email with notification will be sent.
         if (linksFragmentValue.length() == 0) {
             emailBody = Templates.populateTemplate(
-                    EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_WITH_NO_ACTIVE_LINKS,
+                    EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE,
                     "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
                     "${supportEmail}", Config.SUPPORT_EMAIL);
         } else {
             emailBody = Templates.populateTemplate(
-                    EmailTemplates.USER_FEEDBACK_SESSION_REQUEST_RESEND_ACCESS_LINKS_EMAIL,
+                    EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS,
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
                     "${linksFragment}", linksFragmentValue.toString(),
                     "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),

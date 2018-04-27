@@ -4,15 +4,15 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 
 public class FeedbackResendLinksPageData extends PageData {
 
-    private boolean isValid;
+    private String error;
 
-    public FeedbackResendLinksPageData(AccountAttributes account, String sessionToken, boolean isValid) {
+    public FeedbackResendLinksPageData(AccountAttributes account, String sessionToken, String error) {
         super(account, sessionToken);
-        this.isValid = isValid;
+        this.error = error;
     }
 
-    public boolean isValidEmail() {
-        return isValid;
+    public String getError() {
+        return error;
     }
 
 }

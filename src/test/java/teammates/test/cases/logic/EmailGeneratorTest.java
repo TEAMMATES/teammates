@@ -472,7 +472,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionEmail()
+    public void testGenerateFeedbackSessionResendLinksEmail()
             throws InvalidParametersException, EntityDoesNotExistException, IOException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
@@ -494,9 +494,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
         FeedbackSessionAttributes session2 =
                 fsLogic.getFeedbackSession("Second feedback session", "idOfTypicalCourse1");
         Instant startTime = session2.getStartTime();
-        Calendar fsCalendar = Calendar.getInstance();
-        fsCalendar.add(Calendar.DATE, -10);
-        session2.setStartTime(fsCalendar.getTime().toInstant());
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -10);
+        Instant newStartTime = calendar.toInstant();
+        session2.setStartTime(newStartTime);
         fsLogic.updateFeedbackSession(session2);
 
         email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(student1.getEmail());

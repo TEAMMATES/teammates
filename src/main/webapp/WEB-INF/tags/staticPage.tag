@@ -46,7 +46,7 @@
                     <i class="fa fa-caret-down"></i>
                   </button>
                   <div class="dropdown-menu">
-                    <a id="requestAccessLinksResend" href="../../../requestResendLinks.jsp">Resend Access Links</a>
+                    <a id="requestAccessLinksResend" href="/resendLinks">Resend Access Links</a>
                   </div>
                 </div>
               </li>

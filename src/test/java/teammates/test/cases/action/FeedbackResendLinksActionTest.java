@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.FeedbackResendLinksAction;
 
@@ -26,6 +27,7 @@ public class FeedbackResendLinksActionTest extends BaseActionTest {
     @Test
     protected void testExecuteAndPostProcess() throws Exception {
         StudentAttributes student = typicalBundle.students.get("student1InCourse1");
+        FieldValidator validator = new FieldValidator();
 
         ______TS("Typical Success Case");
 
@@ -49,7 +51,7 @@ public class FeedbackResendLinksActionTest extends BaseActionTest {
 
         action = getAction(params);
         result = getAjaxResult(action);
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_RESEND_ACCESS_LINKS_INVALID_EMAIL, result.getStatusMessage());
+        assertEquals(validator.getInvalidityInfoForEmail(invalidEmail), result.getStatusMessage());
     }
 
     @Override
