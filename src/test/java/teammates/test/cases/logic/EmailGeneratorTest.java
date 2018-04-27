@@ -474,8 +474,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
     @Test
     public void testGenerateFeedbackSessionResendLinksEmail()
             throws InvalidParametersException, EntityDoesNotExistException, IOException {
-        FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
+        CourseAttributes course = coursesLogic.getCourse(session1.getCourseId());
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
 
         String recipient = student1.getEmail();
@@ -489,19 +489,32 @@ public class EmailGeneratorTest extends BaseLogicTest {
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmailWithNoActiveLinks.html");
 
-        ______TS("The student has feedback sessions over the recent six months");
+        ______TS("The student has a feedback session over the recent six months");
 
         FeedbackSessionAttributes session2 =
                 fsLogic.getFeedbackSession("Second feedback session", "idOfTypicalCourse1");
-        Instant startTime = session2.getStartTime();
-        Instant newStartTime = Instant.now().minus(Duration.ofDays(10));
-        session2.setStartTime(newStartTime);
+        Instant session2StartTime = session2.getStartTime();
+        Instant session2NewStartTime = Instant.now().minus(Duration.ofDays(10));
+        session2.setStartTime(session2NewStartTime);
         fsLogic.updateFeedbackSession(session2);
 
         email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(student1.getEmail());
-        verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmail.html");
-        // Reset the "Second feedback session" in data
-        session2.setStartTime(startTime);
+        verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmailWithOneSingleLink.html");
+
+        ______TS("The student has multiple feedback sessions over the recent six months");
+
+        Instant session1EndTime = session1.getEndTime();
+        Instant session1NewEndTime = Instant.now().minus(Duration.ofDays(10));
+        session1.setEndTime(session1NewEndTime);
+        fsLogic.updateFeedbackSession(session1);
+
+        email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(student1.getEmail());
+        verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmailWithMultipleLinks.html");
+
+        // Reset the feedback sessions'timings in data
+        session1.setEndTime(session1EndTime);
+        fsLogic.updateFeedbackSession(session1);
+        session2.setStartTime(session2StartTime);
         fsLogic.updateFeedbackSession(session2);
     }
 
