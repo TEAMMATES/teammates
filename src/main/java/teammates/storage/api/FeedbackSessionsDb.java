@@ -118,7 +118,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             }
         }
 
-        for (FeedbackSession session : load()) {
+        List<FeedbackSession> sessions = load().list();
+        for (FeedbackSession session : sessions) {
             FeedbackSessionAttributes fs = makeAttributes(session);
             Instant fsResultsVisibleFromTime = fs.getResultsVisibleFromTime();
             if ((fsResultsVisibleFromTime.isAfter(rangeStart)
