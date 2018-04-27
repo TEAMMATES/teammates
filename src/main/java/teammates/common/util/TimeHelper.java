@@ -174,11 +174,16 @@ public final class TimeHelper {
     }
 
     public static LocalDateTime parseDayandDate(String inputDate, String inputTimeHours) {
-        String date = inputDate.trim().substring(5, 17);
-        LocalDate localDate = parseLocalDateForSessionsForm(date);
-        String day = localDate.getDayOfWeek().name().substring(0, 3);
-        String originalDate = day.concat(", ").concat(date);
-        return combineDateTime(originalDate, inputTimeHours);
+
+        if (inputDate == null || inputDate.length() == 0) {
+            return null;
+        } else {
+            String date = inputDate.trim().substring(5, 17);
+            LocalDate localDate = parseLocalDateForSessionsForm(date);
+            String day = localDate.getDayOfWeek().name().substring(0, 3);
+            String originalDate = day.concat(", ").concat(date);
+            return combineDateTime(originalDate, inputTimeHours);
+        }
     }
 
     /**
