@@ -353,24 +353,22 @@ public final class TimeHelper {
      * @param sessionTimeZone the time zone to compute local datetime
      * @return the formatted datetime stamp string
      */
-    public static String formatDateTimeForDisplayFull(Instant instant, ZoneId sessionTimeZone) {
+    public static String formatDateTimeForDisplay(Instant instant, ZoneId sessionTimeZone) {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }
 
     /**
-     * Formats a datetime stamp from an {@code instant} for DST disambiguation including time zone name and offset.
+     * Formats a datetime stamp from an {@code instant} including time zone name and offset.
      * Example: Sun, 01 Apr 2018, 11:23 PM SGT (UTC+0800)
-     *
-     * <p>This is used to generate the warning to instructors for datetimes that fall in DST overlaps.</p>
      *
      * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
      * Example: Sun, 01 Apr 2018, 12:00 NOON SGT (UTC+0800)</p>
      *
      * @param instant the interpreted instant to be formatted
-     * @param zone    the time zone causing the DST overlap
+     * @param zone    the time zone to compute local datetime
      * @return the formatted datetime stamp string
      */
-    public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
+    public static String formatDateTimeForDisplayFull(Instant instant, ZoneId zone) {
         return formatInstant(instant, zone, "EEE, dd MMM yyyy, hh:mm a z ('UTC'Z)");
     }
 

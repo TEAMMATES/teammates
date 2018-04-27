@@ -95,9 +95,9 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public String createEditedCommentDetails(String giverName, String editorName) {
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverName);
         return "From: " + giverName + " ["
-                + TimeHelper.formatDateTimeForDisplayFull(comment.createdAt, sessionTimeZone)
+                + TimeHelper.formatDateTimeForDisplay(comment.createdAt, sessionTimeZone)
                 + "] (last edited " + (isGiverAnonymous ? "" : "by " + editorName + " ") + "at "
-                + TimeHelper.formatDateTimeForDisplayFull(comment.lastEditedAt, sessionTimeZone)
+                + TimeHelper.formatDateTimeForDisplay(comment.lastEditedAt, sessionTimeZone)
                 + ")";
     }
 }

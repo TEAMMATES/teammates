@@ -142,7 +142,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         case GAP:
             String gapWarningText = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP, fieldName,
                     TimeHelper.formatDateTimeForDisplay(dateTime),
-                    TimeHelper.formatDateTimeForDisambiguation(resolved, zone));
+                    TimeHelper.formatDateTimeForDisplayFull(resolved, zone));
             statusToUser.add(new StatusMessage(gapWarningText, StatusMessageColor.WARNING));
             break;
         case OVERLAP:
@@ -150,9 +150,9 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             Instant laterInterpretation = dateTime.atZone(zone).withLaterOffsetAtOverlap().toInstant();
             String overlapWarningText = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP, fieldName,
                     TimeHelper.formatDateTimeForDisplay(dateTime),
-                    TimeHelper.formatDateTimeForDisambiguation(earlierInterpretation, zone),
-                    TimeHelper.formatDateTimeForDisambiguation(laterInterpretation, zone),
-                    TimeHelper.formatDateTimeForDisambiguation(resolved, zone));
+                    TimeHelper.formatDateTimeForDisplayFull(earlierInterpretation, zone),
+                    TimeHelper.formatDateTimeForDisplayFull(laterInterpretation, zone),
+                    TimeHelper.formatDateTimeForDisplayFull(resolved, zone));
             statusToUser.add(new StatusMessage(overlapWarningText, StatusMessageColor.WARNING));
             break;
         default:

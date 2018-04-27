@@ -60,23 +60,23 @@ public class TimeHelperTest extends BaseTestCase {
         LocalDateTime date = LocalDateTime.of(2015, Month.DECEMBER, 30, 12, 0);
         assertEquals("Wed, 30 Dec, 2015", TimeHelper.formatDateForSessionsForm(date));
         assertEquals("Wed, 30 Dec 2015, 12:00 NOON", TimeHelper.formatDateTimeForDisplay(date));
-        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForDisplayFull(
+        assertEquals("Wed, 30 Dec 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForDisplay(
                 date.atZone(ZoneId.of("UTC")).toInstant(), ZoneId.of("UTC")));
         assertEquals("30 Dec 12:00 NOON", TimeHelper.formatDateTimeForInstructorHomePage(date));
     }
 
     @Test
-    public void testFormatDateTimeForDisplayFull() {
+    public void testFormatDateTimeForDisplay() {
         ZoneId zoneId = ZoneId.of("UTC");
         Instant instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 12, 0).atZone(zoneId).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForDisplayFull(instant, zoneId));
+        assertEquals("Mon, 30 Nov 2015, 12:00 NOON UTC", TimeHelper.formatDateTimeForDisplay(instant, zoneId));
 
         zoneId = ZoneId.of("Asia/Singapore");
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 16, 0).atZone(zoneId).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 04:00 PM SGT", TimeHelper.formatDateTimeForDisplayFull(instant, zoneId));
+        assertEquals("Mon, 30 Nov 2015, 04:00 PM SGT", TimeHelper.formatDateTimeForDisplay(instant, zoneId));
 
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 4, 0).atZone(zoneId).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT", TimeHelper.formatDateTimeForDisplayFull(instant, zoneId));
+        assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT", TimeHelper.formatDateTimeForDisplay(instant, zoneId));
     }
 
     @Test
