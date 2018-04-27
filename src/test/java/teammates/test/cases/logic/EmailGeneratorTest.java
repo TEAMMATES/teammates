@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -505,8 +506,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         Instant session1EndTime = session1.getEndTime();
         Instant session1NewEndTime = Instant.now().minus(Duration.ofDays(10));
+        session1NewEndTime = session1NewEndTime.truncatedTo(ChronoUnit.DAYS);
         session1.setEndTime(session1NewEndTime);
         fsLogic.updateFeedbackSession(session1);
+
+        FeedbackSessionAttributes recentPublishedSession = fsLogic.getFeedbackSession(
+                "Closed Session", "idOfTypicalCourse1");
+        Instant recentPublishedSessionPublishedTime = recentPublishedSession.getResultsVisibleFromTime();
+        Instant recentPublishedSessionNewPublishedTime = Instant.now().minus(Duration.ofDays(10));
+        recentPublishedSession.setResultsVisibleFromTime(recentPublishedSessionNewPublishedTime);
+        fsLogic.updateFeedbackSession(recentPublishedSession);
 
         email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(student1.getEmail());
         verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmailWithMultipleLinks.html");
@@ -516,6 +525,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         fsLogic.updateFeedbackSession(session1);
         session2.setStartTime(session2StartTime);
         fsLogic.updateFeedbackSession(session2);
+        recentPublishedSession.setResultsVisibleFromTime(recentPublishedSessionPublishedTime);
+        fsLogic.updateFeedbackSession(recentPublishedSession);
     }
 
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {
