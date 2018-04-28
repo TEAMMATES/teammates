@@ -96,32 +96,43 @@
         <div class="bs-example" id="sessionTypeSelectionHtml">
           <div class="well well-plain">
             <div class="row" data-toggle="tooltip" data-placement="top" title="Select a different type of session here.">
-              <h4 class="label-control col-md-2 text-md">Create new </h4>
-              <div class="col-md-6">
-                <div class="col-xs-10 tablet-no-padding" title="" data-toggle="tooltip" data-placement="top" data-original-title="Select a session type here.">
-                  <select class="form-control" name="sessionTemplateType" id="sessionTemplateType">
-                    <option value="STANDARD" selected="">
+              <h4 class="label-control col-md-2 text-md">
+                Create new
+              </h4>
+              <div class="col-md-10">
+                <div class="col-xs-10 tablet-no-padding" data-original-title="Select a session type here." data-placement="top" data-toggle="tooltip" title="">
+                  <select class="form-control" id="sessionTemplateType" name="sessionTemplateType">
+                    <option value="STANDARD">
                       session with my own questions
                     </option>
                     <option value="TEAMEVALUATION">
                       session using template: team peer evaluation
                     </option>
-                    <option value="OPTIMIZEDTEAMEVALUATION" selected>
+                    <option selected="" value="OPTIMIZEDTEAMEVALUATION">
                       session using template: team peer evaluation (optimized)
                     </option>
                   </select>
                 </div>
                 <div class="col-xs-1">
                   <h5>
-                    <a href="/instructorHelp.jsp#fbSetupSession" target="_blank" rel="noopener noreferrer">
-                      <span class="glyphicon glyphicon-info-sign"></span>
+                    <a href="/instructorHelp.jsp#fbSetupSession" rel="noopener noreferrer" target="_blank">
+                  <span class="glyphicon glyphicon-info-sign">
+                  </span>
                     </a>
                   </h5>
                 </div>
               </div>
-              <h4 class="label-control col-md-1 text-md">Or: </h4>
-              <div class="col-md-3">
-                <a id="button_copy" class="btn btn-info" style="vertical-align:middle; float: right;">Copy from previous feedback sessions</a>
+            </div>
+            <div class="row">
+              <h4 class="label-control col-xs-12 col-md-2 text-md">
+                Or:
+              </h4>
+              <div class="col-md-10">
+                <div class="col-xs-12 tablet-no-padding">
+                  <a class="btn btn-info" id="button_copy" style="vertical-align:middle;">
+                    Copy from previous feedback sessions
+                  </a>
+                </div>
               </div>
             </div>
             <br>
