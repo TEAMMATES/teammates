@@ -1349,18 +1349,14 @@ public final class Const {
         public static final String STUDENT_EMAIL_TAKEN_MESSAGE =
                 "Trying to update to an email that is already used by: %s/%s";
 
-        public static final String FEEDBACK_SESSION_ADDED =
-                "The feedback session has been added. "
-                + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
+        public static final String FEEDBACK_ADD_NEW_QUESTION =
+                "Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
         public static final String FEEDBACK_SESSION_ADDED_OWN_QUESTIONS =
-                "Feedback session using your own questions has been added. "
-                + "Click the \"Add New Question\" button below to begin adding questions for the session.";
+                "Feedback session using your own questions has been added. " + FEEDBACK_ADD_NEW_QUESTION;
         public static final String FEEDBACK_SESSION_ADDED_TEAM =
-                "Feedback session using team evaluation template has been added. "
-                + "Click the \"Add New Question\" button below to begin adding questions for the session.";
+                "Feedback session using team evaluation template has been added. " + FEEDBACK_ADD_NEW_QUESTION;
         public static final String FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED =
-                "Feedback session using team evaluation template (optimized) has been added. "
-                        + "Click the \"Add New Question\" button below to begin adding questions for the session.";
+                "Feedback session using team evaluation template (optimized) has been added. " + FEEDBACK_ADD_NEW_QUESTION;
         public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY =
                 "If you do not see existing feedback sessions in the list below, "
                 + "please refresh the page after a few moments";

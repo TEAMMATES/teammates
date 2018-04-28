@@ -222,10 +222,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     }
 
     /**
-     * Creates a list of options (STANDARD, TEAMEVALUATION, and OPTIMIZEDTEAMEVALUATION). If defaultSessionTemplateType is null,
-     *     TEAMEVALUATION is selected by default.
-     * @param defaultSessionTemplateType  either STANDARD, TEAMEVALUATION or OPTIMIZEDEVALUATION, 
-           the option that is selected on page load
+     * Creates a list of options (STANDARD, TEAMEVALUATION, and OPTIMIZEDTEAMEVALUATION).
+     * If defaultSessionTemplateType is null, TEAMEVALUATION is selected by default.
+     * @param defaultSessionTemplateType  either STANDARD, TEAMEVALUATION or OPTIMIZEDEVALUATION,
+     *         the option that is selected on page load
      */
     private List<ElementTag> getSessionTemplateTypeOptions(String defaultSessionTemplateType) {
         ArrayList<ElementTag> result = new ArrayList<>();
@@ -240,8 +240,8 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
         ElementTag optimizedEvaluationFeedbackSession =
                 createOption("session using template: team peer evaluation (optimized)",
-                            Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION,
-                        defaultSessionType == null
+                        Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION,
+                        defaultSessionTemplateType == null
                                 || Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION
                                 .equals(defaultSessionTemplateType));
 

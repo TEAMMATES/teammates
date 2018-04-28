@@ -63,9 +63,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
             String statusMessage;
 
-            if (Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_STANDARD.equals(feedbackSessionType)) {
+            if (Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_STANDARD.equals(sessionTemplateType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_OWN_QUESTIONS;
-            } else if (Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_TEAMEVALUATION.equals(feedbackSessionType)) {
+            } else if (Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_TEAMEVALUATION.equals(sessionTemplateType)) {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM;
             } else {
                 statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED;
@@ -138,9 +138,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         String template = "";
 
         if (Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_TEAMEVALUATION.equals(templateType)) {
-            template = FeedbackSessionTemplates.TEAM_EVALUATION_TEMPLATE;
+            template = FeedbackSessionTemplates.TEAM_EVALUATION;
         } else if (Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION.equals(templateType)) {
-            template = FeedbackSessionTemplates.OPTIMIZED_TEAM_EVALUATION_TEMPLATE;
+            template = FeedbackSessionTemplates.TEAM_EVALUATION_OPTIMIZED;
         }
 
         if (!template.isEmpty()) {
