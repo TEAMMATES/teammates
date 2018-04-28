@@ -64,7 +64,6 @@ public class FeedbackSession extends BaseEntity {
     @Unindex
     private Date sessionVisibleFromTime;
 
-    @Unindex
     private Date resultsVisibleFromTime;
 
     /**

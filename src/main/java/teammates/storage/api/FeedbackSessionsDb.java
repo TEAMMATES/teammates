@@ -118,15 +118,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             }
         }
 
-        List<FeedbackSession> sessions = load().list();
-        for (FeedbackSession session : sessions) {
+        List<FeedbackSession> resultsVisibleEntities = load()
+                .filter("resultsVisibleFromTime >", TimeHelper.convertInstantToDate(start))
+                .filter("resultsVisibleFromTime <=", TimeHelper.convertInstantToDate(end))
+                .list();
+        List<FeedbackSession> resultsVisibleFromTimeEntities = new ArrayList<>(resultsVisibleEntities);
+        for (FeedbackSession session : resultsVisibleFromTimeEntities) {
             FeedbackSessionAttributes fs = makeAttributes(session);
-            Instant fsResultsVisibleFromTime = fs.getResultsVisibleFromTime();
-            if ((fsResultsVisibleFromTime.isAfter(rangeStart)
-                    || fsResultsVisibleFromTime.equals(rangeStart))
-                    && fsResultsVisibleFromTime.isBefore(rangeEnd)) {
-                list.add(fs);
-            }
+            list.add(fs);
         }
 
         return list;

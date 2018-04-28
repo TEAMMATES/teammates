@@ -500,7 +500,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         fsLogic.updateFeedbackSession(session2);
 
         email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(student1.getEmail());
-        verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmailWithOneSingleLink.html");
+        verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmailWithSingleLink.html");
 
         ______TS("The student has multiple feedback sessions over the recent six months");
 
