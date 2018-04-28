@@ -510,13 +510,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         session1.setEndTime(session1NewEndTime);
         fsLogic.updateFeedbackSession(session1);
 
-        FeedbackSessionAttributes recentPublishedSession = fsLogic.getFeedbackSession(
-                "Closed Session", "idOfTypicalCourse1");
-        Instant recentPublishedSessionPublishedTime = recentPublishedSession.getResultsVisibleFromTime();
-        Instant recentPublishedSessionNewPublishedTime = Instant.now().minus(Duration.ofDays(10));
-        recentPublishedSession.setResultsVisibleFromTime(recentPublishedSessionNewPublishedTime);
-        fsLogic.updateFeedbackSession(recentPublishedSession);
-
         email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(student1.getEmail());
         verifyEmail(email, student1.getEmail(), subject, "/sessionLinksResendEmailWithMultipleLinks.html");
 
@@ -525,8 +518,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         fsLogic.updateFeedbackSession(session1);
         session2.setStartTime(session2StartTime);
         fsLogic.updateFeedbackSession(session2);
-        recentPublishedSession.setResultsVisibleFromTime(recentPublishedSessionPublishedTime);
-        fsLogic.updateFeedbackSession(recentPublishedSession);
     }
 
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {

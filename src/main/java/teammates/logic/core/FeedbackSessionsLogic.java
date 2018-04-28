@@ -114,11 +114,6 @@ public final class FeedbackSessionsLogic {
         return fsDb.getAllOpenFeedbackSessions(rangeStart, rangeEnd);
     }
 
-    public List<FeedbackSessionAttributes> getAllFeedbackSessionsWithinTimeRange(
-            Instant rangeStart, Instant rangeEnd) {
-        return fsDb.getAllFeedbackSessionsWithinTimeRange(rangeStart, rangeEnd);
-    }
-
     /**
      * This method returns a single feedback session. Returns null if not found.
      */

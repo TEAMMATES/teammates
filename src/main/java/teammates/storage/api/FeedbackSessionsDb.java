@@ -77,60 +77,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return list;
     }
 
-    public List<FeedbackSessionAttributes> getAllFeedbackSessionsWithinTimeRange(
-            Instant rangeStart, Instant rangeEnd) {
-        List<FeedbackSessionAttributes> list = new LinkedList<>();
-
-        // To retrieve legacy data where local dates are stored instead of UTC
-        // TODO: remove after all legacy data has been converted
-        Instant start = rangeStart.minus(Duration.ofHours(25));
-        Instant end = rangeEnd.plus(Duration.ofHours(25));
-
-        List<FeedbackSession> endEntities = load()
-                .filter("endTime >", TimeHelper.convertInstantToDate(start))
-                .filter("endTime <=", TimeHelper.convertInstantToDate(end))
-                .list();
-
-        List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", TimeHelper.convertInstantToDate(start))
-                .filter("startTime <", TimeHelper.convertInstantToDate(end))
-                .list();
-
-        List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
-        List<FeedbackSession> startTimeEntities = new ArrayList<>(startEntities);
-
-        endTimeEntities.removeAll(startTimeEntities);
-        startTimeEntities.removeAll(endTimeEntities);
-        endTimeEntities.addAll(startTimeEntities);
-
-        // TODO: remove after all legacy data has been converted
-        for (FeedbackSession feedbackSession : endTimeEntities) {
-            FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
-            Instant fsStart = fs.getStartTime();
-            Instant fsEnd = fs.getEndTime();
-
-            boolean isStartTimeWithinRange = (fsStart.isAfter(rangeStart) || fsStart.equals(rangeStart))
-                    && fsStart.isBefore(rangeEnd);
-            boolean isEndTimeWithinRange = fsEnd.isAfter(rangeStart) && (fsEnd.isBefore(rangeEnd) || fsEnd.equals(rangeEnd));
-
-            if (isStartTimeWithinRange || isEndTimeWithinRange) {
-                list.add(fs);
-            }
-        }
-
-        List<FeedbackSession> resultsVisibleEntities = load()
-                .filter("resultsVisibleFromTime >", TimeHelper.convertInstantToDate(start))
-                .filter("resultsVisibleFromTime <=", TimeHelper.convertInstantToDate(end))
-                .list();
-        List<FeedbackSession> resultsVisibleFromTimeEntities = new ArrayList<>(resultsVisibleEntities);
-        for (FeedbackSession session : resultsVisibleFromTimeEntities) {
-            FeedbackSessionAttributes fs = makeAttributes(session);
-            list.add(fs);
-        }
-
-        return list;
-    }
-
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

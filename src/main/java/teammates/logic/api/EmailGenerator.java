@@ -409,7 +409,7 @@ public class EmailGenerator {
         String emailBody;
         String studentName = null;
 
-        List<FeedbackSessionAttributes> sessions = fsLogic.getAllFeedbackSessionsWithinTimeRange(startTime, endTime);
+        List<FeedbackSessionAttributes> sessions = fsLogic.getAllOpenFeedbackSessions(startTime, endTime);
         for (FeedbackSessionAttributes session : sessions) {
             CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
             StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
