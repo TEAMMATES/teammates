@@ -384,7 +384,6 @@ public class InstructorHomePage extends AppPage {
         waitForElementPresence(fsCopyButtonElement);
 
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
-        waitForElementNotCovered(fsCopyButton);
-        click(fsCopyButton);
+        fsCopyButton.click();
     }
 }

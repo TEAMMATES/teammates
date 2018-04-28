@@ -15,7 +15,6 @@ import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -161,7 +160,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
         fs.setTimeZone(newAttributes.getTimeZone().getId());
         fs.setGracePeriod(newAttributes.getGracePeriodMinutes());
-        fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
         fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
         fs.setSentClosingEmail(newAttributes.isSentClosingEmail());
         fs.setSentClosedEmail(newAttributes.isSentClosedEmail());
@@ -499,7 +497,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load()
                 .filter("sentPublishedEmail =", false)
                 .filter("isPublishedEmailEnabled =", true)
-                .filter("feedbackSessionType !=", FeedbackSessionType.PRIVATE)
                 .list();
     }
 

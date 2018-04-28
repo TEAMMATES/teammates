@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
@@ -58,7 +57,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 .withSentOpenEmail(false)
                 .withSentPublishedEmail(false)
                 .withTimeZone(course.getTimeZone())
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withClosingEmailEnabled(true)
                 .withPublishedEmailEnabled(true)
                 .build();
@@ -142,18 +140,16 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName().verifyTablePattern(
-                0, 1, "Awaiting Session #{*}First Session #1{*}Manual Session #1{*}Open Session #{*}Private Session #");
+                0, 1, "Awaiting Session #{*}First Session #1{*}Manual Session #1{*}Open Session #");
         feedbackPage.sortByName().verifyTablePattern(
-                0, 1, "Private Session #{*}Open Session #{*}Manual Session #1{*}First Session #1{*}Awaiting Session #");
+                0, 1, "Open Session #{*}Manual Session #1{*}First Session #1{*}Awaiting Session #");
 
         ______TS("sort by course id");
 
         feedbackPage.sortById().verifyTablePattern(
-                0, 0, "CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS2104"
-                      + "{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
+                0, 0, "CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
         feedbackPage.sortById().verifyTablePattern(
-                0, 0, "CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
-                      + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
+                0, 0, "CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
 
     }
 
@@ -198,7 +194,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 instructions, newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME);
-        assertEquals("<p>" + instructions.getValue() + "</p>", feedbackPage.getInstructions());
+        assertEquals(getMockedTinyMceContent(instructions.getValue()), feedbackPage.getInstructions());
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -210,8 +206,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
 
-        // TinyMCE wraps text with <p> tag
-        newSession.setInstructions(new Text("<p>" + instructions.getValue() + "</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
         assertEquals(newSession.toString(), savedSession.toString());
         newSession.setInstructions(instructions);
 
@@ -297,24 +292,19 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
 
-        ______TS("success case: private session, boundary length name, only results email");
+        ______TS("success case: boundary length name, only results email");
 
         CourseAttributes otherCourse = testData.courses.get("course");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.clickEditUncommonSettingsButtons();
-        feedbackPage.clickNeverVisibleTimeButton();
 
-        //verify that timeFrameTable, instructions and ResponseVisTable are all hidden
-        assertTrue(feedbackPage.isHidden(By.id("timeFramePanel")));
-        assertTrue(feedbackPage.isHidden(By.id("responsesVisibleFromColumn")));
-        assertTrue(feedbackPage.isHidden(By.id("instructionsRow")));
-
-        newSession.setFeedbackSessionName("private session of characters1234567 #");
+        newSession.setFeedbackSessionName("Session of characters12345678000000000");
         newSession.setCourseId(otherCourse.getId());
         newSession.setTimeZone(otherCourse.getTimeZone());
-        newSession.setEndTime(null);
-        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
+        newSession.setStartTime(TimeHelper.parseInstant("2018-05-01 6:00 AM +0000"));
+        newSession.setEndTime(newSession.getStartTime());
+        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
         newSession.setClosingEmailEnabled(false);
@@ -325,20 +315,15 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.toggleSendClosingEmailCheckbox();
 
         // fill in defaults
-        newSession.setInstructions(new Text("<p>Please answer all the given questions.</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent("Please answer all the given questions.")));
         newSession.setGracePeriodMinutes(15);
-
-        newSession.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                null, null, null, null,
-                null, -1);
+                newSession.getEndTimeLocal(), newSession.getEndTimeLocal(), null, null,
+                newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
-        // start time is set by the browser; since it varies based on time, we do not test for its value
-        newSession.setStartTime(savedSession.getStartTime());
-
         assertEquals(newSession.toString(), savedSession.toString());
         // set back to default course
         newSession.setCourseId(course.getId());
@@ -361,7 +346,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         newSession.setSessionVisibleFromTime(TimeHelper.parseInstant("2008-03-01 3:00 PM +0000"));
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        newSession.setFeedbackSessionType(FeedbackSessionType.STANDARD);
 
         newSession.setInstructions(new Text(""));
 
@@ -399,7 +383,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriodMinutes(25);
-        newSession.setInstructions(instructions);
+        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
 
@@ -413,8 +397,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
-
-        newSession.setInstructions(new Text("<p>cannot see responses$^/&#61;?</p>"));
 
         assertEquals(newSession.toString(), savedSession.toString());
 
@@ -445,7 +427,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
-        newSession.setInstructions(new Text("<p>" + newSession.getInstructionsString() + "</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent(newSession.getInstructionsString())));
         assertEquals(newSession.toString(), savedSession.toString());
 
         ______TS("failure case: invalid input: (end < start < visible) and (publish < visible)");
@@ -503,6 +485,15 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "bad name %% #",
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR));
 
+    }
+
+    /**
+     * Returns the mocked HTML content set by TinyMCE. Note: This is a basic mock that only adds paragraph tags to the
+     * content, which simulates TinyMCE's behavior for plain strings. TinyMCE's more complicated behavior for other scenarios
+     * is not mocked.
+     */
+    private String getMockedTinyMceContent(String content) {
+        return "<p>" + content + "</p>";
     }
 
     private void testCopyFromAction() throws Exception {
@@ -637,18 +628,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
-        ______TS("PRIVATE: publish link unclickable");
-
-        String courseId = testData.feedbackSessions.get("privateSession").getCourseId();
-        String sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
-
-        feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
-        assertTrue(feedbackPage.isSessionResultsOptionsCaretDisabled(courseId, sessionName));
-
         ______TS("MANUAL: publish link clickable");
 
-        courseId = testData.feedbackSessions.get("manualSession").getCourseId();
-        sessionName = testData.feedbackSessions.get("manualSession").getFeedbackSessionName();
+        String courseId = testData.feedbackSessions.get("manualSession").getCourseId();
+        String sessionName = testData.feedbackSessions.get("manualSession").getFeedbackSessionName();
 
         feedbackPage.clickAndCancel(feedbackPage.getPublishLink(courseId, sessionName));
         assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
@@ -669,15 +652,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String courseId = testData.feedbackSessions.get("publishedSession").getCourseId();
         String sessionName = testData.feedbackSessions.get("publishedSession").getFeedbackSessionName();
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
-
-        ______TS("PRIVATE: unpublish link unclickable");
-
-        feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithSessions2").googleId);
-
-        courseId = testData.feedbackSessions.get("privateSession").getCourseId();
-        sessionName = testData.feedbackSessions.get("privateSession").getFeedbackSessionName();
-        feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
-        feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
 
         ______TS("MANUAL: unpublish link clickable");
 
@@ -821,8 +795,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     private void testResponseRateLink() {
         ______TS("test response rate link clickable");
 
-        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session #");
-        feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104", "Private Session #");
+        feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "First Session #1");
+        feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104", "First Session #1");
     }
 
     private void testViewResultsLink() {
@@ -852,7 +826,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("edit link clickable when creator");
 
-        fsa = testData.feedbackSessions.get("privateSession");
+        fsa = testData.feedbackSessions.get("manualSession");
 
         feedbackResultsPage = feedbackPage.loadEditLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
@@ -867,14 +841,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         ______TS("submit link clickable when visible");
 
         fsa = testData.feedbackSessions.get("awaitingSession");
-
-        feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
-        assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-
-        ______TS("submit link clickable when private (never visible)");
-
-        fsa = testData.feedbackSessions.get("privateSession");
 
         feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.getCourseId(), fsa.getFeedbackSessionName());
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.getCourseId(), fsa.getFeedbackSessionName()));
@@ -950,9 +916,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         ______TS("click on a radio button after page refresh");
 
-        feedbackPage.clickCopyTableRadioButtonAtRow(4);
-        assertTrue(feedbackPage.isRowSelected(4));
-        assertTrue(feedbackPage.isRadioButtonChecked(4));
+        feedbackPage.clickCopyTableRadioButtonAtRow(3);
+        assertTrue(feedbackPage.isRowSelected(3));
+        assertTrue(feedbackPage.isRadioButtonChecked(3));
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
     }
 
