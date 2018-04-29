@@ -1432,22 +1432,22 @@
                     </option>
                     <option value="giver-recipient-question">
                       <div class="col-sm-5" data-toggle="tooltip" title="View results by giver, then by recipient, and then by question">
-                        Group by - Giver &#8594; Recipient &#8594; Question
+                        Group by - Giver → Recipient → Question
                       </div>
                     </option>
                     <option value="recipient-giver-question">
                       <div class="col-sm-5" data-toggle="tooltip" title="View results by recipient, then by giver, and then by question">
-                        Group by - Recipient &#8594; Giver &#8594; Question
+                        Group by - Recipient → Giver → Question
                       </div>
                     </option>
                     <option value="giver-question-recipient">
                       <div class="col-sm-5" data-toggle="tooltip" title="View results by giver, then by question, and then by recipient">
-                        Group by - Giver &#8594; Question &#8594; Recipient
+                        Group by - Giver → Question → Recipient
                       </div>
                     </option>
                     <option value="recipient-question-giver">
                       <div class="col-sm-5" data-toggle="tooltip" title="View results by recipient, then by question, and then by giver">
-                        Group by - Recipient &#8594; Question &#8594; Giver
+                        Group by - Recipient → Question → Giver
                       </div>
                     </option>
                   </select>

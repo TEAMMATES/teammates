@@ -20,22 +20,22 @@
             </c:if>
             <c:if test="${filterPanel.sortType == 'giver-recipient-question'}">
               <div data-toggle="tooltip" title="View results by giver, then by recipient, and then by question">
-                Group by - Giver &#8594; Recipient &#8594; Question
+                Group by - Giver → Recipient → Question
               </div>
             </c:if>
             <c:if test="${filterPanel.sortType == 'recipient-giver-question'}">
               <div data-toggle="tooltip" title="View results by recipient, then by giver, and then by question">
-                Group by - Recipient &#8594; Giver &#8594; Question
+                Group by - Recipient → Giver → Question
               </div>
             </c:if>
             <c:if test="${filterPanel.sortType == 'giver-question-recipient'}">
               <div data-toggle="tooltip" title="View results by giver, then by question, and then by recipient">
-                Group by - Giver &#8594; Question &#8594; Recipient
+                Group by - Giver → Question → Recipient
               </div>
             </c:if>
             <c:if test="${empty filterPanel.sortType or filterPanel.sortType == 'recipient-question-giver'}">
               <div data-toggle="tooltip" title="View results by recipient, then by question, and then by giver">
-                Group by - Recipient &#8594; Question &#8594; Giver
+                Group by - Recipient → Question → Giver
               </div>
             </c:if>
           </div>
