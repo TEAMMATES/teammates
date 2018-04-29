@@ -390,8 +390,8 @@ public final class Templates {
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT}";
             public static final String CONSTSUM_PARAM_HAS_MAXPOINTS_CONSTRAINT =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT}";
-            public static final String CONSTSUM_PARAM_MIN = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}";
-            public static final String CONSTSUM_PARAM_MAX = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}";
+            public static final String CONSTSUM_PARAM_MINPOINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN}";
+            public static final String CONSTSUM_PARAM_MAXPOINTS = "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX}";
             public static final String CONSTSUM_TOOLTIP_POINTS = "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTS}";
             public static final String CONSTSUM_TOOLTIP_POINTS_PER_OPTION =
                     "${Const.Tooltips.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION}";

@@ -349,6 +349,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 Slots.CONSTSUM_PARAM_POINTSFOREACHRECIPIENT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT,
                 Slots.CONSTSUM_PARAM_DISTRIBUTE_UNEVENLY, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY,
+                Slots.CONSTSUM_PARAM_MINPOINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN,
+                Slots.CONSTSUM_PARAM_MAXPOINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX,
                 Slots.CONSTSUM_POINTS_MIN, hasMinPointsConstraint ? Integer.toString(minPointsConstraint) : "0",
                 Slots.CONSTSUM_POINTS_MAX, hasMaxPointsConstraint ? Integer.toString(maxPointsConstraint) : "any",
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, distributePointsFor.equals(
@@ -429,8 +431,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT,
                 Slots.CONSTSUM_PARAM_HAS_MAXPOINTS_CONSTRAINT,
                         Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT,
-                Slots.CONSTSUM_PARAM_MIN, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN,
-                Slots.CONSTSUM_PARAM_MAX, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX,
+                Slots.CONSTSUM_PARAM_MINPOINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN,
+                Slots.CONSTSUM_PARAM_MAXPOINTS, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX,
                 Slots.CONSTSUM_DISTRIBUTE_UNEVENLY, distributePointsFor.equals(
                         FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()) ? "" : "checked",
                 Slots.CONSTSUM_DISTRIBUTE_POINTS_OPTIONS,
