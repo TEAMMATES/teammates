@@ -569,6 +569,8 @@ public final class Const {
                 "At least some options must be given a different number of points.";
         public static final String CONST_SUM_ERROR_MIN_CONSTRAINT_GREATER_THAN_MAX =
                 "Min points constraint must be less than max points constraint";
+        public static final String CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO =
+                "%s points constraint should be at least 0";
 
         // Rubric
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;

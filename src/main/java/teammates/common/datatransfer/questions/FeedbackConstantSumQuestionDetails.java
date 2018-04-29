@@ -816,11 +816,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
 
         if (minPointsConstraint != NO_MIN_MAX_CONSTRAINT && minPointsConstraint < 0) {
-            errors.add("Min points constraint must be greater than 0");
+            errors.add(String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Min"));
         }
 
         if (maxPointsConstraint != NO_MIN_MAX_CONSTRAINT && maxPointsConstraint < 0) {
-            errors.add("Max points constraint must be greater than 0");
+            errors.add(String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Max"));
         }
 
         return errors;
