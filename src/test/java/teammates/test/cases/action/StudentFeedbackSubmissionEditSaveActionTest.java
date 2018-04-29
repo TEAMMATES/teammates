@@ -714,7 +714,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertTrue(r.isError);
-        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS + ": " + maxValueQn1, r.getStatusMessage());
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS_CONSTRAINT + ": " + maxValueQn1,
+                r.getStatusMessage());
 
         assertEquals(
                 getPageResultDestination(
@@ -744,7 +745,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertTrue(r.isError);
-        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS + ": " + minValueQn1, r.getStatusMessage());
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS_CONSTRAINT + ": " + minValueQn1,
+                r.getStatusMessage());
 
         assertEquals(
                 getPageResultDestination(

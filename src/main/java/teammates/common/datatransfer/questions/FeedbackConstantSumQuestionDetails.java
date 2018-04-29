@@ -134,11 +134,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             maxPoints = Integer.parseInt(maxPointsString);
         }
 
-        if (minPoints != NO_MIN_MAX_CONSTRAINT && maxPoints != NO_MIN_MAX_CONSTRAINT) {
-            Assumption.assertTrue(minPoints >= 0);
-            Assumption.assertTrue(maxPoints >= 0);
-        }
-
         boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
 
         if (distributeToRecipients) {
@@ -818,6 +813,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_CONSTRAINT_GREATER_THAN_MAX);
         }
 
+        if (minPointsConstraint != NO_MIN_MAX_CONSTRAINT && minPointsConstraint < 0) {
+            errors.add("Min points constraint must be greater than 0");
+        }
+
+        if (maxPointsConstraint != NO_MIN_MAX_CONSTRAINT && maxPointsConstraint < 0) {
+            errors.add("Max points constraint must be greater than 0");
+        }
+
         return errors;
     }
 
@@ -902,12 +905,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             //Check Minimum and Maximum Constraint
             for (Integer i : frd.getAnswerList()) {
                 if (minPointsConstraint != NO_MIN_MAX_CONSTRAINT && i < minPointsConstraint) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS + ": " + minPointsConstraint);
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS_CONSTRAINT + ": " + minPointsConstraint);
                     return errors;
                 }
 
                 if (maxPointsConstraint != NO_MIN_MAX_CONSTRAINT && i > maxPointsConstraint) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS + ": " + maxPointsConstraint);
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS_CONSTRAINT + ": " + maxPointsConstraint);
                     return errors;
                 }
             }
