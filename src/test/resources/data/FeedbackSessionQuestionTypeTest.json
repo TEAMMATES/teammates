@@ -890,6 +890,28 @@
         "INSTRUCTORS"
       ]
     },
+    "qn7InSession4InCourse1": {
+      "feedbackSessionName": "CONSTSUM Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"maxPointsConstraint\":90,\"constSumOptions\":[\"Grades\",\"Fun\"]}"
+      },
+      "questionNumber": 7,
+      "questionType": "CONSTSUM",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "qn2InSession6InCourse1": {
       "feedbackSessionName": "RUBRIC Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1262,6 +1284,17 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answers\":[80,20],\"questionType\":\"CONSTSUM\"}"
+      }
+    },
+    "response1ForQ7S4C1": {
+      "feedbackSessionName": "CONSTSUM Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "7",
+      "feedbackQuestionType": "CONSTSUM",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student1InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[19,81],\"questionType\":\"CONSTSUM\"}"
       }
     },
     "response1ForQ2S4C1": {

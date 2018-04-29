@@ -236,6 +236,10 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
     }
 
+    /**
+     * Tests Min and Max Points Constraint.
+     * Element {@code constSumPointsMin} is enabled when Element {@code constSumPointsHasMaxPointsConstraint} is checked.
+     */
     public void testQuestionPointsConstraint() {
         ______TS("CONST SUM: edit min option greater than max option -> edit failure");
         feedbackEditPage.clickEditQuestionButton(1);

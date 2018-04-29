@@ -653,6 +653,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         ______TS("Successful case: const sum: typical case");
 
         fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 1);
+        FeedbackQuestionAttributes fq2 = fqDb.getFeedbackQuestion(
+                "CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 7);
+
         assertNotNull("Feedback question not found in database", fq);
 
         fr = dataBundle.feedbackResponses.get("response1ForQ1S4C1");
@@ -664,6 +667,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         // necessary to get the correct responseId
         fr2 = frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient);
         assertNotNull("Feedback response not found in database", fr2);
+
+        FeedbackResponseAttributes fr3 = dataBundle.feedbackResponses.get("response1ForQ7S4C1");
+        // necessary to get the correct responseId
+        fr3 = frDb.getFeedbackResponse(fq2.getId(), fr3.giver, fr3.recipient);
+        assertNotNull("Feedback response not found in database", fr3);
 
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
@@ -700,12 +708,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
-                Const.ParamsNames.COURSE_ID, fr.courseId,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr3.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr3.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr3.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr3.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr3.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr3.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "91",
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "9",
         };
