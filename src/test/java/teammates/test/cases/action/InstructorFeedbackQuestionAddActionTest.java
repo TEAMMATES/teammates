@@ -436,6 +436,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Option 1",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-2", "Option 2",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-3", "Option 3",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "70",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "false",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
@@ -470,6 +474,54 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "question:</span> Split points among the options."
                                     + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("add min and max points constraint -> add failure ");
+
+        fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.SELF.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "50",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "true",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Option 1",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-2", "Option 2",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-3", "Option 3",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "29",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+        };
+
+        action = getAction(params);
+        result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        true),
+                result.getDestinationWithParams());
+
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_CONSTRAINT_GREATER_THAN_MAX, result.getStatusMessage());
     }
 
     @Test
