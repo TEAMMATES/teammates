@@ -1503,7 +1503,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void fillConstSumMaxOptionInput(int qnIndex, String maxValue) {
-        WebElement constSumMaxOptionInput = browser.driver.findElement(By.id("constSumPointsMin-" + qnIndex));
+        WebElement constSumMaxOptionInput = browser.driver.findElement(By.id("constSumPointsMax-" + qnIndex));
         fillTextBox(constSumMaxOptionInput, maxValue);
     }
 

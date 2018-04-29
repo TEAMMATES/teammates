@@ -49,6 +49,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         testCustomizeOptions();
         testAddQuestionAction();
         testEditQuestionAction();
+        testQuestionPointsConstraint();
         testDeleteQuestionAction();
         testDisableConstSumPointsAction();
         testUiConsistencyForNewQuestion();
@@ -233,6 +234,25 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
+
+
+    }
+
+    public void testQuestionPointsConstraint() {
+        ______TS("CONST SUM: edit min option greater than max option -> edit failure");
+        feedbackEditPage.clickEditQuestionButton(1);
+
+        feedbackEditPage.clickHasMinPointsConstraintCheckBox(1);
+        feedbackEditPage.clickHasMaxPointsConstraintCheckBox(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumPointsMin-1"));
+        assertTrue(feedbackEditPage.isElementEnabled("constSumPointsMax-1"));
+
+        feedbackEditPage.fillConstSumMinOptionInput(1, "20");
+        feedbackEditPage.fillConstSumMaxOptionInput(1, "19");
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_CONSTRAINT_GREATER_THAN_MAX);
 
         ______TS("CONST SUM: edit to min option constraint -> edit sucessfully");
 
