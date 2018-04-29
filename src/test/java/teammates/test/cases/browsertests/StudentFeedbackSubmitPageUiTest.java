@@ -632,29 +632,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-
-        ______TS("Const Sum: test minimum constraint and warning");
-        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        submitPage.fillResponseTextBox(18, 0, 0, "4");
-
-        assertTrue(submitPage.isConstSumMinMessageDisplayed(18, 0));
-        WebElement constSumResponseElement = submitPage.getResponseTextElement(18, 0, 0);
-        assertFalse(submitPage.isInputElementValid(constSumResponseElement));
-
-        submitPage.fillResponseTextBox(18, 0, 0, "5");
-        assertFalse(submitPage.isConstSumMinMessageDisplayed(18, 0));
-        assertTrue(submitPage.isInputElementValid(constSumResponseElement));
-
-        ______TS("Const Sum: test maximum constraint and warning");
-        submitPage.fillResponseTextBox(18, 0, 1, "96");
-
-        assertTrue(submitPage.isConstSumMaxMessageDisplayed(18, 0));
-        constSumResponseElement = submitPage.getResponseTextElement(18, 0, 1);
-        assertFalse(submitPage.isInputElementValid(constSumResponseElement));
-
-        submitPage.fillResponseTextBox(18, 0, 1, "95");
-        assertFalse(submitPage.isConstSumMaxMessageDisplayed(18, 0));
-        assertTrue(submitPage.isInputElementValid(constSumResponseElement));
     }
 
     private void testResponsiveSubmission() {
@@ -784,6 +761,32 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyAndCloseSuccessfulSubmissionModal();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
+    }
+
+    @Test
+    public void testConstSumResponseValidation() {
+        ______TS("Const Sum: test minimum constraint and warning");
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.fillResponseTextBox(18, 0, 0, "4");
+
+        assertTrue(submitPage.isConstSumMinMessageDisplayed(18, 0));
+        WebElement constSumResponseElement = submitPage.getResponseTextElement(18, 0, 0);
+        assertFalse(submitPage.isInputElementValid(constSumResponseElement));
+
+        submitPage.fillResponseTextBox(18, 0, 0, "5");
+        assertFalse(submitPage.isConstSumMinMessageDisplayed(18, 0));
+        assertTrue(submitPage.isInputElementValid(constSumResponseElement));
+
+        ______TS("Const Sum: test maximum constraint and warning");
+        submitPage.fillResponseTextBox(18, 0, 1, "96");
+
+        assertTrue(submitPage.isConstSumMaxMessageDisplayed(18, 0));
+        constSumResponseElement = submitPage.getResponseTextElement(18, 0, 1);
+        assertFalse(submitPage.isInputElementValid(constSumResponseElement));
+
+        submitPage.fillResponseTextBox(18, 0, 1, "95");
+        assertFalse(submitPage.isConstSumMaxMessageDisplayed(18, 0));
+        assertTrue(submitPage.isInputElementValid(constSumResponseElement));
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {
