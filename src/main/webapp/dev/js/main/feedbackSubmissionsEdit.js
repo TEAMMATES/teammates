@@ -642,9 +642,9 @@ function updateConstSumMessageQn(qnNum) {
         for (let i = 0; i < numOptions; i += 1) {
             const pointsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(), 10);
             shouldDisplayMinMessage = shouldDisplayMinMessage ||
-                    isMinPointsConstraintViolated($constSumMinMessageElement, pointsAllocated);
+                    isMinPointsConstraintViolated(pointsAllocated);
             shouldDisplayMaxMessage = shouldDisplayMaxMessage ||
-                    isMaxPointsConstraintViolated($constSumMaxMessageElement, pointsAllocated);
+                    isMaxPointsConstraintViolated(pointsAllocated);
             updateSumBasedOn(pointsAllocated);
         }
 
@@ -670,9 +670,9 @@ function updateConstSumMessageQn(qnNum) {
             for (let k = 0; k < numOptions; k += 1) {
                 const ptsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${j}-${k}`).val(), 10);
                 shouldDisplayMinMessage = shouldDisplayMinMessage ||
-                        isMinPointsConstraintViolated($constSumMinMessageElement, ptsAllocated);
+                        isMinPointsConstraintViolated(ptsAllocated);
                 shouldDisplayMaxMessage = shouldDisplayMaxMessage ||
-                        isMaxPointsConstraintViolated($constSumMaxMessageElement, ptsAllocated);
+                        isMaxPointsConstraintViolated(ptsAllocated);
                 updateSumBasedOn(ptsAllocated);
             }
 
