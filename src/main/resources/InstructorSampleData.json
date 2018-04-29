@@ -236,7 +236,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -259,7 +258,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -282,7 +280,6 @@
       "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -420,7 +417,7 @@
       "courseId": "demo.course",
       "creatorEmail": "teammates.demo.instructor@demo.course",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"C\",\"C++\",\"Java\",\"Python\"],\"questionText\":\"Which programming languages do you know?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":4,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"C\",\"C++\",\"Java\",\"Python\"],\"questionText\":\"Which programming languages do you know?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 6,
       "questionType": "MSQ",

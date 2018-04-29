@@ -107,10 +107,7 @@ You need an instructor account which can be created by administrators.
    Email: `teammates.instructor@university.edu`<br>
    Institution: `National University of Singapore`<br>
 1. The system will send an email containing the join link to the added instructor.<br>
-   On the dev server, this email will not be sent. Instead, you can use the join link given after adding an instructor to complete the joining process.<br>
-   Remember to change the base URL of the link if necessary, but keep the parameters,<br>
-   e.g change **`https://teammates-john.appspot.com`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`<br>
-   to **`http://localhost:8080`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
+   On the dev server, this email will not be sent. Instead, you can use the join link given after adding an instructor to complete the joining process.
 
 Alternatively, an instructor can create other instructors for a course if s/he has sufficient privileges. A course co-owner, for example, will have such a privilege.
 
@@ -120,7 +117,7 @@ Alternatively, an instructor can create other instructors for a course if s/he h
 1. The system will send an email containing the join link to each added instructor. Again, this will not happen on the dev server, so additional steps are required.
 1. Log out and log in to `http://localhost:8080/admin/adminSearchPage` as administrator.
 1. Search for the instructor you added in. From the search results, click anywhere on the desired row to get the course join link for that instructor.
-1. Log out and use that join link (again, change the base URL to `http://localhost:8080` if necessary) to log in as the new instructor.
+1. Log out and use that join link to log in as the new instructor.
 
 ### As student
 

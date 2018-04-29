@@ -6,6 +6,7 @@ import {
 
 import {
     BootstrapContextualColors,
+    ParamsNames,
 } from '../common/const';
 
 import {
@@ -493,6 +494,14 @@ function updateConstSumMessageQn(qnNum) {
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
     const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
 
+    const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
+    const allowEvenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION;
+    const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION;
+    const forceSomeUnevenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION;
+
     if (distributeToRecipients) {
         numOptions = numRecipients;
     } else {
@@ -506,6 +515,7 @@ function updateConstSumMessageQn(qnNum) {
     let sum = 0;
     let remainingPoints = points;
     let allUnique = true;
+    let allSame = true;
     let allNotNumbers = true;
     let answerSet = {};
 
@@ -525,7 +535,10 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-red');
             messageElement.removeClass('text-color-green');
         } else if (remainingPoints === 0) {
-            if (!forceUnevenDistribution || allUnique) {
+            if (allowEvenDistribution || !forceUnevenDistribution
+                    || (forceUnevenDistribution && !forceSomeUnevenDistribution && allUnique)
+                    || (forceAllUnevenDistribution && allUnique)
+                    || (forceSomeUnevenDistribution && !allSame)) {
                 message = 'All points distributed!';
                 messageElement.addClass('text-color-green');
                 messageElement.removeClass('text-color-red');
@@ -560,7 +573,14 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-blue');
         }
 
-        if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
+        if (!allNotNumbers && forceSomeUnevenDistribution && allSame && numOptions !== 1) {
+            message += ' Different amount of points should be given to some options.';
+            messageElement.addClass('text-color-red');
+            messageElement.removeClass('text-color-green');
+        }
+
+        if (!allNotNumbers && ((forceUnevenDistribution && !forceSomeUnevenDistribution) || forceAllUnevenDistribution)
+                && !allUnique) {
             message += ' The same amount of points should not be given multiple times.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
@@ -581,6 +601,8 @@ function updateConstSumMessageQn(qnNum) {
 
         if (pointsAllocated in answerSet) {
             allUnique = false;
+        } else if (Object.keys(answerSet).length !== 0) {
+            allSame = false;
         }
 
         answerSet[pointsAllocated] = true;
