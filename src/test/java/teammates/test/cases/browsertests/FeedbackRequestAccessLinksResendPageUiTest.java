@@ -1,15 +1,21 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
+import org.junit.Before;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
+import teammates.test.pageobjects.AdminAccountDetailsPage;
+import teammates.test.pageobjects.AdminAccountManagementPage;
+import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.FeedbackRequestResendAccessLinksPage;
 
 /**
@@ -17,6 +23,7 @@ import teammates.test.pageobjects.FeedbackRequestResendAccessLinksPage;
  */
 public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
 
+    private AdminHomePage accountHomePage;
     private FeedbackRequestResendAccessLinksPage requestResendAccessLinksPage;
     private String studentEmailAddress;
 
@@ -51,7 +58,7 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void allTests() {
+    public void allTests() throws IOException {
         testInvalidEmailAddress();
         testValidEmailWithFeedbackSessionsInRecentSixMonths();
     }
@@ -70,9 +77,23 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
                 validator.getInvalidityInfoForEmail(emailAddress));
     }
 
-    private void testValidEmailWithFeedbackSessionsInRecentSixMonths() {
+    private void testFailedRecaptchaVerification() {
+        ______TS("Recaptcha Verification Failed");
+
+        requestResendAccessLinksPage.fillEmailAddress(studentEmailAddress);
+        requestResendAccessLinksPage.clickSubmitButton();
+        requestResendAccessLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.RECAPTCHA_VALIDATION_FAILED);
+    }
+
+    private void testValidEmailWithFeedbackSessionsInRecentSixMonths() throws IOException {
         ______TS("Valid Email Address, user with email has feedback sessions over the recent six months");
 
+        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
+        accountHomePage = loginAdminToPage(homeUrl, AdminHomePage.class);
+        accountHomePage.verifyHtml("/adminHomePage.html");
+
+        requestResendAccessLinksPage = getHomePage().clickRequestResendLink();
         requestResendAccessLinksPage.fillEmailAddress(studentEmailAddress);
         requestResendAccessLinksPage.clickSubmitButton();
         requestResendAccessLinksPage.waitForTextsForAllStatusMessagesToUserEquals(

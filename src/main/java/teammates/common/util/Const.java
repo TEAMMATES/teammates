@@ -887,6 +887,8 @@ public final class Const {
         public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "errorfeedbackemailsubject";
         public static final String ERROR_FEEDBACK_EMAIL_CONTENT = "errorfeedbackemailcontent";
         public static final String ERROR_FEEDBACK_URL_REQUESTED = "errorfeedbackrequestedurl";
+
+        public static final String RECAPTCHA_RESPONSE = "g-recaptcha-response";
     }
 
     public static class SearchIndex {
@@ -1222,6 +1224,8 @@ public final class Const {
         public static final String EMAIL_NOT_FOUND = "The requested email was not found";
         public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
         public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
+        public static final String RECAPTCHA_VALIDATION_FAILED = "Recaptcha validation failed. "
+                + "Please ensure that you click \"I'm not a robot\".";
 
         public static final String NOT_A_RECEIVER_LIST_FILE =
                 "The file that you have uploaded is not a receiver list file. ";

@@ -32,9 +32,11 @@ public class FeedbackResendLinksActionTest extends BaseActionTest {
         ______TS("Typical Success Case");
 
         String userEmail = student.getEmail();
+        String recaptchaResponse = "dummyResponse";
 
         String[] params = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, userEmail,
+                Const.ParamsNames.RECAPTCHA_RESPONSE, recaptchaResponse,
         };
 
         FeedbackResendLinksAction action = getAction(params);
@@ -47,11 +49,24 @@ public class FeedbackResendLinksActionTest extends BaseActionTest {
 
         params = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail,
+                Const.ParamsNames.RECAPTCHA_RESPONSE, recaptchaResponse,
         };
 
         action = getAction(params);
         result = getAjaxResult(action);
         assertEquals(validator.getInvalidityInfoForEmail(invalidEmail), result.getStatusMessage());
+
+        ______TS("Invalid Recaptcha Verification");
+
+        recaptchaResponse = "";
+        params = new String[] {
+                Const.ParamsNames.STUDENT_EMAIL, userEmail,
+                Const.ParamsNames.RECAPTCHA_RESPONSE, recaptchaResponse,
+        };
+
+        action = getAction(params);
+        result = getAjaxResult(action);
+        assertEquals(Const.StatusMessages.RECAPTCHA_VALIDATION_FAILED, result.getStatusMessage());
     }
 
     @Override

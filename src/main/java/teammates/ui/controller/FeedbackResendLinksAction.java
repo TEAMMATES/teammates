@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -18,9 +19,13 @@ public class FeedbackResendLinksAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
+    private static UserType userType;
+
     @Override
     protected void authenticateUser() {
-        // This feature does not require authentication
+        // This feature is for checking whether the userType is an Admin.
+        // If so, the Recaptcha verification in the execution step will be skipped.
+        userType = gateKeeper.getCurrentUser();
     }
 
     @Override
@@ -28,10 +33,15 @@ public class FeedbackResendLinksAction extends Action {
         try {
             FieldValidator validator = new FieldValidator();
             String userEmailToResend = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+            String recaptchaResponse = getNonNullRequestParamValue(Const.ParamsNames.RECAPTCHA_RESPONSE);
 
             statusToAdmin = "Resend links requested"
                     + "<br>Email: " + userEmailToResend;
             String error = validator.getInvalidityInfoForEmail(userEmailToResend);
+
+            if (error.isEmpty() && recaptchaResponse.isEmpty() && (userType == null || !userType.isAdmin)) {
+                error = Const.StatusMessages.RECAPTCHA_VALIDATION_FAILED;
+            }
 
             if (error.isEmpty()) {
                 EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(userEmailToResend);
