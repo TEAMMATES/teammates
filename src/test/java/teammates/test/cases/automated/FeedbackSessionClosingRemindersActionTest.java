@@ -54,7 +54,7 @@ public class FeedbackSessionClosingRemindersActionTest extends BaseAutomatedActi
 
         // Ditto, but disable the closing reminder
 
-        FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session2InCourse2");
+        FeedbackSessionAttributes session2 = dataBundle.feedbackSessions.get("session1InCourse2");
         session2.setTimeZone(ZoneId.of("UTC"));
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
