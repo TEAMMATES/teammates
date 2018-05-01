@@ -1,6 +1,8 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorCourseEdit - Panel Heading of Instructor List" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
@@ -77,7 +79,7 @@
           <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>"
               <c:choose>
                 <c:when test="${instructorPanel.instructor.displayedToStudents}">
-                  placeholder="E.g.Co-lecturer, Teaching Assistant" value="${instructorPanel.instructor.displayedName}"
+                  placeholder="E.g.Co-lecturer, Teaching Assistant" value="${fn:escapeXml(instructorPanel.instructor.displayedName)}"
                 </c:when>
                 <c:otherwise>
                   placeholder="(This instructor will NOT be displayed to students)"
@@ -93,9 +95,9 @@
           <label class="col-sm-3 control-label">Access Level:</label>
           <div class="col-sm-9">
             <p class="form-control-static">
-              <span>${instructorPanel.instructor.role}</span>
+              <span>${fn:escapeXml(instructorPanel.instructor.role)}</span>
               <c:if test="${not instructorPanel.instructor.customRole}">
-                <a href="javascript:;" class="view-role-details" data-role="${instructorPanel.instructor.role}">
+                <a href="javascript:;" class="view-role-details" data-role="${fn:escapeXml(instructorPanel.instructor.role)}">
                   &nbsp;View Details
                 </a>
               </c:if>

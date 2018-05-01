@@ -28,6 +28,13 @@
       "email": "CFeedbackEditUiT.instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>"
     },
+    "instructorOfDstCourse": {
+      "googleId": "CFeedbackEditUiT.instructorOfDstCourse",
+      "name": "Instructor DST",
+      "isInstructor": true,
+      "email": "tmms.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "alice.tmms": {
       "googleId": "CFeedbackEditUiT.alice.tmms",
       "name": "Alice Betsy",
@@ -40,18 +47,23 @@
     "course": {
       "id": "CFeedbackEditUiT.CS2104",
       "name": "Programming Language Concepts",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "course2": {
       "id": "CFeedbackEditUiT.CS1101",
       "name": "Programming Methodology",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "CFeedbackEditUiT.idOfTSCourse",
       "name": "Testing<script> alert('hi!'); </script>",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
+    },
+    "courseWithDstTimeZone": {
+      "id": "CFeedbackEditUiT.idOfDstCourse",
+      "name": "Course with daylight saving time zone",
+      "timeZone": "Australia/Victoria"
     }
   },
   "instructors": {
@@ -147,6 +159,29 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "instructorOfDstCourse": {
+      "googleId": "CFeedbackEditUiT.instructorOfDstCourse",
+      "courseId": "CFeedbackEditUiT.idOfDstCourse",
+      "name": "Instructor DST",
+      "email": "tmms.instr@course.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
@@ -196,9 +231,8 @@
       "endTime": "2026-04-30T21:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
       "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
-      "timeZone": "UTC+02:00",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -219,9 +253,8 @@
       "endTime": "2026-04-30T21:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
       "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
-      "timeZone": "UTC+02:00",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -242,9 +275,8 @@
       "endTime": "2026-04-30T21:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
       "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
-      "timeZone": "UTC+02:00",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -265,7 +297,29 @@
       "endTime": "2027-04-30T21:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
-      "timeZone": "UTC+02:00",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "dstSession": {
+      "feedbackSessionName": "DST Session",
+      "courseId": "CFeedbackEditUiT.idOfDstCourse",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": {
+        "value": "Instructions for DST session"
+      },
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2026-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
+      "timeZone": "Australia/Victoria",
       "gracePeriod": 10,
       "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,

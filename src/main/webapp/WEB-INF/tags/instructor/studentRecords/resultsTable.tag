@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorStudentRecords - Ajax result (feedback responses and FRCs)" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -66,7 +67,7 @@
   <c:otherwise>
     <div class="panel panel-info">
       <div class="panel-body">
-        No feedback ${forOrBy} ${fn:escapeXml(studentName)} found
+        No feedback ${forOrBy}${" "}${fn:escapeXml(studentName)} found
       </div>
     </div>
   </c:otherwise>

@@ -29,31 +29,25 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                                     logic.getFeedbackSession(feedbackSessionName, courseId),
                                     false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        String editType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, editType);
-
-        FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData();
+        String editType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
 
         try {
             if ("edit".equals(editType)) {
-                String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
-                Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, questionText);
+                String questionText = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
                 Assumption.assertNotEmpty("Empty question text", questionText);
 
+                FeedbackQuestionAttributes updatedQuestion = extractFeedbackQuestionData();
                 editQuestion(updatedQuestion);
             } else if ("delete".equals(editType)) {
                 // branch not tested because if it's not edit or delete, Assumption.fail will cause test failure
-                deleteQuestion(updatedQuestion);
+                deleteQuestion();
             } else {
                 // Assumption.fails are not tested
                 Assumption.fail("Invalid editType");
@@ -68,12 +62,18 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                                             .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 
-    private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
-        logic.deleteFeedbackQuestion(updatedQuestion.getId());
+    private void deleteQuestion() {
+        String questionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String questionNumber = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+
+        logic.deleteFeedbackQuestion(questionId);
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Feedback Question " + updatedQuestion.questionNumber + " for session:<span class=\"bold\">("
-                        + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                        + updatedQuestion.courseId + "]</span> deleted.<br>";
+        statusToAdmin = "Feedback Question " + questionNumber + " for session:<span class=\"bold\">("
+                + feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                + courseId + "]</span> deleted.<br>";
     }
 
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException,
@@ -85,8 +85,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             isError = true;
         }
 
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         FeedbackQuestionDetails updatedQuestionDetails = updatedQuestion.getQuestionDetails();
-        List<String> questionDetailsErrors = updatedQuestionDetails.validateQuestionDetails();
+        List<String> questionDetailsErrors = updatedQuestionDetails.validateQuestionDetails(courseId);
         List<StatusMessage> questionDetailsErrorsMessages = new ArrayList<>();
 
         for (String error : questionDetailsErrors) {
@@ -143,16 +144,11 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     }
 
     private FeedbackQuestionAttributes extractFeedbackQuestionData() {
-        FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
+        String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        newQuestion.setId(getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID));
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, newQuestion.getId());
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        newQuestion.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, newQuestion.courseId);
-
-        newQuestion.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, newQuestion.feedbackSessionName);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         // TODO thoroughly investigate when and why these parameters can be null
         // and check all possibilities in the tests
@@ -169,57 +165,70 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         // givertype
 
         // Can be null
-        String giverType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
-        if (giverType != null) {
-            newQuestion.giverType = FeedbackParticipantType.valueOf(giverType);
+        FeedbackParticipantType giverType = null;
+        String giverTypeInString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
+        if (giverTypeInString != null) {
+            giverType = FeedbackParticipantType.valueOf(giverTypeInString);
         }
 
         // Can be null
-        String recipientType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
-        if (recipientType != null) {
-            newQuestion.recipientType = FeedbackParticipantType.valueOf(recipientType);
+        FeedbackParticipantType recipientType = null;
+        String recipientTypeInString = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+        if (recipientTypeInString != null) {
+            recipientType = FeedbackParticipantType.valueOf(recipientTypeInString);
         }
 
-        String questionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, questionNumber);
-        newQuestion.questionNumber = Integer.parseInt(questionNumber);
-        Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 1);
+        String feedbackQuestionNumber = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        int questionNumber = Integer.parseInt(feedbackQuestionNumber);
+        Assumption.assertTrue("Invalid question number", questionNumber >= 1);
 
         // Can be null
         String nEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
 
-        if (numberOfEntitiesIsUserDefined(newQuestion.recipientType, nEntityTypes)) {
-            String nEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
-            Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, nEntities);
-            newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(nEntities);
+        int numberOfEntitiesToGiveFeedbackTo;
+        if (numberOfEntitiesIsUserDefined(recipientType, nEntityTypes)) {
+            String nEntities = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+            numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(nEntities);
         } else {
-            newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
+            numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
 
-        newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
+        List<FeedbackParticipantType> showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
-        newQuestion.showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
+        List<FeedbackParticipantType> showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
-        newQuestion.showRecipientNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
+        List<FeedbackParticipantType> showRecipientNameTo =
+                FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
-        String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, questionType);
-        newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
+        String questionTypeInString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
+        FeedbackQuestionType questionType = FeedbackQuestionType.valueOf(questionTypeInString);
 
         // Can be null
         String questionText = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
+        FeedbackQuestionDetails questionDetails = null;
         if (questionText != null && !questionText.isEmpty()) {
-            FeedbackQuestionDetails questionDetails = FeedbackQuestionDetails.createQuestionDetails(
-                    requestParameters, newQuestion.questionType);
-            newQuestion.setQuestionDetails(questionDetails);
+            questionDetails = FeedbackQuestionDetails.createQuestionDetails(
+                    requestParameters, questionType);
         }
 
         String questionDescription = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION);
 
-        newQuestion.setQuestionDescription(new Text(questionDescription));
-
-        return newQuestion;
+        return FeedbackQuestionAttributes.builder()
+                .withFeedbackQuestionId(feedbackQuestionId)
+                .withCourseId(courseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .withGiverType(giverType)
+                .withRecipientType(recipientType)
+                .withQuestionNumber(questionNumber)
+                .withNumOfEntitiesToGiveFeedbackTo(numberOfEntitiesToGiveFeedbackTo)
+                .withShowResponseTo(showResponsesTo)
+                .withShowGiverNameTo(showGiverNameTo)
+                .withShowRecipientNameTo(showRecipientNameTo)
+                .withQuestionType(questionType)
+                .withQuestionMetaData(questionDetails)
+                .withQuestionDescription(new Text(questionDescription))
+                .build();
     }
 
     private static boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType, String nEntityTypes) {

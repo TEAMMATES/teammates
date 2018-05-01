@@ -653,7 +653,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(
+    public boolean shouldChangesRequireResponseDeletion(
             FeedbackQuestionDetails newDetails) {
         FeedbackNumericalScaleQuestionDetails newNumScaleDetails =
                 (FeedbackNumericalScaleQuestionDetails) newDetails;
@@ -711,7 +711,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
         if (minScale >= maxScale) {
             errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX);

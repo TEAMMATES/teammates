@@ -3,6 +3,8 @@ package teammates.test.driver;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +81,8 @@ public class GaeSimulation {
         LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
         helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
                                             localTasks, localSearch, localModules, localLog);
+
+        helper.setEnvAttributes(generateEnvironmentAttributesWithApplicationHostnameSet());
         helper.setUp();
 
         sc = new ServletRunner().newClient();
@@ -228,6 +232,17 @@ public class GaeSimulation {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Map<String, Object> generateEnvironmentAttributesWithApplicationHostnameSet() {
+        Map<String, Object> attributes = new HashMap<>();
+        try {
+            attributes.put("com.google.appengine.runtime.default_version_hostname",
+                    new URL(TestProperties.TEAMMATES_URL).getAuthority());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        return attributes;
     }
 
 }

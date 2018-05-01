@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.time.Instant;
 import java.util.List;
 
 import com.google.appengine.api.log.LogQuery;
@@ -59,7 +60,7 @@ public class AdminLogQuery {
      */
     public void setTimePeriod(Long startTimeParam, Long endTimeParam) {
         long startTime = startTimeParam == null ? 0L : startTimeParam;
-        long endTime = endTimeParam == null ? TimeHelper.now(0.0).getTimeInMillis() : endTimeParam;
+        long endTime = endTimeParam == null ? Instant.now().toEpochMilli() : endTimeParam;
         query.startTimeMillis(startTime);
         query.endTimeMillis(endTime);
         this.startTime = startTime;

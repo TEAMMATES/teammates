@@ -254,7 +254,7 @@
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
-      "displayedName": "inst<script>alert('hi!');</script>",
+      "displayedName": "inst'\"/><script>alert('hi!');</script>",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -375,9 +375,8 @@
       "endTime": "2027-04-30T21:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
-      "timeZone": "UTC+02:00",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -398,9 +397,8 @@
       "endTime": "2026-04-28T21:59:00Z",
       "sessionVisibleFromTime": "2013-03-20T21:59:00Z",
       "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
-      "timeZone": "UTC+02:00",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -423,7 +421,6 @@
       "resultsVisibleFromTime": "2013-04-29T23:57:00Z",
       "timeZone": "UTC",
       "gracePeriod": 5,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -433,28 +430,6 @@
       "isPublishedEmailEnabled": true
     },
     "session1InCourse2": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "ISR.CS1101",
-      "creatorEmail": "teammates.test@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
-      "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
-      "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
-      "gracePeriod": 0,
-      "feedbackSessionType": "PRIVATE",
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
-      "sentClosedEmail": false,
-      "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
-    },
-    "session2InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "ISR.CS1101",
       "creatorEmail": "teammates.test@gmail.tmt",
@@ -466,9 +441,8 @@
       "endTime": "2027-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -601,22 +575,6 @@
       ]
     },
     "qn1InSession1InCourse2": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "ISR.CS1101",
-      "creatorEmail": "teammates.test@gmail.tmt",
-      "questionMetaData": {
-        "value": "This is a private session for myself"
-      },
-      "questionNumber": 1,
-      "questionType": "TEXT",
-      "giverType": "SELF",
-      "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 10,
-      "showResponsesTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": []
-    },
-    "qn1InSession2InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "ISR.CS1101",
       "creatorEmail": "teammates.test@gmail.tmt",

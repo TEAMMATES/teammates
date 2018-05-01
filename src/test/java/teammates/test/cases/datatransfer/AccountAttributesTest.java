@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -119,7 +120,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.name), actualAccount.name);
-        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.email), actualAccount.email);
         assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.institute), actualAccount.institute);
         expectedAccount.studentProfile.sanitizeForSaving();
         assertEquals(expectedAccount.studentProfile.toString(), actualAccount.studentProfile.toString());
@@ -261,7 +261,6 @@ public class AccountAttributesTest extends BaseAttributesTest {
         boolean isInstructor = false;
         String email = "invalid@email@com";
         String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
-        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(googleId).build();
 
         return AccountAttributes.builder()
                 .withGoogleId(googleId)
@@ -269,7 +268,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withStudentProfileAttributes(studentProfile)
+                .withStudentProfileAttributes(StudentProfileAttributes.builder(googleId)
+                        .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
+                        .build())
                 .build();
     }
 
@@ -287,7 +288,9 @@ public class AccountAttributesTest extends BaseAttributesTest {
                 .withEmail(email)
                 .withInstitute(institute)
                 .withIsInstructor(isInstructor)
-                .withDefaultStudentProfileAttributes(googleId)
+                .withStudentProfileAttributes(StudentProfileAttributes.builder(googleId)
+                        .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
+                        .build())
                 .build();
     }
 
@@ -315,6 +318,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
                     .withGender(gender)
                     .withMoreInfo(moreInfo)
                     .withPictureKey(pictureKey)
+                    .withModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP)
                     .build())
                 .build();
 

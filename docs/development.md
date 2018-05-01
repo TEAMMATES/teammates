@@ -25,14 +25,14 @@ The instructions in all parts of this document work for Linux, OS X, and Windows
 Our JavaScript code is written in modular ECMAScript 6 (ES6) syntax, which is not supported in many of the existing Web browsers today.<br>
 To resolve this, we need to *bundle and transpile* ("build" afterwards) them into standard ECMAScript 5 which is supported by (almost) all browsers.
 
-Run the following command to build the JavaScript files for the application's use:
+Run the following command to build the JavaScript files for the application's use in development mode:
 ```sh
-npm run build
+npm run dev
 ```
 
-In addition, the command will also *minify* the JavaScript files to reduce the size of scripts that need to be downloaded.
-
 This command needs to be run before starting the dev server if there are updates to the JavaScript files.
+
+> Run the command `npm run build` instead for Production mode. This will optimize the build with minified JavaScript Files and produce full source maps.
 
 ### With command line
 
@@ -107,10 +107,7 @@ You need an instructor account which can be created by administrators.
    Email: `teammates.instructor@university.edu`<br>
    Institution: `National University of Singapore`<br>
 1. The system will send an email containing the join link to the added instructor.<br>
-   On the dev server, this email will not be sent. Instead, you can use the join link given after adding an instructor to complete the joining process.<br>
-   Remember to change the base URL of the link if necessary, but keep the parameters,<br>
-   e.g change **`https://teammates-john.appspot.com`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`<br>
-   to **`http://localhost:8080`**`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
+   On the dev server, this email will not be sent. Instead, you can use the join link given after adding an instructor to complete the joining process.
 
 Alternatively, an instructor can create other instructors for a course if s/he has sufficient privileges. A course co-owner, for example, will have such a privilege.
 
@@ -120,7 +117,7 @@ Alternatively, an instructor can create other instructors for a course if s/he h
 1. The system will send an email containing the join link to each added instructor. Again, this will not happen on the dev server, so additional steps are required.
 1. Log out and log in to `http://localhost:8080/admin/adminSearchPage` as administrator.
 1. Search for the instructor you added in. From the search results, click anywhere on the desired row to get the course join link for that instructor.
-1. Log out and use that join link (again, change the base URL to `http://localhost:8080` if necessary) to log in as the new instructor.
+1. Log out and use that join link to log in as the new instructor.
 
 ### As student
 

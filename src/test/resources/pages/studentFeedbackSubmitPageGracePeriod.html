@@ -55,8 +55,8 @@
                 Opening time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static">
-                  Sun, 01 Apr 2012, 11:59 PM UTC+0800
+                <p class="form-control-static" data-date-stamp="2012-04-01T15:59:00Z">
+                  Sun, 01 Apr 2012, 11:59 PM SGT
                 </p>
               </div>
             </div>
@@ -65,8 +65,8 @@
                 Closing time:
               </label>
               <div class="col-sm-10">
-                <p class="form-control-static" data-end-time="${datetime.now.iso8601utc}" id="end-time">
-                  ${datetime.now} UTC+0800
+                <p class="form-control-static" data-date-stamp="${datetime.now.iso8601utc}" id="end-time">
+                  ${datetime.now} SGT
                 </p>
               </div>
             </div>
@@ -130,7 +130,7 @@
                   Myself
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
@@ -199,7 +199,7 @@
                   Team 2
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -231,7 +231,7 @@
                   Team 3
                 </span>
               </label>
-              (Team) :
+              (Team):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -297,7 +297,7 @@
                   Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -451,7 +451,7 @@
                   Benny Charles
                 </span>
               </label>
-              (Student) :
+              (Student):
             </div>
             <div class="col-sm-9">
               <div class="col-sm-3 mobile-no-padding">
@@ -586,7 +586,7 @@
     <br>
     <br>
     <div class="bold align-center">
-      <input name="sendsubmissionemail" type="checkbox">
+      <input checked="" name="sendsubmissionemail" type="checkbox">
       Send me a confirmation email
       <button class="btn btn-primary center-block margin-top-7px" data-original-title="You can save your responses at any time and come back later to continue." data-placement="top" data-toggle="tooltip" disabled="" id="response_submit_button" style="background: #66727A;" title="" type="submit">
         Submit Feedback

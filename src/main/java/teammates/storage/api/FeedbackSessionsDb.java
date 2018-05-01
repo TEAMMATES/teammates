@@ -2,19 +2,19 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -33,27 +33,22 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
-    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date startUtc, Date endUtc) {
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Instant rangeStart, Instant rangeEnd) {
         List<FeedbackSessionAttributes> list = new LinkedList<>();
-
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startUtc);
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endUtc);
 
         // To retrieve legacy data where local dates are stored instead of UTC
         // TODO: remove after all legacy data has been converted
-        Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
-        Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
+        Instant start = rangeStart.minus(Duration.ofHours(25));
+        Instant end = rangeEnd.plus(Duration.ofHours(25));
 
         List<FeedbackSession> endEntities = load()
-                .filter("endTime >", curStart)
-                .filter("endTime <=", curEnd)
+                .filter("endTime >", TimeHelper.convertInstantToDate(start))
+                .filter("endTime <=", TimeHelper.convertInstantToDate(end))
                 .list();
 
         List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", curStart)
-                .filter("startTime <", curEnd)
+                .filter("startTime >=", TimeHelper.convertInstantToDate(start))
+                .filter("startTime <", TimeHelper.convertInstantToDate(end))
                 .list();
 
         List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
@@ -63,17 +58,15 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         startTimeEntities.removeAll(endTimeEntities);
         endTimeEntities.addAll(startTimeEntities);
 
-        Instant start = startUtc.toInstant();
-        Instant end = endUtc.toInstant();
-
         // TODO: remove after all legacy data has been converted
         for (FeedbackSession feedbackSession : endTimeEntities) {
             FeedbackSessionAttributes fs = makeAttributes(feedbackSession);
             Instant fsStart = fs.getStartTime();
             Instant fsEnd = fs.getEndTime();
 
-            boolean isStartTimeWithinRange = (fsStart.isAfter(start) || fsStart.equals(start)) && fsStart.isBefore(end);
-            boolean isEndTimeWithinRange = fsEnd.isAfter(start) && (fsEnd.isBefore(end) || fsEnd.equals(end));
+            boolean isStartTimeWithinRange = (fsStart.isAfter(rangeStart) || fsStart.equals(rangeStart))
+                    && fsStart.isBefore(rangeEnd);
+            boolean isEndTimeWithinRange = fsEnd.isAfter(rangeStart) && (fsEnd.isBefore(rangeEnd) || fsEnd.equals(rangeEnd));
 
             if (isStartTimeWithinRange || isEndTimeWithinRange) {
                 list.add(fs);
@@ -167,7 +160,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
         fs.setTimeZone(newAttributes.getTimeZone().getId());
         fs.setGracePeriod(newAttributes.getGracePeriodMinutes());
-        fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
         fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
         fs.setSentClosingEmail(newAttributes.isSentClosingEmail());
         fs.setSentClosedEmail(newAttributes.isSentClosedEmail());
@@ -177,6 +169,37 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
 
         saveEntity(fs, newAttributes);
+    }
+
+    // The objectify library does not support throwing checked exceptions inside transactions
+    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
+    public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseTimeZone);
+
+        List<Key<FeedbackSession>> sessionKeys = getFeedbackSessionKeysForCourse(courseId);
+        for (Key<FeedbackSession> sessionKey : sessionKeys) {
+            try {
+                ofy().transact(new VoidWork() {
+                    @Override
+                    public void vrun() {
+                        FeedbackSession session = ofy().load().key(sessionKey).now();
+                        if (session == null) {
+                            throw new RuntimeException(new EntityDoesNotExistException(
+                                    ERROR_UPDATE_NON_EXISTENT + sessionKey.getName()));
+                        }
+                        session.setTimeZone(courseTimeZone.getId());
+                        saveEntity(session);
+                    }
+                });
+            } catch (RuntimeException e) {
+                if (e.getCause() instanceof EntityDoesNotExistException) {
+                    log.severe(e.getMessage());
+                    continue;
+                }
+                throw e;
+            }
+        }
     }
 
     public void addInstructorRespondent(String email, FeedbackSessionAttributes feedbackSession)
@@ -443,16 +466,20 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load().filter("courseId =", courseId).list();
     }
 
+    private List<Key<FeedbackSession>> getFeedbackSessionKeysForCourse(String courseId) {
+        return load().filter("courseId =", courseId).keys().list();
+    }
+
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
         return load()
-                .filter("startTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("startTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentOpenEmail =", false)
                 .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
         return load()
-                .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("endTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentClosingEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
@@ -460,7 +487,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
         return load()
-                .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("endTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentClosedEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
@@ -470,7 +497,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load()
                 .filter("sentPublishedEmail =", false)
                 .filter("isPublishedEmailEnabled =", true)
-                .filter("feedbackSessionType !=", FeedbackSessionType.PRIVATE)
                 .list();
     }
 

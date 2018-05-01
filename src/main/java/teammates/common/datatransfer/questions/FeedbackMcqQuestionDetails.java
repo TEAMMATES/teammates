@@ -135,7 +135,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
 
         if (this.numOfMcqChoices != newMcqDetails.numOfMcqChoices
@@ -455,7 +455,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE
                 && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {

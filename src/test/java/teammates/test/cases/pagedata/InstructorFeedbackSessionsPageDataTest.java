@@ -59,16 +59,17 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
+        assertEquals(2, formModel.getSessionTemplateTypeOptions().size());
         assertEquals("session using template: team peer evaluation",
-                formModel.getFeedbackSessionTypeOptions().get(1).getContent());
-        assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
-        assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
+                formModel.getSessionTemplateTypeOptions().get(1).getContent());
+        assertNull(formModel.getSessionTemplateTypeOptions().get(1).getAttributes().get("selected"));
+        assertTrue(formModel.getSessionTemplateTypeOptions().get(1).getAttributes().containsKey("selected"));
         assertEquals("", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
         assertEquals("", formModel.getFsStartDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
+        assertEquals("", formModel.getFsTimeZone());
 
         assertEquals(7, formModel.getGracePeriodOptions().size());
 
@@ -85,7 +86,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
         assertEquals("", formModel.getAdditionalSettings().getSessionVisibleDateValue());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
-        assertEquals(40, formModel.getTimezoneSelectField().size());
 
         assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
@@ -95,7 +95,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateButtonChecked());
-        assertFalse(formModel.getAdditionalSettings().isSessionVisiblePrivateChecked());
 
         ______TS("typical success case: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
@@ -256,11 +255,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
+        assertEquals(2, formModel.getSessionTemplateTypeOptions().size());
         assertEquals("session using template: team peer evaluation",
-                formModel.getFeedbackSessionTypeOptions().get(1).getContent());
-        assertNull(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
-        assertTrue(formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().containsKey("selected"));
+                formModel.getSessionTemplateTypeOptions().get(1).getContent());
+        assertNull(formModel.getSessionTemplateTypeOptions().get(1).getAttributes().get("selected"));
+        assertTrue(formModel.getSessionTemplateTypeOptions().get(1).getAttributes().containsKey("selected"));
 
         assertEquals("Fri, 30 Apr, 2027", formModel.getFsEndDate());
         assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
@@ -293,7 +292,6 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateButtonChecked());
-        assertFalse(formModel.getAdditionalSettings().isSessionVisiblePrivateChecked());
 
         ______TS("typical success case with existing fs passed in: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
@@ -343,10 +341,10 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         assertEquals("idOfTypicalCourse1", formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
-        assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
-        assertEquals("session with my own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
-        assertNull(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
-        assertTrue(formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().containsKey("selected"));
+        assertEquals(2, formModel.getSessionTemplateTypeOptions().size());
+        assertEquals("session with my own questions", formModel.getSessionTemplateTypeOptions().get(0).getContent());
+        assertNull(formModel.getSessionTemplateTypeOptions().get(0).getAttributes().get("selected"));
+        assertTrue(formModel.getSessionTemplateTypeOptions().get(0).getAttributes().containsKey("selected"));
 
         FeedbackSessionsCopyFromModal modal = data.getCopyFromModal();
         assertEquals("First feedback session", modal.getFsName());

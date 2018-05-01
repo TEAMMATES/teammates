@@ -120,10 +120,6 @@ Furthermore, you might see tags such as `${test.student1}` and `${version}` in s
 
   **SOLUTION**: Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
 
-* **ERROR**: Browser alert about invalid SSL certificate.
-
-  **SOLUTION**: Ensure that `test.app.url` in your `test.properties` uses `-dot-` instead of `.` when using secondary subdomains, e.g. `http://6-0-0-dot-teammates-john.appspot.com`.
-
 * **ERROR**: Tests fail due to accented characters.
 
   **SOLUTION**: Ensure that the text file encoding for your Eclipse workspace has been set to `UTF-8` as specified under [Setting up guide](setting-up.md).

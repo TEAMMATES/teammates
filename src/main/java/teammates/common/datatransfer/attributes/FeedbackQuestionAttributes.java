@@ -44,55 +44,168 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     protected transient Instant updatedAt;
     private String feedbackQuestionId;
 
-    public FeedbackQuestionAttributes() {
-        // attributes to be set after construction
+    protected FeedbackQuestionAttributes() {
+        //attributes to be built by Builder
     }
 
-    public FeedbackQuestionAttributes(FeedbackQuestion fq) {
-        this.feedbackQuestionId = fq.getId();
-        this.feedbackSessionName = fq.getFeedbackSessionName();
-        this.courseId = fq.getCourseId();
-        this.creatorEmail = fq.getCreatorEmail();
-        this.questionMetaData = fq.getQuestionMetaData();
-        this.questionDescription = SanitizationHelper.sanitizeForRichText(fq.getQuestionDescription());
-        this.questionNumber = fq.getQuestionNumber();
-        this.questionType = fq.getQuestionType();
-        this.giverType = fq.getGiverType();
-        this.recipientType = fq.getRecipientType();
-        this.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = new ArrayList<>(fq.getShowResponsesTo());
-        this.showGiverNameTo = new ArrayList<>(fq.getShowGiverNameTo());
-        this.showRecipientNameTo = new ArrayList<>(fq.getShowRecipientNameTo());
-
-        this.createdAt = fq.getCreatedAt();
-        this.updatedAt = fq.getUpdatedAt();
-
-        removeIrrelevantVisibilityOptions();
+    public static Builder builder() {
+        return new Builder();
     }
 
-    private FeedbackQuestionAttributes(FeedbackQuestionAttributes other) {
-        this.feedbackQuestionId = other.getId();
-        this.feedbackSessionName = other.getFeedbackSessionName();
-        this.courseId = other.getCourseId();
-        this.creatorEmail = other.getCreatorEmail();
-        this.questionMetaData = other.getQuestionMetaData();
-        this.questionNumber = other.getQuestionNumber();
-        this.questionType = other.getQuestionType();
-        this.giverType = other.getGiverType();
-        this.recipientType = other.getRecipientType();
-        this.numberOfEntitiesToGiveFeedbackTo = other.getNumberOfEntitiesToGiveFeedbackTo();
-        this.showResponsesTo = new ArrayList<>(other.getShowResponsesTo());
-        this.showGiverNameTo = new ArrayList<>(other.getShowGiverNameTo());
-        this.showRecipientNameTo = new ArrayList<>(other.getShowRecipientNameTo());
+    public static FeedbackQuestionAttributes valueOf(FeedbackQuestion fq) {
+        return builder()
+                .withFeedbackSessionName(fq.getFeedbackSessionName())
+                .withCourseId(fq.getCourseId())
+                .withCreatorEmail(fq.getCreatorEmail())
+                .withQuestionMetaData(fq.getQuestionMetaData())
+                .withQuestionDescription(fq.getQuestionDescription())
+                .withQuestionNumber(fq.getQuestionNumber())
+                .withQuestionType(fq.getQuestionType())
+                .withGiverType(fq.getGiverType())
+                .withRecipientType(fq.getRecipientType())
+                .withNumOfEntitiesToGiveFeedbackTo(fq.getNumberOfEntitiesToGiveFeedbackTo())
+                .withShowResponseTo(fq.getShowResponsesTo())
+                .withShowGiverNameTo(fq.getShowGiverNameTo())
+                .withShowRecipientNameTo(fq.getShowRecipientNameTo())
+                .withCreatedAt(fq.getCreatedAt())
+                .withUpdatedAt(fq.getUpdatedAt())
+                .withFeedbackQuestionId(fq.getId())
+                .build();
 
-        this.createdAt = other.getCreatedAt();
-        this.updatedAt = other.getUpdatedAt();
-
-        removeIrrelevantVisibilityOptions();
     }
 
-    public FeedbackQuestionAttributes getCopy() {
-        return new FeedbackQuestionAttributes(this);
+    /**
+     * A Builder class for {@link FeedbackQuestionAttributes}.
+     */
+    public static class Builder {
+        private final FeedbackQuestionAttributes feedbackQuestionAttributes;
+
+        public Builder() {
+            feedbackQuestionAttributes = new FeedbackQuestionAttributes();
+        }
+
+        public Builder withFeedbackSessionName(String feedbackSessionName) {
+            if (feedbackSessionName != null) {
+                feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
+            }
+            return this;
+        }
+
+        public Builder withCourseId(String courseId) {
+            if (courseId != null) {
+                feedbackQuestionAttributes.courseId = courseId;
+            }
+            return this;
+        }
+
+        public Builder withCreatorEmail(String creatorEmail) {
+            if (creatorEmail != null) {
+                feedbackQuestionAttributes.creatorEmail = creatorEmail;
+            }
+            return this;
+        }
+
+        public Builder withQuestionMetaData(Text questionMetaData) {
+            if (questionMetaData != null) {
+                feedbackQuestionAttributes.questionMetaData = questionMetaData;
+            }
+            return this;
+        }
+
+        public Builder withQuestionMetaData(FeedbackQuestionDetails questionDetails) {
+            if (questionDetails != null) {
+                feedbackQuestionAttributes.setQuestionDetails(questionDetails);
+            }
+            return this;
+        }
+
+        public Builder withQuestionDescription(Text questionDescription) {
+            if (questionDescription != null) {
+                feedbackQuestionAttributes.setQuestionDescription(questionDescription);
+            }
+            return this;
+        }
+
+        public Builder withQuestionNumber(int questionNumber) {
+            feedbackQuestionAttributes.questionNumber = questionNumber;
+            return this;
+        }
+
+        public Builder withQuestionType(FeedbackQuestionType questionType) {
+            if (questionType != null) {
+                feedbackQuestionAttributes.questionType = questionType;
+            }
+            return this;
+        }
+
+        public Builder withGiverType(FeedbackParticipantType giverType) {
+            if (giverType != null) {
+                feedbackQuestionAttributes.giverType = giverType;
+            }
+            return this;
+        }
+
+        public Builder withRecipientType(FeedbackParticipantType recipientType) {
+            if (recipientType != null) {
+                feedbackQuestionAttributes.recipientType = recipientType;
+            }
+            return this;
+        }
+
+        public Builder withNumOfEntitiesToGiveFeedbackTo(int numOfEntitiesToGiveFeedbackTo) {
+            feedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo = numOfEntitiesToGiveFeedbackTo;
+            return this;
+        }
+
+        public Builder withShowResponseTo(List<FeedbackParticipantType> showResponseTo) {
+            feedbackQuestionAttributes.showResponsesTo =
+                    showResponseTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showResponseTo);
+            return this;
+        }
+
+        public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+            feedbackQuestionAttributes.showGiverNameTo =
+                    showGiverNameTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showGiverNameTo);
+            return this;
+        }
+
+        public Builder withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
+            feedbackQuestionAttributes.showRecipientNameTo =
+                    showRecipientNameTo == null ? new ArrayList<>()
+                            : new ArrayList<>(showRecipientNameTo);
+            return this;
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            if (createdAt != null) {
+                feedbackQuestionAttributes.createdAt = createdAt;
+            }
+            return this;
+        }
+
+        public Builder withUpdatedAt(Instant updatedAt) {
+            if (updatedAt != null) {
+                feedbackQuestionAttributes.updatedAt = updatedAt;
+            }
+            return this;
+        }
+
+        public Builder withFeedbackQuestionId(String feedbackQuestionId) {
+            if (feedbackQuestionId != null) {
+                feedbackQuestionAttributes.feedbackQuestionId = feedbackQuestionId;
+            }
+            return this;
+        }
+
+        public FeedbackQuestionAttributes build() {
+            feedbackQuestionAttributes.questionDescription =
+                    SanitizationHelper.sanitizeForRichText(feedbackQuestionAttributes.questionDescription);
+            feedbackQuestionAttributes.removeIrrelevantVisibilityOptions();
+
+            return feedbackQuestionAttributes;
+        }
     }
 
     public Instant getCreatedAt() {
@@ -298,7 +411,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return true;
         }
 
-        return this.getQuestionDetails().isChangesRequiresResponseDeletion(newAttributes.getQuestionDetails());
+        return this.getQuestionDetails().shouldChangesRequireResponseDeletion(newAttributes.getQuestionDetails());
     }
 
     @Override
@@ -499,37 +612,49 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public void removeIrrelevantVisibilityOptions() {
         List<FeedbackParticipantType> optionsToRemove = new ArrayList<>();
 
-        switch (recipientType) {
-        case NONE:
-            optionsToRemove.add(FeedbackParticipantType.RECEIVER);
-            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-            break;
-        case TEAMS:
-        case INSTRUCTORS:
-        case OWN_TEAM:
-        case OWN_TEAM_MEMBERS:
-            optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-            break;
-        default:
-            break;
+        if (recipientType != null) {
+            switch (recipientType) {
+            case NONE:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER);
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
+            case TEAMS:
+            case INSTRUCTORS:
+            case OWN_TEAM:
+            case OWN_TEAM_MEMBERS:
+                optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                break;
+            default:
+                break;
+            }
         }
 
-        switch (giverType) {
-        case TEAMS:
-        case INSTRUCTORS:
-            optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-            break;
-        default:
-            break;
+        if (giverType != null) {
+            switch (giverType) {
+            case TEAMS:
+            case INSTRUCTORS:
+                optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                break;
+            default:
+                break;
+            }
         }
 
         removeVisibilities(optionsToRemove);
     }
 
     private void removeVisibilities(List<FeedbackParticipantType> optionsToRemove) {
-        showResponsesTo.removeAll(optionsToRemove);
-        showGiverNameTo.removeAll(optionsToRemove);
-        showRecipientNameTo.removeAll(optionsToRemove);
+        if (showRecipientNameTo != null) {
+            showResponsesTo.removeAll(optionsToRemove);
+        }
+
+        if (showGiverNameTo != null) {
+            showGiverNameTo.removeAll(optionsToRemove);
+        }
+
+        if (showRecipientNameTo != null) {
+            showRecipientNameTo.removeAll(optionsToRemove);
+        }
     }
 
     @Override
@@ -639,5 +764,4 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public String getQuestionAdditionalInfoHtml() {
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
-
 }

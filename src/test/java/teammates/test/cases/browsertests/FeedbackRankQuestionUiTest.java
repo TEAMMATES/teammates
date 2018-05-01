@@ -278,14 +278,14 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "recipient-question-giver");
-        instructorResultsPage.loadResultSectionPanel(1, 2);
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRQGView.html");
 
         ______TS("Rank instructor results : Recipient > Giver > Question");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
                                                                  "recipient-giver-question");
-        instructorResultsPage.loadResultSectionPanel(1, 2);
+        instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }
 
@@ -322,14 +322,14 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank recipients: new question (frame)");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_RECIPIENTS");
         assertTrue(feedbackEditPage.verifyNewRankRecipientsQuestionFormIsDisplayed());
     }
 
     private void testNewRankOptionsQuestionFrame() {
         ______TS("Rank options: new question (frame)");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
         assertTrue(feedbackEditPage.verifyNewRankOptionsQuestionFormIsDisplayed());
     }
 
@@ -365,7 +365,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                         + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
@@ -388,8 +388,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank edit: Invalid empty input in number of options a respondent must rank");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
-        feedbackEditPage.waitForPageToScroll();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
@@ -416,8 +415,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("Rank edit: Auto fill with 1 in number of options a respondent must rank success");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
-        feedbackEditPage.waitForPageToScroll();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
 
         // Ensure that rank options is cleared.
         feedbackEditPage.clickMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
@@ -435,7 +433,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("Rank edit: add rank recipient question action success");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_RECIPIENTS");
 
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 

@@ -243,31 +243,8 @@
       "endTime": "2027-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
-      "sentClosedEmail": false,
-      "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
-    },
-    "private.session": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instr1@course1.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
-      "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "sessionVisibleFromTime": "1970-11-27T00:00:00Z",
-      "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
-      "timeZone": "UTC+08:00",
-      "gracePeriod": 0,
-      "feedbackSessionType": "PRIVATE",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -463,46 +440,6 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
-      ]
-    },
-    "qn1.private.session": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instr1@course1.tmt",
-      "questionMetaData": {
-        "value": "creator self feedback"
-      },
-      "questionNumber": 1,
-      "questionType": "TEXT",
-      "giverType": "SELF",
-      "recipientType": "SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": []
-    },
-    "qn2.private.session": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instr1@course1.tmt",
-      "questionMetaData": {
-        "value": "hidden qn for opening up later."
-      },
-      "questionNumber": 2,
-      "questionType": "TEXT",
-      "giverType": "STUDENTS",
-      "recipientType": "TEAMS",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "STUDENTS"
       ]
     }
   },
@@ -701,32 +638,6 @@
       },
       "giverSection": "Section B",
       "recipientSection": "Section A"
-    },
-    "p.qn1.resp1": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "FSRTest.idOfTypicalCourse1",
-      "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
-      "giver": "FSRTest.instr1@course1.tmt",
-      "recipient": "FSRTest.instr1@course1.tmt",
-      "responseMetaData": {
-        "value": "creator self feedback"
-      },
-      "giverSection": "None",
-      "recipientSection": "None"
-    },
-    "p.qn2.resp1": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "FSRTest.idOfTypicalCourse1",
-      "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
-      "giver": "FSRTest.student1InCourse1@gmail.tmt",
-      "recipient": "Team 1.2",
-      "responseMetaData": {
-        "value": "feedback created before session became private"
-      },
-      "giverSection": "Section A",
-      "recipientSection": "Section B"
     }
   },
   "feedbackResponseComments": {},

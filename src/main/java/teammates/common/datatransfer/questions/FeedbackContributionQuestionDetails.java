@@ -67,7 +67,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
         return newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
     }
@@ -709,7 +709,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         return new ArrayList<>();
     }
 

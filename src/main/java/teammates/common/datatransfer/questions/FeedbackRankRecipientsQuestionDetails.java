@@ -437,7 +437,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
     }
 
@@ -453,7 +453,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         return new ArrayList<>();
     }
 

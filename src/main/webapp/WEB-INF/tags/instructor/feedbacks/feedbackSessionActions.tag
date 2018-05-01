@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks and instructorHome - Feedback Session actions" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
@@ -56,7 +57,7 @@
         class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-results-options"
         data-toggle="dropdown"
         aria-expanded="false"
-        <c:if test="${not actions.publishButton.actionAllowed || actions.privateSession}">disabled</c:if>>
+        <c:if test="${not actions.publishButton.actionAllowed}">disabled</c:if>>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
@@ -66,6 +67,19 @@
       <li>
         <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
       </li>
+      <c:if test="${actions.allowedToResendPublishedEmail}">
+      <li>
+        <a href="javascript:;"
+            data-actionlink="${actions.sessionResendPublishedEmailPageLink}"
+            class="session-resend-published-email-for-test"
+            data-courseid="${actions.courseId}"
+            data-fsname="${actions.fsName}"
+            data-toggle="modal"
+            data-target="#resendPublishedEmailModal">
+          Resend link to view results
+        </a>
+      </li>
+      </c:if>
     </ul>
   </div>
 </div>
@@ -74,8 +88,8 @@
     data-placement="top"
     style="display: inline-block; padding-right: 5px;">
   <div class="btn-group margin-bottom-7px">
-    <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test<c:if test="${not actions.allowedToRemind || actions.privateSession}"> disabled</c:if>"
-        href="${actions.allowedToRemind && not actions.privateSession ? actions.remindLink : 'javascript:;'}"
+    <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test<c:if test="${not actions.allowedToRemind}"> disabled</c:if>"
+        href="${actions.allowedToRemind ? actions.remindLink : 'javascript:;'}"
         data-fsname="${actions.fsName}">
       Remind
     </a>
@@ -83,7 +97,7 @@
         class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test"
         data-toggle="dropdown"
         aria-expanded="false"
-        <c:if test="${not actions.allowedToRemind || actions.privateSession}">disabled</c:if>>
+        <c:if test="${not actions.allowedToRemind}">disabled</c:if>>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">

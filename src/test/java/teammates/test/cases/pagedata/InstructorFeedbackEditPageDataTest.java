@@ -74,9 +74,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(fs.getCourseId(), fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
-        assertFalse(fsForm.isFeedbackSessionTypeEditable());
+        assertFalse(fsForm.isSessionTemplateTypeEditable());
         assertTrue(fsForm.isEditFsButtonsVisible());
-        assertNull(fsForm.getFeedbackSessionTypeOptions());
+        assertNull(fsForm.getSessionTemplateTypeOptions());
         assertEquals(Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(),
                      fsForm.getFormSubmitAction());
 
@@ -111,7 +111,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(additionalSettings.isSessionVisibleAtOpenChecked());
         assertFalse(additionalSettings.isSessionVisibleDateDisabled());
         assertTrue(additionalSettings.isSessionVisibleDateButtonChecked());
-        assertFalse(additionalSettings.isSessionVisiblePrivateChecked());
         assertTrue(additionalSettings.isSendClosingEmailChecked());
         assertTrue(additionalSettings.isSendOpeningEmailChecked());
         assertTrue(additionalSettings.isSendPublishedEmailChecked());
@@ -228,9 +227,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertEquals(fs.getCourseId(), fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
-        assertFalse(fsForm.isFeedbackSessionTypeEditable());
+        assertFalse(fsForm.isSessionTemplateTypeEditable());
         assertTrue(fsForm.isEditFsButtonsVisible());
-        assertNull(fsForm.getFeedbackSessionTypeOptions());
+        assertNull(fsForm.getSessionTemplateTypeOptions());
 
         additionalSettings = data.getFsForm().getAdditionalSettings();
         assertEquals(TimeHelper.formatDateForSessionsForm(fs.getResultsVisibleFromTimeLocal()),
@@ -246,7 +245,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         assertFalse(additionalSettings.isSessionVisibleAtOpenChecked());
         assertFalse(additionalSettings.isSessionVisibleDateDisabled());
         assertTrue(additionalSettings.isSessionVisibleDateButtonChecked());
-        assertFalse(additionalSettings.isSessionVisiblePrivateChecked());
         assertFalse(additionalSettings.isSendClosingEmailChecked());
         assertTrue(additionalSettings.isSendOpeningEmailChecked());
         assertFalse(additionalSettings.isSendPublishedEmailChecked());
@@ -270,6 +268,21 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
                          .withCourseId(fs.getCourseId())
                          .withSessionName(fs.getFeedbackSessionName()).toString(),
                      newQuestionForm.getDoneEditingLink());
+
+        ______TS("Resolved time fields map");
+        data = new InstructorFeedbackEditPageData(dataBundle.accounts.get("instructor1OfCourse1"), dummySessionToken);
+
+        assertNotNull("Should be empty map if unused", data.getResolvedTimeFields());
+        assertTrue(data.getResolvedTimeFields().isEmpty());
+
+        Map<String, String> expected = new HashMap<>();
+        String startDate = "start date";
+        String startTime = "start time";
+        expected.put(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startDate);
+        expected.put(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, startTime);
+        data.putResolvedTimeField(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, startDate);
+        data.putResolvedTimeField(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, startTime);
+        assertEquals(expected, data.getResolvedTimeFields());
     }
 
     private InstructorAttributes getInstructorFromBundle(String instructor) {

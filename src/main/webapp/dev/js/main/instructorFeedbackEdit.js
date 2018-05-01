@@ -32,7 +32,6 @@ import {
 
 import {
     bindUncommonSettingsEvents,
-    collapseIfPrivateSession,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
     showUncommonPanelsIfNotInDefaultValues,
@@ -42,9 +41,11 @@ import {
 import {
     addConstSumOption,
     bindConstSumOptionsRadioButtons,
+    changeConstSumDistributePointsFor,
     hideConstSumOptionTable,
     removeConstSumOption,
     showConstSumOptionTable,
+    toggleConstSumDistributePointsOptions,
     toggleConstSumOptionsRadioButton,
     updateConstSumPointsValue,
 } from '../common/questionConstSum';
@@ -114,6 +115,7 @@ import {
 } from '../common/scrollTo';
 
 import {
+    appendNewStatusMessage,
     clearStatusMessages,
     setStatusMessage,
     setStatusMessageToForm,
@@ -294,10 +296,21 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success(result) {
-                if (result.hasError) {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.DANGER);
-                } else {
-                    setStatusMessage(result.statusForAjax, BootstrapContextualColors.SUCCESS);
+                const { statusMessagesToUser, resolvedTimeFields, hasError } = result;
+
+                for (let i = 0; i < statusMessagesToUser.length; i += 1) {
+                    const statusMessageToUser = statusMessagesToUser[i];
+                    appendNewStatusMessage(statusMessageToUser.text, BootstrapContextualColors[statusMessageToUser.color]);
+                }
+
+                const resolvedTimeInputIds = Object.keys(resolvedTimeFields);
+                for (let i = 0; i < resolvedTimeInputIds.length; i += 1) {
+                    const resolvedTimeInputId = resolvedTimeInputIds[i];
+                    const resolvedTimeInputValue = resolvedTimeFields[resolvedTimeInputId];
+                    $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
+                }
+
+                if (!hasError) {
                     disableEditFS();
                 }
             },
@@ -481,8 +494,13 @@ function enableQuestion(questionNum) {
         $(`#constSumOption_Option-${questionNum}`).show();
         $(`#constSumOption_Recipient-${questionNum}`).hide();
     }
+
     toggleConstSumOptionsRadioButton(questionNum);
-    $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
+    if ($(`#constSum_UnevenDistribution-${questionNum}`).prop('checked')) {
+        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', false);
+    } else {
+        $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', true);
+    }
 
     if ($(`#questionTable-${questionNum}`).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
         fixContribQnGiverRecipient(questionNum);
@@ -562,6 +580,8 @@ function enableNewQuestion() {
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+
+    toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`, NEW_QUESTION));
 
     toggleMsqMaxSelectableChoices(NEW_QUESTION);
     toggleMsqMinSelectableChoices(NEW_QUESTION);
@@ -1167,7 +1187,6 @@ function readyFeedbackEditPage() {
     formatNumberBoxes();
     formatCheckBoxes();
     formatQuestionNumbers();
-    collapseIfPrivateSession();
 
     setupFsCopyModal();
 
@@ -1239,6 +1258,8 @@ $(document).ready(() => {
 window.updateConstSumPointsValue = updateConstSumPointsValue;
 window.addConstSumOption = addConstSumOption;
 window.removeConstSumOption = removeConstSumOption;
+window.toggleConstSumDistributePointsOptions = toggleConstSumDistributePointsOptions;
+window.changeConstSumDistributePointsFor = changeConstSumDistributePointsFor;
 window.addMcqOption = addMcqOption;
 window.removeMcqOption = removeMcqOption;
 window.toggleMcqGeneratedOptions = toggleMcqGeneratedOptions;

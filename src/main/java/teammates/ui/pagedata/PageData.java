@@ -1,6 +1,5 @@
 package teammates.ui.pagedata;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -89,44 +88,13 @@ public class PageData {
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
      */
-    protected List<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
+    protected List<String> getTimeZoneOptionsAsHtml(ZoneId existingTimeZone) {
+        List<ZoneId> options = TimeHelper.getTimeZoneValues();
         ArrayList<String> result = new ArrayList<>();
-        if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected></option>");
-        }
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            result.add("<option value=\"" + formatAsString(timeZoneOption) + "\""
-                       + (existingTimeZone == timeZoneOption ? " selected" : "") + ">" + "(" + utcFormatOption
-                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption)) + "</option>");
-        }
-        return result;
-    }
-
-    public static List<ElementTag> getTimeZoneOptionsAsElementTags(ZoneId existingTimeZone) {
-        List<Double> options = TimeHelper.getTimeZoneValues();
-        ArrayList<ElementTag> result = new ArrayList<>();
-        if (existingTimeZone == null) {
-            ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
-            result.add(option);
-        }
-
-        for (Double timeZoneOption : options) {
-            String utcFormatOption = StringHelper.toUtcFormat(timeZoneOption);
-            String textToDisplay = "(" + utcFormatOption
-                                            + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(timeZoneOption));
-
-            boolean isExistingTimeZone = false;
-            if (existingTimeZone != null) {
-                int timeZoneOptionOffsetInSeconds = (int) (timeZoneOption * 60 * 60);
-                int existingZoneOffsetInSeconds = existingTimeZone.getRules().getOffset(Instant.now()).getTotalSeconds();
-                isExistingTimeZone = existingZoneOffsetInSeconds == timeZoneOptionOffsetInSeconds;
-            }
-
-            ElementTag option = createOption(textToDisplay,
-                                             formatAsString(timeZoneOption), isExistingTimeZone);
-            result.add(option);
+        for (ZoneId timeZoneOption : options) {
+            result.add("<option value=\"" + timeZoneOption.getId() + "\""
+                    + (existingTimeZone.equals(timeZoneOption) ? " selected" : "") + ">" + "(" + timeZoneOption.getId()
+                    + ") " + TimeHelper.getCitiesForTimeZone(timeZoneOption) + "</option>");
         }
         return result;
     }
@@ -520,6 +488,33 @@ public class PageData {
         return link;
     }
 
+    /**
+     * Retrieves the link to load data for the resend session published email modal.
+     * @param courseId the course ID
+     * @param feedbackSessionName the name of the feedback session
+     * @return the link to load data for the modal
+     */
+    public String getInstructorFeedbackResendPublishedEmailPageLink(String courseId, String feedbackSessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
+    /**
+     * Retrieves the link to submit the request for resending the session published email.
+     * @param returnUrl the url to return to after submitting the request
+     * @return submit link with return url appended to it
+     */
+    public String getInstructorFeedbackResendPublishedEmailLink(String returnUrl) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, returnUrl);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorFeedbackUnpublishLink(String courseId, String feedbackSessionName, String returnUrl) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
@@ -622,9 +617,7 @@ public class PageData {
     }
 
     public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.isPrivateSession()) {
-            return "Private";
-        } else if (session.isOpened()) {
+        if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
             return "Awaiting";
@@ -642,10 +635,6 @@ public class PageData {
     }
 
     public static String getInstructorSubmissionsTooltipForFeedbackSession(FeedbackSessionAttributes session) {
-
-        if (session.isPrivateSession()) {
-            return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
-        }
 
         StringBuilder msg = new StringBuilder(50);
         msg.append("The feedback session has been created");
@@ -668,9 +657,7 @@ public class PageData {
     }
 
     public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.isPrivateSession()) {
-            return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
-        } else if (session.isPublished()) {
+        if (session.isPublished()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
         } else {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;
@@ -769,13 +756,6 @@ public class PageData {
         }
         int defaultGracePeriod = 15;
         return gracePeriodOptionValue == defaultGracePeriod;
-    }
-
-    private static String formatAsString(double num) {
-        if ((int) num == num) {
-            return Integer.toString((int) num);
-        }
-        return Double.toString(num);
     }
 
     public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,

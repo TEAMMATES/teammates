@@ -16,7 +16,7 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.InvalidOriginException;
-import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.InvalidPostParametersException;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -43,7 +43,6 @@ public class ControllerServlet extends HttpServlet {
     @Override
     public void init() {
         TimeHelper.registerResourceZoneRules();
-        TimeHelper.setSystemTimeZoneIfRequired();
     }
 
     @Override
@@ -125,8 +124,7 @@ public class ControllerServlet extends HttpServlet {
                     + TeammatesException.toStringWithStackTrace(e));
             resp.sendRedirect(appendParamsToErrorPageUrl(Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE, params, url));
 
-        //TODO: handle invalid parameters exception
-        } catch (NullPostParameterException e) {
+        } catch (InvalidPostParametersException e) {
             String requestUrl = req.getRequestURL().toString();
             log.info(e.getMessage());
             cleanUpStatusMessageInSession(req);

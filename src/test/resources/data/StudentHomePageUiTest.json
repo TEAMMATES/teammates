@@ -168,7 +168,7 @@
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
-      "displayedName": "inst<script>alert('hi!');</script>",
+      "displayedName": "inst'\"/><script>alert('hi!');</script>",
       "privileges": {
         "courseLevel": {
           "canviewstudentinsection": true,
@@ -291,9 +291,8 @@
       "endTime": "2027-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -314,9 +313,8 @@
       "endTime": "2013-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 1440,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -337,9 +335,8 @@
       "endTime": "2027-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -360,9 +357,8 @@
       "endTime": "2035-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2034-03-28T15:59:00Z",
       "resultsVisibleFromTime": "2036-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -383,32 +379,8 @@
       "endTime": "2012-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
-      "feedbackSessionType": "STANDARD",
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
-      "sentClosedEmail": false,
-      "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
-    },
-    "SHomeUiT.CS2104:Private Feedback Session": {
-      "feedbackSessionName": "Private Feedback Session",
-      "courseId": "SHomeUiT.CS2104",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
-      "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "endTime": "2035-04-30T15:59:00Z",
-      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
-      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
-      "gracePeriod": 0,
-      "feedbackSessionType": "PRIVATE",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -429,9 +401,8 @@
       "endTime": "2035-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -525,30 +496,6 @@
       "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 5,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
-    },
-    "SHomeUiT.CS2104:Private Feedback Session:Q1": {
-      "feedbackSessionName": "Private Feedback Session",
-      "courseId": "SHomeUiT.CS2104",
-      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
-      "questionMetaData": {
-        "value": "This is a private session"
-      },
-      "questionNumber": 1,
-      "questionType": "TEXT",
-      "giverType": "INSTRUCTORS",
-      "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
       "showResponsesTo": [
         "INSTRUCTORS",

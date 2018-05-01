@@ -402,7 +402,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+    public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackRankOptionsQuestionDetails newRankQuestionDetails = (FeedbackRankOptionsQuestionDetails) newDetails;
 
         return this.options.size() != newRankQuestionDetails.options.size()
@@ -431,7 +431,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public List<String> validateQuestionDetails() {
+    public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
         if (options.size() < MIN_NUM_OF_OPTIONS) {
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");

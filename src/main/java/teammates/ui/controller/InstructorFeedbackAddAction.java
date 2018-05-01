@@ -18,6 +18,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.Templates;
@@ -31,34 +32,29 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
     @Override
     protected ActionResult execute() {
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotEmpty(courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
 
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        FeedbackSessionAttributes fs = extractFeedbackSessionData(true);
+        String feedbackSessionName = SanitizationHelper.sanitizeTitle(
+                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
 
-        // Set creator email as instructors' email
-        fs.setCreatorEmail(instructor.email);
+        FeedbackSessionAttributes fs = extractFeedbackSessionData(feedbackSessionName, course, instructor.email);
 
-        // A session opening reminder email is always sent as students
-        // without accounts need to receive the email to be able to respond
-        fs.setOpeningEmailEnabled(true);
-
-        String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
+        String sessionTemplateType = getRequestParamValue(Const.ParamsNames.SESSION_TEMPLATE_TYPE);
 
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(account, sessionToken);
         try {
+            validateTimeData(fs);
             logic.createFeedbackSession(fs);
 
             try {
                 createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(),
-                                                fs.getCreatorEmail(), feedbackSessionType);
+                                                fs.getCreatorEmail(), sessionTemplateType);
             } catch (InvalidParametersException e) {
                 // Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -101,19 +97,19 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         }
 
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
-                                       feedbackSessionType);
+                                       sessionTemplateType);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, data);
     }
 
     private void createTemplateFeedbackQuestions(String courseId, String feedbackSessionName,
-            String creatorEmail, String feedbackSessionType) throws InvalidParametersException {
-        if (feedbackSessionType == null) {
+            String creatorEmail, String sessionTemplateType) throws InvalidParametersException {
+        if (sessionTemplateType == null) {
             return;
         }
 
         List<FeedbackQuestionAttributes> questions =
-                getFeedbackSessionTemplateQuestions(feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
+                getFeedbackSessionTemplateQuestions(sessionTemplateType, courseId, feedbackSessionName, creatorEmail);
 
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {

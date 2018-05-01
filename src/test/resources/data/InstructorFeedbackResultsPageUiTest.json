@@ -355,9 +355,8 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -378,9 +377,8 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -401,9 +399,8 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -424,9 +421,8 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -447,9 +443,8 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -470,9 +465,8 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -493,9 +487,8 @@
       "endTime": "2026-04-30T15:59:00Z",
       "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
-      "timeZone": "UTC+08:00",
+      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -701,7 +694,7 @@
       "courseId": "CFResultsUiT.CS2104",
       "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":4,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"FlexiCommand\",\"PowerSearch\",\"GoodUI\",\"Google Integration\"],\"questionText\":\"What is your extra feature?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 8,
       "questionType": "MSQ",
@@ -1771,7 +1764,22 @@
       "recipient": "CFResultsUiT.benny.no@gmail.tmt",
       "responseMetaData": {
         "value": "Benny self feedback."
-      }
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "Response to Instructors": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "CFResultsUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "TEXT",
+      "giver": "CFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "CFResultsUiT.instr@gmail.tmt",
+      "responseMetaData": {
+        "value": "You are a great instructor."
+      },
+      "giverSection": "Section A",
+      "recipientSection": "None"
     }
   },
   "feedbackResponseComments": {

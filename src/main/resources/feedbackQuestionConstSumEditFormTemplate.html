@@ -96,12 +96,36 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <div class="checkbox" id="constSum_tooltipText-${questionNumber}" data-toggle="tooltip" data-placement="top" data-container="body" title="Ticking this prevents a giver from distributing the same number of points to multiple ${optionRecipientDisplayName}s">
+        <div class="checkbox" id="constSum_tooltipText-${questionNumber}"
+             data-toggle="tooltip" data-placement="top" data-container="body"
+             title="This determines whether a giver can distribute the same number of points to multiple ${optionRecipientDisplayName}s">
           <label class="bold-label">
-            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}" disabled id="constSum_UnevenDistribution-${questionNumber}" ${distributeUnevenly}>
-            <span id="constSum_labelText-${questionNumber}">Every ${optionRecipientDisplayName} to receive a different number of points</span>
+            <span class="inline-block">
+              <input type="checkbox" disabled
+                     name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}"
+                     id="constSum_UnevenDistribution-${questionNumber}"
+                     ${distributeUnevenly}
+                     onchange="toggleConstSumDistributePointsOptions(this, ${questionNumber})">
+            </span>
+            <select class="form-control width-auto inline" id="constSumDistributePointsSelect-${questionNumber}"
+                    onchange="changeConstSumDistributePointsFor(${questionNumber})"
+                    disabled>
+              <option ${distributeAllUnevenlySelected}
+                      value="${FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()}">
+                Every option
+              </option>
+              <option ${distributeSomeUnevenlySelected}
+                      value="${FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption()}">
+                At least some options
+              </option>
+            </select>
+            to receive a different number of points
           </label>
         </div>
+        <input type="hidden"
+               id="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS}-${questionNumber}"
+               name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS}"
+               value="${distributePointsForValue}">
       </div>
     </div>
   </div>
