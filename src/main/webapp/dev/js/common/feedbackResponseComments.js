@@ -1,6 +1,10 @@
 /* global tinymce:false */
 
 import {
+    extractIdSuffixFromId,
+} from './helper';
+
+import {
     showModalConfirmation,
 } from './bootboxWrapper';
 
@@ -169,14 +173,14 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     }
     $(`#showResponseCommentAddForm${id}`).show();
 
-    $(`#responseCommentAddForm${id}`).empty();
-
-    if (typeof richTextEditorBuilder !== 'undefined') {
-        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
-        richTextEditorBuilder.initEditor(`#responseCommentAddForm${id}`, {
+    const responseCommentAddFormId = `responseCommentAddForm${id}`;
+    const responseCommentEditor = tinymce.get(responseCommentAddFormId);
+    if (responseCommentEditor === null) {
+        richTextEditorBuilder.initEditor(`#${responseCommentAddFormId}`, {
             inline: true,
         });
-        /* eslint-enable camelcase */
+    } else {
+        responseCommentEditor.setContent('');
     }
     saveInitialVisibilityOfCheckboxes(`showResponseCommentAddForm${id}`,
             $(`#showResponseCommentAddForm${id}`).children('.responseCommentAddForm'));
@@ -416,56 +420,79 @@ const editCommentHandler = (e) => {
     });
 };
 
-function fadeOutCommentModalIfPresent() {
-    $('div[id^="commentModal"]').removeClass('in');
-    $('div[id^="commentModal"]').addClass('out');
+function findParentCommentModal(deleteCommentButtonIdSuffix) {
+    const idSuffixExcludingFrcIndex =
+        deleteCommentButtonIdSuffix.slice(0, deleteCommentButtonIdSuffix.lastIndexOf('-'));
+    return $(`#commentModal-${idSuffixExcludingFrcIndex}`);
 }
 
-function fadeInCommentModalIfPresent() {
-    $('div[id^="commentModal"]').removeClass('out');
-    $('div[id^="commentModal"]').addClass('in');
-}
+function showDeleteCommentButtonModal($deleteCommentButton, $parentCommentModal) {
+    const onHiddenCallback = $parentCommentModal === undefined ? null : () => $parentCommentModal.modal('show');
 
-const deleteCommentHandler = (e) => {
-    const submitButton = $(e.currentTarget);
-    e.preventDefault();
-    fadeOutCommentModalIfPresent();
-
-    showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
-        const formObject = submitButton.parent();
-        const formData = formObject.serialize();
-        fadeInCommentModalIfPresent();
+    const okCallback = () => {
+        const $form = $deleteCommentButton.parent();
+        const formData = $form.serialize();
 
         $.ajax({
             type: 'POST',
-            url: `${submitButton.attr('href')}?${formData}`,
+            url: `${$deleteCommentButton.attr('href')}?${formData}`,
             beforeSend() {
-                submitButton.html("<img src='/images/ajax-loader.gif'/>");
+                $deleteCommentButton.html("<img src='/images/ajax-loader.gif'/>");
             },
             error() {
-                showErrorMessage('Failed to delete comment. Please try again.', submitButton);
+                showErrorMessage('Failed to delete comment. Please try again.', $deleteCommentButton);
             },
             success(data) {
                 if (data.isError) {
-                    showErrorMessage(data.errorMessage, submitButton);
+                    showErrorMessage(data.errorMessage, $deleteCommentButton);
                 } else {
-                    deleteCommentRow(submitButton);
+                    deleteCommentRow($deleteCommentButton);
                 }
             },
         });
-    }, fadeInCommentModalIfPresent, null, null, BootstrapContextualColors.WARNING);
+    };
+    showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', okCallback,
+            null, null, null, BootstrapContextualColors.WARNING, onHiddenCallback);
+}
 
-    $('.bootbox-close-button').click(() => {
-        fadeInCommentModalIfPresent();
+function onHideShowDeleteCommentButtonModal($deleteCommentButton, $parentCommentModal) {
+    $parentCommentModal.on('hidden.bs.modal', function handler() {
+        showDeleteCommentButtonModal($deleteCommentButton, $parentCommentModal);
+        $parentCommentModal.off('hidden.bs.modal', handler);
     });
+}
+
+const deleteCommentHandler = (e) => {
+    e.preventDefault();
+
+    const $deleteCommentButton = $(e.currentTarget);
+
+    const deleteCommentButtonIdSuffix = extractIdSuffixFromId({
+        idPrefix: e.data.deleteCommentButtonPrefix,
+        id: $deleteCommentButton.attr('id'),
+    });
+
+    const $parentCommentModal = findParentCommentModal(deleteCommentButtonIdSuffix);
+
+    if ($parentCommentModal.length > 0) {
+        onHideShowDeleteCommentButtonModal($deleteCommentButton, $parentCommentModal);
+
+        $parentCommentModal.modal('hide');
+    } else {
+        showDeleteCommentButtonModal($deleteCommentButton);
+    }
 };
 
 function registerResponseCommentsEvent() {
-    $('body').on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]',
+    const $body = $('body');
+    $body.on('click', 'form[class*="responseCommentAddForm"] > div > a[id^="button_save_comment_for_add"]',
             addCommentHandler);
-    $('body').on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]',
+    $body.on('click', 'form[class*="responseCommentEditForm"] > div > a[id^="button_save_comment_for_edit"]',
             editCommentHandler);
-    $('body').on('click', 'form[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandler);
+
+    const deleteCommentButtonPrefix = 'commentdelete';
+    $body.on('click', `form[class*="responseCommentDeleteForm"] > a[id^="${deleteCommentButtonPrefix}"]`,
+            { deleteCommentButtonPrefix }, deleteCommentHandler);
 
     const clickHandlerMap = new Map();
     clickHandlerMap.set(

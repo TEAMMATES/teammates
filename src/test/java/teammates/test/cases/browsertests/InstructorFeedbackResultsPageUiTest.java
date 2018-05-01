@@ -141,7 +141,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Results with sanitized data with comments : giver > recipient > question");
 
         resultsPage.displayByGiverRecipientQuestion();
-        resultsPage.loadResultSectionPanel(1, 2);
+        resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageGQRWithSanitizedData.html");
     }
 
@@ -293,7 +293,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Unpublished Session");
         resultsPage.displayByGiverRecipientQuestion();
-        resultsPage.loadResultSectionPanel(1, 2);
+        resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestionTeam.html");
 
         ______TS("test sort by recipient > giver > question for second session");
@@ -305,7 +305,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test sort by giver > question > recipient for second session");
 
         resultsPage.displayByGiverQuestionRecipient();
-        resultsPage.loadResultSectionPanel(1, 2);
+        resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverQuestionRecipientTeam.html");
 
         ______TS("test sort by recipient > question > giver for second session");
@@ -320,9 +320,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test order in giver > recipient > question team for second session");
 
         resultsPage.displayByGiverRecipientQuestion();
-        resultsPage.loadResultSectionPanel(1, 2);
+        resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestion.html");
-
         ______TS("test order in recipient > giver > question team for second session");
 
         resultsPage.displayByRecipientGiverQuestion();
@@ -332,7 +331,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test order in giver > question > recipient team for second session");
 
         resultsPage.displayByGiverQuestionRecipient();
-        resultsPage.loadResultSectionPanel(1, 2);
+        resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverQuestionRecipient.html");
 
         ______TS("test order in recipient > question > giver team for second session");
@@ -463,6 +462,45 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverAndViewStudentPhotoOnBody("1-1",
                 "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewStudentPhotoOnHeading("1-2", Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH);
+    }
+
+    @Test
+    public void testViewNoSpecificSection() {
+        ______TS("No Specific Section shown for recipient > question > giver with General Feedback");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true,
+                "recipient-question-giver");
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section shown for recipient > giver > recipient with Feedback to Instructor");
+        resultsPage.displayByRecipientGiverQuestion();
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section shown giver > question > recipient with Feedback from Instructor");
+        resultsPage.displayByGiverQuestionRecipient();
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section shown for recipient > question > giver with Feedback to Instructor");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Unpublished Session",
+                true, "recipient-question-giver");
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section not shown for recipient > question > giver with no General Feedback");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
+                "Session with sanitized data", true, "recipient-question-giver");
+        assertFalse(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section not shown for giver > question > recipient with no Feedback from Instructor");
+        resultsPage.displayByGiverQuestionRecipient();
+        assertFalse(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section shown for giver > question > recipient with student in No Specific Section");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Session with no sections",
+                true, "giver-question-recipient");
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
+
+        ______TS("No Specific Section shown for recipient > question > giver with student in No Specific Section");
+        resultsPage.displayByRecipientQuestionGiver();
+        assertTrue(resultsPage.isSectionPanelExist(Const.NO_SPECIFIC_SECTION));
     }
 
     private void testFilterAction() throws Exception {
@@ -609,7 +647,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "");
         resultsPage.verifyCommentFormErrorMessage("-2-1-0", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         resultsPage.closeCommentModal("-2-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: add new feedback response comments using comment modal in questions's view");
 
@@ -619,7 +656,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.verifyContainsElement(By.id("visibility-options-2-1-0-1"));
         resultsPage.closeCommentModal("-2-1-0");
-        resultsPage.waitForModalToDisappear();
 
         resultsPage.clickCommentModalButton("-3-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-3-1-0", "test comment 2");
@@ -627,7 +663,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
         resultsPage.verifyContainsElement(By.id("visibility-options-3-1-0-1"));
         resultsPage.closeCommentModal("-3-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: edit existing feedback response comment using comment modal in questions's view");
 
@@ -636,7 +671,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-2-1-0-1", "edited test comment", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: edit comment created by different instructor using comment modal in questions's view");
 
@@ -649,7 +683,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-1-1-0"));
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-1-1-0-1", 1);
         resultsPage.closeCommentModal("-1-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: delete existing feedback response comments using comment modal in questions's view");
 
@@ -658,17 +691,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.loadResultQuestionPanel(1);
         resultsPage.clickCommentModalButton("-3-1-0");
-        resultsPage.deleteFeedbackResponseCommentInQuestionsView("-3-1-0-1");
+        resultsPage.deleteFeedbackResponseCommentInModal("-3-1-0-1");
         resultsPage.verifyRowMissing("-3-1-0-1");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
         resultsPage.closeCommentModal("-3-1-0");
-        resultsPage.waitForModalToDisappear();
+
         resultsPage.clickCommentModalButton("-2-1-0");
-        resultsPage.deleteFeedbackResponseCommentInQuestionsView("-2-1-0-1");
+        resultsPage.deleteFeedbackResponseCommentInModal("-2-1-0-1");
         resultsPage.verifyRowMissing("-2-1-0-1");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
-        resultsPage.waitForModalToDisappear();
 
         ______TS("Typical case: add edit and delete successively");
 
@@ -686,7 +718,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-2-1-0-1", 1);
 
-        resultsPage.deleteFeedbackResponseCommentInQuestionsView("-2-1-0-1");
+        resultsPage.deleteFeedbackResponseCommentInModal("-2-1-0-1");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
 
@@ -729,12 +761,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: edit comment created by different instructor");
 
         resultsPage.editFeedbackResponseComment("-1-0-1-1-1", "Comment edited by different instructor");
-        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
+        resultsPage.verifyCommentRowContent("-1-0-1-1-1", "Comment edited by different instructor", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditCommentByDifferentInstructor.html");
 
         ______TS("Typical case: delete existing feedback response comment");
 
-        resultsPage.deleteFeedbackResponseComment("-1-1-1-1-1");
+        resultsPage.deleteFeedbackResponseCommentInline("-1-1-1-1-1");
         resultsPage.verifyRowMissing("-1-1-1-1-1");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -754,7 +786,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
-        resultsPage.deleteFeedbackResponseComment("-0-1-0-1-3");
+        resultsPage.deleteFeedbackResponseCommentInline("-0-1-0-1-3");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");

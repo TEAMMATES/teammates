@@ -111,6 +111,7 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
         instructors.addNestedElement(edit);
 
         courses.addNestedElement(archive);
+        courses.addNestedElement(edit);
         courses.addNestedElement(delete);
 
         return Arrays.asList(students, instructors, sessions, courses);

@@ -133,7 +133,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
 
         assertFalse(r.isError);
 
-        ______TS("Private case, empty participant list - data bundle params");
+        ______TS("Empty participant list - data bundle params");
 
         String instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2").googleId;
 
@@ -143,7 +143,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         fs = typicalBundle.feedbackSessions.get("session1InCourse2");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
 
-        String[] privateParams = new String[] {
+        String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -159,15 +159,14 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
         };
-
-        a = getAction(privateParams);
+        a = getAction(params);
         r = getAjaxResult(a);
 
         assertFalse(r.isError);
 
-        ______TS("Private case, null participant list - constructed params");
+        ______TS("Null participant list - constructed params");
 
-        privateParams = new String[] {
+        params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -184,7 +183,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
         };
 
-        a = getAction(privateParams);
+        a = getAction(params);
         r = getAjaxResult(a);
 
         assertFalse(r.isError);
