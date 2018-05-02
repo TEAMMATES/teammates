@@ -32,8 +32,8 @@ public class InstructorStudentListAjaxPageData extends PageData {
             boolean isAllowedToModifyStudent = sectionPrivileges.get(section.name)
                                             .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             sectionsDetails.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                           isAllowedToModifyStudent,
-                                                           emailPhotoUrlMapping, account.googleId, getSessionToken()));
+                    isAllowedToModifyStudent, emailPhotoUrlMapping, account.googleId, getSessionToken(),
+                    Const.PageNames.INSTRUCTOR_STUDENT_LIST_PAGE));
         }
         this.sections = sectionsDetails;
     }

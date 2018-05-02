@@ -6,6 +6,7 @@ import {
     isDate,
     isNumber,
     isWithinView,
+    extractIdSuffixFromId,
 } from '../common/helper';
 
 import {
@@ -100,6 +101,17 @@ QUnit.test('isDate(date)', (assert) => {
     assert.equal(isDate('a12-12-2001'), false, 'a12-12-2001 - not in proper format');
     assert.equal(isDate('    a      12 12 2001'), false, '    a      12 12 2001 - not in proper format');
     assert.equal(isDate('12/12/2001   a  '), false, '12/12/2001   a  - not in proper format');
+});
+
+QUnit.test('extractIdSuffixFromId({ idPrefix, id })', (assert) => {
+    // Randomly test few actual ids to extract identifier from
+    assert.equal(extractIdSuffixFromId({ idPrefix: 'commentDelete', id: 'commentDelete-1-1-0-1' }), '1-1-0-1');
+    assert.equal(extractIdSuffixFromId({ idPrefix: 'mcqOptionRow', id: 'mcqOptionRow-1--1' }), '1--1');
+    assert.equal(extractIdSuffixFromId({ idPrefix: 'questionAdditionalInfo', id: 'questionAdditionalInfo-7-' }),
+            '7-');
+    // Randomly test imaginary ids to extract identifier from
+    assert.equal(extractIdSuffixFromId({ idPrefix: 'AxK-', id: 'AxK--bb--xx-ll2' }), 'bb--xx-ll2');
+    assert.equal(extractIdSuffixFromId({ idPrefix: 'AxK', id: 'AxK--bb--xx-ll2' }), '-bb--xx-ll2');
 });
 
 QUnit.test('scrollToTop()', (assert) => {

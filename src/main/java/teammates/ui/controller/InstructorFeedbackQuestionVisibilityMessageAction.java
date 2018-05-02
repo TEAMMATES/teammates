@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.InstructorFeedbackQuestionVisibilityMessagePageData;
 
@@ -24,53 +23,51 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
     }
 
     private FeedbackQuestionAttributes extractFeedbackQuestionData(String creatorEmail) {
-        FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
+        String feedbackQuestionGiverType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
 
-        newQuestion.creatorEmail = creatorEmail;
+        FeedbackParticipantType giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
 
-        String feedbackQuestionGiverType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
+        String feedbackQuestionRecipientType =
+                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
 
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, feedbackQuestionGiverType);
+        FeedbackParticipantType recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);
 
-        newQuestion.giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
+        String numberOfEntityTypes = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
 
-        String feedbackQuestionRecipientType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, feedbackQuestionRecipientType);
-
-        newQuestion.recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);
-
-        String numberOfEntityTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
-
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, numberOfEntityTypes);
-
+        int numberOfEntitiesToGiveFeedbackTo;
         if ("custom".equals(numberOfEntityTypes)
-                && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
-                        || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
-            String numberOfEntities = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+                && (recipientType == FeedbackParticipantType.STUDENTS
+                        || recipientType == FeedbackParticipantType.TEAMS)) {
+            String numberOfEntities = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
 
-            Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, numberOfEntities);
-
-            newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
+            numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
         } else {
-            newQuestion.numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
+            numberOfEntitiesToGiveFeedbackTo = Const.MAX_POSSIBLE_RECIPIENTS;
         }
 
-        newQuestion.showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
+        List<FeedbackParticipantType> showResponsesTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
-        newQuestion.showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
+        List<FeedbackParticipantType> showGiverNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
-        newQuestion.showRecipientNameTo = FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
+        List<FeedbackParticipantType> showRecipientNameTo =
+                FeedbackParticipantType.getParticipantListFromCommaSeparatedValues(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
-        String questionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, questionType);
-        questionType = FeedbackQuestionType.standardizeIfConstSum(questionType);
+        String questionTypeInString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
+        questionTypeInString = FeedbackQuestionType.standardizeIfConstSum(questionTypeInString);
 
-        newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
-        newQuestion.removeIrrelevantVisibilityOptions();
+        FeedbackQuestionType questionType = FeedbackQuestionType.valueOf(questionTypeInString);
 
-        return newQuestion;
+        return FeedbackQuestionAttributes.builder()
+                .withCreatorEmail(creatorEmail)
+                .withGiverType(giverType)
+                .withRecipientType(recipientType)
+                .withNumOfEntitiesToGiveFeedbackTo(numberOfEntitiesToGiveFeedbackTo)
+                .withShowResponseTo(showResponsesTo)
+                .withShowGiverNameTo(showGiverNameTo)
+                .withShowRecipientNameTo(showRecipientNameTo)
+                .withQuestionType(questionType)
+                .build();
     }
 
 }
