@@ -278,7 +278,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionName("Session of characters12345678000000000");
         newSession.setCourseId(otherCourse.getId());
         newSession.setTimeZone(otherCourse.getTimeZone());
-        newSession.setStartTime(TimeHelper.parseInstant("2018-05-01 6:00 AM +0000"));
+        newSession.setStartTime(TimeHelper.parseInstant("2035-05-01 6:00 AM +0000"));
         newSession.setEndTime(newSession.getStartTime());
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -296,7 +296,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getEndTimeLocal(), newSession.getEndTimeLocal(), null, null,
+                newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
