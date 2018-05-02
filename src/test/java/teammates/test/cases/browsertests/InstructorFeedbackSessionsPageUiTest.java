@@ -278,7 +278,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionName("Session of characters12345678000000000");
         newSession.setCourseId(otherCourse.getId());
         newSession.setTimeZone(otherCourse.getTimeZone());
-        newSession.setStartTime(TimeHelper.parseInstant("2018-05-01 6:00 AM +0000"));
+        newSession.setStartTime(TimeHelper.parseInstant("2019-05-01 6:00 AM +0000"));
         newSession.setEndTime(newSession.getStartTime());
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
