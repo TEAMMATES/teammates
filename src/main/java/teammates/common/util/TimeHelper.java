@@ -483,7 +483,7 @@ public final class TimeHelper {
      * Parses an {@code Instant} object from a datetime string in the {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.
      *
      * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
-     * @return the parsed {@code Instant} object, or {@code null} if there are errors
+     * @return the parsed {@code Instant} object, or an {@code AssertionError} if there is a parsing error
      */
     public static Instant parseInstant(String dateTimeString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
