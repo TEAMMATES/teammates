@@ -230,8 +230,7 @@ public class InstructorSearchPageData extends PageData {
                     instructor.isAllowedForPrivilege(
                             section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             rows.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                isAllowedToModifyStudent,
-                                                emailToPhotoUrlMap, account.googleId, getSessionToken()));
+                    isAllowedToModifyStudent, emailToPhotoUrlMap, account.googleId, getSessionToken(), null));
         }
         return rows;
     }

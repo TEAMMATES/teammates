@@ -45,7 +45,7 @@ public class FeedbackResponseCommentRow {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
-        this.createdAt = TimeHelper.formatDateTimeForSessions(frc.createdAt, this.sessionTimeZone);
+        this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
 
         //TODO TO REMOVE AFTER DATA MIGRATION
@@ -265,6 +265,6 @@ public class FeedbackResponseCommentRow {
                 + (isGiverAnonymous
                     ? ""
                     : "by " + SanitizationHelper.sanitizeForHtml(instructorEmailNameTable.get(lastEditorEmail)) + " ")
-                + "at " + TimeHelper.formatDateTimeForSessions(lastEditedAt, sessionTimeZone) + ")";
+                + "at " + TimeHelper.formatDateTimeForDisplay(lastEditedAt, sessionTimeZone) + ")";
     }
 }
