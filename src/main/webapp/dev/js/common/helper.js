@@ -44,8 +44,20 @@ function isWithinView(element) {
     );
 }
 
+/**
+ * Extracts the suffix that follows the prefix from the id. For example, commentDelete-1-1-0-1 => 1-1-0-1.
+ * @param {Object} options required options
+ * @param {string} options.idPrefix the prefix of the id
+ * @param {string} options.id the id to extract from
+ * @return {string} the suffix that uniquely identifies an element among elements with the same prefix
+ */
+function extractIdSuffixFromId({ idPrefix, id } = {}) {
+    return new RegExp(`${idPrefix}-(.*)`).exec(id)[1];
+}
+
 export {
     isDate,
     isNumber,
     isWithinView,
+    extractIdSuffixFromId,
 };

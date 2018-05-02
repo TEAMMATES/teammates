@@ -194,7 +194,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 instructions, newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME);
-        assertEquals("<p>" + instructions.getValue() + "</p>", feedbackPage.getInstructions());
+        assertEquals(getMockedTinyMceContent(instructions.getValue()), feedbackPage.getInstructions());
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
@@ -205,8 +205,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
 
-        // TinyMCE wraps text with <p> tag
-        newSession.setInstructions(new Text("<p>" + instructions.getValue() + "</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
         assertEquals(newSession.toString(), savedSession.toString());
         newSession.setInstructions(instructions);
 
@@ -241,7 +240,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         BackDoor.editCourse(course);
 
         String dstSessionName = "DST Session";
-        LocalDateTime gapStart = TimeHelper.parseLocalDateTimeForSessionsForm("Fri, 30 Dec, 2011", "7", "0");
+        LocalDateTime gapStart = TimeHelper.parseDateTimeFromSessionsForm("Fri, 30 Dec, 2011", "7", "0");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.addFeedbackSession(
@@ -279,7 +278,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionName("Session of characters12345678000000000");
         newSession.setCourseId(otherCourse.getId());
         newSession.setTimeZone(otherCourse.getTimeZone());
-        newSession.setStartTime(TimeHelper.parseInstant("2018-05-01 6:00 AM +0000"));
+        newSession.setStartTime(TimeHelper.parseInstant("2035-05-01 6:00 AM +0000"));
         newSession.setEndTime(newSession.getStartTime());
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -292,12 +291,12 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.toggleSendClosingEmailCheckbox();
 
         // fill in defaults
-        newSession.setInstructions(new Text("<p>Please answer all the given questions.</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent("Please answer all the given questions.")));
         newSession.setGracePeriodMinutes(15);
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getEndTimeLocal(), newSession.getEndTimeLocal(), null, null,
+                newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
@@ -360,7 +359,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         newSession.setGracePeriodMinutes(25);
-        newSession.setInstructions(instructions);
+        newSession.setInstructions(new Text(getMockedTinyMceContent(instructions.getValue())));
         newSession.setPublishedEmailEnabled(false);
         newSession.setClosingEmailEnabled(true);
 
@@ -374,8 +373,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
-
-        newSession.setInstructions(new Text("<p>cannot see responses$^/&#61;?</p>"));
 
         assertEquals(newSession.toString(), savedSession.toString());
 
@@ -406,7 +403,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
         newSession.sanitizeForSaving();
-        newSession.setInstructions(new Text("<p>" + newSession.getInstructionsString() + "</p>"));
+        newSession.setInstructions(new Text(getMockedTinyMceContent(newSession.getInstructionsString())));
         assertEquals(newSession.toString(), savedSession.toString());
 
         ______TS("failure case: invalid input: (end < start < visible) and (publish < visible)");
@@ -464,6 +461,15 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, "bad name %% #",
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR));
 
+    }
+
+    /**
+     * Returns the mocked HTML content set by TinyMCE. Note: This is a basic mock that only adds paragraph tags to the
+     * content, which simulates TinyMCE's behavior for plain strings. TinyMCE's more complicated behavior for other scenarios
+     * is not mocked.
+     */
+    private String getMockedTinyMceContent(String content) {
+        return "<p>" + content + "</p>";
     }
 
     private void testCopyFromAction() throws Exception {
@@ -902,8 +908,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName, newSession.getCourseId(),
-                TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 01 Apr, 2035", "22", "00"),
-                TimeHelper.parseLocalDateTimeForSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
+                TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Apr, 2035", "22", "00"),
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
                 null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
@@ -919,8 +925,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName, newSession.getCourseId(),
-                TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 01 Apr, 2035", "10", "00"),
-                TimeHelper.parseLocalDateTimeForSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
+                TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Apr, 2035", "10", "00"),
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
                 null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
