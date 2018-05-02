@@ -1,3 +1,4 @@
+<%@ page import="teammates.common.util.Config" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -5,6 +6,7 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script type="text/javascript" src="/js/requestResendLinks.js"></script>
 </c:set>
+<c:set var="recaptchaSitekey" value="<%= Config.RECAPTCHA_SITEKEY %>" />
 <t:statusMessage statusMessagesToUser="${data.statusMessage}"/>
 <t:staticPage jsIncludes="${jsIncludes}" currentPage="requestAccessLinksResend">
   <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
@@ -16,7 +18,7 @@
     <input id="email" class="width-200-px" name="studentemail" placeholder="Enter your email address">
     <br/>
     <br/>
-    <div id="recaptcha" class="g-recaptcha" data-sitekey="6LeRFFAUAAAAAJZxGECyrBpqEKr4k5twbsNJnp1R"></div>
+    <div id="recaptcha" class="g-recaptcha" data-sitekey="${recaptchaSitekey}"></div>
     <br/>
     <input id="submitButton" type="submit" value="Submit">
   </form>
