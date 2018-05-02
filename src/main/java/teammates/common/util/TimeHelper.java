@@ -399,14 +399,14 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats {@code instant} according to the ISO8601 format.
+     * Formats {@code instant} using the ISO8601 format in UTC.
      * Example: 2011-12-03T10:15:30Z
      *
      * <p>Used to inject a standardized date into date elements in Teammates for sortable tables.
      * Should not be used for anything user-facing.</p>
      *
      * @param instant the instant to be formatted
-     * @return the formatted datetime stamp in ISO8601 format
+     * @return the formatted datetime ISO8601 stamp in UTC
      */
     public static String formatDateTimeToIso8601Utc(Instant instant) {
         return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
@@ -419,7 +419,7 @@ public final class TimeHelper {
      * <p>A {@code null} instant is not a special time.</p>
      *
      * @param instant the instant to test
-     * @return {@code true} if the given instant is used as special representation, {@code false} otherwise
+     * @return {@code true} if the given instant is used as a special representation, {@code false} otherwise
      */
     public static boolean isSpecialTime(Instant instant) {
         if (instant == null) {
