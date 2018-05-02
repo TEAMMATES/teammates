@@ -218,8 +218,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPageOfSessionIndDstCourse();
         FeedbackSessionAttributes dstSession = testData.feedbackSessions.get("dstSession");
 
-        LocalDateTime overlapStartTime = TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 05 Apr, 2015", "2", "0");
-        LocalDateTime gapEndTime = TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 01 Oct, 2017", "2", "0");
+        LocalDateTime overlapStartTime = TimeHelper.parseDateTimeFromSessionsForm("Sun, 05 Apr, 2015", "2", "0");
+        LocalDateTime gapEndTime = TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Oct, 2017", "2", "0");
 
         feedbackEditPage.editFeedbackSession(overlapStartTime, gapEndTime,
                 dstSession.getInstructions(), dstSession.getGracePeriodMinutes());
