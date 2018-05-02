@@ -97,8 +97,8 @@ public class AdminSessionsPageAction extends Action {
             String endMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDMINUTE);
             String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
 
-            this.rangeStart = TimeHelper.parseLocalDateTimeForSessionsForm(startDate, startHour, startMin);
-            this.rangeEnd = TimeHelper.parseLocalDateTimeForSessionsForm(endDate, endHour, endMin);
+            this.rangeStart = TimeHelper.parseDateTimeFromSessionsForm(startDate, startHour, startMin);
+            this.rangeEnd = TimeHelper.parseDateTimeFromSessionsForm(endDate, endHour, endMin);
             this.timeZone = TimeHelper.parseZoneId(timeZone);
             // validate parsed filter fields
             if (this.rangeStart == null || this.rangeEnd == null || this.timeZone == null) {

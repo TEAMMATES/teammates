@@ -237,7 +237,7 @@ public class EmailGenerator {
                 "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                 "${submitUrl}", submitUrl,
                 "${timeStamp}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatDateTimeForSessions(timestamp, session.getTimeZone())),
+                        TimeHelper.formatDateTimeForDisplay(timestamp, session.getTimeZone())),
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
