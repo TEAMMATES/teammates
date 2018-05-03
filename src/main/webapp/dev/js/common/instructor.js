@@ -625,12 +625,9 @@ function prepareInstructorPages() {
 export {
     attachEventToDeleteStudentLink,
     attachEventToDeleteAllStudentLink,
-<<<<<<< HEAD
+    attachEventToSendInviteLink,
     bindCopyEvents,
     bindCopyButton,
-=======
-    attachEventToSendInviteLink,
->>>>>>> master
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,
