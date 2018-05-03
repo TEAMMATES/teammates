@@ -659,8 +659,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
     private void testJScripts() {
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+        LocalDate defaultStartDate = LocalDate.now();
+
         testSessionViewableTable();
-        testDatePickerScripts();
+        testDatePickerScripts(defaultStartDate);
     }
 
     private void testSessionViewableTable() {
@@ -686,16 +688,45 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.isDisabled(By.id("publishtime")));
     }
 
-    private void testDatePickerScripts() {
+    private void testDatePickerScripts(LocalDate defaultStartDate) {
 
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
 
-        // setup various dates
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy");
+
+        ______TS("validate visible date range before editing start date");
+
+        String maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
+
+        assertEquals(formatter.format(defaultStartDate), maxValueOfVisibleDate);
+
+        ______TS("changing visible date to start date does not affect visible time if start time is not earlier");
+
+        feedbackPage.setStartTime(24);
+        feedbackPage.setVisibleTime(1);
+        String lateStartTime = feedbackPage.getStartTime();
+        String earlyVisibleTime = feedbackPage.getVisibleTime();
+        assertTrue(Integer.parseInt(lateStartTime) >= Integer.parseInt(earlyVisibleTime));
+
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, defaultStartDate);
+        assertTrue(Integer.parseInt(feedbackPage.getStartTime()) >= Integer.parseInt(feedbackPage.getVisibleTime()));
+
+        ______TS("changing visible date to start date affects visible time if start time is earlier");
+
+        feedbackPage.setStartTime(1);
+        feedbackPage.setVisibleTime(24);
+        String earlyStartTime = feedbackPage.getStartTime();
+        String lateVisibleTime = feedbackPage.getVisibleTime();
+        assertTrue(Integer.parseInt(earlyStartTime) < Integer.parseInt(lateVisibleTime));
+
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, defaultStartDate);
+        assertEquals(feedbackPage.getStartTime(), feedbackPage.getVisibleTime());
+
+        // setup various dates for later test cases
         LocalDate initialDateTime = LocalDate.of(2014, Month.APRIL, 16);
 
-        // fill in defaut values
+        // fill in default values for later test cases
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, initialDateTime);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, initialDateTime);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, initialDateTime);
@@ -717,7 +748,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(formatter.format(decreasedStartDate), valueOfVisibleDate);
 
-        String maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
+        maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(formatter.format(decreasedStartDate), maxValueOfVisibleDate);
 
         String minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
