@@ -599,10 +599,10 @@
                     <select class="form-control" id="responsetext-3-0-0" name="responsetext-3-0" onchange="updateRankMessageQn('3')">
                       <option value="">
                       </option>
-                      <option class="color-neutral" selected="" value="1">
+                      <option class="color-neutral" value="1">
                         1
                       </option>
-                      <option value="2">
+                      <option class="color-neutral" selected="" value="2">
                         2
                       </option>
                     </select>
@@ -631,13 +631,13 @@
           <div class="form-group margin-0">
             <div class="col-sm-3 form-inline mobile-align-left" style="text-align:right">
               <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-1" style="display:none;max-width:125px">
-                  <option selected="" value="">
+                <select class="participantSelect middlealign form-control" name="responserecipient-3-1" style="display:none;max-width:125px">
+                  <option value="">
                   </option>
                   <option style="display: none;" value="alice.b.tmms@gmail.tmt">
                     Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="benny.c.tmms@gmail.tmt">
+                  <option selected="" value="benny.c.tmms@gmail.tmt">
                     Benny Charles
                   </option>
                 </select>
@@ -654,12 +654,12 @@
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-3-1-0" name="responsetext-3-1" onchange="updateRankMessageQn('3')">
-                      <option selected="" value="">
+                      <option value="">
                       </option>
-                      <option class="color-neutral" value="1">
+                      <option class="color-neutral" selected="" value="1">
                         1
                       </option>
-                      <option value="2">
+                      <option class="color-neutral" value="2">
                         2
                       </option>
                     </select>
@@ -669,11 +669,10 @@
                   <div class="col-sm-2" style="display:none">
                   </div>
                   <div class="col-sm-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="rankMessage-3-1">
-                      Please rank the above recipients.
+                    <hr class="margin-top-0" style="display: none;">
+                    <p class="" id="rankMessage-3-1">
                     </p>
-                    <hr>
+                    <hr style="display: none;">
                   </div>
                 </div>
                 <input id="rankToRecipients-3" type="hidden" value="true">
@@ -683,6 +682,7 @@
                 <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
+            <input name="responseid-3-1" type="hidden" value="${question.id}%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt">
           </div>
         </div>
       </div>
