@@ -108,19 +108,19 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     public String getStartTimeString() {
-        return TimeHelper.formatDateTimeForSessions(startTime, timeZone);
+        return TimeHelper.formatDateTimeForDisplay(startTime, timeZone);
     }
 
     public String getStartTimeInIso8601UtcFormat() {
-        return TimeHelper.formatInstantToIso8601Utc(startTime);
+        return TimeHelper.formatDateTimeToIso8601Utc(startTime);
     }
 
     public String getEndTimeString() {
-        return TimeHelper.formatDateTimeForSessions(endTime, timeZone);
+        return TimeHelper.formatDateTimeForDisplay(endTime, timeZone);
     }
 
     public String getEndTimeInIso8601UtcFormat() {
-        return TimeHelper.formatInstantToIso8601Utc(endTime);
+        return TimeHelper.formatDateTimeToIso8601Utc(endTime);
     }
 
     public String getInstructionsString() {

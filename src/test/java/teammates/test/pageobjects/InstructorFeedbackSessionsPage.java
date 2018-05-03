@@ -334,12 +334,24 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return endTimeDropdown.getAttribute("value");
     }
 
+    public String getVisibleTime() {
+        return visibleTimeDropdown.getAttribute("value");
+    }
+
     public String getTimeZone() {
         return timezoneDropdown.getAttribute("value");
     }
 
     public String getInstructions() {
         return getRichTextEditorContent("instructions");
+    }
+
+    public void setStartTime(int hour) {
+        executeScript("$('#" + startTimeDropdown.getAttribute("id") + "').val(" + hour + ")");
+    }
+
+    public void setVisibleTime(int hour) {
+        executeScript("$('#" + visibleTimeDropdown.getAttribute("id") + "').val(" + hour + ")");
     }
 
     public boolean isRowSelected(int rowIndex) {

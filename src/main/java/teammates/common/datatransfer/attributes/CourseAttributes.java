@@ -67,16 +67,16 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public String getCreatedAtDateString() {
-        return TimeHelper.formatDateTimeForInstructorCoursesPage(createdAt, timeZone);
+        return TimeHelper.formatDateForInstructorCoursesPage(createdAt, timeZone);
     }
 
     public String getCreatedAtDateStamp() {
-        return TimeHelper.formatInstantToIso8601Utc(createdAt);
+        return TimeHelper.formatDateTimeToIso8601Utc(createdAt);
     }
 
     public String getCreatedAtFullDateTimeString() {
         LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdAt, timeZone);
-        return TimeHelper.formatTime12H(localDateTime);
+        return TimeHelper.formatDateTimeForDisplay(localDateTime);
     }
 
     public void setTimeZone(ZoneId timeZone) {
