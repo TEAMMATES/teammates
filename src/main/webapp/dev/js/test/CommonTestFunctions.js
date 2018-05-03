@@ -40,6 +40,9 @@ const jQueryObjectStubForBootbox = {
     addClass() {
         return this;
     },
+    modal() {
+        return this;
+    },
 };
 
 bootbox.dialog = function (params) {

@@ -44,7 +44,7 @@ public class EmailGenerator {
             + "but you will not be able to edit existing responses or submit new responses";
 
     // feedback action strings
-    private static final String FEEDBACK_ACTION_SUBMIT = "submit";
+    private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
     private static final String FEEDBACK_ACTION_VIEW = "view";
     private static final String HTML_NO_ACTION_REQUIRED =
             "<p>No action is required if you have already submitted.</p>" + System.lineSeparator();
@@ -98,7 +98,7 @@ public class EmailGenerator {
                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), additionalContactInformation);
         emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorToNotifyAsList, template,
                                                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
-                                                        FEEDBACK_ACTION_SUBMIT, additionalContactInformation));
+                                                        FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation));
 
         return emails;
     }
@@ -117,7 +117,7 @@ public class EmailGenerator {
         List<FeedbackSessionAttributes> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if (!fsa.isPrivateSession() && (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail())) {
+            if (fsa.isSentOpenEmail() || fsa.isSentPublishedEmail()) {
                 sessions.add(fsa);
             }
         }
@@ -237,7 +237,7 @@ public class EmailGenerator {
                 "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
                 "${submitUrl}", submitUrl,
                 "${timeStamp}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatDateTimeForSessions(timestamp, session.getTimeZone())),
+                        TimeHelper.formatDateTimeForDisplay(timestamp, session.getTimeZone())),
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
@@ -271,7 +271,7 @@ public class EmailGenerator {
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
-                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT,
+                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
@@ -314,17 +314,13 @@ public class EmailGenerator {
                                                  : new ArrayList<InstructorAttributes>();
         String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                EmailType.FEEDBACK_CLOSING.getSubject(), FEEDBACK_ACTION_SUBMIT, additionalContactInformation);
+                EmailType.FEEDBACK_CLOSING.getSubject(), FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation);
     }
 
     /**
      * Generates the feedback session closed emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSessionAttributes session) {
-
-        if (session.isPrivateSession()) {
-            return new ArrayList<>();
-        }
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         boolean isEmailNeededForStudents = false;
@@ -404,7 +400,7 @@ public class EmailGenerator {
             List<InstructorAttributes> instructors, String template, String subject) {
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template, subject,
-                FEEDBACK_ACTION_SUBMIT, additionalContactInformation);
+                FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation);
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBases(

@@ -33,7 +33,6 @@ public final class Const {
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER = "never";
 
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
@@ -314,10 +313,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_SESSIONVISIBLEATOPEN =
                 "Select this option to have the feedback session become visible "
                 + "when it is open for submissions (as selected above).";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBLENEVER =
-                "Select this option if you want the feedback session to be private. "
-                + "A private session is never visible to anyone. "
-                + "Private sessions can be used to record your own comments about others, for your own reference.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL =
                 "Please select when the responses for the feedback session will be visible to the designated recipients."
                 + "<br>You can select the response visibility for each type of user and question later.";
@@ -341,16 +336,12 @@ public final class Const {
         public static final String FEEDBACK_SESSION_INSTRUCTIONS =
                 "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> "
                 + "It will be displayed at the top of the page when users respond to the session.";
-        public static final String FEEDBACK_SESSION_STATUS_PRIVATE = "This is a private session. Nobody can see it but you.";
         public static final String FEEDBACK_SESSION_STATUS_VISIBLE = ", is visible";
         public static final String FEEDBACK_SESSION_STATUS_AWAITING = ", and is waiting to open";
         public static final String FEEDBACK_SESSION_STATUS_OPEN = ", and is open for submissions";
         public static final String FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
         public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = "The responses for this session are visible.";
         public static final String FEEDBACK_SESSION_STATUS_NOT_PUBLISHED = "The responses for this session are not visible.";
-        public static final String FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION =
-                "This feedback session is not published as it is private and only visible to you.";
-
         public static final String FEEDBACK_SESSION_INPUT_TIMEZONE =
                 "To change this, edit the course settings. <br><br>"
                 + "TEAMMATES automatically adjusts to match the current time offset in your area, "
@@ -653,6 +644,8 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS =
                 "canmodifysessioncommentinsection";
 
+        public static final String INSTRUCTOR_REMIND_STUDENT_IS_FROM = "pagenameremindstudentisfrom";
+
         public static final String COURSE_SORTING_CRITERIA = "sortby";
         public static final String COURSE_TO_LOAD = "coursetoload";
 
@@ -694,7 +687,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_PUBLISHTIME = "publishtime";
         public static final String FEEDBACK_SESSION_TIMEZONE = "timezone";
         public static final String FEEDBACK_SESSION_GRACEPERIOD = "graceperiod";
-        public static final String FEEDBACK_SESSION_TYPE = "fstype";
+        public static final String SESSION_TEMPLATE_TYPE = "sessionTemplateType";
         public static final String FEEDBACK_SESSION_SESSIONVISIBLEBUTTON = "sessionVisibleFromButton";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEBUTTON = "resultsVisibleFromButton";
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
@@ -1124,9 +1117,11 @@ public final class Const {
 
     public static class PageNames {
         public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
+        public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "instructorCourseDetailsPage";
         public static final String INSTRUCTOR_FEEDBACK_SESSIONS_PAGE = "instructorFeedbackSessionsPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
+        public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "instructorStudentListPage";
     }
 
     public static class ViewURIs {
