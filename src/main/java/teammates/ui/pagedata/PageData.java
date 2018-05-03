@@ -622,9 +622,7 @@ public class PageData {
     }
 
     public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.isPrivateSession()) {
-            return "Private";
-        } else if (session.isOpened()) {
+        if (session.isOpened()) {
             return "Open";
         } else if (session.isWaitingToOpen()) {
             return "Awaiting";
@@ -642,10 +640,6 @@ public class PageData {
     }
 
     public static String getInstructorSubmissionsTooltipForFeedbackSession(FeedbackSessionAttributes session) {
-
-        if (session.isPrivateSession()) {
-            return Const.Tooltips.FEEDBACK_SESSION_STATUS_PRIVATE;
-        }
 
         StringBuilder msg = new StringBuilder(50);
         msg.append("The feedback session has been created");
@@ -668,9 +662,7 @@ public class PageData {
     }
 
     public static String getInstructorPublishedTooltipForFeedbackSession(FeedbackSessionAttributes session) {
-        if (session.isPrivateSession()) {
-            return Const.Tooltips.FEEDBACK_SESSION_PUBLISHED_STATUS_PRIVATE_SESSION;
-        } else if (session.isPublished()) {
+        if (session.isPublished()) {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_PUBLISHED;
         } else {
             return Const.Tooltips.FEEDBACK_SESSION_STATUS_NOT_PUBLISHED;

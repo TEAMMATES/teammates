@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.google.appengine.api.utils.SystemProperty;
+import com.google.apphosting.api.ApiProxy;
 
 import teammates.common.exception.TeammatesException;
 
@@ -14,7 +15,7 @@ import teammates.common.exception.TeammatesException;
  */
 public final class Config {
 
-    /** The value of the "app.url" in build.properties file. */
+    /** The value of the application URL, or null if no server instance is running. */
     public static final String APP_URL;
 
     /** The value of the "app.gcs.bucketname" in build.properties file. */
@@ -63,13 +64,13 @@ public final class Config {
     public static final String MAILJET_SECRETKEY;
 
     static {
+        APP_URL = readAppUrl();
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
         } catch (IOException e) {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
-        APP_URL = Url.trimTrailingSlash(properties.getProperty("app.url"));
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         GCS_BUCKETNAME = properties.getProperty("app.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
@@ -107,17 +108,26 @@ public final class Config {
         return appVersion == null ? null : appVersion.split("\\.")[0].replace("-", ".");
     }
 
-    /**
-     * This method is not to be used by classes not compiled by GAE (e.g non-production codes).
-     * @return true if the system is running at development environment
-     */
-    public static boolean isDevServer() {
-        return SystemProperty.environment.value() == SystemProperty.Environment.Value.Development;
+    private static String readAppUrl() {
+        ApiProxy.Environment serverEnvironment = ApiProxy.getCurrentEnvironment();
+        if (serverEnvironment == null) {
+            return null;
+        }
+        String hostname = (String) serverEnvironment.getAttributes()
+                .get("com.google.appengine.runtime.default_version_hostname");
+        if (hostname == null) {
+            return null;
+        }
+        return (isDevServer() ? "http://" : "https://") + hostname;
+    }
+
+    private static boolean isDevServer() {
+        return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
     }
 
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
-     * The base URL will be the value of app.url in build.properties.
+     * The base URL will be the application URL.
      * {@code relativeUrl} must start with a "/".
      */
     public static AppUrl getAppUrl(String relativeUrl) {

@@ -732,7 +732,6 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -755,7 +754,6 @@
       "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -778,7 +776,6 @@
       "resultsVisibleFromTime": "2026-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 1440,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -801,7 +798,6 @@
       "resultsVisibleFromTime": "2013-04-29T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -824,7 +820,6 @@
       "resultsVisibleFromTime": "2013-04-29T23:57:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -847,7 +842,6 @@
       "resultsVisibleFromTime": "2026-04-29T23:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -870,7 +864,6 @@
       "resultsVisibleFromTime": "2026-04-29T23:00:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -880,28 +873,6 @@
       "isPublishedEmailEnabled": true
     },
     "session1InCourse2": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course2.tmt",
-      "instructions": {
-        "value": "Please please fill in the following questions."
-      },
-      "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2012-04-01T15:59:00Z",
-      "sessionVisibleFromTime": "1970-11-27T00:00:00Z",
-      "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
-      "timeZone": "Asia/Singapore",
-      "gracePeriod": 0,
-      "feedbackSessionType": "PRIVATE",
-      "sentOpenEmail": true,
-      "sentClosingEmail": false,
-      "sentClosedEmail": false,
-      "sentPublishedEmail": false,
-      "isOpeningEmailEnabled": true,
-      "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
-    },
-    "session2InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
@@ -915,7 +886,28 @@
       "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 0,
-      "feedbackSessionType": "STANDARD",
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session2InCourse2": {
+      "feedbackSessionName": "Not answerable feedback session",
+      "courseId": "idOfTypicalCourse2",
+      "creatorEmail": "instructor1@course2.tmt",
+      "instructions": {
+        "value": "Please please fill in the following questions."
+      },
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2027-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "1970-11-27T00:00:00Z",
+      "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 0,
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -938,7 +930,6 @@
       "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -1256,22 +1247,6 @@
       ]
     },
     "qn1InSession1InCourse2": {
-      "feedbackSessionName": "Private feedback session",
-      "courseId": "idOfTypicalCourse2",
-      "creatorEmail": "instructor1@course2.tmt",
-      "questionMetaData": {
-        "value": "This is a private session for myself"
-      },
-      "questionNumber": 1,
-      "questionType": "TEXT",
-      "giverType": "SELF",
-      "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 10,
-      "showResponsesTo": [],
-      "showGiverNameTo": [],
-      "showRecipientNameTo": []
-    },
-    "qn1InSession2InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
@@ -1289,7 +1264,7 @@
       "showGiverNameTo": [],
       "showRecipientNameTo": []
     },
-    "qn2InSession2InCourse2": {
+    "qn2InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "creatorEmail": "instructor1@course2.tmt",
@@ -1310,6 +1285,22 @@
       "showRecipientNameTo": [
         "INSTRUCTORS"
       ]
+    },
+    "qn1InSession2InCourse2": {
+      "feedbackSessionName": "Not answerable feedback session",
+      "courseId": "idOfTypicalCourse2",
+      "creatorEmail": "instructor1@course2.tmt",
+      "questionMetaData": {
+        "value": "This is a session for myself"
+      },
+      "questionNumber": 1,
+      "questionType": "TEXT",
+      "giverType": "SELF",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 10,
+      "showResponsesTo": [],
+      "showGiverNameTo": [],
+      "showRecipientNameTo": []
     },
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
@@ -1491,7 +1482,7 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
-    "response1ForQ1S2C2": {
+    "response1ForQ1S1C2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
       "feedbackQuestionId": "1",
@@ -1504,8 +1495,8 @@
       "giverSection": "None",
       "recipientSection": "None"
     },
-    "response1ForQ1S1C2": {
-      "feedbackSessionName": "Private feedback session",
+    "response1ForQ1S2C2": {
+      "feedbackSessionName": "Not answerable feedback session",
       "courseId": "idOfTypicalCourse2",
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "TEXT",
@@ -1582,9 +1573,9 @@
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
       }
     },
-    "comment1FromT1C1ToR1Q1S1C2": {
+    "comment1FromT1C1ToR1Q1S2C2": {
       "courseId": "idOfTypicalCourse2",
-      "feedbackSessionName": "Private feedback session",
+      "feedbackSessionName": "Not answerable feedback session",
       "feedbackQuestionId": "1",
       "giverEmail": "instructor3@course.tmt",
       "giverSection": "None",

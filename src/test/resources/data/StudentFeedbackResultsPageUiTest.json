@@ -148,7 +148,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -171,7 +170,6 @@
       "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -194,7 +192,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -217,7 +214,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -240,7 +236,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -263,7 +258,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -286,7 +280,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -309,7 +302,6 @@
       "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
-      "feedbackSessionType": "STANDARD",
       "sentOpenEmail": true,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
@@ -630,7 +622,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "creatorEmail": "SFResultsUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":2,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 1,
       "questionType": "MSQ",
@@ -655,7 +647,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "creatorEmail": "SFResultsUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"Good\",\"OK\",\"Poor\"],\"questionText\":\"Rate 3 other students' products\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":3,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"Good\",\"OK\",\"Poor\"],\"questionText\":\"Rate 3 other students' products\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 2,
       "questionType": "MSQ",
@@ -682,7 +674,7 @@
       "courseId": "SFResultsUiT.CS2104",
       "creatorEmail": "SFResultsUiT.instr@gmail.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"Good\",\"Can improve\"],\"questionText\":\"Give feedback to your team mates\",\"questionType\":\"MSQ\",\"numOfMsqChoices\":2,\"otherEnabled\":false}"
+        "value": "{\"msqChoices\":[\"Good\",\"Can improve\"],\"questionText\":\"Give feedback to your team mates\",\"questionType\":\"MSQ\",\"otherEnabled\":false}"
       },
       "questionNumber": 3,
       "questionType": "MSQ",

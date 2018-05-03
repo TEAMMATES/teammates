@@ -55,7 +55,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("NUMSCALE: new question (frame) link");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("NUMSCALE");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("NUMSCALE");
 
         assertTrue(feedbackEditPage.verifyNewNumScaleQuestionFormIsDisplayed());
     }
@@ -76,7 +76,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEqualsErrorTexts(
                 "Please enter valid options. The min/max/step cannot be empty.");
 
         ______TS("invalid options");
@@ -92,7 +92,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
 
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEqualsErrorTexts(
                 "Please enter valid options. The interval is not divisible by the specified increment.");
 
         ______TS("possible floating point error");
@@ -162,7 +162,7 @@ public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
 
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad();
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
