@@ -263,7 +263,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         BackDoor.editCourse(course);
 
         String dstSessionName = "DST Session";
-        LocalDateTime gapStart = TimeHelper.parseLocalDateTimeForSessionsForm("Fri, 30 Dec, 2011", "7", "0");
+        LocalDateTime gapStart = TimeHelper.parseDateTimeFromSessionsForm("Fri, 30 Dec, 2011", "7", "0");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.addFeedbackSession(
@@ -302,7 +302,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         newSession.setFeedbackSessionName("Session of characters12345678000000000");
         newSession.setCourseId(otherCourse.getId());
         newSession.setTimeZone(otherCourse.getTimeZone());
-        newSession.setStartTime(TimeHelper.parseInstant("2018-05-01 6:00 AM +0000"));
+        newSession.setStartTime(TimeHelper.parseInstant("2035-05-01 6:00 AM +0000"));
         newSession.setEndTime(newSession.getStartTime());
         newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -320,7 +320,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         feedbackPage.addFeedbackSession(
                 newSession.getFeedbackSessionName(), newSession.getCourseId(),
-                newSession.getEndTimeLocal(), newSession.getEndTimeLocal(), null, null,
+                newSession.getStartTimeLocal(), newSession.getEndTimeLocal(), null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
         savedSession = BackDoor.getFeedbackSession(newSession.getCourseId(), newSession.getFeedbackSessionName());
@@ -683,8 +683,10 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
     private void testJScripts() {
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+        LocalDate defaultStartDate = LocalDate.now();
+
         testSessionViewableTable();
-        testDatePickerScripts();
+        testDatePickerScripts(defaultStartDate);
     }
 
     private void testSessionViewableTable() {
@@ -710,16 +712,45 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.isDisabled(By.id("publishtime")));
     }
 
-    private void testDatePickerScripts() {
+    private void testDatePickerScripts(LocalDate defaultStartDate) {
 
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
 
-        // setup various dates
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy");
+
+        ______TS("validate visible date range before editing start date");
+
+        String maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
+
+        assertEquals(formatter.format(defaultStartDate), maxValueOfVisibleDate);
+
+        ______TS("changing visible date to start date does not affect visible time if start time is not earlier");
+
+        feedbackPage.setStartTime(24);
+        feedbackPage.setVisibleTime(1);
+        String lateStartTime = feedbackPage.getStartTime();
+        String earlyVisibleTime = feedbackPage.getVisibleTime();
+        assertTrue(Integer.parseInt(lateStartTime) >= Integer.parseInt(earlyVisibleTime));
+
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, defaultStartDate);
+        assertTrue(Integer.parseInt(feedbackPage.getStartTime()) >= Integer.parseInt(feedbackPage.getVisibleTime()));
+
+        ______TS("changing visible date to start date affects visible time if start time is earlier");
+
+        feedbackPage.setStartTime(1);
+        feedbackPage.setVisibleTime(24);
+        String earlyStartTime = feedbackPage.getStartTime();
+        String lateVisibleTime = feedbackPage.getVisibleTime();
+        assertTrue(Integer.parseInt(earlyStartTime) < Integer.parseInt(lateVisibleTime));
+
+        feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, defaultStartDate);
+        assertEquals(feedbackPage.getStartTime(), feedbackPage.getVisibleTime());
+
+        // setup various dates for later test cases
         LocalDate initialDateTime = LocalDate.of(2014, Month.APRIL, 16);
 
-        // fill in defaut values
+        // fill in default values for later test cases
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, initialDateTime);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, initialDateTime);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, initialDateTime);
@@ -741,7 +772,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(formatter.format(decreasedStartDate), valueOfVisibleDate);
 
-        String maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
+        maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(formatter.format(decreasedStartDate), maxValueOfVisibleDate);
 
         String minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
@@ -932,8 +963,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName, newSession.getCourseId(),
-                TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 01 Apr, 2035", "22", "00"),
-                TimeHelper.parseLocalDateTimeForSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
+                TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Apr, 2035", "22", "00"),
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
                 null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
@@ -949,8 +980,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName, newSession.getCourseId(),
-                TimeHelper.parseLocalDateTimeForSessionsForm("Sun, 01 Apr, 2035", "10", "00"),
-                TimeHelper.parseLocalDateTimeForSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
+                TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Apr, 2035", "10", "00"),
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
                 null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
