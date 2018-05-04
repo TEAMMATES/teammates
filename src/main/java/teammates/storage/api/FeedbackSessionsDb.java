@@ -118,11 +118,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                 .filter("resultsVisibleFromTime >", TimeHelper.convertInstantToDate(start))
                 .filter("resultsVisibleFromTime <=", TimeHelper.convertInstantToDate(end))
                 .list();
-        List<FeedbackSession> resultsVisibleFromTimeEntities = new ArrayList<>(resultsVisibleEntities);
-        for (FeedbackSession session : resultsVisibleFromTimeEntities) {
-            FeedbackSessionAttributes fs = makeAttributes(session);
-            list.add(fs);
-        }
+        list.addAll(makeAttributes(resultsVisibleEntities));
 
         return list;
     }
@@ -130,7 +126,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     *
      * @return Null if not found.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
@@ -144,7 +139,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     *
      * @return An empty list if no sessions are found for the given course.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
@@ -185,10 +179,10 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Updates the feedback session identified by {@code newAttributes.feedbackSesionName}
      * and {@code newAttributes.courseId}.
      * For the remaining parameters, the existing value is preserved
-     * if the parameter is null (due to 'keep existing' policy).<br>
+     *   if the parameter is null (due to 'keep existing' policy).<br>
      * Preconditions: <br>
      * * {@code newAttributes.feedbackSesionName} and {@code newAttributes.courseId}
-     * are non-null and correspond to an existing feedback session. <br>
+     *  are non-null and correspond to an existing feedback session. <br>
      */
     public void updateFeedbackSession(FeedbackSessionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {

@@ -19,13 +19,15 @@ public class FeedbackResendLinksAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
-    private static UserType userType;
+    private static boolean shouldSkipVerification;
 
     @Override
     protected void authenticateUser() {
         // This feature is for checking whether the userType is an Admin.
         // If so, the Recaptcha verification in the execution step will be skipped.
-        userType = gateKeeper.getCurrentUser();
+        if (gateKeeper.getCurrentUser() != null) {
+            shouldSkipVerification = gateKeeper.getCurrentUser().isAdmin;
+        }
     }
 
     @Override
@@ -39,18 +41,23 @@ public class FeedbackResendLinksAction extends Action {
                     + "<br>Email: " + userEmailToResend;
             String error = validator.getInvalidityInfoForEmail(userEmailToResend);
 
-            if (error.isEmpty() && recaptchaResponse.isEmpty() && (userType == null || !userType.isAdmin)) {
-                error = Const.StatusMessages.RECAPTCHA_VALIDATION_FAILED;
+            if (!error.isEmpty()) {
+                statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
+                PageData data = new FeedbackResendLinksPageData(account, sessionToken, error);
+                return createAjaxResult(data);
             }
 
-            if (error.isEmpty()) {
-                EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(userEmailToResend);
-                emailSender.sendEmail(email);
-                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT,
-                        StatusMessageColor.SUCCESS));
-            } else {
+            if (recaptchaResponse.isEmpty() && !shouldSkipVerification) {
+                error = Const.StatusMessages.RECAPTCHA_VALIDATION_FAILED;
                 statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
+                PageData data = new FeedbackResendLinksPageData(account, sessionToken, error);
+                return createAjaxResult(data);
             }
+
+            EmailWrapper email = new EmailGenerator().generateFeedbackSessionResendLinksEmail(userEmailToResend);
+            emailSender.sendEmail(email);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT,
+                    StatusMessageColor.SUCCESS));
 
             PageData data = new FeedbackResendLinksPageData(account, sessionToken, error);
 

@@ -1220,7 +1220,7 @@ public final class Const {
         public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
         public static final String EMAIL_DRAFT_SAVED = "Email draft has been saved";
         public static final String RECAPTCHA_VALIDATION_FAILED = "Recaptcha validation failed. "
-                + "Please ensure that you click \"I'm not a robot\".";
+                + "Please ensure that you clicked \"I'm not a robot\".";
 
         public static final String NOT_A_RECEIVER_LIST_FILE =
                 "The file that you have uploaded is not a receiver list file. ";

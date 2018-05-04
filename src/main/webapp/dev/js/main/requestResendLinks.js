@@ -12,14 +12,16 @@ function hideComponents() {
 $(document).ready(() => {
     $('#requestForm').submit(() => {
         const $statusMessage = $('#statusMessagesToUser');
-        $statusMessage.html('<img src="/images/ajax-loader.gif">');
-        $statusMessage.css('display', 'block');
 
         $.ajax({
             url: '/page/resendLinks',
             type: 'POST',
             dataType: 'json',
             data: $('#requestForm').serialize(),
+            beforeSend() {
+                $statusMessage.html('<img src="/images/ajax-loader.gif">');
+                $statusMessage.css('display', 'block');
+            },
             success: (data) => {
                 if (data.error.length === 0) {
                     hideComponents();
