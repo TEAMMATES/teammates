@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -35,7 +34,6 @@ public class FeedbackResendLinksAction extends Action {
         try {
             FieldValidator validator = new FieldValidator();
             String userEmailToResend = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-            String recaptchaResponse = getNonNullRequestParamValue(Const.ParamsNames.RECAPTCHA_RESPONSE);
 
             statusToAdmin = "Resend links requested"
                     + "<br>Email: " + userEmailToResend;
@@ -46,6 +44,8 @@ public class FeedbackResendLinksAction extends Action {
                 PageData data = new FeedbackResendLinksPageData(account, sessionToken, error);
                 return createAjaxResult(data);
             }
+
+            String recaptchaResponse = getNonNullRequestParamValue(Const.ParamsNames.RECAPTCHA_RESPONSE);
 
             if (recaptchaResponse.isEmpty() && !shouldSkipVerification) {
                 error = Const.StatusMessages.RECAPTCHA_VALIDATION_FAILED;
