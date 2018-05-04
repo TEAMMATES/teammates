@@ -1044,7 +1044,7 @@
       "responseMetaData": {
         "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
       },
-      "giverSection": "Section 2",
+      "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
     "feedbackResponseForStudentSessionQn5.2": {
@@ -1070,7 +1070,7 @@
       "responseMetaData": {
         "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
       },
-      "giverSection": "Section 2",
+      "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
     "feedbackResponseForStudentSessionQn6.2": {
