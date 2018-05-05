@@ -500,7 +500,6 @@ function enableQuestion(questionNum) {
     toggleConstSumOptionsRadioButton(questionNum);
     toggleConstSumOptionsCheckBox(questionNum);
 
-    $(`#constSumOption_distributeUnevenly-${questionNum}`).prop('disabled', false);
     if ($(`#constSum_UnevenDistribution-${questionNum}`).prop('checked')) {
         $(`#constSumDistributePointsSelect-${questionNum}`).prop('disabled', false);
     } else {
