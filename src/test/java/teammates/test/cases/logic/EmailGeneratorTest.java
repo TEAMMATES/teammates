@@ -186,22 +186,22 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
 
-        FeedbackSessionAttributes privateSession =
-                fsLogic.getFeedbackSession("Private feedback session", "idOfTypicalCourse2");
+        FeedbackSessionAttributes notAnswerableSession =
+                fsLogic.getFeedbackSession("Not answerable feedback session", "idOfTypicalCourse2");
 
-        emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(privateSession);
+        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
     }

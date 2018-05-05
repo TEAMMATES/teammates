@@ -66,12 +66,13 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         assertEquals(courseId, paramMap.get(ParamsNames.COURSE_ID)[0]);
         assertEquals(anotherInstructorOfCourse1.email, paramMap.get(ParamsNames.INSTRUCTOR_EMAIL)[0]);
 
-        ______TS("Typical case: Send email to remind a student to register for the course");
+        ______TS("Typical case: Send email to remind a student to register for the course from course details page");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+                Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM, Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE
         };
 
         remindAction = getAction(submissionParams);
@@ -81,6 +82,24 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
         assertFalse(redirectResult.isError);
         assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
                      redirectResult.getStatusMessage());
+
+        expectedLogSegment = "Registration Key sent to the following users "
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"
+                + student1InCourse1.name + "<span class=\"bold\"> ("
+                + student1InCourse1.email + ")" + "</span>.<br>";
+        AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
+
+        ______TS("Typical case: Send email to remind a student to register for the course from student list page");
+
+        submissionParams[5] = Const.PageNames.INSTRUCTOR_STUDENT_LIST_PAGE;
+
+        remindAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(remindAction);
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE, redirectResult.destination);
+        assertFalse(redirectResult.isError);
+        assertEquals(Const.StatusMessages.COURSE_REMINDER_SENT_TO + student1InCourse1.email,
+                redirectResult.getStatusMessage());
 
         expectedLogSegment = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br>"

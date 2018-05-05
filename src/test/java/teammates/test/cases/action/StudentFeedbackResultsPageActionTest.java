@@ -9,7 +9,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -90,25 +89,6 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.", exception.getMessage());
         }
-
-        ______TS("cannot access a private session");
-
-        FeedbackSessionsLogic.inst().publishFeedbackSession(session1InCourse1);
-
-        session1InCourse1.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
-        FeedbackSessionsLogic.inst().updateFeedbackSession(session1InCourse1);
-
-        pageAction = getAction(submissionParams);
-
-        try {
-            getShowPageResult(pageAction);
-        } catch (UnauthorizedAccessException exception) {
-            assertEquals("Feedback session [First feedback session] is not accessible to student "
-                         + "[" + student1InCourse1.email + "]", exception.getMessage());
-        }
-
-        session1InCourse1.setFeedbackSessionType(FeedbackSessionType.STANDARD);
-        FeedbackSessionsLogic.inst().updateFeedbackSession(session1InCourse1);
 
         ______TS("access a empty session");
 

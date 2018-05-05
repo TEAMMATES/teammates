@@ -13,7 +13,6 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentUpdateStatus;
@@ -683,7 +682,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
                 .withTimeZone(ZoneId.of("Asia/Singapore"))
                 .withGracePeriodMinutes(0)
-                .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false)
                 .withClosingEmailEnabled(false)
                 .withPublishedEmailEnabled(false)
