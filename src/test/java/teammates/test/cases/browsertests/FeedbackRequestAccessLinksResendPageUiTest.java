@@ -74,9 +74,14 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
                 validator.getInvalidityInfoForEmail(emailAddress));
     }
 
-    private void testFailedRecaptchaVerification() {
+    private void testFailedRecaptchaVerification() throws IOException {
         ______TS("Recaptcha Verification Failed");
 
+        AdminHomePage accountHomePage = loginAdmin();
+        accountHomePage.verifyHtml("/adminHomePage.html");
+        logout();
+
+        requestResendAccessLinksPage = getHomePage().clickRequestResendLink();
         requestResendAccessLinksPage.fillEmailAddress(studentEmailAddress);
         requestResendAccessLinksPage.clickSubmitButton();
         requestResendAccessLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
@@ -86,8 +91,7 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
     private void testValidEmailWithFeedbackSessionsInRecentSixMonths() throws IOException {
         ______TS("Valid Email Address, user with email has feedback sessions over the recent six months");
 
-        AppUrl homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
-        AdminHomePage accountHomePage = loginAdminToPage(homeUrl, AdminHomePage.class);
+        AdminHomePage accountHomePage = loginAdmin();
         accountHomePage.verifyHtml("/adminHomePage.html");
 
         requestResendAccessLinksPage = getHomePage().clickRequestResendLink();
