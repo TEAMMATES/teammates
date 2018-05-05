@@ -9,6 +9,14 @@
   <h1>Help for Instructors</h1>
   <a name="#top"></a>
   <div id="contentHolder">
+    <p>
+      Have questions about how to use TEAMMATES? This page answers some frequently asked questions.<br>
+      If you are new to TEAMMATES, our <a href="/gettingStarted.jsp">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.<br>
+      If you have any remaining questions, don't hesitate to <a href="mailto:teammates@comp.nus.edu.sg">email us</a>. We respond within 24 hours.
+    </p>
+    <p>
+      Browse questions by topic:
+    </p>
     <ul>
       <li>
         <a href="#students">Students</a>
