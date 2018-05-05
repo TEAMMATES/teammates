@@ -78,7 +78,6 @@ public class InstructorFeedbackResultsPageDataGenerator {
         private String creatorEmail = "CFResultsScT.instr@gmail.tmt";
         private String endTime = "2026-04-30 11:59 PM UTC";
         private String feedbackSessionName = "Open Session";
-        private String feedbackSessionType = "STANDARD";
         private int gracePeriod = 10;
         private Metadata instructions = new Metadata("Instructions for Open session");
         private String isClosingEmailEnabled = "true";

@@ -66,8 +66,8 @@ public class InstructorCourseDetailsPageData extends PageData {
             boolean isAllowedToModifyStudent = currentInstructor.isAllowedForPrivilege(section.name,
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             this.sections.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
-                                                         isAllowedToModifyStudent,
-                                                         emailPhotoUrlMapping, account.googleId, getSessionToken()));
+                    isAllowedToModifyStudent, emailPhotoUrlMapping, account.googleId, getSessionToken(),
+                    Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE));
         }
         if (sections.size() == 1) {
             StudentListSectionData section = sections.get(0);

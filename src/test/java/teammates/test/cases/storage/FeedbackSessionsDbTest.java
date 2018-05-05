@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -114,7 +113,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         FeedbackSessionAttributes expected =
                 dataBundle.feedbackSessions.get("session1InCourse2");
         FeedbackSessionAttributes actual =
-                fsDb.getFeedbackSession("idOfTypicalCourse2", "Private feedback session");
+                fsDb.getFeedbackSession("idOfTypicalCourse2", "Instructor feedback session");
 
         assertEquals(expected.toString(), actual.toString());
 
@@ -198,7 +197,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 
-        assertEquals(7, fsaList.size());
+        assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosingEmail());
             assertTrue(fsa.isClosingEmailEnabled());
@@ -212,7 +211,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
-        assertEquals(7, fsaList.size());
+        assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosedEmail());
             assertTrue(fsa.isClosingEmailEnabled());
@@ -226,7 +225,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
 
-        assertEquals(9, fsaList.size());
+        assertEquals(10, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
             assertTrue(fsa.isPublishedEmailEnabled());
@@ -284,7 +283,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.com")
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withCreatedTime(Instant.now())
                 .withStartTime(Instant.now())
                 .withEndTime(Instant.now())
