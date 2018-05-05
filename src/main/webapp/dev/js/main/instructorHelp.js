@@ -19,8 +19,8 @@ function openAnchorPanel() {
  */
 function handleCollapseLinks() {
     $('.collapse-link').on('click', function () {
-        const x = this.getAttribute('data-target');
-        $(x).collapse('show');
+        const targetPanel = this.getAttribute('data-target');
+        $(targetPanel).collapse('show');
     });
 }
 
