@@ -1,8 +1,9 @@
 /**
- * If the incoming link to this site targets a panel,
- * expands the targeted collapsed panel
+ * If the incoming link to this page targets a panel in its
+ * URL hash, e.g. "instructorHelp.jsp#question-essay",
+ * then show the panel specified by the URL hash
  */
-function openAnchorPanel() {
+function syncPanelCollapseWithUrlHash() {
     if (window.location.hash) {
         const target = $('body').find(window.location.hash);
         if ($(target).hasClass('panel')) {
@@ -13,11 +14,12 @@ function openAnchorPanel() {
 }
 
 /**
+ * Show the panel specified by the data-target when any
+ * .collapse-link element is clicked.
+ *
  * To be used by links on the instructorHelp.jsp page itself.
- * If a link is of the class 'collapse-link', expands the
- * collapse with the ID 'data-target'.
  */
-function handleCollapseLinks() {
+function bindPanelCollapseLinksAndAnchor() {
     $('.collapse-link').on('click', function () {
         const targetPanel = this.getAttribute('data-target');
         $(targetPanel).collapse('show');
@@ -25,6 +27,6 @@ function handleCollapseLinks() {
 }
 
 $(document).ready(() => {
-    openAnchorPanel();
-    handleCollapseLinks();
+    syncPanelCollapseWithUrlHash();
+    bindPanelCollapseLinksAndAnchor();
 });
