@@ -18,15 +18,9 @@ public class FeedbackResendLinksAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
-    private static boolean shouldSkipVerification;
-
     @Override
     protected void authenticateUser() {
-        // This feature is for checking whether the userType is an Admin.
-        // If so, the Recaptcha verification in the execution step will be skipped.
-        if (gateKeeper.getCurrentUser() != null) {
-            shouldSkipVerification = gateKeeper.getCurrentUser().isAdmin;
-        }
+        // This feature does not require authentication
     }
 
     @Override
@@ -45,6 +39,10 @@ public class FeedbackResendLinksAction extends Action {
                 return createAjaxResult(data);
             }
 
+            boolean shouldSkipVerification = false;
+            if (gateKeeper.getCurrentUser() != null) {
+                shouldSkipVerification = gateKeeper.getCurrentUser().isAdmin;
+            }
             String recaptchaResponse = getNonNullRequestParamValue(Const.ParamsNames.RECAPTCHA_RESPONSE);
 
             if (recaptchaResponse.isEmpty() && !shouldSkipVerification) {
