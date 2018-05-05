@@ -269,6 +269,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
+        assertEquals("20", feedbackEditPage.getConstSumMinOptionInput(1));
+
         ______TS("CONST SUM: edit to max option constraint -> edit sucessfully");
 
         feedbackEditPage.clickEditQuestionButton(1);
@@ -284,6 +286,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        assertEquals("80", feedbackEditPage.getConstSumMaxOptionInput(1));
     }
 
     @Override

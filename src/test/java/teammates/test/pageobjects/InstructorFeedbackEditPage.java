@@ -1497,9 +1497,19 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
 
+    public String getConstSumMinOptionInput(int qnIndex) {
+        WebElement constSumMinOptionInput = browser.driver.findElement(By.id("constSumPointsMin-" + qnIndex));
+        return constSumMinOptionInput.getAttribute("value");
+    }
+
     public void fillConstSumMinOptionInput(int qnIndex, String minValue) {
         WebElement constSumMinOptionInput = browser.driver.findElement(By.id("constSumPointsMin-" + qnIndex));
         fillTextBox(constSumMinOptionInput, minValue);
+    }
+
+    public String getConstSumMaxOptionInput(int qnIndex) {
+        WebElement constSumMaxOptionInput = browser.driver.findElement(By.id("constSumPointsMax-" + qnIndex));
+        return constSumMaxOptionInput.getAttribute("value");
     }
 
     public void fillConstSumMaxOptionInput(int qnIndex, String maxValue) {
