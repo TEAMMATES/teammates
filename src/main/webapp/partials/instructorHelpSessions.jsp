@@ -5,10 +5,8 @@
   <h3>Setting Up Sessions</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="session-tips">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-tips-body">Tips for conducting team peer evaluation sessions</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-tips-body">
+        <h3 class="panel-title">Tips for conducting team peer evaluation sessions</h3>
       </div>
       <div id="session-tips-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -17,10 +15,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="session-create">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-create-body">How do I create and schedule a new feedback session?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-create-body">
+        <h3 class="panel-title">How do I create and schedule a new feedback session?</h3>
       </div>
       <div id="session-create-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -474,10 +470,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="session-questions">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-questions-body">How do I add questions to a session?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-questions-body">
+        <h3 class="panel-title">How do I add questions to a session?</h3>
       </div>
       <div id="session-questions-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -753,10 +747,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="session-preview">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-preview-body">How do I preview a session?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-preview-body">
+        <h3 class="panel-title">How do I preview a session?</h3>
       </div>
       <div id="session-preview-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -817,10 +809,8 @@
   <h3>Managing Sessions</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="session-cannot-submit">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-cannot-submit-body">What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-cannot-submit-body">
+        <h3 class="panel-title">What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?</h3>
       </div>
       <div id="session-cannot-submit-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -848,10 +838,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="session-view-results">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-view-results-body">How do I view the results of my session?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-view-results-body">
+        <h3 class="panel-title">How do I view the results of my session?</h3>
       </div>
       <div id="session-view-results-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -1437,10 +1425,8 @@
   <h3>Adding Comments to Responses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="session-add-comments">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-add-comments-body">How do I create a comment on a response?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-add-comments-body">
+        <h3 class="panel-title">How do I create a comment on a response?</h3>
       </div>
       <div id="session-add-comments-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -1591,10 +1577,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="session-edit-delete-comments">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-edit-delete-comments-body">How do I edit or delete a comment on a response?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-edit-delete-comments-body">
+        <h3 class="panel-title">How do I edit or delete a comment on a response?</h3>
       </div>
       <div id="session-edit-delete-comments-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -1623,10 +1607,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="session-search">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#session-search-body">How do I search for a feedback session question, response or comment on a response?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#session-search-body">
+        <h3 class="panel-title">How do I search for a feedback session question, response or comment on a response?</h3>
       </div>
       <div id="session-search-body" class="panel-collapse collapse">
         <div class="panel-body">

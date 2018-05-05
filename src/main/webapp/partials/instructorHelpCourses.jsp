@@ -5,10 +5,8 @@
   <h3>Enrolling Students in Courses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="course-add-students">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-add-students-body">How do I add students to a course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-add-students-body">
+        <h3 class="panel-title">How do I add students to a course?</h3>
       </div>
       <div id="course-add-students-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -30,10 +28,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-size">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-size-body">Is there a size limit for a course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-size-body">
+        <h3 class="panel-title">Is there a size limit for a course?</h3>
       </div>
       <div id="course-size-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -45,10 +41,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-teams">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-teams-body">What should I do if my course doesn’t have teams?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-teams-body">
+        <h3 class="panel-title">What should I do if my course doesn’t have teams?</h3>
       </div>
       <div id="course-teams-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -60,10 +54,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-sections">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-sections-body">What are sections meant for?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-sections-body">
+        <h3 class="panel-title">What are sections meant for?</h3>
       </div>
       <div id="course-sections-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -80,10 +72,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-enroll-sections">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-enroll-sections-body">How do I enroll students into sections?</a>
-        </h3>
+      <div class="panel-heading" data-toggle="collapse" href="#course-enroll-sections-body">
+        <h3 class="panel-title">How do I enroll students into sections?</h3>
       </div>
       <div id="course-enroll-sections-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -98,10 +88,8 @@
   <h3>Adding Instructors to Courses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="course-add-instructor">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-add-instructor-body">How do I add instructors to my course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-add-instructor-body">
+        <h3 class="panel-title">How do I add instructors to my course?</h3>
       </div>
       <div id="course-add-instructor-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -281,10 +269,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-edit-instructor">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-edit-instructor-body">How do I edit the information of an instructor in my course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-edit-instructor-body">
+        <h3 class="panel-title">How do I edit the information of an instructor in my course?</h3>
       </div>
       <div id="course-edit-instructor-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -313,10 +299,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-instructor-access">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-instructor-access-body">How do I set an instructor's access level?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-instructor-access-body">
+        <h3 class="panel-title">How do I set an instructor's access level?</h3>
       </div>
       <div id="course-instructor-access-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -346,10 +330,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-custom-instructor-access">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-custom-instructor-access-body">How do I set custom privileges for an instructor?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-custom-instructor-access-body">
+        <h3 class="panel-title">How do I set custom privileges for an instructor?</h3>
       </div>
       <div id="course-custom-instructor-access-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -612,10 +594,8 @@
   <h3>Managing Courses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="course-view-students">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-view-students-body">How do I view a list of students in a course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-view-students-body">
+        <h3 class="panel-title">How do I view a list of students in a course?</h3>
       </div>
       <div id="course-view-students-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -638,10 +618,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-change-student-section">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-change-student-section-body">How do I change a student's section?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-change-student-section-body">
+        <h3 class="panel-title">How do I change a student's section?</h3>
       </div>
       <div id="course-change-student-section-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -667,10 +645,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-disappear">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-disappear-body">What should I do if a student says his/her courses have disappeared from the system?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-disappear-body">
+        <h3 class="panel-title">What should I do if a student says his/her courses have disappeared from the system?</h3>
       </div>
       <div id="course-disappear-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -682,10 +658,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-delete-students">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-delete-students-body">How do I delete students from a course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-delete-students-body">
+        <h3 class="panel-title">How do I delete students from a course?</h3>
       </div>
       <div id="course-delete-students-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -710,10 +684,8 @@
   <h3>Archiving Courses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="course-archive">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-archive-body">How do I archive a course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-archive-body">
+        <h3 class="panel-title">How do I archive a course?</h3>
       </div>
       <div id="course-archive-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -774,10 +746,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-view-archived">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-view-archived-body">How do I view courses I have archived?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-view-archived-body">
+        <h3 class="panel-title">How do I view courses I have archived?</h3>
       </div>
       <div id="course-view-archived-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -817,10 +787,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-unarchive">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#course-unarchive-body">How do I unarchive an archived course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#course-unarchive-body">
+        <h3 class="panel-title">How do I unarchive an archived course?</h3>
       </div>
       <div id="course-unarchive-body" class="panel-collapse collapse">
         <div class="panel-body">

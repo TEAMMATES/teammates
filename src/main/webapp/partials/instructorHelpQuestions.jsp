@@ -4,10 +4,8 @@
 <div id="contentHolder">
   <div class="panel-group">
     <div class="panel panel-default" id="question-essay">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-essay-body">Essay Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-essay-body">
+        <h3 class="panel-title">Essay Questions</h3>
       </div>
       <div id="question-essay-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -338,10 +336,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-mcq">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-mcq-body">Multiple Choice (Single Answer) Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-mcq-body">
+        <h3 class="panel-title">Multiple Choice (Single Answer) Questions</h3>
       </div>
       <div id="question-mcq-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -952,10 +948,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-msq">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-msq-body">Multiple Choice (Multiple Answers) Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-msq-body">
+        <h3 class="panel-title">Multiple Choice (Multiple Answers) Questions</h3>
       </div>
       <div id="question-msq-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -968,10 +962,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-numscale">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-numscale-body">Numerical Scale Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-numscale-body">
+        <h3 class="panel-title">Numerical Scale Questions</h3>
       </div>
       <div id="question-numscale-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -1522,10 +1514,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-constsum-options">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-constsum-options-body">Distribute Points (Among Options) Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-constsum-options-body">
+        <h3 class="panel-title">Distribute Points (Among Options) Questions</h3>
       </div>
       <div id="question-constsum-options-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -2174,10 +2164,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-constsum-recipients">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-constsum-recipients-body">Distribute Points (Among Recipients) Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-constsum-recipients-body">
+        <h3 class="panel-title">Distribute Points (Among Recipients) Questions</h3>
       </div>
       <div id="question-constsum-recipients-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -2667,10 +2655,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-contrib">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-contrib-body">Team Contribution Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-contrib-body">
+        <h3 class="panel-title">Team Contribution Questions</h3>
       </div>
       <div id="question-contrib-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -3561,10 +3547,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-rubric">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-rubric-body">Rubric Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-rubric-body">
+        <h3 class="panel-title">Rubric Questions</h3>
       </div>
       <div id="question-rubric-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -4392,10 +4376,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-rank-options">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-rank-options-body">Rank (Options) Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-rank-options-body">
+        <h3 class="panel-title">Rank (Options) Questions</h3>
       </div>
       <div id="question-rank-options-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -4825,10 +4807,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="question-rank-recipients">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#question-rank-recipients-body">Rank (Recipients) Questions</a>
-        </h4>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#question-rank-recipients-body">
+        <h3 class="panel-title">Rank (Recipients) Questions</h3>
       </div>
       <div id="question-rank-recipients-body" class="panel-collapse collapse">
         <div class="panel-body">

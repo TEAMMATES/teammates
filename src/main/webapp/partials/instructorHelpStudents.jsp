@@ -5,10 +5,8 @@
   <h3>Student Records</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="student-view-profile">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#student-view-profile-body">How do I view a student's student profile?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#student-view-profile-body">
+        <h3 class="panel-title">How do I view a student's student profile?</h3>
       </div>
       <div id="student-view-profile-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -159,10 +157,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="student-edit-profile">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#student-edit-profile-body">How do I edit a student's student profile?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#student-edit-profile-body">
+        <h3 class="panel-title">How do I edit a student's student profile?</h3>
       </div>
       <div id="student-edit-profile-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -230,10 +226,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="student-view-responses">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#student-view-responses-body">How do I view all the responses a student has given and received?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#student-view-responses-body">
+        <h3 class="panel-title">How do I view all the responses a student has given and received?</h3>
       </div>
       <div id="student-view-responses-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -255,10 +249,8 @@
   <h3>Finding Students</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="student-search">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#student-search-body">How do I search for a student in my course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#student-search-body">
+        <h3 class="panel-title">How do I search for a student in my course?</h3>
       </div>
       <div id="student-search-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -555,10 +547,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="student-email">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#student-email-body">How do I email a student or students in my course?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#student-email-body">
+        <h3 class="panel-title">How do I email a student or students in my course?</h3>
       </div>
       <div id="student-email-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -580,10 +570,8 @@
   <h3>Student Accounts</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="student-google-account">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#student-google-account-body">Is it compulsory for students to use Google accounts?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#student-google-account-body">
+        <h3 class="panel-title">Is it compulsory for students to use Google accounts?</h3>
       </div>
       <div id="student-google-account-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -596,10 +584,8 @@
       </div>
     </div>
     <div class="panel panel-default" id="student-change-google-account">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a data-toggle="collapse" href="#student-change-google-account-body">How do I change the Google ID associated with a student?</a>
-        </h3>
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" href="#student-change-google-account-body">
+        <h3 class="panel-title">How do I change the Google ID associated with a student?</h3>
       </div>
       <div id="student-change-google-account-body" class="panel-collapse collapse">
         <div class="panel-body">
