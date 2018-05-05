@@ -229,9 +229,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         idMap.put("idOfInstructor3", false);
 
         for (InstructorAttributes i : instructors) {
-            if (idMap.containsKey(i.googleId)) {
-                idMap.put(i.googleId, true);
-            }
+            idMap.computeIfPresent(i.googleId, (key, value) -> true);
         }
 
         assertTrue(idMap.get("idOfInstructor1OfCourse1").booleanValue());
