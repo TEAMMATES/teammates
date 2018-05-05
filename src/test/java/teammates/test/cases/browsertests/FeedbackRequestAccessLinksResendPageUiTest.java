@@ -76,11 +76,6 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
     private void testFailedRecaptchaVerification() throws IOException {
         ______TS("Recaptcha Verification Failed");
 
-        AdminHomePage accountHomePage = loginAdmin();
-        accountHomePage.verifyHtml("/adminHomePage.html");
-        logout();
-
-        requestResendAccessLinksPage = getHomePage().clickRequestResendLink();
         requestResendAccessLinksPage.fillEmailAddress(studentEmailAddress);
         requestResendAccessLinksPage.clickSubmitButton();
         requestResendAccessLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
@@ -98,5 +93,8 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
         requestResendAccessLinksPage.clickSubmitButton();
         requestResendAccessLinksPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_SESSION_ACCESS_LINKS_RESENT);
+
+        loginAdmin();
+        logout();
     }
 }
