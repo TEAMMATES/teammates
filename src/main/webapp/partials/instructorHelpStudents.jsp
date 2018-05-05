@@ -156,11 +156,11 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default" id="student-edit-profile">
-      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#student-edit-profile-body">
-        <h3 class="panel-title">How do I edit a student's student profile?</h3>
+    <div class="panel panel-default" id="student-edit-details">
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#student-edit-details-body">
+        <h3 class="panel-title">How do I edit a student's details after enrolling the student?</h3>
       </div>
-      <div id="student-edit-profile-body" class="panel-collapse collapse">
+      <div id="student-edit-details-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To edit the name, section, team, contact email, or instructor comments of Student A from Course B:
@@ -179,6 +179,9 @@
               Click <button class="btn btn-primary btn-s">Save Changes</button> to save your changes to Student A's profile.
             </li>
           </ol>
+          <p>
+            Note that moving a student to a different team (i.e. changing the student's Team ID) will change the student's team in all existing sessions in the course.
+          </p>
           <div class="bs-example">
             <div class="panel panel-primary" id="studentEditProfile">
               <div class="panel-body fill-plain">

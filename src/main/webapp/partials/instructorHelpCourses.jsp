@@ -634,7 +634,7 @@
               Click the <button class="btn btn-default btn-xs">Edit</button> button in the last column of the row corresponding to Student A.
             </li>
             <li>
-              A new page will open that allows you to <a class="collapse-link" data-target="#student-edit-profile-body" href="#student-edit-profile">edit the student's profile</a>, including a field to edit the student's section.<br>
+              A new page will open that allows you to <a class="collapse-link" data-target="#student-edit-details-body" href="#student-edit-details">edit the student's profile</a>, including a field to edit the student's section.<br>
             </li>
             <li>
               After editing the section name, click <button class="btn btn-primary btn-s">Save Changes</button> to confirm Student A's new section.

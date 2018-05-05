@@ -224,7 +224,7 @@
         <a href="/instructorHelp.jsp#student-view-profile" target="_blank" rel="noopener noreferrer">View a student's profile</a> and <a href="/instructorHelp.jsp#student-view-responses" target="_blank" rel="noopener noreferrer">all past records of a student</a>: view the profile that any enrolled student has written for him/herself, and see in one place all submissions given/received by a student. Handy for examining how a student progressed through a course.
       </li>
       <li>
-        <a href="/instructorHelp.jsp#student-edit-profile" target="_blank" rel="noopener noreferrer">Edit a student's data</a>: change a student's registered name, section or team name, or email address. You can also note down comments on students, for example to inform other instructors of information about a student that they should take note of.
+        <a href="/instructorHelp.jsp#student-edit-details" target="_blank" rel="noopener noreferrer">Edit a student's data</a>: change a student's registered name, section or team name, or email address. You can also note down comments on students, for example to inform other instructors of information about a student that they should take note of.
       </li>
       <li>
         <a href="/instructorHelp.jsp#student-email" target="_blank" rel="noopener noreferrer">Email a group of students</a>: contact students regarding their feedback responses, or the course in general. Also handy for locating the email address of past students.
