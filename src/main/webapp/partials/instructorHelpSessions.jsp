@@ -806,7 +806,7 @@
       </div>
     </div>
   </div>
-  <h3>Managing Sessions</h3>
+  <h3>Managing Session Responses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="session-cannot-submit">
       <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#session-cannot-submit-body">
@@ -1418,6 +1418,26 @@
             </div>
 
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" id="session-view-responses">
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#session-view-responses-body">
+        <h3 class="panel-title">How do I view all the responses a student has given and received?</h3>
+      </div>
+      <div id="student-view-responses-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            To view the responses that Student A from Course B has given and received:
+          </p>
+          <ol>
+            <li>
+              Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+            </li>
+            <li>
+              Click <button class="btn btn-xs btn-default">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
+            </li>
+          </ol>
         </div>
       </div>
     </div>
