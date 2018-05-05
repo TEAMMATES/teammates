@@ -28,9 +28,9 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     public void classSetup() {
         ZoneId timeZone = ZoneId.of("Asia/Singapore");
         startTime = TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelper.combineDateTime("Mon, 09 May, 2016", "1000"), timeZone);
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 09 May, 2016", "10", "0"), timeZone);
         endTime = TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelper.combineDateTime("Tue, 09 May, 2017", "1000"), timeZone);
+                TimeHelper.parseDateTimeFromSessionsForm("Tue, 09 May, 2017", "10", "0"), timeZone);
 
         fsa = FeedbackSessionAttributes
                 .builder("", "", "")
