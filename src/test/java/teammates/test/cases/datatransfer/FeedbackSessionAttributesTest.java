@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
@@ -29,9 +28,9 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     public void classSetup() {
         ZoneId timeZone = ZoneId.of("Asia/Singapore");
         startTime = TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelper.combineDateTime("Mon, 09 May, 2016", "1000"), timeZone);
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 09 May, 2016", "10", "0"), timeZone);
         endTime = TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelper.combineDateTime("Tue, 09 May, 2017", "1000"), timeZone);
+                TimeHelper.parseDateTimeFromSessionsForm("Tue, 09 May, 2017", "10", "0"), timeZone);
 
         fsa = FeedbackSessionAttributes
                 .builder("", "", "")
@@ -39,7 +38,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withEndTime(endTime)
                 .withTimeZone(timeZone)
                 .withGracePeriodMinutes(15)
-                .withFeedbackSessionType(FeedbackSessionType.STANDARD)
                 .withOpeningEmailEnabled(false)
                 .withClosingEmailEnabled(false)
                 .withPublishedEmailEnabled(false)
@@ -72,7 +70,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
                 .withTimeZone(ZoneId.of("Asia/Singapore")).withGracePeriodMinutes(0)
-                .withFeedbackSessionType(FeedbackSessionType.PRIVATE)
                 .withOpeningEmailEnabled(false).withClosingEmailEnabled(false).withPublishedEmailEnabled(false)
                 .build();
 
@@ -89,7 +86,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.getResultsVisibleFromTime(), copy.getResultsVisibleFromTime());
         assertEquals(original.getTimeZone(), copy.getTimeZone());
         assertEquals(original.getGracePeriodMinutes(), copy.getGracePeriodMinutes());
-        assertEquals(original.getFeedbackSessionType(), copy.getFeedbackSessionType());
         assertEquals(original.isOpeningEmailEnabled(), copy.isOpeningEmailEnabled());
         assertEquals(original.isClosingEmailEnabled(), copy.isClosingEmailEnabled());
         assertEquals(original.isPublishedEmailEnabled(), copy.isPublishedEmailEnabled());

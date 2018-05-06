@@ -60,6 +60,16 @@
     </queue>
 
     <queue>
+        <name>feedback-session-resend-published-email-queue</name>
+        <!-- Configuration allows for 5 feedback session published emails to be queued for execution every second when the bucket is empty -->
+        <rate>5/s</rate>
+        <bucket-size>5</bucket-size>
+        <retry-parameters>
+            <task-retry-limit>2</task-retry-limit>
+        </retry-parameters>
+    </queue>
+
+    <queue>
         <name>feedback-session-remind-email-queue</name>
         <!-- Configuration allows for 5 feedback reminder emails to be queued when the bucket is not full -->
         <rate>5/s</rate>

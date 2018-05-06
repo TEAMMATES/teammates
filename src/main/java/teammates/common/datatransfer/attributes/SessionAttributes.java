@@ -18,18 +18,6 @@ public interface SessionAttributes {
      * end time, followed by start time and session name.
      */
     Comparator<SessionAttributes> ASCENDING_ORDER = (session1, session2) -> {
-        FeedbackSessionAttributes feedbackSession1 = null;
-        FeedbackSessionAttributes feedbackSession2 = null;
-        if (session1 instanceof FeedbackSessionAttributes) {
-            feedbackSession1 = (FeedbackSessionAttributes) session1;
-        }
-        if (session2 instanceof FeedbackSessionAttributes) {
-            feedbackSession2 = (FeedbackSessionAttributes) session2;
-        }
-        if (feedbackSession1 != null && feedbackSession1.isPrivateSession()
-                || feedbackSession2 != null && feedbackSession2.isPrivateSession()) {
-            return session1.getSessionName().compareTo(session2.getSessionName());
-        }
 
         Assumption.assertNotNull(session1.getSessionName());
         Assumption.assertNotNull(session1.getSessionStartTime());
@@ -62,19 +50,6 @@ public interface SessionAttributes {
      * end time, followed by start time and session name.
      */
     Comparator<SessionAttributes> DESCENDING_ORDER = (session1, session2) -> {
-
-        FeedbackSessionAttributes feedbackSession1 = null;
-        FeedbackSessionAttributes feedbackSession2 = null;
-        if (session1 instanceof FeedbackSessionAttributes) {
-            feedbackSession1 = (FeedbackSessionAttributes) session1;
-        }
-        if (session2 instanceof FeedbackSessionAttributes) {
-            feedbackSession2 = (FeedbackSessionAttributes) session2;
-        }
-        if (feedbackSession1 != null && feedbackSession1.isPrivateSession()
-                || feedbackSession2 != null && feedbackSession2.isPrivateSession()) {
-            return session1.getSessionName().compareTo(session2.getSessionName());
-        }
 
         Assumption.assertNotNull(session1.getSessionName());
         Assumption.assertNotNull(session1.getSessionStartTime());

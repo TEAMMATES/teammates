@@ -2,9 +2,8 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.fail;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -20,8 +19,8 @@ import teammates.test.driver.TimeHelperExtension;
 
 public class InstructorFeedbackSessionsPage extends AppPage {
 
-    @FindBy(id = "fstype")
-    private WebElement fsType;
+    @FindBy(id = "sessionTemplateType")
+    private WebElement sessionTemplateType;
 
     @FindBy(id = "courseid")
     private WebElement courseIdDropdown;
@@ -58,9 +57,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_custom")
     private WebElement customResultsVisibleTimeButton;
-
-    @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_never")
-    private WebElement neverSessionVisibleTimeButton;
 
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_atopen")
     private WebElement defaultSessionVisibleTimeButton;
@@ -118,7 +114,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public void selectSessionType(String visibleText) {
-        selectDropdownByVisibleValue(fsType, visibleText);
+        selectDropdownByVisibleValue(sessionTemplateType, visibleText);
     }
 
     public AppPage sortByName() {
@@ -159,10 +155,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(customResultsVisibleTimeButton);
     }
 
-    public void clickNeverVisibleTimeButton() {
-        click(neverSessionVisibleTimeButton);
-    }
-
     public void clickManualPublishTimeButton() {
         click(manualResultsVisibleTimeButton);
     }
@@ -176,7 +168,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public void clickCopyButton() {
-        click(copyButton);
+        scrollElementToCenterAndClick(copyButton);
     }
 
     public void clickCopySubmitButton() {
@@ -233,28 +225,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         }
 
         clickSubmitButton();
-    }
-
-    public void addFeedbackSessionWithTimeZone(String feedbackSessionName, String courseId,
-            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, long gracePeriod, ZoneId timeZone) {
-
-        selectTimeZone(timeZone);
-
-        addFeedbackSession(
-                feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime, instructions, gracePeriod);
-    }
-
-    public void addFeedbackSessionWithStandardTimeZone(String feedbackSessionName, String courseId,
-            LocalDateTime startTime, LocalDateTime endTime, LocalDateTime visibleTime, LocalDateTime publishTime,
-            Text instructions, long gracePeriod) {
-
-        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime, visibleTime, publishTime,
-                instructions, gracePeriod, ZoneId.of("Asia/Singapore"));
-    }
-
-    private void selectTimeZone(ZoneId timeZone) {
-        selectDropdownByActualValue(timezoneDropdown, timeZone.getId());
     }
 
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {
@@ -322,11 +292,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
      * passes consistently, do not try to click on the datepicker element using Selenium as it will
      * result in a test that passes or fail randomly.
     */
-    public void fillTimeValueForDatePickerTest(String timeId, Calendar newValue) {
+    public void fillTimeValueForDatePickerTest(String timeId, LocalDate newValue) {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.getTime()));
+        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.atStartOfDay()));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {
@@ -353,7 +323,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public String getSessionType() {
-        return fsType.getAttribute("value");
+        return sessionTemplateType.getAttribute("value");
     }
 
     public String getStartTime() {
@@ -364,12 +334,24 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return endTimeDropdown.getAttribute("value");
     }
 
+    public String getVisibleTime() {
+        return visibleTimeDropdown.getAttribute("value");
+    }
+
     public String getTimeZone() {
         return timezoneDropdown.getAttribute("value");
     }
 
     public String getInstructions() {
         return getRichTextEditorContent("instructions");
+    }
+
+    public void setStartTime(int hour) {
+        executeScript("$('#" + startTimeDropdown.getAttribute("id") + "').val(" + hour + ")");
+    }
+
+    public void setVisibleTime(int hour) {
+        executeScript("$('#" + visibleTimeDropdown.getAttribute("id") + "').val(" + hour + ")");
     }
 
     public boolean isRowSelected(int rowIndex) {
@@ -390,10 +372,6 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public boolean isCopySubmitButtonEnabled() {
         return copySubmitButton.isEnabled();
-    }
-
-    public String getClientTimeZone() {
-        return (String) executeScript("return moment.tz.guess()");
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {

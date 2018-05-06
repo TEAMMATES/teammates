@@ -67,6 +67,16 @@ public class FeedbackSessionResponseStatus {
     }
 
     /**
+     * Returns list of all students, sorted by teamName > studentNamelist.
+     */
+    public List<String> getAllStudentsSorted() {
+        ArrayList<String> allStudents = new ArrayList<String>(studentsWhoDidNotRespond);
+        allStudents.addAll(studentsWhoResponded);
+        allStudents.sort(compareByTeamNameStudentName);
+        return allStudents;
+    }
+
+    /**
      * Returns list of students who did not respond to the feedback session.
      */
     public List<String> getStudentsWhoDidNotRespond() {

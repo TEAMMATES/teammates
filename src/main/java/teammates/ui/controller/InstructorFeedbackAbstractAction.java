@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,11 +12,9 @@ import java.util.Map;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.InvalidPostParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -38,32 +35,27 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
      * Creates a feedback session attributes object from the request parameters.
      * The created time is always set to now, and the opening email enabled flag is always set to true.
      * @param fsName the name of the feedback session (should be sanitized when creating a new session).
-     * @param courseId the ID of the course the feedback session is in.
+     * @param course the course the feedback session is in.
      * @param creatorEmail the email address of the feedback session's creator.
      * @return feedback session attributes object.
      * @throws InvalidPostParametersException if any of the request parameters are not in the expected format.
      */
-    protected FeedbackSessionAttributes extractFeedbackSessionData(String fsName, String courseId, String creatorEmail) {
+    protected FeedbackSessionAttributes extractFeedbackSessionData(
+            String fsName, CourseAttributes course, String creatorEmail) {
         Assumption.assertNotNull(fsName);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(course);
         Assumption.assertNotNull(creatorEmail);
 
-        FeedbackSessionAttributes attributes = FeedbackSessionAttributes.builder(fsName, courseId, creatorEmail)
-                // For existing sessions, this will be overridden to its existing value at the logic layer
+        FeedbackSessionAttributes attributes = FeedbackSessionAttributes.builder(fsName, course.getId(), creatorEmail)
+                // For existing sessions, creation time will be overwritten to its existing value at the logic layer
                 .withCreatedTime(Instant.now())
+                .withTimeZone(course.getTimeZone())
                 .build();
 
-        String paramTimeZone = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        try {
-            attributes.setTimeZone(ZoneId.of(paramTimeZone));
-        } catch (DateTimeException e) {
-            throw new InvalidPostParametersException("Failed to parse time zone parameter: " + paramTimeZone, e);
-        }
-
-        inputStartTimeLocal = TimeHelper.combineDateTime(
+        inputStartTimeLocal = TimeHelper.parseDateTimeFromSessionsForm(
                 getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
-        inputEndTimeLocal = TimeHelper.combineDateTime(
+        inputEndTimeLocal = TimeHelper.parseDateTimeFromSessionsForm(
                 getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE),
                 getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME));
         attributes.setStartTime(TimeHelper.convertLocalDateTimeToInstant(inputStartTimeLocal, attributes.getTimeZone()));
@@ -76,13 +68,12 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             throw new InvalidPostParametersException("Failed to parse grace period parameter: " + paramGracePeriod, nfe);
         }
 
-        attributes.setFeedbackSessionType(FeedbackSessionType.STANDARD);
         attributes.setInstructions(new Text(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS)));
 
         String type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM:
-            inputPublishTimeLocal = TimeHelper.combineDateTime(
+            inputPublishTimeLocal = TimeHelper.parseDateTimeFromSessionsForm(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE),
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME));
             attributes.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
@@ -98,12 +89,10 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             throw new InvalidPostParametersException("Invalid resultsVisibleFrom setting: " + type);
         }
 
-        // Handle session visible after results visible to avoid having a
-        // results visible date when session is private (session not visible)
         type = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON);
         switch (type) {
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM:
-            inputVisibleTimeLocal = TimeHelper.combineDateTime(
+            inputVisibleTimeLocal = TimeHelper.parseDateTimeFromSessionsForm(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE),
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME));
             attributes.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(
@@ -111,12 +100,6 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             break;
         case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN:
             attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-            break;
-        case Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER:
-            attributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            // Overwrite if private
-            attributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-            attributes.setFeedbackSessionType(FeedbackSessionType.PRIVATE);
             break;
         default:
             throw new InvalidPostParametersException("Invalid sessionVisibleFrom setting: " + type);
@@ -134,21 +117,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         return attributes;
     }
 
-    protected void validateTimeData(FeedbackSessionAttributes attributes)
-            throws InvalidParametersException {
-        FieldValidator validator = new FieldValidator();
-
-        // Stop if invalid or fixed offset time zone is detected
-        String paramTimeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(paramTimeZone);
-        if (!timeZoneErrorMessage.isEmpty()) {
-            // Collect other errors before throwing an exception
-            List<String> errors = new ArrayList<>(attributes.getInvalidityInfo());
-            errors.add(timeZoneErrorMessage);
-            throw new InvalidParametersException(errors);
-        }
-
-        // The time zone is valid at this point and can be used for future calculations
+    protected void validateTimeData(FeedbackSessionAttributes attributes) {
         ZoneId timeZone = attributes.getTimeZone();
 
         // Warn if ambiguity of time fields (brought about by DST) is detected
@@ -172,17 +141,18 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
             return;
         case GAP:
             String gapWarningText = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP, fieldName,
-                    TimeHelper.formatTime12H(dateTime), TimeHelper.formatDateTimeForDisambiguation(resolved, zone));
+                    TimeHelper.formatDateTimeForDisplay(dateTime),
+                    TimeHelper.formatDateTimeForDisplayFull(resolved, zone));
             statusToUser.add(new StatusMessage(gapWarningText, StatusMessageColor.WARNING));
             break;
         case OVERLAP:
             Instant earlierInterpretation = dateTime.atZone(zone).withEarlierOffsetAtOverlap().toInstant();
             Instant laterInterpretation = dateTime.atZone(zone).withLaterOffsetAtOverlap().toInstant();
             String overlapWarningText = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP, fieldName,
-                    TimeHelper.formatTime12H(dateTime),
-                    TimeHelper.formatDateTimeForDisambiguation(earlierInterpretation, zone),
-                    TimeHelper.formatDateTimeForDisambiguation(laterInterpretation, zone),
-                    TimeHelper.formatDateTimeForDisambiguation(resolved, zone));
+                    TimeHelper.formatDateTimeForDisplay(dateTime),
+                    TimeHelper.formatDateTimeForDisplayFull(earlierInterpretation, zone),
+                    TimeHelper.formatDateTimeForDisplayFull(laterInterpretation, zone),
+                    TimeHelper.formatDateTimeForDisplayFull(resolved, zone));
             statusToUser.add(new StatusMessage(overlapWarningText, StatusMessageColor.WARNING));
             break;
         default:

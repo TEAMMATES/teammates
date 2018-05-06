@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorFeedbacks - new feedback session form additional settings" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -29,7 +30,7 @@
                 name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_custom"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM %>"
-                <c:if test="${additionalSettings.sessionVisibleDateButtonChecked}">checked</c:if>>
+                <c:if test="${additionalSettings.sessionVisibleDateButtonChecked}">checked=""</c:if>>
           </h5>
           <div class="col-xs-5">
             <input class="form-control col-sm-2" type="text"
@@ -63,22 +64,7 @@
                 name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_atopen"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN %>"
-                <c:if test="${additionalSettings.sessionVisibleAtOpenChecked}">checked</c:if>>
-          </div>
-        </div>
-        <div class="row radio">
-          <div class="col-xs-12"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLENEVER %>"
-              data-toggle="tooltip"
-              data-placement="top">
-            <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_never">
-              Never
-            </label>
-            <input type="radio"
-                name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
-                id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_never"
-                value="never"
-                <c:if test="${additionalSettings.sessionVisiblePrivateChecked}">checked</c:if>>
+                <c:if test="${additionalSettings.sessionVisibleAtOpenChecked}">checked=""</c:if>>
           </div>
         </div>
       </div>
@@ -104,7 +90,7 @@
                 name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_custom"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM %>"
-                <c:if test="${additionalSettings.responseVisibleDateChecked}">checked</c:if>>
+                <c:if test="${additionalSettings.responseVisibleDateChecked}">checked=""</c:if>>
           </h5>
           <div class="col-xs-5">
             <input class="form-control"
@@ -143,7 +129,7 @@
                 name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_atvisible"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE %>"
-                <c:if test="${additionalSettings.responseVisibleImmediatelyChecked}">checked</c:if>>
+                <c:if test="${additionalSettings.responseVisibleImmediatelyChecked}">checked=""</c:if>>
           </div>
         </div>
         <div class="row radio">
@@ -157,7 +143,7 @@
             <input type="radio" name="resultsVisibleFromButton"
                 id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later"
                 value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER %>"
-                <c:if test="${additionalSettings.responseVisiblePublishManuallyChecked}">checked</c:if>>
+                <c:if test="${additionalSettings.responseVisiblePublishManuallyChecked}">checked=""</c:if>>
           </div>
         </div>
       </div>
@@ -181,7 +167,7 @@
           <input type="checkbox"
               name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
               id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_open"
-              <c:if test="${additionalSettings.sendOpeningEmailChecked}">checked</c:if>
+              <c:if test="${additionalSettings.sendOpeningEmailChecked}">checked=""</c:if>
               value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled>
         </div>
       </div>
@@ -196,7 +182,7 @@
           <input type="checkbox"
               name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
               id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing"
-              <c:if test="${additionalSettings.sendClosingEmailChecked}">checked</c:if>
+              <c:if test="${additionalSettings.sendClosingEmailChecked}">checked=""</c:if>
               value="<%= EmailType.FEEDBACK_CLOSING.toString() %>">
         </div>
       </div>
@@ -211,7 +197,7 @@
           <input type="checkbox"
               name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
               id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published"
-              <c:if test="${additionalSettings.sendPublishedEmailChecked}">checked</c:if>
+              <c:if test="${additionalSettings.sendPublishedEmailChecked}">checked=""</c:if>
               value="<%= EmailType.FEEDBACK_PUBLISHED.toString() %>">
         </div>
       </div>

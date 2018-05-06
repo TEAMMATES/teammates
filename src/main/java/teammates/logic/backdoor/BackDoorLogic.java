@@ -14,7 +14,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.AdminEmailAttributes;
@@ -246,6 +245,12 @@ public class BackDoorLogic extends Logic {
         updateAccount(account);
     }
 
+    public void editCourseAsJson(String newValues)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = JsonUtils.fromJson(newValues, CourseAttributes.class);
+        updateCourse(course.getId(), course.getName(), course.getTimeZone().getId());
+    }
+
     public void editStudentAsJson(String originalEmail, String newValues)
             throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = JsonUtils.fromJson(newValues, StudentAttributes.class);
@@ -328,7 +333,6 @@ public class BackDoorLogic extends Logic {
             SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap,
             SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
         for (FeedbackSessionAttributes session : sessions) {
-            cleanSessionData(session);
             String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
 
             Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
@@ -487,19 +491,6 @@ public class BackDoorLogic extends Logic {
         default:
             Assumption.fail("Invalid instructor permission role name");
             break;
-        }
-    }
-
-    /**
-     * This method ensures consistency for private feedback sessions
-     * between the type and visibility times. This allows easier creation
-     * of private sessions by setting the feedbackSessionType field as PRIVATE
-     * in the json file.
-     */
-    private void cleanSessionData(FeedbackSessionAttributes session) {
-        if (session.getFeedbackSessionType().equals(FeedbackSessionType.PRIVATE)) {
-            session.setSessionVisibleFromTime(Const.TIME_REPRESENTS_NEVER);
-            session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         }
     }
 

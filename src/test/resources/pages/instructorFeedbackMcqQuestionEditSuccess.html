@@ -53,7 +53,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="You should not need to change this as your time zone is auto-detected. <br><br>TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" title="">
+            <div class="col-sm-12 col-md-6 tablet-no-mobile-margin-top-20px" data-original-title="To change this, edit the course settings. <br><br>TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" title="">
               <div class="form-group">
                 <h5 class="col-sm-2 col-md-4">
                   <label class="control-label" for="timezone">
@@ -61,13 +61,9 @@
                   </label>
                 </h5>
                 <div class="col-sm-10 col-md-8">
-                  <div class="input-group">
-                    <select class="form-control" data-time-zone="Africa/Johannesburg" disabled="" id="timezone" name="timezone">
-                    </select>
-                    <span class="input-group-btn">
-                      <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect">
-                    </span>
-                  </div>
+                  <h5 class="form-control-static font-weight-normal" data-time-zone="Africa/Johannesburg" id="timezone">
+                    Africa/Johannesburg
+                  </h5>
                 </div>
               </div>
             </div>
@@ -531,14 +527,6 @@
                       Submission opening time
                     </label>
                     <input disabled="" id="sessionVisibleFromButton_atopen" name="sessionVisibleFromButton" type="radio" value="atopen">
-                  </div>
-                </div>
-                <div class="row radio">
-                  <div class="col-xs-12" data-original-title="Select this option if you want the feedback session to be private. A private session is never visible to anyone. Private sessions can be used to record your own comments about others, for your own reference." data-placement="top" data-toggle="tooltip" title="">
-                    <label for="sessionVisibleFromButton_never">
-                      Never
-                    </label>
-                    <input disabled="" id="sessionVisibleFromButton_never" name="sessionVisibleFromButton" type="radio" value="never">
                   </div>
                 </div>
               </div>
@@ -1548,7 +1536,7 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <input class="form-control" disabled="" id="msqMaxSelectableChoices--1" min="2" name="msqMaxSelectableChoices" type="number" value="2">
+                    <input class="form-control" disabled="" id="msqMaxSelectableChoices--1" min="2" name="msqMaxSelectableChoices" required="" type="number" value="2">
                   </div>
                   <div class="col-md-9 margin-bottom-7px">
                     <div class="checkbox">
@@ -1559,7 +1547,7 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <input class="form-control" disabled="" id="msqMinSelectableChoices--1" min="1" name="msqMinSelectableChoices" type="number" value="1">
+                    <input class="form-control" disabled="" id="msqMinSelectableChoices--1" min="1" name="msqMinSelectableChoices" required="" type="number" value="1">
                   </div>
                   <input id="msqGeneratedOptions--1" name="msqGeneratedOptions" type="hidden" value="NONE">
                 </div>
@@ -1700,14 +1688,23 @@
                   </div>
                   <div class="row">
                     <div class="col-sm-12">
-                      <div class="checkbox" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
+                      <div class="checkbox" data-container="body" data-original-title="This determines whether a giver can distribute the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
                         <label class="bold-label">
-                          <input disabled="" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" type="checkbox">
-                          <span id="constSum_labelText--1">
-                            Every option to receive a different number of points
+                          <span class="inline-block">
+                            <input disabled="" id="constSum_UnevenDistribution--1" name="constSumUnevenDistribution" onchange="toggleConstSumDistributePointsOptions(this, -1)" type="checkbox">
                           </span>
+                          <select class="form-control width-auto inline" disabled="" id="constSumDistributePointsSelect--1" onchange="changeConstSumDistributePointsFor(-1)">
+                            <option value="All options">
+                              Every option
+                            </option>
+                            <option value="At least some options">
+                              At least some options
+                            </option>
+                          </select>
+                          to receive a different number of points
                         </label>
                       </div>
+                      <input id="constSumDistributePointsOptions--1" name="constSumDistributePointsOptions" type="hidden" value="None">
                     </div>
                   </div>
                 </div>

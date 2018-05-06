@@ -179,15 +179,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
             typicalCase[indexOfSessionPublishTime] = "2";
             break;
         case 2:
-            typicalCase[indexOfSessionVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
-            typicalCase[indexOfSessionVisibleDate] = "";
-            typicalCase[indexOfSessionVisibleTime] = "0";
-
-            typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
-
-            typicalCase[indexOfSessionInstructionsValue] = "<script>test</script>instructions";
-            break;
-        case 3:
             typicalCase[indexOfResultsVisibleButtonValue] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
             typicalCase[indexOfSessionInstructionsValue] = "";
             break;
@@ -220,7 +211,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, "",
                 Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME, "0",
-                Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE, "Asia/Singapore",
                 Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD, "10",
                 Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS, "instructions"
         };

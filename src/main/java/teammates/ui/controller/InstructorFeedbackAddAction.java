@@ -36,16 +36,16 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         Assumption.assertNotEmpty(courseId);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
 
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(
                 getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
 
-        FeedbackSessionAttributes fs = extractFeedbackSessionData(feedbackSessionName, courseId, instructor.email);
+        FeedbackSessionAttributes fs = extractFeedbackSessionData(feedbackSessionName, course, instructor.email);
 
-        String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
+        String sessionTemplateType = getRequestParamValue(Const.ParamsNames.SESSION_TEMPLATE_TYPE);
 
         InstructorFeedbackSessionsPageData data = new InstructorFeedbackSessionsPageData(account, sessionToken);
         try {
@@ -54,7 +54,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
 
             try {
                 createTemplateFeedbackQuestions(fs.getCourseId(), fs.getFeedbackSessionName(),
-                                                fs.getCreatorEmail(), feedbackSessionType);
+                                                fs.getCreatorEmail(), sessionTemplateType);
             } catch (InvalidParametersException e) {
                 // Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -97,19 +97,19 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         }
 
         data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
-                                       feedbackSessionType);
+                                       sessionTemplateType);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, data);
     }
 
     private void createTemplateFeedbackQuestions(String courseId, String feedbackSessionName,
-            String creatorEmail, String feedbackSessionType) throws InvalidParametersException {
-        if (feedbackSessionType == null) {
+            String creatorEmail, String sessionTemplateType) throws InvalidParametersException {
+        if (sessionTemplateType == null) {
             return;
         }
 
         List<FeedbackQuestionAttributes> questions =
-                getFeedbackSessionTemplateQuestions(feedbackSessionType, courseId, feedbackSessionName, creatorEmail);
+                getFeedbackSessionTemplateQuestions(sessionTemplateType, courseId, feedbackSessionName, creatorEmail);
 
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {

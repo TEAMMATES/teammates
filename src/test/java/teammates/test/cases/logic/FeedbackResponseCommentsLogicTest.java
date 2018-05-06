@@ -69,7 +69,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("fail: feedback session is not a session for the course");
 
-        frComment.feedbackSessionName = "Private feedback session";
+        frComment.feedbackSessionName = "Instructor feedback session";
 
         verifyExceptionThrownFromCreateFrComment(frComment,
                 "Feedback session " + frComment.feedbackSessionName + " is not a session for course "

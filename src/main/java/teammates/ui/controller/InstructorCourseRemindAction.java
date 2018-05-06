@@ -34,6 +34,8 @@ public class InstructorCourseRemindAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
+        String previousPage = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_REMIND_STUDENT_IS_FROM);
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
@@ -66,7 +68,12 @@ public class InstructorCourseRemindAction extends Action {
 
             statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail,
                                                StatusMessageColor.SUCCESS));
-            redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+
+            boolean isRequestedFromCourseDetailsPage =
+                    Const.PageNames.INSTRUCTOR_COURSE_DETAILS_PAGE.equals(previousPage);
+            redirectUrl = isRequestedFromCourseDetailsPage
+                    ? Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE
+                    : Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(loggedInUser.googleId,
                     instructorEmail, courseId);

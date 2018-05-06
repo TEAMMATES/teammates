@@ -1,3 +1,4 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorSearch / instructorStudentList - Student List" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -134,7 +135,7 @@
                       data-placement="top">
                     Edit
                   </a>
-                  <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
+                  <c:if test="${(fromCourseDetailsPage || fromStudentListPage) && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                     <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
                     <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
                         <c:choose>

@@ -43,7 +43,6 @@ public class ControllerServlet extends HttpServlet {
     @Override
     public void init() {
         TimeHelper.registerResourceZoneRules();
-        TimeHelper.setSystemTimeZoneIfRequired();
     }
 
     @Override
