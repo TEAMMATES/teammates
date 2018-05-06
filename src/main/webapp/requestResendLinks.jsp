@@ -22,7 +22,6 @@
   <form id="requestForm" action="/page/resendLinks" name="requestForm" method="POST">
     <input id="email" class="form-control" name="studentemail" placeholder="Enter your email address">
     <br/>
-    <br/>
     <div id="recaptcha" class="g-recaptcha" data-sitekey="${recaptchaSitekey}"></div>
     <br/>
     <input class="btn btn-primary btn-md" id="submitButton" type="submit" value="Submit">

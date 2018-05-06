@@ -41,13 +41,11 @@
               <li class="${currentPage == 'contact' ? 'active' : ''}"><a href="contact.jsp">Contact</a></li>
               <li class="${currentPage == 'terms' ? 'active' : ''}"><a href="terms.jsp">Terms of Use</a></li>
               <li class="${currentPage == 'requestAccessLinksResend' ? 'active' : ''}">
-                <div class="dropdown-submenu pull-left-and-down">
-                  <button class="dropdown-button">Request
-                    <i class="fa fa-caret-down"></i>
-                  </button>
-                  <div class="dropdown-menu">
-                    <a id="requestAccessLinksResend" href="/resendLinks">Resend Access Links</a>
-                  </div>
+                <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Request
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" id="requestAccessLinksResend" href="/resendLinks">Resend Access Links</a>
                 </div>
               </li>
             </ul>
