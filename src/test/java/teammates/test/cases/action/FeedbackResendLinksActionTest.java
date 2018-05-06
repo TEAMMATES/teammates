@@ -33,10 +33,12 @@ public class FeedbackResendLinksActionTest extends BaseActionTest {
 
         String userEmail = student.getEmail();
         String recaptchaResponse = "dummyResponse";
+        String shouldSkipRecaptchaVerification = "true";
 
         String[] params = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, userEmail,
                 Const.ParamsNames.RECAPTCHA_RESPONSE, recaptchaResponse,
+                Const.ParamsNames.SHOULD_SKIP_RECAPTCHA_VERIFICATION, shouldSkipRecaptchaVerification,
         };
 
         FeedbackResendLinksAction action = getAction(params);
@@ -46,10 +48,12 @@ public class FeedbackResendLinksActionTest extends BaseActionTest {
         ______TS("Invalid Email Case");
 
         String invalidEmail = "dummyInvalidEmail";
+        shouldSkipRecaptchaVerification = "false";
 
         params = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail,
                 Const.ParamsNames.RECAPTCHA_RESPONSE, recaptchaResponse,
+                Const.ParamsNames.SHOULD_SKIP_RECAPTCHA_VERIFICATION, shouldSkipRecaptchaVerification,
         };
 
         action = getAction(params);
@@ -62,6 +66,7 @@ public class FeedbackResendLinksActionTest extends BaseActionTest {
         params = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, userEmail,
                 Const.ParamsNames.RECAPTCHA_RESPONSE, recaptchaResponse,
+                Const.ParamsNames.SHOULD_SKIP_RECAPTCHA_VERIFICATION, shouldSkipRecaptchaVerification,
         };
 
         action = getAction(params);

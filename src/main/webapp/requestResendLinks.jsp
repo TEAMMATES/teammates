@@ -1,4 +1,5 @@
 <%@ page import="teammates.common.util.Config" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -7,6 +8,7 @@
   <script type="text/javascript" src="/js/requestResendLinks.js"></script>
 </c:set>
 <c:set var="recaptchaSitekey" value="<%= Config.RECAPTCHA_SITEKEY %>" />
+<c:set var="shouldSkipRecaptchaVerification" value="<%= Const.ParamsNames.SHOULD_SKIP_RECAPTCHA_VERIFICATION %>" />
 <t:statusMessage statusMessagesToUser="${data.statusMessage}"/>
 <t:staticPage jsIncludes="${jsIncludes}" currentPage="requestAccessLinksResend">
   <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
@@ -21,5 +23,6 @@
     <div id="recaptcha" class="g-recaptcha" data-sitekey="${recaptchaSitekey}"></div>
     <br/>
     <input id="submitButton" type="submit" value="Submit">
+    <input type="hidden" name="${shouldSkipRecaptchaVerification}" value="false">
   </form>
 </t:staticPage>

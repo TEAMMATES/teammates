@@ -49,8 +49,9 @@ public class FeedbackResendLinksAction extends Action {
                 return createAjaxResult(data);
             }
 
-            boolean shouldSkipVerification = false;
-            if (gateKeeper.getCurrentUser() != null) {
+            boolean shouldSkipVerification = getNonNullRequestParamValue(
+                    Const.ParamsNames.SHOULD_SKIP_RECAPTCHA_VERIFICATION).equals("true");
+            if (gateKeeper.getCurrentUser() != null && !shouldSkipVerification) {
                 shouldSkipVerification = gateKeeper.getCurrentUser().isAdmin;
             }
             String recaptchaResponse = getNonNullRequestParamValue(Const.ParamsNames.RECAPTCHA_RESPONSE);

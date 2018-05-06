@@ -885,6 +885,7 @@ public final class Const {
         public static final String ERROR_FEEDBACK_URL_REQUESTED = "errorfeedbackrequestedurl";
 
         public static final String RECAPTCHA_RESPONSE = "g-recaptcha-response";
+        public static final String SHOULD_SKIP_RECAPTCHA_VERIFICATION = "shouldSkipRecaptchaVerification";
     }
 
     public static class SearchIndex {
