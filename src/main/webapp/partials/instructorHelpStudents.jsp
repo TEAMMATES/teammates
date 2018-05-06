@@ -579,7 +579,7 @@
       <div id="student-google-account-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            Student can submit feedback and view results without logging into TEAMMATES with their Google account.
+            Students can submit feedback and view results without having to login to TEAMMATES, unless they choose to link their Google account (optional).
             TEAMMATES will send students a unique URL to access their feedback sessions and results.
             However, students who link their TEAMMATES account with their Google account will be able to access a dashboard of all their sessions and results through the TEAMMATES website.
           </p>
