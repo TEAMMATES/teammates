@@ -255,8 +255,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     private String getStudentQuestionResultsStatisticsHtml(
-            List<FeedbackResponseAttributes> responses, String studentEmail,
-            FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
+            String studentEmail, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
         if (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                 || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return "";
@@ -319,7 +318,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         if (responses.isEmpty()) {
             return "";
         } else if ("student".equals(view)) {
-            return getStudentQuestionResultsStatisticsHtml(responses, studentEmail, question, bundle);
+            return getStudentQuestionResultsStatisticsHtml(studentEmail, question, bundle);
         } else {
             return getInstructorQuestionResultsStatisticsHtml(responses, bundle);
         }
