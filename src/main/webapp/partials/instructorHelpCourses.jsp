@@ -69,7 +69,7 @@
       </div>
     </div>
     <div class="panel panel-default" id="course-enroll-sections">
-      <div class="panel-heading" data-toggle="collapse" data-target="#course-enroll-sections-body">
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#course-enroll-sections-body">
         <h3 class="panel-title">How do I enroll students into sections?</h3>
       </div>
       <div id="course-enroll-sections-body" class="panel-collapse collapse">

@@ -1425,7 +1425,7 @@
       <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#session-view-responses-body">
         <h3 class="panel-title">How do I view all the responses a student has given and received?</h3>
       </div>
-      <div id="student-view-responses-body" class="panel-collapse collapse">
+      <div id="session-view-responses-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To view the responses that Student A from Course B has given and received:
