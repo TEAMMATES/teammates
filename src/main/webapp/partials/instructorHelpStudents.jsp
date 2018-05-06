@@ -316,7 +316,7 @@
               </ul>
             </li>
             <li>
-              Click the <button class="btn btn-primary btn-xs">Search</button> button.
+              Click the <button class="btn btn-primary btn">Search</button> button.
             </li>
           </ol>
           <p>
