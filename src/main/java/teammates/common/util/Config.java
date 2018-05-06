@@ -66,6 +66,9 @@ public final class Config {
     /** The value of the "app.recaptcha.sitekey" in build.properties file. */
     public static final String RECAPTCHA_SITEKEY;
 
+    /** The value of the "app.recaptcha.secretkey" in build.properties file. */
+    public static final String RECAPTCHA_SECRETKEY;
+
     static {
         APP_URL = readAppUrl();
         Properties properties = new Properties();
@@ -90,6 +93,7 @@ public final class Config {
         MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
         MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
         RECAPTCHA_SITEKEY = properties.getProperty("app.recaptcha.sitekey");
+        RECAPTCHA_SECRETKEY = properties.getProperty("app.recaptcha.secretkey");
     }
 
     private Config() {

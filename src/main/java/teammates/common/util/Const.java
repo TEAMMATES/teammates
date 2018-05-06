@@ -95,6 +95,9 @@ public final class Const {
     public static final Instant TIME_REPRESENTS_NOW;
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
+    public static final String GOOGLE_RECAPTCHA_VERIFICATION_API_URL =
+            "https://www.google.com/recaptcha/api/siteverify?";
+
     public static final String ERROR_FEEDBACK_EMAIL_SUBJECT = "User-submitted Error Report";
 
     static {
@@ -1387,7 +1390,7 @@ public final class Const {
                 "Reminder e-mails have been sent out to those students and instructors. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_ACCESS_LINKS_RESENT =
-                "Recent feedback session access links have been sent to the student who requested for a resend.";
+                "Recent feedback session access links have been sent.";
         public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
                 "The feedback session is not open for submissions. "
                 + "You cannot send reminders for a session that is not open.";

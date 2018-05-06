@@ -1,9 +1,19 @@
 package teammates.ui.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.Charset;
+
+import org.json.JSONObject;
+
 import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
@@ -44,8 +54,7 @@ public class FeedbackResendLinksAction extends Action {
                 shouldSkipVerification = gateKeeper.getCurrentUser().isAdmin;
             }
             String recaptchaResponse = getNonNullRequestParamValue(Const.ParamsNames.RECAPTCHA_RESPONSE);
-
-            if (recaptchaResponse.isEmpty() && !shouldSkipVerification) {
+            if (!isReCaptchaValid(Config.RECAPTCHA_SECRETKEY, recaptchaResponse) && !shouldSkipVerification) {
                 error = Const.StatusMessages.RECAPTCHA_VALIDATION_FAILED;
                 statusToUser.add(new StatusMessage(error, StatusMessageColor.DANGER));
                 PageData data = new FeedbackResendLinksPageData(account, sessionToken, error);
@@ -93,5 +102,38 @@ public class FeedbackResendLinksAction extends Action {
         }
 
         return response;
+    }
+
+    /**
+     * Validates Google RECAPTCHA.
+     * @param secretKey Secret key (key given for communication between your site and Google)
+     * @param response reCAPTCHA response from client side. (g-recaptcha-response)
+     * @return true if validation successful, false otherwise.
+     */
+    public boolean isReCaptchaValid(String secretKey, String response) {
+        try {
+            String url = Const.GOOGLE_RECAPTCHA_VERIFICATION_API_URL
+                    + "secret=" + secretKey
+                    + "&response=" + response;
+            InputStream res = new URL(url).openStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(res, Charset.forName("UTF-8")));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            int capacity;
+            while ((capacity = reader.read()) != -1) {
+                stringBuilder.append((char) capacity);
+            }
+            String jsonText = stringBuilder.toString();
+            res.close();
+
+            JSONObject respondedJsonObject = new JSONObject(jsonText);
+
+            return respondedJsonObject.getBoolean("success");
+        } catch (IOException e) {
+            log.severe("Failed to send POST request for Recaptcha verification "
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
+
+        return false;
     }
 }
