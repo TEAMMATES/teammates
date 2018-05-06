@@ -11,10 +11,7 @@
       <div id="course-add-students-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            There are two ways to enroll students in a course.
-          </p>
-          <p>
-            To enroll students in a course:
+            There are two ways to enroll students in a course:
           </p>
           <ul>
             <li>
