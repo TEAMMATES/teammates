@@ -257,11 +257,15 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     private String getStudentQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        if (responses.isEmpty()) {
+        if (responses.isEmpty()
+                || !question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return "";
         }
+
         StringBuilder fragments = new StringBuilder();
         List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(actualResponses);
 
         Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
@@ -527,7 +531,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         return "<li data-questiontype = \"" + FeedbackQuestionType.RANK_RECIPIENTS.name() + "\"><a href=\"javascript:;\">"
               + Const.FeedbackQuestionTypeNames.RANK_RECIPIENT + "</a></li>";
     }
-
 
     @Override
     public List<String> validateQuestionDetails(String courseId) {
