@@ -6,7 +6,7 @@
   <div class="panel-group">
     <div class="panel panel-default" id="student-view-profile">
       <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#student-view-profile-body">
-        <h3 class="panel-title">How do I view a student's student profile?</h3>
+        <h3 class="panel-title">How do I view a student's profile?</h3>
       </div>
       <div id="student-view-profile-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -129,7 +129,7 @@
                   <div class="modal-body">
                     <br>
                     <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
-                    <p class="text-preserve-space height-fixed-md">
+                    <p>
                       Hi I am Alice Betsy! I am from Colorado, America. I am a programming and gaming enthusiast. Aspiring to become a Software Architect in a well reputed organization.
                     </p>
                   </div>
