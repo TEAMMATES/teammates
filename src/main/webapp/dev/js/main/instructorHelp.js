@@ -1,7 +1,6 @@
 /**
- * If the incoming link to this page targets a panel in its
- * URL hash, e.g. "instructorHelp.jsp#question-essay",
- * then show the panel specified by the URL hash
+ * Show the panel specified by the URL hash,
+ * e.g. "instructorHelp.jsp#question-essay".
  */
 function syncPanelCollapseWithUrlHash() {
     if (window.location.hash) {

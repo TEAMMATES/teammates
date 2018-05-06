@@ -8,7 +8,7 @@
     Welcome to TEAMMATES!
   </p>
   <p>
-    To get started using TEAMMATES, follow the following steps, or watch our <a href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1&rel=0" target="_blank"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Video Tour</a>.
+    To get started using TEAMMATES, follow the following steps, or watch our <a href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1&rel=0" target="_blank"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> Video Tour</a>.
   </p>
   <ol>
     <li><a href="#course-setup">Set up a course</a></li>
@@ -79,7 +79,7 @@
         <b><a href="/instructorHelp.jsp#course-add-students" target="_blank" rel="noopener noreferrer">Enroll students in the course</a></b><br>
         Go to the <b>Courses</b> page and click the <button class="btn btn-default btn-xs">Enroll</button> button of the corresponding course.<br>
         Students can be enrolled into teams (e.g. project groups) and sections (e.g. tutorial classes, lecture groups) to facilitate giving feedback in and among these smaller groups.<br>
-        TEAMMATES will <b>not</b> automatically notify students that they have been enrolled. However, you may choose to <a href="/instructorHelp.jsp#student-email" target="_blank" rel="noopener noreferrer">email students</a> if you would like them to fill up their <a href="/instructorHelp.jsp#student-view-profile" target="_blank" rel="noopener noreferrer">student profiles</a>.
+        TEAMMATES will <b>not</b> automatically notify students that they have been enrolled. However, if you would like students to access TEAMMATES sooner (e.g. if you would like them to fill in their profile page in advance), click the <button class="btn btn-xs btn-default">View</button> button of the course in the <b>Courses</b> page. Then, click <button class="btn btn-s btn-primary"><span class="glyphicon glyphicon-envelope"></span> Remind Students to Join</button> button, which will send them instructions to access TEAMMATES immediately.
       </li>
       <li>
         <b><a href="/instructorHelp.jsp#course-add-instructor" target="_blank" rel="noopener noreferrer">Add instructors to the course</a></b><br>

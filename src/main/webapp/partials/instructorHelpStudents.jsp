@@ -173,10 +173,10 @@
               Click the <button class="btn btn-default btn-xs">Edit</button> button in the last column of the row corresponding to Student A.<br>
             </li>
             <li>
-              In the new page that opens, edit the relevant fields of Student A's profile. The page will look similar to the example below.
+              In the new page that opens, edit the relevant fields of Student A's details. The page will look similar to the example below.
             </li>
             <li>
-              Click <button class="btn btn-primary btn-s">Save Changes</button> to save your changes to Student A's profile.
+              Click <button class="btn btn-primary btn-s">Save Changes</button> to save your changes to Student A's details.
             </li>
           </ol>
           <p>
