@@ -265,7 +265,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         StringBuilder fragments = new StringBuilder();
         List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
-        
+
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(actualResponses);
 
         Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
