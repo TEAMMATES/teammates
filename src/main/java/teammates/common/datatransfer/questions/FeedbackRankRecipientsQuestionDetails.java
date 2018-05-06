@@ -257,8 +257,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     private String getStudentQuestionResultsStatisticsHtml(
             List<FeedbackResponseAttributes> responses, String studentEmail,
             FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        if (responses.isEmpty()
-                || !question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+        if (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                 || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return "";
         }
