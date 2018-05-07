@@ -8,7 +8,8 @@
     Welcome to TEAMMATES!
   </p>
   <p>
-    To get started using TEAMMATES, follow the following steps, or watch our <a href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1&rel=0" target="_blank"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> Video Tour</a>.
+    To get started using TEAMMATES, follow the following steps, or watch our <a href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1&rel=0" target="_blank"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> Video Tour</a>.<br>
+    For more help, browse the answers to some <a href="instructorHelp.jsp">frequently asked questions</a>.
   </p>
   <ol>
     <li><a href="#course-setup">Set up a course</a></li>
