@@ -312,8 +312,8 @@ function bindFeedbackSessionEditFormSubmission() {
                     $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
                 }
 
+                removeLoadingIndicator($('#button_submit'), 'Save Changes');
                 if (!hasError) {
-                    removeLoadingIndicator($('#button_submit'), 'Save Changes');
                     disableEditFS();
                 }
             },
