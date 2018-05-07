@@ -1,5 +1,5 @@
 /**
- * Show the panel specified by the URL hash,
+ * Shows the panel specified by the URL hash,
  * e.g. "instructorHelp.jsp#question-essay".
  */
 function syncPanelCollapseWithUrlHash() {
@@ -13,7 +13,7 @@ function syncPanelCollapseWithUrlHash() {
 }
 
 /**
- * Show the panel specified by the data-target when any
+ * Shows the panel specified by the data-target when any
  * .collapse-link element is clicked.
  *
  * To be used by links on the instructorHelp.jsp page itself.
