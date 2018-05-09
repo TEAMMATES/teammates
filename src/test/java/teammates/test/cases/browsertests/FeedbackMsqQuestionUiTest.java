@@ -60,7 +60,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MSQ: new question (frame) link");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
 
         ______TS("MSQ: Check UI after cancelling and add new MSQ question again");
@@ -72,7 +72,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
         assertFalse(feedbackEditPage.isElementVisible("msqChoiceTable--1"));
         assertTrue(feedbackEditPage.isElementEnabled("msqGenerateForSelect--1"));
@@ -101,7 +101,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("remove when 1 left");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
@@ -119,7 +119,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("select Add Other Option");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq with other option");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
@@ -132,7 +132,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Check that Max/Min selectable choices cannot be blank");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
@@ -165,7 +165,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
     public void testCustomizeOptions() {
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
 
         feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
         feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
@@ -200,7 +200,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("msq qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
@@ -303,7 +303,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         // Check min/max selectable restrictions for
         // new MSQ question with custom options
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Custom options");
         feedbackEditPage.fillMsqOptionForNewQuestion(0, "A");
         feedbackEditPage.fillMsqOptionForNewQuestion(1, "B");
@@ -327,7 +327,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         // Check min/max selectable restrictions for new
         // MSQ question with options generated from students
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("MSQ");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Msq generated options");
         feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX);
         checkMinMaxSelectableRestrictionsForAllGenerateOptionSelections(-1);

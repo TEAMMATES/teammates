@@ -94,7 +94,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     }
 
     private String getExpectedAjaxTimeString(Instant instant, ZoneId zoneId) {
-        return TimeHelper.formatActivityLogTime(instant, zoneId) + " [" + zoneId.getId() + "]";
+        return TimeHelper.formatDateTimeForAdminLog(instant, zoneId) + " [" + zoneId.getId() + "]";
     }
 
     @Override

@@ -770,10 +770,10 @@ public final class FeedbackResponsesLogic {
             responses.put(existingResponse.getId(), existingResponse);
         }
         for (FeedbackResponseAttributes newResponse : newResponses) {
-            if (!responses.containsKey(newResponse.getId())) {
-                responses.put(newResponse.getId(), newResponse);
+            responses.computeIfAbsent(newResponse.getId(), key -> {
                 existingResponses.add(newResponse);
-            }
+                return newResponse;
+            });
         }
     }
 
