@@ -201,6 +201,10 @@
                 <li>
                   <a href="#instructorHelp">Instructor Help Page</a>
                 </li>
+                <li>
+                  <a href="#gettingStarted">Getting Started Page</a>
+                </li>
+
               </ul>
             </td>
             <td>
@@ -413,6 +417,12 @@
       </div>
       <br><hr class="hr-bold"><br>
 
+      <div class="pageinfo">Getting Started Page</div>
+      <div id="gettingStarted">
+        <iframe class="full-width" src="/gettingStarted.jsp"></iframe>
+      </div>
+      <br><hr class="hr-bold"><br>
+
       <div class="pageinfo">Deadline Exceeded Error Page</div>
       <div id="deadlineExceededErrorPage"></div>
       <br><hr class="hr-bold"><br>
@@ -508,6 +518,9 @@
         });
         $('#instructorHelp').find('iframe').on('load', function() {
           calcHeight($('#instructorHelp').find('iframe'));
+        });
+        $('#gettingStarted').find('iframe').on('load', function() {
+            calcHeight($('#gettingStarted').find('iframe'));
         });
       });
 
