@@ -529,7 +529,7 @@ function updateConstSumMessageQn(qnNum) {
     const maxConstSum = inputForm.attr('max');
 
     function isMinPointsConstraintViolated(pointsAllocated) {
-        if (minConstSum > 0 && pointsAllocated && pointsAllocated < minConstSum) {
+        if (minConstSum !== 0 && pointsAllocated && pointsAllocated < minConstSum) {
             return true;
         }
         return false;
