@@ -416,7 +416,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
-        ______TS("Typical case");
+        ______TS("add with typical params -> add success ");
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -481,7 +481,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
-        ______TS("add min and max points constraint -> add failure ");
+        ______TS("add min points greater than max points constraint -> add failure ");
 
         additionalParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
