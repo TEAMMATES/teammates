@@ -653,6 +653,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         ______TS("Successful case: const sum: typical case");
 
         fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 1);
+        // Feedback Question with only min constraint
         FeedbackQuestionAttributes fq2 = fqDb.getFeedbackQuestion(
                 "CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 7);
 
