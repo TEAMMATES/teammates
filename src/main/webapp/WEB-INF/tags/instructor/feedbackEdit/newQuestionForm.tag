@@ -31,7 +31,7 @@
           </ul>
         </div>
 
-        <a href="/instructorHelp.jsp#fbQuestionTypes"
+        <a href="/instructorHelp.jsp#questions"
             target="_blank" rel="noopener noreferrer">
           <i class="glyphicon glyphicon-info-sign"></i>
         </a>
