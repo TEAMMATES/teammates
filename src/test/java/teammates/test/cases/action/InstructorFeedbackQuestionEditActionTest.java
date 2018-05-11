@@ -882,7 +882,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                                             .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
-        String[] baseParams = {
+        String[] baseParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
@@ -913,6 +913,10 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "100",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "50",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "30",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN, "20",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "90"
         };
 
         String[] params = ArrayUtils.addAll(baseParams, additionalParams);
@@ -988,12 +992,66 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 r.getDestinationWithParams());
         assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_CONSTRAINT_GREATER_THAN_MAX, r.getStatusMessage());
 
+        ______TS("edit min points less than 0 -> edit failure ");
+
+        additionalParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "1000",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "300",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "500",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MINPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMIN, "-1",
+        };
+
+        params = ArrayUtils.addAll(baseParams, additionalParams);
+        a = getAction(params);
+        r = getRedirectResult(a);
+        assertTrue(r.isError);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        true),
+                r.getDestinationWithParams());
+        assertEquals(String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Min"),
+                r.getStatusMessage());
         // All existing responses should be deleted as the options are edited
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
+        ______TS("edit max points less than 0 -> edit failure ");
+
+        additionalParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "1000",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "300",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "500",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "-1"
+        };
+
+        params = ArrayUtils.addAll(baseParams, additionalParams);
+        a = getAction(params);
+        r = getRedirectResult(a);
+        assertTrue(r.isError);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        true),
+                r.getDestinationWithParams());
+        assertEquals(String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Max"),
+                r.getStatusMessage());
+        // All existing responses should be deleted as the options are edited
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
         ______TS("edit min and max points constraint -> edit success ");
 
-        String[] editPointsConstraintSuccessParams = {
+        additionalParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.(edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "1000",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "300",
@@ -1004,7 +1062,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "31"
         };
 
-        a = getAction(editPointsConstraintSuccessParams);
+        params = ArrayUtils.addAll(baseParams, additionalParams);
+        a = getAction(params);
         r = getRedirectResult(a);
         assertFalse(r.isError);
 
