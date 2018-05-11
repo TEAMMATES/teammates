@@ -1,3 +1,5 @@
+<%@ page import="teammates.common.util.Config" %>
+<%@ page import="teammates.common.util.Const" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ page pageEncoding="UTF-8" %>
 <h2 class="text-color-primary" id="students">Students</h2>
@@ -595,6 +597,23 @@
           <p>
             At the moment, there is no way for students to update their own Google IDs.<br>
             Please ask the student to <a href="mailto:teammates@comp.nus.edu.sg">contact us</a> for assistance changing his/her Google ID.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" id="student-request_resend_access_links">
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#student-request-resend-access-links-body">
+        <h3 class="panel-title">How can students without accounts request for resending of access links to feedback sessions?</h3>
+      </div>
+      <div id="student-request-resend-access-links-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            TEAMMATES allows students to request for access links which students might have accidentally deleted to be resent. Students can do so by themselves without the need to approach the instructor.
+            The student can go to the <b>Home</b> page, click <b>Request</b> tab and choose <b>Resend Feedback Links</b>. The student then keys in his/her email address and
+            all access links for the feedback sessions in which the student has participated over the last six months will be sent to that email address.
+          </p>
+          <p>
+            The student can also go to the request page via url: <%= Config.getAppUrl(Const.ActionURIs.RESEND_ACCESS_LINKS) %>.
           </p>
         </div>
       </div>
