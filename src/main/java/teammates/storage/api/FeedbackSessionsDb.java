@@ -15,7 +15,6 @@ import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
-import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -161,7 +160,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         fs.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
         fs.setTimeZone(newAttributes.getTimeZone().getId());
         fs.setGracePeriod(newAttributes.getGracePeriodMinutes());
-        fs.setFeedbackSessionType(newAttributes.getFeedbackSessionType());
         fs.setSentOpenEmail(newAttributes.isSentOpenEmail());
         fs.setSentClosingEmail(newAttributes.isSentClosingEmail());
         fs.setSentClosedEmail(newAttributes.isSentClosedEmail());
@@ -474,14 +472,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
         return load()
-                .filter("startTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("startTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentOpenEmail =", false)
                 .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingEmail() {
         return load()
-                .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("endTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentClosingEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
@@ -489,7 +487,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
         return load()
-                .filter("endTime >", TimeHelper.getDateOffsetToCurrentTime(-2))
+                .filter("endTime >", TimeHelper.convertInstantToDate(TimeHelper.getInstantDaysOffsetFromNow(-2)))
                 .filter("sentClosedEmail =", false)
                 .filter("isClosingEmailEnabled =", true)
                 .list();
@@ -499,7 +497,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load()
                 .filter("sentPublishedEmail =", false)
                 .filter("isPublishedEmailEnabled =", true)
-                .filter("feedbackSessionType !=", FeedbackSessionType.PRIVATE)
                 .list();
     }
 

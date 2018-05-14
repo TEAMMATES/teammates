@@ -1,7 +1,6 @@
 package teammates.ui.template;
 
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.time.Instant;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
@@ -23,10 +22,8 @@ public class AdminEmailTableRow {
     // -------- Enhancement to fields in EmailLogEntry --------
 
     public String getTimeForDisplay() {
-        Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        appCal.setTimeInMillis(emailEntry.getTime());
-        appCal = TimeHelper.convertToUserTimeZone(appCal, Const.SystemParams.ADMIN_TIME_ZONE_DOUBLE);
-        return TimeHelper.formatTime12H(appCal.getTime());
+        return TimeHelper.formatDateTimeForDisplay(TimeHelper.convertInstantToLocalDateTime(
+                Instant.ofEpochMilli(emailEntry.getTime()), Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
     public String getUnsanitizedContent() {

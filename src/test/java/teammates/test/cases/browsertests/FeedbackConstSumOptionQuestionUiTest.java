@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.questions.FeedbackConstantSumDistributePointsType;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -58,7 +59,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("CONSTSUM-option: new question (frame) link");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
 
@@ -85,7 +86,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("remove when 1 left");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test const sum question");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
@@ -104,7 +105,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("duplicate options");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test duplicate options");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
 
@@ -119,7 +120,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     @Override
     public void testCustomizeOptions() {
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
 
         feedbackEditPage.fillConstSumOptionForNewQuestion(0, "Option 1");
         feedbackEditPage.fillConstSumOptionForNewQuestion(1, "Option 2");
@@ -153,12 +154,15 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("const sum qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.enableOtherFeedbackPathOptionsForNewQuestion();
-        feedbackEditPage.selectRecipientsToBeStudents();
+        feedbackEditPage.selectRecipientsToBeStudentsAndWaitForVisibilityMessageToLoad();
         feedbackEditPage.fillConstSumPointsBoxForNewQuestion("30");
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption());
 
         assertEquals("30", feedbackEditPage.getConstSumPointsBox(1));
         assertEquals("30", feedbackEditPage.getConstSumPointsForEachOptionBox(1));
@@ -192,6 +196,43 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+
+        ______TS("CONST SUM: edit to force uneven distribution for all options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption());
+        assertFalse(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.clickDistributePointsOptionsCheckbox(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
+
+        ______TS("CONST SUM: edit to force uneven distribution for at least some options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        assertTrue(feedbackEditPage.isElementEnabled("constSumDistributePointsSelect-1"));
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
+        feedbackEditPage.selectConstSumDistributePointsOptions("At least some options", 1);
+        feedbackEditPage.verifyFieldValue(
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS + "-1",
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption());
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        assertEquals("200", feedbackEditPage.getConstSumPointsBox(1));
+        assertEquals("200", feedbackEditPage.getConstSumPointsForEachRecipientBox(1));
     }
 
     @Override
@@ -219,11 +260,11 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("CONSTSUM-option after CONSTSUM-recipient: Check ui consistency success case");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_RECIPIENT");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_RECIPIENT");
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
 
         assertTrue(feedbackEditPage.isElementVisible(By.id("constSumPointsTotal--1")));
         assertTrue(feedbackEditPage.isElementVisible(By.id("constSumOption_Option--1")));
@@ -240,7 +281,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         ______TS("Success case: CONSTSUM-option points to distribute field disables when radio button is unchecked");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONSTSUM_OPTION");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONSTSUM_OPTION");
 
         // Make sure that constSumPointsTotal radio button is selected by default
         assertTrue(browser.driver.findElement(By.id("constSumPointsTotal--1")).isSelected());

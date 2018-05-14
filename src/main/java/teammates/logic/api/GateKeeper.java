@@ -141,7 +141,7 @@ public class GateKeeper {
         verifyNotNull(feedbacksession, "feedback session");
         verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
 
-        if (!student.course.equals(feedbacksession.getCourseId()) || feedbacksession.isPrivateSession()) {
+        if (!student.course.equals(feedbacksession.getCourseId())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to student [" + student.email + "]");
         }

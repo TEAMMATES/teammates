@@ -65,7 +65,7 @@
       <input type="number" disabled class="form-control"
           name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}"
           id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES}-${questionNumber}"
-          min="2" value="${msqMaxSelectableChoices}">
+          min="2" value="${msqMaxSelectableChoices}" required>
     </div>
     <div class="col-md-9 margin-bottom-7px">
       <div class="checkbox">
@@ -81,7 +81,7 @@
       <input type="number" disabled class="form-control"
           name="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}"
           id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES}-${questionNumber}"
-          min="1" value="${msqMinSelectableChoices}">
+          min="1" value="${msqMinSelectableChoices}" required>
     </div>
     <input type="hidden"
         id="${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS}-${questionNumber}"

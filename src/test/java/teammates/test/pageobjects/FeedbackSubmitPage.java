@@ -46,18 +46,12 @@ public class FeedbackSubmitPage extends AppPage {
         String id = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                 + "-" + qnNumber + "-" + responseNumber;
         fillRichTextEditor(id, text);
-        executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                      + "    tinyMCE.get('" + id + "').fire('change');"
-                      + "}");
     }
 
     public void fillResponseTextBox(int qnNumber, int responseNumber, String text) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         fillTextBox(element, text);
-        // Fire the change event using javascript since firefox with selenium
-        // might be buggy and fail to trigger.
-        executeScript("$(arguments[0]).change();", element);
     }
 
     public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
@@ -65,7 +59,6 @@ public class FeedbackSubmitPage extends AppPage {
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT
                       + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         fillTextBox(element, text);
-        executeScript("$(arguments[0]).change();", element);
     }
 
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {
@@ -162,7 +155,8 @@ public class FeedbackSubmitPage extends AppPage {
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
         name = SanitizationHelper.sanitizeStringForXPath(name);
-        selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name=" + name + "]")), choiceName);
+        final WebElement selectElement = browser.driver.findElement(By.xpath("//select[@name=" + name + "]"));
+        selectDropdownByVisibleValue(selectElement, choiceName);
     }
 
     public void clickRubricRadio(int qnIndex, int respIndex, int row, int col) {
@@ -202,11 +196,16 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void submitWithoutConfirmationEmail() {
-        WebElement sendEmailChecbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
-        if (sendEmailChecbox.isSelected()) {
-            click(sendEmailChecbox);
+        WebElement sendEmailCheckbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        if (sendEmailCheckbox.isSelected()) {
+            click(sendEmailCheckbox);
         }
         clickSubmitButton();
+    }
+
+    public boolean isConfirmationEmailBoxTicked() {
+        WebElement sendEmailCheckbox = browser.driver.findElement(By.name(Const.ParamsNames.SEND_SUBMISSION_EMAIL));
+        return sendEmailCheckbox.isSelected();
     }
 
     public void clickSubmitButton() {
@@ -259,8 +258,7 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement modalMessage = browser.driver.findElement(By.xpath("//div[@class='bootbox-body']"));
         assertEquals(modalMessage.getText(), expectedModalMessage);
 
-        click(closeButton);
-        waitForModalToDisappear();
+        clickDismissModalButtonAndWaitForModalHidden(closeButton);
     }
 
     private void closeMoreInfoAboutEqualShareModal() {

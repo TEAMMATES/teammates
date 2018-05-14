@@ -124,7 +124,7 @@ public class AdminActivityLogPage extends AppPage {
         String dateTimeString = getLogsTable().findElement(By.cssSelector("tr:last-child > td > a")).getText();
 
         return TimeHelper.parseLocalDateTime(dateTimeString, "dd/MM/yyyy HH:mm:ss.SSS")
-                .atZone(Const.SystemParams.ADMIN_TIME_ZONE_ID).toInstant();
+                .atZone(Const.SystemParams.ADMIN_TIME_ZONE).toInstant();
 
     }
 }
