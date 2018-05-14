@@ -1120,7 +1120,7 @@ function getSuccessMessage() {
 }
 
 function getIncompleteQuestionMessage() {
-    return "<p>&#10071; " + $(INFO_STATUS_MESSAGE).html().trim() + "</p>";
+    return "<p><span style=font-size:175%> &#10071; </span>" + $(INFO_STATUS_MESSAGE).html().trim() + "</p>";
 }
 
 function hasIncompleteQuestionMessage() {
