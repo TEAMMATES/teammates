@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -364,14 +365,18 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return response;
     }
 
-    private String getIncompleteQuestionMessage(HashSet<Integer> questionsWithMissingAnswers) {
-        String incompleteQuestionsMessage = Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS;
-
-        for (int qns : questionsWithMissingAnswers) {
-            incompleteQuestionsMessage += Integer.toString(qns) + ", ";
+    private String getIncompleteQuestionMessage(Set<Integer> questionsWithMissingAnswers) {
+        StringBuilder incompleteQuestionsMessage = new StringBuilder(Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS);
+        Iterator questions = questionsWithMissingAnswers.iterator();
+        while (questions.hasNext()) {
+            incompleteQuestionsMessage.append(questions.next().toString());
+            if (questions.hasNext()) {
+                incompleteQuestionsMessage.append(", ");
+            } else {
+                incompleteQuestionsMessage.append('.');
+            }
         }
-        incompleteQuestionsMessage = incompleteQuestionsMessage.substring(0, incompleteQuestionsMessage.length() - 2) + ".";
-        return incompleteQuestionsMessage;
+        return incompleteQuestionsMessage.toString();
     }
 
     /**
