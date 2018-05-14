@@ -73,7 +73,7 @@ public class FeedbackRequestAccessLinksResendPageUiTest extends BaseUiTestCase {
                 validator.getInvalidityInfoForEmail(emailAddress));
     }
 
-    private void testFailedRecaptchaVerification() throws IOException {
+    private void testFailedRecaptchaVerification() {
         ______TS("Recaptcha Verification Failed");
 
         requestResendAccessLinksPage.fillEmailAddress(studentEmailAddress);
