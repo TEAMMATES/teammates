@@ -7,8 +7,13 @@ import com.google.apphosting.api.DeadlineExceededException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
+import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.AdminExceptionTestAction;
+import teammates.ui.controller.RedirectResult;
+import teammates.ui.controller.ShowPageResult;
 
 /**
  * SUT: {@link AdminExceptionTestAction}.
@@ -22,6 +27,9 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
 
     @Override
     @Test
+    /**
+     * This method verifies if exceptions from AdminExceptionTestAction are thrown correctly
+     */
     @SuppressWarnings("PMD.AvoidCatchingNPE") // deliberately done for testing
     public void testExecuteAndPostProcess() {
         final String adminUserId = "admin.user";
@@ -35,7 +43,7 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         action = getAction(Const.ParamsNames.ERROR, error);
         try {
             action.executeAndPostProcess();
-            fail("Expected AssertionError to be thrown");
+            signalFailureToDetectException("AssertionError");
         } catch (AssertionError ae) {
             assertEquals(ae.getMessage(), "AssertionError Testing");
         }
@@ -45,8 +53,8 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         action = getAction(Const.ParamsNames.ERROR, error);
         try {
             action.executeAndPostProcess();
-            fail("Expected EntityNotFoundException to be thrown");
-        } catch (teammates.common.exception.EntityNotFoundException enfe) {
+            signalFailureToDetectException("EntityNotFoundException");
+        } catch (EntityNotFoundException enfe) {
             assertEquals(enfe.getMessage(), "EntityDoesNotExistException Testing");
         }
 
@@ -55,9 +63,9 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         action = getAction(Const.ParamsNames.ERROR, error);
         try {
             action.executeAndPostProcess();
-            fail("Expected UnauthorizedAccessException to be thrown");
+            signalFailureToDetectException("UnauthorizedAccessException");
         } catch (UnauthorizedAccessException uae) {
-            // Successful catch
+            assertEquals(uae.getMessage(), "UnauthorizedAccessException Testing");
         }
 
         ______TS("test for NullPointerException");
@@ -65,9 +73,9 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         action = getAction(Const.ParamsNames.ERROR, error);
         try {
             action.executeAndPostProcess();
-            fail("Expected NullPointerException to be thrown");
+            signalFailureToDetectException("NullPointerException");
         } catch (NullPointerException npe) {
-            // Successful catch
+            assertEquals(npe.getMessage(), "NullPointerException Testing");
         }
 
         ______TS("test for DeadlineExceededException");
@@ -75,9 +83,9 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         action = getAction(Const.ParamsNames.ERROR, error);
         try {
             action.executeAndPostProcess();
-            fail("Expected DeadlineExceededException to be thrown");
+            signalFailureToDetectException("DeadlineExceededException");
         } catch (DeadlineExceededException dlee) {
-            // Successful catch
+            assertEquals(dlee.getMessage(), "DeadlineExceededException Testing");
         }
 
         ______TS("test for NullPostParameterException");
@@ -85,10 +93,16 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         action = getAction(Const.ParamsNames.ERROR, error);
         try {
             action.executeAndPostProcess();
-            fail("Expected NullPostParameterException to be thrown");
+            signalFailureToDetectException("NullPostParameterException");
         } catch (NullPostParameterException nppe) {
-            assertEquals(nppe.getMessage(), "test null post param exception");
+            assertEquals(nppe.getMessage(), "NullPostParameterException Testing");
         }
+
+        ______TS("test for success scenario");
+        error = "";
+        action = getAction(Const.ParamsNames.ERROR, error);
+        ActionResult result = action.executeAndPostProcess();
+        assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, result.destination);
     }
 
     @Override
