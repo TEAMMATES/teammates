@@ -5,7 +5,8 @@ import java.util.stream.Collectors;
 
 /**
  * View Model for student/feedbackResults/questionWithResponses.tag
- * Manages student feedback results questions details, self-responses tables and others-responses tables separately
+ *
+ * <p>Manages student feedback results questions details, self-responses tables and others-responses tables separately
  * for a specific question.
  */
 public class StudentFeedbackResultsQuestionWithResponses {
