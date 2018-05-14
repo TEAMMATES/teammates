@@ -5,15 +5,12 @@ import org.testng.annotations.Test;
 import com.google.apphosting.api.DeadlineExceededException;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
-import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.AdminExceptionTestAction;
-import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 
 /**
  * SUT: {@link AdminExceptionTestAction}.

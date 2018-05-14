@@ -11,7 +11,8 @@ public class AdminExceptionTestAction extends Action {
 
     @Override
     /**
-     * This method throws an exception and redirects the user to an error page depending on the type of error in the user request
+     * This method throws an exception and redirects the user to an error page
+     * depending on the type of error in the user request
      */
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
     protected ActionResult execute() throws EntityDoesNotExistException {
