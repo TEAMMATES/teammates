@@ -63,7 +63,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("response to instructors, total 3");
 
-        question = getQuestionFromDatastore("qn2InSession2InCourse2");
+        question = getQuestionFromDatastore("qn2InSession1InCourse2");
         email = dataBundle.instructors.get("instructor1OfCourse2").email;
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 2); // 3 - giver = 2
@@ -315,7 +315,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     private void testUpdateQuestion() throws Exception {
         ______TS("standard update, no existing responses, with 'keep existing' policy");
-        FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
+        FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse2");
         questionToUpdate.questionMetaData = new Text("new question text");
         questionToUpdate.questionNumber = 3;
         List<FeedbackParticipantType> newVisibility = new LinkedList<>();
@@ -405,22 +405,18 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         // test that questions are deleted
         String courseId = "idOfTypicalCourse2";
-        FeedbackQuestionAttributes deletedQuestion = getQuestionFromDatastore("qn1InSession2InCourse2");
+        FeedbackQuestionAttributes deletedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
         assertNotNull(deletedQuestion);
 
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
         assertFalse(questions.isEmpty());
-        questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
-        assertFalse(questions.isEmpty());
 
         fqLogic.deleteFeedbackQuestionsForCourse(courseId);
-        deletedQuestion = getQuestionFromDatastore("qn1InSession2InCourse2");
+        deletedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
         assertNull(deletedQuestion);
 
         questions = fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
-        assertEquals(0, questions.size());
-        questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
         assertEquals(0, questions.size());
 
         // test that questions in other courses are unaffected
@@ -458,8 +454,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for instructors by the creating instructor");
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("qn1InSession2InCourse2"));
-        expectedQuestions.add(getQuestionFromDatastore("qn2InSession2InCourse2"));
+        expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse2"));
+        expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse2"));
 
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
@@ -577,12 +573,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Check that a question has some responses");
 
-        questionWithResponse = getQuestionFromDatastore("qn1InSession2InCourse2");
+        questionWithResponse = getQuestionFromDatastore("qn1InSession1InCourse2");
         assertTrue(fqLogic.areThereResponsesForQuestion(questionWithResponse.getId()));
 
         ______TS("Check that a question has no responses");
 
-        questionWithoutResponse = getQuestionFromDatastore("qn2InSession2InCourse2");
+        questionWithoutResponse = getQuestionFromDatastore("qn2InSession1InCourse2");
         assertFalse(fqLogic.areThereResponsesForQuestion(questionWithoutResponse.getId()));
     }
 

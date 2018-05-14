@@ -135,7 +135,7 @@
                       data-placement="top">
                     Edit
                   </a>
-                  <c:if test="${fromCourseDetailsPage && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
+                  <c:if test="${(fromCourseDetailsPage || fromStudentListPage) && student.studentStatus == STUDENT_COURSE_STATUS_YET_TO_JOIN}">
                     <c:set var="remindButtonEnabled" value="${section.allowedToModifyStudent}" />
                     <a class="course-student-remind-link btn btn-default btn-xs margin-bottom-7px<c:if test="${not remindButtonEnabled}"> disabled mouse-hover-only</c:if>"
                         <c:choose>

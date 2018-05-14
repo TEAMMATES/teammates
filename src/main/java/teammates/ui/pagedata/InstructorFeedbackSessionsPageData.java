@@ -43,20 +43,20 @@ public class InstructorFeedbackSessionsPageData extends PageData {
      * @param existingFeedbackSessions   list of existing feedback sessions
      * @param instructors                a map of courseId to the instructorAttributes for the current user
      * @param defaultFormValues          the feedback session which values are used as the default values in the form
-     * @param feedbackSessionType        "TEAMEVALUATION" or "STANDARD"
+     * @param sessionTemplateType        "TEAMEVALUATION" or "STANDARD"
      * @param highlightedFeedbackSession the feedback session to highlight in the sessions table
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession,
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
                      Map<String, InstructorAttributes> instructors,
-                     FeedbackSessionAttributes defaultFormValues, String feedbackSessionType,
+                     FeedbackSessionAttributes defaultFormValues, String sessionTemplateType,
                      String highlightedFeedbackSession) {
 
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
 
         buildNewForm(courses, courseIdForNewSession,
                      instructors, defaultFormValues,
-                     feedbackSessionType);
+                     sessionTemplateType);
 
         buildFsList(courseIdForNewSession, existingFeedbackSessions,
                     instructors, highlightedFeedbackSession);
@@ -70,10 +70,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession,
                                           List<FeedbackSessionAttributes> existingFeedbackSessions,
                                           Map<String, InstructorAttributes> instructors,
-                                          FeedbackSessionAttributes defaultFormValues, String feedbackSessionType) {
+                                          FeedbackSessionAttributes defaultFormValues, String sessionTemplateType) {
 
         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues,
-                feedbackSessionType, null);
+                sessionTemplateType, null);
     }
 
     public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -127,7 +127,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
                               Map<String, InstructorAttributes> instructors,
-                              FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
+                              FeedbackSessionAttributes newFeedbackSession, String sessionTemplateType) {
         List<String> courseIds = new ArrayList<>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.getId());
@@ -135,14 +135,14 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors,
-                                   newFeedbackSession, feedbackSessionType,
+                                   newFeedbackSession, sessionTemplateType,
                                    courseIds,
                                    additionalSettings);
     }
 
     private FeedbackSessionsForm buildBasicForm(List<CourseAttributes> courses, String courseIdForNewSession,
                                                 Map<String, InstructorAttributes> instructors,
-                                                FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
+                                                FeedbackSessionAttributes newFeedbackSession, String sessionTemplateType,
                                                 List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
 
@@ -154,7 +154,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
         return FeedbackSessionsForm.getFormForNewFs(
                                         newFeedbackSession,
-                                        getFeedbackSessionTypeOptions(feedbackSessionType),
+                                        getSessionTemplateTypeOptions(sessionTemplateType),
                                         courseIdForNewSession,
                                         courseIds, courseIdOptions,
                                         instructors,
@@ -222,18 +222,18 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     }
 
     /**
-     * Creates a list of options (STANDARD and TEAMEVALUATION). If defaultSessionType is null,
+     * Creates a list of options (STANDARD and TEAMEVALUATION). If defaultSessionTemplateType is null,
      *     TEAMEVALUATION is selected by default.
-     * @param defaultSessionType  either STANDARD or TEAMEVALUATION, the option that is selected on page load
+     * @param defaultSessionTemplateType  either STANDARD or TEAMEVALUATION, the option that is selected on page load
      */
-    private List<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
+    private List<ElementTag> getSessionTemplateTypeOptions(String defaultSessionTemplateType) {
         ArrayList<ElementTag> result = new ArrayList<>();
 
         ElementTag standardFeedbackSession = createOption("session with my own questions", "STANDARD",
-                                                          "STANDARD".equals(defaultSessionType));
+                                                          "STANDARD".equals(defaultSessionTemplateType));
         ElementTag evaluationFeedbackSession =
                 createOption("session using template: team peer evaluation", "TEAMEVALUATION",
-                             defaultSessionType == null || "TEAMEVALUATION".equals(defaultSessionType));
+                        defaultSessionTemplateType == null || "TEAMEVALUATION".equals(defaultSessionTemplateType));
 
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);

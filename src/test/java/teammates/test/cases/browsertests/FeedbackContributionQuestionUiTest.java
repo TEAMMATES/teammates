@@ -56,7 +56,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("CONTRIB: new question (frame) link");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONTRIB");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONTRIB");
         assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
     }
 
@@ -66,8 +66,8 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
-
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEqualsErrorTexts(
+                Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID);
     }
 
     @Override
@@ -96,12 +96,14 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
         assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
-        feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
+        feedbackEditPage.clickVisibilityDropdownForNewQuestionAndWaitForVisibilityMessageToLoad(
+                "VISIBLE_TO_INSTRUCTORS_ONLY");
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
-        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
+        feedbackEditPage.clickVisibilityDropdownForNewQuestionAndWaitForVisibilityMessageToLoad(
+                "ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
         assertEquals("RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,INSTRUCTORS",
                 feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
@@ -167,9 +169,10 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("CONTRIB: skip copy visibility options non-contrib -> contrib");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("TEXT");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("TEXT");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("q1, essay qn");
-        feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
+        feedbackEditPage.clickVisibilityDropdownForNewQuestionAndWaitForVisibilityMessageToLoad(
+                "VISIBLE_TO_INSTRUCTORS_ONLY");
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowResponsesToForNewQuestion());
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
@@ -178,7 +181,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONTRIB");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONTRIB");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("q2, contribution qn");
         assertEquals("Shown anonymously to recipient and team members, visible to instructors",
                 feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
@@ -187,14 +190,15 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
         assertEquals("RECEIVER,INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
-        feedbackEditPage.clickVisibilityDropdownForNewQuestion("VISIBLE_TO_INSTRUCTORS_ONLY");
+        feedbackEditPage.clickVisibilityDropdownForNewQuestionAndWaitForVisibilityMessageToLoad(
+                "VISIBLE_TO_INSTRUCTORS_ONLY");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
         ______TS("CONTRIB: copy visibility options contrib -> contrib");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("CONTRIB");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("CONTRIB");
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("q3, contribution qn");
         assertEquals("Visible to instructors only",
                 feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
@@ -202,14 +206,15 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowGiverToForNewQuestion());
         assertEquals("INSTRUCTORS", feedbackEditPage.getVisibilityParamShowRecipientToForNewQuestion());
 
-        feedbackEditPage.clickVisibilityDropdownForNewQuestion("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
+        feedbackEditPage.clickVisibilityDropdownForNewQuestionAndWaitForVisibilityMessageToLoad(
+                "ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
 
         ______TS("CONTRIB: copy visibility options contrib -> non-contrib");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("TEXT");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("TEXT");
 
         assertEquals("Shown anonymously to recipient and team members, visible to instructors",
                 feedbackEditPage.getVisibilityDropdownLabelForNewQuestion());
