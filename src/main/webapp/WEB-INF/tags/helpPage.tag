@@ -2,6 +2,7 @@
 <%@ tag description="Generic TEAMMATES Help Page" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.FrontEndLibrary" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ attribute name="jsIncludes" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -39,5 +40,10 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.JQUERY_UI %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.BOOTSTRAP %>"></script>
+    ${jsIncludes}
   </body>
 </html>
