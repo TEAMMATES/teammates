@@ -324,6 +324,4 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         this.isUsingAjax = isUsingAjax;
     }
 
-
-
 }
