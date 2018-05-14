@@ -105,25 +105,21 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
 
         assertTrue(questionBundle1.getSelfResponseTables().get(0).isGiverNameYou());
         assertEquals("You", questionBundle1.getSelfResponseTables().get(0).getRecipientName());
-
-        assertEquals(0, questionBundle1.getOthersResponseTables().size());
         assertNotNull(questionBundle1.getSelfResponseTables().get(0).getResponses());
-
         assertEquals("You", questionBundle1.getSelfResponseTables().get(0).getResponses()
                                         .get(0).getGiverName());
-
         assertEquals("Student 1 self feedback.", questionBundle1.getSelfResponseTables().get(0).getResponses()
                                         .get(0).getAnswer());
 
-        assertFalse(questionBundle2.getOthersResponseTables().get(0).isGiverNameYou());
-        assertEquals("You", questionBundle2.getOthersResponseTables().get(0).getRecipientName());
+        assertEquals(0, questionBundle1.getOthersResponseTables().size());
 
         assertEquals(1, questionBundle2.getSelfResponseTables().size());
-        assertNotNull(questionBundle2.getOthersResponseTables().get(0).getResponses());
 
+        assertFalse(questionBundle2.getOthersResponseTables().get(0).isGiverNameYou());
+        assertEquals("You", questionBundle2.getOthersResponseTables().get(0).getRecipientName());
+        assertNotNull(questionBundle2.getOthersResponseTables().get(0).getResponses());
         assertEquals("student2 In Course1", questionBundle2.getOthersResponseTables().get(0).getResponses()
                 .get(0).getGiverName());
-
         assertEquals("Response from student 2 to student 1.", questionBundle2.getOthersResponseTables().get(0)
                 .getResponses().get(0).getAnswer());
 
