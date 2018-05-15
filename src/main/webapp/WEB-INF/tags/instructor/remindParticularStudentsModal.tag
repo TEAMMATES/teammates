@@ -24,6 +24,14 @@
               </strong>
             </label>
           </div>
+          <div class="checkbox">
+            <input id="remind_not_submitted" type="checkbox" value="">
+            <label for="remind_not_submitted">
+              <strong>
+                Select all students not submitted
+              </strong>
+            </label>
+          </div>
         </div>
         <div class="modal-body">
           <div id="studentList" class="form-group"></div>
