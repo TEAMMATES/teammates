@@ -16,6 +16,14 @@
             Remind Particular Students
             <small>(Select the student(s) you want to remind)</small>
           </h4>
+          <div class="checkbox">
+            <input id="remind_all" type="checkbox" value="">
+            <label for="remind_all">
+              <strong>
+                Select all students
+              </strong>
+            </label>
+          </div>
         </div>
         <div class="modal-body">
           <div id="studentList" class="form-group"></div>
