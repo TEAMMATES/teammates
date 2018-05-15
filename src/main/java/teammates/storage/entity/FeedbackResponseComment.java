@@ -18,7 +18,7 @@ import teammates.common.util.TimeHelper;
 /**
  * An association class that represents the association
  * Giver --> [comments about] --> FeedbackResponse.
- * Currently giver is restricted only to Instructors.
+ * Giver can be a student or an instructor
  */
 @Entity
 @Index
@@ -38,6 +38,9 @@ public class FeedbackResponseComment extends BaseEntity {
 
     /** The course-specific email used by the giver of the comment. */
     private String giverEmail;
+
+    /** Role of a comment giver. */
+    private String giverRole;
 
     /** The foreign key to locate the FeedbackResponse object commented on. */
     private String feedbackResponseId;
@@ -73,7 +76,7 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public FeedbackResponseComment(String courseId, String feedbackSessionName,
-            String feedbackQuestionId, String giverEmail, String feedbackResponseId,
+            String feedbackQuestionId, String giverEmail, String giverRole, String feedbackResponseId,
             Instant createdAt, Text commentText,
             String giverSection, String receiverSection, List<FeedbackParticipantType> showCommentTo,
             List<FeedbackParticipantType> showGiverNameTo, String lastEditorEmail, Instant lastEditedAt) {
@@ -82,6 +85,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.feedbackSessionName = feedbackSessionName;
         this.feedbackQuestionId = feedbackQuestionId;
         this.giverEmail = giverEmail;
+        this.giverRole = giverRole;
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = TimeHelper.convertInstantToDate(createdAt);
         this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
@@ -146,6 +150,14 @@ public class FeedbackResponseComment extends BaseEntity {
      */
     public void setGiverEmail(String giverEmail) {
         this.giverEmail = giverEmail;
+    }
+
+    public String getGiverRole() {
+        return giverRole;
+    }
+
+    public void setGiverRole(String giverRole) {
+        this.giverRole = giverRole;
     }
 
     public void setShowCommentTo(List<FeedbackParticipantType> showCommentTo) {

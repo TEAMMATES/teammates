@@ -52,7 +52,7 @@ public class FeedbackResponseRow {
                 String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
                 String recipientName = results.getNameForEmail(response.recipient);
                 String giverEmail = frc.giverEmail;
-                Map<String, String> instructorEmailNameTable = results.instructorEmailNameTable;
+                Map<String, String> instructorEmailNameTable = results.commentGiverEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
                         instructorEmailNameTable, results.getTimeZone());

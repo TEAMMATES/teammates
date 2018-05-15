@@ -44,7 +44,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, String> emailNameTable;
     public Map<String, String> emailLastNameTable;
     public Map<String, String> emailTeamNameTable;
-    public Map<String, String> instructorEmailNameTable;
+    public Map<String, String> commentGiverEmailNameTable;
     public Map<String, Set<String>> rosterTeamNameMembersTable;
     public Map<String, Set<String>> rosterSectionTeamNameTable;
     public Map<String, boolean[]> visibilityTable;
@@ -295,7 +295,7 @@ public class FeedbackSessionResultsBundle {
         this.emailNameTable = emailNameTable;
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
-        this.instructorEmailNameTable = getInstructorEmailNameTableFromRoster(roster);
+        this.commentGiverEmailNameTable = roster.getCommentGiverEmailNameTableFromRoster();
         this.sectionTeamNameTable = sectionTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
@@ -1672,20 +1672,11 @@ public class FeedbackSessionResultsBundle {
         return feedbackSession.getTimeZone();
     }
 
-    private Map<String, String> getInstructorEmailNameTableFromRoster(CourseRoster roster) {
-        Map<String, String> instructorEmailNameTable = new HashMap<>();
-        List<InstructorAttributes> instructorList = roster.getInstructors();
-        for (InstructorAttributes instructor : instructorList) {
-            instructorEmailNameTable.put(instructor.email, instructor.name);
-        }
-        return instructorEmailNameTable;
-    }
-
     public StringBuilder getCsvDetailedFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            commentRow.append("," + instructorEmailNameTable.get(frc.giverEmail) + ","
+            commentRow.append("," + commentGiverEmailNameTable.get(frc.giverEmail) + ","
                     + getTextFromComment(frc.commentText));
         }
         return commentRow;

@@ -38,6 +38,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public Long feedbackResponseCommentId;
     public String giverSection;
     public String receiverSection;
+    public String giverRole;
 
     FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
@@ -57,6 +58,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 .withCreatedAt(comment.getCreatedAt())
                 .withGiverSection(comment.getGiverSection())
                 .withReceiverSection(comment.getReceiverSection())
+                .withGiverRole(comment.getGiverRole())
                 .withLastEditorEmail(comment.getLastEditorEmail())
                 .withLastEditedAt(comment.getLastEditedAt())
                 .withVisibilityFollowingFeedbackQuestion(comment.getIsVisibilityFollowingFeedbackQuestion())
@@ -115,7 +117,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     @Override
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
-                feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
+                giverRole, feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
                 showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt);
     }
 
@@ -253,6 +255,11 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             frca.receiverSection = receiverSection == null
                     ? Const.DEFAULT_SECTION
                     : receiverSection;
+            return this;
+        }
+
+        public Builder withGiverRole(String giverRole) {
+            frca.giverRole = giverRole;
             return this;
         }
 

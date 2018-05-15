@@ -1482,7 +1482,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap, bundle.instructorEmailNameTable,
+                                           responseVisibilityMap, bundle.commentGiverEmailNameTable,
                                            bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
         if (isInstructorAllowedToEditAndDeleteComment) {
