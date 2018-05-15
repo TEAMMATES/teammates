@@ -293,7 +293,7 @@ $(document).ready(() => {
 
     prepareRemindModal();
     prepareResendPublishedEmailModal();
-    
+
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
         richTextEditorBuilder.initEditor('#instructions', {
