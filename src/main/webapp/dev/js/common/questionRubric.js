@@ -361,23 +361,13 @@ function highlightRubricCol(index, questionNum, highlight) {
  * @param checkbox the "weights" checkbox
  */
 function moveAssignWeightsCheckbox(checkbox) {
-    const $choicesRow = checkbox.closest('thead').find('tr').eq(0);
-    const $weightsRow = checkbox.closest('thead').find('tr').eq(1);
-    const $choicesRowFirstCell = $choicesRow.find('th').first();
+    const $weightsRow = checkbox.closest('form').find('thead > tr').eq(1);
     const $weightsRowFirstCell = $weightsRow.find('th').first();
 
-    const $checkboxCellContent = checkbox.closest('th').children().detach();
-
-    $choicesRowFirstCell.empty();
-    $weightsRowFirstCell.empty();
-
     if (checkbox.prop('checked')) {
-        $choicesRowFirstCell.append('Choices <span class="glyphicon glyphicon-arrow-right"></span>');
-        $weightsRowFirstCell.append($checkboxCellContent);
-        $weightsRowFirstCell.find('.glyphicon-arrow-right').show();
+        $weightsRowFirstCell.append('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
     } else {
-        $choicesRowFirstCell.append($checkboxCellContent);
-        $choicesRowFirstCell.find('.glyphicon-arrow-right').hide();
+        $weightsRowFirstCell.empty();
     }
 }
 
@@ -387,10 +377,10 @@ function moveAssignWeightsCheckbox(checkbox) {
  * appropriate location
  */
 function bindAssignWeightsCheckboxes() {
-    $('body').on('click', 'input[id^="rubricAssignWeights"]', function () {
+    $('body').on('change', 'input[id^="rubricAssignWeights"]', function () {
         const $checkbox = $(this);
 
-        $checkbox.closest('form').find('tr[id^="rubricWeights"]').toggle();
+        $checkbox.closest('form').find('div > table > thead > tr[id^="rubricWeights"]').toggle();
 
         moveAssignWeightsCheckbox($checkbox);
     });
