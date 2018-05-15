@@ -48,6 +48,15 @@ function prepareRemindModal() {
         const url = `${action}&${formData}`;
         sendRemindersToStudents(url);
     });
+    $('#remind_all').on('change', function () {
+        if (this.checked) {
+            $('#remind_not_submitted').prop('disabled', true);
+            $('input[id^="all-students-"]').prop('checked', true);
+        } else {
+            $('#remind_not_submitted').prop('disabled', false);
+            $('input[id^="all-students-"]').prop('checked', false);
+        }
+    });
 }
 
 export {
