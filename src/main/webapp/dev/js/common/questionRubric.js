@@ -355,35 +355,33 @@ function highlightRubricCol(index, questionNum, highlight) {
 }
 
 /**
- * Moves the "weights" checkbox to the weight row if it is checked, otherwise
- * moves it to the choice row
+ * Shows the weight row if the "Choices are weighted" checkbox is checked, otherwise
+ * hides the weight row.
  *
- * @param checkbox the "weights" checkbox
+ * @param checkbox the "Choices are weighted" checkbox
  */
-function moveAssignWeightsCheckbox(checkbox) {
+function toggleAssignWeightsRow(checkbox) {
     const $weightsRow = checkbox.closest('form').find('thead > tr').eq(1);
     const $weightsRowFirstCell = $weightsRow.find('th').first();
 
-    $weightsRowFirstCell.empty();
     if (checkbox.prop('checked')) {
-        $weightsRowFirstCell.append('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
+        $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
     } else {
         $weightsRowFirstCell.empty();
     }
 }
 
 /**
- * Attaches event handlers to "weights" checkboxes to toggle the visibility of
- * the input boxes for rubric weights and move the "weights" checkbox to the
- * appropriate location
+ * Attaches event handlers to "Choices are weighted" checkboxes to toggle the visibility of
+ * the input boxes for rubric weights.
  */
 function bindAssignWeightsCheckboxes() {
-    $('body').on('change', 'input[id^="rubricAssignWeights"]', function () {
+    $('body').on('click', 'input[id^="rubricAssignWeights"]', function () {
         const $checkbox = $(this);
 
-        $checkbox.closest('form').find('div > table > thead > tr[id^="rubricWeights"]').toggle();
+        $checkbox.closest('form').find('tr[id^="rubricWeights"]').toggle();
 
-        moveAssignWeightsCheckbox($checkbox);
+        toggleAssignWeightsRow($checkbox);
     });
 }
 
@@ -427,7 +425,7 @@ export {
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,
-    moveAssignWeightsCheckbox,
     removeRubricCol,
     removeRubricRow,
+    toggleAssignWeightsRow,
 };
