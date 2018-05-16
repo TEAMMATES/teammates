@@ -364,6 +364,7 @@ function moveAssignWeightsCheckbox(checkbox) {
     const $weightsRow = checkbox.closest('form').find('thead > tr').eq(1);
     const $weightsRowFirstCell = $weightsRow.find('th').first();
 
+    $weightsRowFirstCell.empty();
     if (checkbox.prop('checked')) {
         $weightsRowFirstCell.append('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
     } else {
