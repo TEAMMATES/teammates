@@ -137,12 +137,12 @@ public class AdminEmailAttributes extends EntityAttributes<AdminEmail> {
         if (this.sendDate == null) {
             return "Draft";
         }
-        return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
+        return TimeHelper.formatDateTimeForDisplay(TimeHelper.convertInstantToLocalDateTime(
                 this.sendDate, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 
     public String getCreateDateForDisplay() {
-        return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
+        return TimeHelper.formatDateTimeForDisplay(TimeHelper.convertInstantToLocalDateTime(
                 this.createDate, Const.SystemParams.ADMIN_TIME_ZONE));
     }
 

@@ -22,7 +22,7 @@ public class AdminEmailTableRow {
     // -------- Enhancement to fields in EmailLogEntry --------
 
     public String getTimeForDisplay() {
-        return TimeHelper.formatTime12H(TimeHelper.convertInstantToLocalDateTime(
+        return TimeHelper.formatDateTimeForDisplay(TimeHelper.convertInstantToLocalDateTime(
                 Instant.ofEpochMilli(emailEntry.getTime()), Const.SystemParams.ADMIN_TIME_ZONE));
     }
 

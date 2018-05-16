@@ -159,10 +159,10 @@ public class AdminActivityLogPageAction extends Action {
             targetTimeZone = Const.SystemParams.ADMIN_TIME_ZONE;
         }
 
-        String timeInAdminTimeZone = TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime),
+        String timeInAdminTimeZone = TimeHelper.formatDateTimeForAdminLog(Instant.ofEpochMilli(earliestSearchTime),
                 Const.SystemParams.ADMIN_TIME_ZONE);
         String timeInUserTimeZone =
-                TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime), targetTimeZone);
+                TimeHelper.formatDateTimeForAdminLog(Instant.ofEpochMilli(earliestSearchTime), targetTimeZone);
 
         status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone ("
                 + Const.SystemParams.ADMIN_TIME_ZONE.getId() + ") and ");
@@ -350,7 +350,7 @@ public class AdminActivityLogPageAction extends Action {
             return "Local Time Unavailable";
         }
         Instant logInstant = Instant.ofEpochMilli(Long.parseLong(logUnixTimeMillis));
-        return TimeHelper.formatActivityLogTime(logInstant, timeZone) + " [" + timeZone.getId() + "]";
+        return TimeHelper.formatDateTimeForAdminLog(logInstant, timeZone) + " [" + timeZone.getId() + "]";
     }
 
 }
