@@ -458,6 +458,10 @@ input.inline {
     width: 60%;
 }
 
+.panel-horizontal {
+    display: inline-block;
+}
+
 .link-in-dark-bg:link {
     color: #F2FCAC;
 }
@@ -864,6 +868,32 @@ Prevents content overflow in navbar. */
     border: thin solid grey;
     display: inline-block;
     padding: 20px 40px;
+}
+
+#student-data-spreadsheet .panel-body {
+    padding: 5px;
+    margin: 10px;
+}
+
+#enrollstudents {
+    max-width: 100%;
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+input[name='number_of_rows'] {
+    width: 60px;
+    height: 32px;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #AAA;
+}
+
+#addEmptyRows {
+    margin-top: -3px;
 }
 
 #omni-comment-dropdown-trigger {
