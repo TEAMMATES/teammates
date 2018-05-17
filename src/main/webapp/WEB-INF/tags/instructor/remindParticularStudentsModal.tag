@@ -19,12 +19,11 @@
           <div>
             <input id="remind_all" type="checkbox" value="">
             <label style="width:250px;" for="remind_all">
+              Select all respondents
             </label>
             <input id="remind_not_submitted" type="checkbox" value="">
             <label for="remind_not_submitted">
-              <strong>
-                Select all students not submitted
-              </strong>
+              Select all respondents not yet submitted
             </label>
           </div>
         </div>
