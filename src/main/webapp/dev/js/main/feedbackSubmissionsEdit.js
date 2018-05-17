@@ -629,8 +629,8 @@ function updateConstSumMessageQn(qnNum) {
     }
 
     if (distributeToRecipients) {
+        const $constSumInstructionElement = $(`#constSumInstruction-${qnNum}-${numOptions - 1}`);
         const $constSumMessageElement = $(`#constSumMessage-${qnNum}-${numOptions - 1}`);
-        const $constSumErrorElement = $(`#constSumError-${qnNum}-${numOptions - 1}`);
 
         for (let i = 0; i < numOptions; i += 1) {
             const pointsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${i}-0`).val(), 10);
@@ -640,7 +640,7 @@ function updateConstSumMessageQn(qnNum) {
 
         remainingPoints = points - sum;
 
-        checkAndDisplayMessage($constSumMessageElement, $constSumErrorElement);
+        checkAndDisplayMessage($constSumInstructionElement, $constSumMessageElement);
     } else {
         for (let j = 0; j < numRecipients; j += 1) {
             sum = 0;
@@ -649,8 +649,8 @@ function updateConstSumMessageQn(qnNum) {
             allUnique = true;
             remainingPoints = points;
 
-            const $constSumMsgElement = $(`#constSumMessage-${qnNum}-${j}`);
-            const $constSumErrorElement = $(`#constSumError-${qnNum}-${j}`);
+            const $constSumInstructionElement = $(`#constSumInstruction-${qnNum}-${j}`);
+            const $constSumMessageElement = $(`#constSumMessage-${qnNum}-${j}`);
 
             for (let k = 0; k < numOptions; k += 1) {
                 const ptsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${j}-${k}`).val(), 10);
@@ -660,7 +660,7 @@ function updateConstSumMessageQn(qnNum) {
 
             remainingPoints = points - sum;
 
-            checkAndDisplayMessage($constSumMsgElement, $constSumErrorElement);
+            checkAndDisplayMessage($constSumInstructionElement, $constSumMessageElement);
         }
     }
 }
