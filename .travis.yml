@@ -6,6 +6,7 @@ branches:
   only:
     - master
     - release
+    - recycling-bin
 
 notifications:
   email: false
