@@ -56,7 +56,7 @@
             Restore
           </a>
           <a class="btn btn-default btn-xs course-delete-link" data-course-id="InstructorName1-CS1101S" data-original-title="Delete the course and its corresponding sessions" data-placement="top" data-toggle="tooltip" style="color: red;">
-            Delete
+            Delete Permanently
           </a>
         </td>
       </tr>
@@ -80,7 +80,7 @@
             Restore
           </a>
           <a class="btn btn-default btn-xs course-delete-link" data-course-id="InstructorName1-CS1020" data-original-title="Delete the course and its corresponding sessions" data-placement="top" data-toggle="tooltip" style="color: red">
-            Delete
+            Delete Permanently
           </a>
         </td>
       </tr>
@@ -104,7 +104,7 @@
             Restore
           </a>
           <a class="btn btn-default btn-xs course-delete-link" data-course-id="InstructorName2-CS2010" data-original-title="Delete the course and its corresponding sessions" data-placement="top" data-toggle="tooltip" style="color: red">
-            Delete
+            Delete Permanently
           </a>
         </td>
       </tr>
@@ -128,7 +128,7 @@
             Restore
           </a>
           <a class="btn btn-default btn-xs course-delete-link" data-course-id="InstructorName3-CS2103T" data-original-title="Delete the course and its corresponding sessions" data-placement="top" data-toggle="tooltip" style="color: red">
-            Delete
+            Delete Permanently
           </a>
         </td>
       </tr>
@@ -199,7 +199,7 @@
           Restore
         </a>
         <a class="btn btn-default btn-xs course-delete-link" data-course-id="InstructorName1-CS1101S" data-original-title="Delete the course and its corresponding sessions" data-placement="top" data-toggle="tooltip" style="color: red;">
-          Delete
+          Delete Permanently
         </a>
       </td>
     </tr>
@@ -223,7 +223,7 @@
           Restore
         </a>
         <a class="btn btn-default btn-xs course-delete-link" data-course-id="InstructorName1-CS1020" data-original-title="Delete the course and its corresponding sessions" data-placement="top" data-toggle="tooltip" style="color: red">
-          Delete
+          Delete Permanently
         </a>
       </td>
     </tr>
@@ -247,7 +247,7 @@
           Restore
         </a>
         <a class="btn btn-default btn-xs course-delete-link" data-course-id="InstructorName2-CS2010" data-original-title="Delete the course and its corresponding sessions" data-placement="top" data-toggle="tooltip" style="color: red">
-          Delete
+          Delete Permanently
         </a>
       </td>
     </tr>
@@ -271,7 +271,7 @@
           Restore
         </a>
         <a class="btn btn-default btn-xs course-delete-link" data-course-id="InstructorName3-CS2103T" data-original-title="Delete the course and its corresponding sessions" data-placement="top" data-toggle="tooltip" style="color: red">
-          Delete
+          Delete Permanently
         </a>
       </td>
     </tr>
