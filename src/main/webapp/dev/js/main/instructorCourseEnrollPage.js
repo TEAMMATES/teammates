@@ -123,7 +123,7 @@ function updateDataDump() {
 function addHandsontableHooks() {
     const hooks = ['afterChange', 'afterColumnMove', 'afterRemoveRow'];
 
-    hooks.forEach(function (event) {
+    hooks.forEach((event) => {
         handsontable.addHook(event, updateDataDump);
     });
 }
