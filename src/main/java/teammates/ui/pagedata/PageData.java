@@ -616,6 +616,12 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorRecoveryLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
     public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isOpened()) {
             return "Open";

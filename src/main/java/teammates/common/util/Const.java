@@ -993,6 +993,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
 
+        public static final String INSTRUCTOR_RECOVERY_PAGE = "/page/instructorRecoveryPage";
+
         public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
 
@@ -1122,6 +1124,7 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "instructorStudentListPage";
+        public static final String INSTRUCTOR_RECOVERY_PAGE = "instructorRecoveryPage";
     }
 
     public static class ViewURIs {
@@ -1168,6 +1171,7 @@ public final class Const {
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
+        public static final String INSTRUCTOR_RECOVERY = "/jsp/instructorRecovery.jsp";
 
         public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
         public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
