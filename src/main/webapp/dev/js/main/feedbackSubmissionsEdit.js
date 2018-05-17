@@ -1120,7 +1120,7 @@ function getSuccessMessage() {
 }
 
 function getIncompleteQuestionMessage() {
-    return "<p><span style=font-size:175%> &#10071; </span>" + $(INFO_STATUS_MESSAGE).html().trim() + "</p>";
+    return $(INFO_STATUS_MESSAGE).html().trim();
 }
 
 function hasIncompleteQuestionMessage() {
@@ -1141,10 +1141,10 @@ function showModalWarningIfSessionClosingSoon() {
 
 function showModalSuccessIfResponsesSubmitted() {
     if (hasSuccessMessage() && hasIncompleteQuestionMessage()) {
-        showModalAlert(getSuccessMessage(), getIncompleteQuestionMessage() + RESPONSES_SUCCESSFULLY_SUBMITTED,
-            null, BootstrapContextualColors.SUCCESS);
-    }
-    else if (hasSuccessMessage()) {
+        const enlargedImportantIcon = '<span style="font-size:250%"> &#10071; </span>';
+        const incompleteMessage = enlargedImportantIcon + getIncompleteQuestionMessage();
+        showModalAlert(getSuccessMessage(), incompleteMessage + RESPONSES_SUCCESSFULLY_SUBMITTED,
+                null, BootstrapContextualColors.SUCCESS);
     } else if (hasSuccessMessage()) {
         showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED,
                 null, BootstrapContextualColors.SUCCESS);
