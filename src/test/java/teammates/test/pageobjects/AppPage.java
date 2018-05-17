@@ -94,7 +94,7 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     private WebElement instructorStudentsTab;
 
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
     private WebElement instructorHelpTab;
 
     @FindBy(id = "studentHomeNavLink")
