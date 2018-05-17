@@ -360,16 +360,15 @@ function highlightRubricCol(index, questionNum, highlight) {
  *
  * @param checkbox the "Choices are weighted" checkbox
  */
-function toggleAssignWeightsRow(checkbox) {
-    const $weightsRow = checkbox.closest('form').find('thead > tr').eq(1);
+function toggleAssignWeightsRow($checkbox) {
+    const $weightsRow = $checkbox.closest('form').find('tr[id^="rubricWeights"]');
     const $weightsRowFirstCell = $weightsRow.find('th').first();
 
-    if (checkbox.prop('checked')) {
-        checkbox.closest('form').find('tr[id^="rubricWeights"]').show();
+    if ($checkbox.prop('checked')) {
+        $weightsRow.show();
         $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
     } else {
-        $weightsRowFirstCell.empty();
-        checkbox.closest('form').find('tr[id^="rubricWeights"]').hide();
+        $weightsRow.hide();
     }
 }
 
