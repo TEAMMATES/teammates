@@ -2,11 +2,9 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/recovery" prefix="recovery" %>
 <t:recoveryPage>
   <h1>Recycle Bin</h1>
   <br>
-  <recovery:search />
   <br>
   <h2>Deleted Courses</h2>
   <table class="table table-bordered table-striped" id="tableDeletedCourses">
