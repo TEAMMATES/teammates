@@ -18,10 +18,7 @@
           </h4>
           <div>
             <input id="remind_all" type="checkbox" value="">
-            <label for="remind_all">
-              <strong>
-                Select all students
-              </strong>
+            <label style="width:250px;" for="remind_all">
             </label>
             <input id="remind_not_submitted" type="checkbox" value="">
             <label for="remind_not_submitted">
