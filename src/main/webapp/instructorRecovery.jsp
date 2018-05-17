@@ -132,17 +132,11 @@
       </tr>
     </tbody>
   </table>
-  <div class="row">
-    <div class="col-xs-10">
-      <div class="pull-right">
-        <a class="btn btn-info btn-md" id="restoreAllCourses">Restore All Courses</a>
-      </div>
-    </div>
-    <div class="col-xs-2">
-      <div class="pull-right">
-        <a class="btn btn-danger btn-md" id="deleteAllCourses">Delete All Courses</a>
-      </div>
-    </div>
+  <div class="row" style="text-align: right">
+    <a class="btn btn-info btn-md" id="restoreAllCourses">Restore All Courses</a>
+    &nbsp;&nbsp;
+    <a class="btn btn-danger btn-md" id="deleteAllCourses">Delete All Courses</a>
+    &nbsp;&nbsp;&nbsp;
   </div>
   <br>
   <br>
@@ -275,17 +269,11 @@
     </tr>
     </tbody>
   </table>
-  <div class="row">
-    <div class="col-xs-10">
-      <div class="pull-right">
-        <a class="btn btn-info btn-md" id="restoreAllSessions">Restore All Sessions</a>
-      </div>
-    </div>
-    <div class="col-xs-2">
-      <div class="pull-right">
-        <a class="btn btn-danger btn-md" id="deleteAllSessions">Delete All Sessions</a>
-      </div>
-    </div>
+  <div class="row" style="text-align: right">
+    <a class="btn btn-info btn-md" id="restoreAllSessions">Restore All Courses</a>
+    &nbsp;&nbsp;
+    <a class="btn btn-danger btn-md" id="deleteAllSessions">Delete All Courses</a>
+    &nbsp;&nbsp;&nbsp;
   </div>
   <br>
   <br>
