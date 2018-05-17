@@ -1145,8 +1145,9 @@ function showModalSuccessIfResponsesSubmitted() {
             null, BootstrapContextualColors.SUCCESS);
     }
     else if (hasSuccessMessage()) {
+    } else if (hasSuccessMessage()) {
         showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED,
-            null, BootstrapContextualColors.SUCCESS);
+                null, BootstrapContextualColors.SUCCESS);
     }
 }
 /**
