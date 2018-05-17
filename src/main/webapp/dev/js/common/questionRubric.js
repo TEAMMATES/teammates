@@ -365,9 +365,11 @@ function toggleAssignWeightsRow(checkbox) {
     const $weightsRowFirstCell = $weightsRow.find('th').first();
 
     if (checkbox.prop('checked')) {
+        checkbox.closest('form').find('tr[id^="rubricWeights"]').show();
         $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
     } else {
         $weightsRowFirstCell.empty();
+        checkbox.closest('form').find('tr[id^="rubricWeights"]').hide();
     }
 }
 
@@ -378,8 +380,6 @@ function toggleAssignWeightsRow(checkbox) {
 function bindAssignWeightsCheckboxes() {
     $('body').on('click', 'input[id^="rubricAssignWeights"]', function () {
         const $checkbox = $(this);
-
-        $checkbox.closest('form').find('tr[id^="rubricWeights"]').toggle();
 
         toggleAssignWeightsRow($checkbox);
     });
