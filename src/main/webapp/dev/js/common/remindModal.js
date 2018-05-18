@@ -50,19 +50,15 @@ function prepareRemindModal() {
     });
     $('#remind_all').on('change', function () {
         if (this.checked) {
-            $('#remind_not_submitted').prop('disabled', true);
             $('input[id^="all-students-"]').prop('checked', true);
         } else {
-            $('#remind_not_submitted').prop('disabled', false);
             $('input[id^="all-students-"]').prop('checked', false);
         }
     });
     $('#remind_not_submitted').on('change', function () {
         if (this.checked) {
-            $('#remind_all').prop('disabled', true);
             $('input[id^="all-students-not-responded"]').prop('checked', true);
         } else {
-            $('#remind_all').prop('disabled', false);
             $('input[id^="all-students-not-responded"]').prop('checked', false);
         }
     });
