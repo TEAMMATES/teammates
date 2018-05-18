@@ -62,6 +62,19 @@ function prepareRemindModal() {
             $('input[id^="all-students-not-responded"]').prop('checked', false);
         }
     });
+    $('input[id^="all-students-"]').on('change', () => {
+        if ($('input[id^="all-students-"]:checked').length === $('input[id^="all-students-"]').length) {
+            $('#remind_all').prop('checked', true);
+        } else {
+            $('#remind_all').prop('checked', false);
+        }
+        if ($('input[id^="all-students-not-responded"]:checked').length ===
+                $('input[id^="all-students-not-responded"]').length) {
+            $('#remind_not_submitted').prop('checked', true);
+        } else {
+            $('#remind_not_submitted').prop('checked', false);
+        }
+    });
 }
 
 export {
