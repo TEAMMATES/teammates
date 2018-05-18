@@ -22,14 +22,14 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
         return Const.ActionURIs.ADMIN_EXCEPTION_TEST;
     }
 
+    /**
+     * This method verifies if exceptions from AdminExceptionTestAction are thrown correctly.
+     */
     @Override
     @Test
-    /**
-     * This method verifies if exceptions from AdminExceptionTestAction are thrown correctly
-     */
     @SuppressWarnings("PMD.AvoidCatchingNPE") // deliberately done for testing
     public void testExecuteAndPostProcess() {
-        final String adminUserId = "admin.user";
+        String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
 
         String error;

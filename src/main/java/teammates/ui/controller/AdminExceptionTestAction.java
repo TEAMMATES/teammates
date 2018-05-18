@@ -9,11 +9,11 @@ import teammates.common.util.Const;
 
 public class AdminExceptionTestAction extends Action {
 
-    @Override
     /**
      * This method throws an exception and redirects the user to an error page
-     * depending on the type of error in the user request
+     * depending on the type of error in the user request.
      */
+    @Override
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
     protected ActionResult execute() throws EntityDoesNotExistException {
 
