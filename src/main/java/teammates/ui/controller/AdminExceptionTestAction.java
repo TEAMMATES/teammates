@@ -9,6 +9,10 @@ import teammates.common.util.Const;
 
 public class AdminExceptionTestAction extends Action {
 
+    /**
+     * This method throws an exception and redirects the user to an error page
+     * depending on the type of error in the user request.
+     */
     @Override
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -19,24 +23,19 @@ public class AdminExceptionTestAction extends Action {
 
         if (error.equals(AssertionError.class.getSimpleName())) {
             throw new AssertionError("AssertionError Testing");
-
         } else if (error.equals(EntityDoesNotExistException.class.getSimpleName())) {
             throw new EntityDoesNotExistException("EntityDoesNotExistException Testing");
-
         } else if (error.equals(UnauthorizedAccessException.class.getSimpleName())) {
-            throw new UnauthorizedAccessException();
-
+            throw new UnauthorizedAccessException("UnauthorizedAccessException Testing");
         } else if (error.equals(NullPointerException.class.getSimpleName())) {
-            throw new NullPointerException();
-
+            throw new NullPointerException("NullPointerException Testing");
         } else if (error.equals(DeadlineExceededException.class.getSimpleName())) {
-            throw new DeadlineExceededException();
+            throw new DeadlineExceededException("DeadlineExceededException Testing");
         } else if (error.equals(NullPostParameterException.class.getSimpleName())) {
-            throw new NullPostParameterException("test null post param exception");
+            throw new NullPostParameterException("NullPostParameterException Testing");
         }
 
         statusToAdmin = "adminExceptionTest";
-
         return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
     }
 
