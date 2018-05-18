@@ -111,7 +111,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
@@ -141,7 +142,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
@@ -253,7 +255,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "2.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
@@ -352,7 +355,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
@@ -456,7 +460,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
@@ -639,7 +644,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
@@ -712,7 +718,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
@@ -779,7 +786,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
