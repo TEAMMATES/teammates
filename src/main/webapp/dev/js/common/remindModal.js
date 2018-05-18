@@ -60,8 +60,14 @@ function prepareRemindModal() {
     $('#remind_not_submitted').on('change', function () {
         if (this.checked) {
             $('input[id^="all-students-not-responded"]').prop('checked', true);
+            if ($('input[id^="all-students-not-responded"]').length === $('input[id^="all-students-"]').length) {
+                $('#remind_all').prop('checked', true);
+            }
         } else {
             $('input[id^="all-students-not-responded"]').prop('checked', false);
+            if ($('input[id^="all-students-not-responded"]').length === $('input[id^="all-students-"]').length) {
+                $('#remind_all').prop('checked', false);
+            }
         }
     });
     $('input[id^="all-students-"]').on('change', () => {
