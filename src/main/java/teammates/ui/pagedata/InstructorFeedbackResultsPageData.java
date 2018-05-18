@@ -12,8 +12,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -513,9 +511,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             isCommentsOnResponsesAllowed);
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             if (isCommentsOnResponsesAllowed) {
-                Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
-                                                            responseVisibilityMap, giverName, recipientName);
+                Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
+                        getResponseVisibilityMap(question, false);
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response.getId(),
+                        responseVisibilityMap, giverName, recipientName, true, bundle.getTimeZone());
 
                 responsePanel.setFrcForAdding(frcForAdding);
 
@@ -1099,12 +1098,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!comments.isEmpty()) {
                 responseRow.setCommentsOnResponses(comments);
             }
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+            Map<FeedbackParticipantType, Boolean> responseVisibilityMap
+                    = getResponseVisibilityMap(question, false);
             boolean isCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
-                FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
-                        responseVisibilityMap, giverName, recipientName);
+                FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response.getId(),
+                        responseVisibilityMap, giverName, recipientName, true, bundle.getTimeZone());
                 responseRow.setAddCommentButton(addCommentForm);
                 if (userIndexesForComments.get(response.giver) == null) {
                     userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);
@@ -1466,12 +1466,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
 
-        Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+        Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
+                getResponseVisibilityMap(question, false);
         String whoCanSeeComment = null;
         boolean isVisibilityIconShown = false;
         if (bundle.feedbackSession.isPublished()) {
-            boolean isResponseCommentPublicToRecipient = !frcAttributes.showCommentTo.isEmpty();
-            isVisibilityIconShown = isResponseCommentPublicToRecipient;
+            isVisibilityIconShown = !frcAttributes.showCommentTo.isEmpty();
 
             if (isVisibilityIconShown) {
                 whoCanSeeComment = getTypeOfPeopleCanViewComment(frcAttributes, question);
@@ -1485,93 +1485,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            responseVisibilityMap, bundle.commentGiverEmailNameTable,
                                            bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
-        if (isInstructorAllowedToEditAndDeleteComment) {
+        if (isInstructorAllowedToEditAndDeleteComment && Const.INSTRUCTOR.equals(frcAttributes.giverRole)) {
             frc.enableEditDelete();
         }
 
         return frc;
-    }
-
-    private FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
-                        FeedbackResponseAttributes response, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
-                        String giverName, String recipientName) {
-        FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
-                .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
-                .withFeedbackResponseId(response.getId())
-                .withFeedbackQuestionId(question.getId())
-                .build();
-
-        FeedbackParticipantType[] relevantTypes = {
-                FeedbackParticipantType.GIVER,
-                FeedbackParticipantType.RECEIVER,
-                FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
-                FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.INSTRUCTORS
-        };
-
-        frca.showCommentTo = new ArrayList<>();
-        frca.showGiverNameTo = new ArrayList<>();
-        for (FeedbackParticipantType type : relevantTypes) {
-            if (isResponseCommentVisibleTo(question, type)) {
-                frca.showCommentTo.add(type);
-            }
-            if (isResponseCommentGiverNameVisibleTo(question, type)) {
-                frca.showGiverNameTo.add(type);
-            }
-        }
-
-        return new FeedbackResponseCommentRow(frca, giverName, recipientName,
-                                              getResponseCommentVisibilityString(question),
-                                              getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
-                                              bundle.getTimeZone());
-    }
-
-    private Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
-        Map<FeedbackParticipantType, Boolean> responseVisibilityMap = new HashMap<>();
-
-        FeedbackParticipantType[] relevantTypes = {
-                FeedbackParticipantType.GIVER,
-                FeedbackParticipantType.RECEIVER,
-                FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
-                FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.INSTRUCTORS
-        };
-
-        for (FeedbackParticipantType participantType : relevantTypes) {
-            responseVisibilityMap.put(participantType, isResponseVisibleTo(participantType, question));
-        }
-
-        return responseVisibilityMap;
-    }
-
-    //TODO investigate and fix the differences between question.isResponseVisibleTo and this method
-    private boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
-        switch (participantType) {
-        case GIVER:
-            return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
-        case INSTRUCTORS:
-            return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
-        case OWN_TEAM_MEMBERS:
-            return question.giverType != FeedbackParticipantType.INSTRUCTORS
-                   && question.giverType != FeedbackParticipantType.SELF
-                   && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-        case RECEIVER:
-            return question.recipientType != FeedbackParticipantType.SELF
-                   && question.recipientType != FeedbackParticipantType.NONE
-                   && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
-        case RECEIVER_TEAM_MEMBERS:
-            return question.recipientType != FeedbackParticipantType.INSTRUCTORS
-                    && question.recipientType != FeedbackParticipantType.SELF
-                    && question.recipientType != FeedbackParticipantType.NONE
-                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        case STUDENTS:
-            return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
-        default:
-            Assumption.fail("Invalid participant type");
-            return false;
-        }
     }
 
     private Map<String, InstructorFeedbackResultsModerationButton> buildModerateButtonsForNoResponsePanel() {

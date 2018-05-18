@@ -8,6 +8,8 @@ public class FeedbackSubmissionEditResponse {
     private List<String> recipientOptionsForQuestion;
     private String submissionFormHtml;
     private String responseId;
+    private List<FeedbackResponseCommentRow> commentsOnResponses;
+    private FeedbackResponseCommentRow feedbackResponseCommentAdd;;
 
     public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
                                     List<String> recipientOptionsForQuestion, String submissionFormHtml, String responseId) {
@@ -17,6 +19,32 @@ public class FeedbackSubmissionEditResponse {
         this.recipientOptionsForQuestion = recipientOptionsForQuestion;
         this.submissionFormHtml = submissionFormHtml;
         this.responseId = responseId;
+    }
+
+    public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
+                                          List<String> recipientOptionsForQuestion, String submissionFormHtml,
+                                          String responseId, List<FeedbackResponseCommentRow> commentsOnResponses,
+                                          FeedbackResponseCommentRow feedbackResponseCommentAdd) {
+
+        this.responseIndx = responseIndx;
+        this.isExistingResponse = isExistingResponse;
+        this.recipientOptionsForQuestion = recipientOptionsForQuestion;
+        this.submissionFormHtml = submissionFormHtml;
+        this.responseId = responseId;
+        this.commentsOnResponses = commentsOnResponses;
+        this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
+    }
+
+    public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
+                                          List<String> recipientOptionsForQuestion, String submissionFormHtml,
+                                          String responseId, FeedbackResponseCommentRow feedbackResponseCommentAdd) {
+
+        this.responseIndx = responseIndx;
+        this.isExistingResponse = isExistingResponse;
+        this.recipientOptionsForQuestion = recipientOptionsForQuestion;
+        this.submissionFormHtml = submissionFormHtml;
+        this.responseId = responseId;
+        this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
     }
 
     public int getResponseIndx() {
@@ -37,5 +65,13 @@ public class FeedbackSubmissionEditResponse {
 
     public String getResponseId() {
         return responseId;
+    }
+
+    public List<FeedbackResponseCommentRow> getCommentsOnResponses() {
+        return commentsOnResponses;
+    }
+
+    public FeedbackResponseCommentRow getFeedbackResponseCommentAdd() {
+        return feedbackResponseCommentAdd;
     }
 }

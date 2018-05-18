@@ -16,7 +16,7 @@ import teammates.ui.template.FeedbackResponseCommentRow;
 /*
  * PageData: to be used for {@link FeedbackResponseCommentAttributes} in Ajax operations
  */
-public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
+public class FeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseCommentAttributes comment;
     public String commentId;
     public String giverName;
@@ -33,7 +33,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public boolean moderation;
     public ZoneId sessionTimeZone;
 
-    public InstructorFeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
+    public FeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
     }
 
@@ -102,5 +102,17 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
                 + "] (last edited " + (isGiverAnonymous ? "" : "by " + editorName + " ") + "at "
                 + TimeHelper.formatDateTimeForDisplay(comment.lastEditedAt, sessionTimeZone)
                 + ")";
+    }
+
+    public String getGiverRole() {
+        return giverRole;
+    }
+
+    public String getModeratedPersonEmail() {
+        return moderatedPersonEmail;
+    }
+
+    public boolean isModeration() {
+        return moderation;
     }
 }

@@ -60,6 +60,9 @@ public final class Const {
     public static final String INSTRUCTOR = "instructor";
     public static final String STUDENT = "student";
 
+    //Used as
+    public static final int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
+
     // for course sorting in instructorHomePage
     public static final String SORT_BY_COURSE_ID = "id";
     public static final String SORT_BY_COURSE_NAME = "name";
@@ -1008,6 +1011,7 @@ public final class Const {
 
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
+        public static final String STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/studentFeedbackResponseCommentAdd";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";

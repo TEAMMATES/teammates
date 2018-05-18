@@ -15,7 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.pagedata.InstructorFeedbackResponseCommentAjaxPageData;
+import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 public abstract class FeedbackResponseCommentAddAction extends Action {
 
@@ -57,8 +57,8 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         Assumption.assertNotNull(response);
         verifyAccessibleForSpecificUser(session, response);
 
-        InstructorFeedbackResponseCommentAjaxPageData data =
-                new InstructorFeedbackResponseCommentAjaxPageData(account, sessionToken);
+        FeedbackResponseCommentAjaxPageData data =
+                new FeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         String userEmailForCourse = isModeration ? moderatedPersonEmail : getUserEmailForCourse();
         String giverEmail = response.giver;
@@ -151,7 +151,8 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
     protected abstract void verifyAccessibleForSpecificUser(FeedbackSessionAttributes fsa,
                                                             FeedbackResponseAttributes response);
 
-    protected abstract FeedbackSessionResultsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
+    protected abstract FeedbackSessionResultsBundle getDataBundle(String userEmailForCourse)
+            throws EntityDoesNotExistException;
 
     protected abstract String getUserEmailForCourse();
 }

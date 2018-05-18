@@ -2,6 +2,8 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +14,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -30,6 +33,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
@@ -45,6 +49,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected List<FeedbackResponseAttributes> responsesToSave = new ArrayList<>();
     protected List<FeedbackResponseAttributes> responsesToDelete = new ArrayList<>();
     protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<>();
+    protected Map<String, String> responseGiverMapForComments = new HashMap<>();
+    protected Map<String, String> responseRecipientMapForComments = new HashMap<>();
+    protected Map<String, String> questionIdsForComments = new HashMap<>();
+    protected Map<String, String> commentsToAddText = new HashMap<>();
+    protected Map<String, String> commentsToUpdateText = new HashMap<>();
+    protected Map<String, String> commentsToUpdateId = new HashMap<>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -143,6 +153,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                                                 : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
+                    extractFeedbackResponseCommentsForResponseData(questionAttributes, questionIndx,
+                            response, responseIndx);
                 }
             }
 
@@ -174,6 +186,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         saveNewReponses(responsesToSave);
         deleteResponses(responsesToDelete);
         updateResponses(responsesToUpdate);
+
+        saveResponsesComments(commentsToAddText, responseGiverMapForComments, responseRecipientMapForComments,
+                                questionIdsForComments);
+        updateResponsesComments(commentsToUpdateId, commentsToUpdateText, responseGiverMapForComments,
+                                responseRecipientMapForComments, questionIdsForComments);
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
@@ -221,6 +238,199 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
         // TODO: Refactor to AjaxResult so status messages do not have to be passed by session
         return createSpecificRedirectResult();
+    }
+
+    private void updateResponsesComments(Map<String, String> commentsToUpdateId,
+                                         Map<String, String> commentsToUpdateText,
+                                         Map<String, String> responseGiverMapForComments,
+                                         Map<String, String> responseRecipientMapForComments,
+                                         Map<String, String> questionIdsForComments) {
+        for (String commentIndex : commentsToUpdateId.keySet()) {
+            String showCommentTo =
+                    getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
+            String showGiverNameTo =
+                    getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndex);
+            String commentId = commentsToUpdateId.get(commentIndex);
+            String updatedCommentText = commentsToUpdateText.get(commentIndex);
+            FeedbackResponseAttributes response =
+                    logic.getFeedbackResponse(questionIdsForComments.get(commentIndex),
+                            responseGiverMapForComments.get(commentIndex),
+                            responseRecipientMapForComments.get(commentIndex));
+            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText);
+
+        }
+    }
+
+    private void updateResponseComment(String showCommentTo, String showGiverNameTo, String commentId,
+                                       FeedbackResponseAttributes response, String updatedCommentText) {
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, response.giver, new Text(updatedCommentText))
+                .withCreatedAt(Instant.now())
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .build();
+
+        feedbackResponseComment.setId(Long.parseLong(commentId));
+
+        //Edit visibility settings
+        feedbackResponseComment.showCommentTo = new ArrayList<>();
+        if (showCommentTo != null && !showCommentTo.isEmpty()) {
+            String[] showCommentToArray = showCommentTo.split(",");
+            for (String viewer : showCommentToArray) {
+                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
+        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
+            String[] showGiverNameToArray = showGiverNameTo.split(",");
+            for (String viewer : showGiverNameToArray) {
+                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+
+        FeedbackResponseCommentAttributes updatedComment = null;
+        try {
+            updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
+            //TODO: move putDocument to task queue
+            logic.putDocument(updatedComment);
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
+            isError = true;
+        } catch (EntityDoesNotExistException e) {
+            e.printStackTrace();
+            isError = true;
+        }
+
+        if (!isError) {
+            statusToAdmin += "FeedbackSubmissionEditSaveAction:<br>"
+                    + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                    + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                    + feedbackResponseComment.feedbackSessionName + "<br>"
+                    + "by: " + feedbackResponseComment.giverEmail + "<br>"
+                    + "comment text: " + feedbackResponseComment.commentText.getValue();
+        }
+    }
+
+    private void saveResponsesComments(Map<String, String> commentsToAddText,
+                                       Map<String, String> responseGiverMapForComments,
+                                       Map<String, String> responseRecipientMapForComments,
+                                       Map<String, String> questionIdsForComments) throws EntityDoesNotExistException {
+        for (String commentIndex : commentsToAddText.keySet()) {
+            String responseGiver = responseGiverMapForComments.get(commentIndex);
+            String responseRecipient = responseRecipientMapForComments.get(commentIndex);
+            String commentText = commentsToAddText.get(commentIndex);
+            String questionId = questionIdsForComments.get(commentIndex);
+            FeedbackResponseAttributes responseToAddComment =
+                    logic.getFeedbackResponse(questionId, responseGiver, responseRecipient);
+            String showCommentTo =
+                    getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
+            String showGiverNameTo =
+                    getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndex);
+            String giverRole = getRequestParamValue("giverRole" + commentIndex);
+
+            createCommentsForResponses(responseGiver, questionId, responseToAddComment, commentText, giverRole,
+                    showCommentTo, showGiverNameTo);
+        }
+    }
+
+    private void createCommentsForResponses(String userEmailForCourse, String questionId,
+                                            FeedbackResponseAttributes response, String commentText,
+                                            String giverRole, String showCommentTo,
+                                            String showGiverNameTo) throws EntityDoesNotExistException {
+
+        FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
+                .builder(courseId, feedbackSessionName, userEmailForCourse, new Text(commentText))
+                .withFeedbackQuestionId(questionId)
+                .withFeedbackResponseId(response.getId())
+                .withCreatedAt(Instant.now())
+                .withGiverSection(response.giverSection)
+                .withReceiverSection(response.recipientSection)
+                .withGiverRole(giverRole)
+                .build();
+        if (showCommentTo != null && !showCommentTo.isEmpty()) {
+            String[] showCommentToArray = showCommentTo.split(",");
+            for (String viewer : showCommentToArray) {
+                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
+        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
+            String[] showGiverNameToArray = showGiverNameTo.split(",");
+            for (String viewer : showGiverNameToArray) {
+                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+
+        FeedbackResponseCommentAttributes createdComment = null;
+        try {
+            createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
+            logic.putDocument(createdComment);
+        } catch (InvalidParametersException e) {
+            setStatusForException(e);
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.WARNING));
+            isError = true;
+        }
+
+        if (!isError) {
+            appendToStatusToAdmin(feedbackResponseComment);
+        }
+    }
+
+    protected abstract void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
+
+    private void extractFeedbackResponseCommentsForResponseData(FeedbackQuestionAttributes questionAttributes,
+                                                                int questionIndex, FeedbackResponseAttributes response,
+                                                                int responseIndex) {
+        if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
+            String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT + "-" + responseIndex
+                    + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex);
+            if (!StringHelper.isEmpty(commentText)) {
+                String commentIndex = "-" + responseIndex
+                        + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex;
+                questionIdsForComments.put(commentIndex, questionAttributes.getId());
+                responseGiverMapForComments.put(commentIndex, response.giver);
+                responseRecipientMapForComments.put(commentIndex, response.recipient);
+                commentsToAddText.put(commentIndex, commentText);
+            }
+            if (response.getId() != null) {
+                List<FeedbackResponseCommentAttributes> previousComments =
+                        logic.getFeedbackResponseCommentsForResponse(response.getId());
+                int totalNumberOfComments = previousComments.size();
+
+                for (Iterator<FeedbackResponseCommentAttributes> iter = previousComments.iterator(); iter.hasNext();) {
+                    FeedbackResponseCommentAttributes frca = iter.next();
+                    if (!frca.giverEmail.equals(response.giver)) {
+                        iter.remove();
+                    }
+                }
+                if (!previousComments.isEmpty()) {
+                    for (int i = 1; i <= totalNumberOfComments; i++) {
+                        String editedCommentText =
+                                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                        + "-" + responseIndex + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                        + "-" + questionIndex + "-" + i);
+                        String commentId =
+                                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
+                                        + "-" + responseIndex + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                        + "-" + questionIndex + "-" + i);
+                        if (commentId != null) {
+                            FeedbackResponseCommentAttributes commentCheck =
+                                    logic.getFeedbackResponseComment(Long.parseLong(commentId));
+                            if (!StringHelper.isEmpty(editedCommentText)
+                                    && !commentCheck.commentText.getValue().equals(editedCommentText)) {
+                                String commentIndx = "-" + responseIndex + "-"
+                                        + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex + "-" + i;
+                                questionIdsForComments.put(commentIndx, questionAttributes.getId());
+                                commentsToUpdateId.put(commentIndx, commentId);
+                                commentsToUpdateText.put(commentIndx, editedCommentText);
+                                responseGiverMapForComments.put(commentIndx, response.giver);
+                                responseRecipientMapForComments.put(commentIndx, response.recipient);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

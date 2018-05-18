@@ -131,4 +131,5 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
     protected abstract ShowPageResult createSpecificShowPageResult();
 
     protected abstract RedirectResult createSpecificRedirectResult() throws EntityDoesNotExistException;
+
 }

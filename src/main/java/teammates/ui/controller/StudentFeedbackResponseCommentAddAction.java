@@ -5,7 +5,7 @@ import teammates.common.datatransfer.attributes.*;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 
-public class StudentFeedbackResponseAddAction extends FeedbackResponseCommentAddAction {
+public class StudentFeedbackResponseCommentAddAction extends FeedbackResponseCommentAddAction {
     @Override
     protected boolean isSpecificUserJoinedCourse() {
         if (student == null) {

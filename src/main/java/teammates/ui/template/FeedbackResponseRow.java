@@ -10,7 +10,9 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -52,10 +54,10 @@ public class FeedbackResponseRow {
                 String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
                 String recipientName = results.getNameForEmail(response.recipient);
                 String giverEmail = frc.giverEmail;
-                Map<String, String> instructorEmailNameTable = results.commentGiverEmailNameTable;
+                Map<String, String> commentGiverEmailNameTable = results.commentGiverEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
-                        instructorEmailNameTable, results.getTimeZone());
+                        commentGiverEmailNameTable, results.getTimeZone());
                 String whoCanSeeComment = null;
                 boolean isVisibilityIconShown = false;
                 if (results.feedbackSession.isPublished()) {
@@ -67,9 +69,24 @@ public class FeedbackResponseRow {
                     }
                 }
                 responseRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
-                responseRow.enableEditDelete();
+
+                boolean isStudentGiver = results.roster.isStudentInCourse(giverEmail);
+                if (!isStudentGiver) {
+                    InstructorAttributes instructor = results.roster.getInstructorForEmail(giverEmail);
+                    boolean isInstructorGiver = giverEmail.equals(instructor.email);
+                    boolean isAllowedToSubmitSessionsInBothSection =
+                            instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                                    && instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                    if (isInstructorGiver || isAllowedToSubmitSessionsInBothSection) {
+                        responseRow.enableEditDelete();
+                    }
+
+                }
                 this.responseComments.add(responseRow);
             }
+
         }
     }
 
