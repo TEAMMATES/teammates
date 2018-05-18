@@ -51,8 +51,10 @@ function prepareRemindModal() {
     $('#remind_all').on('change', function () {
         if (this.checked) {
             $('input[id^="all-students-"]').prop('checked', true);
+            $('#remind_not_submitted').prop('checked', true);
         } else {
             $('input[id^="all-students-"]').prop('checked', false);
+            $('#remind_not_submitted').prop('checked', false);
         }
     });
     $('#remind_not_submitted').on('change', function () {
