@@ -100,9 +100,9 @@ import {
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,
-    moveAssignWeightsCheckbox,
     removeRubricCol,
     removeRubricRow,
+    toggleAssignWeightsRow,
 } from '../common/questionRubric';
 
 import {
@@ -370,7 +370,7 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).hide();
 
-    moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
+    toggleAssignWeightsRow($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
     if (!hasAssignedWeights(questionNum)) {
         $currentQuestionTable.find(`#rubricWeights-${questionNum}`).hide();
@@ -576,7 +576,7 @@ function enableNewQuestion() {
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 
-    moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
+    toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
