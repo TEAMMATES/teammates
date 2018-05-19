@@ -7,6 +7,8 @@
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
 <%@ attribute name="isShowRealQuestionNumber" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isInstructor" required="true" %>
+<%@ attribute name="moderatedPersonEmail" required="true" %>
 
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 
@@ -71,14 +73,15 @@
       <c:if test="${questionWithResponses.question.giverTeam}">
         <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>
       </c:if>
-
       <c:if test="${questionWithResponses.numOfResponseBoxes eq 0}">
         <p class="text-warning">${questionWithResponses.question.messageToDisplayIfNoRecipientAvailable}</p>
       </c:if>
 
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-            questionWithResponses="${questionWithResponses}"/>
+            questionWithResponses="${questionWithResponses}" responseRecipientIndex="${response.responseIndx}"
+            responseGiverIndex="1" questionIndex="${questionWithResponses.question.qnIndx}" isInstructor="${isInstructor}"
+            moderatedPersonEmail="${moderatedPersonEmail}"/>
       </c:forEach>
     </div>
   </div>

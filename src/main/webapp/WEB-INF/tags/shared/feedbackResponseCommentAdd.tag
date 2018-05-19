@@ -3,13 +3,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
 <%@ attribute name="firstIndex" %>
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="isOnQuestionsPage" %>
+<%@ attribute name="isOnFeedbackSubmissionEditPage" %>
+<%@ attribute name="moderatedPersonEmail" %>
+<%@ attribute name="isPreview" %>
+<%@ attribute name="submitTable" %>
+<%@ attribute name="giverRole" %>
 
 <c:choose>
   <c:when test="${not empty fourthIndex}">
@@ -20,7 +24,15 @@
   </c:when>
 </c:choose>
 
-<c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
+<c:choose>
+  <c:when test="${giverRole eq 'Instructor'}">
+    <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
+  </c:when>
+  <c:otherwise>
+    <c:set var="submitLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
+  </c:otherwise>
+</c:choose>
+
 <li class="list-group-item list-group-item-warning"
     id="showResponseCommentAddForm-${divId}" style="display: none;">
   <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
@@ -33,5 +45,8 @@
       textAreaId="responseCommentAddForm"
       submitLink="${submitLink}"
       buttonText="Add"
-      isOnQuestionsPage="${isOnQuestionsPage}" />
+      isOnQuestionsPage="${isOnQuestionsPage}"
+      isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
+      moderatedPersonEmail="${moderatedPersonEmail}"
+      giverRole="${giverRole}"/>/>
 </li>

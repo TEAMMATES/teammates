@@ -40,11 +40,11 @@
                         <c:forEach items="${response.responseComments}" var="responseComment" varStatus="status">
                           <c:if test="${forOrBy == 'by'}">
                             <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${personIndex.index + 1}"
-                                secondIndex="1" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="GRQ"/>
+                                secondIndex="1" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="GRQ" giverRole="Instructor"/>
                           </c:if>
                           <c:if test="${forOrBy == 'for'}">
                             <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="1"
-                                secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="RGQ"/>
+                                secondIndex="${personIndex.index + 1}" thirdIndex="${qnIndex.index + 1}" frcIndex="${status.count}" viewType="RGQ" giverRole="Instructor"/>
                           </c:if>
                         </c:forEach>
                       </ul>
