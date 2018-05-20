@@ -29,7 +29,7 @@
 </c:if>
 
 <br>
-<div class="form-group margin-0">
+<div class="form-group margin-0" style="padding-right:10px">
   <div ${isNumResponsesMax ? 'class="col-sm-3 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
       ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
 
@@ -58,14 +58,16 @@
               title="<%=Const.Tooltips.COMMENT_ADD%>">
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
       </button>
-      <c:when test="${questionWithResponses.question.questionTypeConstsum}">
-        ${response.submissionFormHtml}
-      </c:when>
-      <c:otherwise>
-        <div class="${divClassType}">
-            ${response.submissionFormHtml}
-        </div>
-      </c:otherwise>
+      <c:choose>
+        <c:when test="${questionWithResponses.question.questionTypeConstsum}">
+          ${response.submissionFormHtml}
+        </c:when>
+        <c:otherwise>
+          <div class="${divClassType}">
+              ${response.submissionFormHtml}
+          </div>
+        </c:otherwise>
+      </c:choose>
       <br>
       <c:choose>
         <c:when test="${isGiverTeam}">

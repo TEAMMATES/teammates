@@ -1098,8 +1098,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!comments.isEmpty()) {
                 responseRow.setCommentsOnResponses(comments);
             }
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap
-                    = getResponseVisibilityMap(question, false);
+            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
             boolean isCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {

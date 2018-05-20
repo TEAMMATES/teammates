@@ -20,7 +20,7 @@
 <%@ attribute name="isOnFeedbackSubmissionEditPage"%>
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="isPreview" %>
-<%@ attribute name="giverRole" %>
+<%@ attribute name="giverRole" required="true" %>
 
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
@@ -222,7 +222,7 @@
         id="button_save_comment_for_${fn:toLowerCase(formType)}-${divId}"
         <c:if test="${isOnFeedbackSubmissionEditPage}">
           style="display: none;"
-        </c:if>>>
+        </c:if>>
       ${buttonText}
     </a>
     <c:if test="${empty isOnQuestionsPage && !isOnQuestionsPage}">
@@ -235,7 +235,11 @@
           <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
     </c:if>
   </div>
-   <c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
+<c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
+<c:if test="${not empty isOnQuestionsPage && isOnQuestionsPage}">
+  <input type="hidden" name="isOnQuestionsPage" value="${isOnQuestionsPage}">
+</c:if>
+<input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${fsIndex}">
 <c:choose>
   <c:when test="${isOnFeedbackSubmissionEditPage}">
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>-${divId}" value="${frc.commentId}"></c:if>
@@ -249,18 +253,15 @@
   </c:when>
   <c:otherwise>
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
-    <c:if test="${not empty isOnQuestionsPage && isOnQuestionsPage}">
-      <input type="hidden" name="isOnQuestionsPage" value="${isOnQuestionsPage}">
-    </c:if>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${fn:escapeXml(frc.feedbackResponseId)}">
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
+    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
+    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>" value="${frc.showCommentToString}">
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>" value="${frc.showGiverNameToString}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
     <input type="hidden" name="giverRole" value="${giverRole}">
-    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
   </c:otherwise>
 </c:choose>
 <c:choose>

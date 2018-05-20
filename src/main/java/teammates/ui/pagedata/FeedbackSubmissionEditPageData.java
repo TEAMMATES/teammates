@@ -141,6 +141,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         this.isSessionOpenForSubmission = isSessionOpenForSubmission;
     }
 
+    public void setFeedbackSessionForInstructor(boolean isFeedbackSessionForInstructor) {
+        this.isFeedbackSessionForInstructor = isFeedbackSessionForInstructor;
+    }
+
     public void setPreview(boolean isPreview) {
         this.isPreview = isPreview;
     }

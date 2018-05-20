@@ -863,7 +863,7 @@ public class PageData {
         FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
                 .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
                 .withFeedbackResponseId(responseId)
-                .withFeedbackQuestionId(responseId)
+                .withFeedbackQuestionId(question.getFeedbackQuestionId())
                 .build();
 
         frca.showCommentTo = new ArrayList<>();

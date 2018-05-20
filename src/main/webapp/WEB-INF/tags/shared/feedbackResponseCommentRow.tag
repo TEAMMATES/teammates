@@ -77,7 +77,7 @@
               data-placement="top"
               title="<%= Const.Tooltips.COMMENT_DELETE %>"
              <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>
-             <c:if test="${not isSessionOpenForSubmission && isOnFeedbackSubmissionEditPage}">disabled</c:if>>>
+             <c:if test="${not isSessionOpenForSubmission && isOnFeedbackSubmissionEditPage}">disabled</c:if>>
             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
           </a>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">

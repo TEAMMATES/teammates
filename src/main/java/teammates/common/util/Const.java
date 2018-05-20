@@ -57,8 +57,8 @@ public final class Const {
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
-    public static final String INSTRUCTOR = "instructor";
-    public static final String STUDENT = "student";
+    public static final String INSTRUCTOR = "Instructor";
+    public static final String STUDENT = "Student";
 
     //Used as
     public static final int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
@@ -1008,10 +1008,10 @@ public final class Const {
         public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
         public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
-
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
         public static final String STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/studentFeedbackResponseCommentAdd";
+        public static final String STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/studentFeedbackResponseCommentAdd";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PAGE = "/page/studentProfilePage";

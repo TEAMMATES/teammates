@@ -13,7 +13,7 @@
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="isPreview" %>
 <%@ attribute name="submitTable" %>
-<%@ attribute name="giverRole" %>
+<%@ attribute name="giverRole" required="true" %>
 
 <c:choose>
   <c:when test="${not empty fourthIndex}">
@@ -48,5 +48,5 @@
       isOnQuestionsPage="${isOnQuestionsPage}"
       isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
       moderatedPersonEmail="${moderatedPersonEmail}"
-      giverRole="${giverRole}"/>/>
+      giverRole="${giverRole}"/>
 </li>
