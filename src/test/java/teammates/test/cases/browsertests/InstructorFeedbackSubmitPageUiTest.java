@@ -249,7 +249,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertFalse(submitPage.isConfirmationEmailBoxTicked());
         submitPage.submitWithoutConfirmationEmail();
 
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "21.");
         assertEquals("<p>" + editedResponse + "</p>",
                     BackDoor.getFeedbackResponse(
                                  fq.getId(), "IFSubmitUiT.instr@gmail.tmt",
