@@ -252,15 +252,15 @@ public class FeedbackSubmitPage extends AppPage {
         assertEquals(modalTitle.getText(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         // Verify modal message content
-        String expectedModalMessage = "All your responses have been successfully recorded! "
+        StringBuilder expectedModalMessage = new StringBuilder("All your responses have been successfully recorded! "
                 + "You may now leave this page.\n"
-                + "Note that you can change your responses and submit them again any time before the session closes.";
+                + "Note that you can change your responses and submit them again any time before the session closes.");
         if (!incompleteQuestionsMessage.isEmpty()) {
-            expectedModalMessage = "❗ Note that some questions are yet to be answered. They are: "
-                    + incompleteQuestionsMessage + "\n" + expectedModalMessage;
+            expectedModalMessage.insert(0, "❗ Note that some questions are yet to be answered. They are: "
+                    + incompleteQuestionsMessage + "\n");
         }
         WebElement modalMessage = browser.driver.findElement(By.xpath("//div[@class='bootbox-body']"));
-        assertEquals(modalMessage.getText(), expectedModalMessage);
+        assertEquals(modalMessage.getText(), expectedModalMessage.toString());
 
         clickDismissModalButtonAndWaitForModalHidden(closeButton);
     }
