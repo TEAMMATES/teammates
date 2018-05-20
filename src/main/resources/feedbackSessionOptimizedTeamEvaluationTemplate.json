@@ -4,13 +4,10 @@
     "courseId": "${courseId}",
     "creatorEmail": "${creatorEmail}",
     "questionMetaData": {
-      "value": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Distribute points among team members based on their contributions so far.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}"
-    },
-    "questionDescription": {
-      "value": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on."
+      "value": "{\"questionText\":\"Your estimate of how much each team member has contributed.\",\"questionType\":\"CONTRIB\"}"
     },
     "questionNumber": 1,
-    "questionType": "CONSTSUM",
+    "questionType": "CONTRIB",
     "giverType": "STUDENTS",
     "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
     "numberOfEntitiesToGiveFeedbackTo": -100,

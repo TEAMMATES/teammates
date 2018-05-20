@@ -234,20 +234,21 @@ public class InstructorFeedbackSessionsPageData extends PageData {
                 Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_STANDARD,
                 Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_STANDARD.equals(defaultSessionTemplateType));
 
-        ElementTag evaluationFeedbackSession = createOption("session using template: team peer evaluation",
-                Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_TEAMEVALUATION,
-                Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_TEAMEVALUATION.equals(defaultSessionTemplateType));
-
         ElementTag optimizedEvaluationFeedbackSession =
                 createOption("session using template: team peer evaluation (optimized)",
-                        Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION,
+                Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION,
+                Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION.equals(defaultSessionTemplateType));
+
+        ElementTag evaluationFeedbackSession =
+                createOption("session using template: team peer evaluation",
+                        Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_TEAMEVALUATION,
                         defaultSessionTemplateType == null
-                                || Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_OPTIMIZEDTEAMEVALUATION
+                                || Const.ParamsNames.FEEDBACK_SESSION_TEMPLATE_TEAMEVALUATION
                                 .equals(defaultSessionTemplateType));
 
         result.add(standardFeedbackSession);
-        result.add(evaluationFeedbackSession);
         result.add(optimizedEvaluationFeedbackSession);
+        result.add(evaluationFeedbackSession);
 
         return result;
     }
