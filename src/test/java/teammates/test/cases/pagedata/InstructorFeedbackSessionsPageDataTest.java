@@ -60,7 +60,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(3, formModel.getSessionTemplateTypeOptions().size());
-        assertEquals("session using template: team peer evaluation (optimized)",
+        assertEquals("session using template: team peer evaluation",
                 formModel.getSessionTemplateTypeOptions().get(2).getContent());
         assertNull(formModel.getSessionTemplateTypeOptions().get(2).getAttributes().get("selected"));
         assertTrue(formModel.getSessionTemplateTypeOptions().get(2).getAttributes().containsKey("selected"));
@@ -256,7 +256,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(3, formModel.getSessionTemplateTypeOptions().size());
-        assertEquals("session using template: team peer evaluation (optimized)",
+        assertEquals("session using template: team peer evaluation",
                 formModel.getSessionTemplateTypeOptions().get(2).getContent());
         assertNull(formModel.getSessionTemplateTypeOptions().get(2).getAttributes().get("selected"));
         assertTrue(formModel.getSessionTemplateTypeOptions().get(2).getAttributes().containsKey("selected"));

@@ -274,7 +274,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String gapWarning = String.format(Const.StatusMessages.AMBIGUOUS_LOCAL_DATE_TIME_GAP,
                 "start time", "Fri, 30 Dec 2011, 07:00 AM", "Sat, 31 Dec 2011, 07:00 AM WSDT (UTC+1400)");
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(gapWarning,
-                Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM_OPTIMIZED);
+                Const.StatusMessages.FEEDBACK_SESSION_ADDED_TEAM);
 
         assertEquals("[BACKDOOR_STATUS_SUCCESS]",
                 BackDoor.deleteFeedbackSession(dstSessionName, newSession.getCourseId()));
