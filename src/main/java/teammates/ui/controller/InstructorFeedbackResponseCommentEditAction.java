@@ -19,7 +19,7 @@ import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 /**
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
-public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedbackResponseCommentAbstractAction {
+public class InstructorFeedbackResponseCommentEditAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -30,6 +30,8 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseCommentId);
+        String giverRole = getRequestParamValue(Const.ParamsNames.GIVER_ROLE);
+        Assumption.assertNotNull(Const.ParamsNames.GIVER_ROLE, giverRole);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -59,6 +61,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
+                .withGiverRole(giverRole)
                 .build();
 
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
@@ -112,5 +115,22 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         }
 
         return createAjaxResult(data);
+    }
+
+    private void verifyAccessibleForInstructorToFeedbackResponseComment(
+            String feedbackResponseCommentId, InstructorAttributes instructor,
+            FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
+        FeedbackResponseCommentAttributes frc =
+                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
+        if (frc == null) {
+            return;
+        }
+        if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
+            return;
+        }
+        gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 }

@@ -10,39 +10,22 @@ import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 /**
  * Action: Delete {@link InstructorFeedbackResponseCommentDeleteAction}.
  */
-public class InstructorFeedbackResponseCommentDeleteAction extends InstructorFeedbackResponseCommentAbstractAction {
+public class InstructorFeedbackResponseCommentDeleteAction extends FeedbackResponseCommentDeleteAction {
 
     @Override
-    protected ActionResult execute() {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
-        String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseCommentId);
-
+    protected void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
+        gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+    }
 
-        verifyAccessibleForInstructorToFeedbackResponseComment(
-                feedbackResponseCommentId, instructor, session, response);
-
-        Long commentId = Long.parseLong(feedbackResponseCommentId);
-
-        logic.deleteDocumentByCommentId(commentId);
-        logic.deleteFeedbackResponseCommentById(commentId);
-
+    @Override
+    protected void appendToStatusToAdmin(Long commentId) {
         statusToAdmin += "InstructorFeedbackResponseCommentDeleteAction:<br>"
                 + "Deleting feedback response comment: " + commentId + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
 
-        FeedbackResponseCommentAjaxPageData data =
-                new FeedbackResponseCommentAjaxPageData(account, sessionToken);
-
-        return createAjaxResult(data);
     }
 }
