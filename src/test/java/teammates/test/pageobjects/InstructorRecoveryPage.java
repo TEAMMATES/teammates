@@ -10,34 +10,34 @@ import teammates.common.util.ThreadHelper;
 
 public class InstructorRecoveryPage extends AppPage {
 
-    @FindBy(id = "searchBox")
+    @FindBy(id = "rec-searchBox")
     private WebElement searchBox;
 
-    @FindBy(id = "buttonSearch")
+    @FindBy(id = "rec-buttonSearch")
     private WebElement searchButton;
 
-    @FindBy(id = "sortById")
+    @FindBy(id = "rec-sortById")
     private WebElement sortByIdButton;
 
-    @FindBy(id = "sortByName")
+    @FindBy(id = "rec-sortByName")
     private WebElement sortByNameButton;
 
-    @FindBy(id = "sortByDate")
+    @FindBy(id = "rec-sortByDate")
     private WebElement sortByDateButton;
 
-    @FindBy(id = "remindModal")
+    @FindBy(id = "rec-remindModal")
     private WebElement remindModal;
 
-    @FindBy(id = "resendPublishedEmailModal")
+    @FindBy(id = "rec-resendPublishedEmailModal")
     private WebElement resendPublishedEmailModal;
 
-    @FindBy(className = "button_sortname")
+    @FindBy(className = "rec-button_sortname")
     private List<WebElement> tablesSortByName;
 
-    @FindBy(className = "button_sortstartdate")
+    @FindBy(className = "rec-button_sortstartdate")
     private List<WebElement> tablesSortByStartDate;
 
-    @FindBy(className = "button_sortenddate")
+    @FindBy(className = "rec-button_sortenddate")
     private List<WebElement> tablesSortByEndDate;
 
     private InstructorCopyFsToModal fsCopyModal;
@@ -59,7 +59,7 @@ public class InstructorRecoveryPage extends AppPage {
     }
 
     public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("<h1>Home</h1>");
+        return pageSource.contains("<h1>Recycle Bin</h1>");
     }
 
     public void clickSortByIdButton() {
@@ -151,23 +151,23 @@ public class InstructorRecoveryPage extends AppPage {
         return changePageType(FeedbackSubmitPage.class);
     }
 
-    public InstructorHomePage clickFeedbackSessionRemindLink(String courseId, String fsName) {
+    public InstructorRecoveryPage clickFeedbackSessionRemindLink(String courseId, String fsName) {
         clickAndConfirm(getRemindLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorHomePage.class);
+        return changePageType(InstructorRecoveryPage.class);
     }
 
-    public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
+    public InstructorRecoveryPage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
         clickAndConfirm(getUnpublishLink(courseId, fsName));
         waitForPageToLoad();
         switchToNewWindow();
-        return changePageType(InstructorHomePage.class);
+        return changePageType(InstructorRecoveryPage.class);
     }
 
-    public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
+    public InstructorRecoveryPage clickFeedbackSessionPublishLink(String courseId, String fsName) {
         clickAndConfirm(getPublishLink(courseId, fsName));
-        return changePageType(InstructorHomePage.class);
+        return changePageType(InstructorRecoveryPage.class);
     }
 
     public void clickResendPublishedEmailLink(String courseId, String evalName) {

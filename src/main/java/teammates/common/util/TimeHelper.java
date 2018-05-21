@@ -275,6 +275,20 @@ public final class TimeHelper {
     }
 
     /**
+     * Formats a short datetime stamp from a {@code localDateTime} for the instructor's recovery page.
+     * Example: 5 Apr 12:01 PM
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: 5 Apr 12:01 NOON</p>
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @return the formatted datetime stamp string
+     */
+    public static String formatDateTimeForInstructorRecoveryPage(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "d MMM h:mm a");
+    }
+
+    /**
      * Convenience method to perform {@link #adjustLocalDateTimeForSessionsFormInputs} followed by
      * {@link #formatDateForSessionsForm} on a {@link LocalDateTime}.
      * @see #adjustAndFormatDateForSessionsFormInputs
