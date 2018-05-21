@@ -16,6 +16,7 @@ function populateCheckBoxes($button) {
 }
 
 function bindingSelectAllCheckBoxes() {
+    // checks binding of select all checkboxes populated in the header
     $('#remind_all').on('change', function () {
         if (this.checked) {
             $('input[id^="all-students-"]').prop('checked', true);
@@ -38,6 +39,7 @@ function bindingSelectAllCheckBoxes() {
             }
         }
     });
+    // checks binding of each checkbox populated in the data
     $('input[id^="all-students-"]').on('change', () => {
         if ($('input[id^="all-students-"]:checked').length === $('input[id^="all-students-"]').length) {
             $('#remind_all').prop('checked', true);
