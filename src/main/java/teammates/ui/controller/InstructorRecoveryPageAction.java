@@ -46,7 +46,7 @@ public class InstructorRecoveryPageAction extends Action {
 
         statusToAdmin = "instructorRecovery Course Load:<br>" + courseToLoad;
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME_AJAX_COURSE_TABLE, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_RECOVERY_AJAX_COURSE_TABLE, data);
     }
 
     private ActionResult loadPage() {

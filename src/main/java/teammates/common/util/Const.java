@@ -1172,6 +1172,7 @@ public final class Const {
         public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
         public static final String INSTRUCTOR_RECOVERY = "/jsp/instructorRecovery.jsp";
+        public static final String INSTRUCTOR_RECOVERY_AJAX_COURSE_TABLE = "/jsp/instructorHomeAjaxCourse.jsp";
 
         public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
         public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
