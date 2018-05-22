@@ -44,13 +44,12 @@
           ${option}
         </c:forEach>
       </select>
-  </div>
       <c:choose>
         <c:when test="${recipientType == 'STUDENT'}"> (Student)</c:when>
         <c:when test="${recipientType == 'INSTRUCTOR'}"> (Instructor)</c:when>
         <c:when test="${recipientType == 'TEAM'}"> (Team)</c:when>
       </c:choose>:
-  <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
+  </div>
   <c:choose>
     <c:when test="${questionWithResponses.studentCommentsOnResponsesAllowed}">
       <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" id="button_add_comment"
@@ -114,6 +113,5 @@
            name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
            value="<c:out value="${response.responseId}"/>">
   </c:if>
-  </div>
 </div>
 
