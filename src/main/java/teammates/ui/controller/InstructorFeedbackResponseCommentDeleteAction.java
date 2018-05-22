@@ -3,9 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * Action: Delete {@link InstructorFeedbackResponseCommentDeleteAction}.
@@ -13,7 +11,8 @@ import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 public class InstructorFeedbackResponseCommentDeleteAction extends FeedbackResponseCommentDeleteAction {
 
     @Override
-    protected void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
+    protected void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session,
+            FeedbackResponseAttributes response) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);

@@ -64,7 +64,6 @@ public class CourseRoster {
         return instructorListByEmail.get(email);
     }
 
-
     public Map<String, String> getCommentGiverEmailNameTableFromRoster() {
         Map<String, String> commentGiverEmailNameTable = new HashMap<>();
         List<InstructorAttributes> instructorList = getInstructors();

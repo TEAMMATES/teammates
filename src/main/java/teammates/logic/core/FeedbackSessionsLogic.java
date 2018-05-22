@@ -38,7 +38,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.entity.FeedbackResponseComment;
 
 /**
  * Handles operations related to feedback sessions.

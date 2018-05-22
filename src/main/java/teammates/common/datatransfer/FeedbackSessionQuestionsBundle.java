@@ -27,8 +27,8 @@ public class FeedbackSessionQuestionsBundle {
     public CourseRoster roster;
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
-                                          Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,
-                                          Map<String, Map<String, String>> recipientList) {
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,
+            Map<String, Map<String, String>> recipientList) {
         this.feedbackSession = feedbackSession;
         this.questionResponseBundle = questionResponseBundle;
         this.recipientList = recipientList;
@@ -36,9 +36,9 @@ public class FeedbackSessionQuestionsBundle {
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession, Map<FeedbackQuestionAttributes,
             List<FeedbackResponseAttributes>> questionResponseBundle, Map<String, Map<String, String>> recipientList,
-                                          Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses,
-                                          Map<String, String> emailNameTable, Map<String, String> emailLastNameTable,
-                                          Map<String, String> emailTeamNameTable, CourseRoster roster) {
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses,
+            Map<String, String> emailNameTable, Map<String, String> emailLastNameTable,
+            Map<String, String> emailTeamNameTable, CourseRoster roster) {
 
         this.feedbackSession = feedbackSession;
         this.questionResponseBundle = questionResponseBundle;
@@ -135,7 +135,8 @@ public class FeedbackSessionQuestionsBundle {
             boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isRecipientVisibleToInstructor =
                     question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isResponseVisibleToInstructor = question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isResponseVisibleToInstructor =
+                    question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
             if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
                 questionsToHide.add(question);

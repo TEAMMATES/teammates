@@ -8,7 +8,8 @@ import teammates.common.util.Const;
 
 public class StudentFeedbackResponseCommentDeleteAction extends FeedbackResponseCommentDeleteAction {
     @Override
-    protected void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
+    protected void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session,
+            FeedbackResponseAttributes response) {
         if (isModeration) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,

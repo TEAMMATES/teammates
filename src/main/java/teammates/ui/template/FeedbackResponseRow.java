@@ -77,7 +77,8 @@ public class FeedbackResponseRow {
                     boolean isAllowedToSubmitSessionsInBothSection =
                             instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                                    && instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName,
+                                    && instructor.isAllowedForPrivilege(response.recipientSection,
+                                    response.feedbackSessionName,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
                     if (isInstructorGiver || isAllowedToSubmitSessionsInBothSection) {
                         responseRow.enableEditDelete();

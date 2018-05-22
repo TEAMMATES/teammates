@@ -297,7 +297,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             setStatusForException(e);
             isError = true;
         } catch (EntityDoesNotExistException e) {
-            e.printStackTrace();
             isError = true;
         }
 
@@ -382,11 +381,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                                 int questionIndex, FeedbackResponseAttributes response,
                                                                 int responseIndex) {
         if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
-            String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + "-" + responseIndex + "-"
-                    + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex);
+            String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                                              + "-" + responseIndex + "-"
+                                                              + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                                              + "-" + questionIndex);
             if (!StringHelper.isEmpty(commentText)) {
                 String commentIndex = "-" + responseIndex + "-"
-                        + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex;
+                                              + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex;
                 questionIdsForComments.put(commentIndex, questionAttributes.getId());
                 responseGiverMapForComments.put(commentIndex, response.giver);
                 responseRecipientMapForComments.put(commentIndex, response.recipient);
@@ -397,7 +398,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         logic.getFeedbackResponseCommentsForResponse(response.getId());
                 int totalNumberOfComments = previousComments.size();
 
-                for (Iterator<FeedbackResponseCommentAttributes> iter = previousComments.iterator(); iter.hasNext();) {
+                for (Iterator<FeedbackResponseCommentAttributes> iter = previousComments.iterator(); iter.hasNext(); ) {
                     FeedbackResponseCommentAttributes frca = iter.next();
                     if (!frca.giverEmail.equals(response.giver)) {
                         iter.remove();
@@ -407,19 +408,22 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     for (int i = 1; i <= totalNumberOfComments; i++) {
                         String editedCommentText =
                                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                        + "-" + responseIndex + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                        + "-" + questionIndex + "-" + i);
+                                                             + "-" + responseIndex + "-"
+                                                             + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                                             + "-" + questionIndex + "-" + i);
                         String commentId =
                                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
-                                        + "-" + responseIndex + "-" + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                        + "-" + questionIndex + "-" + i);
+                                                             + "-" + responseIndex + "-"
+                                                             + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                                             + "-" + questionIndex + "-" + i);
                         if (commentId != null) {
                             FeedbackResponseCommentAttributes commentCheck =
                                     logic.getFeedbackResponseComment(Long.parseLong(commentId));
                             if (!StringHelper.isEmpty(editedCommentText)
-                                    && !commentCheck.commentText.getValue().equals(editedCommentText)) {
+                                        && !commentCheck.commentText.getValue().equals(editedCommentText)) {
                                 String commentIndx = "-" + responseIndex + "-"
-                                        + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex + "-" + i;
+                                                             + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-"
+                                                             + questionIndex + "-" + i;
                                 questionIdsForComments.put(commentIndx, questionAttributes.getId());
                                 commentsToUpdateId.put(commentIndx, commentId);
                                 commentsToUpdateText.put(commentIndx, editedCommentText);

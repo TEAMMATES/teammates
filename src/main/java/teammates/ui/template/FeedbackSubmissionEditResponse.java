@@ -9,7 +9,7 @@ public class FeedbackSubmissionEditResponse {
     private String submissionFormHtml;
     private String responseId;
     private List<FeedbackResponseCommentRow> commentsOnResponses;
-    private FeedbackResponseCommentRow feedbackResponseCommentAdd;;
+    private FeedbackResponseCommentRow feedbackResponseCommentAdd;
 
     public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
                                     List<String> recipientOptionsForQuestion, String submissionFormHtml, String responseId) {

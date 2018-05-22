@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
@@ -12,6 +11,7 @@ public abstract class FeedbackResponseCommentDeleteAction extends Action {
     protected String courseId;
     protected String feedbackSessionName;
     protected boolean isModeration;
+
     @Override
     protected ActionResult execute() {
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -45,7 +45,8 @@ public abstract class FeedbackResponseCommentDeleteAction extends Action {
         return createAjaxResult(data);
     }
 
-    protected abstract void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session, FeedbackResponseAttributes response);
+    protected abstract void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session,
+            FeedbackResponseAttributes response);
 
     protected abstract void appendToStatusToAdmin(Long commentId);
 }

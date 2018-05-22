@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
-import teammates.common.datatransfer.CourseRoster;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -403,7 +401,8 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName, boolean shouldLoadInEditMode) {
+    public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName,
+            boolean shouldLoadInEditMode) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -811,35 +810,6 @@ public class PageData {
                + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
 
-    public String getRecipientNames(Set<String> recipients, String courseId, String studentEmail, CourseRoster roster) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append(" and ");
-            } else if (i > 0 && i < recipients.size() - 1 && recipients.size() > 2) {
-                namesStringBuilder.append(", ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (recipient.equals(studentEmail)) {
-                namesStringBuilder.append("you");
-            } else if (courseId.equals(recipient)) {
-                namesStringBuilder.append("all students in this course");
-            } else if (student == null) {
-                namesStringBuilder.append(recipient);
-            } else {
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
-                } else {
-                    namesStringBuilder.append(student.name);
-                }
-            }
-            i++;
-        }
-        return namesStringBuilder.toString();
-    }
-
     /**
      * Sets the list of status messages.
      * @param statusMessagesToUser a list of status messages that is to be displayed to the user
@@ -856,10 +826,9 @@ public class PageData {
         return statusMessagesToUser;
     }
 
-
     public FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
-                                                                           String responseId, Map<FeedbackParticipantType, Boolean> responseVisibilityMap,
-                                                                           String giverName, String recipientName, boolean isInstructor, ZoneId timezone) {
+            String responseId, Map<FeedbackParticipantType, Boolean> responseVisibilityMap, String giverName,
+            String recipientName, boolean isInstructor, ZoneId timezone) {
         FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
                 .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
                 .withFeedbackResponseId(responseId)
@@ -906,7 +875,7 @@ public class PageData {
     }
 
     public Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question,
-                                                                          boolean isCommentGiverStudent) {
+            boolean isCommentGiverStudent) {
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = new HashMap<>();
 
         if (isCommentGiverStudent) {
@@ -931,28 +900,28 @@ public class PageData {
     //TODO investigate and fix the differences between question.isResponseVisibleTo and this method
     private boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
         switch (participantType) {
-            case GIVER:
-                return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
-            case INSTRUCTORS:
-                return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
-            case OWN_TEAM_MEMBERS:
-                return question.giverType != FeedbackParticipantType.INSTRUCTORS
-                        && question.giverType != FeedbackParticipantType.SELF
-                        && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-            case RECEIVER:
-                return question.recipientType != FeedbackParticipantType.SELF
-                        && question.recipientType != FeedbackParticipantType.NONE
-                        && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
-            case RECEIVER_TEAM_MEMBERS:
-                return question.recipientType != FeedbackParticipantType.INSTRUCTORS
-                        && question.recipientType != FeedbackParticipantType.SELF
-                        && question.recipientType != FeedbackParticipantType.NONE
-                        && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-            case STUDENTS:
-                return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
-            default:
-                Assumption.fail("Invalid participant type");
-                return false;
+        case GIVER:
+            return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
+        case INSTRUCTORS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        case OWN_TEAM_MEMBERS:
+            return question.giverType != FeedbackParticipantType.INSTRUCTORS
+                    && question.giverType != FeedbackParticipantType.SELF
+                    && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        case RECEIVER:
+            return question.recipientType != FeedbackParticipantType.SELF
+                    && question.recipientType != FeedbackParticipantType.NONE
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+        case RECEIVER_TEAM_MEMBERS:
+            return question.recipientType != FeedbackParticipantType.INSTRUCTORS
+                    && question.recipientType != FeedbackParticipantType.SELF
+                    && question.recipientType != FeedbackParticipantType.NONE
+                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        case STUDENTS:
+            return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
+        default:
+            Assumption.fail("Invalid participant type");
+            return false;
         }
     }
 }

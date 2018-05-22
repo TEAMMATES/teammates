@@ -18,7 +18,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSubmissionEditQuestion;
 import teammates.ui.template.FeedbackSubmissionEditResponse;
@@ -250,7 +249,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackSubmissionEditResponse> responses = new ArrayList<>();
 
         List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
-        List<String> responseSubmittedRecipient = new ArrayList<String>();
+        List<String> responseSubmittedRecipient = new ArrayList<>();
         int responseIndx = 0;
 
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
@@ -267,7 +266,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                 questionAttributes.courseId, numOfResponseBoxes,
                                                 existingResponse.getResponseDetails(), student);
 
-            List<FeedbackResponseCommentRow> comments = new ArrayList<>();
+            List<FeedbackResponseCommentRow> comments;
             String giverName = bundle.getNameForEmail(existingResponse.giver);
             String recipientName = bundle.getNameForEmail(existingResponse.recipient);
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
@@ -281,11 +280,13 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 FeedbackResponseCommentRow responseExplanationComment = buildFeedbackResponseCommentAddForm(
                         questionAttributes, existingResponse.getId(), responseVisibilityMap, giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
-                responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
-                        submissionFormHtml, existingResponse.getId(), comments, responseExplanationComment));
+                responses.add(new FeedbackSubmissionEditResponse(responseIndx,
+                        true, recipientOptionsForQuestion, submissionFormHtml,
+                        existingResponse.getId(), comments, responseExplanationComment));
                 responseSubmittedRecipient.add(recipientName);
             } else {
-                responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion,
+                responses.add(new FeedbackSubmissionEditResponse(responseIndx,
+                        true, recipientOptionsForQuestion,
                         submissionFormHtml, existingResponse.getId()));
             }
             responseIndx++;
@@ -362,10 +363,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
             frcCommentRowList.add(frcRow);
         }
         return frcCommentRowList;
-
     }
 
-    private void setEditDeleteCommentOptionForUser(FeedbackResponseCommentAttributes frcAttributes, FeedbackResponseCommentRow frcRow) {
+    private void setEditDeleteCommentOptionForUser(FeedbackResponseCommentAttributes frcAttributes,
+            FeedbackResponseCommentRow frcRow) {
         if (isModeration) {
             if (isFeedbackSessionForInstructor) {
                 if (frcAttributes.giverEmail.equals(previewInstructor.email)) {
@@ -387,10 +388,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
         }
     }
 
-
-
     private List<FeedbackResponseCommentAttributes> filterFeedbackResponseCommentAttributes(CourseRoster roster,
-                                                                                            List<FeedbackResponseCommentAttributes> frcList) {
+            List<FeedbackResponseCommentAttributes> frcList) {
         List<FeedbackResponseCommentAttributes> filteredComments = new ArrayList<FeedbackResponseCommentAttributes>();
         for (FeedbackResponseCommentAttributes comment : frcList) {
             if (roster.isInstructorOfCourse(comment.giverEmail) || comment.giverEmail.equals(student.email)

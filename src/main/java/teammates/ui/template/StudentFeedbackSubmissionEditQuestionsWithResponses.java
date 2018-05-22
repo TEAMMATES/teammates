@@ -20,9 +20,8 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     }
 
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
-                                                               List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes,
-                                                               int maxResponsesPossible, boolean instructorCommentsOnResponsesAllowed,
-                                                               boolean studentCommentsOnResponsesAllowed) {
+            List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes, int maxResponsesPossible,
+            boolean instructorCommentsOnResponsesAllowed, boolean studentCommentsOnResponsesAllowed) {
         this.question = question;
         this.responses = responses;
         this.numOfResponseBoxes = numOfResponseBoxes;

@@ -1,7 +1,11 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.attributes.*;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 
@@ -25,8 +29,6 @@ public class StudentFeedbackResponseCommentAddAction extends FeedbackResponseCom
                     + "by: " + instructorEmail + "moderating as" + feedbackResponseComment.giverEmail + " at "
                     + feedbackResponseComment.createdAt + "<br>"
                     + "comment text: " + feedbackResponseComment.commentText.getValue();
-
-
         } else {
             statusToAdmin += "StudentFeedbackResponseCommentAddAction:<br>"
                     + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
@@ -35,7 +37,6 @@ public class StudentFeedbackResponseCommentAddAction extends FeedbackResponseCom
                     + "by: " + feedbackResponseComment.giverEmail + " at "
                     + feedbackResponseComment.createdAt + "<br>"
                     + "comment text: " + feedbackResponseComment.commentText.getValue();
-
         }
     }
 

@@ -1169,7 +1169,6 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
     }
 }
 
-
 function getNewResponseCommentsText() {
     const $responseCommentTables = $('ul[id^="responseCommentTable-"]');
     $.each($responseCommentTables, (i, responseCommentTable) => {

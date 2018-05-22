@@ -1728,7 +1728,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 || viewTypeIsRecipient && hasFeedbackToInstructorOrGeneral;
     }
 
-
     public boolean isModeration() {
         return isModeration;
     }
