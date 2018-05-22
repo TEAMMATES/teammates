@@ -51,7 +51,9 @@
           </label>
           <div class="col-xs-12 col-sm-9">
             <div class="input-group">
-              <select class="form-control" data-original-title="The time zone for the course." data-placement="top" data-time-zone="UTC" data-toggle="tooltip" disabled="" id="coursetimezone" name="coursetimezone" title="">
+              <select class="form-control" data-original-title="The time zone for the course. You should not need to change this as it is auto-detected based on your
+                  device settings.<br><br> TEAMMATES automatically adjusts to match the current time offset in your area,
+                  including clock changes due to daylight saving time." data-placement="top" data-time-zone="UTC" data-toggle="tooltip" disabled="" id="coursetimezone" name="coursetimezone" title="">
               </select>
               <span class="input-group-btn">
                 <input class="btn btn-primary" disabled="" id="auto-detect-time-zone" type="button" value="Auto-Detect">
@@ -72,7 +74,7 @@
   <div id="statusMessagesToUser" style="display: none;">
   </div>
   <div class="pull-right">
-    <a class="small" href="/instructorHelp.jsp#editCourse" rel="noopener noreferrer" target="_blank">
+    <a class="small" href="/instructorHelp.jsp#course-instructor-access" rel="noopener noreferrer" target="_blank">
       <span class="glyphicon glyphicon-info-sign">
       </span>
       More about configuring access permissions
@@ -148,7 +150,7 @@
               Display to students as:
             </label>
             <div class="col-sm-9">
-              <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="inst<script>alert('hi!');</script>">
+              <input class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" data-placement="top" data-toggle="tooltip" disabled="" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" title="" type="text" value="inst'&quot;/><script>alert('hi!');</script>">
             </div>
           </div>
           <div id="accessControlInfoForInstr1">

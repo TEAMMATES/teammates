@@ -29,7 +29,7 @@ TEAMMATES team wishes to thank the following invaluable contributions:
 * [**School of Computing, National University of Singapore (NUS)**](http://www.comp.nus.edu.sg), for providing us with the infrastructure support to run the project.
 * [**Centre for Development of Teaching and Learning (CDTL)**](http://www.cdtl.nus.edu.sg/) of NUS, for supporting us with several *Teaching Enhancement Grants* over the years.
 * **Learning Innovation Fund-Technology (LIF-T)** initiative of NUS, for funding us for the 2015-2018 period.
-* **Google Summer of Code** Program, for including TEAMMATES as a mentor organization in *GSoC2014*, *GSoC2015*, *GSoC2016*, and *GSoC2017* editions.
+* **Google Summer of Code** Program, for including TEAMMATES as a mentor organization in *GSoC2014*, *GSoC2015*, *GSoC2016*, *GSoC2017* and *GSoC2018* editions.
 * **Facebook Open Academy** Program, for including TEAMMATES as a mentor organization in FBOA 2016.
 * **Jet Brains**, for the [Intellij IDEA](https://www.jetbrains.com/idea/) licences
 * [**YourKit LLC**](ttps://www.yourkit.com), for providing us with free licenses for the [YourKit Java Profiler <img src="https://www.yourkit.com/images/yklogo.png" width="70">](https://www.yourkit.com/java/profiler/index.jsp) (an industry leading profiler tool for Java applications).

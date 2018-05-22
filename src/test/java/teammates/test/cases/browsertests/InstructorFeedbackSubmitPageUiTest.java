@@ -66,11 +66,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Empty Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEmpty.html");
-
-        ______TS("Private session");
-
-        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePrivate.html");
     }
 
     private void testClosedSessionSubmitAction() {
@@ -85,6 +80,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("create new responses");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        assertTrue(submitPage.isConfirmationEmailBoxTicked());
 
         submitPage.fillResponseRichTextEditor(1, 0, "Test Self Feedback");
         submitPage.selectRecipient(2, 0, "Alice Betsy</option></td></div>'\"");
@@ -228,6 +224,16 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(20, 2, 1, "35");
         submitPage.fillResponseTextBox(20, 2, 2, "50");
 
+        submitPage.fillResponseTextBox(22, 0, 0, "35");
+        submitPage.fillResponseTextBox(22, 0, 1, "40");
+        submitPage.fillResponseTextBox(22, 0, 2, "25");
+        submitPage.fillResponseTextBox(22, 1, 0, "10");
+        submitPage.fillResponseTextBox(22, 1, 1, "50");
+        submitPage.fillResponseTextBox(22, 1, 2, "40");
+        submitPage.fillResponseTextBox(22, 2, 0, "15");
+        submitPage.fillResponseTextBox(22, 2, 1, "35");
+        submitPage.fillResponseTextBox(22, 2, 2, "50");
+
         // Just check the edited responses, and two new response.
         assertNull(BackDoor.getFeedbackResponse(fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 1</td></div>'\""));
@@ -235,9 +241,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(), "IFSubmitUiT.instr@gmail.tmt", "Team 3"));
 
         // checks that "" can be submitted and other choices reset when "" is clicked
-        submitPage.toggleMsqOption(21, 0, "Team 3");
-        submitPage.toggleMsqOption(21, 0, "");
+        submitPage.toggleMsqOption(23, 0, "Team 3");
+        submitPage.toggleMsqOption(23, 0, "");
 
+        assertFalse(submitPage.isConfirmationEmailBoxTicked());
         submitPage.submitWithoutConfirmationEmail();
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -522,6 +529,51 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("Over allocated 25 points. The same "
                      + "amount of points should not be given multiple times.",
                      submitPage.getConstSumMessage(qnNumber, 0));
+
+        // Test error message for const sum (to recipients) qn with uneven distribution for at least some recipients
+        qnNumber = 21;
+        submitPage.fillResponseTextBox(21, 0, 0, "95");
+        submitPage.fillResponseTextBox(21, 1, 0, "95");
+        submitPage.fillResponseTextBox(21, 2, 0, "95");
+        submitPage.fillResponseTextBox(21, 3, 0, "96");
+        assertEquals("19 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 3));
+        submitPage.fillResponseTextBox(qnNumber, 3, 0, "95");
+        assertEquals("20 points left to distribute. Different "
+                        + "amount of points should be given to some options.",
+                submitPage.getConstSumMessage(qnNumber, 3));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "105");
+        submitPage.fillResponseTextBox(qnNumber, 1, 0, "105");
+        submitPage.fillResponseTextBox(qnNumber, 2, 0, "105");
+        submitPage.fillResponseTextBox(qnNumber, 3, 0, "105");
+        assertEquals("Over allocated 20 points. Different "
+                        + "amount of points should be given to some options.",
+                submitPage.getConstSumMessage(qnNumber, 3));
+        submitPage.fillResponseTextBox(qnNumber, 3, 0, "110");
+        assertEquals("Over allocated 25 points.", submitPage.getConstSumMessage(qnNumber, 3));
+
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "100");
+        submitPage.fillResponseTextBox(qnNumber, 1, 0, "100");
+        submitPage.fillResponseTextBox(qnNumber, 2, 0, "100");
+        submitPage.fillResponseTextBox(qnNumber, 3, 0, "100");
+        assertEquals("Different amount of points should be given to some options.",
+                submitPage.getConstSumMessage(qnNumber, 3));
+
+        // Test error message for const sum (to options) qn with uneven distribution for at least some  options
+        qnNumber = 22;
+        assertEquals("All points distributed!", submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "25");
+        assertEquals("10 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 1, "25");
+        assertEquals("25 points left to distribute. Different "
+                        + "amount of points should be given to some options.",
+                submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "60");
+        assertEquals("Over allocated 10 points.", submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 1, "60");
+        submitPage.fillResponseTextBox(qnNumber, 0, 2, "60");
+        assertEquals("Over allocated 80 points. Different "
+                        + "amount of points should be given to some options.",
+                submitPage.getConstSumMessage(qnNumber, 0));
 
         // For other const sum question, just test one message.
         qnNumber = 18;

@@ -156,17 +156,16 @@ public class AdminActivityLogPageAction extends Action {
                 targetTimeZone = getLocalTimeZoneForUnregisteredUserRequest(courseId);
             }
         } else {
-            targetTimeZone = Const.SystemParams.ADMIN_TIME_ZONE_ID;
+            targetTimeZone = Const.SystemParams.ADMIN_TIME_ZONE;
         }
 
-        String timeInAdminTimeZone =
-                TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime),
-                        Const.SystemParams.ADMIN_TIME_ZONE_ID);
+        String timeInAdminTimeZone = TimeHelper.formatDateTimeForAdminLog(Instant.ofEpochMilli(earliestSearchTime),
+                Const.SystemParams.ADMIN_TIME_ZONE);
         String timeInUserTimeZone =
-                TimeHelper.formatActivityLogTime(Instant.ofEpochMilli(earliestSearchTime), targetTimeZone);
+                TimeHelper.formatDateTimeForAdminLog(Instant.ofEpochMilli(earliestSearchTime), targetTimeZone);
 
         status.append("The earliest log entry checked on <b>" + timeInAdminTimeZone + "</b> in Admin Time Zone ("
-                      + Const.SystemParams.ADMIN_TIME_ZONE_ID.getId() + ") and ");
+                + Const.SystemParams.ADMIN_TIME_ZONE.getId() + ") and ");
         if (targetTimeZone == null) {
             status.append(timeInUserTimeZone).append(".<br>");
         } else {
@@ -277,7 +276,7 @@ public class AdminActivityLogPageAction extends Action {
     private ZoneId getLocalTimeZoneForRequest(String userGoogleId, String userRole) {
 
         if (userRole != null && (userRole.contentEquals("Admin") || userRole.contains("(M)"))) {
-            return Const.SystemParams.ADMIN_TIME_ZONE_ID;
+            return Const.SystemParams.ADMIN_TIME_ZONE;
         }
 
         if (userGoogleId == null || userGoogleId.isEmpty()) {
@@ -351,7 +350,7 @@ public class AdminActivityLogPageAction extends Action {
             return "Local Time Unavailable";
         }
         Instant logInstant = Instant.ofEpochMilli(Long.parseLong(logUnixTimeMillis));
-        return TimeHelper.formatActivityLogTime(logInstant, timeZone) + " [" + timeZone.getId() + "]";
+        return TimeHelper.formatDateTimeForAdminLog(logInstant, timeZone) + " [" + timeZone.getId() + "]";
     }
 
 }

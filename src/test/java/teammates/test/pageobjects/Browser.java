@@ -67,7 +67,7 @@ public class Browser {
         System.out.print("Initializing Selenium: ");
 
         String browser = TestProperties.BROWSER;
-        if ("firefox".equals(browser)) {
+        if (TestProperties.BROWSER_FIREFOX.equals(browser)) {
             System.out.println("Using Firefox.");
             String firefoxPath = TestProperties.FIREFOX_PATH;
             if (!firefoxPath.isEmpty()) {
@@ -86,7 +86,7 @@ public class Browser {
             profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
             return new FirefoxDriver(profile);
 
-        } else if ("chrome".equals(browser)) {
+        } else if (TestProperties.BROWSER_CHROME.equals(browser)) {
             System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
 
             System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
