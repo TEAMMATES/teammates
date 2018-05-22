@@ -382,10 +382,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                                 int questionIndex, FeedbackResponseAttributes response,
                                                                 int responseIndex) {
         if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
-            String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT + "-" + responseIndex
+            String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + "-" + responseIndex + "-"
                     + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex);
             if (!StringHelper.isEmpty(commentText)) {
-                String commentIndex = "-" + responseIndex
+                String commentIndex = "-" + responseIndex + "-"
                         + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex;
                 questionIdsForComments.put(commentIndex, questionAttributes.getId());
                 responseGiverMapForComments.put(commentIndex, response.giver);

@@ -87,6 +87,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type,
     // rather than an enum determining behavior in many methods
     private InstructorFeedbackResultsPageViewType viewType;
+    // for comments form
+    private boolean isModeration;
 
     public InstructorFeedbackResultsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -1725,4 +1727,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 || viewTypeIsGiver && hasFeedbackFromInstructor
                 || viewTypeIsRecipient && hasFeedbackToInstructorOrGeneral;
     }
+
+
+    public boolean isModeration() {
+        return isModeration;
+    }
+
 }

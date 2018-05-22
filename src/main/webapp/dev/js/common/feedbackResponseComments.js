@@ -9,6 +9,7 @@ import {
 } from './bootboxWrapper';
 
 import {
+    BootstrapContextualColors as StatusType,
     BootstrapContextualColors,
 } from './const';
 
@@ -562,8 +563,102 @@ function registerResponseCommentCheckboxEvent() {
     });
 }
 
+const deleteCommentHandlerForFeedbackPage = (e) => {
+    const submitButton = $(e.currentTarget);
+    e.preventDefault();
+
+    showModalConfirmation('Confirm deletion', 'Are you sure you want to remove this comment?', () => {
+        const divObject = submitButton.parent();
+        const formData = divObject.find('input').serialize();
+        $.ajax({
+            type: 'POST',
+            url: `${submitButton.attr('href')}?${formData}`,
+            beforeSend() {
+                submitButton.html('<img src="/images/ajax-loader.gif"/>');
+            },
+            error() {
+                showErrorMessage('Failed to delete comment. Please try again.', submitButton);
+            },
+            success(data) {
+                if (data.isError) {
+                    showErrorMessage(data.errorMessage, submitButton);
+                } else {
+                    deleteCommentRow(submitButton);
+                }
+            },
+        });
+    }, null, null, null, StatusType.WARNING);
+};
+
+function registerResponseCommentCheckboxEventForFeedbackPage() {
+    $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', (e) => {
+        const table = $(e.currentTarget).closest('table');
+        const parentDiv = table.parent().attr('id');
+        const responseCommentId = parentDiv.substring('visibility-options-'.length);
+        let visibilityOptions = [];
+        const target = $(e.target);
+        const visibilityOptionsRow = target.closest('tr');
+        if (target.prop('class').includes('answerCheckbox') && !target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=giverCheckbox]').prop('checked', false);
+            visibilityOptionsRow.find('input[class*=recipientCheckbox]').prop('checked', false);
+        }
+        if ((target.prop('class').includes('giverCheckbox') || target.prop('class').includes('recipientCheckbox'))
+            && target.prop('checked')) {
+            visibilityOptionsRow.find('input[class*=answerCheckbox]').prop('checked', true);
+        }
+
+        table.find('.answerCheckbox:checked').each(function () {
+            visibilityOptions.push($(this).val());
+        });
+        $(`input[name=showresponsecommentsto-${responseCommentId}]`).val(visibilityOptions.join(', '));
+
+        visibilityOptions = [];
+        table.find('.giverCheckbox:checked').each(function () {
+            visibilityOptions.push($(this).val());
+        });
+        $(`input[name=showresponsegiverto-${responseCommentId}]`).val(visibilityOptions.join(', '));
+    });
+}
+
+function registerResponseCommentsEventForFeedbackPage() {
+    $('body').on('click',
+        'div[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandlerForFeedbackPage);
+    const clickHandlerMap = new Map();
+    clickHandlerMap.set(
+        '.show-frc-add-form', [showResponseCommentAddForm,
+            ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+        '.show-frc-edit-form', [showResponseCommentEditForm,
+            ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+        '.hide-frc-add-form', [hideResponseCommentAddForm,
+            ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+        '.hide-frc-edit-form', [hideResponseCommentEditForm,
+            ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+        '.toggle-visib-add-form', [toggleVisibilityAddForm,
+            ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+        '.toggle-visib-edit-form', [toggleVisibilityEditForm,
+            ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+
+    /* eslint-disable no-restricted-syntax */
+    for (const [className, clickHandlerAndParams] of clickHandlerMap) {
+        $(document).on('click', className, (e) => {
+            const ev = $(e.currentTarget);
+            const clickHandler = clickHandlerAndParams[0];
+            const params = clickHandlerAndParams[1].map(paramName => ev.data(paramName));
+            clickHandler(params[0], params[1], params[2], params[3], params[4], params[5]);
+        });
+    }
+    /* eslint-enable no-restricted-syntax */
+}
+
 export {
     enableHoverToDisplayEditOptions,
     registerResponseCommentCheckboxEvent,
     registerResponseCommentsEvent,
+    registerResponseCommentCheckboxEventForFeedbackPage,
+    registerResponseCommentsEventForFeedbackPage,
 };

@@ -1,6 +1,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="questionWithResponses.tag - Display question with responses" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
@@ -29,11 +30,11 @@
 </c:if>
 
 <br>
-<div class="form-group margin-0" style="padding-right:10px">
+<div class="form-group margin-0 " style="padding-right:10px">
   <div ${isNumResponsesMax ? 'class="col-sm-3 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
       ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
 
-    <label>
+    <label for="input">To${isRecipientTeam ? ' Team' : ''}: </label>
       <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control"
           name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
           style="${isNumResponsesMax ? 'display:none;max-width:125px' : 'width:275px;max-width:275px'}"
@@ -43,13 +44,13 @@
           ${option}
         </c:forEach>
       </select>
-    </label>
+  </div>
       <c:choose>
         <c:when test="${recipientType == 'STUDENT'}"> (Student)</c:when>
         <c:when test="${recipientType == 'INSTRUCTOR'}"> (Instructor)</c:when>
         <c:when test="${recipientType == 'TEAM'}"> (Team)</c:when>
       </c:choose>:
-  </div>
+  <div class="${divClassType}<c:if test="${questionWithResponses.question.questionTypeConstsum}"> width-auto</c:if>">
   <c:choose>
     <c:when test="${questionWithResponses.studentCommentsOnResponsesAllowed}">
       <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" id="button_add_comment"
@@ -65,7 +66,6 @@
         <c:otherwise>
           <div class="${divClassType}">
               ${response.submissionFormHtml}
-          </div>
         </c:otherwise>
       </c:choose>
       <br>
@@ -96,6 +96,9 @@
                                            isPreview="${data.preview}" submitTable="${data.submittable}"
                                            giverRole="${giverRole}"/>
       </ul>
+       <c:if test="${not questionWithResponses.question.questionTypeConstsum}">
+       </div>
+       </c:if>
     </c:when>
     <c:when test="${questionWithResponses.question.questionTypeConstsum}">
       ${response.submissionFormHtml}
@@ -111,4 +114,6 @@
            name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
            value="<c:out value="${response.responseId}"/>">
   </c:if>
+  </div>
 </div>
+

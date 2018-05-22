@@ -33,7 +33,7 @@
   </c:otherwise>
 </c:choose>
 <div class="form-group form-inline">
-    <div class="form-group text-muted">
+    <div class="form-group text-muted"<c:if test="${isOnFeedbackSubmissionEditPage}"> style="margin-left:1em;"</c:if>>
       <p>
         Giver: ${fn:escapeXml(frc.responseGiverName)}
         <br>
@@ -213,7 +213,6 @@
     <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
       ${frc.commentText}
     </div>
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>">
   </div>
   <div class="col-sm-offset-5">
     <a href="${submitLink}"
