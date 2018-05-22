@@ -8,18 +8,18 @@ import teammates.common.util.ThreadHelper;
 import teammates.test.driver.TestProperties;
 
 /**
- * Unit Test for functions in scrollTo.js
+ * Unit Test for functions in scrollTo.js.
  * All tests are done on About Us page to avoid regression
  */
 public class ScrollUnitTest extends BaseUiTestCase {
 
-    public static final String SCROLL_TO_POSITION_SCRIPT = "if (arguments[1] === undefined || arguments[1] === null) {\n"
+    private static final String SCROLL_TO_POSITION_SCRIPT = "if (arguments[1] === undefined || arguments[1] === null) {\n"
             + "        $(window).scrollTop(arguments[0]);\n"
             + "    } else {\n"
             + "        $('html, body').animate({ scrollTop: arguments[0] }, arguments[1]);\n"
             + "    }";
 
-    public static final String VERTICAL_SCROLL_VALUE = "return window.scrollY";
+    private static final String VERTICAL_SCROLL_VALUE = "return window.scrollY";
 
     @Override
     protected void prepareTestData() {
