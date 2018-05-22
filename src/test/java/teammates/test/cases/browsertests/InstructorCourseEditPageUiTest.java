@@ -44,7 +44,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testInputValidation();
 
         testInviteInstructorAction();
-        testCancelAddingNewInstructor();
+        testCancelAddInstructor();
         testAddInstructorAction();
         testEditInstructorAction();
         testCancelEditInstructorAction();
@@ -161,14 +161,21 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
                 Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
-    private void testCancelAddingNewInstructor() {
-        ______TS("Cancelling adding of a new instructor");
+    private void testCancelAddInstructor() {
+        ______TS("Click cancel button upon new form created");
         courseEditPage.clickShowNewInstructorFormButton();
-        assertTrue(courseEditPage.verifyShowNewInstructorIsDisplayed());
-
-        ______TS("Click cancel button");
+        assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
         courseEditPage.clickCancelAddInstructorLink();
-        assertFalse(courseEditPage.verifyShowNewInstructorIsDisplayed());
+        assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        ______TS("Click cancel button after filling some fields of the form");
+        courseEditPage.clickShowNewInstructorFormButton();
+        assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        courseEditPage.fillNewInstructorName("New Instructor Test");
+        courseEditPage.fillNewInstructorEmail("newinstructortest@example.com");
+        courseEditPage.clickCancelAddInstructorLink();
+        assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
     }
 
     private void testAddInstructorAction() throws Exception {

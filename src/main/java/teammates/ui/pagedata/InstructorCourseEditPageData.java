@@ -101,7 +101,7 @@ public class InstructorCourseEditPageData extends PageData {
                                                                           sectionNames, feedbackNames);
 
         if (instructor == null) {
-            instructorPanel.setNewInstructorCancelButton(createCancelAddInstructorButton());
+            instructorPanel.setAddInstructorCancelButton(createCancelAddInstructorButton());
         } else {
             int panelIndex = instructorPanel.getIndex();
             boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
@@ -229,7 +229,7 @@ public class InstructorCourseEditPageData extends PageData {
 
     private ElementTag createCancelAddInstructorButton() {
         String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
-        String buttonId = "newInstrCancelLink";
+        String buttonId = "addInstrCancelLink";
 
         return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_ADD,
                 false);

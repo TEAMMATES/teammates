@@ -197,7 +197,7 @@ public class InstructorCourseEditPage extends AppPage {
         assertTrue(isNotEditable);
     }
 
-    public boolean verifyShowNewInstructorIsDisplayed() {
+    public boolean verifyAddInstructorFormDisplayed() {
         WebElement newInstructorForm = browser.driver.findElement(By.id("panelAddInstructor"));
         return newInstructorForm.isDisplayed();
     }
@@ -460,7 +460,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public WebElement getCancelAddInstructorLink() {
-        return browser.driver.findElement(By.id("newInstrCancelLink"));
+        return browser.driver.findElement(By.id("addInstrCancelLink"));
     }
 
     private WebElement getInviteInstructorLink(int instrNum) {
