@@ -70,6 +70,10 @@ Apply to alert to override Bootstrap's default 3d alerts
     border: 1px solid #DDD;
 }
 
+.border-black {
+    border: 1px solid #000;
+}
+
 .border-left-gray {
     border-left: 1px solid #DDD;
 }

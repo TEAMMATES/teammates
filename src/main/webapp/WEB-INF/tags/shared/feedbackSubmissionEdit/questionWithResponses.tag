@@ -1,9 +1,11 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="feedbackSubmissionEdit.jsp - Display question with responses" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
+<%@ tag import="teammates.common.datatransfer.questions.FeedbackQuestionType"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
+<%@ attribute name="feedbackConstSumQuestionDetails" type="teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails"%>
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
 <%@ attribute name="isShowRealQuestionNumber" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
@@ -56,7 +58,11 @@
           </c:forEach>
         </ul>
       </c:if>
-
+      <c:if test="${questionWithResponses.question.questionTypeConstsum}">
+          <p class="text-color-blue align-left text-bold">Note:</p>
+          <p class="text-color-blue padding-left-35px" id="constSumInstruction-${questionWithResponses.question.questionNumber}"></p>
+        <hr class="margin-top-0">
+      </c:if>
       <c:if test="${not isRecipientNameHidden}">
         <div class="col-sm-12 form-inline mobile-align-left">
           <label for="input" style="text-indent: 24px">
@@ -67,7 +73,6 @@
         </div>
         <br>
       </c:if>
-
       <c:if test="${questionWithResponses.question.giverTeam}">
         <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>
       </c:if>
