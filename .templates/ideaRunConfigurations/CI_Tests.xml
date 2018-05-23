@@ -25,7 +25,7 @@
     <option name="TEST_SEARCH_SCOPE">
       <value defaultName="wholeProject" />
     </option>
-    <option name="USE_DEFAULT_REPORTERS" value="false" />
+    <option name="USE_DEFAULT_REPORTERS" value="true" />
     <option name="PROPERTIES_FILE" value="" />
     <envs />
     <properties />
