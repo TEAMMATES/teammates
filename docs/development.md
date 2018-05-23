@@ -137,7 +137,7 @@ Before running tests, modify `src/test/resources/test.properties` if necessary, 
 
 ### Using Firefox
 
-* Only Firefox between versions 38.0.5 and 46.0.1 are supported.
+* Only Firefox between versions 38.0.5 and 46.0.0 are supported.
   * To downgrade your Firefox version, obtain the executable from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/).
   * If you want to use a different path for this version, choose `Custom setup` during install.
   * Remember to disable the auto-updates (`Options → Advanced tab → Update`).
