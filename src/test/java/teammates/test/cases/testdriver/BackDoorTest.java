@@ -119,8 +119,8 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         verifyAbsentInDatastore(feedbackSession1InCourse1);
 
         // verify if question of session is deleted
-        FeedbackQuestionAttributes question2InSession1InCourse1
-                = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        FeedbackQuestionAttributes question2InSession1InCourse1 =
+                dataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
         verifyAbsentInDatastore(question2InSession1InCourse1);
 
         // #Closed Session
@@ -131,8 +131,8 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         verifyAbsentInDatastore(closedSession);
 
         // verify if response of deleted closed session are deleted
-        FeedbackResponseAttributes responseOfClosedSession
-                = dataBundle.feedbackResponses.get("response1Q1ClosedPeriodFeedback");
+        FeedbackResponseAttributes responseOfClosedSession =
+                dataBundle.feedbackResponses.get("response1Q1ClosedPeriodFeedback");
         verifyAbsentInDatastore(responseOfClosedSession);
 
     }
