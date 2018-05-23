@@ -70,10 +70,6 @@ Apply to alert to override Bootstrap's default 3d alerts
     border: 1px solid #DDD;
 }
 
-.border-black {
-    border: 1px solid #000;
-}
-
 .border-left-gray {
     border-left: 1px solid #DDD;
 }
@@ -85,6 +81,10 @@ Apply to alert to override Bootstrap's default 3d alerts
 .border-top-gray {
     border-top: 1px solid #DDD;
     padding-top: 10px;
+}
+
+.border-top-dark-gray {
+    border-top: 1px solid #CCC;
 }
 
 .bold-label {
@@ -292,6 +292,10 @@ input.inline {
     margin-top: 7px;
 }
 
+.margin-top-15px {
+    margin-top: 15px;
+}
+
 .padding-0 {
     padding: 0;
 }
@@ -310,6 +314,10 @@ input.inline {
 
 .padding-left-35px {
     padding-left: 35px;
+}
+
+.padding-left-55px {
+    padding-left: 55px;
 }
 
 .padding-left-7px {

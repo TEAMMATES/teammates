@@ -61,7 +61,7 @@
       <c:if test="${questionWithResponses.question.questionTypeConstsum}">
           <p class="text-color-blue align-left text-bold">Note:</p>
           <p class="text-color-blue padding-left-35px" id="constSumInstruction-${questionWithResponses.question.questionNumber}"></p>
-        <hr class="margin-top-0">
+        <hr class="margin-top-0 border-top-dark-gray">
       </c:if>
       <c:if test="${not isRecipientNameHidden}">
         <div class="col-sm-12 form-inline mobile-align-left">

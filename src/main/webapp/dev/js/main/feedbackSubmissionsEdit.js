@@ -481,6 +481,8 @@ function prepareConstSumQuestions() {
                 $(`#constSumInfo-${qnNum}-${numResponses - 1}`).show();
             } else {
                 $(`[id^="constSumInfo-${qnNum}-"]`).show();
+                $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('padding-left-55px');
+                $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('margin-top-15px');
             }
         } else {
             $(`[id^="constSumInfo-${qnNum}-"]`).hide();
@@ -504,8 +506,9 @@ function updateConstSumInstructionsQn(qnNum) {
         points *= numOptions;
     }
 
-    const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
     const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
+    const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION;
     const forceSomeUnevenDistribution = constSumDistributePointsOptionSelected
             === ParamsNames.FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION;
     const instructionElement = $(`#constSumInstruction-${qnNum}`);
@@ -513,7 +516,7 @@ function updateConstSumInstructionsQn(qnNum) {
     const infoIcon = '<span class="glyphicon glyphicon-info-sign padding-right-10px"></span>';
 
     instruction += `${infoIcon} Total points distributed should add up to ${points}.<br>`;
-    if (forceUnevenDistribution) {
+    if (forceAllUnevenDistribution) {
         instruction += `${infoIcon} Every ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     } else if (forceSomeUnevenDistribution) {
@@ -522,15 +525,17 @@ function updateConstSumInstructionsQn(qnNum) {
     }
     instructionElement.html(instruction);
 }
+
 function updateConstSumMessageQn(qnNum) {
     let numOptions = 0;
     let points = parseInt($(`#constSumPoints-${qnNum}`).val(), 10);
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
     const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
-    const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
 
     const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
+    const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION;
     const forceSomeUnevenDistribution = constSumDistributePointsOptionSelected
             === ParamsNames.FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION;
 
@@ -609,11 +614,11 @@ function updateConstSumMessageQn(qnNum) {
                     messageElement.addClass('text-color-red');
                     messageElement.removeClass('text-color-green');
                 } else {
-                    message += `<span class='text-color-green'> ${approvedIcon} At least one`
+                    message += `<span class='text-color-green'> ${approvedIcon} At least one `
                             + `${distributeToRecipients ? 'recipient' : 'option'} `
                             + 'has been allocated different number of points.</span><br>';
                 }
-            } else if (forceUnevenDistribution) {
+            } else if (forceAllUnevenDistribution) {
                 if (allUnique) {
                     message += `<span class='text-color-green'> ${approvedIcon} `
                             + 'All allocated points are different!</span><br>';
