@@ -723,7 +723,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         InstructorCoursesPage coursesPage = courseEditPage.changePageType(InstructorCoursesPage.class);
         coursesPage.waitForAjaxLoadCoursesSuccess();
         coursesPage.waitForTextsForAllStatusMessagesToUserEquals(
-                Const.StatusMessages.COURSE_INSTRUCTOR_DELETED);
+                Const.StatusMessages.COURSE_INSTRUCTOR_DELETED, Const.StatusMessages.COURSE_EMPTY);
 
         // Restore own instructor role to ensure remaining test cases work properly
         BackDoor.createInstructor(testData.instructors.get("InsCrsEdit.test"));
