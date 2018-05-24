@@ -99,12 +99,12 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("CONSTSUM session results");
 
-        resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONSTSUM Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Benny", "CONSTSUM Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageCONSTSUM.html");
 
         ______TS("CONTRIB session results");
 
-        resultsPage = loginToStudentFeedbackResultsPage("Emily", "CONTRIB Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONTRIB Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageCONTRIB.html");
 
         ______TS("unreg student logged in as a student in another course: registered after logging out");

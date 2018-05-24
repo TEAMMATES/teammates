@@ -1830,7 +1830,7 @@
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
       "responseMetaData": {
-        "value": "{\"answers\":[120],\"questionType\":\"CONSTSUM\"}"
+        "value": "{\"answers\":[100],\"questionType\":\"CONSTSUM\"}"
       }
     },
     "constsumResponse5": {
@@ -1841,7 +1841,7 @@
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
       "recipient": "SFResultsUiT.danny.e@gmail.tmt",
       "responseMetaData": {
-        "value": "{\"answers\":[100],\"questionType\":\"CONSTSUM\"}"
+        "value": "{\"answers\":[20],\"questionType\":\"CONSTSUM\"}"
       }
     },
     "constsumResponse6": {
@@ -1849,10 +1849,10 @@
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "CONSTSUM",
-      "giver": "SFResultsUiT.alice.b@gmail.tmt",
-      "recipient": "SFResultsUiT.emily.f@gmail.tmt",
+      "giver": "SFResultsUiT.benny.c@gmail.tmt",
+      "recipient": "SFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": {
-        "value": "{\"answers\":[110],\"questionType\":\"CONSTSUM\"}"
+        "value": "{\"answers\":[200],\"questionType\":\"CONSTSUM\"}"
       }
     },
     "constsumResponse7": {
