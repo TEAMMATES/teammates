@@ -1,98 +1,73 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.StatusMessages;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
-import teammates.ui.pagedata.InstructorRecoveryCourseAjaxPageData;
 import teammates.ui.pagedata.InstructorRecoveryPageData;
 
+/**
+ * Action: loading of the 'Recovery' page for an instructor.
+ */
 public class InstructorRecoveryPageAction extends Action {
+
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
-        if (!account.isInstructor && isPersistenceIssue()) {
-            statusToUser.add(new StatusMessage(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE,
-                    StatusMessageColor.WARNING));
-            statusToAdmin = "instructorRecovery " + Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE;
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_RECOVERY,
-                    new InstructorRecoveryPageData(account, sessionToken));
-        }
+    public ActionResult execute() {
 
         gateKeeper.verifyInstructorPrivileges(account);
 
-        String courseToLoad = getRequestParamValue(Const.ParamsNames.COURSE_TO_LOAD);
-        return courseToLoad == null ? loadPage() : loadCourse(courseToLoad);
-    }
-
-    private ActionResult loadCourse(String courseToLoad) throws EntityDoesNotExistException {
-        int index = Integer.parseInt(getRequestParamValue("index"));
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseToLoad, account.googleId);
-
-        CourseSummaryBundle course = logic.getCourseSummaryWithFeedbackSessions(instructor);
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
-
-        InstructorRecoveryCourseAjaxPageData data = new InstructorRecoveryCourseAjaxPageData(account, sessionToken);
-        data.init(index, course, instructor);
-
-        statusToAdmin = "instructorRecovery Course Load:<br>" + courseToLoad;
-
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_RECOVERY_AJAX_COURSE_TABLE, data);
-    }
-
-    private ActionResult loadPage() {
-        boolean shouldOmitArchived = true;
-        Map<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
-                account.googleId, shouldOmitArchived);
-
-        ArrayList<CourseSummaryBundle> courseList = new ArrayList<>(courses.values());
-
-        String sortCriteria = getSortCriteria();
-        sortCourse(courseList, sortCriteria);
-
         InstructorRecoveryPageData data = new InstructorRecoveryPageData(account, sessionToken);
-        data.init(courseList, sortCriteria);
+        String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
+        data.setUsingAjax(isUsingAjax != null);
 
-        if (logic.isNewInstructor(account.googleId)) {
-            statusToUser.add(new StatusMessage(StatusMessages.HINT_FOR_NEW_INSTRUCTOR, StatusMessageColor.INFO));
+        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<>();
+        List<CourseAttributes> allCourses = new ArrayList<>();
+        List<CourseAttributes> activeCourses = new ArrayList<>();
+        List<CourseAttributes> archivedCourses = new ArrayList<>();
+
+        if (data.isUsingAjax()) {
+            // Get list of InstructorAttributes that belong to the user.
+            List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
+            for (InstructorAttributes instructor : instructorList) {
+                instructorsForCourses.put(instructor.courseId, instructor);
+            }
+
+            // Get corresponding courses of the instructors.
+            allCourses = logic.getCoursesForInstructor(instructorList);
+
+            List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
+            for (CourseAttributes course : allCourses) {
+                if (archivedCourseIds.contains(course.getId())) {
+                    archivedCourses.add(course);
+                } else {
+                    activeCourses.add(course);
+                }
+            }
+
+            // Sort CourseDetailsBundle lists by course id
+            CourseAttributes.sortById(activeCourses);
+            CourseAttributes.sortById(archivedCourses);
         }
-        statusToAdmin = "instructorRecovery Page Load<br>" + "Total Courses: " + courseList.size();
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_RECOVERY, data);
-    }
+        data.init(activeCourses, archivedCourses, instructorsForCourses);
 
-    private String getSortCriteria() {
-        String sortCriteria = getRequestParamValue(Const.ParamsNames.COURSE_SORTING_CRITERIA);
-        if (sortCriteria == null) {
-            sortCriteria = Const.DEFAULT_SORT_CRITERIA;
+        /* Explanation: Set any status messages that should be shown to the user.*/
+        if (data.isUsingAjax() && allCourses.isEmpty()) {
+            statusToUser.add(new StatusMessage(Const.StatusMessages.COURSE_EMPTY, StatusMessageColor.WARNING));
         }
 
-        return sortCriteria;
-    }
+        /* Explanation: We must set this variable. It is the text that will
+         * represent this particular execution of this action in the
+         * 'admin activity log' page.*/
+        statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
 
-    private void sortCourse(List<CourseSummaryBundle> courseList, String sortCriteria) {
-        switch (sortCriteria) {
-        case Const.SORT_BY_COURSE_ID:
-            CourseSummaryBundle.sortSummarizedCoursesByCourseId(courseList);
-            break;
-        case Const.SORT_BY_COURSE_NAME:
-            CourseSummaryBundle.sortSummarizedCoursesByCourseName(courseList);
-            break;
-        case Const.SORT_BY_COURSE_CREATION_DATE:
-            CourseSummaryBundle.sortSummarizedCoursesByCreationDate(courseList);
-            break;
-        default:
-            Assumption.fail("Invalid course sorting criteria.");
-            break;
-        }
+        /* Explanation: Create the appropriate result object and return it.*/
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }
 }
