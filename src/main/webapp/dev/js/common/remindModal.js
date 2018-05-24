@@ -16,6 +16,9 @@ function populateCheckBoxes($button) {
 }
 
 function bindingSelectAllCheckBoxes() {
+    // set default checkboxes as unchecked
+    $('#remindAll').prop('checked', false);
+    $('#remindNotSubmitted').prop('checked', false);
     // checks binding of select all checkboxes populated in the header
     $('#remindAll').on('change', function () {
         if (this.checked) {
