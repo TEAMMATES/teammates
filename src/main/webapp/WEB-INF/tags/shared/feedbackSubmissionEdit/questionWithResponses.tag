@@ -58,13 +58,8 @@
           </c:forEach>
         </ul>
       </c:if>
-      <c:if test="${questionWithResponses.question.questionTypeConstsum}">
-          <p class="text-color-blue align-left text-bold">Note:</p>
-          <p class="text-color-blue padding-left-35px" id="constSumInstruction-${questionWithResponses.question.questionNumber}"></p>
-        <hr class="margin-top-0 border-top-dark-gray">
-      </c:if>
       <c:if test="${not isRecipientNameHidden}">
-        <div class="col-sm-12 form-inline mobile-align-left">
+        <div class="evalueeLabel-${questionWithResponses.question.questionNumber} col-sm-12 form-inline mobile-align-left">
           <label for="input" style="text-indent: 24px">
             <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
               Evaluee/Recipient

@@ -474,6 +474,20 @@ function prepareConstSumQuestions() {
 
         if (!$('#response_submit_button').is(':disabled')
             || isPreview()) {
+            // Add elements for displaying instructions to Constant Sum questions
+            $(`.evalueeLabel-${qnNum}`).each(function () {
+                $(this).before('<p class="text-color-blue align-left text-bold">Note:</p>' +
+                        `<p class="text-color-blue padding-left-35px" id="constSumInstruction-${qnNum}"></p>` +
+                        '<hr class="margin-top-0 border-top-dark-gray">');
+            });
+
+            // Add elements for displaying messages/errors based on user input
+            $(`.evalueeForm-${qnNum}`).each(function (responseIndx) {
+                $(this).after(`<div id="constSumInfo-${qnNum}-${responseIndx}" style="display:none">` +
+                        `<p class="text-color-red padding-left-35px" id="constSumMessage-${qnNum}-${responseIndx}"></p>` +
+                        '<hr class="margin-top-0 border-top-dark-gray">');
+            });
+
             if ($(`#constSumToRecipients-${qnNum}`).val() === 'true') {
                 let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
                 numResponses = parseInt(numResponses, 10);

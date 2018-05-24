@@ -23,7 +23,7 @@
 </c:if>
 
 <br>
-<div class="form-group margin-0" style="padding-left: 75px">
+<div class="evalueeForm-${questionWithResponses.question.qnIndx} form-group margin-0" style="padding-left: 75px">
   <div ${isNumResponsesMax ? 'class="col-sm-12 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
       ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:left"'}>
 
@@ -60,9 +60,3 @@
            value="<c:out value="${response.responseId}"/>">
   </c:if>
 </div>
-<c:if test="${questionWithResponses.question.questionTypeConstsum}">
-  <div id="constSumInfo-${questionWithResponses.question.questionNumber}-${response.responseIndx}" style="display:none">
-    <p class="text-color-red padding-left-35px" id="constSumMessage-${questionWithResponses.question.questionNumber}-${response.responseIndx}"></p>
-    <hr class="margin-top-0 border-top-dark-gray">
-  </div>
-</c:if>
