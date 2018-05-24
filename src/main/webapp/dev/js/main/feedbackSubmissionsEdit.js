@@ -503,7 +503,7 @@ function prepareConstSumQuestions() {
         }
     }
 }
-function updateConstSumInstructionsQn(qnNum) {
+function updateConstSumQnInstructions(qnNum) {
     let numOptions = 0;
     let points = parseInt($(`#constSumPoints-${qnNum}`).val(), 10);
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
@@ -541,7 +541,7 @@ function updateConstSumInstructionsQn(qnNum) {
     instructionElement.html(instruction);
 }
 
-function updateConstSumMessageQn(qnNum) {
+function updateConstSumQnMessages(qnNum) {
     let numOptions = 0;
     let points = parseInt($(`#constSumPoints-${qnNum}`).val(), 10);
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
@@ -590,9 +590,6 @@ function updateConstSumMessageQn(qnNum) {
         if (!allNotNumbers) {
             if (remainingPoints === 0) {
                 message += `<span class='text-color-green'> ${approvedIcon} All points distributed!</span><br>`;
-                messageElement.addClass('text-color-green');
-                messageElement.removeClass('text-color-red');
-                messageElement.removeClass('text-color-blue');
                 /*
                  * Once all the points are distributed,
                  * look for empty Input fields and fill them with 0.
@@ -610,24 +607,19 @@ function updateConstSumMessageQn(qnNum) {
                     }
                 }
             } else if (remainingPoints > 0) {
-                message += `${errorIcon} Actual total is ${sum}! Distribute the remaining ${remainingPoints} points.<br>`;
-                messageElement.addClass('text-color-red');
-                messageElement.removeClass('text-color-blue');
-                messageElement.removeClass('text-color-green');
+                message += `<span class='text-color-red'> ${errorIcon} Actual total is ${sum}! Distribute the remaining `
+                        + `${remainingPoints} points.</span><br>`;
             } else {
-                message += `${errorIcon} Actual total is ${sum}! Remove the extra ${-remainingPoints} points allocated.<br>`;
-                messageElement.addClass('text-color-red');
-                messageElement.removeClass('text-color-blue');
-                messageElement.removeClass('text-color-green');
+                message += `<span class='text-color-red'> ${errorIcon} Actual total is ${sum}! Remove the extra `
+                        + `${-remainingPoints} points allocated.</span><br>`;
             }
 
             if (forceSomeUnevenDistribution) {
                 if (allSame && numOptions !== 1) {
-                    message += `${errorIcon} All ${distributeToRecipients ? 'recipients' : 'options'} `
+                    message += `<span class='text-color-red'> ${errorIcon} All `
+                            + `${distributeToRecipients ? 'recipients' : 'options'} `
                             + `are given ${repeatedPoints[0]} points. Please allocate different points `
-                            + `to at least one ${distributeToRecipients ? 'recipient' : 'option'}.`;
-                    messageElement.addClass('text-color-red');
-                    messageElement.removeClass('text-color-green');
+                            + `to at least one ${distributeToRecipients ? 'recipient' : 'option'}.</span><br>`;
                 } else {
                     message += `<span class='text-color-green'> ${approvedIcon} At least one `
                             + `${distributeToRecipients ? 'recipient' : 'option'} `
@@ -638,10 +630,9 @@ function updateConstSumMessageQn(qnNum) {
                     message += `<span class='text-color-green'> ${approvedIcon} `
                             + 'All allocated points are different!</span><br>';
                 } else {
-                    message += `${errorIcon} Multiple ${distributeToRecipients ? 'recipients' : 'options'} `
-                            + `are given same points! eg. ${repeatedPoints[0]}.`;
-                    messageElement.addClass('text-color-red');
-                    messageElement.removeClass('text-color-green');
+                    message += `<span class='text-color-red'> ${errorIcon} Multiple `
+                            + `${distributeToRecipients ? 'recipients' : 'options'} `
+                            + `are given same points! eg. ${repeatedPoints[0]}.</span><br>`;
                 }
             }
         }
@@ -708,8 +699,8 @@ function updateConstSumMessages() {
 
     for (let i = 0; i < constSumQuestionNums.length; i += 1) {
         const qnNum = constSumQuestionNums[i];
-        updateConstSumInstructionsQn(qnNum);
-        updateConstSumMessageQn(qnNum);
+        updateConstSumQnInstructions(qnNum);
+        updateConstSumQnMessages(qnNum);
     }
 }
 
@@ -1340,5 +1331,5 @@ $(document).ready(() => {
 });
 
 window.validateNumScaleAnswer = validateNumScaleAnswer;
-window.updateConstSumMessageQn = updateConstSumMessageQn;
+window.updateConstSumQnMessages = updateConstSumQnMessages;
 window.updateRankMessageQn = updateRankMessageQn;
