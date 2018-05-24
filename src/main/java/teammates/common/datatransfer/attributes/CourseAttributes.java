@@ -22,6 +22,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Instant createdAt;
+    public Instant deletedAt;
     private String id;
     private String name;
     private ZoneId timeZone;
@@ -31,6 +32,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.name = SanitizationHelper.sanitizeTitle(name);
         this.timeZone = timeZone;
         this.createdAt = Instant.now();
+        this.deletedAt = null;
     }
 
     /**
@@ -77,6 +79,43 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public String getCreatedAtFullDateTimeString() {
         LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdAt, timeZone);
         return TimeHelper.formatDateTimeForDisplay(localDateTime);
+    }
+
+    public String getDeletedAtDateString() {
+        if (deletedAt == null) {
+            return Const.EMPTY_STRING;
+        } else {
+            return TimeHelper.formatDateForInstructorCoursesPage(deletedAt, timeZone);
+        }
+    }
+
+    public String getDeletedAtDateStamp() {
+        if (deletedAt == null) {
+            return Const.EMPTY_STRING;
+        } else {
+            return TimeHelper.formatDateTimeToIso8601Utc(deletedAt);
+        }
+    }
+
+    public String getDeletedAtFullDateTimeString() {
+        if (deletedAt == null) {
+            return Const.EMPTY_STRING;
+        } else {
+            LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedAt, timeZone);
+            return TimeHelper.formatDateTimeForDisplay(localDateTime);
+        }
+    }
+
+    public void setDeletedAt() {
+        this.deletedAt = Instant.now();
+    }
+
+    public void resetDeletedAt() {
+        this.deletedAt = null;
+    }
+
+    public boolean isDeletedAtNull() {
+        return deletedAt == null;
     }
 
     public void setTimeZone(ZoneId timeZone) {
