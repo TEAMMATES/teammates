@@ -526,6 +526,32 @@ public final class CoursesLogic {
     }
 
     /**
+     * Returns a list of {@link CourseAttributes} for soft-deleted courses for a given list of instructors.
+     */
+    public List<CourseAttributes> getRecoveryCoursesForInstructor(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+        List<String> recoveryCourseIdList = new ArrayList<>();
+
+        for (InstructorAttributes instructor : instructorList) {
+            if (!coursesDb.getCourse(instructor.courseId).isDeletedAtNull()) {
+                recoveryCourseIdList.add(instructor.courseId);
+            }
+        }
+
+        List<CourseAttributes> recoveryCourseList = coursesDb.getCourses(recoveryCourseIdList);
+
+        if (recoveryCourseIdList.size() > recoveryCourseList.size()) {
+            for (CourseAttributes ca : recoveryCourseList) {
+                recoveryCourseIdList.remove(ca.getId());
+            }
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                    + recoveryCourseIdList.toString());
+        }
+
+        return recoveryCourseList;
+    }
+
+    /**
      * Returns course summaries for instructor.<br>
      * Omits archived courses if omitArchived == true<br>
      *
@@ -614,7 +640,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Delete a course from its given corresponding ID.
+     * Delete a course permanently from its given corresponding ID.
      * This will also cascade the data in other databases which are related to this course.
      */
     public void deleteCourseCascade(String courseId) {
@@ -622,6 +648,26 @@ public final class CoursesLogic {
         instructorsLogic.deleteInstructorsForCourse(courseId);
         feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
         coursesDb.deleteCourse(courseId);
+    }
+
+    /**
+     * Move a course to recycle bin from its given corresponding ID.
+     */
+    public void moveCourseToRecoveryCascade(String courseId) {
+        // studentsLogic.deleteStudentsForCourse(courseId);
+        // instructorsLogic.deleteInstructorsForCourse(courseId);
+        // feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
+        coursesDb.moveCourseToRecovery(courseId);
+    }
+
+    /**
+     * Recover a course from recycle bin from its given corresponding ID.
+     */
+    public void recoverCourseFromRecoveryCascade(String courseId) {
+        // studentsLogic.deleteStudentsForCourse(courseId);
+        // instructorsLogic.deleteInstructorsForCourse(courseId);
+        // feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
+        coursesDb.recoverCourseFromRecovery(courseId);
     }
 
     private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
