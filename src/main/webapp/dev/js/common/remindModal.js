@@ -37,9 +37,7 @@ function bindingSelectAllCheckBoxes() {
             }
         } else {
             $('input[id^="all-students-not-responded"]').prop('checked', false);
-            if ($('input[id^="all-students-not-responded"]').length === $('input[id^="all-students-"]').length) {
-                $('#remindAll').prop('checked', false);
-            }
+            $('#remindAll').prop('checked', false);
         }
     });
     // checks binding of each checkbox populated in the data
