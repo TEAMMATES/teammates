@@ -140,7 +140,7 @@ public class FeedbackSessionQuestionsBundle {
 
             if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
                 questionsToHide.add(question);
-                questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
+                questionResponseBundle.put(question, new ArrayList<>());
             }
         }
 
@@ -153,7 +153,7 @@ public class FeedbackSessionQuestionsBundle {
      */
     public void resetAllResponses() {
         for (FeedbackQuestionAttributes question : questionResponseBundle.keySet()) {
-            questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
+            questionResponseBundle.put(question, new ArrayList<>());
         }
     }
 
@@ -161,13 +161,14 @@ public class FeedbackSessionQuestionsBundle {
         String name = emailNameTable.get(email);
         if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
-        } else if (name.equals(Const.USER_IS_NOBODY)) {
-            return Const.USER_NOBODY_TEXT;
-        } else if (name.equals(Const.USER_IS_TEAM)) {
-            return getTeamNameForEmail(email);
-        } else {
-            return name;
         }
+        if (name.equals(Const.USER_IS_NOBODY)) {
+            return Const.USER_NOBODY_TEXT;
+        }
+        if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(email);
+        }
+        return name;
     }
 
     public String getTeamNameForEmail(String email) {

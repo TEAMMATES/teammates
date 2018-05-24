@@ -378,7 +378,7 @@ public final class FeedbackResponseCommentsLogic {
                 throw new EntityDoesNotExistException("User " + giverEmail
                         + " is not a registered instructor for course " + courseId + ".");
             }
-        } else {
+        } else if (Const.TEAM.equals(giverRole)) {
             List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
             boolean isTeamPresentInCourse = false;
             for (TeamDetailsBundle team : teams) {
@@ -391,6 +391,9 @@ public final class FeedbackResponseCommentsLogic {
                 throw new EntityDoesNotExistException("User " + giverEmail + " is not a registered team for course "
                         + courseId + ".");
             }
+        } else {
+            throw new EntityDoesNotExistException("User " + giverEmail
+                    + " is not a registered user for course " + courseId + ".");
         }
 
     }

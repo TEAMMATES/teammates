@@ -59,6 +59,7 @@ public final class Const {
 
     public static final String INSTRUCTOR = "Instructor";
     public static final String STUDENT = "Student";
+    public static final String TEAM = "Team";
 
     //Used as
     public static final int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
