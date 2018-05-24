@@ -462,7 +462,7 @@
                               <div class="row" id="commentBar-2-1-0-1">
                                 <div class="col-xs-10">
                                   <span class="text-muted">
-                                    From: Instructor&lt;script&gt; alert(&#39;hi!&#39;); &lt;&#x2f;script&gt; [Mon, 02 Mar 2026, 07:59 AM SGT] (last edited by Instructor&lt;script&gt; alert('hi!'); &lt;/script&gt; at Tue, 03 Mar 2026, 07:59 AM SGT)
+                                    From: Instructor&lt;script&gt; alert('hi!'); &lt;/script&gt; [Mon, 02 Mar 2026, 07:59 AM SGT] (last edited by Instructor&lt;script&gt; alert('hi!'); &lt;/script&gt; at Tue, 03 Mar 2026, 07:59 AM SGT)
                                   </span>
                                 </div>
                                 <div class="col-xs-2">
@@ -605,7 +605,6 @@
                                     </a>
                                     attempted script injection
                                   </div>
-                                  <input name="responsecommenttext" type="hidden">
                                 </div>
                                 <div class="col-sm-offset-5">
                                   <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-2-1-0-1" type="button">
@@ -613,8 +612,9 @@
                                   </a>
                                   <input class="btn btn-default hide-frc-edit-form" data-frcindex="1" data-giverindex="1" data-qnindex="0" data-recipientindex="2" type="button" value="Cancel">
                                 </div>
-                                <input name="responsecommentid" type="hidden" value="${comment.id}">
                                 <input name="fsindex" type="hidden" value="2">
+                                <input name="responsecommentid" type="hidden" value="${comment.id}">
+                                <input name="responsecommenttext" type="hidden">
                                 <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
                                 <input name="courseid" type="hidden" value="CFResultsUiT.SanitizedTeam">
                                 <input name="fsname" type="hidden" value="Sanitized Session">
@@ -622,6 +622,7 @@
                                 <input name="showresponsecommentsto" type="hidden" value="">
                                 <input name="showresponsegiverto" type="hidden" value="">
                                 <input name="token" type="hidden" value="${sessionToken}">
+                                <input name="giverRole" type="hidden" value="Instructor">
                               </form>
                             </li>
                             <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-1-0" style="display: none;">
@@ -729,7 +730,6 @@
                                 <div class="form-group">
                                   <div class="panel panel-default panel-body" id="responseCommentAddForm-2-1-0">
                                   </div>
-                                  <input name="responsecommenttext" type="hidden">
                                 </div>
                                 <div class="col-sm-offset-5">
                                   <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-1-0" type="button">
@@ -739,6 +739,7 @@
                                 <input name="questionid" type="hidden" value="${question.id}">
                                 <input name="isOnQuestionsPage" type="hidden" value="true">
                                 <input name="fsindex" type="hidden" value="2">
+                                <input name="responsecommenttext" type="hidden">
                                 <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.benny.c@gmail.tmt">
                                 <input name="courseid" type="hidden" value="CFResultsUiT.SanitizedTeam">
                                 <input name="fsname" type="hidden" value="Sanitized Session">
@@ -746,6 +747,7 @@
                                 <input name="showresponsecommentsto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
                                 <input name="showresponsegiverto" type="hidden" value="GIVER, RECEIVER, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, INSTRUCTORS">
                                 <input name="token" type="hidden" value="${sessionToken}">
+                                <input name="giverRole" type="hidden" value="Instructor">
                               </form>
                             </li>
                           </ul>

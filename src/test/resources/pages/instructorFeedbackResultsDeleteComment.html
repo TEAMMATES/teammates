@@ -537,7 +537,6 @@
                                         test comment 1
                                       </p>
                                     </div>
-                                    <input name="responsecommenttext" type="hidden">
                                   </div>
                                   <div class="col-sm-offset-5">
                                     <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-0-0-1-1-1" type="button">
@@ -545,8 +544,9 @@
                                     </a>
                                     <input class="btn btn-default hide-frc-edit-form" data-frcindex="1" data-giverindex="1" data-qnindex="1" data-recipientindex="0" data-sectionindex="0" type="button" value="Cancel">
                                   </div>
-                                  <input name="responsecommentid" type="hidden" value="${comment.id}">
                                   <input name="fsindex" type="hidden" value="0">
+                                  <input name="responsecommentid" type="hidden" value="${comment.id}">
+                                  <input name="responsecommenttext" type="hidden">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -554,6 +554,7 @@
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
                                   <input name="token" type="hidden" value="${sessionToken}">
+                                  <input name="giverRole" type="hidden" value="Instructor">
                                 </form>
                               </li>
                               <li class="list-group-item list-group-item-warning" id="responseCommentRow-0-0-1-1-2">
@@ -645,7 +646,6 @@
                                         test comment 2
                                       </p>
                                     </div>
-                                    <input name="responsecommenttext" type="hidden">
                                   </div>
                                   <div class="col-sm-offset-5">
                                     <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentEdit" id="button_save_comment_for_edit-0-0-1-1-2" type="button">
@@ -653,8 +653,9 @@
                                     </a>
                                     <input class="btn btn-default hide-frc-edit-form" data-frcindex="2" data-giverindex="1" data-qnindex="1" data-recipientindex="0" data-sectionindex="0" type="button" value="Cancel">
                                   </div>
-                                  <input name="responsecommentid" type="hidden" value="${comment.id}">
                                   <input name="fsindex" type="hidden" value="0">
+                                  <input name="responsecommentid" type="hidden" value="${comment.id}">
+                                  <input name="responsecommenttext" type="hidden">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -662,6 +663,7 @@
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
                                   <input name="token" type="hidden" value="${sessionToken}">
+                                  <input name="giverRole" type="hidden" value="Instructor">
                                 </form>
                               </li>
                               <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-0-0-1-1" style="display: none;">
@@ -717,7 +719,6 @@
                                   <div class="form-group">
                                     <div class="panel panel-default panel-body" id="responseCommentAddForm-0-0-1-1">
                                     </div>
-                                    <input name="responsecommenttext" type="hidden">
                                   </div>
                                   <div class="col-sm-offset-5">
                                     <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-0-0-1-1" type="button">
@@ -727,6 +728,7 @@
                                   </div>
                                   <input name="questionid" type="hidden" value="${question.id}">
                                   <input name="fsindex" type="hidden" value="0">
+                                  <input name="responsecommenttext" type="hidden">
                                   <input name="responseid" type="hidden" value="${question.id}%CFResultsUiT.instr@gmail.tmt%%GENERAL%">
                                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                                   <input name="fsname" type="hidden" value="First Session">
@@ -734,6 +736,7 @@
                                   <input name="showresponsecommentsto" type="hidden" value="GIVER">
                                   <input name="showresponsegiverto" type="hidden" value="GIVER">
                                   <input name="token" type="hidden" value="${sessionToken}">
+                                  <input name="giverRole" type="hidden" value="Instructor">
                                 </form>
                               </li>
                             </ul>
