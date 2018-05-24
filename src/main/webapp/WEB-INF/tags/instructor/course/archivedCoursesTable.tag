@@ -12,7 +12,7 @@
       <th id="button_sortid" class="button-sort-none toggle-sort">
         Course ID<span class="icon-sort unsorted"></span>
       </th>
-      <th id="button_sortid" class="button-sort-none toggle-sort">
+      <th id="button_sortname" class="button-sort-none toggle-sort">
         Course Name<span class="icon-sort unsorted"></span>
       </th>
       <th id="button_sortcoursecreateddate" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" class="button-sort-none toggle-sort">
