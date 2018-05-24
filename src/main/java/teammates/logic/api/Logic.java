@@ -663,6 +663,12 @@ public class Logic {
         return coursesLogic.getCoursesForInstructor(instructorList);
     }
 
+    public List<CourseAttributes> getRecoveryCoursesForInstructor(List<InstructorAttributes> instructorList) {
+
+        Assumption.assertNotNull(instructorList);
+        return coursesLogic.getRecoveryCoursesForInstructor(instructorList);
+    }
+
     /**
      * Updates the details of a course.
      *
@@ -704,6 +710,23 @@ public class Logic {
     public void deleteCourse(String courseId) {
         Assumption.assertNotNull(courseId);
         coursesLogic.deleteCourseCascade(courseId);
+    }
+
+    /**
+     * Moves a course to recycle bin.
+     * All data related will not be deleted.
+     */
+    public void moveCourseToRecovery(String courseId) {
+        Assumption.assertNotNull(courseId);
+        coursesLogic.moveCourseToRecoveryCascade(courseId);
+    }
+
+    /**
+     * Recovers a course and all related data from recycle bin.
+     */
+    public void recoverCourseFromRecovery(String courseId) {
+        Assumption.assertNotNull(courseId);
+        coursesLogic.recoverCourseFromRecoveryCascade(courseId);
     }
 
     /**
