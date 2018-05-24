@@ -252,6 +252,10 @@ public class FeedbackResponseCommentRow {
         this.whoCanSeeComment = whoCanSeeComment;
     }
 
+    public void setGiverRole(String giverRole) {
+        this.giverRole = giverRole;
+    }
+
     public String getCommentGiverName() {
         return commentGiverName;
     }

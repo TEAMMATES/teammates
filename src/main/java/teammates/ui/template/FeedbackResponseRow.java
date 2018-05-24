@@ -61,26 +61,28 @@ public class FeedbackResponseRow {
                 String whoCanSeeComment = null;
                 boolean isVisibilityIconShown = false;
                 if (results.feedbackSession.isPublished()) {
-                    boolean isResponseCommentPublicToRecipient = !frc.showCommentTo.isEmpty();
-                    isVisibilityIconShown = isResponseCommentPublicToRecipient;
+                    isVisibilityIconShown = !frc.showCommentTo.isEmpty();
 
                     if (isVisibilityIconShown) {
                         whoCanSeeComment = getTypeOfPeopleCanViewComment(frc, question);
                     }
                 }
                 responseRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
+                if (responseRow.getGiverRole() == null) {
+                    responseRow.setGiverRole(Const.INSTRUCTOR);
+                }
 
-                boolean isStudentGiver = results.roster.isStudentInCourse(giverEmail);
-                if (!isStudentGiver) {
+                boolean isInstructorGiver = results.roster.isInstructorOfCourse(giverEmail);
+                if (isInstructorGiver) {
                     InstructorAttributes instructor = results.roster.getInstructorForEmail(giverEmail);
-                    boolean isInstructorGiver = giverEmail.equals(instructor.email);
+                    boolean isCommentGiverInstructor = giverEmail.equals(instructor.email);
                     boolean isAllowedToSubmitSessionsInBothSection =
                             instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
                                     && instructor.isAllowedForPrivilege(response.recipientSection,
                                     response.feedbackSessionName,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-                    if (isInstructorGiver || isAllowedToSubmitSessionsInBothSection) {
+                    if (isCommentGiverInstructor || isAllowedToSubmitSessionsInBothSection) {
                         responseRow.enableEditDelete();
                     }
 
