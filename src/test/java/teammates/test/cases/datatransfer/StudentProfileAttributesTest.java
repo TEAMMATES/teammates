@@ -176,9 +176,12 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = createStudentProfileFrom(profile);
-        expectedEntity.setModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP);
         StudentProfileAttributes testProfile = StudentProfileAttributes.valueOf(expectedEntity);
         StudentProfile actualEntity = testProfile.toEntity();
+
+        // Done to prevent instability of tests due to Instant.now()
+        expectedEntity.setModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP);
+        actualEntity.setModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP);
 
         assertEquals(expectedEntity.getShortName(), actualEntity.getShortName());
         assertEquals(expectedEntity.getInstitute(), actualEntity.getInstitute());
