@@ -10,6 +10,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
@@ -175,6 +176,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testToEntity() {
         StudentProfile expectedEntity = createStudentProfileFrom(profile);
+        expectedEntity.setModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP);
         StudentProfileAttributes testProfile = StudentProfileAttributes.valueOf(expectedEntity);
         StudentProfile actualEntity = testProfile.toEntity();
 
