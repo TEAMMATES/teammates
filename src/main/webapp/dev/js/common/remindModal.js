@@ -32,7 +32,7 @@ function bindingSelectAllCheckBoxes() {
     $('#remindNotSubmitted').on('change', function () {
         if (this.checked) {
             $('input[id^="all-students-not-responded"]').prop('checked', true);
-            if ($('input[id^="all-students-not-responded"]').length === $('input[id^="all-students-"]').length) {
+            if ($('input[id^="all-students-"]:checked').length === $('input[id^="all-students-"]').length) {
                 $('#remindAll').prop('checked', true);
             }
         } else {
