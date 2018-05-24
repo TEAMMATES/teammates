@@ -79,7 +79,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("MSQ session results");
 
-        resultsPage = loginToStudentFeedbackResultsPage("Alice", "MSQ Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Benny", "MSQ Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMSQ.html");
 
         additionalInfoId = "";
