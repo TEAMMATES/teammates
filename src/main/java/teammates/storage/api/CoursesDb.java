@@ -103,7 +103,9 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     /**
-     * Note: This is a non-cascade delete.<br>
+     * Permanently deletes the course from the Datastore.
+     *
+     * <p>Note: This is a non-cascade delete.<br>
      *   <br> Fails silently if there is no such object.
      * <br> Preconditions:
      * <br> * {@code courseId} is not null.
@@ -115,6 +117,24 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         deleteEntity(CourseAttributes
                 .builder(courseId, "Non-existent course", Const.DEFAULT_TIME_ZONE)
                 .build());
+    }
+
+    /**
+     * Moves the course to recycle bin every time user deletes a course.
+     */
+    public void moveCourseToRecovery(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        getCourse(courseId).setDeletedAt();
+    }
+
+    /**
+     * Recovers the course and its details from recycle bin.
+     */
+    public void recoverCourseFromRecovery(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        getCourse(courseId).resetDeletedAt();
     }
 
     @Override
