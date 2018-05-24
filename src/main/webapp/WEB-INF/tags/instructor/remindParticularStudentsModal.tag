@@ -17,11 +17,11 @@
             <small>(Select the student(s) you want to remind)</small>
           </h4>
           <div>
-            <input id="remind_all" type="checkbox" value="">
+            <input id="remind_all" type="checkbox">
             <label style="width:250px;" for="remind_all">
               Select all respondents
             </label>
-            <input id="remind_not_submitted" type="checkbox" value="">
+            <input id="remind_not_submitted" type="checkbox">
             <label for="remind_not_submitted">
               Select all respondents not yet submitted
             </label>
