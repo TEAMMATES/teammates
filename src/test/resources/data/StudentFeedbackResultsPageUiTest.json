@@ -1319,6 +1319,17 @@
     "msqResponse2": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.benny.c@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"UI\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse3": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "MSQ",
       "giver": "SFResultsUiT.alice.b@gmail.tmt",
@@ -1327,7 +1338,7 @@
         "value": "{\"answers\":[\"Good\",\"OK\"],\"questionType\":\"MSQ\"}"
       }
     },
-    "msqResponse3": {
+    "msqResponse4": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "2",
@@ -1338,7 +1349,40 @@
         "value": "{\"answers\":[\"OK\",\"Poor\"],\"questionType\":\"MSQ\"}"
       }
     },
-    "msqResponse4": {
+    "msqResponse5": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.charlie.d@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"OK\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse6": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.danny.e@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Poor\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse7": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "2",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.danny.e@gmail.tmt",
+      "recipient": "SFResultsUiT.alice.b@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Good\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse8": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "3",
@@ -1349,7 +1393,18 @@
         "value": "{\"answers\":[\"Can improve\"],\"questionType\":\"MSQ\"}"
       }
     },
-    "msqResponse5": {
+    "msqResponse9": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "3",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Can improve\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse10": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "4",
@@ -1360,7 +1415,18 @@
         "value": "{\"answers\":[\"Danny\",\"Alice\"],\"questionType\":\"MSQ\"}"
       }
     },
-    "msqResponse6": {
+    "msqResponse11": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Benny\",\"Danny\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse12": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
       "feedbackQuestionId": "5",
@@ -1369,6 +1435,17 @@
       "recipient": "SFResultsUiT.alice.b@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answers\":[\"Team 1\",\"Team 2\"],\"questionType\":\"MSQ\"}"
+      }
+    },
+    "msqResponse13": {
+      "feedbackSessionName": "MSQ Session",
+      "courseId": "SFResultsUiT.CS2104",
+      "feedbackQuestionId": "5",
+      "feedbackQuestionType": "MSQ",
+      "giver": "SFResultsUiT.alice.b@gmail.tmt",
+      "recipient": "SFResultsUiT.benny.c@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answers\":[\"Team 1\"],\"questionType\":\"MSQ\"}"
       }
     },
     "numscaleResponse1": {
