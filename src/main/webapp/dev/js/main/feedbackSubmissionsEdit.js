@@ -509,6 +509,7 @@ function updateConstSumInstructionsQn(qnNum) {
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
     const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
+    const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
 
     if (distributeToRecipients) {
         numOptions = numRecipients;
@@ -530,7 +531,7 @@ function updateConstSumInstructionsQn(qnNum) {
     const infoIcon = '<span class="glyphicon glyphicon-info-sign padding-right-10px"></span>';
 
     instruction += `${infoIcon} Total points distributed should add up to ${points}.<br>`;
-    if (forceAllUnevenDistribution) {
+    if (forceUnevenDistribution || forceAllUnevenDistribution) {
         instruction += `${infoIcon} Every ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     } else if (forceSomeUnevenDistribution) {
@@ -546,6 +547,7 @@ function updateConstSumMessageQn(qnNum) {
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
     const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
+    const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
 
     const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
     const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
@@ -585,7 +587,6 @@ function updateConstSumMessageQn(qnNum) {
         let message = '';
         const approvedIcon = '<span class="glyphicon glyphicon-ok padding-right-10px"></span>';
         const errorIcon = '<span class="glyphicon glyphicon-remove padding-right-10px"></span>';
-
         if (!allNotNumbers) {
             if (remainingPoints === 0) {
                 message += `<span class='text-color-green'> ${approvedIcon} All points distributed!</span><br>`;
@@ -632,7 +633,7 @@ function updateConstSumMessageQn(qnNum) {
                             + `${distributeToRecipients ? 'recipient' : 'option'} `
                             + 'has been allocated different number of points.</span><br>';
                 }
-            } else if (forceAllUnevenDistribution) {
+            } else if (forceUnevenDistribution || forceAllUnevenDistribution) {
                 if (allUnique) {
                     message += `<span class='text-color-green'> ${approvedIcon} `
                             + 'All allocated points are different!</span><br>';
