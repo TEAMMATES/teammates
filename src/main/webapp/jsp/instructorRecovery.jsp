@@ -20,17 +20,6 @@
         No records found. <br>
         <br>
       </c:if>
-      <br>
-      <br>
-
-      <c:if test="${not empty data.archivedCourses.rows}">
-        <course:archivedCoursesTable archivedCourses="${data.archivedCourses}"
-                                     activeCourses="${data.activeCourses}"/>
-        <br>
-        <br>
-        <br>
-        <br>
-      </c:if>
     </c:if>
   </div>
 </ti:instructorPage>
