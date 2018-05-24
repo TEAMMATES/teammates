@@ -1225,6 +1225,10 @@ Default to alert color for visibility titles used within an alert context.
     display: block;
 }
 
+.remind-all {
+    width: 250px;
+}
+
 .remind-no-response {
     display: inline-block;
     padding-right: 5px;
