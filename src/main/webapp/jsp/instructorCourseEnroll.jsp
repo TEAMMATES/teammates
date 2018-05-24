@@ -22,36 +22,39 @@
   <div class="panel panel-primary panel-horizontal">
     <div class="panel-body fill-plain">
       <div class="text-muted padding-15px">
-        <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then <strong>100</strong> students into one course, divide students into sections containing no more than <strong>100</strong> students.
+        <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then
+        <strong>100</strong> students into one course, divide students into sections containing no more than
+        <strong>100</strong> students.
       </div>
       <br>
-      <form action="${data.instructorCourseEnrollSaveLink}" method="post" class="form-horizontal" role="form">
+      <form id="student-data-spreadsheet-form" action="${data.instructorCourseEnrollSaveLink}" method="post"
+            class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
-        <div class="col-md-30">
+        <div class="col-md-12">
           <div class="form-group">
             <div id="student-data-spreadsheet">
-              <div class="col-md-12">
-                  <div class="panel-body">
-                    <div id="spreadsheet"></div>
-                  </div>
-                <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
-                <div class="row">
-                  <div class="col-md-6">
-                    <button type="button" title="Add" id="addEmptyRows" name="empty_rows" class="btn btn-primary btn-md">
-                      Add
-                    </button>
-                    <input type="number" name="number_of_rows" value="1" min="0">
-                    <label>Rows</label>
-                  </div>
-                  <div class="col-md-6">
-                    <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md pull-right">
-                      Enroll students
-                    </button>
-                  </div>
-                </div>
-                <br>
-                <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
+              <div class="panel-body">
+                <div id="spreadsheet"></div>
               </div>
+              <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
+              <div class="row">
+                <div class="col-md-6">
+                  <button type="button" title="Add" id="addEmptyRows" class="btn btn-primary btn-md">
+                    Add
+                  </button>
+                  <input type="number" id="number-of-rows" value="1" min="0">
+                  <label>Rows</label>
+                </div>
+                <div class="col-md-6">
+                  <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
+                          class="btn btn-primary btn-md pull-right">
+                    Enroll students
+                  </button>
+                </div>
+              </div>
+              <br>
+              <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120"
+                        placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
             </div>
           </div>
         </div>
@@ -70,8 +73,11 @@
         <div class="more-info-point-details">
           <ul>
             <li>
-              If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and paste into the table above.
-              <a id="spreadsheet-link" href="https://docs.google.com/spreadsheets/d/1ZThkUnOW9CSM6a9nDWzchh0UOsPU2s9eyVWb5LG5iMk/edit?usp=sharing">Here</a> is an example spreadsheet.
+              If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and
+              paste into the table above.
+              <a id="spreadsheet-link"
+                 href="https://docs.google.com/spreadsheets/d/1ZThkUnOW9CSM6a9nDWzchh0UOsPU2s9eyVWb5LG5iMk/edit?usp=sharing">Here</a>
+              is an example spreadsheet.
             </li>
             <li>Each existing cells can be edited by just clicking on it.</li>
             <li>The entire table can be sorted by just clicking on the column name.</li>
@@ -83,60 +89,62 @@
       </li>
       <li>
         <span class="more-info-point-title">Columns Information</span>
-        <div class="more-info-point-details"">
-          <ul>
-            <li class="more-info-column-info">
-              <samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID
-            </li>
-            <li class="more-info-column-info">
-              <samp>Team</samp> [Compulsory]: Team name/ID
-              <div class="more-info-point-details">
-                <ul>
-                  <li class="more-info-email-details">
-                    A team must be unique within a course. A team cannot be in 2 different sections.
-                  </li>
-                  <li class="more-info-email-details">
-                    If you do not have teams in your course, use “N/A” as the team name for all students.
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li class="more-info-column-info">
-              <samp>Name</samp> [Compulsory]: Student name
-            </li>
-            <li class="more-info-column-info">
-              <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
-              <div class="more-info-email-details">
-                <ul>
-                  <li class="more-info-email-details">
-                    This need not be a Gmail address.
-                  </li>
-                  <li class="more-info-email-details">
-                    It should be unique for each student.
-                    If two students are given the same email, they will be considered the same student.
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li class="more-info-column-info">
-              <samp>Comments</samp> [Optional]: Any other information you want to record about a student.
-            </li>
-          </ul>
-        </div>
-      </li>
-      <li>
-        <span class="more-info-point-title">Mass editing enrolled students</span>
         <div class="more-info-point-details">
-          <ul>
-            <li class="more-info-mass-edit-info">
-              To mass-edit data of enrolled students (except email address), simply use this page to re-enroll them with the updated data .
-            </li>
-            <li class="more-info-mass-edit-info">
-              To DELETE students or to UPDATE EMAIL address of a student, please go to the <code>courses</code> page and click the <code>Students -> View/Edit</code> link of the course.
-            </li>
-          </ul>
-        </div>
-      </li>
-    </ul>
+        <ul>
+          <li class="more-info-column-info">
+            <samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID
+          </li>
+          <li class="more-info-column-info">
+            <samp>Team</samp> [Compulsory]: Team name/ID
+            <div class="more-info-point-details">
+              <ul>
+                <li class="more-info-email-details">
+                  A team must be unique within a course. A team cannot be in 2 different sections.
+                </li>
+                <li class="more-info-email-details">
+                  If you do not have teams in your course, use “N/A” as the team name for all students.
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="more-info-column-info">
+            <samp>Name</samp> [Compulsory]: Student name
+          </li>
+          <li class="more-info-column-info">
+            <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
+            <div class="more-info-email-details">
+              <ul>
+                <li class="more-info-email-details">
+                  This need not be a Gmail address.
+                </li>
+                <li class="more-info-email-details">
+                  It should be unique for each student.
+                  If two students are given the same email, they will be considered the same student.
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="more-info-column-info">
+            <samp>Comments</samp> [Optional]: Any other information you want to record about a student.
+          </li>
+        </ul>
+  </div>
+  </li>
+  <li>
+    <span class="more-info-point-title">Mass editing enrolled students</span>
+    <div class="more-info-point-details">
+      <ul>
+        <li class="more-info-mass-edit-info">
+          To mass-edit data of enrolled students (except email address), simply use this page to re-enroll them with the
+          updated data .
+        </li>
+        <li class="more-info-mass-edit-info">
+          To DELETE students or to UPDATE EMAIL address of a student, please go to the <code>courses</code> page and
+          click the <code>Students -> View/Edit</code> link of the course.
+        </li>
+      </ul>
+    </div>
+  </li>
+  </ul>
   </div>
 </ti:instructorPage>

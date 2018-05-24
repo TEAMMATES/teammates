@@ -884,7 +884,7 @@ Prevents content overflow in navbar. */
     outline: 0;
 }
 
-input[name='number_of_rows'] {
+#number-of-rows {
     width: 60px;
     height: 32px;
     padding: 4px;
