@@ -17,40 +17,40 @@ function populateCheckBoxes($button) {
 
 function bindingSelectAllCheckBoxes() {
     // checks binding of select all checkboxes populated in the header
-    $('#remind_all').on('change', function () {
+    $('#remindAll').on('change', function () {
         if (this.checked) {
             $('input[id^="all-students-"]').prop('checked', true);
-            $('#remind_not_submitted').prop('checked', true);
+            $('#remindNotSubmitted').prop('checked', true);
         } else {
             $('input[id^="all-students-"]').prop('checked', false);
-            $('#remind_not_submitted').prop('checked', false);
+            $('#remindNotSubmitted').prop('checked', false);
         }
     });
-    $('#remind_not_submitted').on('change', function () {
+    $('#remindNotSubmitted').on('change', function () {
         if (this.checked) {
             $('input[id^="all-students-not-responded"]').prop('checked', true);
             if ($('input[id^="all-students-not-responded"]').length === $('input[id^="all-students-"]').length) {
-                $('#remind_all').prop('checked', true);
+                $('#remindAll').prop('checked', true);
             }
         } else {
             $('input[id^="all-students-not-responded"]').prop('checked', false);
             if ($('input[id^="all-students-not-responded"]').length === $('input[id^="all-students-"]').length) {
-                $('#remind_all').prop('checked', false);
+                $('#remindAll').prop('checked', false);
             }
         }
     });
     // checks binding of each checkbox populated in the data
     $('input[id^="all-students-"]').on('change', () => {
         if ($('input[id^="all-students-"]:checked').length === $('input[id^="all-students-"]').length) {
-            $('#remind_all').prop('checked', true);
+            $('#remindAll').prop('checked', true);
         } else {
-            $('#remind_all').prop('checked', false);
+            $('#remindAll').prop('checked', false);
         }
         if ($('input[id^="all-students-not-responded"]:checked').length ===
                 $('input[id^="all-students-not-responded"]').length) {
-            $('#remind_not_submitted').prop('checked', true);
+            $('#remindNotSubmitted').prop('checked', true);
         } else {
-            $('#remind_not_submitted').prop('checked', false);
+            $('#remindNotSubmitted').prop('checked', false);
         }
     });
 }
