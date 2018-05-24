@@ -21,7 +21,7 @@ public class InstructorCourseDeleteAction extends Action {
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
         /* Delete the course and setup status to be shown to user and admin */
-        logic.deleteCourse(idOfCourseToDelete);
+        logic.moveCourseToRecovery(idOfCourseToDelete);
         String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
         statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
         statusToAdmin = "Course deleted: " + idOfCourseToDelete;
