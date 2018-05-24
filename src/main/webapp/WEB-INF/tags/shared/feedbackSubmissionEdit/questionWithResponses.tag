@@ -80,7 +80,7 @@
       <c:forEach items="${questionWithResponses.responses}" var="response">
         <feedbackSubmissionEdit:response response="${response}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
             questionWithResponses="${questionWithResponses}" responseRecipientIndex="${response.responseIndx}"
-            responseGiverIndex="1" questionIndex="${questionWithResponses.question.qnIndx}" isInstructor="${isInstructor}"
+            responseGiverIndex="1" questionIndex="${questionWithResponses.question.qnIndx}"
             moderatedPersonEmail="${moderatedPersonEmail}"/>
       </c:forEach>
     </div>
