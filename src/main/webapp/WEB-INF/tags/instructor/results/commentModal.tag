@@ -28,7 +28,7 @@
                 frcIndex="${status.count}"/>
           </c:forEach>
           <shared:feedbackResponseCommentAdd frc="${responseRow.addCommentButton}" firstIndex="${responseRecipientIndex}"
-              secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}" isOnQuestionsPage="true" giverRole="Instructor"/>
+              secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}" isOnQuestionsPage="true"/>
         </ul>
       </div>
       <div class="modal-footer">

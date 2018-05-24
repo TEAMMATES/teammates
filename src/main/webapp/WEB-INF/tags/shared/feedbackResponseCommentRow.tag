@@ -15,7 +15,6 @@
 <%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean"%>
 <%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="giverRole" %>
 
 <c:choose>
   <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
@@ -32,7 +31,7 @@
   </c:otherwise>
 </c:choose>
 <c:choose>
-  <c:when test="${giverRole eq 'Instructor'}">
+  <c:when test="${frc.giverRole eq 'Instructor'}">
     <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %>
     </c:set>
     <c:set var="deleteLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>
@@ -124,7 +123,7 @@
   <div id="plainCommentText-${divId}" style="margin-left: 15px;">${frc.commentText}</div>
   <c:if test="${frc.editDeleteEnabled}">
     <c:choose>
-      <c:when test="${giverRole eq 'Instructor'}">
+      <c:when test="${frc.giverRole eq 'Instructor'}">
         <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %>
         </c:set>
       </c:when>
@@ -147,7 +146,6 @@
         submitLink="${submitLink}"
         buttonText="Save"
         isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
-        moderatedPersonEmail="${moderatedPersonEmail}"
-        giverRole="${giverRole}"/>
+        moderatedPersonEmail="${moderatedPersonEmail}"/>
   </c:if>
 </li>

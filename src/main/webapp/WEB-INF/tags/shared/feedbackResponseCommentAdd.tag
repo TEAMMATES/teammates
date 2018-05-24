@@ -13,7 +13,6 @@
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="isPreview" %>
 <%@ attribute name="submitTable" %>
-<%@ attribute name="giverRole" required="true" %>
 
 <c:choose>
   <c:when test="${not empty fourthIndex}">
@@ -25,7 +24,7 @@
 </c:choose>
 
 <c:choose>
-  <c:when test="${giverRole eq 'Instructor'}">
+  <c:when test="${frc.giverRole eq 'Instructor'}">
     <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
   </c:when>
   <c:otherwise>
@@ -47,6 +46,5 @@
       buttonText="Add"
       isOnQuestionsPage="${isOnQuestionsPage}"
       isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
-      moderatedPersonEmail="${moderatedPersonEmail}"
-      giverRole="${giverRole}"/>
+      moderatedPersonEmail="${moderatedPersonEmail}"/>
 </li>

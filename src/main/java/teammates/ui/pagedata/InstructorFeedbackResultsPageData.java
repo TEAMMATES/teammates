@@ -1486,6 +1486,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            responseVisibilityMap, bundle.commentGiverEmailNameTable,
                                            bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
+        //For backward compatibility
+        if (frcAttributes.giverRole == null) {
+            frcAttributes.giverRole = Const.INSTRUCTOR;
+        }
         if (isInstructorAllowedToEditAndDeleteComment && Const.INSTRUCTOR.equals(frcAttributes.giverRole)) {
             frc.enableEditDelete();
         }

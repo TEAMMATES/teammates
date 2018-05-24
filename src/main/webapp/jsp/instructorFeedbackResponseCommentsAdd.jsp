@@ -12,7 +12,6 @@
         thirdIndex="${data.commentIds[2]}"
         fourthIndex="${data.commentIds[0]}"
         frcIndex="${data.commentIds[4]}"
-        giverRole="${data.giverRole}"
         moderatedPersonEmail="${data.moderatedPersonEmail}"/>
   </c:when>
   <c:otherwise>
@@ -21,7 +20,6 @@
         secondIndex="${data.commentIds[1]}"
         thirdIndex="${data.commentIds[2]}"
         frcIndex="${data.commentIds[3]}"
-        giverRole="${data.giverRole}"
         moderatedPersonEmail="${data.moderatedPersonEmail}"/>
   </c:otherwise>
 </c:choose>

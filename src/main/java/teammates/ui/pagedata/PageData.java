@@ -855,6 +855,7 @@ public class PageData {
                     frca.showGiverNameTo.add(type);
                 }
             }
+            frca.giverRole = Const.INSTRUCTOR;
 
             return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                     getResponseCommentVisibilityString(question),
@@ -869,6 +870,7 @@ public class PageData {
             frca.showCommentTo.add(type);
             frca.showGiverNameTo.add(type);
         }
+        frca.giverRole = question.giverType.isTeam() ? "Team" : Const.STUDENT;
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                 getResponseCommentVisibilityString(frca, question),
                 getResponseCommentGiverNameVisibilityString(frca, question), responseVisibilityMap, timezone);

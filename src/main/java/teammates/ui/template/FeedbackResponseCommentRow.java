@@ -24,6 +24,7 @@ public class FeedbackResponseCommentRow {
     private String responseGiverName;
     private String responseRecipientName;
     private String commentGiverName;
+    private String giverRole;
 
     private String showCommentToString;
     private String showGiverNameToString;
@@ -40,13 +41,14 @@ public class FeedbackResponseCommentRow {
     private boolean isEditDeleteEnabled;
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                      Map<String, String> commentGiverEmailNameTable, ZoneId sessionTimeZone) {
+            Map<String, String> commentGiverEmailNameTable, ZoneId sessionTimeZone) {
         this.commentGiverEmailNameTable = commentGiverEmailNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
+        this.giverRole = frc.giverRole;
 
         //TODO TO REMOVE AFTER DATA MIGRATION
         this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(giverDisplay));
@@ -70,6 +72,7 @@ public class FeedbackResponseCommentRow {
                 showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
         this.sessionTimeZone = sessionTimeZone;
+        this.giverRole = frc.giverRole;
     }
 
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc, String giverName, String recipientName,
@@ -146,6 +149,10 @@ public class FeedbackResponseCommentRow {
 
     public String getWhoCanSeeComment() {
         return whoCanSeeComment;
+    }
+
+    public String getGiverRole() {
+        return giverRole;
     }
 
     public boolean isWithVisibilityIcon() {
@@ -269,7 +276,7 @@ public class FeedbackResponseCommentRow {
         return "(last edited "
                 + (isGiverAnonymous
                     ? ""
-                    : "by " + SanitizationHelper.sanitizeForHtml(commentGiverEmailNameTable.get(lastEditor)) + " ")
+                    : "by " + SanitizationHelper.sanitizeForHtml(lastEditor) + " ")
                 + "at " + TimeHelper.formatDateTimeForDisplay(lastEditedAt, sessionTimeZone) + ")";
     }
 }

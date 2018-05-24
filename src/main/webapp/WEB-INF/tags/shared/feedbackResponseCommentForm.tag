@@ -20,7 +20,6 @@
 <%@ attribute name="isOnFeedbackSubmissionEditPage"%>
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="isPreview" %>
-<%@ attribute name="giverRole" required="true" %>
 
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
@@ -39,11 +38,11 @@
         <br>
         Recipient: ${fn:escapeXml(frc.responseRecipientName)}
       </p>
-      <c:if test="${giverRole eq 'Instructor'}">
+      <c:if test="${frc.giverRole eq 'Instructor'}">
         You may change comment's visibility using the visibility options on the right hand side.
       </c:if>
     </div>
-  <c:if test="${giverRole eq 'Instructor'}">
+  <c:if test="${frc.giverRole eq 'Instructor'}">
     <a id="frComment-visibility-options-trigger-${divId}"
        class="btn btn-sm btn-info pull-right toggle-visib-${fn:toLowerCase(formType)}-form"
        data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
@@ -55,7 +54,7 @@
     </a>
   </c:if>
   </div>
-<c:if test="${giverRole eq 'Instructor'}">
+<c:if test="${frc.giverRole eq 'Instructor'}">
   <div id="visibility-options-${divId}" class="panel panel-default" style="display: none;">
     <div class="panel-heading">
       Visibility Options
@@ -248,7 +247,7 @@
     <c:if test="${data.moderation}">
       <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
     </c:if>
-    <input type="hidden" name="giverRole-${divId}" value="${giverRole}">
+    <input type="hidden" name="<%=Const.ParamsNames.GIVER_ROLE %>-${divId}" value="${frc.giverRole}">
   </c:when>
   <c:otherwise>
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
@@ -260,7 +259,7 @@
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>" value="${frc.showCommentToString}">
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>" value="${frc.showGiverNameToString}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
-    <input type="hidden" name="giverRole" value="${giverRole}">
+    <input type="hidden" name="<%=Const.ParamsNames.GIVER_ROLE %>" value="${frc.giverRole}">
   </c:otherwise>
 </c:choose>
 <c:choose>
