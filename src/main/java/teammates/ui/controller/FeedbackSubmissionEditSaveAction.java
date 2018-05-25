@@ -185,7 +185,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
             if (!questionsWithMissingAnswers.isEmpty()) {
-                statusToUser.add(new StatusMessage(getIncompleteQuestionMessage(questionsWithMissingAnswers),
+                statusToUser.add(new StatusMessage(getUnansweredQuestionMessage(questionsWithMissingAnswers),
                         StatusMessageColor.INFO));
             }
         }
@@ -367,8 +367,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return response;
     }
 
-    private String getIncompleteQuestionMessage(Set<Integer> questionsWithMissingAnswers) {
-        StringBuilder incompleteQuestionsMessage = new StringBuilder(Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS);
+    private String getUnansweredQuestionMessage(List<Integer> questionsWithMissingAnswers) {
+        StringBuilder incompleteQuestionsMessage = new StringBuilder(Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS);
         Iterator questions = questionsWithMissingAnswers.iterator();
         while (questions.hasNext()) {
             incompleteQuestionsMessage.append(questions.next().toString());
