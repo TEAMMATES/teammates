@@ -75,14 +75,14 @@ public class InstructorRecoveryPageData extends PageData {
 
             ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_course_restore" + idx, "",
                     getInstructorRecoveryLink(),
-                    Const.Tooltips.COURSE_ARCHIVE, false);
+                    Const.Tooltips.COURSE_ARCHIVE, false, "");
 
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs course-delete-link "
                             + "t_course_delete" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
-                    !hasDeletePermission);
+                    !hasDeletePermission, "color: red");
             deleteButton.setAttribute("data-course-id", course.getId());
 
             actionsParam.add(restoreButton);
@@ -93,9 +93,9 @@ public class InstructorRecoveryPageData extends PageData {
                     course.getCreatedAtDateString(),
                     course.getCreatedAtDateStamp(),
                     course.getCreatedAtFullDateTimeString(),
-                    course.getCreatedAtDateString(),
-                    course.getCreatedAtDateStamp(),
-                    course.getCreatedAtFullDateTimeString(),
+                    course.getDeletedAtDateString(),
+                    course.getDeletedAtDateStamp(),
+                    course.getDeletedAtFullDateTimeString(),
                     this.getInstructorCourseStatsLink(course.getId()),
                     actionsParam);
             recoveryCourses.getRows().add(row);
@@ -105,7 +105,7 @@ public class InstructorRecoveryPageData extends PageData {
     }
 
     private ElementTag createButton(String content, String buttonClass, String id, String href, String title,
-                                    boolean isDisabled) {
+                                    boolean isDisabled, String style) {
         ElementTag button = new ElementTag(content);
 
         button.setAttribute("class", buttonClass);
@@ -126,6 +126,10 @@ public class InstructorRecoveryPageData extends PageData {
 
         if (isDisabled) {
             button.setAttribute("disabled", null);
+        }
+
+        if (style != null && !style.isEmpty()) {
+            button.setAttribute("style", style);
         }
         return button;
     }
