@@ -421,7 +421,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 + "Claimed Contribution (CC) = the contribution claimed by the student." + System.lineSeparator()
                 + "Perceived Contribution (PC) = the average value of student's contribution "
                 + "as perceived by the team members." + System.lineSeparator()
-                + "Team, Name, Email, CC, PC, Ratings Recieved" + System.lineSeparator();
+                + "Team, Name, Email, CC, PC, Ratings Received" + System.lineSeparator();
         return csvPointsExplanation + contribFragments + System.lineSeparator();
     }
 
