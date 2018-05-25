@@ -1144,10 +1144,10 @@ function showModalSuccessIfResponsesSubmitted() {
     const unansweredMessage = '<p class="unanswered-message">'.concat(enlargedImportantIcon).concat('<span>')
             .concat(getUnansweredQuestionMessage()).concat('</span></p>');
 
-    if(hasSuccessMessage()) {
+    if (hasSuccessMessage()) {
         showModalAlert(getSuccessMessage(),
-            (hasUnansweredQuestionMessage() ? unansweredMessage : "") + RESPONSES_SUCCESSFULLY_SUBMITTED,
-            null, BootstrapContextualColors.SUCCESS);
+                (hasUnansweredQuestionMessage() ? unansweredMessage : '') + RESPONSES_SUCCESSFULLY_SUBMITTED,
+                null, BootstrapContextualColors.SUCCESS);
     }
 }
 /**
