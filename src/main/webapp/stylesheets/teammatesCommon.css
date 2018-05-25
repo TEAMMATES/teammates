@@ -1265,6 +1265,11 @@ Default to alert color for visibility titles used within an alert context.
     font-size: 200%;
 }
 
+.unanswered-message span {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 /* /////////////////////////////////////////////////////////
 ////////////////// Dropdowns with Submenus /////////////////
 ///////////////////////////////////////////////////////// */
