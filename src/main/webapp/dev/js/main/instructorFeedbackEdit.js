@@ -1280,6 +1280,7 @@ window.addRubricCol = addRubricCol;
 window.removeRubricCol = removeRubricCol;
 window.highlightRubricCol = highlightRubricCol;
 
+window.scrollToElement = scrollToElement;
 window.isWithinView = isWithinView;
 
 export {
