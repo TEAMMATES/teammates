@@ -1119,11 +1119,11 @@ function getSuccessMessage() {
     return $(SUCCESS_STATUS_MESSAGE).html().trim();
 }
 
-function getIncompleteQuestionMessage() {
+function getUnansweredQuestionMessage() {
     return $(INFO_STATUS_MESSAGE).html().trim();
 }
 
-function hasIncompleteQuestionMessage() {
+function hasUnansweredQuestionMessage() {
     return $(INFO_STATUS_MESSAGE).length;
 }
 
@@ -1140,14 +1140,13 @@ function showModalWarningIfSessionClosingSoon() {
 }
 
 function showModalSuccessIfResponsesSubmitted() {
-    if (hasSuccessMessage() && hasIncompleteQuestionMessage()) {
-        const enlargedImportantIcon = '<span style="font-size:250%"> &#10071; </span>';
-        const incompleteMessage = enlargedImportantIcon + getIncompleteQuestionMessage();
-        showModalAlert(getSuccessMessage(), incompleteMessage + RESPONSES_SUCCESSFULLY_SUBMITTED,
-                null, BootstrapContextualColors.SUCCESS);
-    } else if (hasSuccessMessage()) {
-        showModalAlert(getSuccessMessage(), RESPONSES_SUCCESSFULLY_SUBMITTED,
-                null, BootstrapContextualColors.SUCCESS);
+    const enlargedImportantIcon = '<span style="font-size:200%"> &#10071; </span>';
+    const unansweredMessage = enlargedImportantIcon + getUnansweredQuestionMessage();
+
+    if(hasSuccessMessage()) {
+        showModalAlert(getSuccessMessage(),
+            (hasUnansweredQuestionMessage() ? unansweredMessage : "") + RESPONSES_SUCCESSFULLY_SUBMITTED,
+            null, BootstrapContextualColors.SUCCESS);
     }
 }
 /**
