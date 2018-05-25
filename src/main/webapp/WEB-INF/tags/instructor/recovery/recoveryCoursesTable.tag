@@ -4,10 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="recoveryCourses" type="teammates.ui.template.RecoveryCoursesTable" required="true" %>
 
-<h2 class="text-muted">Deleted courses</h2>
+<h2>Deleted courses</h2>
 <table class="table table-bordered table-striped" id="tableRecoveryCourses">
-  <thead>
-    <tr class="fill-default">
+  <thead class="fill-info">
+    <tr>
       <th id="btn_sortid" class="button-sort-none toggle-sort">
         Course ID<span class="icon-sort unsorted"></span>
       </th>
@@ -25,17 +25,17 @@
   </thead>
   <c:forEach items="${recoveryCourses.rows}" var="recoveryCourse" varStatus="i">
     <tr>
-      <td id="courseid${i.index + fn:length(recoveryCourses.rows)}">${recoveryCourse.courseId}</td>
-      <td id="coursename${i.index + fn:length(recoveryCourses.rows)}">${recoveryCourse.courseName}</td>
+      <td id="recoverycourseid${i.index + fn:length(recoveryCourses.rows)}">${recoveryCourse.courseId}</td>
+      <td id="recoverycoursename${i.index + fn:length(recoveryCourses.rows)}">${recoveryCourse.courseName}</td>
       <td
-          id="coursecreateddate${i.index + fn:length(recoveryCourses.rows)}"
+          id="recoverycoursecreateddate${i.index + fn:length(recoveryCourses.rows)}"
           data-date-stamp="${recoveryCourse.createdAtDateStamp}"
           data-toggle="tooltip"
           data-original-title="${recoveryCourse.createdAtFullDateTimeString}">
           ${recoveryCourse.createdAtDateString}
       </td>
       <td
-          id="coursedeleteddate${i.index + fn:length(recoveryCourses.rows)}"
+          id="recoverycoursedeleteddate${i.index + fn:length(recoveryCourses.rows)}"
           data-date-stamp="${recoveryCourse.deletedAtDateStamp}"
           data-original-title="${recoveryCourse.deletedAtFullDateTimeString}">
           ${recoveryCourse.deletedAtDateString}
