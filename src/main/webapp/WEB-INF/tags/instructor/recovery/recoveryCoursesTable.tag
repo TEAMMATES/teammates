@@ -49,4 +49,14 @@
       </td>
     </tr>
   </c:forEach>
+
+  <c:if test="${empty recoveryCourses.rows}">
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </c:if>
 </table>
