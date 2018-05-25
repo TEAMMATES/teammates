@@ -32,7 +32,7 @@
       <td class="align-center">
         <div class="checkbox">
           <label>
-            <input id="all-students-not-responded" type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
+            <input type="checkbox" class="student-not-responded table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
           </label>
         </div>
       </td>
@@ -58,7 +58,7 @@
       <td class="align-center">
         <div class="checkbox">
           <label>
-            <input id="all-students-responded" type="checkbox" class="table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
+            <input type="checkbox" class="student-responded table-column-no-float" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemindEmail}">
           </label>
         </div>
       </td>
