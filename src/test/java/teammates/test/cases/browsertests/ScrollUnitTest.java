@@ -32,6 +32,8 @@ public class ScrollUnitTest extends BaseUiTestCase {
     @Override
     protected void prepareTestData() {
         // No need  of data. Dummy data only for scrolling purposes
+        testData = loadDataBundle("/InstructorFeedbackEditPageUiTest.json");
+        removeAndRestoreDataBundle(testData);
 
         instructorId = "CFeedbackEditUiT.instructor";
         courseId = "CFeedbackEditUiT.CS2104";
