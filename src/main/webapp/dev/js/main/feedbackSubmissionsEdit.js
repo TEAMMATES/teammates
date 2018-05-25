@@ -484,7 +484,7 @@ function prepareConstSumQuestions() {
             // Add elements for displaying messages/errors based on user input
             $(`.evalueeForm-${qnNum}`).each(function (responseIndx) {
                 $(this).after(`<div id="constSumInfo-${qnNum}-${responseIndx}" style="display:none">` +
-                        `<p class="text-color-red padding-left-35px" id="constSumMessage-${qnNum}-${responseIndx}"></p>` +
+                        `<p class="text-color-green padding-left-35px" id="constSumMessage-${qnNum}-${responseIndx}"></p>` +
                         '<hr class="margin-top-0 border-top-dark-gray">');
             });
 
@@ -587,6 +587,7 @@ function updateConstSumQnMessages(qnNum) {
         let message = '';
         const approvedIcon = '<span class="glyphicon glyphicon-ok padding-right-10px"></span>';
         const errorIcon = '<span class="glyphicon glyphicon-remove padding-right-10px"></span>';
+        let allChecksPassed = true;
         if (!allNotNumbers) {
             if (remainingPoints === 0) {
                 message += `<span class='text-color-green'> ${approvedIcon} All points distributed!</span><br>`;
@@ -609,9 +610,11 @@ function updateConstSumQnMessages(qnNum) {
             } else if (remainingPoints > 0) {
                 message += `<span class='text-color-red'> ${errorIcon} Actual total is ${sum}! Distribute the remaining `
                         + `${remainingPoints} points.</span><br>`;
+                allChecksPassed = false;
             } else {
                 message += `<span class='text-color-red'> ${errorIcon} Actual total is ${sum}! Remove the extra `
                         + `${-remainingPoints} points allocated.</span><br>`;
+                allChecksPassed = false;
             }
 
             if (forceSomeUnevenDistribution) {
@@ -620,6 +623,7 @@ function updateConstSumQnMessages(qnNum) {
                             + `${distributeToRecipients ? 'recipients' : 'options'} `
                             + `are given ${repeatedPoints[0]} points. Please allocate different points `
                             + `to at least one ${distributeToRecipients ? 'recipient' : 'option'}.</span><br>`;
+                    allChecksPassed = false;
                 } else {
                     message += `<span class='text-color-green'> ${approvedIcon} At least one `
                             + `${distributeToRecipients ? 'recipient' : 'option'} `
@@ -633,10 +637,17 @@ function updateConstSumQnMessages(qnNum) {
                     message += `<span class='text-color-red'> ${errorIcon} Multiple `
                             + `${distributeToRecipients ? 'recipients' : 'options'} `
                             + `are given same points! eg. ${repeatedPoints[0]}.</span><br>`;
+                    allChecksPassed = false;
                 }
             }
         }
-
+        if (allChecksPassed) {
+            messageElement.addClass('text-color-green');
+            messageElement.removeClass('text-color-red');
+        } else {
+            messageElement.addClass('text-color-red');
+            messageElement.removeClass('text-color-green');
+        }
         messageElement.html(message);
     }
     function updateSumBasedOn(ptsAllocatedParam) {
