@@ -416,8 +416,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         sortedMap.forEach((key, value) -> contribFragments.append(value));
 
         String csvPointsExplanation =
-                "In the points given below, an equal share is equal to 100 points. "
-                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + System.lineSeparator()
+                SanitizationHelper.sanitizeForCsv("In the points given below, an equal share is equal to 100 points. "
+                + "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".") + System.lineSeparator()
                 + "Claimed Contribution (CC) = the contribution claimed by the student." + System.lineSeparator()
                 + "Perceived Contribution (PC) = the average value of student's contribution "
                 + "as perceived by the team members." + System.lineSeparator()
