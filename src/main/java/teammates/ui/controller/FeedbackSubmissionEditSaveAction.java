@@ -141,14 +141,17 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 if (response.responseMetaData.getValue().isEmpty()) {
                     // deletes the response since answer is empty
                     addToPendingResponses(response);
-                    // add the question index to show User the incompleted question numbers
-                    questionsWithMissingAnswers.add(questionIndx);
                 } else {
                     response.giver = questionAttributes.giverType.isTeam() ? userTeamForCourse
                                                                                 : userEmailForCourse;
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }
+            }
+
+            if (responsesForQuestion.isEmpty() && numOfResponsesToGet > 0) {
+                // add the question index to show user unanswered questions
+                questionsWithMissingAnswers.add(questionIndx);
             }
 
             List<String> questionSpecificErrors =
