@@ -142,7 +142,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
-                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
+                + Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
@@ -180,7 +180,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
-                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
+                + Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "instructor1InCourse1"),
@@ -353,7 +353,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
-                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
+                + Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
@@ -412,7 +412,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
-                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
+                + Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
@@ -480,7 +480,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
-                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
+                + Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
@@ -555,7 +555,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
-                + Const.StatusMessages.FEEDBACK_INCOMPLETE_QUESTIONS + "1.", r.getStatusMessage());
+                + Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),

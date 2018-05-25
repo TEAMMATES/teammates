@@ -1420,7 +1420,7 @@ public final class Const {
                 "Note that you can use the Submit button to save responses already entered, "
                 + "and continue to answer remaining questions after that. "
                 + "You may also edit your submission any number of times before the closing time of this session.";
-        public static final String FEEDBACK_INCOMPLETE_QUESTIONS = "Note that some questions are yet to be answered. "
+        public static final String FEEDBACK_UNANSWERED_QUESTIONS = "Note that some questions are yet to be answered. "
                 + "They are: ";
 
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW =
