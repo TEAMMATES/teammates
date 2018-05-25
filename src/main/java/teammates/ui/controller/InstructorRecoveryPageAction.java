@@ -28,34 +28,19 @@ public class InstructorRecoveryPageAction extends Action {
 
         Map<String, InstructorAttributes> instructorsForCourses = new HashMap<>();
         List<CourseAttributes> allCourses = new ArrayList<>();
-        List<CourseAttributes> activeCourses = new ArrayList<>();
-        List<CourseAttributes> archivedCourses = new ArrayList<>();
+        List<CourseAttributes> recoveryCourses = new ArrayList<>();
 
         if (data.isUsingAjax()) {
-            // Get list of InstructorAttributes that belong to the user.
             List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
             for (InstructorAttributes instructor : instructorList) {
                 instructorsForCourses.put(instructor.courseId, instructor);
             }
 
-            // Get corresponding courses of the instructors.
             allCourses = logic.getCoursesForInstructor(instructorList);
-
-            List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
-            for (CourseAttributes course : allCourses) {
-                if (archivedCourseIds.contains(course.getId())) {
-                    archivedCourses.add(course);
-                } else {
-                    activeCourses.add(course);
-                }
-            }
-
-            // Sort CourseDetailsBundle lists by course id
-            CourseAttributes.sortById(activeCourses);
-            CourseAttributes.sortById(archivedCourses);
+            recoveryCourses = logic.getRecoveryCoursesForInstructor(instructorList);
         }
 
-        data.init(activeCourses, archivedCourses, instructorsForCourses);
+        data.init(recoveryCourses, instructorsForCourses);
 
         /* Explanation: Set any status messages that should be shown to the user.*/
         if (data.isUsingAjax() && allCourses.isEmpty()) {
@@ -68,6 +53,6 @@ public class InstructorRecoveryPageAction extends Action {
         statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
 
         /* Explanation: Create the appropriate result object and return it.*/
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_RECOVERY, data);
     }
 }

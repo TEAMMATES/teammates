@@ -28,10 +28,10 @@ public class InstructorRecoveryPage extends AppPage {
         super(browser);
     }
 
-    /** Used to check if the loaded page is indeed the 'Courses' page. */
+    /** Used to check if the loaded page is indeed the 'Recovery' page. */
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Add New Course</h1>");
+        return getPageSource().contains("<h1>Recycle Bin</h1>");
     }
 
     /**
