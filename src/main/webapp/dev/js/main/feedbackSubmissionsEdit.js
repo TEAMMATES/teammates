@@ -1140,8 +1140,8 @@ function showModalWarningIfSessionClosingSoon() {
 }
 
 function showModalSuccessIfResponsesSubmitted() {
-    const enlargedImportantIcon = '<span style="font-size:200%"> &#10071; </span>';
     const unansweredMessage = enlargedImportantIcon + getUnansweredQuestionMessage();
+    const enlargedImportantIcon = '<span class="unanswered-exclamation-mark"> &#10071; </span>';
 
     if(hasSuccessMessage()) {
         showModalAlert(getSuccessMessage(),
