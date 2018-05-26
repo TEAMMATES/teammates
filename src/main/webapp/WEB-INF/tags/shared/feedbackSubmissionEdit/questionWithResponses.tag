@@ -59,7 +59,7 @@
         </ul>
       </c:if>
       <c:if test="${not isRecipientNameHidden}">
-        <div class="evalueeLabel-${questionWithResponses.question.questionNumber} col-sm-12 form-inline mobile-align-left">
+        <div class="evalueeLabel-${questionWithResponses.question.qnIndx} col-sm-12 form-inline mobile-align-left">
           <label for="input" style="text-indent: 24px">
             <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
               Evaluee/Recipient

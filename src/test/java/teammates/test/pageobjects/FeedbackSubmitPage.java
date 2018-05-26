@@ -103,6 +103,12 @@ public class FeedbackSubmitPage extends AppPage {
         dropdown.selectByVisibleText(text);
     }
 
+    public String getConstSumInstruction(int qnNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("constSumInstruction-" + qnNumber));
+        return element.getText();
+    }
+
     public String getConstSumMessage(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("constSumMessage-" + qnNumber + "-" + responseNumber));

@@ -531,11 +531,11 @@ function updateConstSumQnInstructions(qnNum) {
     const infoIcon = '<span class="glyphicon glyphicon-info-sign padding-right-10px"></span>';
 
     instruction += `${infoIcon} Total points distributed should add up to ${points}.<br>`;
-    if (forceUnevenDistribution || forceAllUnevenDistribution) {
-        instruction += `${infoIcon} Every ${distributeToRecipients ? 'recipient' : 'option'} `
-                + 'should be allocated different number of points.<br>';
-    } else if (forceSomeUnevenDistribution) {
+    if (forceSomeUnevenDistribution) {
         instruction += `${infoIcon} At least one ${distributeToRecipients ? 'recipient' : 'option'} `
+                + 'should be allocated different number of points.<br>';
+    } else if (forceUnevenDistribution || forceAllUnevenDistribution) {
+        instruction += `${infoIcon} Every ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     }
     instructionElement.html(instruction);
