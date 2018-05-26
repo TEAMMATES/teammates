@@ -1119,7 +1119,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        moderationButton,
                                                                        isStudentCommentsOnResponsesAllowed);
             if (isStudentCommentsOnResponsesAllowed) {
-                responseRow.setStudentComment(getResponseCommentText(response.giver, response));
+                String comment = getResponseCommentText(response.giver, response);
+                responseRow.setStudentComment(comment);
             }
             configureResponseRow(prevGiver, response.recipient, responseRow);
             String giverName = bundle.getNameForEmail(response.giver);
@@ -1503,12 +1504,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private String getResponseCommentText(String giverEmail, FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
-        for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
-            if (frca.giverEmail.equals(giverEmail)) {
-                return frca.getCommentText().getValue();
+        if (frcAttributesList != null) {
+            for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
+                if (frca.giverEmail.equals(giverEmail)) {
+                    return frca.getCommentText().getValue();
+                }
             }
         }
-        return null;
+        return "";
     }
 
 
