@@ -207,7 +207,10 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else if (viewType === undefined) {
-        id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+        if (commentIndex === undefined)
+            id = `-${recipientIndex}-${giverIndex}-${qnIndex}-1`;
+        else
+            id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else {
         id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
@@ -583,7 +586,12 @@ const deleteCommentHandlerForFeedbackPage = (e) => {
                 if (data.isError) {
                     showErrorMessage(data.errorMessage, submitButton);
                 } else {
+                    const addButtonId = 'button_add_comment' + submitButton.attr('id').replace("commentdelete", "").slice(0,-2);
                     deleteCommentRow(submitButton);
+                    const addButton = document.getElementById(addButtonId);
+                    addButton.classList.remove('show-frc-edit-form');
+                    addButton.classList.add('show-frc-add-form');
+                    registerResponseCommentsEventForFeedbackPage();
                 }
             },
         });

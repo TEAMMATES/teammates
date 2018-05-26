@@ -15,6 +15,8 @@
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 <c:set var="recipientType" value="${questionWithResponses.question.recipientType}"/>
+<c:set var="isCommentOnResponse" value="${not empty response.commentsOnResponses}"/>
+<c:set var="addOrEdit" value= "${isCommentOnResponse ? 'edit' : 'add'}"/>
 
 <c:choose>
   <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
@@ -50,7 +52,8 @@
   </div>
   <c:choose>
     <c:when test="${questionWithResponses.studentCommentsOnResponsesAllowed}">
-      <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-add-form" id="button_add_comment"
+      <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-${addOrEdit}-form"
+              id="button_add_comment-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
               data-recipientindex="${responseRecipientIndex}" data-giverindex="${responseGiverIndex}"
               data-qnindex="${questionIndex}" data-toggle="tooltip" data-placement="top"
               title="<%=Const.Tooltips.COMMENT_ADD%>">
@@ -68,18 +71,18 @@
       <br>
       <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
           style="${not empty response.commentsOnResponses ? 'margin-top:15px;': 'display:none'}">
-        <c:forEach items="${response.commentsOnResponses}" var="responseComment" varStatus="status">
-          <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${responseRecipientIndex}"
+        <c:if test="${isCommentOnResponse}">
+          <shared:feedbackResponseCommentRow frc="${response.commentsOnResponses}" firstIndex="${responseRecipientIndex}"
                                              secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-                                             frcIndex="${status.count}" isOnFeedbackSubmissionEditPage="true"
+                                             frcIndex="1" isOnFeedbackSubmissionEditPage="true"
                                              moderatedPersonEmail="${moderatedPersonEmail}"
                                              isSessionOpenForSubmission="${isSessionOpenForSubmission}"/>
-        </c:forEach>
-        <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}" firstIndex="${responseRecipientIndex}"
-                                           secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-                                           isOnFeedbackSubmissionEditPage="true"
-                                           moderatedPersonEmail="${moderatedPersonEmail}"
-                                           isPreview="${data.preview}" submitTable="${data.submittable}"/>
+        </c:if>
+          <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}" firstIndex="${responseRecipientIndex}"
+                                             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
+                                             isOnFeedbackSubmissionEditPage="true"
+                                             moderatedPersonEmail="${moderatedPersonEmail}"
+                                             isPreview="${data.preview}" submitTable="${data.submittable}"/>
       </ul>
        <c:if test="${not questionWithResponses.question.questionTypeConstsum}">
        </div>
