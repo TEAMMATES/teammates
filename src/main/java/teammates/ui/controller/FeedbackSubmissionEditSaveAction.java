@@ -292,20 +292,17 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
             //TODO: move putDocument to task queue
             logic.putDocument(updatedComment);
+            statusToAdmin += "FeedbackSubmissionEditSaveAction:<br>"
+                                     + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                                     + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                                     + feedbackResponseComment.feedbackSessionName + "<br>"
+                                     + "by: " + feedbackResponseComment.giverEmail + "<br>"
+                                     + "comment text: " + feedbackResponseComment.commentText.getValue();
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             isError = true;
         } catch (EntityDoesNotExistException e) {
             isError = true;
-        }
-
-        if (!isError) {
-            statusToAdmin += "FeedbackSubmissionEditSaveAction:<br>"
-                    + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
-                    + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
-                    + feedbackResponseComment.feedbackSessionName + "<br>"
-                    + "by: " + feedbackResponseComment.giverEmail + "<br>"
-                    + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
     }
 

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -401,8 +403,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName,
-            boolean shouldLoadInEditMode) {
+    public String getInstructorFeedbackEditLink(String courseId, String feedbackSessionName, boolean shouldLoadInEditMode) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -808,6 +809,35 @@ public class PageData {
         return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
                + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
                + Const.ParamsNames.USER_ID + "=" + account.googleId;
+    }
+
+    public String getRecipientNames(Set<String> recipients, String courseId, String studentEmail, CourseRoster roster) {
+        StringBuilder namesStringBuilder = new StringBuilder();
+        int i = 0;
+
+        for (String recipient : recipients) {
+            if (i == recipients.size() - 1 && recipients.size() > 1) {
+                namesStringBuilder.append(" and ");
+            } else if (i > 0 && i < recipients.size() - 1 && recipients.size() > 2) {
+                namesStringBuilder.append(", ");
+            }
+            StudentAttributes student = roster.getStudentForEmail(recipient);
+            if (recipient.equals(studentEmail)) {
+                namesStringBuilder.append("you");
+            } else if (courseId.equals(recipient)) {
+                namesStringBuilder.append("all students in this course");
+            } else if (student == null) {
+                namesStringBuilder.append(recipient);
+            } else {
+                if (recipients.size() == 1) {
+                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + ")");
+                } else {
+                    namesStringBuilder.append(student.name);
+                }
+            }
+            i++;
+        }
+        return namesStringBuilder.toString();
     }
 
     /**
