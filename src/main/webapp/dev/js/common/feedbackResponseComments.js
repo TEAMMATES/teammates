@@ -567,41 +567,6 @@ function registerResponseCommentCheckboxEvent() {
     });
 }
 
-function registerResponseCommentsEventForFeedbackPage() {
-    $('body').on('click',
-            'div[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandlerForFeedbackPage);
-    const clickHandlerMap = new Map();
-    clickHandlerMap.set(
-            '.show-frc-add-form', [showResponseCommentAddForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set(
-            '.show-frc-edit-form', [showResponseCommentEditForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
-    clickHandlerMap.set(
-            '.hide-frc-add-form', [hideResponseCommentAddForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set(
-            '.hide-frc-edit-form', [hideResponseCommentEditForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
-    clickHandlerMap.set(
-            '.toggle-visib-add-form', [toggleVisibilityAddForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set(
-            '.toggle-visib-edit-form', [toggleVisibilityEditForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
-
-    /* eslint-disable no-restricted-syntax */
-    for (const [className, clickHandlerAndParams] of clickHandlerMap) {
-        $(document).on('click', className, (e) => {
-            const ev = $(e.currentTarget);
-            const clickHandler = clickHandlerAndParams[0];
-            const params = clickHandlerAndParams[1].map(paramName => ev.data(paramName));
-            clickHandler(params[0], params[1], params[2], params[3], params[4], params[5]);
-        });
-    }
-    /* eslint-enable no-restricted-syntax */
-}
-
 function changeAddButtonFunctionAndDeleteComment(submitButton) {
     const commentId = submitButton.attr('id').replace('commentdelete', '').slice(0, -2);
     const addButtonId = `button_add_comment${commentId}`;
@@ -637,6 +602,41 @@ const deleteCommentHandlerForFeedbackPage = (e) => {
         });
     }, null, null, null, StatusType.WARNING);
 };
+
+function registerResponseCommentsEventForFeedbackPage() {
+    $('body').on('click',
+            'div[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandlerForFeedbackPage);
+    const clickHandlerMap = new Map();
+    clickHandlerMap.set(
+            '.show-frc-add-form', [showResponseCommentAddForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.show-frc-edit-form', [showResponseCommentEditForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+            '.hide-frc-add-form', [hideResponseCommentAddForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.hide-frc-edit-form', [hideResponseCommentEditForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+            '.toggle-visib-add-form', [toggleVisibilityAddForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.toggle-visib-edit-form', [toggleVisibilityEditForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+
+    /* eslint-disable no-restricted-syntax */
+    for (const [className, clickHandlerAndParams] of clickHandlerMap) {
+        $(document).on('click', className, (e) => {
+            const ev = $(e.currentTarget);
+            const clickHandler = clickHandlerAndParams[0];
+            const params = clickHandlerAndParams[1].map(paramName => ev.data(paramName));
+            clickHandler(params[0], params[1], params[2], params[3], params[4], params[5]);
+        });
+    }
+    /* eslint-enable no-restricted-syntax */
+}
 
 function registerResponseCommentCheckboxEventForFeedbackPage() {
     $('body').on('click', 'ul[id^="responseCommentTable"] * input[type=checkbox]', (e) => {

@@ -1514,7 +1514,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return "";
     }
 
-
     private FeedbackResponseCommentRow buildResponseComment(String giverName, String recipientName,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             FeedbackResponseCommentAttributes frcAttributes) {
