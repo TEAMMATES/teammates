@@ -91,6 +91,10 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return feedbackResponseCommentId;
     }
 
+    public Text getCommentText() {
+        return commentText;
+    }
+
     /**
      * Use only to match existing and known Comment.
      */

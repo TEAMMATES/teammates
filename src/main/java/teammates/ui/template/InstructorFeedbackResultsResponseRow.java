@@ -24,6 +24,9 @@ public class InstructorFeedbackResultsResponseRow {
     private boolean isRecipientProfilePictureAColumn;
     private String recipientProfilePictureLink;
 
+    private boolean isStudentCommentsOnResponsesAllowed;
+    private String studentComment;
+
     private boolean isActionsDisplayed;
 
     private String displayableResponse;
@@ -38,15 +41,17 @@ public class InstructorFeedbackResultsResponseRow {
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse,
-                                        InstructorFeedbackResultsModerationButton moderationButton) {
+                                        InstructorFeedbackResultsModerationButton moderationButton,
+                                        boolean isStudentCommentsOnResponsesAllowed) {
         this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
-             displayableResponse, moderationButton, false);
+             displayableResponse, moderationButton, false, isStudentCommentsOnResponsesAllowed);
     }
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse,
-                                        InstructorFeedbackResultsModerationButton moderationButton, boolean isRowGrey) {
+                                        InstructorFeedbackResultsModerationButton moderationButton, boolean isRowGrey,
+                                        boolean isStudentCommentsOnResponsesAllowed) {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
         this.giverTeam = giverTeam;
 
@@ -58,6 +63,7 @@ public class InstructorFeedbackResultsResponseRow {
         this.moderationButton = moderationButton;
 
         this.isRowGrey = isRowGrey;
+        this.isStudentCommentsOnResponsesAllowed = isStudentCommentsOnResponsesAllowed;
     }
 
     public String getGiverDisplayableIdentifier() {
@@ -94,6 +100,14 @@ public class InstructorFeedbackResultsResponseRow {
 
     public boolean isRowGrey() {
         return isRowGrey;
+    }
+
+    public String getStudentComment() {
+        return studentComment;
+    }
+
+    public void setStudentComment(String studentComment) {
+        this.studentComment = studentComment;
     }
 
     public void setGiverProfilePictureLink(String giverProfilePictureLink) {
@@ -198,6 +212,14 @@ public class InstructorFeedbackResultsResponseRow {
 
     public void setCommentsOnResponsesAllowed(boolean isCommentsOnResponsesAllowed) {
         this.isCommentsOnResponsesAllowed = isCommentsOnResponsesAllowed;
+    }
+
+    public boolean isStudentCommentsOnResponsesAllowed() {
+        return isStudentCommentsOnResponsesAllowed;
+    }
+
+    public void setStudentCommentsOnResponsesAllowed(boolean isStudentCommentsOnResponsesAllowed) {
+        this.isStudentCommentsOnResponsesAllowed = isStudentCommentsOnResponsesAllowed;
     }
 
 }
