@@ -207,10 +207,11 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else if (viewType === undefined) {
-        if (commentIndex === undefined)
+        if (commentIndex === undefined) {
             id = `-${recipientIndex}-${giverIndex}-${qnIndex}-1`;
-        else
+        } else {
             id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
+        }
     } else {
         id = `-${viewType}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     }
@@ -566,6 +567,50 @@ function registerResponseCommentCheckboxEvent() {
     });
 }
 
+function registerResponseCommentsEventForFeedbackPage() {
+    $('body').on('click',
+            'div[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandlerForFeedbackPage);
+    const clickHandlerMap = new Map();
+    clickHandlerMap.set(
+            '.show-frc-add-form', [showResponseCommentAddForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.show-frc-edit-form', [showResponseCommentEditForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+            '.hide-frc-add-form', [hideResponseCommentAddForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.hide-frc-edit-form', [hideResponseCommentEditForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+    clickHandlerMap.set(
+            '.toggle-visib-add-form', [toggleVisibilityAddForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
+    clickHandlerMap.set(
+            '.toggle-visib-edit-form', [toggleVisibilityEditForm,
+                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
+
+    /* eslint-disable no-restricted-syntax */
+    for (const [className, clickHandlerAndParams] of clickHandlerMap) {
+        $(document).on('click', className, (e) => {
+            const ev = $(e.currentTarget);
+            const clickHandler = clickHandlerAndParams[0];
+            const params = clickHandlerAndParams[1].map(paramName => ev.data(paramName));
+            clickHandler(params[0], params[1], params[2], params[3], params[4], params[5]);
+        });
+    }
+    /* eslint-enable no-restricted-syntax */
+}
+
+function changeAddButtonFunctionAndDeleteComment(submitButton) {
+    const commentId = submitButton.attr('id').replace('commentdelete', '').slice(0, -2);
+    const addButtonId = `button_add_comment${commentId}`;
+    deleteCommentRow(submitButton);
+    const addButton = document.getElementById(addButtonId);
+    addButton.classList.remove('show-frc-edit-form');
+    addButton.classList.add('show-frc-add-form');
+}
+
 const deleteCommentHandlerForFeedbackPage = (e) => {
     const submitButton = $(e.currentTarget);
     e.preventDefault();
@@ -586,12 +631,7 @@ const deleteCommentHandlerForFeedbackPage = (e) => {
                 if (data.isError) {
                     showErrorMessage(data.errorMessage, submitButton);
                 } else {
-                    const addButtonId = 'button_add_comment' + submitButton.attr('id').replace("commentdelete", "").slice(0,-2);
-                    deleteCommentRow(submitButton);
-                    const addButton = document.getElementById(addButtonId);
-                    addButton.classList.remove('show-frc-edit-form');
-                    addButton.classList.add('show-frc-add-form');
-                    registerResponseCommentsEventForFeedbackPage();
+                    changeAddButtonFunctionAndDeleteComment(submitButton);
                 }
             },
         });
@@ -626,41 +666,6 @@ function registerResponseCommentCheckboxEventForFeedbackPage() {
         });
         $(`input[name=showresponsegiverto-${responseCommentId}]`).val(visibilityOptions.join(', '));
     });
-}
-
-function registerResponseCommentsEventForFeedbackPage() {
-    $('body').on('click',
-            'div[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandlerForFeedbackPage);
-    const clickHandlerMap = new Map();
-    clickHandlerMap.set(
-            '.show-frc-add-form', [showResponseCommentAddForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set(
-            '.show-frc-edit-form', [showResponseCommentEditForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
-    clickHandlerMap.set(
-            '.hide-frc-add-form', [hideResponseCommentAddForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set(
-            '.hide-frc-edit-form', [hideResponseCommentEditForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
-    clickHandlerMap.set(
-            '.toggle-visib-add-form', [toggleVisibilityAddForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'sectionindex']]);
-    clickHandlerMap.set(
-            '.toggle-visib-edit-form', [toggleVisibilityEditForm,
-                ['recipientindex', 'giverindex', 'qnindex', 'frcindex', 'sectionindex', 'viewtype']]);
-
-    /* eslint-disable no-restricted-syntax */
-    for (const [className, clickHandlerAndParams] of clickHandlerMap) {
-        $(document).on('click', className, (e) => {
-            const ev = $(e.currentTarget);
-            const clickHandler = clickHandlerAndParams[0];
-            const params = clickHandlerAndParams[1].map(paramName => ev.data(paramName));
-            clickHandler(params[0], params[1], params[2], params[3], params[4], params[5]);
-        });
-    }
-    /* eslint-enable no-restricted-syntax */
 }
 
 export {

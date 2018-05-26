@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -353,7 +352,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
         for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
             if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)
-                        || (isFeedbackSessionForInstructor && frcAttributes.giverEmail.equals(account.email))) {
+                        || isFeedbackSessionForInstructor && frcAttributes.giverEmail.equals(account.email)) {
                 FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes, frcAttributes.giverEmail,
                         giverName, recipientName, getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                         getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
@@ -386,19 +385,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 frcRow.enableEditDelete();
             }
         }
-    }
-
-    private List<FeedbackResponseCommentAttributes> filterFeedbackResponseCommentAttributes(CourseRoster roster,
-            List<FeedbackResponseCommentAttributes> frcList) {
-        List<FeedbackResponseCommentAttributes> filteredComments = new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseCommentAttributes comment : frcList) {
-            if (roster.isInstructorOfCourse(comment.giverEmail) || comment.giverEmail.equals(student.email)
-                    || comment.giverEmail.equals(student.team)) {
-                filteredComments.add(comment);
-            }
-        }
-        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(filteredComments);
-        return filteredComments;
     }
 
     /**

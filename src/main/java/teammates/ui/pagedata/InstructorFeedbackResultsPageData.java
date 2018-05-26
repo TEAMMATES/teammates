@@ -1116,7 +1116,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        bundle.getRecipientNameForResponse(response),
                                                                        bundle.getTeamNameForEmail(response.recipient),
                                                                        bundle.getResponseAnswerHtml(response, question),
-                                                                       moderationButton, isStudentCommentsOnResponsesAllowed);
+                                                                       moderationButton,
+                                                                       isStudentCommentsOnResponsesAllowed);
             if (isStudentCommentsOnResponsesAllowed) {
                 responseRow.setStudentComment(getResponseCommentText(response.giver, response));
             }
