@@ -261,11 +261,21 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             return "";
         }
 
-        StringBuilder fragments = new StringBuilder();
         List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(actualResponses);
 
+        boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
+                                              || question.recipientType == FeedbackParticipantType.OWN_TEAM;
+
+        String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
+        String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
+        List<Integer> ranksReceived = recipientRanks.get(currentUserIdentifier);
+        if (ranksReceived == null) {
+            return "";
+        }
+
+        StringBuilder fragments = new StringBuilder();
         Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
 
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(actualResponses);
@@ -277,19 +287,10 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
         String templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
-
-        boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
-                || question.recipientType == FeedbackParticipantType.OWN_TEAM;
-
-        String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
-        String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
-        List<Integer> ranksReceived = recipientRanks.get(currentUserIdentifier);
-        if (ranksReceived == null) {
-            return "";
-        }
         String ranksReceivedAsString = getListOfRanksReceivedAsString(ranksReceived);
         String overallRank = Integer.toString(recipientOverallRank.get(currentUserIdentifier));
         String name = bundle.getNameForEmail(currentUserIdentifier);
+
         String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(currentUserIdentifier)
                 ? Integer.toString(recipientOverallRankExceptSelf.get(currentUserIdentifier)) : "-";
         String selfRank = recipientSelfRanks.containsKey(currentUserIdentifier)
@@ -326,7 +327,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         } else {
             return getInstructorQuestionResultsStatisticsHtml(responses, bundle);
         }
-
     }
 
     private String getInstructorQuestionResultsStatisticsHtml(
