@@ -1016,12 +1016,10 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         "FSQTT.idOfInstructor1OfCourse1",
                         true),
                 r.getDestinationWithParams());
-        assertEquals(String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Min"),
-                r.getStatusMessage());
-        // All existing responses should be deleted as the options are edited
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS_CONSTRAINT_LESS_THAN_ZERO, r.getStatusMessage());
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
-        ______TS("edit max points less than 0 -> edit failure ");
+        ______TS("edit max points less than 1 -> edit failure ");
 
         additionalParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.(edited)",
@@ -1029,7 +1027,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "300",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "500",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "-1"
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "0"
         };
 
         params = ArrayUtils.addAll(baseParams, additionalParams);
@@ -1045,10 +1043,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                         "FSQTT.idOfInstructor1OfCourse1",
                         true),
                 r.getDestinationWithParams());
-        assertEquals(String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Max"),
-                r.getStatusMessage());
-        // All existing responses should be deleted as the options are edited
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS_CONSTRAINT_LESS_THAN_ONE, r.getStatusMessage());
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
         ______TS("edit min and max points constraint -> edit success ");
 
         additionalParams = new String[] {
@@ -1077,7 +1074,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
 
-        // All existing responses should be deleted as the options are edited
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
     }
 

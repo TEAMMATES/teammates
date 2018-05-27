@@ -527,14 +527,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         true),
                 result.getDestinationWithParams());
 
-        String errorMessage = String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Min");
-        assertEquals(errorMessage, result.getStatusMessage());
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS_CONSTRAINT_LESS_THAN_ZERO,
+                result.getStatusMessage());
 
-        ______TS("add max points less than 0 -> add failure ");
+        ______TS("add max points less than 1 -> add failure ");
 
         additionalParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "0",
         };
 
         params = ArrayUtils.addAll(baseParams, additionalParams);
@@ -551,8 +551,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         true),
                 result.getDestinationWithParams());
 
-        errorMessage = String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Max");
-        assertEquals(errorMessage, result.getStatusMessage());
+        assertEquals(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS_CONSTRAINT_LESS_THAN_ONE,
+                result.getStatusMessage());
     }
 
     @Test

@@ -812,11 +812,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
 
         if (minPointsConstraint != NO_MIN_MAX_CONSTRAINT && minPointsConstraint < 0) {
-            errors.add(String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Min"));
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MIN_POINTS_CONSTRAINT_LESS_THAN_ZERO);
         }
 
-        if (maxPointsConstraint != NO_MIN_MAX_CONSTRAINT && maxPointsConstraint < 0) {
-            errors.add(String.format(Const.FeedbackQuestion.CONST_SUM_ERROR_POINTS_CONSTRAINT_LESS_THAN_ZERO, "Max"));
+        if (maxPointsConstraint != NO_MIN_MAX_CONSTRAINT && maxPointsConstraint < 1) {
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MAX_POINTS_CONSTRAINT_LESS_THAN_ONE);
         }
 
         if (minPointsConstraint != NO_MIN_MAX_CONSTRAINT && maxPointsConstraint != NO_MIN_MAX_CONSTRAINT
