@@ -283,7 +283,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
         String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
-        String ranksReceived = getListOfRanksReceivedAsString(recipientRanks.get(currentUserIdentifier));
+        List<Integer> ranksReceived = recipientRanks.get(currentUserIdentifier);
+        if (ranksReceived == null) {
+            return "";
+        }
+        String ranksReceivedAsString = getListOfRanksReceivedAsString(ranksReceived);
         String overallRank = Integer.toString(recipientOverallRank.get(currentUserIdentifier));
         String name = bundle.getNameForEmail(currentUserIdentifier);
         String overallRankExceptSelf = recipientOverallRankExceptSelf.containsKey(currentUserIdentifier)
@@ -294,7 +298,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
                 Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
                 Slots.TEAM, SanitizationHelper.sanitizeForHtml(currentUserTeam),
-                Slots.RANK_RECIEVED, ranksReceived,
+                Slots.RANK_RECIEVED, ranksReceivedAsString,
                 Slots.RANK_SELF, selfRank,
                 Slots.RANK_OVERALL, overallRank,
                 Slots.RANK_EXCLUDING_SELF_OVERALL, overallRankExceptSelf));
