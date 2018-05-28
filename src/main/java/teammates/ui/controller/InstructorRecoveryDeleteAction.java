@@ -6,7 +6,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: Move a course to Recycle Bin (soft-delete) for an instructor.
+ * Action: Permanently delete a course from Recycle Bin for an instructor.
  */
 public class InstructorRecoveryDeleteAction extends Action {
 
@@ -37,7 +37,7 @@ public class InstructorRecoveryDeleteAction extends Action {
     }
 
     /**
-     * Checks if the action is executed in homepage or 'Courses' pages based on its redirection.
+     * Checks if the action is executed in homepage or 'Recovery' page based on its redirection.
      */
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
