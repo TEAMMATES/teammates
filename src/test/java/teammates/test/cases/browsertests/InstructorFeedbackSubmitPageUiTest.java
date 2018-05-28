@@ -134,8 +134,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "
-                + "14, 15, 16, 18, 19, 20, 21, 22, 23.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "3, 5, 7, 9, 10, 11, 12, 14, "
+                        + "15, 16, 18, 19, 20, 21, 22, 23.");
 
         assertNotNull(BackDoor.getFeedbackResponse(
                                    fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.alice.b@gmail.tmt"));
