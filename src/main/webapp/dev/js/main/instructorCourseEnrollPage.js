@@ -1,5 +1,5 @@
 /**
- * Holds Handsontable settings, reference and other information for Spreadsheet.
+ * Holds Handsontable settings, reference and other information for the spreadsheet interface.
  */
 import {
     prepareInstructorPages,
@@ -15,6 +15,8 @@ const container = document.getElementById('spreadsheet');
 
 /* global Handsontable:false */
 const handsontable = new Handsontable(container, {
+    autoWrapRow: true,
+    preventOverflow: 'horizontal',
     manualColumnResize: true,
     manualRowResize: true,
     manualColumnMove: true,
@@ -23,6 +25,7 @@ const handsontable = new Handsontable(container, {
     columnSorting: true,
     className: 'htCenter',
     sortIndicator: true,
+    minRows: 20,
     maxCols: 5,
     maxRows: 100,
     stretchH: 'all',
@@ -74,5 +77,5 @@ $(document).ready(() => {
         handsontable.alter('insert_row', null, emptyRowsCount);
     });
 
-    $('#student-data-spreadsheet-form').submit(() => updateDataDump());
+    $('#student-data-spreadsheet-form').submit(updateDataDump);
 });

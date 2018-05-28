@@ -15,7 +15,7 @@ function getUpdatedHeaderString(handsontableColHeader) {
 /**
  * Retrieves user data rows rows in the spreadsheet interface and transforms it into a string.
  *
- * Changes cell value null to ''. Filters empty rows in the process.
+ * Null value from cell is changed to empty string after .join(). Filters empty rows in the process.
  *
  * Example:
  * 2 by 5 spreadsheetData (before)
@@ -30,8 +30,9 @@ function getUpdatedHeaderString(handsontableColHeader) {
  * @returns {string} user data rows
  */
 function getUserDataRows(spreadsheetData) {
-    return spreadsheetData.map(row => (row.map(cell => (cell === null ? '' : cell))).join('|'))
-            .filter(row => row !== '||||') // remove empty rows
+    // needs to check for '' as an initial empty row with null values will be converted to e.g. "||||" after .map
+    return spreadsheetData.filter(row => (!row.every(cell => cell === null || cell === '')))
+            .map(row => row.join('|'))
             .join('\n');
 }
 
@@ -43,9 +44,7 @@ function getUserDataRows(spreadsheetData) {
  * @returns {Array} updated data
  */
 function getUpdatedData(spreadsheetDataRows) {
-    const data = [];
-    spreadsheetDataRows.map(userDataRows => data.push(userDataRows.split('|')));
-    return data;
+    return spreadsheetDataRows.map(row => row.split('|'));
 }
 
 export {
