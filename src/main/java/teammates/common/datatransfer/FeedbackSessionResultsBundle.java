@@ -1676,10 +1676,22 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            commentRow.append("," + commentGiverEmailNameTable.get(frc.giverEmail) + ","
-                    + getTextFromComment(frc.commentText));
+            if (!frc.giverEmail.equals(response.giver)) {
+                commentRow.append("," + commentGiverEmailNameTable.get(frc.giverEmail) + ","
+                                          + getTextFromComment(frc.commentText));
+            }
         }
         return commentRow;
+    }
+
+    public String getCsvDetailedStudentCommentOnResponse(FeedbackResponseAttributes response) {
+        List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
+        for (FeedbackResponseCommentAttributes frc : frcList) {
+            if (frc.giverEmail.equals(response.giver)) {
+                return getTextFromComment(frc.commentText);
+            }
+        }
+        return "";
     }
 
     public String getTextFromComment(Text commentText) {
