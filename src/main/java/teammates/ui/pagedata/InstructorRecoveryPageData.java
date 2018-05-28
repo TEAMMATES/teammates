@@ -75,7 +75,7 @@ public class InstructorRecoveryPageData extends PageData {
 
             ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_course_restore" + idx, "",
                     getInstructorRecoveryLink(),
-                    Const.Tooltips.COURSE_ARCHIVE, false, "");
+                    Const.Tooltips.COURSE_RESTORE, false, "");
 
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
