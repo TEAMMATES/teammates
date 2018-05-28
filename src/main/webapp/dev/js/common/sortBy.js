@@ -223,7 +223,7 @@ class TableButtonHelpers {
 function sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSortAscending) {
     let columnType = 0;
     let store = [];
-    const $rowList = $table.find('>tbody > tr');
+    const $rowList = $table.find('> tbody > tr');
 
     // Iterate through column's contents to decide which comparator to use
     for (let i = 0; i < $rowList.length; i += 1) {
