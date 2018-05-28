@@ -6,7 +6,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: Delete a course for an instructor.
+ * Action: Move a course to Recycle Bin (soft-delete) for an instructor.
  */
 public class InstructorCourseDeleteAction extends Action {
 
@@ -20,11 +20,15 @@ public class InstructorCourseDeleteAction extends Action {
                                     logic.getCourse(idOfCourseToDelete),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
-        /* Delete the course and setup status to be shown to user and admin */
-        logic.moveCourseToRecovery(idOfCourseToDelete);
-        String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
-        statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Course deleted: " + idOfCourseToDelete;
+        try {
+            /* Delete the course and setup status to be shown to user and admin */
+            logic.moveCourseToRecovery(idOfCourseToDelete);
+            String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
+            statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
+            statusToAdmin = "Course deleted: " + idOfCourseToDelete;
+        } catch (Exception e) {
+            setStatusForException(e);
+        }
 
         if (isRedirectedToHomePage()) {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
