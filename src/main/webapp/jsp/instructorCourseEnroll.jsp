@@ -19,14 +19,13 @@
 </c:set>
 <ti:instructorPage title="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
-  <div class="panel panel-primary panel-horizontal">
+  <div class="panel panel-primary">
     <div class="panel-body fill-plain">
       <div class="text-muted padding-15px">
-        <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then
+        <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more than
         <strong>100</strong> students into one course, divide students into sections containing no more than
         <strong>100</strong> students.
       </div>
-      <br>
       <form id="student-data-spreadsheet-form" action="${data.instructorCourseEnrollSaveLink}" method="post"
             class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
@@ -112,7 +111,7 @@
           </li>
           <li class="more-info-column-info">
             <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
-            <div class="more-info-email-details">
+            <div class="more-info-point-details">
               <ul>
                 <li class="more-info-email-details">
                   This need not be a Gmail address.

@@ -458,8 +458,9 @@ input.inline {
     width: 60%;
 }
 
-.panel-horizontal {
-    display: inline-block;
+.htCenter {
+    overflow-y: auto;
+    height: 500px;
 }
 
 .link-in-dark-bg:link {
@@ -876,12 +877,7 @@ Prevents content overflow in navbar. */
 }
 
 #enrollstudents {
-    max-width: 100%;
-    opacity: 0;
-    height: 0;
-    margin: 0;
-    padding: 0;
-    outline: 0;
+    display: none;
 }
 
 #number-of-rows {
