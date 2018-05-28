@@ -77,7 +77,7 @@ public class InstructorRecoveryPageData extends PageData {
                     getInstructorRecoveryLink(),
                     Const.Tooltips.COURSE_RESTORE, false, "");
 
-            String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
+            String deleteLink = getInstructorRecoveryDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs course-delete-link "
