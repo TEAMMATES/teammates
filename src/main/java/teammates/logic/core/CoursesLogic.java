@@ -501,14 +501,17 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors.
+     * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors
+     * except for courses in recycle bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
         List<String> courseIdList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorList) {
-            courseIdList.add(instructor.courseId);
+            if (!coursesDb.getCourse(instructor.courseId).isCourseDeleted()) {
+                courseIdList.add(instructor.courseId);
+            }
         }
 
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
@@ -533,7 +536,7 @@ public final class CoursesLogic {
         List<String> recoveryCourseIdList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorList) {
-            if (!coursesDb.getCourse(instructor.courseId).isDeletedAtNull()) {
+            if (coursesDb.getCourse(instructor.courseId).isCourseDeleted()) {
                 recoveryCourseIdList.add(instructor.courseId);
             }
         }
@@ -653,11 +656,11 @@ public final class CoursesLogic {
     /**
      * Move a course to recycle bin from its given corresponding ID.
      */
-    public void moveCourseToRecoveryCascade(String courseId) {
-        // studentsLogic.deleteStudentsForCourse(courseId);
-        // instructorsLogic.deleteInstructorsForCourse(courseId);
-        // feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
-        coursesDb.moveCourseToRecovery(courseId);
+    public void moveCourseToRecoveryCascade(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = coursesDb.getCourse(courseId);
+        course.setDeletedAt();
+        coursesDb.updateCourse(course);
     }
 
     /**
@@ -678,7 +681,9 @@ public final class CoursesLogic {
         List<String> courseIdList = new ArrayList<>();
 
         for (InstructorAttributes ia : instructorAttributesList) {
-            courseIdList.add(ia.courseId);
+            if (!coursesDb.getCourse(ia.courseId).isCourseDeleted()) {
+                courseIdList.add(ia.courseId);
+            }
         }
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
 

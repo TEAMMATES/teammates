@@ -655,7 +655,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return Courses the given instructors is in.
+     * @return Courses the given instructors is in except for courses in recycle bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
@@ -716,7 +716,7 @@ public class Logic {
      * Moves a course to recycle bin.
      * All data related will not be deleted.
      */
-    public void moveCourseToRecovery(String courseId) {
+    public void moveCourseToRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
         coursesLogic.moveCourseToRecoveryCascade(courseId);
     }
