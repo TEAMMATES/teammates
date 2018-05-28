@@ -1290,7 +1290,8 @@ public final class Const {
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_RESTORED = "The course %s has been restored.";
         public static final String COURSE_ALL_RESTORED = "All courses have been restored.";
-        public static final String COURSE_DELETED = "The course %s has been deleted.";
+        public static final String COURSE_DELETED =
+                "The course %s has been deleted. You can restore it from the recovery page.";
         public static final String COURSE_ALL_DELETED = "All courses have been deleted.";
         public static final String COURSE_EMPTY =
                 "You have not created any courses yet. Use the form above to create a course.";
