@@ -713,6 +713,16 @@ public class Logic {
     }
 
     /**
+     * Deletes all courses and all data related to the course
+     * (instructors, students, feedback sessions) from
+     * Recycle Bin.
+     */
+    public void deleteAllCourses(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(instructorList);
+        coursesLogic.deleteAllCoursesCascade(instructorList);
+    }
+
+    /**
      * Moves a course to recycle bin.
      * All data related will not be deleted.
      */

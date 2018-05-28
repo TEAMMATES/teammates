@@ -654,6 +654,28 @@ public final class CoursesLogic {
     }
 
     /**
+     * Delete all courses in Recycle Bin permanently from its given corresponding ID.
+     * This will also cascade the data in other databases which are related to this course.
+     */
+    public void deleteAllCoursesCascade(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+        List<String> recoveryCourseIdList = new ArrayList<>();
+
+        for (InstructorAttributes instructor : instructorList) {
+            if (coursesDb.getCourse(instructor.courseId).isCourseDeleted()) {
+                recoveryCourseIdList.add(instructor.courseId);
+            }
+        }
+
+        for (String courseId: recoveryCourseIdList) {
+            studentsLogic.deleteStudentsForCourse(courseId);
+            instructorsLogic.deleteInstructorsForCourse(courseId);
+            feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
+            coursesDb.deleteCourse(courseId);
+        }
+    }
+
+    /**
      * Move a course to recycle bin from its given corresponding ID.
      */
     public void moveCourseToRecoveryCascade(String courseId)

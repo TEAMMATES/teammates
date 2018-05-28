@@ -634,6 +634,14 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorRecoveryDeleteAllLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_DELETE_ALL;
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public static String getInstructorSubmissionStatusForFeedbackSession(FeedbackSessionAttributes session) {
         if (session.isOpened()) {
             return "Open";

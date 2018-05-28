@@ -109,6 +109,7 @@ public class ActionFactory {
         map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
         map(INSTRUCTOR_RECOVERY_PAGE, InstructorRecoveryPageAction.class);
         map(INSTRUCTOR_RECOVERY_DELETE, InstructorRecoveryDeleteAction.class);
+        map(INSTRUCTOR_RECOVERY_DELETE_ALL, InstructorRecoveryDeleteAllAction.class);
         map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_AJAX_PAGE, InstructorStudentListAjaxPageAction.class);
