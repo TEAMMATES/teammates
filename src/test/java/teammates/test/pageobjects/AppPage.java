@@ -663,6 +663,16 @@ public abstract class AppPage {
         return browser.driver.findElement(locator).getAttribute(attrName);
     }
 
+    protected void fillSpreadsheet(WebElement textBoxElement, String value) {
+        try {
+            scrollElementToFirstCellAndClick(textBoxElement);
+        } catch (WebDriverException e) {
+            System.out.println("Unexpectedly not able to click on the text box element because of: ");
+            System.out.println(e);
+        }
+        clearAndSendKeys(textBoxElement, value);
+    }
+
     protected void fillTextBox(WebElement textBoxElement, String value) {
         try {
             scrollElementToCenterAndClick(textBoxElement);
@@ -1415,6 +1425,13 @@ public abstract class AppPage {
                 + "const center = elementAbsoluteTop - (window.innerHeight / 2);"
                 + "window.scrollTo(0, center);", element);
         element.click();
+    }
+
+    /**
+     * Scrolls element to first cell in spreadsheet and clicks on it.
+     */
+    void scrollElementToFirstCellAndClick(WebElement element) {
+        new Actions(browser.driver).moveToElement(element, 60, 35).click().perform();
     }
 
     /**
