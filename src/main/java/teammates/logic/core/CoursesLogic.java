@@ -654,7 +654,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Delete all courses in Recycle Bin permanently from its given corresponding ID.
+     * Delete all courses in Recycle Bin permanently.
      * This will also cascade the data in other databases which are related to this course.
      */
     public void deleteAllCoursesCascade(List<InstructorAttributes> instructorList) {
@@ -693,6 +693,27 @@ public final class CoursesLogic {
         CourseAttributes course = coursesDb.getCourse(courseId);
         course.resetDeletedAt();
         coursesDb.updateCourse(course);
+    }
+
+    /**
+     * Recover all courses from recycle bin.
+     */
+    public void restoreAllCoursesFromRecoveryCascade(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+        List<String> recoveryCourseIdList = new ArrayList<>();
+
+        for (InstructorAttributes instructor : instructorList) {
+            if (coursesDb.getCourse(instructor.courseId).isCourseDeleted()) {
+                recoveryCourseIdList.add(instructor.courseId);
+            }
+        }
+
+        for (String courseId : recoveryCourseIdList) {
+            CourseAttributes course = coursesDb.getCourse(courseId);
+            course.resetDeletedAt();
+            coursesDb.updateCourse(course);
+        }
     }
 
     private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(

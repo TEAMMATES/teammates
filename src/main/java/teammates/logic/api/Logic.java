@@ -734,9 +734,19 @@ public class Logic {
     /**
      * Recovers a course and all related data from recycle bin.
      */
-    public void restoreCourseFromRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+    public void restoreCourseFromRecovery(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
         coursesLogic.restoreCourseFromRecoveryCascade(courseId);
+    }
+
+    /**
+     * Recovers all courses and all related data from recycle bin.
+     */
+    public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(instructorList);
+        coursesLogic.restoreAllCoursesFromRecoveryCascade(instructorList);
     }
 
     /**

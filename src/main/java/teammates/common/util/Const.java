@@ -189,6 +189,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
                         ActionURIs.INSTRUCTOR_RECOVERY_RESTORE,
+                        ActionURIs.INSTRUCTOR_RECOVERY_RESTORE_ALL,
                         ActionURIs.INSTRUCTOR_RECOVERY_DELETE,
                         ActionURIs.INSTRUCTOR_RECOVERY_DELETE_ALL,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
@@ -1005,6 +1006,7 @@ public final class Const {
 
         public static final String INSTRUCTOR_RECOVERY_PAGE = "/page/instructorRecoveryPage";
         public static final String INSTRUCTOR_RECOVERY_RESTORE = "/page/instructorRecoveryRestore";
+        public static final String INSTRUCTOR_RECOVERY_RESTORE_ALL = "/page/instructorRecoveryRestoreAll";
         public static final String INSTRUCTOR_RECOVERY_DELETE = "/page/instructorRecoveryDelete";
         public static final String INSTRUCTOR_RECOVERY_DELETE_ALL = "/page/instructorRecoveryDeleteAll";
 
@@ -1287,6 +1289,7 @@ public final class Const {
                 + "Go there to undo the archiving and bring the course back to the home page.";
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_RESTORED = "The course %s has been restored.";
+        public static final String COURSE_ALL_RESTORED = "All courses have been restored.";
         public static final String COURSE_DELETED = "The course %s has been deleted.";
         public static final String COURSE_ALL_DELETED = "All courses have been deleted.";
         public static final String COURSE_EMPTY =

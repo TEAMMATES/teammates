@@ -630,6 +630,14 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorRecoveryRestoreAllLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_RESTORE_ALL;
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorRecoveryDeleteLink(String courseId, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
