@@ -82,24 +82,24 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public String getDeletedAtDateString() {
-        if (deletedAt == null) {
-            return Const.EMPTY_STRING;
+        if (this.deletedAt == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
         } else {
             return TimeHelper.formatDateForInstructorCoursesPage(deletedAt, timeZone);
         }
     }
 
     public String getDeletedAtDateStamp() {
-        if (deletedAt == null) {
-            return Const.EMPTY_STRING;
+        if (this.deletedAt == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
         } else {
             return TimeHelper.formatDateTimeToIso8601Utc(deletedAt);
         }
     }
 
     public String getDeletedAtFullDateTimeString() {
-        if (deletedAt == null) {
-            return Const.EMPTY_STRING;
+        if (this.deletedAt == null) {
+            return Const.DELETION_DATE_NOT_APPLICABLE;
         } else {
             LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedAt, timeZone);
             return TimeHelper.formatDateTimeForDisplay(localDateTime);
@@ -110,12 +110,16 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.deletedAt = Instant.now();
     }
 
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
     public void resetDeletedAt() {
         this.deletedAt = null;
     }
 
-    public boolean isDeletedAtNull() {
-        return deletedAt == null;
+    public boolean isCourseDeleted() {
+        return this.deletedAt != null;
     }
 
     public void setTimeZone(ZoneId timeZone) {
@@ -137,7 +141,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone().getId(), createdAt);
+        return new Course(getId(), getName(), getTimeZone().getId(), createdAt, null);
     }
 
     @Override
@@ -201,6 +205,12 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             if (createdAt != null) {
                 courseAttributes.createdAt = createdAt;
             }
+
+            return this;
+        }
+
+        public Builder withDeletedAt(Instant deletedAt) {
+            courseAttributes.deletedAt = deletedAt;
 
             return this;
         }

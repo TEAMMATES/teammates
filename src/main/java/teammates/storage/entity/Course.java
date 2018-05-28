@@ -34,7 +34,7 @@ public class Course extends BaseEntity {
         // required by Objectify
     }
 
-    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt) {
+    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt, Instant deletedAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
@@ -47,7 +47,7 @@ public class Course extends BaseEntity {
         } else {
             this.setCreatedAt(createdAt);
         }
-        this.deletedAt = null;
+        this.setDeletedAt(deletedAt);
     }
 
     public String getUniqueId() {
@@ -86,8 +86,16 @@ public class Course extends BaseEntity {
         this.deletedAt = TimeHelper.convertInstantToDate(Instant.now());
     }
 
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = TimeHelper.convertInstantToDate(deletedAt);
+    }
+
     public void resetDeletedAt() {
         this.deletedAt = null;
+    }
+
+    public boolean isCourseDeleted() {
+        return deletedAt != null;
     }
 
     public String getTimeZone() {
