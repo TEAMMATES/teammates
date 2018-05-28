@@ -734,9 +734,9 @@ public class Logic {
     /**
      * Recovers a course and all related data from recycle bin.
      */
-    public void recoverCourseFromRecovery(String courseId) {
+    public void restoreCourseFromRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
-        coursesLogic.recoverCourseFromRecoveryCascade(courseId);
+        coursesLogic.restoreCourseFromRecoveryCascade(courseId);
     }
 
     /**

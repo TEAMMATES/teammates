@@ -667,7 +667,7 @@ public final class CoursesLogic {
             }
         }
 
-        for (String courseId: recoveryCourseIdList) {
+        for (String courseId : recoveryCourseIdList) {
             studentsLogic.deleteStudentsForCourse(courseId);
             instructorsLogic.deleteInstructorsForCourse(courseId);
             feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
@@ -688,11 +688,11 @@ public final class CoursesLogic {
     /**
      * Recover a course from recycle bin from its given corresponding ID.
      */
-    public void recoverCourseFromRecoveryCascade(String courseId) {
-        // studentsLogic.deleteStudentsForCourse(courseId);
-        // instructorsLogic.deleteInstructorsForCourse(courseId);
-        // feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
-        coursesDb.recoverCourseFromRecovery(courseId);
+    public void restoreCourseFromRecoveryCascade(String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        CourseAttributes course = coursesDb.getCourse(courseId);
+        course.resetDeletedAt();
+        coursesDb.updateCourse(course);
     }
 
     private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(

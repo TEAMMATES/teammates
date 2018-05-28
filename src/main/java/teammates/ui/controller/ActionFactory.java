@@ -108,6 +108,7 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE, InstructorFeedbackSubmissionEditSaveAction.class);
         map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
         map(INSTRUCTOR_RECOVERY_PAGE, InstructorRecoveryPageAction.class);
+        map(INSTRUCTOR_RECOVERY_RESTORE, InstructorRecoveryRestoreAction.class);
         map(INSTRUCTOR_RECOVERY_DELETE, InstructorRecoveryDeleteAction.class);
         map(INSTRUCTOR_RECOVERY_DELETE_ALL, InstructorRecoveryDeleteAllAction.class);
         map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
