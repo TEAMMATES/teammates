@@ -8,7 +8,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -69,17 +68,20 @@ public abstract class FeedbackQuestionDetails {
 
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
     public String getCsvDetailedResponsesHeader(int noOfComments) {
-        String header = "Team" + "," + "Giver's Full Name" + ","
-                        + "Giver's Last Name" + "," + "Giver's Email" + ","
-                        + "Recipient's Team" + "," + "Recipient's Full Name" + ","
-                        + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-                        + getCsvHeader();
-        if(isStudentCommentsOnResponsesAllowed()) {
-            header += "," + "Respondent Comments";
+        StringBuilder header = new StringBuilder(1000);
+        String headerString = "Team" + "," + "Giver's Full Name" + ","
+                                      + "Giver's Last Name" + "," + "Giver's Email" + ","
+                                      + "Recipient's Team" + "," + "Recipient's Full Name" + ","
+                                      + "Recipient's Last Name" + "," + "Recipient's Email" + ","
+                                      + getCsvHeader();
+        header.append(headerString);
+
+        if (isStudentCommentsOnResponsesAllowed()) {
+            headerString = ',' + "Respondent Comments";
+            header.append(headerString);
         }
-        header += getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
-                          + System.lineSeparator();
-        return header;
+        header.append(getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)).append(System.lineSeparator());
+        return header.toString();
     }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
@@ -97,7 +99,8 @@ public abstract class FeedbackQuestionDetails {
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
-        String detailedResponseRow = SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
+        StringBuilder detailedResponseRow = new StringBuilder(1000);
+        String detailedResponseRowString = SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
@@ -106,14 +109,15 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question);
-        if(isStudentCommentsOnResponsesAllowed() && hasCommentsForResponses) {
-                detailedResponseRow += ","
-                                    + fsrBundle.getCsvDetailedStudentCommentOnResponse(feedbackResponseAttributes);
+        detailedResponseRow.append(detailedResponseRowString);
+        if (isStudentCommentsOnResponsesAllowed() && hasCommentsForResponses) {
+            detailedResponseRow.append(',')
+                    .append(fsrBundle.getCsvDetailedStudentCommentOnResponse(feedbackResponseAttributes));
         }
-        detailedResponseRow += (hasCommentsForResponses
-                            ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
-                            + System.lineSeparator();
-        return detailedResponseRow;
+        detailedResponseRow.append(hasCommentsForResponses
+                ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
+                .append(System.lineSeparator());
+        return detailedResponseRow.toString();
     }
 
     public String getQuestionText() {
