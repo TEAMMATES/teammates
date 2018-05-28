@@ -22,8 +22,6 @@ public final class Const {
      * This section holds constants that are defined as constants primarily
      * because they are repeated in many places.
      */
-    public static final String EMPTY_STRING = "";
-
     public static final String HTML_BR_TAG = "<br>";
 
     public static final String USER_NOBODY_TEXT = "-";
@@ -32,6 +30,7 @@ public final class Const {
     public static final String JOIN_LINK = "[Join Link]";
 
     public static final String NONE_OF_THE_ABOVE = "None of the above";
+    public static final String DELETION_DATE_NOT_APPLICABLE = "Not Applicable";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
@@ -621,6 +620,7 @@ public final class Const {
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String COURSE_INDEX = "courseidx";
+        public static final String COURSE_DELETION_DATE = "coursedeletiondate";
         public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
         public static final String INSTRUCTOR_ID = "instructorid";
