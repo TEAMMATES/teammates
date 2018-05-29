@@ -534,7 +534,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         additionalParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "-1",
         };
 
         params = ArrayUtils.addAll(baseParams, additionalParams);

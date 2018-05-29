@@ -1027,7 +1027,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION, "300",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, "500",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS_HAS_MAXPOINTS_CONSTRAINT, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "0"
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSMAX, "-1"
         };
 
         params = ArrayUtils.addAll(baseParams, additionalParams);
