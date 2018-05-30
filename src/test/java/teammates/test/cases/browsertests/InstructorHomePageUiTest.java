@@ -515,6 +515,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getCourse(courseId));
         homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
 
+        BackDoor.deleteCourse(courseId);
+
         //delete the other course as well
         courseId = testData.courses.get("CHomeUiT.CS1101").getId();
         BackDoor.deleteCourse(courseId);
