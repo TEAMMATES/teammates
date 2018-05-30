@@ -271,7 +271,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
                     getResponseVisibilityMap(questionAttributes, false);
             Map<String, String> commentGiverEmailNameTable = bundle.commentGiverEmailNameTable;
-            if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
+            if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()
+                    && bundle.commentsForResponses.containsKey(existingResponse.getId())) {
                 comment = getResponseCommentsForQuestion(questionAttributes,
                         bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
                         responseVisibilityMap, commentGiverEmailNameTable);
@@ -350,15 +351,29 @@ public class FeedbackSubmissionEditPageData extends PageData {
             String recipientName, Map<FeedbackParticipantType, Boolean> responseVisibilityMap, Map<String,
             String> commentGiverEmailNameTable) {
         ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
-        for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
-            if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)
-                        || isFeedbackSessionForInstructor && frcAttributes.giverEmail.equals(account.email)) {
-                FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes, frcAttributes.giverEmail,
-                        giverName, recipientName, getResponseCommentVisibilityString(frcAttributes, questionAttributes),
-                        getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
-                        responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
-                setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
-                return frcRow;
+        if (isFeedbackSessionForInstructor) {
+            for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
+                if (frcAttributes.giverEmail.equals(account.email)) {
+
+                    FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes, frcAttributes.giverEmail,
+                            giverName, recipientName, getResponseCommentVisibilityString(frcAttributes, questionAttributes),
+                            getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
+                            responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
+                    setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
+                    return frcRow;
+                }
+            }
+        } else {
+            for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
+                if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)) {
+
+                    FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes, frcAttributes.giverEmail,
+                            giverName, recipientName, getResponseCommentVisibilityString(frcAttributes, questionAttributes),
+                            getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
+                            responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
+                    setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
+                    return frcRow;
+                }
             }
         }
         return null;

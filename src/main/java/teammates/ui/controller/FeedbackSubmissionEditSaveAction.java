@@ -255,18 +255,22 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     logic.getFeedbackResponse(questionIdsForComments.get(commentIndex),
                             responseGiverMapForComments.get(commentIndex),
                             responseRecipientMapForComments.get(commentIndex));
-            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText);
+            String giverRole =
+                    getRequestParamValue(Const.ParamsNames.GIVER_ROLE + commentIndex);
+            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText, giverRole);
 
         }
     }
 
     private void updateResponseComment(String showCommentTo, String showGiverNameTo, String commentId,
-                                       FeedbackResponseAttributes response, String updatedCommentText) {
+                                       FeedbackResponseAttributes response, String updatedCommentText,
+                                       String giverRole) {
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, response.giver, new Text(updatedCommentText))
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
+                .withGiverRole(giverRole)
                 .build();
 
         feedbackResponseComment.setId(Long.parseLong(commentId));
