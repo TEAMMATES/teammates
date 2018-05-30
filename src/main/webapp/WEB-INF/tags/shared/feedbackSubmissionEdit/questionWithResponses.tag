@@ -1,11 +1,9 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="feedbackSubmissionEdit.jsp - Display question with responses" pageEncoding="UTF-8" %>
 <%@ tag import="teammates.common.util.Const"%>
-<%@ tag import="teammates.common.datatransfer.questions.FeedbackQuestionType"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
-<%@ attribute name="feedbackConstSumQuestionDetails" type="teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails"%>
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
 <%@ attribute name="isShowRealQuestionNumber" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
@@ -59,7 +57,7 @@
         </ul>
       </c:if>
       <c:if test="${not isRecipientNameHidden}">
-        <div class="evalueeLabel-${questionWithResponses.question.qnIndx} col-sm-12 form-inline mobile-align-left">
+        <div class="evalueeLabel-${questionWithResponses.question.qnIndx} form-inline mobile-align-left">
           <label for="input" style="text-indent: 24px">
             <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
               Evaluee/Recipient
