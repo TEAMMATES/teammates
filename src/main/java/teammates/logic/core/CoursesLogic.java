@@ -475,7 +475,9 @@ public final class CoursesLogic {
 
         List<String> courseIds = new ArrayList<>();
         for (StudentAttributes s : studentDataList) {
-            courseIds.add(s.course);
+            if (!getCourse(s.course).isCourseDeleted()) {
+                courseIds.add(s.course);
+            }
         }
         return coursesDb.getCourses(courseIds);
     }
