@@ -1288,11 +1288,13 @@ public final class Const {
                 COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>"
                 + "Go there to undo the archiving and bring the course back to the home page.";
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN =
+                "The course %s has been deleted. You can restore it from the recovery page.";
         public static final String COURSE_RESTORED = "The course %s has been restored.";
         public static final String COURSE_ALL_RESTORED = "All courses have been restored.";
         public static final String COURSE_DELETED =
-                "The course %s has been deleted. You can restore it from the recovery page.";
-        public static final String COURSE_ALL_DELETED = "All courses have been deleted.";
+                "The course %s has been permanently deleted.";
+        public static final String COURSE_ALL_DELETED = "All courses have been permanently deleted.";
         public static final String COURSE_EMPTY =
                 "You have not created any courses yet. Use the form above to create a course.";
         public static final String COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS =
