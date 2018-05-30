@@ -8,7 +8,7 @@ import teammates.common.util.StatusMessageColor;
 /**
  * Action: Restore a deleted course from Recycle Bin for an instructor.
  */
-public class InstructorRecoveryRestoreAction extends Action {
+public class InstructorRecoveryRestoreCourseAction extends Action {
 
     @Override
     public ActionResult execute() {

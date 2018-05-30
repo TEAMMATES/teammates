@@ -9,9 +9,9 @@ import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorRecoveryPageData;
 
 /**
- * Action: Restore all courses from Recycle Bin for an instructor.
+ * Action: Permanently delete all courses from Recycle Bin for an instructor.
  */
-public class InstructorRecoveryRestoreAllAction extends Action {
+public class InstructorRecoveryDeleteAllCoursesAction extends Action {
 
     @Override
     public ActionResult execute() {
@@ -21,12 +21,12 @@ public class InstructorRecoveryRestoreAllAction extends Action {
         InstructorRecoveryPageData data = new InstructorRecoveryPageData(account, sessionToken);
 
         try {
-            /* Restore all courses and setup status to be shown to user and admin */
+            /* Permanently delete all courses and setup status to be shown to user and admin */
             List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
-            logic.restoreAllCoursesFromRecovery(instructorList);
-            String statusMessage = Const.StatusMessages.COURSE_ALL_RESTORED;
+            logic.deleteAllCourses(instructorList);
+            String statusMessage = Const.StatusMessages.COURSE_ALL_DELETED;
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
-            statusToAdmin = "All courses restored";
+            statusToAdmin = "All courses deleted";
         } catch (Exception e) {
             setStatusForException(e);
         }

@@ -1005,10 +1005,10 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/instructorFeedbackSubmissionEditSave";
 
         public static final String INSTRUCTOR_RECOVERY_PAGE = "/page/instructorRecoveryPage";
-        public static final String INSTRUCTOR_RECOVERY_RESTORE = "/page/instructorRecoveryRestore";
-        public static final String INSTRUCTOR_RECOVERY_RESTORE_ALL = "/page/instructorRecoveryRestoreAll";
-        public static final String INSTRUCTOR_RECOVERY_DELETE = "/page/instructorRecoveryDelete";
-        public static final String INSTRUCTOR_RECOVERY_DELETE_ALL = "/page/instructorRecoveryDeleteAll";
+        public static final String INSTRUCTOR_RECOVERY_RESTORE = "/page/instructorRecoveryRestoreCourse";
+        public static final String INSTRUCTOR_RECOVERY_RESTORE_ALL = "/page/instructorRecoveryRestoreAllCourses";
+        public static final String INSTRUCTOR_RECOVERY_DELETE = "/page/instructorRecoveryDeleteCourse";
+        public static final String INSTRUCTOR_RECOVERY_DELETE_ALL = "/page/instructorRecoveryDeleteAllCourses";
 
         public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
