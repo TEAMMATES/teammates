@@ -12,6 +12,8 @@ import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
+import java.io.IOException;
+
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE}.
  */
@@ -28,7 +30,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testClosedSessionSubmitAction();
+        testAddCommentsWithoutResponses();
         testSubmitAction();
+        testAddCommentsToResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
         testModifyData();
         // No links to test
         testQuestionTypesSubmitAction();
@@ -74,6 +80,19 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
 
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
+    }
+
+    private void testAddCommentsWithoutResponses() {
+        ______TS("add comments on questions without responses: no effect");
+
+        logout();
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.addFeedbackResponseComment("-0-1-5", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
     private void testSubmitAction() throws Exception {
@@ -304,6 +323,64 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
+    }
+
+    private void testAddCommentsToResponses() throws IOException {
+        ______TS("add new comments on questions with responses and verify add comments without responses action");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageNoComments.html");
+
+        submitPage.addFeedbackResponseComment("-0-1-6", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-6", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("-2-1-6", "New MCQ Comment 3");
+        submitPage.addFeedbackResponseComment("-0-1-9", "New MCQ Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-11", "New MCQ Comment 5");
+        submitPage.addFeedbackResponseComment("-0-1-15", "New MCQ Comment 6");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
+
+    private void testEditCommentsActionAfterAddingComments() throws IOException {
+        ______TS("edit comments on responses and verify added comments action");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAddedCommentOnResponses.html");
+
+        submitPage.editFeedbackResponseComment("-0-1-6-1", "Edited MCQ Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-6-1", "Edited MCQ Comment 2");
+        submitPage.editFeedbackResponseComment("-2-1-6-1", "Edited MCQ Comment 3");
+        submitPage.editFeedbackResponseComment("-0-1-9-1", "Edited MCQ Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-11-1", "Edited MCQ Comment 5");
+        submitPage.editFeedbackResponseComment("-0-1-15-1", "Edited MCQ Comment 6");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
+
+    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
+        ______TS("delete comments on responses and verify edited comments action");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditedComments.html");
+
+        // mcq questions comments
+        submitPage.deleteFeedbackResponseComment("-0-1-6-1");
+        submitPage.verifyRowMissing("-0-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-6-1");
+        submitPage.verifyRowMissing("-1-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-2-1-6-1");
+        submitPage.verifyRowMissing("-2-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-9-1");
+        submitPage.verifyRowMissing("-0-1-9-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-11-1");
+        submitPage.verifyRowMissing("-0-1-11-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-15-1");
+        submitPage.verifyRowMissing("-0-1-15-1");
     }
 
     /**

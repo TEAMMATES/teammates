@@ -76,6 +76,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.GIVER_ROLE, "Instructor",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS"
         };

@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
 import java.time.Instant;
 
 import org.openqa.selenium.By;
@@ -38,11 +39,74 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
+        testAddCommentsWithoutResponses();
         testSubmitAction();
+        testAddCommentsToResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
         testInputValidation();
         testLinks();
         testResponsiveSubmission();
         testModifyData();
+    }
+
+    private void testAddCommentsToResponses() throws IOException {
+        ______TS("add new comments on questions with responses and verify add comments without responses action");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageNoCommentsPage.html");
+
+        submitPage.addFeedbackResponseComment("-0-1-6", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-10", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("-0-1-12", "New MCQ Comment 3");
+        submitPage.addFeedbackResponseComment("-0-1-16", "New MCQ Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-7", "New MCQ team Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-7", "New MCQ team Comment 2");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
+
+    private void testEditCommentsActionAfterAddingComments() throws IOException {
+        ______TS("edit comments on responses and verify added comments action");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageAddedCommentOnResponses.html");
+
+        submitPage.editFeedbackResponseComment("-0-1-6-1", "Edited MCQ Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-10-1", "Edited MCQ Comment 2");
+        submitPage.editFeedbackResponseComment("-0-1-12-1", "Edited MCQ Comment 3");
+        submitPage.editFeedbackResponseComment("-0-1-16-1", "Edited MCQ Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-7-1", "Edited MCQ team Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-7-1", "Edited MCQ team Comment 2");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+    }
+
+    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
+        ______TS("delete comments on responses and verify edited comments action");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEditedComments.html");
+
+        submitPage.deleteFeedbackResponseComment("-0-1-6-1");
+        submitPage.verifyRowMissing("-0-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-10-1");
+        submitPage.verifyRowMissing("-0-1-10-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-12-1");
+        submitPage.verifyRowMissing("-0-1-12-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-16-1");
+        submitPage.verifyRowMissing("-0-1-16-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-7-1");
+        submitPage.verifyRowMissing("-0-1-7-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-7-1");
+        submitPage.verifyRowMissing("-1-1-7-1");
     }
 
     private void testLinks() {
@@ -112,6 +176,24 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible("Alice", "Not Yet Visible Session");
         fsNotVisiblePage.verifyHtmlMainContent("/studentFeedbackSubmitPageNotYetVisible.html");
 
+    }
+
+    private void testAddCommentsWithoutResponses() {
+        ______TS("add comments on questions without responses: no effect");
+
+        logout();
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.addFeedbackResponseComment("-0-1-6", "Comment without response");
+        submitPage.addFeedbackResponseComment("-1-1-7", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-10", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-12", "Comment without response");
+        submitPage.addFeedbackResponseComment("-0-1-16", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
     private void testSubmitAction() throws Exception {

@@ -395,6 +395,31 @@
         "RECEIVER"
       ]
     },
+    "qn6InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "creatorEmail": "IESFPTCourseintr@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 6,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
