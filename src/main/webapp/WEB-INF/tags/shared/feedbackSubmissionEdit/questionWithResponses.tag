@@ -56,6 +56,7 @@
           </c:forEach>
         </ul>
       </c:if>
+      <div class="constraints-${questionWithResponses.question.qnIndx}"></div>
       <c:if test="${not isRecipientNameHidden}">
         <div class="evalueeLabel-${questionWithResponses.question.qnIndx} form-inline mobile-align-left">
           <label for="input" style="text-indent: 24px">

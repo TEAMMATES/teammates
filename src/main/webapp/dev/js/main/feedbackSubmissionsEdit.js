@@ -475,8 +475,8 @@ function prepareConstSumQuestions() {
         if (!$('#response_submit_button').is(':disabled')
             || isPreview()) {
             // Add elements for displaying instructions to Constant Sum questions
-            $(`.evalueeLabel-${qnNum}`).each(function () {
-                $(this).before('<p class="text-color-blue align-left text-bold">Note:</p>' +
+            $(`.constraints-${qnNum}`).each(function () {
+                $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>' +
                         `<p class="text-color-blue padding-left-35px" id="constSumInstruction-${qnNum}"></p>` +
                         '<hr class="margin-top-0 border-top-dark-gray">');
             });
@@ -495,8 +495,11 @@ function prepareConstSumQuestions() {
                 $(`#constSumInfo-${qnNum}-${numResponses - 1}`).show();
             } else {
                 $(`[id^="constSumInfo-${qnNum}-"]`).show();
-                $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('padding-left-55px');
-                $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('margin-top-15px');
+
+                if ($(`.evalueeLabel-${qnNum}`).length) {
+                    $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('padding-left-55px');
+                    $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('margin-top-15px');
+                }
             }
         } else {
             $(`[id^="constSumInfo-${qnNum}-"]`).hide();
