@@ -19,6 +19,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
@@ -29,6 +30,11 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
+    private static final Logger log = Logger.getLogger();
+
+    private boolean hasAssignedWeights;
+    private List<Double> mcqWeights;
+    private double mcqOtherWeight;
     private int numOfMcqChoices;
     private List<String> mcqChoices;
     private boolean otherEnabled;
@@ -38,9 +44,12 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public FeedbackMcqQuestionDetails() {
         super(FeedbackQuestionType.MCQ);
 
+        this.hasAssignedWeights = false;
+        this.mcqWeights = new ArrayList<>();
         this.numOfMcqChoices = 0;
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
+        this.mcqOtherWeight = 0.0;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
@@ -55,6 +64,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     public List<String> getMcqChoices() {
         return mcqChoices;
+    }
+
+    boolean hasAssignedWeights() {
+        return hasAssignedWeights;
+    }
+
+    List<Double> getMcqWeights() {
+        return new ArrayList<>(mcqWeights);
+    }
+
+    double getMcqOtherWeight() {
+        return mcqOtherWeight;
     }
 
     public FeedbackParticipantType getGenerateOptionsFor() {
@@ -95,19 +116,73 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 }
             }
 
-            setMcqQuestionDetails(numOfMcqChoices, mcqChoices, mcqOtherEnabled);
+            String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED);
+            boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
+            List<Double> mcqWeights = getMcqWeights(
+                    requestParameters, numMcqChoicesCreated, hasAssignedWeights);
+            double mcqOtherWeight = getMcqOtherWeight(requestParameters, mcqOtherEnabled, hasAssignedWeights);
+            setMcqQuestionDetails(
+                    numOfMcqChoices, mcqChoices, mcqOtherEnabled, hasAssignedWeights, mcqWeights, mcqOtherWeight);
         } else {
             setMcqQuestionDetails(FeedbackParticipantType.valueOf(generatedMcqOptions));
         }
         return true;
     }
 
-    private void setMcqQuestionDetails(int numOfMcqChoices,
-            List<String> mcqChoices,
-            boolean otherEnabled) {
+    private List<Double> getMcqWeights(Map<String, String[]> requestParameters,
+            int numMcqChoicesCreated, boolean hasAssignedWeights) {
+        List<Double> mcqWeights = new ArrayList<>();
+
+        if (!hasAssignedWeights) {
+            return mcqWeights;
+        }
+
+        for (int i = 0; i < numMcqChoicesCreated; i++) {
+            String choice = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
+            String weight = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-" + i);
+
+            if (choice != null && !choice.trim().isEmpty()) {
+                try {
+                    mcqWeights.add(Double.parseDouble(weight));
+                } catch (NumberFormatException e) {
+                    log.warning("Failed to parse weight for MCQ question: " + weight);
+                }
+            }
+        }
+
+        return mcqWeights;
+    }
+
+    private double getMcqOtherWeight(Map<String, String[]>requestParameters,
+            boolean mcqOtherEnabled, boolean hasAssignedWeights) {
+
+        double mcqOtherWeight = 0.0;
+
+        if (!hasAssignedWeights || !mcqOtherEnabled) {
+            return mcqOtherWeight;
+        }
+
+        String weightOther = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT);
+        try {
+            mcqOtherWeight = Double.parseDouble(weightOther);
+        } catch (NumberFormatException e) {
+            log.warning("Failed to parse weight of MCQ question: " + weightOther);
+        }
+        return mcqOtherWeight;
+    }
+
+    private void setMcqQuestionDetails(int numOfMcqChoices, List<String> mcqChoices, boolean otherEnabled,
+            boolean hasAssignedWeights, List<Double> mcqWeights, double mcqOtherWeight) {
         this.numOfMcqChoices = numOfMcqChoices;
         this.mcqChoices = mcqChoices;
         this.otherEnabled = otherEnabled;
+        this.hasAssignedWeights = hasAssignedWeights;
+        this.mcqWeights = mcqWeights;
+        this.mcqOtherWeight = mcqOtherWeight;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
@@ -457,11 +532,19 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
-        if (generateOptionsFor == FeedbackParticipantType.NONE
-                && numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
-            errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
-                       + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
+        if (generateOptionsFor == FeedbackParticipantType.NONE) {
+
+            if (numOfMcqChoices < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
+                        + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
+            }
+
+            // If weights are enabled, number of choices and weights should be same.
+            if (hasAssignedWeights && mcqChoices.size() != mcqWeights.size()) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
+            }
         }
+
         //TODO: check that mcq options do not repeat. needed?
 
         return errors;

@@ -491,6 +491,9 @@ public final class Const {
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ + ". Minimum number of options is: ";
         public static final String MCQ_ERROR_INVALID_OPTION =
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
+        public static final String MCQ_ERROR_INVALID_WEIGHT =
+                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
+                + " must be valid numbers with precision up to 2 decimal places.";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
@@ -707,6 +710,9 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqOtherOption";
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
         public static final String FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER = "mcqIsOtherOptionAnswer";
+        public static final String FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED = "mcqAssignWeights";
+        public static final String FEEDBACK_QUESTION_MCQ_WEIGHT = "mcqWeight";
+        public static final String FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT = "mcqOtherWeight";
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
