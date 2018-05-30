@@ -1,5 +1,9 @@
 package teammates.ui.controller;
 
+import java.time.ZoneId;
+import java.util.List;
+
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -40,6 +44,20 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());
             log.info(e.getMessage());
+        }
+
+        // When instructor is added by admin and only sample courses are included and their timezones are updated
+        if(institute != null) {
+            List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
+
+            for (CourseAttributes course: courses) {
+                try {
+                    logic.updateCourse(course.getId(), course.getName(), ZoneId.systemDefault().toString());
+                } catch (InvalidParametersException e) {
+                    setStatusForException(e, e.getMessage());
+                    log.info(e.getMessage());
+                }
+            }
         }
 
         /* Set status to be shown to admin */
