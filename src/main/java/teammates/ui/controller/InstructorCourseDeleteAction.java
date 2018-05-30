@@ -25,7 +25,7 @@ public class InstructorCourseDeleteAction extends Action {
             logic.moveCourseToRecovery(idOfCourseToDelete);
             String statusMessage = String.format(Const.StatusMessages.COURSE_DELETED, idOfCourseToDelete);
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Course deleted: " + idOfCourseToDelete;
+            statusToAdmin = "Course moved to recycle bin: " + idOfCourseToDelete;
         } catch (Exception e) {
             setStatusForException(e);
         }

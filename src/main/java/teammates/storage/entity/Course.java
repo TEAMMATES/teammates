@@ -82,20 +82,8 @@ public class Course extends BaseEntity {
         }
     }
 
-    public void setDeletedAt() {
-        this.deletedAt = TimeHelper.convertInstantToDate(Instant.now());
-    }
-
     public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = TimeHelper.convertInstantToDate(deletedAt);
-    }
-
-    public void resetDeletedAt() {
-        this.deletedAt = null;
-    }
-
-    public boolean isCourseDeleted() {
-        return deletedAt != null;
     }
 
     public String getTimeZone() {

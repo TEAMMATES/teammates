@@ -1,6 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="instructorRecovery - form which is currently used to load deleted courses table by ajax." pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <form style="display:none;" id="ajaxForCourses" class="ajaxForCoursesForm"

@@ -90,7 +90,7 @@ public class InstructorCoursesPageData extends PageData {
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs course-delete-link",
+            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs",
                                                    "t_course_delete" + idx, deleteLink,
                                                    Const.Tooltips.COURSE_MOVE_TO_RECOVERY, !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", course.getId());

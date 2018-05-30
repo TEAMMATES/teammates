@@ -120,24 +120,6 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
                 .build());
     }
 
-    /**
-     * Moves the course to recycle bin every time user deletes a course.
-     */
-    public void moveCourseToRecovery(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        getCourse(courseId).setDeletedAt();
-    }
-
-    /**
-     * Recovers the course and its details from recycle bin.
-     */
-    public void recoverCourseFromRecovery(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        getCourse(courseId).resetDeletedAt();
-    }
-
     @Override
     protected LoadType<Course> load() {
         return ofy().load().type(Course.class);

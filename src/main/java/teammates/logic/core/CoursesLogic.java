@@ -481,7 +481,8 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseAttributes} for all courses a given instructor belongs to.
+     * Returns a list of {@link CourseAttributes} for all courses a given instructor belongs to,
+     * except for courses in recycle bin.
      *
      * @param googleId The Google ID of the instructor
      */
@@ -490,7 +491,8 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseAttributes} for courses a given instructor belongs to.
+     * Returns a list of {@link CourseAttributes} for courses a given instructor belongs to,
+     * except for courses in recycle bin.
      *
      * @param googleId The Google ID of the instructor
      * @param omitArchived if {@code true}, omits all the archived courses from the return
@@ -502,7 +504,7 @@ public final class CoursesLogic {
 
     /**
      * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors
-     * except for courses in recycle bin.
+     * except for courses in Recycle Bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
@@ -643,7 +645,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Delete a course permanently from its given corresponding ID.
+     * Delete a course in Recycle Bin permanently from its given corresponding ID.
      * This will also cascade the data in other databases which are related to this course.
      */
     public void deleteCourseCascade(String courseId) {
