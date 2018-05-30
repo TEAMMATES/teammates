@@ -1119,12 +1119,15 @@ function getSuccessMessage() {
     return $(SUCCESS_STATUS_MESSAGE).html().trim();
 }
 
-function getUnansweredQuestionMessage() {
-    return $(INFO_STATUS_MESSAGE).html().trim();
-}
-
 function hasUnansweredQuestionMessage() {
     return $(INFO_STATUS_MESSAGE).length;
+}
+
+function getUnansweredQuestionMessage() {
+    if (!hasUnansweredQuestionMessage()) {
+        return '';
+    }
+    return $(INFO_STATUS_MESSAGE).html().trim();
 }
 
 function showModalWarningIfSessionClosed() {
