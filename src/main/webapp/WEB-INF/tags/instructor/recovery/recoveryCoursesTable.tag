@@ -37,6 +37,7 @@
       <td
           id="recoverycoursedeleteddate${i.index + fn:length(recoveryCourses.rows)}"
           data-date-stamp="${recoveryCourse.deletedAtDateStamp}"
+          data-toggle="tooltip"
           data-original-title="${recoveryCourse.deletedAtFullDateTimeString}">
           ${recoveryCourse.deletedAtDateString}
       </td>
