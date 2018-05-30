@@ -5,7 +5,7 @@
     Restore All Courses
   </a>
   &nbsp;&nbsp;
-  <a class="btn btn-danger btn-md" id="deleteAllCourses" href="${data.instructorRecoveryDeleteAllLink}">
+  <a class="btn btn-danger btn-md course-delete-all-link" id="deleteAllCourses" href="${data.instructorRecoveryDeleteAllLink}">
     Delete All Courses
   </a>
   &nbsp;&nbsp;&nbsp;

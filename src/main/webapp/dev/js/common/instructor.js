@@ -337,6 +337,23 @@ function bindCourseDeleteLinks() {
     });
 }
 
+function bindCourseDeleteAllLinks() {
+    $('body').on('click', '.course-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = 'Are you sure you want to delete all the courses? '
+                + 'This operation will delete all students and sessions in these courses. '
+                + 'All instructors of these courses will not be able to access them hereafter as well.';
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deleting all courses', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.DANGER);
+    });
+}
+
 function bindSessionDeleteLinks() {
     $('body').on('click', '#fsDeleteLink', (event) => {
         event.preventDefault();
@@ -549,6 +566,7 @@ function prepareInstructorPages() {
 
     // bind the event handler to show confirmation modal
     bindCourseDeleteLinks();
+    bindCourseDeleteAllLinks();
     bindSessionDeleteLinks();
 }
 
