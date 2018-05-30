@@ -511,7 +511,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("delete course action");
 
         String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
-        homePage.getDeleteCourseLink(courseId).click();
+        homePage.clickCourseDeleteLink(courseId);
         assertNotNull(BackDoor.getCourse(courseId));
         homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
 
