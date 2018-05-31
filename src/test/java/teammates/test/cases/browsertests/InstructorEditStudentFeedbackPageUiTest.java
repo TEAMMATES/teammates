@@ -47,7 +47,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-0-1-3", "New MCQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
@@ -62,8 +62,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.addFeedbackResponseComment("-0-1-3", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal();
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2, 3.");
     }
 
     private void testModerationHint() throws Exception {
@@ -103,8 +104,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2.");
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
+                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2, 3.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3.");
 
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
 
@@ -150,7 +151,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.editFeedbackResponseComment("-0-1-3-1", "Edited MCQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
