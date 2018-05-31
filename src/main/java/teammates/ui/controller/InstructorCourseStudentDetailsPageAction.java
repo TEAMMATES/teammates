@@ -32,12 +32,13 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
 
+        String courseName = logic.getCourse(courseId).getName();
         boolean hasSection = logic.hasIndicatedSections(courseId);
 
         StudentProfileAttributes studentProfile = loadStudentProfile(student, instructor);
 
         InstructorCourseStudentDetailsPageData data =
-                new InstructorCourseStudentDetailsPageData(account, sessionToken, student, studentProfile,
+                new InstructorCourseStudentDetailsPageData(account, sessionToken, student, studentProfile, courseName,
                                                            hasSection);
 
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>"

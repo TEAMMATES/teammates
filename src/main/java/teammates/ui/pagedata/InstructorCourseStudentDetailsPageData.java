@@ -12,13 +12,13 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
     private StudentInfoTable studentInfoTable;
 
     public InstructorCourseStudentDetailsPageData(AccountAttributes account, String sessionToken, StudentAttributes student,
-            StudentProfileAttributes studentProfile, boolean hasSection) {
+            StudentProfileAttributes studentProfile, String courseName, boolean hasSection) {
         super(account, sessionToken);
         if (studentProfile != null) {
             String pictureUrl = getPictureUrl(studentProfile.pictureKey);
             this.studentProfile = new StudentProfile(student.name, studentProfile, pictureUrl);
         }
-        this.studentInfoTable = new StudentInfoTable(student, hasSection);
+        this.studentInfoTable = new StudentInfoTable(student, courseName, hasSection);
     }
 
     public StudentProfile getStudentProfile() {

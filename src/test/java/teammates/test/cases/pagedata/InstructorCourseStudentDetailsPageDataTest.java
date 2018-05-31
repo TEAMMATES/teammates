@@ -19,6 +19,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private StudentAttributes inputStudent;
     private StudentProfileAttributes inputStudentProfile;
     private String pictureUrl;
+    private String courseName;
     private boolean hasSection;
 
     @Test
@@ -68,7 +69,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(inputStudent.section, studentInfoTable.getSection());
         assertEquals(inputStudent.team, studentInfoTable.getTeam());
         assertEquals(inputStudent.comments, studentInfoTable.getComments());
-        assertEquals(inputStudent.course, studentInfoTable.getCourse());
+        assertEquals(inputStudent.course, studentInfoTable.getCourseId());
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
 
@@ -125,10 +126,11 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         createCommonData();
 
         return new InstructorCourseStudentDetailsPageData(AccountAttributes.builder().build(), dummySessionToken,
-                inputStudent, inputStudentProfile, hasSection);
+                inputStudent, inputStudentProfile, courseName, hasSection);
     }
 
     private void createCommonData() {
+        courseName = "CourseNameForJohnDoe";
         hasSection = true;
     }
 }

@@ -32,18 +32,19 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
         assertEquals(inputStudent.section, studentInfoTable.getSection());
         assertEquals(inputStudent.team, studentInfoTable.getTeam());
         assertEquals(inputStudent.comments, studentInfoTable.getComments());
-        assertEquals(inputStudent.course, studentInfoTable.getCourse());
+        assertEquals(inputStudent.course, studentInfoTable.getCourseId());
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
 
     private InstructorCourseStudentDetailsEditPageData createData() {
         String name = "John Doe";
         String email = "john@doe.com";
+        String courseName = "CourseNameForJohnDoe";
 
         createStudent(name, email);
 
         return new InstructorCourseStudentDetailsEditPageData(AccountAttributes.builder().build(),
-                dummySessionToken, inputStudent, email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
+                dummySessionToken, inputStudent, email, courseName, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
     private void createStudent(String name, String email) {

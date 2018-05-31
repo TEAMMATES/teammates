@@ -7,35 +7,51 @@
 <div class="well well-plain">
   <div class="form form-horizontal" id="studentInfomationTable">
     <div class="form-group">
-      <label class="col-sm-1 control-label">Student Name:</label>
-      <div class="col-sm-11" id="<%=Const.ParamsNames.STUDENT_NAME%>">
-        <p class="form-control-static">${fn:escapeXml(studentInfoTable.name)}</p>
+      <div class="col-sm-12">
+        <h4 class="text-bold">
+          <span class="text-color-primary">${studentInfoTable.courseId}</span><br>
+          <span>${studentInfoTable.courseName}</span>
+        </h4>
       </div>
     </div>
-    <c:if test="${studentInfoTable.hasSection}">
-      <div class="form-group">
-        <label class="col-sm-1 control-label">Section Name:</label>
-        <div class="col-sm-11" id="<%= Const.ParamsNames.SECTION_NAME %>">
-          <p class="form-control-static">${fn:escapeXml(studentInfoTable.section)}</p>
-        </div>
+    <div class="form-group student-info-row">
+      <div class="col-sm-3 text-right">
+        <label>Student Name</label>
       </div>
-    </c:if>
-    <div class="form-group">
-      <label class="col-sm-1 control-label">Team Name:</label>
-      <div class="col-sm-11" id="<%= Const.ParamsNames.TEAM_NAME %>">
-        <p class="form-control-static">${fn:escapeXml(studentInfoTable.team)}</p>
+      <div class="col-sm-9" id="<%=Const.ParamsNames.STUDENT_NAME%>">
+        <span>${fn:escapeXml(studentInfoTable.name)}</span>
       </div>
     </div>
-    <div class="form-group">
-      <label class="col-sm-1 control-label">Official Email Address:</label>
-      <div class="col-sm-11" id="<%= Const.ParamsNames.STUDENT_EMAIL %>">
-        <p class="form-control-static">${studentInfoTable.email}</p>
+    <div class="form-group student-info-row">
+      <div class="col-sm-3 text-right">
+        <label>Section Name</label>
+      </div>
+      <div class="col-sm-9" id="<%= Const.ParamsNames.SECTION_NAME %>">
+        <span>${fn:escapeXml(studentInfoTable.section)}</span>
       </div>
     </div>
-    <div class="form-group">
-      <label class="col-sm-1 control-label">Comments:</label>
-      <div class="col-sm-11" id="<%= Const.ParamsNames.COMMENTS %>">
-        <p class="form-control-static">${fn:escapeXml(studentInfoTable.comments)}</p>
+    <div class="form-group student-info-row">
+      <div class="col-sm-3 text-right">
+        <label>Team Name</label>
+      </div>
+      <div class="col-sm-9" id="<%= Const.ParamsNames.TEAM_NAME %>">
+        <span>${fn:escapeXml(studentInfoTable.team)}</span>
+      </div>
+    </div>
+    <div class="form-group student-info-row">
+      <div class="col-sm-3 text-right">
+        <label>Official Email</label>
+      </div>
+      <div class="col-sm-9" id="<%= Const.ParamsNames.STUDENT_EMAIL %>">
+        <span>${fn:escapeXml(studentInfoTable.email)}</span>
+      </div>
+    </div>
+    <div class="form-group student-info-row">
+      <div class="col-sm-3 text-right">
+        <label>Comments</label>
+      </div>
+      <div class="col-sm-9" id="<%= Const.ParamsNames.COMMENTS %>">
+        <span>${fn:escapeXml(studentInfoTable.comments)}</span>
       </div>
     </div>
   </div>

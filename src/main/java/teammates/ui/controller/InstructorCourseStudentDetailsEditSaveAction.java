@@ -49,6 +49,7 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
         student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
         student.section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);
+        String courseName = logic.getCourse(courseId).getName();
         boolean hasSection = logic.hasIndicatedSections(courseId);
 
         student.name = SanitizationHelper.sanitizeName(student.name);
@@ -106,8 +107,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             student.email = studentEmail;
             boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
             InstructorCourseStudentDetailsEditPageData data =
-                    new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, newEmail, hasSection,
-                            isOpenOrPublishedEmailSentForTheCourse);
+                    new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, newEmail, courseName,
+                            hasSection, isOpenOrPublishedEmailSentForTheCourse);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }
 
