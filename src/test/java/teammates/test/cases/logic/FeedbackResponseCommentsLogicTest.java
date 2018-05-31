@@ -49,15 +49,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 "Trying to create feedback response comments for a course that does not exist.");
         frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
 
-        ______TS("fail: giver is not instructor");
-
-        frComment.giverEmail = "student2InCourse1@gmail.com";
-
-        verifyExceptionThrownFromCreateFrComment(frComment,
-                "User " + frComment.giverEmail + " is not a registered instructor for course "
-                + frComment.courseId + ".");
-        frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-
         ______TS("fail: giver is not an instructor for the course");
 
         frComment.giverEmail = "instructor1@course2.com";
