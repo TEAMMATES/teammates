@@ -31,11 +31,11 @@
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
         <div class="col-md-12">
           <div class="form-group">
+            <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
             <div id="student-data-spreadsheet">
               <div class="panel-body">
                 <div id="spreadsheet"></div>
               </div>
-              <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
               <div class="row">
                 <div class="col-md-6">
                   <button type="button" title="Add" id="addEmptyRows" class="btn btn-primary btn-md">
@@ -46,14 +46,14 @@
                 </div>
                 <div class="col-md-6">
                   <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
-                          class="btn btn-primary btn-md pull-right">
+                      class="btn btn-primary btn-md pull-right">
                     Enroll students
                   </button>
                 </div>
               </div>
               <br>
               <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120"
-                        placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
+                  placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
             </div>
           </div>
         </div>
@@ -69,81 +69,120 @@
     <ul>
       <li>
         <span class="more-info-point-title">Spreadsheet Information</span>
-        <div class="more-info-point-details">
-          <ul>
-            <li>
-              If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and
-              paste into the table above.
-              <a id="spreadsheet-link"
-                 href="https://docs.google.com/spreadsheets/d/1ZThkUnOW9CSM6a9nDWzchh0UOsPU2s9eyVWb5LG5iMk/edit?usp=sharing">Here</a>
-              is an example spreadsheet.
-            </li>
-            <li>Each existing cells can be edited by just clicking on it.</li>
-            <li>The entire table can be sorted by just clicking on the column name.</li>
-            <li>You can re-arrange column order by clicking on the column header and dragging them left or right.</li>
-            <li>To access more edit functions, right-click on a cell.</li>
-            <li>Column width can be adjusted.</li>
-          </ul>
-        </div>
+        <ul>
+          <li>
+            If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and
+            paste into the spreadsheet interface above.<br><br>
+            <table class="table table-striped table-bordered">
+              <tr>
+                <th>Section</th>
+                <th>Team</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Comments</th>
+              </tr>
+              <tr>
+                <td>Tutorial Group 1</td>
+                <td>Team 1</td>
+                <td>Tom Jacobs</td>
+                <td>tom@example.com</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Tutorial Group 1</td>
+                <td>Team 1</td>
+                <td>Jean Wong</td>
+                <td>jean@example.com</td>
+                <td>Exchange Student</td>
+              </tr>
+              <tr>
+                <td>Tutorial Group 1</td>
+                <td>Team 1</td>
+                <td>Ravi Kumar</td>
+                <td>ravi@example.com</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Tutorial Group 2</td>
+                <td>Team 2</td>
+                <td>Chun Ling</td>
+                <td>ling@example.com</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Tutorial Group 2</td>
+                <td>Team 2</td>
+                <td>Desmond Wu</td>
+                <td>desmond@example.com</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Tutorial Group 2</td>
+                <td>Team 3</td>
+                <td>Harsha Silva</td>
+                <td>harsha@example.com</td>
+                <td></td>
+              </tr>
+            </table>
+          </li>
+          <li>Each existing cells can be edited by just clicking on it.</li>
+          <li>The entire table can be sorted by just clicking on the column name.</li>
+          <li>You can re-arrange column order by clicking on the column header and dragging them left or right.</li>
+          <li>To access more edit functions, right-click on a cell.</li>
+          <li>Column width can be adjusted.</li>
+        </ul>
       </li>
       <li>
         <span class="more-info-point-title">Columns Information</span>
-        <div class="more-info-point-details">
         <ul>
           <li class="more-info-column-info">
             <samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID
           </li>
           <li class="more-info-column-info">
             <samp>Team</samp> [Compulsory]: Team name/ID
-            <div class="more-info-point-details">
-              <ul>
-                <li class="more-info-email-details">
-                  A team must be unique within a course. A team cannot be in 2 different sections.
-                </li>
-                <li class="more-info-email-details">
-                  If you do not have teams in your course, use “N/A” as the team name for all students.
-                </li>
-              </ul>
-            </div>
+            <ul>
+              <li class="more-info-sub-point-details">
+                A team must be unique within a course. A team cannot be in 2 different sections.
+              </li>
+              <li class="more-info-sub-point-details">
+                If you do not have teams in your course, use “N/A” as the team name for all students.
+              </li>
+            </ul>
           </li>
           <li class="more-info-column-info">
             <samp>Name</samp> [Compulsory]: Student name
           </li>
           <li class="more-info-column-info">
             <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
-            <div class="more-info-point-details">
-              <ul>
-                <li class="more-info-email-details">
-                  This need not be a Gmail address.
-                </li>
-                <li class="more-info-email-details">
-                  It should be unique for each student.
-                  If two students are given the same email, they will be considered the same student.
-                </li>
-              </ul>
-            </div>
+            <ul>
+              <li class="more-info-sub-point-details">
+                This need not be a Gmail address.
+              </li>
+              <li class="more-info-sub-point-details">
+                It should be unique for each student.
+                If two students are given the same email, they will be considered the same student.
+              </li>
+            </ul>
           </li>
           <li class="more-info-column-info">
             <samp>Comments</samp> [Optional]: Any other information you want to record about a student.
           </li>
         </ul>
-  </div>
-  </li>
-  <li>
-    <span class="more-info-point-title">Mass editing enrolled students</span>
-    <div class="more-info-point-details">
-      <ul>
-        <li class="more-info-mass-edit-info">
-          To mass-edit data of enrolled students (except email address), simply use this page to re-enroll them with the
-          updated data .
-        </li>
-        <li class="more-info-mass-edit-info">
-          To DELETE students or to UPDATE EMAIL address of a student, please go to the <code>courses</code> page and
-          click the <code>Students -> View/Edit</code> link of the course.
-        </li>
-      </ul>
-    </div>
-  </li>
-  </ul>
+      </li>
+      <li>
+        <span class="more-info-point-title">Mass editing enrolled students</span>
+        <ul>
+          <li class="more-info-mass-edit-info">
+            To mass-edit data of enrolled students (except email address), simply use this page to re-enroll them with
+            the
+            updated data .
+          </li>
+          <li class="more-info-mass-edit-info">
+            To DELETE students or to UPDATE EMAIL address of a student, please go to the <code>courses</code> page and
+            click the <code>Students -> View/Edit</code> link of the course.
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </ti:instructorPage>

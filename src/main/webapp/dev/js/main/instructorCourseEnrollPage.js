@@ -15,6 +15,7 @@ const container = document.getElementById('spreadsheet');
 
 /* global Handsontable:false */
 const handsontable = new Handsontable(container, {
+    height: 500,
     autoWrapRow: true,
     preventOverflow: 'horizontal',
     manualColumnResize: true,
@@ -23,7 +24,6 @@ const handsontable = new Handsontable(container, {
     rowHeaders: true,
     colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comments'],
     columnSorting: true,
-    className: 'htCenter',
     sortIndicator: true,
     minRows: 20,
     maxCols: 5,

@@ -458,11 +458,6 @@ input.inline {
     width: 60%;
 }
 
-.htCenter {
-    overflow-y: auto;
-    height: 500px;
-}
-
 .link-in-dark-bg:link {
     color: #F2FCAC;
 }
@@ -851,16 +846,12 @@ Prevents content overflow in navbar. */
     margin: 10px 0;
 }
 
-.more-info-point-details {
-    margin-left: 50px;
-}
-
 .more-info-column-info,
 .more-info-mass-edit-info {
     list-style: circle;
 }
 
-.more-info-email-details {
+.more-info-sub-point-details {
     list-style: disc;
     margin-left: -20px;
 }
