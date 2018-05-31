@@ -625,34 +625,34 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         ______TS("Edit Other option Weight");
 
-        FeedbackQuestionAttributes fq2 = FeedbackQuestionsLogic
+        // As question 1 in this session has been deleted in the previous test,
+        // question 3 has been changed to question 2 here. This test originally uses question 3.
+        fq = FeedbackQuestionsLogic
                 .inst()
                 .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 2);
-        mcqDetails = (FeedbackMcqQuestionDetails) fq2.getQuestionDetails();
+        mcqDetails = (FeedbackMcqQuestionDetails) fq.getQuestionDetails();
         // There is already responses for this question
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq2.getId()).isEmpty());
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editOtherOptionWeightParams = {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq2.giverType.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq2.recipientType.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq2.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
-                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What can be improved for this class?",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", mcqDetails.getMcqChoices().get(1),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq2.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, "5",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString()
@@ -673,7 +673,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(r.isError);
 
         // All existing response should remain
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq2.getId()).isEmpty());
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
     }
 
