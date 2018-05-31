@@ -7,9 +7,11 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
+/**
+ * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE},
+ *      specifically for feedback response comments
+ */
 public class InstructorFeedbackResponseCommentResultsPageUiTest extends BaseUiTestCase {
-
-    private InstructorFeedbackResultsPage resultsPage;
 
     @Override
     protected void prepareTestData() {
@@ -19,6 +21,8 @@ public class InstructorFeedbackResponseCommentResultsPageUiTest extends BaseUiTe
 
     @Test
     public void testFeedbackResponseCommentActions() throws Exception {
+
+        InstructorFeedbackResultsPage resultsPage;
 
         ______TS("Failure case: add empty feedback response comment using comment modal in question view");
 

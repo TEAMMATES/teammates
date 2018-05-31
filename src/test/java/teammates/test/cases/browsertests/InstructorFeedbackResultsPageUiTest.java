@@ -278,14 +278,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 2",
                 "Team 2{*}Team 2",
-                "Team 2{*}Team 3"
-                );
+                "Team 2{*}Team 3");
+
         verifySortingOrderDescending(By.id("button_sortToTeam"),
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 2",
-                "Team 2{*}Team 3"
-        );
+                "Team 2{*}Team 3");
 
     }
 
