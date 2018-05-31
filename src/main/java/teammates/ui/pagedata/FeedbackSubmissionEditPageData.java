@@ -291,7 +291,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             }
             responseIndx++;
         }
-        int i = 0;
+        int recipientIndxForUnsubmittedResponse = 0;
         while (responseIndx < numOfResponseBoxes) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
             String submissionFormHtml = questionAttributes.getQuestionDetails()
@@ -302,7 +302,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
                 List<String> recipientListForUnsubmittedResponse = getRecipientList(responseSubmittedRecipient,
                         bundle.getSortedRecipientList(questionAttributes.getId()));
-                String recipientName = recipientListForUnsubmittedResponse.get(i);
+                String recipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);
                 String giverName = account.name;
                 ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
                 FeedbackResponseCommentRow responseExplanationComment = buildFeedbackResponseCommentAddForm(
@@ -324,7 +324,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 }
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
                         submissionFormHtml, "", responseExplanationComment));
-                i++;
+                recipientIndxForUnsubmittedResponse++;
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
                         submissionFormHtml, ""));
