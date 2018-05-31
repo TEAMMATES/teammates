@@ -18,7 +18,7 @@ public class CourseEditInstructorPanel {
     private ElementTag resendInviteButton;
     private ElementTag editButton;
     private ElementTag cancelButton;
-    private ElementTag addInstructorCancelButton;
+    private ElementTag cancelAddInstructorButton;
     private ElementTag deleteButton;
     private boolean isAccessControlDisplayed;
     private List<CourseEditSectionRow> sectionRows;
@@ -172,12 +172,12 @@ public class CourseEditInstructorPanel {
         return cancelButton;
     }
 
-    public void setAddInstructorCancelButton(ElementTag addInstructorCancelButton) {
-        this.addInstructorCancelButton = addInstructorCancelButton;
+    public void setCancelAddInstructorButton(ElementTag cancelAddInstructorButton) {
+        this.cancelAddInstructorButton = cancelAddInstructorButton;
     }
 
-    public ElementTag getAddInstructorCancelButton() {
-        return addInstructorCancelButton;
+    public ElementTag getCancelAddInstructorButton() {
+        return cancelAddInstructorButton;
     }
 
     public void setDeleteButton(ElementTag deleteButton) {

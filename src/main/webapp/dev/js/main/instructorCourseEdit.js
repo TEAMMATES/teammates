@@ -508,7 +508,7 @@ $(document).ready(() => {
         const instrNum = $(this).attr('id').substring('instrCancelLink'.length);
         disableFormEditInstructor(instrNum);
     });
-    $('a[id^="addInstrCancelLink"]').click(() =>
+    $('a[id^="cancelAddInstructorLink"]').click(() =>
         hideNewInstructorForm()
     );
     bindCheckboxToggle();
