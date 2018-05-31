@@ -25,6 +25,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
     private String instructorId;
     private String courseId;
+    private String newInstructorName;
+    private String newInstructorEmail;
 
     @Override
     protected void prepareTestData() {
@@ -32,6 +34,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         removeAndRestoreDataBundle(testData);
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseId = testData.courses.get("InsCrsEdit.CS2104").getId();
+        newInstructorName = "Teammates Instructor";
+        newInstructorEmail = "InsCrsEdit.instructor@gmail.tmt";
     }
 
     @Test
@@ -162,6 +166,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testCancelAddInstructor() {
+
         ______TS("Click cancel button upon new form created");
         courseEditPage.clickShowNewInstructorFormButton();
         assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
@@ -172,8 +177,27 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickShowNewInstructorFormButton();
         assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
 
-        courseEditPage.fillNewInstructorName("New Instructor Test");
-        courseEditPage.fillNewInstructorEmail("newinstructortest@example.com");
+        courseEditPage.fillNewInstructorName(newInstructorName);
+        courseEditPage.fillNewInstructorEmail(newInstructorEmail);
+        courseEditPage.clickCancelAddInstructorLink();
+        assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        ______TS("Confirm new instructor fields remain before page reload");
+        courseEditPage.clickShowNewInstructorFormButton();
+        assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        assertEquals(newInstructorName, courseEditPage.getNewInstructorName());
+        assertEquals(newInstructorEmail, courseEditPage.getNewInstructorEmail());
+        courseEditPage.clickCancelAddInstructorLink();
+        assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        ______TS("Confirm new instructor fields are empty after page reload");
+        courseEditPage.reloadPage();
+        courseEditPage.clickShowNewInstructorFormButton();
+        assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
+
+        assertEquals("", courseEditPage.getNewInstructorName());
+        assertEquals("", courseEditPage.getNewInstructorEmail());
         courseEditPage.clickCancelAddInstructorLink();
         assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
     }
@@ -183,8 +207,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("success: add an instructor with privileges");
 
         courseEditPage.clickShowNewInstructorFormButton();
-        courseEditPage.fillNewInstructorName("Teammates Instructor");
-        courseEditPage.fillNewInstructorEmail("InsCrsEdit.instructor@gmail.tmt");
+        courseEditPage.fillNewInstructorName(newInstructorName);
+        courseEditPage.fillNewInstructorEmail(newInstructorEmail);
 
         int newInstructorIndex = 8;
 

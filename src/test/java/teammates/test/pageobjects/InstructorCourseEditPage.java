@@ -155,8 +155,16 @@ public class InstructorCourseEditPage extends AppPage {
         return getTextBoxValue(newInstructorNameTextBox);
     }
 
+    public String getNewInstructorName() {
+        return getTextBoxValue(newInstructorNameTextBox);
+    }
+
     public String fillNewInstructorEmail(String value) {
         fillTextBox(newInstructorEmailTextBox, value);
+        return getTextBoxValue(newInstructorEmailTextBox);
+    }
+
+    public String getNewInstructorEmail() {
         return getTextBoxValue(newInstructorEmailTextBox);
     }
 
@@ -460,7 +468,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public WebElement getCancelAddInstructorLink() {
-        return browser.driver.findElement(By.id("addInstrCancelLink"));
+        return browser.driver.findElement(By.id("cancelAddInstructorLink"));
     }
 
     private WebElement getInviteInstructorLink(int instrNum) {
