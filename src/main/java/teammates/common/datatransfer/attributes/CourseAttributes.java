@@ -84,26 +84,23 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public String getDeletedAtDateString() {
         if (this.deletedAt == null) {
             return Const.DELETION_DATE_NOT_APPLICABLE;
-        } else {
-            return TimeHelper.formatDateForInstructorCoursesPage(deletedAt, timeZone);
         }
+        return TimeHelper.formatDateForInstructorCoursesPage(deletedAt, timeZone);
     }
 
     public String getDeletedAtDateStamp() {
         if (this.deletedAt == null) {
             return Const.DELETION_DATE_NOT_APPLICABLE;
-        } else {
-            return TimeHelper.formatDateTimeToIso8601Utc(deletedAt);
         }
+        return TimeHelper.formatDateTimeToIso8601Utc(deletedAt);
     }
 
     public String getDeletedAtFullDateTimeString() {
         if (this.deletedAt == null) {
             return Const.DELETION_DATE_NOT_APPLICABLE;
-        } else {
-            LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedAt, timeZone);
-            return TimeHelper.formatDateTimeForDisplay(localDateTime);
         }
+        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedAt, timeZone);
+        return TimeHelper.formatDateTimeForDisplay(localDateTime);
     }
 
     public void setDeletedAt() {
