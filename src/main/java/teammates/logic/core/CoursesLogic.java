@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -473,12 +474,11 @@ public final class CoursesLogic {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
 
-        List<String> courseIds = new ArrayList<>();
-        for (StudentAttributes s : studentDataList) {
-            if (!getCourse(s.course).isCourseDeleted()) {
-                courseIds.add(s.course);
-            }
-        }
+        List<String> courseIds = studentDataList.stream()
+                .filter(student -> !getCourse(student.course).isCourseDeleted())
+                .map(StudentAttributes::getCourse)
+                .collect(Collectors.toList());
+
         return coursesDb.getCourses(courseIds);
     }
 
@@ -510,13 +510,11 @@ public final class CoursesLogic {
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
-        List<String> courseIdList = new ArrayList<>();
 
-        for (InstructorAttributes instructor : instructorList) {
-            if (!coursesDb.getCourse(instructor.courseId).isCourseDeleted()) {
-                courseIdList.add(instructor.courseId);
-            }
-        }
+        List<String> courseIdList = instructorList.stream()
+                .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
 
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
 
@@ -537,13 +535,11 @@ public final class CoursesLogic {
      */
     public List<CourseAttributes> getRecoveryCoursesForInstructor(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
-        List<String> recoveryCourseIdList = new ArrayList<>();
 
-        for (InstructorAttributes instructor : instructorList) {
-            if (coursesDb.getCourse(instructor.courseId).isCourseDeleted()) {
-                recoveryCourseIdList.add(instructor.courseId);
-            }
-        }
+        List<String> recoveryCourseIdList = instructorList.stream()
+                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
 
         List<CourseAttributes> recoveryCourseList = coursesDb.getCourses(recoveryCourseIdList);
 
@@ -663,13 +659,11 @@ public final class CoursesLogic {
      */
     public void deleteAllCoursesCascade(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
-        List<String> recoveryCourseIdList = new ArrayList<>();
 
-        for (InstructorAttributes instructor : instructorList) {
-            if (coursesDb.getCourse(instructor.courseId).isCourseDeleted()) {
-                recoveryCourseIdList.add(instructor.courseId);
-            }
-        }
+        List<String> recoveryCourseIdList = instructorList.stream()
+                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
 
         for (String courseId : recoveryCourseIdList) {
             studentsLogic.deleteStudentsForCourse(courseId);
@@ -705,13 +699,11 @@ public final class CoursesLogic {
     public void restoreAllCoursesFromRecoveryCascade(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
-        List<String> recoveryCourseIdList = new ArrayList<>();
 
-        for (InstructorAttributes instructor : instructorList) {
-            if (coursesDb.getCourse(instructor.courseId).isCourseDeleted()) {
-                recoveryCourseIdList.add(instructor.courseId);
-            }
-        }
+        List<String> recoveryCourseIdList = instructorList.stream()
+                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
 
         for (String courseId : recoveryCourseIdList) {
             CourseAttributes course = coursesDb.getCourse(courseId);
@@ -725,13 +717,11 @@ public final class CoursesLogic {
 
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
 
-        List<String> courseIdList = new ArrayList<>();
+        List<String> courseIdList = instructorAttributesList.stream()
+                .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
 
-        for (InstructorAttributes ia : instructorAttributesList) {
-            if (!coursesDb.getCourse(ia.courseId).isCourseDeleted()) {
-                courseIdList.add(ia.courseId);
-            }
-        }
         List<CourseAttributes> courseList = coursesDb.getCourses(courseIdList);
 
         // Check that all courseIds queried returned a course.
