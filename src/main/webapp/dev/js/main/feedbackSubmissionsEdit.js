@@ -484,7 +484,7 @@ function prepareConstSumQuestions() {
 
             // Add elements for displaying messages/errors based on user input
             $(`.evalueeForm-${qnNum}`).each(function (responseIndx) {
-                $(this).after(`<div id="constSumInfo-${qnNum}-${responseIndx}" style="display:none">` +
+                $(this).after(`<div id="constSumInputAlert-${qnNum}-${responseIndx}" style="display:none">` +
                         `<p class="text-color-green padding-left-35px" id="constSumMessage-${qnNum}-${responseIndx}"></p>` +
                         '<hr class="margin-top-0 border-top-dark-gray">');
             });
@@ -493,9 +493,9 @@ function prepareConstSumQuestions() {
                 let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
                 numResponses = parseInt(numResponses, 10);
 
-                $(`#constSumInfo-${qnNum}-${numResponses - 1}`).show();
+                $(`#constSumInputAlert-${qnNum}-${numResponses - 1}`).show();
             } else {
-                $(`[id^="constSumInfo-${qnNum}-"]`).show();
+                $(`[id^="constSumInputAlert-${qnNum}-"]`).show();
 
                 if ($(`.evalueeLabel-${qnNum}`).length) {
                     $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('padding-left-55px');
@@ -503,7 +503,7 @@ function prepareConstSumQuestions() {
                 }
             }
         } else {
-            $(`[id^="constSumInfo-${qnNum}-"]`).hide();
+            $(`[id^="constSumInputAlert-${qnNum}-"]`).hide();
         }
     }
 }

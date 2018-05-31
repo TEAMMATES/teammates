@@ -135,7 +135,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "3, 5, 7, 9, 10, 11, 12, 14, "
-                        + "15, 16, 18, 19, 20, 21, 22, 23.");
+                        + "15, 16, 18, 19, 20, 21, 22, 23, 24.");
 
         assertNotNull(BackDoor.getFeedbackResponse(
                                    fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.alice.b@gmail.tmt"));
@@ -250,7 +250,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24.");
         assertEquals("<p>" + editedResponse + "</p>",
                     BackDoor.getFeedbackResponse(
                                  fq.getId(), "IFSubmitUiT.instr@gmail.tmt",
@@ -470,6 +470,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
 
         // Test instructions displayed for filling the form
+        qnNumber = 17;
+        assertEquals("Total points distributed should add up to 100.",
+                     submitPage.getConstSumInstruction(qnNumber));
+
         qnNumber = 18;
         assertEquals("Total points distributed should add up to 400.",
                      submitPage.getConstSumInstruction(qnNumber));
@@ -490,6 +494,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                     submitPage.getConstSumInstruction(qnNumber));
 
         qnNumber = 22;
+        assertEquals("Total points distributed should add up to 100.\n"
+                    + "At least one option should be allocated different number of points.",
+                    submitPage.getConstSumInstruction(qnNumber));
+
+        qnNumber = 24;
         assertEquals("Total points distributed should add up to 100.\n"
                     + "At least one option should be allocated different number of points.",
                     submitPage.getConstSumInstruction(qnNumber));
@@ -640,6 +649,23 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("Actual total is 180! Remove the extra 80 points allocated.\n"
                      + "All options are given 60 points. "
                      + "Please allocate different points to at least one option.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
+
+        qnNumber = 24;
+        submitPage.fillResponseTextBox(24, 0, 0, "33");
+        submitPage.fillResponseTextBox(24, 0, 1, "33");
+        submitPage.fillResponseTextBox(24, 0, 2, "33");
+        assertEquals("Actual total is 99! Distribute the remaining 1 points.\n"
+                     + "All options are given 33 points. "
+                     + "Please allocate different points to at least one option.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(24, 0, 0, "31");
+        assertEquals("Actual total is 97! Distribute the remaining 3 points.\n"
+                     + "At least one option has been allocated different number of points.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(24, 0, 2, "36");
+        assertEquals("All points distributed!\n"
+                     + "At least one option has been allocated different number of points.",
                      submitPage.getConstSumMessage(qnNumber, 0));
 
         // For other const sum question, just test one message.
