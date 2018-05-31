@@ -287,7 +287,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx,
                         true, recipientOptionsForQuestion,
-                        submissionFormHtml, existingResponse.getId()));
+                        submissionFormHtml, existingResponse.getId(), null, null));
             }
             responseIndx++;
         }
@@ -323,11 +323,11 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     }
                 }
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
-                        submissionFormHtml, "", responseExplanationComment));
+                        submissionFormHtml, "", null, responseExplanationComment));
                 recipientIndxForUnsubmittedResponse++;
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
-                        submissionFormHtml, ""));
+                        submissionFormHtml, "", null, null));
             }
             responseIndx++;
         }
