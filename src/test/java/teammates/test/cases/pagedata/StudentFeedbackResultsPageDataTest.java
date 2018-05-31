@@ -103,6 +103,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         assertNotNull(questionBundle2.getSelfResponseTables());
         assertNotNull(questionBundle2.getOthersResponseTables());
 
+        assertFalse(questionBundle1.getIsSelfResponseTablesEmpty());
         assertTrue(questionBundle1.getSelfResponseTables().get(0).isGiverNameYou());
         assertEquals("You", questionBundle1.getSelfResponseTables().get(0).getRecipientName());
         assertNotNull(questionBundle1.getSelfResponseTables().get(0).getResponses());
@@ -113,6 +114,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
 
         assertEquals(0, questionBundle1.getOthersResponseTables().size());
 
+        assertFalse(questionBundle2.getIsSelfResponseTablesEmpty());
         assertEquals(1, questionBundle2.getSelfResponseTables().size());
 
         assertFalse(questionBundle2.getOthersResponseTables().get(0).isGiverNameYou());
