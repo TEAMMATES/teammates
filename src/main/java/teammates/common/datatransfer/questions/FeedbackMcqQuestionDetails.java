@@ -144,8 +144,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             String weight = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-" + i);
 
-            if (choice != null && !choice.trim().isEmpty()) {
+            if (choice != null && !choice.trim().isEmpty() && weight != null) {
                 try {
+                    // Do not add weight to mcqWeights if the weight cannot be parsed
                     mcqWeights.add(Double.parseDouble(weight));
                 } catch (NumberFormatException e) {
                     log.warning("Failed to parse weight for MCQ question: " + weight);
@@ -168,9 +169,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String weightOther = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT);
         try {
+            // Do not assign value to mcqOtherWeight if the weight can not be parsed.
             mcqOtherWeight = Double.parseDouble(weightOther);
         } catch (NumberFormatException e) {
-            log.warning("Failed to parse weight of MCQ question: " + weightOther);
+            log.warning("Failed to parse \"other\" weight of MCQ question: " + weightOther);
         }
         return mcqOtherWeight;
     }
