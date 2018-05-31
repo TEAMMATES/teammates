@@ -8,6 +8,9 @@ import java.util.Objects;
 
 import com.google.appengine.api.datastore.Text;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -91,8 +94,18 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return feedbackResponseCommentId;
     }
 
-    public Text getCommentText() {
-        return commentText;
+    public String getCommentText() {
+        String htmlText = commentText.getValue();
+        StringBuilder comment = new StringBuilder(200);
+        comment.append(Jsoup.parse(htmlText).text());
+        if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
+            comment.append("Images Link: ");
+            Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
+            for (Element element : ele) {
+                comment.append(element.absUrl("src") + ' ');
+            }
+        }
+        return SanitizationHelper.sanitizeForHtml(comment.toString());
     }
 
     /**
