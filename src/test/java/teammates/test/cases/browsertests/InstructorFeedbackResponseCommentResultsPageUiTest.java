@@ -9,7 +9,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE},
- *      specifically for feedback response comments
+ *      specifically for feedback response comments.
  */
 public class InstructorFeedbackResponseCommentResultsPageUiTest extends BaseUiTestCase {
 
