@@ -170,6 +170,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.clickSubmitButton();
     }
 
+    @Test
     private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
@@ -219,9 +220,11 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
         feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
-        feedbackEditPage.clickAddQuestionButton();
-
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
+        //feedbackEditPage.clickAddQuestionButton();
+        //feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
+        assertFalse(feedbackEditPage.isInputElementValid(feedbackEditPage.getRubricWeightBox(-1, 3)));
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
     @Override
