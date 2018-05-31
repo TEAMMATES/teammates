@@ -355,8 +355,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
             for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
                 if (frcAttributes.giverEmail.equals(account.email)) {
 
-                    FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes, frcAttributes.giverEmail,
-                            giverName, recipientName, getResponseCommentVisibilityString(frcAttributes, questionAttributes),
+                    FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes,
+                            frcAttributes.giverEmail, giverName, recipientName,
+                            getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                             getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
                             responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
                     setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
@@ -367,8 +368,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
             for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
                 if (frcAttributes.giverEmail.equals(student.email) || frcAttributes.giverEmail.equals(student.team)) {
 
-                    FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes, frcAttributes.giverEmail,
-                            giverName, recipientName, getResponseCommentVisibilityString(frcAttributes, questionAttributes),
+                    FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes,
+                            frcAttributes.giverEmail, giverName, recipientName,
+                            getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                             getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
                             responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
                     setEditDeleteCommentOptionForUser(frcAttributes, frcRow);

@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.ThreadHelper;
 
 public class FeedbackSubmitPage extends AppPage {
 
@@ -264,9 +263,12 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void addFeedbackResponseComment(String addResponseCommentId, String commentText) {
-        WebElement showResponseCommentAddFormButton = browser.driver.findElement(By.id("button_add_comment" + addResponseCommentId));
+        WebElement showResponseCommentAddFormButton =
+                browser.driver.findElement(By.id("button_add_comment" + addResponseCommentId));
         click(showResponseCommentAddFormButton);
-        WebElement editorElement = waitForElementPresence(By.cssSelector("#" + "showResponseCommentAddForm" + addResponseCommentId + " .mce-content-body"));
+        WebElement editorElement =
+                waitForElementPresence(By.cssSelector("#" + "showResponseCommentAddForm"
+                        + addResponseCommentId + " .mce-content-body"));
         waitForRichTextEditorToLoad(editorElement.getAttribute("id"));
         fillRichTextEditor(editorElement.getAttribute("id"), commentText);
     }
@@ -276,7 +278,6 @@ public class FeedbackSubmitPage extends AppPage {
         click(commentRow.findElements(By.tagName("a")).get(1));
         fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
     }
-
 
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
