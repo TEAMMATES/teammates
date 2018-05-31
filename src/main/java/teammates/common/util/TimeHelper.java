@@ -26,9 +26,7 @@ import teammates.common.util.Const.SystemParams;
  * Time zone is assumed as UTC unless specifically mentioned.
  */
 public final class TimeHelper {
-
     private static final Logger log = Logger.getLogger();
-
     private static final Map<ZoneId, String> TIME_ZONE_CITIES_MAP = new LinkedHashMap<>();
 
     /*
@@ -174,23 +172,10 @@ public final class TimeHelper {
     }
 
     /**
-     * Convert a date string and time string of only the hour into a Date object.
-     * If the hour is 24, it is converted to 23:59. Returns null on error.
-     * @param inputDate         the date string in EEE, dd MMM, yyyy format
-     * @param inputTimeHours    the hour, 0-24
-     * @return                  a LocalDateTime at the specified date and hour
-     */
-    public static LocalDateTime combineDateTime(String inputDate, String inputTimeHours) {
-        if ("24".equals(inputTimeHours)) {
-            return parseLocalDateTimeForSessionsForm(inputDate, "23", "59");
-        }
-        return parseLocalDateTimeForSessionsForm(inputDate, inputTimeHours, "0");
-    }
-
-    /**
-     * Returns an java.time.Instant object that is offset by a number of days from now.
-     * @param offsetInDays number of days offset by (integer).
-     * @return java.time.Instant offset by offsetInDays days.
+     * Returns an Instant that is offset by a number of days from now.
+     *
+     * @param offsetInDays integer number of days to offset by
+     * @return an Instant offset by {@code offsetInDays} days
      */
     public static Instant getInstantDaysOffsetFromNow(long offsetInDays) {
         return Instant.now().plus(Duration.ofDays(offsetInDays));
@@ -227,8 +212,14 @@ public final class TimeHelper {
     }
 
     /**
-     * Format {@code localDateTime} according to a specified {@code pattern}.
-     * PM is especially formatted as NOON if it's 12:00 PM, if present
+     * Formats a datetime stamp from a {@code LocalDateTime} using a formatting pattern.
+     *
+     * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
+     * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".</p>
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @param pattern       formatting pattern, see Oracle docs for DateTimeFormatter for pattern table
+     * @return the formatted datetime stamp string
      */
     private static String formatLocalDateTime(LocalDateTime localDateTime, String pattern) {
         if (localDateTime == null || pattern == null) {
@@ -243,17 +234,44 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd/MM/yyyy.
+     * Formats a datetime stamp from a {@code localDateTime}.
+     * Example: Sun, 01 Apr 2018, 12:01 PM
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: Sun, 01 Apr 2018, 12:00 NOON</p>
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @return the formatted datetime stamp string
      */
-    public static String formatDate(LocalDateTime localDateTime) {
-        return formatLocalDateTime(localDateTime, "dd/MM/yyyy");
+    public static String formatDateTimeForDisplay(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "EEE, dd MMM yyyy, hh:mm a");
     }
 
     /**
-     * Formats a date in the format EEE, dd MMM, yyyy. Example: Sat, 05 May, 2012
+     * Formats a date stamp from a {@code localDateTime} for populating the sessions form.
+     * Example: Sun, 01 Apr, 2018
+     *
+     * <p>This method discards the time stored in the {@code localDateTime}.</p>
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @return the formatted date stamp string
      */
     public static String formatDateForSessionsForm(LocalDateTime localDateTime) {
         return formatLocalDateTime(localDateTime, "EEE, dd MMM, yyyy");
+    }
+
+    /**
+     * Formats a short datetime stamp from a {@code localDateTime} for the instructor's home page.
+     * Example: 5 Apr 12:01 PM
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: 5 Apr 12:01 NOON</p>
+     *
+     * @param localDateTime the LocalDateTime to be formatted
+     * @return the formatted datetime stamp string
+     */
+    public static String formatDateTimeForInstructorHomePage(LocalDateTime localDateTime) {
+        return formatLocalDateTime(localDateTime, "d MMM h:mm a");
     }
 
     /**
@@ -268,11 +286,11 @@ public final class TimeHelper {
 
     /**
      * Returns a copy of the {@link LocalDateTime} adjusted to be compatible with the format output by
-     * {@link #combineDateTime}, i.e. either the time is 23:59, or the minute is 0 and the hour is not 0.
+     * {@link #parseDateTimeFromSessionsForm}, i.e. either the time is 23:59, or the minute is 0 and the hour is not 0.
      * The date time is first rounded to the nearest hour, then the special case 00:00 is handled.
      * @param ldt The {@link LocalDateTime} to be adjusted for compatibility.
      * @return a copy of {@code ldt} adjusted for compatibility, or null if {@code ldt} is null.
-     * @see #combineDateTime
+     * @see #parseDateTimeFromSessionsForm
      */
     public static LocalDateTime adjustLocalDateTimeForSessionsFormInputs(LocalDateTime ldt) {
         if (ldt == null) {
@@ -301,16 +319,15 @@ public final class TimeHelper {
     }
 
     /**
-     * Formats a date in the format dd MMM yyyy, hh:mm a. 12:00 PM is especially formatted as 12:00 NOON
-     * Example: 05 May 2012, 2:04 PM<br>
-     */
-    public static String formatTime12H(LocalDateTime localDateTime) {
-        return formatLocalDateTime(localDateTime, "EEE, dd MMM yyyy, hh:mm a");
-    }
-
-    /**
-     * Format {@code instant} at a {@code timeZone} according to a specified {@code pattern}.
-     * PM is especially formatted as NOON if it's 12:00 PM, if present.
+     * Formats a datetime stamp from an {@code instant} using a formatting pattern.
+     *
+     * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
+     * Using that pattern with a datetime whose time falls on "12:00 PM" will cause it to be formatted as "12:00 NOON".</p>
+     *
+     * @param instant  the instant to be formatted
+     * @param timeZone the time zone to compute local datetime
+     * @param pattern  formatting pattern, see Oracle docs for DateTimeFormatter for pattern table
+     * @return the formatted datetime stamp string
      */
     private static String formatInstant(Instant instant, ZoneId timeZone, String pattern) {
         if (instant == null || timeZone == null || pattern == null) {
@@ -325,68 +342,86 @@ public final class TimeHelper {
         return zonedDateTime.format(formatter);
     }
 
-    public static String formatDateTimeForSessions(Instant instant, ZoneId sessionTimeZone) {
+    /**
+     * Formats a datetime stamp from an {@code instant} including time zone name.
+     * Example: Sun, 01 Apr 2018, 11:21 PM SGT
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: Sun, 01 Apr 2018, 12:00 NOON SGT</p>
+     *
+     * @param instant         the instant to be formatted
+     * @param sessionTimeZone the time zone to compute local datetime
+     * @return the formatted datetime stamp string
+     */
+    public static String formatDateTimeForDisplay(Instant instant, ZoneId sessionTimeZone) {
         return formatInstant(instant, sessionTimeZone, "EEE, dd MMM yyyy, hh:mm a z");
     }
 
-    public static String formatDateTimeForDisambiguation(Instant instant, ZoneId zone) {
+    /**
+     * Formats a datetime stamp from an {@code instant} including time zone name and offset.
+     * Example: Sun, 01 Apr 2018, 11:23 PM SGT (UTC+0800)
+     *
+     * <p>Note: a datetime with time "12:00 PM" is specially formatted to "12:00 NOON"
+     * Example: Sun, 01 Apr 2018, 12:00 NOON SGT (UTC+0800)</p>
+     *
+     * @param instant the interpreted instant to be formatted
+     * @param zone    the time zone to compute local datetime
+     * @return the formatted datetime stamp string
+     */
+    public static String formatDateTimeForDisplayFull(Instant instant, ZoneId zone) {
         return formatInstant(instant, zone, "EEE, dd MMM yyyy, hh:mm a z ('UTC'Z)");
     }
 
     /**
-     * Formats a date in the format d MMM h:mm a. Example: 5 May 11:59 PM
-     */
-    public static String formatDateTimeForInstructorHomePage(LocalDateTime localDateTime) {
-        return formatLocalDateTime(localDateTime, "d MMM h:mm a");
-    }
-
-    /**
-     * Formats a date in the format d MMM yyyy. Example: 5 May 2017
-     */
-    public static String formatDateTimeForInstructorCoursesPage(Instant instant, ZoneId timeZoneId) {
-        return formatInstant(instant, timeZoneId, "d MMM yyyy");
-    }
-
-    /**
-     * Formats {@code instant} according to the ISO8601 format.
-     */
-    public static String formatInstantToIso8601Utc(Instant instant) {
-        return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
-    }
-
-    /**
-     * Formats {@code instant} in admin's activity log page.
+     * Formats a date stamp from an {@code instant} for the instructor's courses page.
+     * Example: 5 May 2017
      *
-     * @param instant   the instant to be formatted
-     * @param zoneId    the time zone to calculate local date and time
-     * @return          the formatted string
+     * @param instant the instant to be formatted
+     * @param zoneId  the time zone to calculate local date
+     * @return the formatted date stamp string
      */
-    public static String formatActivityLogTime(Instant instant, ZoneId zoneId) {
+    public static String formatDateForInstructorCoursesPage(Instant instant, ZoneId zoneId) {
+        return formatInstant(instant, zoneId, "d MMM yyyy");
+    }
+
+    /**
+     * Formats {@code instant} for the admin's activity log page.
+     * Example: 01/04/2018 12:00:01.481
+     *
+     * <p>Timestamp precision to millisecond. Used for dev/admin-facing pages only.</p>
+     *
+     * @param instant the instant to be formatted
+     * @param zoneId  the time zone to calculate local date and time
+     * @return the formatted timestamp string
+     */
+    public static String formatDateTimeForAdminLog(Instant instant, ZoneId zoneId) {
         return formatInstant(instant, zoneId, "dd/MM/yyyy HH:mm:ss.SSS");
     }
 
     /**
-     * Converts the datetime string to an Instant object.
+     * Formats {@code instant} using the ISO8601 format in UTC.
+     * Example: 2011-12-03T10:15:30Z
      *
-     * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
+     * <p>Used to inject a standardized date into date elements in Teammates for sortable tables.
+     * Should not be used for anything user-facing.</p>
+     *
+     * @param instant the instant to be formatted
+     * @return the formatted datetime ISO8601 stamp in UTC
      */
-    public static Instant parseInstant(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
-        try {
-            return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
-        } catch (DateTimeParseException e) {
-            Assumption.fail("Date in String is in wrong format.");
-            return null;
-        }
+    public static String formatDateTimeToIso8601Utc(Instant instant) {
+        return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
     /**
-     * Returns whether the given instant is being used as a special representation,
-     * signifying its face value should not be used without proper processing.
-     * A null instant is not a special time.
+     * Returns whether the given {@code instant} is being used as a special representation, signifying its face value
+     * should not be used without proper processing.
+     *
+     * <p>A {@code null} instant is not a special time.</p>
+     *
+     * @param instant the instant to test
+     * @return {@code true} if the given instant is used as a special representation, {@code false} otherwise
      */
     public static boolean isSpecialTime(Instant instant) {
-
         if (instant == null) {
             return false;
         }
@@ -396,7 +431,6 @@ public final class TimeHelper {
                 || instant.equals(Const.TIME_REPRESENTS_LATER)
                 || instant.equals(Const.TIME_REPRESENTS_NEVER)
                 || instant.equals(Const.TIME_REPRESENTS_NOW);
-
     }
 
     /**
@@ -437,7 +471,6 @@ public final class TimeHelper {
      * <p>Example: 1200 milliseconds ---> 0:1:200.
      */
     public static String convertToStandardDuration(Long timeInMilliseconds) {
-
         return timeInMilliseconds == null
              ? ""
              : String.format("%d:%d:%d",
@@ -447,12 +480,28 @@ public final class TimeHelper {
     }
 
     /**
-     * Parses a {@code LocalDateTime} object from a date time string according to a pattern.
-     * Returns {@code null} on error.
+     * Parses an {@code Instant} object from a datetime string in the {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.
      *
-     * @param dateTimeString    the string containing the date and time
-     * @param pattern           the pattern of the date and time string
-     * @return                  the parsed {@code LocalDateTime} object, or {@code null} if there are errors
+     * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
+     * @return the parsed {@code Instant} object
+     * @throws AssertionError if there is a parsing error
+     */
+    public static Instant parseInstant(String dateTimeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
+        try {
+            return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
+        } catch (DateTimeParseException e) {
+            Assumption.fail("Date in String is in wrong format.");
+            return null;
+        }
+    }
+
+    /**
+     * Parses a {@code LocalDateTime} object from a datetime string and parsing pattern.
+     *
+     * @param dateTimeString the string containing the datetime
+     * @param pattern        the parsing pattern of the datetime string
+     * @return the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
     public static LocalDateTime parseLocalDateTime(String dateTimeString, String pattern) {
         if (dateTimeString == null || pattern == null) {
@@ -468,12 +517,11 @@ public final class TimeHelper {
     }
 
     /**
-     * Parses a {@code LocalDate} object from a date string according to a pattern.
-     * Returns {@code null} on error.
+     * Parses a {@code LocalDate} object from a date string and parsing pattern.
      *
-     * @param dateString        the string containing the date
-     * @param pattern           the pattern of the date string
-     * @return                  the parsed {@code LocalDate} object, or {@code null} if there are errors
+     * @param dateString the string containing the date
+     * @param pattern    the parsing pattern of the datetime string
+     * @return the parsed {@code LocalDate} object, or {@code null} if there are errors
      */
     public static LocalDate parseLocalDate(String dateString, String pattern) {
         if (dateString == null || pattern == null) {
@@ -492,10 +540,10 @@ public final class TimeHelper {
      * Parses a {@code LocalDate} object from a date string.
      * Example: date "Tue, 01 Apr, 2014"
      *
-     * @param date  date in format "EEE, dd MMM, yyyy"
-     * @return      the parsed {@code LocalDate} object, or {@code null} if there are errors
+     * @param date date in format "EEE, dd MMM, yyyy"
+     * @return the parsed {@code LocalDate} object, or {@code null} if there are errors
      */
-    public static LocalDate parseLocalDateForSessionsForm(String date) {
+    public static LocalDate parseDateFromSessionsForm(String date) {
         return parseLocalDate(date, "EEE, dd MMM, yyyy");
     }
 
@@ -503,13 +551,13 @@ public final class TimeHelper {
      * Parses a {@code LocalDateTime} object from separated date, hour and minute strings.
      * Example: date "Tue, 01 Apr, 2014", hour "23", min "59"
      *
-     * @param date  date in format "EEE, dd MMM, yyyy"
-     * @param hour  hour-of-day (0-23)
-     * @param min   minute-of-hour (0-59)
-     * @return      the parsed {@code LocalDateTime} object, or {@code null} if there are errors
+     * @param date date in format "EEE, dd MMM, yyyy"
+     * @param hour hour-of-day (0-23)
+     * @param min  minute-of-hour (0-59)
+     * @return the parsed {@code LocalDateTime} object, or {@code null} if there are errors
      */
-    public static LocalDateTime parseLocalDateTimeForSessionsForm(String date, String hour, String min) {
-        LocalDate localDate = parseLocalDateForSessionsForm(date);
+    public static LocalDateTime parseDateTimeFromSessionsForm(String date, String hour, String min) {
+        LocalDate localDate = parseDateFromSessionsForm(date);
         if (localDate == null) {
             return null;
         }
@@ -524,11 +572,26 @@ public final class TimeHelper {
     }
 
     /**
+     * Parses a date string and a time string of only the hour into a LocalDateTime object.
+     * If the {@code inputTimeHours} is "24", it is converted to "23:59".
+     *
+     * @param inputDate      date in format "EEE, dd MMM, yyyy"
+     * @param inputTimeHours hour-of-day (0-24)
+     * @return the parsed {@code LocalDateTime} at the specified date and hour, or null for invalid parameters
+     */
+    public static LocalDateTime parseDateTimeFromSessionsForm(String inputDate, String inputTimeHours) {
+        if ("24".equals(inputTimeHours)) {
+            return parseDateTimeFromSessionsForm(inputDate, "23", "59");
+        }
+        return parseDateTimeFromSessionsForm(inputDate, inputTimeHours, "0");
+    }
+
+    /**
      * Parses a {@code ZoneId} object from a string.
      * Example: "Asia/Singapore" or "UTC+04:00".
      *
-     * @param timeZone  a string containing the zone ID
-     * @return          ZoneId.of(timeZone) or {@code null} if {@code timeZone} is invalid.
+     * @param timeZone a string containing the zone ID
+     * @return {@code ZoneId.of(timeZone)}, or {@code null} if {@code timeZone} is invalid.
      */
     public static ZoneId parseZoneId(String timeZone) {
         if (timeZone == null) {

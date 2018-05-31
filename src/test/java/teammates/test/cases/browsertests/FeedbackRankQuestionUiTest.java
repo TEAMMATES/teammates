@@ -79,7 +79,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Submit
         submitPage.clickSubmitButton();
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13, 14.");
 
         FeedbackQuestionAttributes fq1 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
         assertNotNull(BackDoor.getFeedbackResponse(fq1.getId(),
@@ -322,14 +323,14 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank recipients: new question (frame)");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_RECIPIENTS");
         assertTrue(feedbackEditPage.verifyNewRankRecipientsQuestionFormIsDisplayed());
     }
 
     private void testNewRankOptionsQuestionFrame() {
         ______TS("Rank options: new question (frame)");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
         assertTrue(feedbackEditPage.verifyNewRankOptionsQuestionFormIsDisplayed());
     }
 
@@ -365,7 +366,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                         + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("Rank qn");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
@@ -388,8 +389,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank edit: Invalid empty input in number of options a respondent must rank");
 
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
-        feedbackEditPage.waitForPageToScroll();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("filled qn");
         feedbackEditPage.fillRankOptionForNewQuestion(0, "Option 1");
@@ -416,8 +416,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("Rank edit: Auto fill with 1 in number of options a respondent must rank success");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_OPTIONS");
-        feedbackEditPage.waitForPageToScroll();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_OPTIONS");
 
         // Ensure that rank options is cleared.
         feedbackEditPage.clickMinRankOptions(InstructorFeedbackEditPage.NEW_QUESTION_NUM);
@@ -435,7 +434,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("Rank edit: add rank recipient question action success");
         feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.selectNewQuestionType("RANK_RECIPIENTS");
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RANK_RECIPIENTS");
 
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
 
