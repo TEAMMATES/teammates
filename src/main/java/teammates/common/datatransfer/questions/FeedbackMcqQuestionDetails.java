@@ -157,7 +157,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return mcqWeights;
     }
 
-    private double getMcqOtherWeight(Map<String, String[]>requestParameters,
+    private double getMcqOtherWeight(Map<String, String[]> requestParameters,
             boolean mcqOtherEnabled, boolean hasAssignedWeights) {
 
         double mcqOtherWeight = 0.0;
