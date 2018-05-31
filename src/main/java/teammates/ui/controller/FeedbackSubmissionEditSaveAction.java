@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,6 +86,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         String userTeamForCourse = getUserTeamForCourse();
         String userSectionForCourse = getUserSectionForCourse();
+        List<Integer> questionsWithMissingAnswers = new ArrayList<>();
 
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
 
@@ -157,6 +159,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 }
             }
 
+            if (responsesForQuestion.isEmpty() && numOfResponsesToGet > 0) {
+                // add the question index to show user unanswered questions
+                questionsWithMissingAnswers.add(questionIndx);
+            }
+
             List<String> questionSpecificErrors =
                     questionDetails.validateResponseAttributes(responsesForQuestion,
                                                                data.bundle.recipientList.get(questionId).size());
@@ -193,6 +200,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         if (!isError) {
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, StatusMessageColor.SUCCESS));
+            if (!questionsWithMissingAnswers.isEmpty()) {
+                statusToUser.add(new StatusMessage(getUnansweredQuestionMessage(questionsWithMissingAnswers),
+                        StatusMessageColor.INFO));
+            }
         }
 
         if (isUserRespondentOfSession()) {
@@ -554,6 +565,20 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
 
         return response;
+    }
+
+    private String getUnansweredQuestionMessage(List<Integer> questionsWithMissingAnswers) {
+        StringBuilder incompleteQuestionsMessage = new StringBuilder(Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS);
+        Iterator questions = questionsWithMissingAnswers.iterator();
+        while (questions.hasNext()) {
+            incompleteQuestionsMessage.append(questions.next().toString());
+            if (questions.hasNext()) {
+                incompleteQuestionsMessage.append(", ");
+            } else {
+                incompleteQuestionsMessage.append('.');
+            }
+        }
+        return incompleteQuestionsMessage.toString();
     }
 
     /**

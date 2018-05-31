@@ -152,7 +152,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
 
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "3, 5, 7, 9, 10, 11, 12, 14, "
+                        + "15, 16, 18, 19, 20, 21, 22, 23.");
 
         assertNotNull(BackDoor.getFeedbackResponse(
                                    fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.alice.b@gmail.tmt"));
@@ -266,7 +268,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertFalse(submitPage.isConfirmationEmailBoxTicked());
         submitPage.submitWithoutConfirmationEmail();
 
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21.");
         assertEquals("<p>" + editedResponse + "</p>",
                     BackDoor.getFeedbackResponse(
                                  fq.getId(), "IFSubmitUiT.instr@gmail.tmt",
