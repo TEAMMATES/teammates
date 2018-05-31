@@ -6,11 +6,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import com.google.appengine.api.datastore.Text;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
