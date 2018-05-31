@@ -75,11 +75,7 @@ public class Course extends BaseEntity {
     }
 
     public Instant getDeletedAt() {
-        if (this.deletedAt == null) {
-            return null;
-        } else {
-            return TimeHelper.convertDateToInstant(this.deletedAt);
-        }
+        return TimeHelper.convertDateToInstant(this.deletedAt);
     }
 
     public void setDeletedAt(Instant deletedAt) {
