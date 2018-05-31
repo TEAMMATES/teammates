@@ -1,6 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -27,7 +26,6 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     @Test
     public void testInstructorCourseEnrollPage() throws Exception {
         testContent();
-        testSampleLink();
         testEnrollAction();
     }
 
@@ -43,15 +41,6 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         // This is the full HTML verification for Instructor Course Enroll Page, the rest can all be verifyMainHtml
         enrollPage.verifyHtml("/instructorCourseEnrollPage.html");
-    }
-
-    private void testSampleLink() {
-
-        ______TS("link for the sample spreadsheet");
-        enrollPage.clickSpreadsheetLink();
-        By expectedOgTitle =
-                By.cssSelector("meta[property='og:title'][content='TEAMMATES Course Enroll Sample Spreadsheet']");
-        enrollPage.verifyContainsElement(expectedOgTitle);
     }
 
     private void testEnrollAction() throws Exception {
