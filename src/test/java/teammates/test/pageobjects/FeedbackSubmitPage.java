@@ -238,7 +238,7 @@ public class FeedbackSubmitPage extends AppPage {
         closeMoreInfoAboutEqualShareModal();
     }
 
-    public void verifyAndCloseSuccessfulSubmissionModal() {
+    public void verifyAndCloseSuccessfulSubmissionModal(String unansweredQuestionsMessage) {
         // Waiting for modal visibility
         WebElement closeButton = browser.driver.findElement(By.className("bootbox-close-button"));
         waitForElementToBeClickable(closeButton);
@@ -251,12 +251,16 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement modalTitle = browser.driver.findElement(By.xpath("//h4[@class='modal-title icon-success']"));
         assertEquals(modalTitle.getText(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
-        // Verify message content
-        final String expectedModalMessage = "All your responses have been successfully recorded! "
+        // Verify modal message content
+        StringBuilder expectedModalMessage = new StringBuilder("All your responses have been successfully recorded! "
                 + "You may now leave this page.\n"
-                + "Note that you can change your responses and submit them again any time before the session closes.";
+                + "Note that you can change your responses and submit them again any time before the session closes.");
+        if (!unansweredQuestionsMessage.isEmpty()) {
+            expectedModalMessage.insert(0, "❗ Note that some questions are yet to be answered. They are: "
+                    + unansweredQuestionsMessage + "\n");
+        }
         WebElement modalMessage = browser.driver.findElement(By.xpath("//div[@class='bootbox-body']"));
-        assertEquals(modalMessage.getText(), expectedModalMessage);
+        assertEquals(modalMessage.getText(), expectedModalMessage.toString());
 
         clickDismissModalButtonAndWaitForModalHidden(closeButton);
     }
