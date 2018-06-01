@@ -76,11 +76,11 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         bundle = commentsDb.search("\"student2 In Course1\"", instructors);
         verifySearchResults(bundle, frc1I1Q2S1C1);
 
-        ______TS("success: search for comments; confirms deleted comments are not included in results");
+        ______TS("success: search for comments; confirms soft-deleted comments are still included in results");
 
         commentsDb.deleteDocument(frc1I3Q1S2C2);
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
-        verifySearchResults(bundle);
+        verifySearchResults(bundle, frc1I3Q1S2C2);
     }
 
     /*
