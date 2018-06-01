@@ -170,7 +170,6 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.clickSubmitButton();
     }
 
-    @Test
     private void testEditPage() throws Exception {
         testNewQuestionFrame();
         testInputValidation();
