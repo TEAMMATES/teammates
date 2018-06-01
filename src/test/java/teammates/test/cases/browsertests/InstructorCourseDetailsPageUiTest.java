@@ -8,7 +8,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
 import teammates.test.driver.TestProperties;
@@ -269,12 +270,37 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
     private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
             throws Exception {
-        String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
-        ThreadHelper.waitFor(5000); //TODO: remove this and use RetryManager with a shorter wait interval
-        String keyReceivedInEmail =
-                EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
-        return keyToSend.equals(keyReceivedInEmail);
+        RetryManager RM = new RetryManager(3);
+
+        return RM.runUntilSuccessful(new RetryableTaskReturns<Boolean>("Received email") {
+
+            String keyToSend;
+            String keyReceivedInEmail;
+            boolean isDoneExecuting = false;
+
+            @Override
+            public Boolean run() throws RuntimeException {
+
+                keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
+                try {
+                    keyReceivedInEmail =
+                            EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
+                    isDoneExecuting = true;
+                } catch (Exception e) {
+                    isDoneExecuting = false;
+                    e.printStackTrace();
+                }
+
+                return keyToSend.equals(keyReceivedInEmail);
+            }
+
+            @Override
+            public boolean isSuccessful(Boolean result) {
+                return isDoneExecuting;
+            }
+        });
+
     }
 
     @AfterClass
