@@ -19,7 +19,6 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private StudentAttributes inputStudent;
     private StudentProfileAttributes inputStudentProfile;
     private String pictureUrl;
-    private String courseName;
     private boolean hasSection;
 
     @Test
@@ -126,11 +125,10 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         createCommonData();
 
         return new InstructorCourseStudentDetailsPageData(AccountAttributes.builder().build(), dummySessionToken,
-                inputStudent, inputStudentProfile, courseName, hasSection);
+                inputStudent, inputStudentProfile, hasSection);
     }
 
     private void createCommonData() {
-        courseName = "CourseNameForJohnDoe";
         hasSection = true;
     }
 }

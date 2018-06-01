@@ -11,13 +11,13 @@ public class InstructorCourseStudentDetailsEditPageData extends InstructorCourse
     public InstructorCourseStudentDetailsEditPageData(
             AccountAttributes account, String sessionToken, StudentAttributes student, boolean hasSection,
             boolean isOpenOrPublishedEmailSentForTheCourse) {
-        this(account, sessionToken, student, student.email, "Unknown", hasSection, isOpenOrPublishedEmailSentForTheCourse);
+        this(account, sessionToken, student, student.email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
     public InstructorCourseStudentDetailsEditPageData(
-            AccountAttributes account, String sessionToken, StudentAttributes student, String newEmail, String courseName,
+            AccountAttributes account, String sessionToken, StudentAttributes student, String newEmail,
             boolean hasSection, boolean isOpenOrPublishedEmailSentForTheCourse) {
-        super(account, sessionToken, student, null, courseName, hasSection);
+        super(account, sessionToken, student, null, hasSection);
         this.newEmail = newEmail;
         this.isOpenOrPublishedEmailSentForTheCourse = isOpenOrPublishedEmailSentForTheCourse;
     }

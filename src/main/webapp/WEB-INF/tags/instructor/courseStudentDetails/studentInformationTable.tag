@@ -8,9 +8,8 @@
   <div class="form form-horizontal" id="studentInfomationTable">
     <div class="form-group">
       <div class="col-sm-12">
-        <h4 class="text-bold">
-          <span class="text-color-primary">${studentInfoTable.courseId}</span><br>
-          <span>${studentInfoTable.courseName}</span>
+        <h4 class="text-bold text-color-primary">
+          ${studentInfoTable.courseId}
         </h4>
       </div>
     </div>

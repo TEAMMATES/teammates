@@ -39,12 +39,11 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends BaseTestCase
     private InstructorCourseStudentDetailsEditPageData createData() {
         String name = "John Doe";
         String email = "john@doe.com";
-        String courseName = "CourseNameForJohnDoe";
 
         createStudent(name, email);
 
         return new InstructorCourseStudentDetailsEditPageData(AccountAttributes.builder().build(),
-                dummySessionToken, inputStudent, email, courseName, hasSection, isOpenOrPublishedEmailSentForTheCourse);
+                dummySessionToken, inputStudent, email, hasSection, isOpenOrPublishedEmailSentForTheCourse);
     }
 
     private void createStudent(String name, String email) {

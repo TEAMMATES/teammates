@@ -33,12 +33,11 @@ public class InstructorCourseStudentDetailsEditPageAction extends Action {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
 
-        String courseName = logic.getCourse(courseId).getName();
         boolean hasSection = logic.hasIndicatedSections(courseId);
         boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
 
         InstructorCourseStudentDetailsEditPageData data =
-                new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, student.email, courseName,
+                new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, student.email,
                         hasSection, isOpenOrPublishedEmailSentForTheCourse);
 
         statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
