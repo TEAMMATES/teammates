@@ -66,8 +66,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseRichTextEditor(1, 0, "Good design");
 
         submitPage.clickSubmitButton();
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
 
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
 
@@ -94,7 +95,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModified.html");
-        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("");
     }
 
     private void testDeleteResponse() {
@@ -105,8 +106,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(1, 0, "");
         submitPage.clickSubmitButton();
 
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        submitPage.verifyAndCloseSuccessfulSubmissionModal();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2.");
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
