@@ -47,8 +47,13 @@ function getUpdatedData(spreadsheetDataRows) {
     return spreadsheetDataRows.map(row => row.split('|'));
 }
 
+function unCapitalizeFirstLetter(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
 export {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
+    unCapitalizeFirstLetter
 };

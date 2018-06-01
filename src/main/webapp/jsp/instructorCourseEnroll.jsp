@@ -17,6 +17,12 @@
 <c:set var="SESSION_TOKEN">
   <%=Const.ParamsNames.SESSION_TOKEN%>
 </c:set>
+<c:set var="COURSE_ID">
+  <%=Const.ParamsNames.COURSE_ID%>
+</c:set>
+<c:set var="USER_ID">
+  <%=Const.ParamsNames.USER_ID%>
+</c:set>
 <ti:instructorPage title="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
   <div class="panel panel-primary">
@@ -29,6 +35,8 @@
       <form id="student-data-spreadsheet-form" action="${data.instructorCourseEnrollSaveLink}" method="post"
             class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
+        <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
+        <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
         <div class="col-md-12">
           <div class="form-group">
             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>

@@ -6,9 +6,14 @@ import {
 } from '../common/instructor';
 
 import {
+    ParamsNames
+} from "../common/const";
+
+import {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
+    unCapitalizeFirstLetter,
 } from './instructorCourseEnrollHelper';
 
 const container = document.getElementById('spreadsheet');
@@ -54,8 +59,35 @@ function updateDataDump() {
             '' : dataPushToTextarea + userDataRows); // only pushes header string if userDataRows is not empty
 }
 
+function getAjaxStudentList() {
+    const $spreadsheetForm = $('#student-data-spreadsheet-form');
+
+    $.ajax({
+        type: 'POST',
+        url: '/page/instructorCourseEnrollAjaxPage',
+        cache: false,
+        data: {
+            courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
+            user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
+        },
+        success(data) {
+            const studentsData = data.students;
+            const studentsDataList = [];
+            studentsData.forEach((student) => {
+                let tempStudentsData = [];
+                handsontable.getColHeader().forEach((header) => {
+                    tempStudentsData.push(student[unCapitalizeFirstLetter(header)]);
+                });
+                studentsDataList.push(tempStudentsData);
+            });
+            handsontable.loadData(studentsDataList);
+        },
+    });
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
+    getAjaxStudentList();
 
     if ($('#enrollstudents').val()) {
         const allData = $('#enrollstudents').val().split('\n'); // data in the table including column headers (string format)
