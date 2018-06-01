@@ -361,8 +361,8 @@ function highlightRubricCol(index, questionNum, highlight) {
 function makeRubricWeightsRequired($weightRow) {
     const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
 
-    $weightCells.each(function(){
-       $(this).prop('required', true);
+    $weightCells.each(function () {
+        $(this).prop('required', true);
     });
 }
 
