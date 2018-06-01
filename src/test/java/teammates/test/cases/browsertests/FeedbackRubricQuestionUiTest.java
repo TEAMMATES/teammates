@@ -220,9 +220,15 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
         feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
-        //feedbackEditPage.clickAddQuestionButton();
-        //feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
-        assertFalse(feedbackEditPage.isInputElementValid(feedbackEditPage.getRubricWeightBox(-1, 3)));
+        feedbackEditPage.clickAddQuestionButton();
+        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 3));
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0", 3);
+        feedbackEditPage.clickAddRubricColLink(questionNum);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 4);
+        feedbackEditPage.clickAddQuestionButton();
+        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 4));
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(questionNum, 4);
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }

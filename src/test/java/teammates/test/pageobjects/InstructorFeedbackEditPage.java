@@ -598,6 +598,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(weightBox, weight);
     }
 
+    public boolean isRubricWeightBoxFocused(int qnNumber, int choiceIndex) {
+        WebElement weightBox = getRubricWeightBox(qnNumber, choiceIndex);
+
+        return weightBox.equals(browser.driver.switchTo().activeElement());
+    }
+
     public void fillRubricWeightBoxForNewQuestion(String weight, int choiceIndex) {
         fillRubricWeightBox(weight, NEW_QUESTION_NUM, choiceIndex);
     }
