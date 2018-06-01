@@ -622,7 +622,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorRecoveryRestoreLink(String courseId) {
+    public String getInstructorRecoveryRestoreCourseLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_RESTORE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = addUserIdToUrl(link);
@@ -630,7 +630,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorRecoveryRestoreAllLink() {
+    public String getInstructorRecoveryRestoreAllCoursesLink() {
         String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_RESTORE_ALL;
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
@@ -638,7 +638,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorRecoveryDeleteLink(String courseId, boolean isHome) {
+    public String getInstructorRecoveryDeleteCourseLink(String courseId, boolean isHome) {
         String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link,
@@ -650,7 +650,7 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorRecoveryDeleteAllLink() {
+    public String getInstructorRecoveryDeleteAllCoursesLink() {
         String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_DELETE_ALL;
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
