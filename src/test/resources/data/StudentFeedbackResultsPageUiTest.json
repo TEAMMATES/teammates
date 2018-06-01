@@ -1192,7 +1192,7 @@
       "giver": "Team 1</td></div>'\"",
       "recipient": "Team 2",
       "responseMetaData": {
-        "value": "team 1 to team 2"
+        "value": "team 1(alice) to team 2"
       }
     },
     "response9": {

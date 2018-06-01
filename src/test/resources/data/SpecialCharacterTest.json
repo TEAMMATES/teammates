@@ -171,8 +171,7 @@
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS"
+        "RECEIVER"
       ],
       "showGiverNameTo": [
         "RECEIVER"
