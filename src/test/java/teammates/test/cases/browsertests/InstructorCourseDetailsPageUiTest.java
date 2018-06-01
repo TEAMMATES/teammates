@@ -271,13 +271,13 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
             throws Exception {
 
-        RetryManager RM = new RetryManager(3);
+        RetryManager retryManager = new RetryManager(3);
 
-        return RM.runUntilSuccessful(new RetryableTaskReturns<Boolean>("Received email") {
+        return retryManager.runUntilSuccessful(new RetryableTaskReturns<Boolean>("Received email") {
 
             String keyToSend;
             String keyReceivedInEmail;
-            boolean isDoneExecuting = false;
+            boolean isDoneExecuting;
 
             @Override
             public Boolean run() throws RuntimeException {
