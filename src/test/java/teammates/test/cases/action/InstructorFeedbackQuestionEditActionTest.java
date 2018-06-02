@@ -1,6 +1,8 @@
 package teammates.test.cases.action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -1196,18 +1198,27 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) fq.getQuestionDetails();
 
-        ______TS("Edit text");
-
-        // There are already responses for this question
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-
-        String[] editTextParams = {
+        String[] requiredParams = {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        ______TS("Edit text");
+
+        // There are already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+        String[] editTextParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.getQuestionText() + "(edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
@@ -1219,17 +1230,13 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-0", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time"
         };
 
-        InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
+        List<String> params = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(params, editTextParams);
+
+        InstructorFeedbackQuestionEditAction a = getAction(params.toArray(new String[params.size()]));
         RedirectResult r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -1246,18 +1253,15 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
+        // Empty the parameter list
+        params.clear();
+
         ______TS("Edit descriptions");
 
         // There are already responses for this question
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editDescriptionParams = {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.getQuestionText() + "(edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
@@ -1270,16 +1274,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
         };
+        params = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(params, editDescriptionParams);
 
-        a = getAction(editDescriptionParams);
+        a = getAction(params.toArray(new String[params.size()]));
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -1295,6 +1294,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        params.clear();
 
         ______TS("Edit rubric weight");
 
@@ -1302,12 +1302,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editWeightParams = {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.getQuestionText() + "(edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
@@ -1323,16 +1317,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
         };
+        params = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(params, editWeightParams);
 
-        a = getAction(editWeightParams);
+        a = getAction(params.toArray(new String[params.size()]));
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -1348,6 +1337,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        params.clear();
 
         ______TS("Edit sub-questions");
 
@@ -1355,12 +1345,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editSubQnParams = {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.getQuestionText() + "(edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
@@ -1373,16 +1357,11 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-0-1", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-0", "Most of the time(Edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-1-1", "Less than half the time",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
         };
+        params = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(params, editSubQnParams);
 
-        a = getAction(editSubQnParams);
+        a = getAction(params.toArray(new String[params.size()]));
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -1398,6 +1377,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing responses should be deleted
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        params.clear();
 
         ______TS("Edit choices");
 
