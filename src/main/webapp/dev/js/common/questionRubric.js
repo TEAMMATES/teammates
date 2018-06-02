@@ -368,8 +368,21 @@ function makeRubricWeightsRequired($weightRow) {
 }
 
 /**
- * Shows the weight row if the "Choices are weighted" checkbox is checked, otherwise
- * hides the weight row.
+ * Removes the 'required' field from all the weight cells
+ *
+ * @param $weightRow
+ */
+function removeRubricWeightsRequired($weightRow) {
+    const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
+
+    $weightCells.each(function () {
+        $(this).prop('required', false);
+    });
+}
+
+/**
+ * Shows the weight row and makes weight cells required if the "Choices are weighted" checkbox is checked,
+ * otherwise hides the weight row and removes the 'required' field from all weight cells.
  *
  * @param checkbox the "Choices are weighted" checkbox
  */
@@ -382,6 +395,7 @@ function toggleAssignWeightsRow($checkbox) {
         $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
         makeRubricWeightsRequired($weightsRow);
     } else {
+        removeRubricWeightsRequired($weightsRow);
         $weightsRow.hide();
     }
 }
