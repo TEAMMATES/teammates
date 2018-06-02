@@ -49,7 +49,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.numOfMcqChoices = 0;
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
-        this.mcqOtherWeight = 0.0;
+        this.mcqOtherWeight = 0;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
@@ -66,15 +66,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return mcqChoices;
     }
 
-    boolean hasAssignedWeights() {
+    public boolean hasAssignedWeights() {
         return hasAssignedWeights;
     }
 
-    List<Double> getMcqWeights() {
+    public List<Double> getMcqWeights() {
         return new ArrayList<>(mcqWeights);
     }
 
-    double getMcqOtherWeight() {
+    public double getMcqOtherWeight() {
         return mcqOtherWeight;
     }
 
@@ -160,7 +160,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private double getMcqOtherWeight(Map<String, String[]> requestParameters,
             boolean mcqOtherEnabled, boolean hasAssignedWeights) {
 
-        double mcqOtherWeight = 0.0;
+        double mcqOtherWeight = this.mcqOtherWeight;
 
         if (!hasAssignedWeights || !mcqOtherEnabled) {
             return mcqOtherWeight;
