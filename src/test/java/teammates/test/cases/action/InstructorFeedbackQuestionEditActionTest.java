@@ -1236,7 +1236,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         List<String> params = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(params, editTextParams);
 
-        InstructorFeedbackQuestionEditAction a = getAction(params.toArray(new String[params.size()]));
+        InstructorFeedbackQuestionEditAction a = getAction(params.toArray(new String[0]));
         RedirectResult r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -1278,7 +1278,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         params = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(params, editDescriptionParams);
 
-        a = getAction(params.toArray(new String[params.size()]));
+        a = getAction(params.toArray(new String[0]));
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -1321,7 +1321,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         params = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(params, editWeightParams);
 
-        a = getAction(params.toArray(new String[params.size()]));
+        a = getAction(params.toArray(new String[0]));
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
@@ -1361,7 +1361,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         params = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(params, editSubQnParams);
 
-        a = getAction(params.toArray(new String[params.size()]));
+        a = getAction(params.toArray(new String[0]));
         r = getRedirectResult(a);
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
