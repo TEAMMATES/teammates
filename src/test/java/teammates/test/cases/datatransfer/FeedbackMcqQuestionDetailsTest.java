@@ -66,9 +66,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertTrue(mcqDetails.hasAssignedWeights());
         assertFalse(mcqDetails.getMcqChoices().isEmpty());
         assertEquals(2, mcqDetails.getMcqChoices().size());
-        weights = mcqDetails.getMcqWeights();
-        assertTrue(weights.isEmpty());
-        assertEquals(0, weights.size());
+        assertEquals(0, mcqDetails.getMcqWeights().size());
         requestParams.clear();
 
         ______TS("Success: Weights enalbed, two choices, custom weights, other disabled");
@@ -88,7 +86,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertFalse(mcqDetails.getMcqChoices().isEmpty());
         assertEquals(2, mcqDetails.getMcqChoices().size());
         weights = mcqDetails.getMcqWeights();
-        assertFalse(weights.isEmpty());
         assertEquals(2, weights.size());
         assertEquals(1.50, weights.get(0));
         assertEquals(2.50, weights.get(1));
@@ -193,7 +190,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         assertTrue(mcqDetails.hasAssignedWeights());
         weights = mcqDetails.getMcqWeights();
-        assertFalse(weights.isEmpty());
         // As one weight can not be parsed, there will be only one weight in the list
         assertEquals(1, weights.size());
         assertEquals(1.55, weights.get(0));
@@ -215,7 +211,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         assertTrue(mcqDetails.hasAssignedWeights());
         weights = mcqDetails.getMcqWeights();
-        assertFalse(weights.isEmpty());
         // As one weight can not be parsed, there will be only one weight in the list
         assertEquals(1, weights.size());
         assertEquals(1.55, weights.get(0));
@@ -237,7 +232,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         errors = mcqDetails.validateQuestionDetails(dummySessionToken);
-        assertFalse(errors.isEmpty());
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
                 + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
@@ -260,7 +254,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         assertTrue(mcqDetails.hasAssignedWeights());
         errors = mcqDetails.validateQuestionDetails(dummySessionToken);
-        assertFalse(errors.isEmpty());
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
         requestParams.clear();
@@ -281,7 +274,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         assertTrue(mcqDetails.hasAssignedWeights());
         errors = mcqDetails.validateQuestionDetails(dummySessionToken);
-        assertTrue(errors.isEmpty());
         assertEquals(0, errors.size());
         requestParams.clear();
     }

@@ -542,6 +542,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // If weights are enabled, number of choices and weights should be same.
+            // In case if a user enters an invalid weight for a valid choice,
+            // the mcqChoices.size() will be greater than mcqWeights.size(), which will
+            // trigger this error message.
             if (hasAssignedWeights && mcqChoices.size() != mcqWeights.size()) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
