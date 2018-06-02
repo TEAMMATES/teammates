@@ -140,6 +140,10 @@ Apply to alert to override Bootstrap's default 3d alerts
     padding-right: 15px;
 }
 
+div[class*="col-"][class*="col-no-padding"] {
+    padding: 0;
+}
+
 .ordered-table {
     counter-reset: rownumber;
 }

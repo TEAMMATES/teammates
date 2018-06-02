@@ -539,16 +539,10 @@ function updateConstSumQnInstructions(qnNum) {
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
     /*
      * Boolean value which is true when all recipients/options can not be given
-     * the same amount of points.
-     * This variable is being used mainly for backward compatibility
+     * the same amount of points. This variable is being used mainly for backward compatibility
      */
     const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
 
-    /*
-     * For "among recipients" type of question, consider no. of options
-     * to be equal to the no. of recipients. Otherwise, extract it from
-     * the hidden input element `#constSumNumOption`
-     */
     if (distributeToRecipients) {
         numOptions = numRecipients;
     } else {
@@ -559,12 +553,12 @@ function updateConstSumQnInstructions(qnNum) {
         points *= numOptions;
     }
 
-    // Specifies the type of distribution constraint selected by question creator
+    // Specifies whether points need to be distributed unevenly among recipients/options
     const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
     // Specifies whether all recipients/options should be allocated different points
     const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
             === ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION;
-    // Specifies if all points can't be the same i.e. at least one allocation must differ from the rest
+    // Specifies whether at least one allocation must differ from the rest
     const forceSomeUnevenDistribution = constSumDistributePointsOptionSelected
             === ParamsNames.FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION;
 
@@ -574,12 +568,11 @@ function updateConstSumQnInstructions(qnNum) {
 
     instruction += `${infoIcon} Total points distributed should add up to ${points}.<br>`;
 
-    // Check if allocating different points to just one recipient/option will be enough
     if (forceSomeUnevenDistribution) {
         instruction += `${infoIcon} At least one ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     } else if (forceUnevenDistribution || forceAllUnevenDistribution) {
-        // Each recipient/option must be allocated different points otherwise
+    // All points need to be different. Use forceUnevenDistribution for older versions to check the same
         instruction += `${infoIcon} Every ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     }
@@ -627,15 +620,13 @@ function updateConstSumQnMessages(qnNum) {
     }
     /*
      * Check current input provided by user
-     * and update error/sucess messages based
-     * on constraints
+     * and update error/sucess messages based on constraints
      */
     function checkAndDisplayMessage(messageElement) {
         let message = '';
         const approvedIcon = '<span class="glyphicon glyphicon-ok padding-right-10px"></span>';
         const errorIcon = '<span class="glyphicon glyphicon-remove padding-right-10px"></span>';
 
-        // Tracks whether all instructions/constraints have been satisfied
         let allChecksPassed = true;
 
         // Check if at least one input box is filled before displaying messages
@@ -668,9 +659,7 @@ function updateConstSumQnMessages(qnNum) {
                 allChecksPassed = false;
             }
 
-            // Check if allocating different points to just one recipient/option will be enough
             if (forceSomeUnevenDistribution) {
-                // display error if all allocated points are same when recipients are more than one
                 if (allSame && numOptions !== 1) {
                     message += `<span class='text-color-red'> ${errorIcon} All `
                             + `${distributeToRecipients ? 'recipients' : 'options'} `
@@ -683,7 +672,6 @@ function updateConstSumQnMessages(qnNum) {
                             + 'has been allocated different number of points.</span><br>';
                 }
             } else if (forceUnevenDistribution || forceAllUnevenDistribution) {
-                // Display success message if all points are different
                 if (allUnique) {
                     message += `<span class='text-color-green'> ${approvedIcon} `
                             + 'All allocated points are different!</span><br>';
@@ -695,13 +683,11 @@ function updateConstSumQnMessages(qnNum) {
                 }
             }
         }
-        // Check if all constraints have been satisfied
+
         if (allChecksPassed) {
-            // Change html class to green so that responses can be submitted successfully
             messageElement.addClass('text-color-green');
             messageElement.removeClass('text-color-red');
         } else {
-            // Change html class to red to prevent user from submitting an invalid response
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
         }
