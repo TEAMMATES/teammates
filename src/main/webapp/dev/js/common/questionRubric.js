@@ -355,28 +355,15 @@ function highlightRubricCol(index, questionNum, highlight) {
 }
 
 /**
- * Makes all the weight cells required.
+ * Sets the 'required' attribute in weight cells.
  *
  * @param $weightRow
  */
-function makeRubricWeightsRequired($weightRow) {
+function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
     const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
 
     $weightCells.each(function () {
-        $(this).prop('required', true);
-    });
-}
-
-/**
- * Removes the 'required' field from all the weight cells
- *
- * @param $weightRow
- */
-function removeRubricWeightsRequired($weightRow) {
-    const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
-
-    $weightCells.each(function () {
-        $(this).prop('required', false);
+        $(this).prop('required', isRequired);
     });
 }
 
@@ -393,9 +380,9 @@ function toggleAssignWeightsRow($checkbox) {
     if ($checkbox.prop('checked')) {
         $weightsRow.show();
         $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
-        makeRubricWeightsRequired($weightsRow);
+        setRequiredAttributeToRubricWeights($weightsRow, true);
     } else {
-        removeRubricWeightsRequired($weightsRow);
+        setRequiredAttributeToRubricWeights($weightsRow, false);
         $weightsRow.hide();
     }
 }
