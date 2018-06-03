@@ -611,7 +611,7 @@ function updateConstSumQnMessages(qnNum) {
     let allSame = true;
     let allInputsEmpty = true;
     let answerSet = {};
-    const repeatedPoints = [];
+    let repeatedPoints = [];
 
     function fillWithZeroIfEmpty(inputFieldElement) {
         if (Number.isNaN(parseInt(inputFieldElement.val(), 10))) {
@@ -732,6 +732,7 @@ function updateConstSumQnMessages(qnNum) {
             answerSet = {};
             allUnique = true;
             remainingPoints = points;
+            repeatedPoints = [];
 
             const $constSumMessageElement = $(`#constSumMessage-${qnNum}-${j}`);
 
