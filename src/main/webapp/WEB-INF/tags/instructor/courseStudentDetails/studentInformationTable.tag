@@ -6,11 +6,14 @@
 <%@ tag import="teammates.common.util.Const" %>
 <div class="well well-plain">
   <div class="form form-horizontal" id="studentInfomationTable">
-    <div class="form-group">
-      <div class="col-sm-12">
-        <h4 class="text-bold text-color-primary">
-          ${studentInfoTable.courseId}
-        </h4>
+    <div class="form-group student-info-row">
+      <div class="col-sm-3 text-right">
+        <label>Course</label>
+      </div>
+      <div class="col-sm-9" id="<%=Const.ParamsNames.STUDENT_NAME%>">
+        <a href="${studentInfoTable.courseDetailsLink}">
+          <span>${fn:escapeXml(studentInfoTable.courseId)}</span>
+        </a>
       </div>
     </div>
     <div class="form-group student-info-row">

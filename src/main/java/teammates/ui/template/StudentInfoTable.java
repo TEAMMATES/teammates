@@ -9,15 +9,17 @@ public class StudentInfoTable {
     private String team;
     private String comments;
     private String courseId;
+    private String courseDetailsLink;
     private boolean hasSection;
 
-    public StudentInfoTable(StudentAttributes student, boolean hasSection) {
+    public StudentInfoTable(StudentAttributes student, String courseDetailsLink, boolean hasSection) {
         this.name = student.name;
         this.email = student.email;
         this.section = student.section;
         this.team = student.team;
         this.comments = student.comments;
         this.courseId = student.course;
+        this.courseDetailsLink = courseDetailsLink;
         this.hasSection = hasSection;
     }
 
@@ -43,6 +45,10 @@ public class StudentInfoTable {
 
     public String getCourseId() {
         return courseId;
+    }
+
+    public String getCourseDetailsLink() {
+        return courseDetailsLink;
     }
 
     public boolean getHasSection() {
