@@ -1,6 +1,9 @@
 package teammates.test.cases.action;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -352,25 +355,23 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "What can be improved for this class?|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
-        ______TS("MCQ options with weights assigned");
+    }
 
-        params = new String[] {
+    @Test
+    public void testExecuteAndPostProcessMcqWeights() {
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] requiredParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "4",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
                 Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The Content",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "The Teacher",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "The Team members",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-2", "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
@@ -379,9 +380,23 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString()
         };
+        ______TS("MCQ options with weights assigned");
 
-        action = getAction(params);
-        result = getRedirectResult(action);
+        String[] params = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The Content",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "The Teacher",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "The Team members",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-2", "3",
+        };
+        List<String> requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+        InstructorFeedbackQuestionAddAction action = getAction(requestedParams.toArray(new String[0]));
+        RedirectResult result = getRedirectResult(action);
 
         assertEquals(
                 getPageResultDestination(
@@ -394,7 +409,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
                                     + "instructorFeedbackQuestionAdd|||true|||"
                                     + "Instructor|||Instructor 1 of Course 1|||"
                                     + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
@@ -405,18 +420,12 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "question:</span> What do you like best about the class?"
                                     + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+        requestedParams.clear();
 
         ______TS("Enabled other option with weights assigned");
 
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What can be improved for this class?",
-                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The content",
@@ -425,16 +434,12 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, "3"
         };
-
-        action = getAction(params);
+        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+        action = getAction(requestedParams.toArray(new String[0]));
         result = getRedirectResult(action);
 
         assertEquals(
@@ -456,20 +461,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + "(First feedback session)</span> for Course "
                              + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
                              + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> "
-                             + "What can be improved for this class?|||/page/instructorFeedbackQuestionAdd";
+                             + "What do you like best about the class?|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+        requestedParams.clear();
 
         ______TS("Failure case: Number of choices is greater than number of corrosponding weights");
 
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "4",
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
-                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The Content",
@@ -479,16 +478,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "The Team members",
                 // This weight is removed, so that choice-2 does not have a assigned weight.
                 // Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-2", "3",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString()
         };
-
-        action = getAction(params);
+        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+        action = getAction(requestedParams.toArray(new String[0]));
         result = getRedirectResult(action);
 
         assertEquals(
@@ -508,7 +501,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                                     + "Unknown|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-
+        requestedParams.clear();
     }
 
     @Test

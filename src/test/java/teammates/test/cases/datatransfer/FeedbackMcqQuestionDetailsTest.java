@@ -14,7 +14,6 @@ import teammates.test.cases.BaseTestCase;
 /**
  * SUT: {@link FeedbackMcqQuestionDetails}.
  */
-
 public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
