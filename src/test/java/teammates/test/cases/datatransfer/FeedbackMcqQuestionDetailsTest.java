@@ -113,7 +113,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
         requestParams.clear();
 
-        ______TS("Success: weights enabled, other enabled, custom other weight");
+        ______TS("Failure: weights enabled, other enabled, custom other weight");
         mcqDetails = new FeedbackMcqQuestionDetails();
 
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
@@ -129,7 +129,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         assertTrue(mcqDetails.hasAssignedWeights());
         assertTrue(mcqDetails.getOtherEnabled());
-        assertEquals(3.12, mcqDetails.getMcqOtherWeight());
+        // If no other option has weights attached, 'other' option should not have a weight either.
+        assertEquals(0.0, mcqDetails.getMcqOtherWeight());
         requestParams.clear();
 
         ______TS("Failure weights disabled, other enabled, custom other weight");

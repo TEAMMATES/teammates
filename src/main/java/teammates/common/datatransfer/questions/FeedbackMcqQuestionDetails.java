@@ -121,7 +121,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
             List<Double> mcqWeights = getMcqWeights(
                     requestParameters, numMcqChoicesCreated, hasAssignedWeights);
-            double mcqOtherWeight = getMcqOtherWeight(requestParameters, mcqOtherEnabled, hasAssignedWeights);
+            double mcqOtherWeight = getMcqOtherWeight(requestParameters, mcqOtherEnabled, hasAssignedWeights, mcqWeights);
             setMcqQuestionDetails(
                     numOfMcqChoices, mcqChoices, mcqOtherEnabled, hasAssignedWeights, mcqWeights, mcqOtherWeight);
         } else {
@@ -158,11 +158,17 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private double getMcqOtherWeight(Map<String, String[]> requestParameters,
-            boolean mcqOtherEnabled, boolean hasAssignedWeights) {
+            boolean mcqOtherEnabled, boolean hasAssignedWeights, List<Double> mcqWeights) {
 
-        double mcqOtherWeight = this.mcqOtherWeight;
+        double mcqOtherWeight = 0;
 
         if (!hasAssignedWeights || !mcqOtherEnabled) {
+            return mcqOtherWeight;
+        }
+
+        // If no other option has weights attached,
+        // the other option should not have a weight attached either
+        if (mcqWeights.isEmpty()) {
             return mcqOtherWeight;
         }
 
@@ -546,6 +552,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // the mcqChoices.size() will be greater than mcqWeights.size(), which will
             // trigger this error message.
             if (hasAssignedWeights && mcqChoices.size() != mcqWeights.size()) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
+            }
+
+            // If weights are not enabled, but weight list is not empty or otherWeight is not 0
+            // In that case, this error will be triggered.
+            if (!hasAssignedWeights && (!mcqWeights.isEmpty() || mcqOtherWeight != 0)) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
+            }
+
+            // If weight is enabled, but other option is disabled, and mcqOtherWeight is not 0
+            // In that case, this error will be triggered.
+            if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
         }
