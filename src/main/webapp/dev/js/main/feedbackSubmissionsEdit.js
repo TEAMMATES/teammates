@@ -894,34 +894,34 @@ function updateRankMessageQn(qnNum) {
     const numOptions = isDistributingToRecipients ? numRecipients
             : parseInt($(`#rankNumOptions-${qnNum}`).val(), 10);
 
-    let areAllAnswersUnique;
     let allocatedRanks;
-    let isAllOptionsRanked;
+    let allInputsEmpty;
+    let areAllAnswersUnique;
     let isMinOptionsToBeRankedViolated;
     let isMaxOptionsToBeRankedViolated;
-    let isMinOrMaxOptionsToBeRankedEnabled;
+    let rankedOptions;
+    let repeatedRanks;
 
     function resetState() {
         allocatedRanks = {};
+        allInputsEmpty = true;
         areAllAnswersUnique = true;
-        isAllOptionsRanked = true;
         isMinOptionsToBeRankedViolated = false;
         isMaxOptionsToBeRankedViolated = false;
-        isMinOrMaxOptionsToBeRankedEnabled = false;
+        rankedOptions = 0;
+        repeatedRanks = [];
     }
 
     function checkMinMaxRestrictions(questionNumber, recipientIndex) {
         const selector = $(`#rankToRecipients-${questionNumber}`).val() === 'true'
                 ? `select[name^="responsetext-${questionNumber}-"]`
                 : `select[name="responsetext-${questionNumber}-${recipientIndex}"]`;
-        const rankedOptions = $(selector).filter(function () { return $(this).val() !== ''; }).length;
-
+        rankedOptions = $(selector).filter(function () { return $(this).val() !== ''; }).length;
         if (rankedOptions === 0) {
             return;
         }
 
         if (isMinOptionsToBeRankedEnabled(qnNum)) {
-            isMinOrMaxOptionsToBeRankedEnabled = true;
             const min = getMinOptionsToBeRanked(qnNum);
 
             if (rankedOptions < min) {
@@ -930,7 +930,6 @@ function updateRankMessageQn(qnNum) {
         }
 
         if (isMaxOptionsToBeRankedEnabled(qnNum)) {
-            isMinOrMaxOptionsToBeRankedEnabled = true;
             const max = getMaxOptionsToBeRanked(qnNum);
 
             if (max < rankedOptions) {
@@ -940,29 +939,46 @@ function updateRankMessageQn(qnNum) {
     }
 
     function updateRankMessagesInUpdatingRankMessageQn($messageElement) {
-        $messageElement.removeClass('text-color-red text-color-green text-color-blue');
-
         let message = '';
+        const approvedIcon = '<span class="glyphicon glyphicon-ok padding-right-10px"></span>';
+        const errorIcon = '<span class="glyphicon glyphicon-remove padding-right-10px"></span>';
+        const entityBeingRanked = isDistributingToRecipients ? 'recipients' : 'options';
 
-        if (!areDuplicateRanksAllowed && !areAllAnswersUnique) {
-            message += ' The same rank should not be given multiple times. ';
-            $messageElement.addClass('text-color-red');
-        } else if (isMinOptionsToBeRankedViolated) {
-            const min = getMinOptionsToBeRanked(qnNum);
-
-            message += ` You need to rank at least ${min} ${isDistributingToRecipients ? 'recipients. ' : 'options. '}`;
-            $messageElement.addClass('text-color-red');
-        } else if (isMaxOptionsToBeRankedViolated) {
-            const max = getMaxOptionsToBeRanked(qnNum);
-
-            message += ` Rank no more than ${max} ${isDistributingToRecipients ? 'recipients. ' : 'options. '}`;
-            $messageElement.addClass('text-color-red');
-        } else if (!isAllOptionsRanked && !isMinOrMaxOptionsToBeRankedEnabled) {
-            message = `Please rank the above ${isDistributingToRecipients ? 'recipients' : 'options'}. `;
-            $messageElement.addClass('text-color-blue');
+        if (!allInputsEmpty) {
+            if (!areDuplicateRanksAllowed) {
+                if (areAllAnswersUnique) {
+                    message += `<span class='text-color-green'> ${approvedIcon} All allocated ranks `
+                            + 'are different.</span><br>';
+                } else {
+                    message += `<span class='text-color-red'> ${errorIcon} Multiple `
+                            + `${entityBeingRanked} are given the same rank! `
+                            + `eg. ${repeatedRanks[0]}. </span></br>`;
+                }
+            }
+            if (isMinOptionsToBeRankedEnabled(qnNum)) {
+                const min = getMinOptionsToBeRanked(qnNum);
+                if (isMinOptionsToBeRankedViolated) {
+                    message += `<span class='text-color-red'> ${errorIcon} You need to rank at least ${min} `
+                            + `${entityBeingRanked}. You have ranked ${rankedOptions} `
+                            + `${entityBeingRanked} so far.</span><br>`;
+                } else {
+                    message += `<span class='text-color-green'> ${approvedIcon} At least ${min} `
+                            + `${entityBeingRanked} have been ranked.</span><br>`;
+                }
+            }
+            if (isMaxOptionsToBeRankedEnabled(qnNum)) {
+                const max = getMaxOptionsToBeRanked(qnNum);
+                if (isMaxOptionsToBeRankedViolated) {
+                    message += `<span class='text-color-red'> ${errorIcon} You can rank at most ${max} `
+                            + `${entityBeingRanked}. You have ranked ${rankedOptions - max} extra `
+                            + `${entityBeingRanked}.</span><br>`;
+                } else {
+                    message += `<span class='text-color-green'> ${approvedIcon} At most ${max} `
+                            + `${entityBeingRanked} have been ranked.</span><br>`;
+                }
+            }
         }
-
-        $messageElement.text(message);
+        $messageElement.html(message);
         if (message === '') {
             $messageElement.parent().find('hr').hide();
         } else {
@@ -972,11 +988,12 @@ function updateRankMessageQn(qnNum) {
 
     function updateAllocatedRanks(rankAllocated) {
         if (!isNumber(rankAllocated)) {
-            isAllOptionsRanked = false;
             return;
         }
+        allInputsEmpty = false;
         if (rankAllocated in allocatedRanks) {
             areAllAnswersUnique = false;
+            repeatedRanks.push(rankAllocated);
         }
 
         allocatedRanks[rankAllocated] = true;
