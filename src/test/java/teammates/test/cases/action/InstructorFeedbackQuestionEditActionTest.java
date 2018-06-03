@@ -1253,9 +1253,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
-        // Empty the parameter list
-        params.clear();
-
         ______TS("Edit descriptions");
 
         // There are already responses for this question
@@ -1294,7 +1291,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-        params.clear();
 
         ______TS("Edit rubric weight");
 
@@ -1337,7 +1333,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-        params.clear();
 
         ______TS("Edit sub-questions");
 
@@ -1377,7 +1372,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing responses should be deleted
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-        params.clear();
 
         ______TS("Edit choices");
 

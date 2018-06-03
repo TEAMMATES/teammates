@@ -671,8 +671,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         ______TS("Typical case with attached weights");
 
-        // tests when descriptions are missing as well.
-
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
@@ -706,8 +704,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "Please choose the most appropriate choices for the sub-questions below."
                                     + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        // Clear requestedParams list
-        requestedParams.clear();
 
         ______TS("Rubric choices without weights attached");
 
@@ -743,7 +739,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "Please choose the most appropriate choices for the sub-questions below."
                                     + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        requestedParams.clear();
 
         ______TS("Number of weights is less than number of choices");
 
@@ -777,7 +772,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                                     + "Unknown|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        requestedParams.clear();
     }
 
     @Override
