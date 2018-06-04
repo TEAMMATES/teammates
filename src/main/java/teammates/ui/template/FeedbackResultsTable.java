@@ -1,6 +1,7 @@
 package teammates.ui.template;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +77,13 @@ public class FeedbackResultsTable {
         return null;
     }
 
+    private Map<String, List<FeedbackResponseAttributes>> sortByKey(Map<String, List<FeedbackResponseAttributes>> received) {
+        LinkedHashMap<String, List<FeedbackResponseAttributes>> sortedMap = new LinkedHashMap<>();
+        received.entrySet().stream().sorted(Map.Entry.comparingByKey())
+                .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+        return sortedMap;
+    }
+
     public String getStudentName() {
         return studentName;
     }
@@ -87,5 +95,4 @@ public class FeedbackResultsTable {
     public List<FeedbackResponsePersonRow> getGivenResponses() {
         return givenResponses;
     }
-
 }
