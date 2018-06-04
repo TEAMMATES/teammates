@@ -78,6 +78,15 @@ public class FeedbackResponseRow {
         }
     }
 
+    private String getNewResponseText(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+                                      FeedbackSessionResultsBundle results) {
+        response.giver = response.recipient;
+        response.giverSection = response.recipientSection;
+
+        String responseText = results.getResponseAnswerHtml(response, question);
+        return "No Response" + responseText.substring(responseText.indexOf("</span>") + "</span>".length());
+    }
+
     public int getQuestionNumber() {
         return questionNumber;
     }
