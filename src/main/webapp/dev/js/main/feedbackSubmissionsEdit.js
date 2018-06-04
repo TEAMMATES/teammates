@@ -572,7 +572,11 @@ function updateConstSumQnInstructions(qnNum) {
         instruction += `${infoIcon} At least one ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     } else if (forceUnevenDistribution || forceAllUnevenDistribution) {
-    // All points need to be different. Use forceUnevenDistribution for older versions to check the same
+    /*
+     * All points need to be different. forceUnevenDistribution is used to check the same for older versions which
+     * did not contain the feature "some receive different points". In such versions forceUnevenDistribution will
+     * be true for questions where "all receive different points" is selected.
+     */
         instruction += `${infoIcon} Every ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     }
