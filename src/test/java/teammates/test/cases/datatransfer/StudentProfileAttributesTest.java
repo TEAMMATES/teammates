@@ -179,7 +179,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         StudentProfileAttributes testProfile = StudentProfileAttributes.valueOf(expectedEntity);
         StudentProfile actualEntity = testProfile.toEntity();
 
-        // Done to prevent instability of tests due to Instant.now()
+        // toEntity does not use the original modified date so we need to ensure they are the same
         expectedEntity.setModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP);
         actualEntity.setModifiedDate(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP);
 
