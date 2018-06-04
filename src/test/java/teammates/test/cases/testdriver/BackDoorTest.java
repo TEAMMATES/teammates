@@ -77,15 +77,19 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         // #Session 1 in Course 1
         FeedbackSessionAttributes feedbackSession1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
         verifyPresentInDatastore(feedbackSession1InCourse1);
+        FeedbackQuestionAttributes question1InSession1InCourse1 =
+                dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        verifyPresentInDatastore(question1InSession1InCourse1);
+
         status = BackDoor.deleteFeedbackSession(feedbackSession1InCourse1.getFeedbackSessionName(),
                 feedbackSession1InCourse1.getCourseId());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(feedbackSession1InCourse1);
 
-        // verify if question of session is deleted
-        FeedbackQuestionAttributes question1InSession1InCourse1 =
+        // verify if question of deleted session is deleted
+        FeedbackQuestionAttributes question1InSession1InCourse1ToEnsureCascading =
                 dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        verifyAbsentInDatastore(question1InSession1InCourse1);
+        verifyAbsentInDatastore(question1InSession1InCourse1ToEnsureCascading);
 
         // #Closed Session
         FeedbackSessionAttributes closedSession = dataBundle.feedbackSessions.get("closedSession");
@@ -94,7 +98,7 @@ public class BackDoorTest extends BaseTestCaseWithBackDoorApiAccess {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         verifyAbsentInDatastore(closedSession);
 
-        // verify if response of deleted closed session are deleted
+        // verify if response of deleted closed session is deleted
         FeedbackResponseAttributes responseOfClosedSession =
                 dataBundle.feedbackResponses.get("response1Q1ClosedPeriodFeedback");
         verifyAbsentInDatastore(responseOfClosedSession);
