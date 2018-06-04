@@ -14,7 +14,7 @@ sudo: required
 dist: trusty
 
 addons:
-  firefox: "46.0"
+  firefox: "60.0"
 
 before_install:
   - |
@@ -25,13 +25,17 @@ before_install:
         echo "Only doc files or IDE configurations were updated in PR, not running the CI."
         exit
       fi
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz
+  - tar -xzf geckodriver-v0.20.1-linux64.tar.gz
+  - rm geckodriver-v0.20.1-linux64.tar.gz
+  - chmod +x geckodriver
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
     --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
   - nvm install node
 
 before_script:
   - export DISPLAY=:99.0
-  - tar -xjf /tmp/firefox-46.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
+  - tar -xjf /tmp/firefox-60.0.tar.bz2 --directory $TRAVIS_BUILD_DIR/
   - export PATH=$TRAVIS_BUILD_DIR/firefox:./node_modules/.bin:$HOME/google-cloud-sdk/bin:$PATH
 
   - curl -fsS -o $HOME/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
