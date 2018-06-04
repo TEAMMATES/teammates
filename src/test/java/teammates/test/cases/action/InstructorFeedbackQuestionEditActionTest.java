@@ -592,7 +592,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("mcqSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
         FeedbackMcqQuestionDetails mcqDetails = (FeedbackMcqQuestionDetails) fq.getQuestionDetails();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
@@ -619,13 +619,15 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editWeightsParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about our product?",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", mcqDetails.getMcqChoices().get(1),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, Double.toString(mcqDetails.getMcqOtherWeight())
         };
         List<String> requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(requestedParams, editWeightsParams);
@@ -648,19 +650,15 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         ______TS("Edit Other option Weight");
 
-        fq = FeedbackQuestionsLogic
-                .inst()
-                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
-        mcqDetails = (FeedbackMcqQuestionDetails) fq.getQuestionDetails();
         // There is already responses for this question
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editOtherOptionWeightParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What can be improved for this class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about our product?",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", Double.toString(mcqDetails.getMcqWeights().get(0)),
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", Double.toString(mcqDetails.getMcqWeights().get(1)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", mcqDetails.getMcqChoices().get(1),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on",
@@ -684,6 +682,69 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing response should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+        ______TS("Failed to edit weight when new weight is null");
+        // There is already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+        String[] editNullWeightsParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about our product?",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
+                // Remove this weight to create a null weight for choice-0
+                // Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", mcqDetails.getMcqChoices().get(1),
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, Double.toString(mcqDetails.getMcqOtherWeight())
+        };
+        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, editNullWeightsParams);
+        a = getAction(requestedParams.toArray(new String[0]));
+        r = getRedirectResult(a);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        "FSQTT.idOfTypicalCourse1",
+                        "MCQ+Session",
+                        "FSQTT.idOfInstructor1OfCourse1",
+                        true),
+                r.getDestinationWithParams());
+        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, r.getStatusMessage());
+        assertTrue(r.isError);
+
+        // All existing response should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+        // Old values of weights should be preserved due to keep existing policy
+        FeedbackQuestionAttributes editedQuestion = FeedbackQuestionsLogic.inst()
+                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
+        FeedbackMcqQuestionDetails editedQuestionDetails = (FeedbackMcqQuestionDetails) editedQuestion.getQuestionDetails();
+        assertEquals(2, editedQuestionDetails.getMcqWeights().size());
+        assertEquals(1.25, editedQuestionDetails.getMcqWeights().get(0));
+        assertEquals(-1.7, editedQuestionDetails.getMcqWeights().get(1));
+
+        ______TS("Failed to edit 'other' option weight when new weight is null: Exception thrown");
+        // There is already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+        String[] editNullOtherWeightsParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about our product?",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", mcqDetails.getMcqChoices().get(1),
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on",
+                // Removed to send null for otherWeight parameter
+                //Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, Double.toString(mcqDetails.getMcqOtherWeight())
+        };
+        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, editNullOtherWeightsParams);
+        verifyAssumptionFailure(requestedParams.toArray(new String[0]));
     }
 
     @Test

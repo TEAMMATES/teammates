@@ -269,6 +269,27 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
     }
 
+    @Test(expectedExceptions = AssertionError.class)
+    public void testGetMcqOtherWeight_nullOtherWeight_exceptionThrown() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        HashMap<String, String[]> requestParams = new HashMap<>();
+
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "mcq question text" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, new String[] { "NONE" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "Choice 1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", new String[] { "Choice 2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, new String[] { "on" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", new String[] { "2.57" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", new String[] { "1.12" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, new String[] { "on" });
+        // Removed to send null as otherWeight parameter
+        // requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, new String[] { "" });
+
+        assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
+    }
+
     @Test
     public void testValidateQuestionDetails_choicesLessThanMinRequirement_exceptionThrown() {
         ______TS("Number of choices is less than number of minimum choices");
