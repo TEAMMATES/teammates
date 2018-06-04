@@ -45,6 +45,27 @@ public class FeedbackResultsTable {
         }
     }
 
+    private FeedbackResponseAttributes findContriFeedbackResponse(
+            Map<String, List<FeedbackResponseAttributes>> rcvedFeedbacks) {
+        FeedbackResponseAttributes[] newResponseDetails = new FeedbackResponseAttributes[1];
+        boolean[] hasContriFeedbackResponseRow = {false};
+
+        rcvedFeedbacks.entrySet().forEach(entry -> {
+            for (FeedbackResponseAttributes questionResponses : entry.getValue()) {
+                if (questionResponses.feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB)) {
+                    newResponseDetails[0] = new FeedbackResponseAttributes(questionResponses);
+                    if (entry.getKey().equals(this.studentName)) {
+                        hasContriFeedbackResponseRow[0] = true;
+                    }
+                }
+            }
+        });
+        if (newResponseDetails[0] != null && !hasContriFeedbackResponseRow[0]) {
+            return newResponseDetails[0];
+        }
+        return null;
+    }
+
     public String getStudentName() {
         return studentName;
     }
