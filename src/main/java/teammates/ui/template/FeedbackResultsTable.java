@@ -6,6 +6,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 
 public class FeedbackResultsTable {
 
@@ -28,8 +29,17 @@ public class FeedbackResultsTable {
             received = sortByKey(received);
             for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
                 giverIndex++;
-                this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(), "giver",
-                                                                         entry.getValue(), result));
+                if (contriFeedbackResponse != null && entry.getKey().equals(this.studentName)) {
+                    List<FeedbackResponseAttributes> newResponseReceived = entry.getValue();
+                    newResponseReceived.add(contriFeedbackResponse);
+                    FeedbackResponseAttributes.sortFeedbackResponses(newResponseReceived);
+
+                    this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(),
+                                    "giver", newResponseReceived, result, true));
+                } else {
+                    this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(),
+                                    "giver", entry.getValue(), result, false));
+                }
             }
         }
 
@@ -40,7 +50,7 @@ public class FeedbackResultsTable {
             for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : given.entrySet()) {
                 recipientIndex++;
                 this.givenResponses.add(new FeedbackResponsePersonRow(fbIndex, recipientIndex, entry.getKey(), "recipient",
-                                                                      entry.getValue(), result));
+                                                                      entry.getValue(), result, false));
             }
         }
     }
