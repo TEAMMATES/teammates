@@ -77,7 +77,6 @@ public class Browser {
             }
             System.setProperty("webdriver.gecko.driver", TestProperties.GECKODRIVER_PATH);
 
-
             // Allow CSV files to be download automatically, without a download popup.
             // This method is used because Selenium cannot directly interact with the download dialog.
             // Taken from http://stackoverflow.com/questions/24852709
