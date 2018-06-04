@@ -271,18 +271,18 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
             throws Exception {
 
-        RetryManager retryManager = new RetryManager(3);
+        String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
-        return retryManager.runUntilSuccessful(new RetryableTaskReturns<Boolean>("Received email") {
+        RetryManager retryManager = new RetryManager(5);
 
-            String keyToSend;
+        String keyReceivedInEmail = retryManager.runUntilSuccessful(new RetryableTaskReturns<String>("Received email") {
+
             String keyReceivedInEmail;
             boolean isDoneExecuting;
 
             @Override
-            public Boolean run() throws RuntimeException {
+            public String run() throws RuntimeException {
 
-                keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
                 try {
                     keyReceivedInEmail =
                             EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
@@ -292,14 +292,16 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
                     e.printStackTrace();
                 }
 
-                return keyToSend.equals(keyReceivedInEmail);
+                return keyReceivedInEmail;
             }
 
             @Override
-            public boolean isSuccessful(Boolean result) {
+            public boolean isSuccessful(String result) {
                 return isDoneExecuting;
             }
         });
+
+        return keyToSend.equals(keyReceivedInEmail);
 
     }
 
