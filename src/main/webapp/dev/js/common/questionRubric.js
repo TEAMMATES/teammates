@@ -356,8 +356,6 @@ function highlightRubricCol(index, questionNum, highlight) {
 
 /**
  * Sets the 'required' attribute in weight cells.
- *
- * @param $weightRow
  */
 function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
     const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
