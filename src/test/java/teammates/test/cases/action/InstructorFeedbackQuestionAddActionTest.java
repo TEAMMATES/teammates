@@ -420,7 +420,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "question:</span> What do you like best about the class?"
                                     + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        requestedParams.clear();
 
         ______TS("Enabled other option with weights assigned");
 
@@ -463,7 +462,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> "
                              + "What do you like best about the class?|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        requestedParams.clear();
 
         ______TS("Failure case: Number of choices is greater than number of corrosponding weights");
 
@@ -501,7 +499,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                                     + "Unknown|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-        requestedParams.clear();
     }
 
     @Test

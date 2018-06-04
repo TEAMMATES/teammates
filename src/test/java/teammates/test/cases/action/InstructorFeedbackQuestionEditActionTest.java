@@ -645,7 +645,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing response should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-        requestedParams.clear();
 
         ______TS("Edit Other option Weight");
 
@@ -685,7 +684,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing response should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
-        requestedParams.clear();
     }
 
     @Test
