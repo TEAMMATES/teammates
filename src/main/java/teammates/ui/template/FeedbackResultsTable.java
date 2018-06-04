@@ -21,6 +21,11 @@ public class FeedbackResultsTable {
                                         result.getResponsesSortedByRecipient().get(studentName);
         int giverIndex = 0;
         if (received != null) {
+            FeedbackResponseAttributes contriFeedbackResponse = findContriFeedbackResponse(received);
+            if (contriFeedbackResponse != null && contriFeedbackResponse.recipient.equals(studentEmail)) {
+                received.computeIfAbsent(studentName, k -> new ArrayList<>());
+            }
+            received = sortByKey(received);
             for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
                 giverIndex++;
                 this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(), "giver",
