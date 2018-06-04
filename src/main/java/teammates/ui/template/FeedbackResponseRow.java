@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -35,7 +36,11 @@ public class FeedbackResponseRow {
         if ("recipient".equals(personType)) {
             this.responseText = response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
         } else if ("giver".equals(personType)) {
-            this.responseText = results.getResponseAnswerHtml(response, question);
+            if (showPcRow && question.questionType.equals(FeedbackQuestionType.CONTRIB)) {
+                this.responseText = getNewResponseText(response, question, results);
+            } else {
+                this.responseText = results.getResponseAnswerHtml(response, question);
+            }
         }
         this.responseComments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
