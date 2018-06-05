@@ -34,7 +34,7 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
 
         data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, previewStudent.email);
-
+        data.setCourseStudentDetails(logic.getStudentsForCourse(courseId));
         data.setSessionOpenForSubmission(true);
         data.setPreview(true);
         data.setHeaderHidden(true);

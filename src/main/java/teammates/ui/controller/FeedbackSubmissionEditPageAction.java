@@ -42,7 +42,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         String userEmailForCourse = getUserEmailForCourse();
         data = new FeedbackSubmissionEditPageData(account, student, sessionToken);
         data.bundle = getDataBundle(userEmailForCourse);
-
+        data.setCourseStudentDetails(logic.getStudentsForCourse(courseId));
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
         data.init(regKey, email, courseId);
 

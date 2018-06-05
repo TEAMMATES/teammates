@@ -1,6 +1,7 @@
 package teammates.ui.pagedata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses
 
 public class FeedbackSubmissionEditPageData extends PageData {
     public FeedbackSessionQuestionsBundle bundle;
+    private Map<String, StudentAttributes> studentCourseDetails;
     private String moderatedQuestionId;
     private boolean isSessionOpenForSubmission;
     private boolean isPreview;
@@ -38,6 +40,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isModeration = false;
         isShowRealQuestionNumber = false;
         isHeaderHidden = false;
+        studentCourseDetails = new HashMap<>();
     }
 
     /**
@@ -117,6 +120,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return submitAction;
     }
 
+    public Map<String, StudentAttributes> getStudentCourseDetails() {
+        return studentCourseDetails;
+    }
+
     public boolean isSubmittable() {
         return isSessionOpenForSubmission || isModeration;
     }
@@ -165,11 +172,20 @@ public class FeedbackSubmissionEditPageData extends PageData {
         this.submitAction = submitAction;
     }
 
-    public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {
+    public void setCourseStudentDetails(List<StudentAttributes> studentList) {
+        for (StudentAttributes student : studentList) {
+            studentCourseDetails.put(student.email, student);
+        }
+    }
+
+    public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, int numOfResponseBoxes,
+                                                       String currentlySelectedOption) {
 
         if (this.bundle == null) {
             return null;
         }
+        int maxResponsesPossible = bundle.recipientList.get(feedbackQuestionId).size();
+        final boolean isNumResponsesMax = numOfResponseBoxes == maxResponsesPossible;
 
         Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(feedbackQuestionId);
 
@@ -178,11 +194,22 @@ public class FeedbackSubmissionEditPageData extends PageData {
         result.add("<option value=\"\" " + (currentlySelectedOption == null ? "selected>" : ">")
                    + "</option>");
 
-        emailNamePair.forEach((key, value) -> {
-            boolean isSelected = SanitizationHelper.desanitizeFromHtml(key)
+        emailNamePair.forEach((email, name) -> {
+            boolean isSelected = SanitizationHelper.desanitizeFromHtml(email)
                                              .equals(currentlySelectedOption);
-            result.add("<option value=\"" + sanitizeForHtml(key) + "\"" + (isSelected ? " selected" : "") + ">"
-                           + sanitizeForHtml(value)
+            String section = "";
+            String team = "";
+            if (!isNumResponsesMax && studentCourseDetails.containsKey(email)) {
+                StudentAttributes student = studentCourseDetails.get(email);
+                if (student.section != null) {
+                    section = student.section + ": ";
+                }
+                if (student.team != null) {
+                    team = student.team + ": ";
+                }
+            }
+            result.add("<option value=\"" + sanitizeForHtml(email) + "\"" + (isSelected ? " selected" : "") + ">"
+                       + sanitizeForHtml(section) + sanitizeForHtml(team) + sanitizeForHtml(name)
                        + "</option>"
             );
         });
@@ -241,7 +268,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 continue;
             }
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
-                                                           questionAttributes.getId(), existingResponse.recipient);
+                                            questionAttributes.getId(), numOfResponseBoxes,
+                                                existingResponse.recipient);
 
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithExistingResponseSubmissionFormHtml(
@@ -255,7 +283,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
         }
 
         while (responseIndx < numOfResponseBoxes) {
-            List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
+            List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(),
+                                            numOfResponseBoxes, null);
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithoutExistingResponseSubmissionFormHtml(
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,
