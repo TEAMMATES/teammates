@@ -4,9 +4,11 @@ import java.time.Instant;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.storage.entity.Course;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.StudentHelpPage;
@@ -28,6 +30,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         String student1Email = student1GoogleId + "@gmail.com";
         testData.accounts.get("alice.tmms").googleId = student1GoogleId;
         testData.accounts.get("alice.tmms").email = student1Email;
+        testData.students.get("alice.tmms@SHomeUiT.CS2104").googleId = student1GoogleId;
         testData.students.get("alice.tmms@SHomeUiT.CS2104").email = student1Email;
         testData.students.get("alice.tmms@SHomeUiT.CS1101").googleId = student1GoogleId;
         testData.students.get("alice.tmms@SHomeUiT.CS1101").email = student1Email;
