@@ -27,16 +27,16 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testModerationHint();
-        testAddCommentsWithoutResponse();
+        testAddCommentsToQuestionsWithoutResponse();
         testEditResponse();
         testAddResponse();
-        testAddCommentsToResponses();
+        testAddCommentsToQuestionsWithResponses();
         testEditCommentsActionAfterAddingComments();
         testDeleteCommentsActionAfterEditingComments();
         testDeleteResponse();
     }
 
-    private void testAddCommentsToResponses() throws IOException {
+    private void testAddCommentsToQuestionsWithResponses() throws IOException {
         ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToInstructorEditStudentFeedbackPage(
@@ -51,7 +51,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
     }
 
-    private void testAddCommentsWithoutResponse() {
+    private void testAddCommentsToQuestionsWithoutResponse() {
         ______TS("add comments on questions without responses: no effect");
 
         logout();

@@ -39,9 +39,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
-        testAddCommentsWithoutResponses();
+        testAddCommentsToQuestionsWithoutResponses();
         testSubmitAction();
-        testAddCommentsToResponses();
+        testAddCommentsToQuestionsWithResponses();
         testEditCommentsActionAfterAddingComments();
         testDeleteCommentsActionAfterEditingComments();
         testInputValidation();
@@ -50,7 +50,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testModifyData();
     }
 
-    private void testAddCommentsToResponses() throws IOException {
+    private void testAddCommentsToQuestionsWithResponses() throws IOException {
         ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
@@ -180,7 +180,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testAddCommentsWithoutResponses() {
+    private void testAddCommentsToQuestionsWithoutResponses() {
         ______TS("add comments on questions without responses: no effect");
 
         logout();

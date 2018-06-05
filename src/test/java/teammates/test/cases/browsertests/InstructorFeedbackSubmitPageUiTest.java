@@ -30,9 +30,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testClosedSessionSubmitAction();
-        testAddCommentsWithoutResponses();
+        testAddCommentsToQuestionsWithoutResponses();
         testSubmitAction();
-        testAddCommentsToResponses();
+        testAddCommentsToQuestionsWithResponses();
         testEditCommentsActionAfterAddingComments();
         testDeleteCommentsActionAfterEditingComments();
         testModifyData();
@@ -82,7 +82,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
     }
 
-    private void testAddCommentsWithoutResponses() {
+    private void testAddCommentsToQuestionsWithoutResponses() {
         ______TS("add comments on questions without responses: no effect");
 
         logout();
@@ -330,7 +330,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
     }
 
-    private void testAddCommentsToResponses() throws IOException {
+    private void testAddCommentsToQuestionsWithResponses() throws IOException {
         ______TS("add new comments on questions with responses and verify add comments without responses action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");

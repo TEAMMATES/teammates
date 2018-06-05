@@ -386,7 +386,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
-    protected abstract void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment);
+    protected void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
+        statusToAdmin += this.getClass().getName() + ":<br>"
+                                 + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
+                                 + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                                 + feedbackResponseComment.feedbackSessionName + "<br>"
+                                 + "by: " + feedbackResponseComment.giverEmail + " at "
+                                 + feedbackResponseComment.createdAt + "<br>"
+                                 + "comment text: " + feedbackResponseComment.commentText.getValue();
+    }
 
     private void extractFeedbackResponseCommentsForResponseData(FeedbackQuestionAttributes questionAttributes,
                                                                 int questionIndex, FeedbackResponseAttributes response,

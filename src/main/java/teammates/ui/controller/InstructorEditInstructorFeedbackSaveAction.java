@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -34,17 +33,6 @@ public class InstructorEditInstructorFeedbackSaveAction extends FeedbackSubmissi
 
         gateKeeper.verifyAccessible(
                 instructor, session, false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-    }
-
-    @Override
-    protected void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        statusToAdmin += "InstructorEditInstructorFeedbackSaveAction:<br>"
-                + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
-                + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
-                + feedbackResponseComment.feedbackSessionName + "<br>"
-                + "by: " + feedbackResponseComment.giverEmail + " at "
-                + feedbackResponseComment.createdAt + "<br>"
-                + "comment text: " + feedbackResponseComment.commentText.getValue();
     }
 
     /**
