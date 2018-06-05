@@ -52,12 +52,12 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // also inject instructor account for this test
         String instructorGoogleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
         String instructorEmail = instructorGoogleId + "@gmail.com";
-        testData.accounts.get("SHomeUiT.instr").googleId = instructorGoogleId;
-        testData.accounts.get("SHomeUiT.instr").email = instructorEmail;
-        testData.instructors.get("SHomeUiT.instr.CS2104").googleId = instructorGoogleId;
-        testData.instructors.get("SHomeUiT.instr.CS2104").email = instructorEmail;
-        testData.instructors.get("SHomeUiT.instr.CS2103").googleId = instructorGoogleId;
-        testData.instructors.get("SHomeUiT.instr.CS2103").email = instructorEmail;
+        testData.accounts.get("SProfileUiT.instr").googleId = instructorGoogleId;
+        testData.accounts.get("SProfileUiT.instr").email = instructorEmail;
+        testData.instructors.get("SProfileUiT.instr.CS2104").googleId = instructorGoogleId;
+        testData.instructors.get("SProfileUiT.instr.CS2104").email = instructorEmail;
+        testData.instructors.get("SProfileUiT.instr.CS2103").googleId = instructorGoogleId;
+        testData.instructors.get("SProfileUiT.instr.CS2103").email = instructorEmail;
 
         removeAndRestoreDataBundle(testData);
     }
@@ -261,7 +261,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void testAjaxPictureUrl() {
         String studentId = "studentWithExistingProfile";
-        String instructorId = "SHomeUiT.instr";
+        String instructorId = "SProfileUiT.instr";
         String instructorGoogleId = testData.accounts.get(instructorId).googleId;
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
