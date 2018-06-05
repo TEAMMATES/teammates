@@ -119,7 +119,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String choice = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
 
-            if (choice == null) {
+            if (choice == null || weight == null) {
                 continue;
             }
 
