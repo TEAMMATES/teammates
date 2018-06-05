@@ -9,7 +9,7 @@
     <div class="form form-horizontal" id="studentInfomationTable">
       <div class="form-group">
         <div class="col-sm-12">
-          <h4 class="text-bold">Enrollment Data</h4>
+          <h4 class="text-bold">Enrollment Details</h4>
         </div>
       </div>
       <div class="form-group student-info-row">
