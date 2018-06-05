@@ -106,8 +106,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends Action {
             student.email = studentEmail;
             boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
             InstructorCourseStudentDetailsEditPageData data =
-                    new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, newEmail,
-                            hasSection, isOpenOrPublishedEmailSentForTheCourse);
+                    new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, newEmail, hasSection,
+                            isOpenOrPublishedEmailSentForTheCourse);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }
 

@@ -37,7 +37,8 @@ public class InstructorCourseStudentDetailsPageAction extends Action {
         StudentProfileAttributes studentProfile = loadStudentProfile(student, instructor);
 
         InstructorCourseStudentDetailsPageData data =
-                new InstructorCourseStudentDetailsPageData(account, sessionToken, student, studentProfile, hasSection);
+                new InstructorCourseStudentDetailsPageData(account, sessionToken, student, studentProfile,
+                                                           hasSection);
 
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>"
                         + "Viewing details for Student <span class=\"bold\">" + studentEmail

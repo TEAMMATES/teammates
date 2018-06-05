@@ -8,7 +8,7 @@
 <c:set var="jsIncludes">
   <script type="text/javascript" src="/js/instructorCourseStudentDetails.js"></script>
 </c:set>
-<ti:instructorPage title="Student Details" jsIncludes="${jsIncludes}">
+<ti:instructorPage title="${data.studentInfoTable.name}" jsIncludes="${jsIncludes}">
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
   <c:if test="${not empty data.studentProfile}">
     <csd:studentProfile student="${data.studentProfile}"/>

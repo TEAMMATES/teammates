@@ -37,8 +37,8 @@ public class InstructorCourseStudentDetailsEditPageAction extends Action {
         boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
 
         InstructorCourseStudentDetailsEditPageData data =
-                new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, student.email,
-                        hasSection, isOpenOrPublishedEmailSentForTheCourse);
+                new InstructorCourseStudentDetailsEditPageData(account, sessionToken, student, student.email, hasSection,
+                        isOpenOrPublishedEmailSentForTheCourse);
 
         statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
                         + "Editing Student <span class=\"bold\">" + studentEmail + "'s</span> details "
