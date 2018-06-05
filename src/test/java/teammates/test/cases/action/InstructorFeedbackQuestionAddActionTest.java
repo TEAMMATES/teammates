@@ -1,6 +1,9 @@
 package teammates.test.cases.action;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -641,19 +644,13 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
-        ______TS("Typical case");
-
-        // tests when descriptions are missing as well.
-
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-
-        String[] params = new String[] {
+        String[] requiredParams = {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT,
                 "Please choose the most appropriate choices for the sub-questions below.",
@@ -662,10 +659,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", "SubQn-1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", "Choice-1",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", "SubQn-2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", "Choice-2",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
@@ -674,7 +669,19 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
         };
 
-        InstructorFeedbackQuestionAddAction action = getAction(params);
+        ______TS("Typical case with attached weights");
+
+        String[] params = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
+        };
+
+        List<String> requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+
+        InstructorFeedbackQuestionAddAction action = getAction(requestedParams.toArray(new String[0]));
         RedirectResult result = getRedirectResult(action);
 
         assertEquals(
@@ -696,6 +703,74 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                                     + " created.<br><span class=\"bold\">Rubric question:</span> "
                                     + "Please choose the most appropriate choices for the sub-questions below."
                                     + "|||/page/instructorFeedbackQuestionAdd";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Rubric choices without weights attached");
+
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
+        };
+
+        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+
+        action = getAction(requestedParams.toArray(new String[0]));
+        result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        false),
+                result.getDestinationWithParams());
+
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Rubric question:</span> "
+                                    + "Please choose the most appropriate choices for the sub-questions below."
+                                    + "|||/page/instructorFeedbackQuestionAdd";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("Number of weights is less than number of choices");
+
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
+                // This weight is removed so that rubricChoice-0 does not have a attached weight
+                // Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
+        };
+        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+
+        action = getAction(requestedParams.toArray(new String[0]));
+        result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        true),
+                result.getDestinationWithParams());
+
+        assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Unknown|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
