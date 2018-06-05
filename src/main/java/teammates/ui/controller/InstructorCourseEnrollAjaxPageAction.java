@@ -8,7 +8,7 @@ import teammates.ui.pagedata.InstructorCourseEnrollAjaxPageData;
 /**
  * Action: returns list of current students in the course through AJAX.
  */
-public class InstructorCourseEnrollAjaxPageAction extends Action{
+public class InstructorCourseEnrollAjaxPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {

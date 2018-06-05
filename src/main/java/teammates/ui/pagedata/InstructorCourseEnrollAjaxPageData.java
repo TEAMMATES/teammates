@@ -1,8 +1,9 @@
 package teammates.ui.pagedata;
 
+import java.util.List;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import java.util.List;
 
 public class InstructorCourseEnrollAjaxPageData extends PageData {
     public List<StudentAttributes> students;
