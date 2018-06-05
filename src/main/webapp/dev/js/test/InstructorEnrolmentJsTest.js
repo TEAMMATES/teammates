@@ -2,6 +2,7 @@ import {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
+    getExistingStudentsData,
 } from '../main/instructorCourseEnrollHelper';
 
 QUnit.module('instructorCourseEnrollPage.js');
@@ -31,7 +32,7 @@ QUnit.test('getUserDataRows(spreadsheetData)', (assert) => {
     assert.equal(getUserDataRows(spreadsheetData), expectedUserDataRows, 'Correct user data string generated');
 });
 
-QUnit.test('getUpdatedData(spreadsheetDataRows, data)', (assert) => {
+QUnit.test('getUpdatedData(spreadsheetDataRows)', (assert) => {
     assert.expect(1);
     const spreadsheetDataRows = ['Section1|Team1|Name1|Email1|Comments1',
         '|Team2|Name2|Email2|Comments2',
@@ -49,4 +50,34 @@ QUnit.test('getUpdatedData(spreadsheetDataRows, data)', (assert) => {
 
     const data = getUpdatedData(spreadsheetDataRows);
     assert.deepEqual(data, expectedData, 'Data successfully updated');
+});
+
+QUnit.test('getExistingStudentsData(studentsData, handsontableColHeader)', (assert) => {
+    assert.expect(1);
+    const studentsData = [{
+        comments: 'testComments1',
+        course: 'testCourse1',
+        email: 'testEmail1@example.com',
+        googleId: '',
+        key: 'testEmail1@example.com%test%842516281',
+        lastName: 'testName1',
+        name: 'testName1',
+        section: 'testSection1',
+        team: 'testTeam1',
+    }, {
+        comments: '',
+        course: 'testCourse2',
+        email: 'testEmail2@example.com',
+        googleId: '',
+        key: 'testEmail2@example.com%test%1208109881',
+        lastName: 'testName2',
+        name: 'testName2',
+        section: 'testSection2',
+        team: 'testTeam2',
+    }];
+    const handsontableColHeader = ['Section', 'Team', 'Name', 'Email', 'Comments'];
+    const expectedStudentsData = [['testSection1', 'testTeam1', 'testName1', 'testEmail1@example.com', 'testComments1'],
+        ['testSection2', 'testTeam2', 'testName2', 'testEmail2@example.com', '']];
+    const data = getExistingStudentsData(studentsData, handsontableColHeader);
+    assert.deepEqual(data, expectedStudentsData, 'Retrieved existing students\' data successfully');
 });

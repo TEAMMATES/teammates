@@ -39,10 +39,22 @@
         <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
         <div class="col-md-12">
           <div class="form-group">
+            <div id="ajaxStatusBox"></div>
+            <div id="student-enroll-spreadsheet">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <strong>Existing students</strong>
+                </div>
+                <div id="dataSpreadsheet"></div>
+              </div>
+            </div>
             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
-            <div id="student-data-spreadsheet">
-              <div class="panel-body">
-                <div id="spreadsheet"></div>
+            <div id="student-enroll-spreadsheet">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <strong>New students</strong>
+                </div>
+                <div id="enrollSpreadsheet"></div>
               </div>
               <div class="row">
                 <div class="col-md-6">

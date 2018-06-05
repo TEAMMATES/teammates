@@ -47,13 +47,37 @@ function getUpdatedData(spreadsheetDataRows) {
     return spreadsheetDataRows.map(row => row.split('|'));
 }
 
+/**
+ * Transforms the first uppercase letter of a string into a lowercase letter.
+ * @param string
+ * @returns {string} Handsontable column header in all lowercase letters
+ */
 function unCapitalizeFirstLetter(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+/**
+ * Prepares students data to be filled in the spreadsheet interface. These data is stored in an array.
+ * Facilitates the function loadData for the Handsontable instance.
+ * @param studentsData
+ * @param handsontableColHeader
+ * @returns {Array} required student data
+ */
+function getExistingStudentsData(studentsData, handsontableColHeader) {
+    const studentsDataList = [];
+    studentsData.forEach((student) => {
+        const tempStudentsData = [];
+        handsontableColHeader.forEach((header) => {
+            tempStudentsData.push(student[unCapitalizeFirstLetter(header)]);
+        });
+        studentsDataList.push(tempStudentsData);
+    });
+    return studentsDataList;
 }
 
 export {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
-    unCapitalizeFirstLetter
+    getExistingStudentsData,
 };
