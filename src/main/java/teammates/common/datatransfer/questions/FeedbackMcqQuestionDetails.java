@@ -407,6 +407,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < numOfMcqChoices; i++) {
             String weightFragment =
                     Templates.populateTemplate(weightFragmentTemplate,
+                            Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                             Slots.ITERATOR, Integer.toString(i),
                             Slots.MCQ_WEIGHT, hasAssignedWeights ? weightFormat.format(mcqWeights.get(i)) : "0",
                             Slots.MCQ_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT);

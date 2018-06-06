@@ -412,7 +412,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS =
                 "Assign weights to the columns for calculating statistics.";
         public static final String FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS =
-                "Assign weights to the columns for calculating statistics.";
+                "Assign weights to the choices for calculating statistics.";
 
         public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
