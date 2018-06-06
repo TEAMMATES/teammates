@@ -83,6 +83,8 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionMcqEditFormTemplate.html");
             public static final String MCQ_EDIT_FORM_OPTIONFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMcqEditFormOptionFragment.html");
+            public static final String MCQ_EDIT_FORM_WEIGHTFRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMcqEditFormWeightFragment.html");
             public static final String MCQ_ADDITIONAL_INFO_FRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMcqAdditionalInfoFragment.html");
             public static final String MCQ_ADDITIONAL_INFO =
@@ -281,15 +283,23 @@ public final class Templates {
 
             // MCQ
             public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
+            public static final String MCQ_WEIGHT = "${mcqWeight}";
+            public static final String MCQ_CHECK_ASSIGN_WEIGHT = "${mcqCheckAssignWeights}";
             public static final String MCQ_OTHER_OPTION_ANSWER = "${mcqOtherOptionAnswer}";
             public static final String MCQ_CHECKED_GENERATED_OPTION = "${checkedGeneratedOptions}";
             public static final String MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS = "${mcqSubmissionFormOptionFragments}";
             public static final String MCQ_PARAM_IS_OTHER_OPTION_ANSWER =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}";
             public static final String MCQ_EDIT_FORM_OPTION_FRAGMENTS = "${mcqEditFormOptionFragments}";
+            public static final String MCQ_EDIT_FORM_WEIGHT_FRAGMENTS = "${mcqEditFormWeightFragments}";
             public static final String MCQ_NUM_OF_MCQ_CHOICES = "${numOfMcqChoices}";
             public static final String MCQ_ADDITIONAL_INFO_FRAGMENTS = "${mcqAdditionalInfoFragments}";
             public static final String MCQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}";
+            public static final String MCQ_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}";
+            public static final String MCQ_PARAM_ASSIGN_WEIGHT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED}";
+            public static final String MCQ_TOOLTIPS_ASSIGN_WEIGHT =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS}";
             public static final String MCQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}";
             public static final String MCQ_PARAM_OTHER_OPTION_FLAG =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}";

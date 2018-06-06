@@ -388,7 +388,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MCQ_EDIT_FORM_OPTIONFRAGMENT;
+        DecimalFormat weightFormat = new DecimalFormat("#.##");
 
+        // Create MCQ options
         for (int i = 0; i < numOfMcqChoices; i++) {
             String optionFragment =
                     Templates.populateTemplate(optionFragmentTemplate,
@@ -397,6 +399,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             Slots.MCQ_PARAM_CHOICE, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE);
 
             optionListHtml.append(optionFragment).append(System.lineSeparator());
+        }
+
+        // Create MCQ weights
+        StringBuilder weightFragmentHtml = new StringBuilder();
+        String weightFragmentTemplate = FormTemplates.MCQ_EDIT_FORM_WEIGHTFRAGMENT;
+        for (int i = 0; i < numOfMcqChoices; i++) {
+            String weightFragment =
+                    Templates.populateTemplate(weightFragmentTemplate,
+                            Slots.ITERATOR, Integer.toString(i),
+                            Slots.MCQ_WEIGHT, hasAssignedWeights ? weightFormat.format(mcqWeights.get(i)) : "0",
+                            Slots.MCQ_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT);
+            weightFragmentHtml.append(weightFragment).append(System.lineSeparator());
         }
 
         return Templates.populateTemplate(
@@ -422,7 +436,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF ? "selected" : "",
                 Slots.TEAMS_EXCLUDING_SELF_TO_STRING, FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toString(),
                 Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
-                Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString());
+                Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Slots.MCQ_TOOLTIPS_ASSIGN_WEIGHT, Const.Tooltips.FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS,
+                Slots.MCQ_PARAM_ASSIGN_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED,
+                Slots.MCQ_EDIT_FORM_WEIGHT_FRAGMENTS, weightFragmentHtml.toString(),
+                Slots.MCQ_CHECK_ASSIGN_WEIGHT, hasAssignedWeights ? "checked" : "");
     }
 
     @Override
@@ -431,6 +449,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         numOfMcqChoices = 2;
         mcqChoices.add("");
         mcqChoices.add("");
+        hasAssignedWeights = false;
 
         return "<div id=\"mcqForm\">"
                   + getQuestionSpecificEditFormHtml(-1)

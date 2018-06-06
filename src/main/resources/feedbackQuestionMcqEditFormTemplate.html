@@ -1,8 +1,19 @@
 <div class="row">
+  <div class="col-sm-12 margin-bottom-7px">
+    <input type="checkbox" class="nonDestructive" id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED}-${questionNumber}" name="mcqAssignWeights" ${mcqCheckAssignWeights}>
+    <span data-toggle="tooltip" data-placement="top" data-original-title="${Const.Tooltips.FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS}"> Choices are weighted </span>
+  </div>
   <br>
   <div class="col-sm-6">
     <div id="mcqChoiceTable-${questionNumber}">
-      ${mcqEditFormOptionFragments}
+      <div class="row" id="mcqOptionRow-${i}-${questionNumber}">
+        <div class="col-sm-9">
+          ${mcqEditFormOptionFragments}
+        </div>
+        <div class="col-sm-3">
+          ${mcqEditFormWeightFragments}
+        </div>
+      </div>
       <div id="mcqAddOptionRow-${questionNumber}">
         <div colspan="2">
           <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink-${questionNumber}"
