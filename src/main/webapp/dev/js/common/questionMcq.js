@@ -7,9 +7,13 @@ function addMcqOption(questionNum) {
 
     const curNumberOfChoiceCreated =
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
+    const lastChoice = $(`#mcqChoices-${questionNum}`).children().last();
+    const lastWeight = $(`#mcqWeights-${questionNum}`).children().last();
 
+    // Insert choice
     $(`
-    <div class="margin-bottom-7px" id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
+    <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}"
+            id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group">
             <span class="input-group-addon">
                 <input type="radio" disabled>
@@ -25,7 +29,16 @@ function addMcqOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertBefore($(`#mcqAddOptionRow-${questionNum}`));
+    `).insertAfter(lastChoice);
+
+    // Insert Weight Cell
+    $(`
+    <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}">
+        <input type="number" class="form-control nonDestructive" value="0"
+                id="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}-${questionNum}"
+                name="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}" step="0.01">
+    </div>
+    `).insertAfter(lastWeight);
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -37,13 +50,14 @@ function addMcqOption(questionNum) {
 function removeMcqOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const $thisRow = $(`#mcqOptionRow-${index}-${questionNum}`);
+    const $thisRow = $(`.mcqChoiceRow-${index}-${questionNum}`);
 
     // count number of child rows the table have and - 1 because of add option button
     const numberOfOptions = $thisRow.parent().children('div').length - 1;
 
     if (numberOfOptions <= 1) {
-        $thisRow.find('input').val('');
+        $thisRow.find('input[id^="mcqOption"]').val('');
+        $thisRow.find('input[id^="mcqWeight"]').val(0);
     } else {
         $thisRow.remove();
 
