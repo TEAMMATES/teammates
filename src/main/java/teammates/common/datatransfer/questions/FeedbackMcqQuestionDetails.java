@@ -441,6 +441,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MCQ_TOOLTIPS_ASSIGN_WEIGHT, Const.Tooltips.FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS,
                 Slots.MCQ_PARAM_ASSIGN_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED,
                 Slots.MCQ_EDIT_FORM_WEIGHT_FRAGMENTS, weightFragmentHtml.toString(),
+                Slots.MCQ_PARAM_OTHER_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT,
                 Slots.MCQ_CHECK_ASSIGN_WEIGHT, hasAssignedWeights ? "checked" : "");
     }
 

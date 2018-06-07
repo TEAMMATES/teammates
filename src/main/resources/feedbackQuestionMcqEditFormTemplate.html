@@ -27,13 +27,20 @@
             </span> add more options
           </a>
 
-          <div class="checkbox">
-            <label class="bold-label">
-              <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}"
-                  id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}-${questionNumber}"
-                  ${checkedOtherOptionEnabled} onchange="toggleMcqOtherOptionEnabled(this, ${questionNumber})">
-              Add 'Other' option (Allows respondents to type in their own answer)
-            </label>
+          <div class="row">
+            <div class="checkbox col-sm-9 padding-left-35px">
+              <label class="bold-label">
+                <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}"
+                    id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}-${questionNumber}"
+                    ${checkedOtherOptionEnabled} onchange="toggleMcqOtherOptionEnabled(this, ${questionNumber})">
+                Add 'Other' option (Allows respondents to type in their own answer)
+              </label>
+            </div>
+            <div class="col-sm-3">
+              <input type="number" class="form-control nonDestructive"
+                      value="${mcqOtherWeight}" id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT}-${questionNumber}"
+                      name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT}" step="0.01">
+            </div>
           </div>
         </div>
       </div>
