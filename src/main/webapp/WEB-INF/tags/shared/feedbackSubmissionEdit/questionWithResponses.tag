@@ -9,6 +9,7 @@
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
 
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
+<c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TYPE %>-${questionWithResponses.question.qnIndx}"
     value="${questionWithResponses.question.questionType}">
@@ -59,11 +60,26 @@
 
       <c:if test="${not isRecipientNameHidden}">
         <div class="col-sm-12 form-inline mobile-align-left">
-          <label for="input" style="text-indent: 24px">
-            <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
-              Evaluee/Recipient
-            </span>
-          </label>
+          <div class="row">
+            <div class="col-xs-8">
+              <label for="input" style="text-indent: 24px">
+                <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
+                  Evaluee/Recipient
+                </span>
+              </label>
+            </div>
+            <c:if test="${not isNumResponsesMax}">
+              <div class="col-xs-4 align-right padding-15px padding-top-0">
+                <label>Sort Evaluees By: </label>
+                <select id="sortEvaluees-${questionWithResponses.question.qnIndx}" class="form-control"
+                        onchange="sortEvalueesByAttribute(${questionWithResponses.question.qnIndx})">
+                  <option value="name">Name</option>
+                  <option value="section">Section</option>
+                  <option value="team">Team</option>
+                </select>
+              </div>
+            </c:if>
+          </div>
         </div>
         <br>
       </c:if>

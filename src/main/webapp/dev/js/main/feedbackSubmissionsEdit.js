@@ -1181,6 +1181,66 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
     }
 }
 
+function sortEvalueesByAttribute(qnNum) {
+    const selectedAttribute = $(`#sortEvaluees-${qnNum}`).val();
+    const evaluees = $(`select[name='responserecipient-${qnNum}-0'] option`);
+    const selectedOption = $(`select[name='responserecipient-${qnNum}-0']`).val();
+
+    // index 2 represents attribute name
+    const nameIndx = 2;
+    // represents the index of the selected attribute based on which the evaluees are being sorted
+    let attrIndx = nameIndx;
+    if (selectedAttribute === 'section') {
+        attrIndx = 0;
+    } else if (selectedAttribute === 'team') {
+        attrIndx = 1;
+    }
+    function nameComparator(e1Name, e2Name) {
+        if (e1Name > e2Name) {
+            return 1;
+        } else if (e1Name < e2Name) {
+            return -1;
+        }
+        return 0;
+    }
+    function evalueeComparator(e1, e2) {
+        if (e1.text === '') {
+            return -1;
+        }
+        if (e2.text === '') {
+            return 1;
+        }
+        const e1Name = e1.text.split(':')[nameIndx];
+        const e2Name = e2.text.split(':')[nameIndx];
+
+        if (attrIndx === nameIndx) {
+            return nameComparator(e1Name, e2Name);
+        }
+        const e1Attr = e1.text.split(':')[attrIndx];
+        const e2Attr = e2.text.split(':')[attrIndx];
+
+        const numberPattern = /\d+/;
+
+        const e1AttrVal = parseInt(e1Attr.match(numberPattern), 10);
+        const e2AttrVal = parseInt(e2Attr.match(numberPattern), 10);
+
+        if (e1AttrVal === null || e2AttrVal === null) {
+            return 0;
+        }
+        // order based on numeric value of selected attribute
+        if (e1AttrVal > e2AttrVal) {
+            return 1;
+        } else if (e1AttrVal < e2AttrVal) {
+            return -1;
+        }
+        // if values are same order by name
+        return nameComparator(e1Name, e2Name);
+    }
+    evaluees.sort(evalueeComparator);
+    $(`select[name='responserecipient-${qnNum}-0']`).empty().append(evaluees);
+    $(`select[name='responserecipient-${qnNum}-0']`).val(selectedOption);
+}
+
 $(document).ready(() => {
     const textFields = $('div[id^="responsetext-"]');
 
@@ -1296,6 +1356,7 @@ $(document).ready(() => {
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
 
+window.sortEvalueesByAttribute = sortEvalueesByAttribute;
 window.validateNumScaleAnswer = validateNumScaleAnswer;
 window.updateConstSumMessageQn = updateConstSumMessageQn;
 window.updateRankMessageQn = updateRankMessageQn;
