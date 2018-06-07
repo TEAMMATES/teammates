@@ -81,8 +81,11 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
     if ($(checkbox).prop('checked')) {
         $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', true);
         $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', true);
+        $(`#mcqOtherWeight-${questionNum}`).prop('disabled', true);
         $(`#mcqChoiceTable-${questionNum}`).hide();
         $(`#mcqAssignWeights-${questionNum}`).parent().hide();
+        // Hide the 'Weights' label
+        $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#mcqOtherWeight-${questionNum}`).parent().hide();
@@ -90,11 +93,11 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
     } else {
         $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', false);
         $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', false);
+        $(`#mcqOtherWeight-${questionNum}`).prop('disabled', false);
         $(`#mcqChoiceTable-${questionNum}`).show();
         $(`#mcqAssignWeights-${questionNum}`).parent().show();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#mcqOtherWeight-${questionNum}`).parent().show();
         $(`#mcqGeneratedOptions-${questionNum}`).val('NONE');
     }
 }
@@ -102,7 +105,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
 /**
  * If the 'other' option and Assign weight both are checked, shows the 'other' option,
  * otherwise hides it.
- * @param checkbox
+ * @param checkbox (Note that checkbox is a DOM element, not a jquery element)
  * @param questionNum
  */
 function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
