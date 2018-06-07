@@ -60,7 +60,6 @@ import {
     addMcqOption,
     bindMcqAssignWeightsCheckbox,
     bindMcqOtherOptionEnabled,
-    mcqHasAssignedWeights,
     removeMcqOption,
     toggleMcqAssignWeights,
     toggleMcqGeneratedOptions,
@@ -359,7 +358,7 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find('.removeOptionLink').hide();
 
     /* Check whether generate options for students/instructors/teams is selected
-       If so, hide 'add Other option' and the mcq weight checkbox for mcq questions*/
+       If so, hide 'add Other option' and the mcq weight checkbox for mcq questions */
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`).parent().hide();

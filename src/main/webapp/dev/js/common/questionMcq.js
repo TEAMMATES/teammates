@@ -73,6 +73,10 @@ function removeMcqOption(index, questionNum) {
     }
 }
 
+function mcqHasAssignedWeights(questionNum) {
+    return $(`#mcqAssignWeights-${questionNum}`).prop('checked');
+}
+
 function changeMcqGenerateFor(questionNum) {
     $(`#mcqGeneratedOptions-${questionNum}`).val($(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
 }
@@ -102,7 +106,6 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
             $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').show();
             // If 'other' option is checked then show other weight cell.
             if ($(`#mcqOtherOptionFlag-${questionNum}`).prop('checked')) {
-                console.log('Inside other flag if');
                 $(`#mcqOtherWeight-${questionNum}`).parent().show();
             }
         }
@@ -136,10 +139,10 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
 }
 
 function bindMcqOtherOptionEnabled() {
-    $('body').on('click', 'input[id^="mcqOtherOptionFlag"]', function() {
-       const checkbox = (this);
-       const questionNum = $(checkbox).closest('form').data('qnnumber');
-       toggleMcqOtherOptionEnabled(checkbox, questionNum);
+    $('body').on('click', 'input[id^="mcqOtherOptionFlag"]', function () {
+        const checkbox = (this);
+        const questionNum = $(checkbox).closest('form').data('qnnumber');
+        toggleMcqOtherOptionEnabled(checkbox, questionNum);
     });
 }
 /**
@@ -173,22 +176,18 @@ function toggleMcqAssignWeights($checkbox, questionNum) {
 }
 
 function bindMcqAssignWeightsCheckbox() {
-    $('body').on('click', 'input[id^="mcqAssignWeights"]', function() {
+    $('body').on('click', 'input[id^="mcqAssignWeights"]', function () {
         const $checkbox = $(this);
         const questionNum = $checkbox.closest('form').data('qnnumber');
         toggleMcqAssignWeights($checkbox, questionNum);
     });
 }
 
-function mcqHasAssignedWeights(questionNum) {
-    return $(`#mcqAssignWeights-${questionNum}`).prop('checked');
-}
 export {
     addMcqOption,
     bindMcqAssignWeightsCheckbox,
     bindMcqOtherOptionEnabled,
     changeMcqGenerateFor,
-    mcqHasAssignedWeights,
     removeMcqOption,
     toggleMcqAssignWeights,
     toggleMcqGeneratedOptions,
