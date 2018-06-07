@@ -414,6 +414,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             weightFragmentHtml.append(weightFragment).append(System.lineSeparator());
         }
 
+        // Create MCQ other weight value
+        String mcqOtherWeightValue = hasAssignedWeights && otherEnabled ? weightFormat.format(mcqOtherWeight) : "0";
+
         return Templates.populateTemplate(
                 FormTemplates.MCQ_EDIT_FORM,
                 Slots.MCQ_EDIT_FORM_OPTION_FRAGMENTS, optionListHtml.toString(),
@@ -442,6 +445,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MCQ_PARAM_ASSIGN_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED,
                 Slots.MCQ_EDIT_FORM_WEIGHT_FRAGMENTS, weightFragmentHtml.toString(),
                 Slots.MCQ_PARAM_OTHER_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT,
+                Slots.MCQ_OTHER_WEIGHT, mcqOtherWeightValue,
                 Slots.MCQ_CHECK_ASSIGN_WEIGHT, hasAssignedWeights ? "checked" : "");
     }
 

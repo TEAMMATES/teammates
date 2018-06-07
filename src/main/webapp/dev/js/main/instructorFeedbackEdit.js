@@ -59,6 +59,7 @@ import {
 import {
     addMcqOption,
     bindMcqAssignWeightsCheckbox,
+    bindMcqOtherOptionEnabled,
     removeMcqOption,
     toggleMcqAssignWeights,
     toggleMcqGeneratedOptions,
@@ -361,14 +362,17 @@ function disableQuestion(questionNum) {
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`).parent().hide();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).parent().hide();
     } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`).parent().show();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).parent().show();
     }
     toggleMcqAssignWeights($currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`), questionNum);
+    toggleMcqOtherOptionEnabled($currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).get(0), questionNum)
 
     $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
@@ -475,6 +479,7 @@ function enableQuestion(questionNum) {
         $(`#mcqChoiceTable-${questionNum}`).hide();
         $(`#mcqAssignWeights-${questionNum}`).parent().hide();
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        $(`#mcqOtherWeight-${questionNum}`).parent().hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
     } else if ($(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $(`#msqChoiceTable-${questionNum}`).hide();
@@ -485,6 +490,7 @@ function enableQuestion(questionNum) {
         $(`#mcqAssignWeights-${questionNum}`).parent().show();
         $(`#msqChoiceTable-${questionNum}`).show();
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
+        $(`#mcqOtherWeight-${questionNum}`).parent().show();
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
@@ -526,7 +532,9 @@ function enableQuestion(questionNum) {
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
     hideInvalidRankRecipientFeedbackPaths(questionNum);
+
     toggleMcqAssignWeights($(`#mcqAssignWeights-${questionNum}`), questionNum);
+    toggleMcqOtherOptionEnabled(`#mcqOtherWeight-${questionNum}`, questionNum);
 }
 
 /**
@@ -588,6 +596,7 @@ function enableNewQuestion() {
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqAssignWeights($(`#mcqAssignWeights-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMcqOtherOptionEnabled(`#mcqOtherWeight-${NEW_QUESTION}`, NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`, NEW_QUESTION));
@@ -1201,6 +1210,7 @@ function readyFeedbackEditPage() {
 
     bindAssignWeightsCheckboxes();
     bindMcqAssignWeightsCheckbox();
+    bindMcqOtherOptionEnabled();
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
