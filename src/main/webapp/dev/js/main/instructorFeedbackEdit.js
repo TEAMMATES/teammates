@@ -60,6 +60,7 @@ import {
     addMcqOption,
     bindMcqAssignWeightsCheckbox,
     bindMcqOtherOptionEnabled,
+    mcqHasAssignedWeights,
     removeMcqOption,
     toggleMcqAssignWeights,
     toggleMcqGeneratedOptions,
@@ -596,7 +597,7 @@ function enableNewQuestion() {
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqAssignWeights($(`#mcqAssignWeights-${NEW_QUESTION}`), NEW_QUESTION);
-    toggleMcqOtherOptionEnabled($(`#mcqOtherOptionFlag-${questionNum}`).get(0), NEW_QUESTION);
+    toggleMcqOtherOptionEnabled($(`#mcqOtherOptionFlag-${NEW_QUESTION}`).get(0), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`, NEW_QUESTION));

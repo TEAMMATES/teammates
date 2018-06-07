@@ -96,8 +96,17 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         $(`#mcqOtherWeight-${questionNum}`).prop('disabled', false);
         $(`#mcqChoiceTable-${questionNum}`).show();
         $(`#mcqAssignWeights-${questionNum}`).parent().show();
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
+        // If 'Choices are weighted' is checked, show the 'Weights' label
+        if (mcqHasAssignedWeights(questionNum)) {
+            $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').show();
+            // If 'other' option is checked then show other weight cell.
+            if ($(`#mcqOtherOptionFlag-${questionNum}`).prop('checked')) {
+                console.log('Inside other flag if');
+                $(`#mcqOtherWeight-${questionNum}`).parent().show();
+            }
+        }
+        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#mcqGeneratedOptions-${questionNum}`).val('NONE');
     }
 }
@@ -171,11 +180,15 @@ function bindMcqAssignWeightsCheckbox() {
     });
 }
 
+function mcqHasAssignedWeights(questionNum) {
+    return $(`#mcqAssignWeights-${questionNum}`).prop('checked');
+}
 export {
     addMcqOption,
     bindMcqAssignWeightsCheckbox,
     bindMcqOtherOptionEnabled,
     changeMcqGenerateFor,
+    mcqHasAssignedWeights,
     removeMcqOption,
     toggleMcqAssignWeights,
     toggleMcqGeneratedOptions,
