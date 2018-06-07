@@ -85,6 +85,7 @@
           <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
             <input type="submit" class="btn-tm-actions session-results-download"
                    name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>" value="Download Results"
+                   style="border: none; padding: 0; background: none;">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${actions.fsName}">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${actions.courseId}">
