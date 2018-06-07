@@ -10,8 +10,7 @@ function addMcqOption(questionNum) {
     const lastChoice = $(`#mcqChoices-${questionNum}`).children().last();
     const lastWeight = $(`#mcqWeights-${questionNum}`).children().last();
 
-    // Insert choice
-    $(`
+    const choice = (`
     <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}"
             id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group">
@@ -29,16 +28,23 @@ function addMcqOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertAfter(lastChoice);
+    `);
 
-    // Insert Weight Cell
-    $(`
+    const weight = (`
     <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}">
         <input type="number" class="form-control nonDestructive" value="0"
                 id="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}-${questionNum}"
                 name="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}" step="0.01">
     </div>
-    `).insertAfter(lastWeight);
+    `);
+
+    if (curNumberOfChoiceCreated === 0) {
+        $(`#mcqChoices-${questionNum}`).html(choice);
+        $(`#mcqWeights-${questionNum}`).html(weight);
+    } else {
+        $(choice).insertAfter(lastChoice);
+        $(weight).insertAfter(lastWeight);
+    }
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -52,8 +58,8 @@ function removeMcqOption(index, questionNum) {
 
     const $thisRow = $(`.mcqChoiceRow-${index}-${questionNum}`);
 
-    // count number of child rows the table have and - 1 because of add option button
-    const numberOfOptions = $thisRow.parent().children('div').length - 1;
+    // count number of child of mcqChoices div
+    const numberOfOptions = $(`#mcqChoices-${questionNum}`).children('div').length;
 
     if (numberOfOptions <= 1) {
         $thisRow.find('input[id^="mcqOption"]').val('');
@@ -73,13 +79,15 @@ function changeMcqGenerateFor(questionNum) {
 
 function toggleMcqGeneratedOptions(checkbox, questionNum) {
     if ($(checkbox).prop('checked')) {
-        $(`#mcqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', true);
+        $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', true);
+        $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', true);
         $(`#mcqChoiceTable-${questionNum}`).hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         changeMcqGenerateFor(questionNum);
     } else {
-        $(`#mcqChoiceTable-${questionNum}`).find('input[type=text]').prop('disabled', false);
+        $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', false);
+        $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', false);
         $(`#mcqChoiceTable-${questionNum}`).show();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
@@ -95,8 +103,37 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
     }
 }
 
+/**
+ * Hides the weight cells and weight label on top of the cells when the checkbox is unchecked,
+ * otherwise, shows the weight cells and label.
+ * @param $checkbox
+ * @param questionNum
+ */
+function toggleMcqAssignWeights($checkbox, questionNum) {
+    // The weight label
+    const $weightLabel = $checkbox.parent().siblings('div');
+    const $weightCells = $(`#mcqWeights-${questionNum}`);
+
+    if ($checkbox.prop('checked')) {
+        $weightLabel.show();
+        $weightCells.show();
+    } else {
+        $weightLabel.hide();
+        $weightCells.hide();
+    }
+}
+
+function bindMcqAssignWeightsCheckbox() {
+    $('body').on('click', 'input[id^="mcqAssignWeights"]', function() {
+        const $checkbox = $(this);
+        const questionNum = $checkbox.closest('form').data('qnnumber');
+        toggleMcqAssignWeights($checkbox, questionNum);
+    });
+}
+
 export {
     addMcqOption,
+    bindMcqAssignWeightsCheckbox,
     changeMcqGenerateFor,
     removeMcqOption,
     toggleMcqGeneratedOptions,

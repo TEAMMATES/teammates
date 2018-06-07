@@ -58,6 +58,7 @@ import {
 
 import {
     addMcqOption,
+    bindMcqAssignWeightsCheckbox,
     removeMcqOption,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
@@ -1191,6 +1192,7 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMcqAssignWeightsCheckbox();
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
