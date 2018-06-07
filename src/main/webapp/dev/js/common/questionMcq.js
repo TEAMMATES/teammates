@@ -82,6 +82,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', true);
         $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', true);
         $(`#mcqChoiceTable-${questionNum}`).hide();
+        $(`#mcqAssignWeights-${questionNum}`).parent().hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         changeMcqGenerateFor(questionNum);
@@ -89,6 +90,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', false);
         $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', false);
         $(`#mcqChoiceTable-${questionNum}`).show();
+        $(`#mcqAssignWeights-${questionNum}`).parent().show();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $(`#mcqGeneratedOptions-${questionNum}`).val('NONE');
@@ -136,6 +138,7 @@ export {
     bindMcqAssignWeightsCheckbox,
     changeMcqGenerateFor,
     removeMcqOption,
+    toggleMcqAssignWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
 };
