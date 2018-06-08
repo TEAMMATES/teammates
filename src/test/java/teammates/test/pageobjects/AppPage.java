@@ -109,7 +109,7 @@ public abstract class AppPage {
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
 
-    @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td)[1]")
+    @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td[@class =\"enroll-handsontable\"])[1]")
     private WebElement spreadsheetFirstCell;
 
     /**
@@ -1431,9 +1431,11 @@ public abstract class AppPage {
     }
 
     /**
-     * Scrolls element to first cell in spreadsheet and clicks on it.
+     * Scrolls element to first cell in enroll spreadsheet and clicks on it.
      */
     void scrollElementToFirstCellAndClick(WebElement spreadsheetElement) {
+        WebElement spreadsheetBodyElement = browser.driver.findElement(By.id("enroll-spreadsheet"));
+        executeScript("arguments[0].scrollIntoView(true);", spreadsheetBodyElement);
         new Actions(browser.driver).moveToElement(spreadsheetElement).click().perform();
     }
 

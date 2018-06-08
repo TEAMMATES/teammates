@@ -38,6 +38,7 @@ const dataHandsontable = new Handsontable(dataContainer, {
 const enrollContainer = document.getElementById('enrollSpreadsheet');
 /* global Handsontable:false */
 const enrollHandsontable = new Handsontable(enrollContainer, {
+    className: 'enroll-handsontable',
     height: 500,
     autoWrapRow: true,
     preventOverflow: 'horizontal',
