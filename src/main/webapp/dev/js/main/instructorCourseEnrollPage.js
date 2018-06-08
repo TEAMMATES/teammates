@@ -87,6 +87,7 @@ function loadExistingStudentsData(data) {
     if (studentsData.length === 0) {
         $('#ajaxStatusBox').html('<div class=\'overflow-auto alert alert-warning ' +
                 'icon-warning statusMessage\'>No existing students in course.</div>');
+        $('#data-spreadsheet').hide();
     } else {
         $('#ajaxStatusBox').html('<div class=\'overflow-auto alert alert-success ' +
                 'icon-success statusMessage\'>Existing students have been successfully ' +
@@ -111,11 +112,11 @@ function getAjaxStudentList() {
             user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
         },
         beforeSend() {
-            $('#statusBox').html('<div style="text-align: center">' +
+            $('#ajaxStatusBox').html('<div style="text-align: center">' +
                     '<img src=\'/images/ajax-loader.gif\'/></div>');
         },
         error() {
-            $('#statusBox').html('<div class=\'overflow-auto alert alert-danger ' +
+            $('#ajaxStatusBox').html('<div class=\'overflow-auto alert alert-danger ' +
                     'icon-danger statusMessage\'>Error loading existing students into spreadsheet interface. ' +
                     'To retry, <button id=\'retryGetAjaxStudentList\' type=\'button\''
                     + ' class=\'btn btn-danger btn-xs\'>Click here</button></div>');

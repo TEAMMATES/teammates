@@ -40,7 +40,7 @@
         <div class="col-md-12">
           <div class="form-group">
             <div id="ajaxStatusBox"></div>
-            <div id="student-enroll-spreadsheet">
+            <div class="student-enroll-spreadsheet" id="data-spreadsheet">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <strong>Existing students</strong>
@@ -49,7 +49,7 @@
               </div>
             </div>
             <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
-            <div id="student-enroll-spreadsheet">
+            <div class="student-enroll-spreadsheet" id="enroll-spreadsheet">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <strong>New students</strong>
