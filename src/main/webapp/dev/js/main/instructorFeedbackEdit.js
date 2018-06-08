@@ -65,6 +65,7 @@ import {
     toggleMcqAssignWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
+    toggleVisibilityOfMcqOtherWeight,
     changeMcqGenerateFor,
 } from '../common/questionMcq';
 
@@ -373,7 +374,7 @@ function disableQuestion(questionNum) {
         $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).parent().show();
     }
     toggleMcqAssignWeights($currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`), questionNum);
-    toggleMcqOtherOptionEnabled($currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).get(0), questionNum);
+    toggleVisibilityOfMcqOtherWeight($currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`), questionNum);
 
     $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
@@ -535,7 +536,7 @@ function enableQuestion(questionNum) {
     hideInvalidRankRecipientFeedbackPaths(questionNum);
 
     toggleMcqAssignWeights($(`#mcqAssignWeights-${questionNum}`), questionNum);
-    toggleMcqOtherOptionEnabled($(`#mcqOtherOptionFlag-${questionNum}`).get(0), questionNum);
+    toggleVisibilityOfMcqOtherWeight($(`#mcqOtherOptionFlag-${questionNum}`), questionNum);
 }
 
 /**
@@ -597,7 +598,7 @@ function enableNewQuestion() {
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqAssignWeights($(`#mcqAssignWeights-${NEW_QUESTION}`), NEW_QUESTION);
-    toggleMcqOtherOptionEnabled($(`#mcqOtherOptionFlag-${NEW_QUESTION}`).get(0), NEW_QUESTION);
+    toggleVisibilityOfMcqOtherWeight($(`#mcqOtherOptionFlag-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`, NEW_QUESTION));

@@ -111,6 +111,18 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
     }
 }
 
+function toggleVisibilityOfMcqOtherWeight($checkbox, questionNum) {
+    // The 'Choices are weighted' checkbox
+    const $mcqAssignWeightCheckbox = $(`#mcqAssignWeights-${questionNum}`);
+    const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`).parent();
+
+    if ($checkbox.prop('checked') && $mcqAssignWeightCheckbox.prop('checked')) {
+        $mcqOtherWeightCell.show();
+    } else {
+        $mcqOtherWeightCell.hide();
+    }
+}
+
 /**
  * If the 'other' option and Assign weight both are checked, shows the 'other' option,
  * otherwise hides it.
@@ -120,15 +132,8 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
 function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    // The 'Choices are weighted' checkbox
-    const $mcqAssignWeightCheckbox = $(`#mcqAssignWeights-${questionNum}`);
-    const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`).parent();
-
-    if ($(checkbox).prop('checked') && $mcqAssignWeightCheckbox.prop('checked')) {
-        $mcqOtherWeightCell.show();
-    } else {
-        $mcqOtherWeightCell.hide();
-    }
+    // Set visibility of mcq other weight cell.
+    toggleVisibilityOfMcqOtherWeight($(checkbox), questionNum);
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
@@ -193,4 +198,5 @@ export {
     toggleMcqAssignWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
+    toggleVisibilityOfMcqOtherWeight,
 };
