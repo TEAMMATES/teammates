@@ -70,7 +70,6 @@
       "University of South Australia",
       "University of Sydney",
       "University of Tasmania",
-      "University of Technology Sydney",
       "University of Technology, Sydney",
       "University of Western Australia",
       "University of Western Sydney",
@@ -190,7 +189,7 @@
       "Canadian Urban Transit Research and Innovation Consortium",
       "Capilano University",
       "Carleton University",
-      "Cégep de Saint-Jérôme"
+      "Cégep de Saint-Jérôme",
       "Cégep du Vieux-Montréal",
       "Cégep Heritage College",
       "Centennial College",
@@ -204,7 +203,6 @@
       "Dalhousie University",
       "Durham College",
       "Ecole Cardinal Leger School",
-      "École de technologie supérieure",
       "École de Technologie Supérieure",
       "Ecole Polytechnique de Montreal",
       "Edgemont School",
@@ -300,7 +298,7 @@
       "Shanghai University of Int. Business and Economics",
       "Tianfu University Chengdu China",
       "Xi'an Jiaotong-Liverpool University",
-	  "Yi Dian Zi Xun"
+      "Yi Dian Zi Xun"
     ],
     "Colombia": [
       "Colegio Nueva Granada",
@@ -397,7 +395,7 @@
       "Telecom Paris Tech",
       "université de savoie",
       "University of Lyon",
-      "University of Paris 7",
+      "University of Paris 7"
     ],
     "Georgia": [
       "Free University"
@@ -1900,7 +1898,6 @@
       "University of New Mexico",
       "University of North Carolina",
       "University of North Carolina at Wilmington",
-      "University of North Carolina - Wilmington",
       "University of North Carolina at Chapel Hill",
       "University of North Carolina at Charlotte",
       "University of North Carolina at Greensboro",
