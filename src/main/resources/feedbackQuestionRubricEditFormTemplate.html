@@ -1,13 +1,15 @@
 <div class="row">
+  <div class="col-sm-4">
+    <input type="checkbox" class="nonDestructive" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED}-${questionIndex}" name="rubricAssignWeights" ${checkAssignWeights}>
+    <span data-toggle="tooltip" data-placement="top" data-original-title="${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}"> Choices are weighted </span>
+  </div>
   <br>
   <div class="col-sm-12 table-responsive">
     <table class="table table-bordered margin-0" id="rubricEditTable-${questionIndex}">
       <thead>
         <tr>
           <th style="text-align:center; vertical-align:middle;">
-            <input type="checkbox" class="nonDestructive" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED}-${questionIndex}" name="rubricAssignWeights" ${checkAssignWeights}>
-            <span data-toggle="tooltip" data-placement="top" data-original-title="${Const.Tooltips.FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS}"> Weights </span>
-            <span class="glyphicon glyphicon-arrow-right"></span>
+            Choices <span class="glyphicon glyphicon-arrow-right"></span>
           </th>
           ${tableHeaderRowFragmentHtml}
         </tr>
