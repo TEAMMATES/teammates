@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -291,4 +292,85 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    @Test
+    public void testMcqWeightsFeature() {
+
+        ______TS("MCQ: Weight cells are hidden by default");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MCQ");
+        // Check if the 'Choices are weighted' checkbox unchecked by default.
+        assertFalse(feedbackEditPage.isMcqAssignWeightCheckboxChecked(NEW_QUESTION_INDEX));
+        // Check if the MCQ weights column hidden by default
+        assertFalse(feedbackEditPage.getMcqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
+        assertFalse(feedbackEditPage.getMcqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+
+        ______TS("MCQ: Weight cells are visible when weights are assigned");
+        feedbackEditPage.clickMcqAssignWeightCheckboxForNewQuestion();
+        // Check if the MCQ weights column are visible or not.
+        assertTrue(feedbackEditPage.getMcqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
+        // Check the 'other' option is disabled and otherWeight cell is hidden
+        assertFalse(browser.driver.findElement(By.id("mcqOtherOptionFlag-" + NEW_QUESTION_INDEX)).isSelected());
+        assertFalse(feedbackEditPage.getMcqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+
+        ______TS("MCQ: Other weight Cell is visible when other option and weights both are enabled");
+
+        // Check Assign MCQ weights Enabled but other option disabled
+        assertTrue(feedbackEditPage.isMcqAssignWeightCheckboxChecked(NEW_QUESTION_INDEX));
+        assertFalse(browser.driver.findElement(By.id("mcqOtherOptionFlag-" + NEW_QUESTION_INDEX)).isSelected());
+
+        // Assign Other option and test that other weight cell is displayed.
+        feedbackEditPage.clickAddMcqOtherOptionCheckboxForNewQuestion();
+        assertTrue(feedbackEditPage.getMcqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+
+        ______TS("MCQ: Check Mcq weight default value");
+        feedbackEditPage.fillQuestionTextBox("MCQ weight feature", NEW_QUESTION_INDEX);
+        feedbackEditPage.fillQuestionDescription("More details", NEW_QUESTION_INDEX);
+
+        // Fill MCQ choices and check corresponding weight values
+        feedbackEditPage.fillMcqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.verifyFieldValue("mcqWeight-0--1", "0");
+        feedbackEditPage.fillMcqOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.verifyFieldValue("mcqWeight-1--1", "0");
+
+        // Verify MCQ other weight default value
+        feedbackEditPage.verifyFieldValue("mcqOtherWeight--1", "0");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+
+        ______TS("MCQ: Empty weight validation");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillMcqWeightBox(1, 0, "1.55");
+        // Leave the second weight cell blank
+        feedbackEditPage.fillMcqWeightBox(1, 1, "");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
+
+        // Check that the weight cell preserved it's default value.
+        feedbackEditPage.verifyFieldValue("mcqWeight-0-1", "0");
+        feedbackEditPage.verifyFieldValue("mcqWeight-1-1", "0");
+
+        ______TS("MCQ: Edit weights success");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillMcqWeightBox(1, 0, "1.55");
+        feedbackEditPage.fillMcqWeightBox(1, 1, "2.77");
+        feedbackEditPage.fillMcqOtherWeightBox(1, "3.66");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // verify weights for the question
+        feedbackEditPage.verifyFieldValue("mcqWeight-0-1", "1.55");
+        feedbackEditPage.verifyFieldValue("mcqWeight-1-1", "2.77");
+        feedbackEditPage.verifyFieldValue("mcqOtherWeight-1", "3.66");
+
+        ______TS("MCQ: Add more weights");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        assertTrue(feedbackEditPage.isElementPresent("mcqOption-2-1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqWeight-2-1"));
+        feedbackEditPage.fillMcqOption(1, 2, "Choice 3");
+        feedbackEditPage.fillMcqWeightBox(1, 2, "4");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+    }
 }

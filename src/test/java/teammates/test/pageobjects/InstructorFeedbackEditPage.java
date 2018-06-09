@@ -1253,13 +1253,68 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void fillMcqOptionForNewQuestion(int optionIndex, String optionText) {
-        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "-" + NEW_QUESTION_NUM));
+        fillMcqOption(NEW_QUESTION_NUM, optionIndex, optionText);
+    }
+
+    public void fillMcqOption(int qnNumber, int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "-" + qnNumber));
         fillTextBox(optionBox, optionText);
     }
 
-    public void clickAddMoreMcqOptionLinkForNewQuestion() {
-        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink-" + NEW_QUESTION_NUM));
+    public void clickAddMoreMcqOptionLink(int qnNumber) {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink-" + qnNumber));
         click(addMoreOptionLink);
+    }
+
+    public void clickAddMoreMcqOptionLinkForNewQuestion() {
+        clickAddMoreMcqOptionLink(NEW_QUESTION_NUM);
+    }
+
+    public void clickMcqAssignWeightsCheckbox(int qnNumber) {
+        WebElement mcqAssignWeightCheckbox = browser.driver.findElement(By.id("mcqAssignWeights-" + qnNumber));
+        click(mcqAssignWeightCheckbox);
+    }
+
+    public void clickMcqAssignWeightCheckboxForNewQuestion() {
+        clickMcqAssignWeightsCheckbox(NEW_QUESTION_NUM);
+    }
+
+    public boolean isMcqAssignWeightCheckboxChecked(int qnNumber) {
+        WebElement checkbox = browser.driver.findElement(By.id("mcqAssignWeights-" + qnNumber));
+        return checkbox.isSelected();
+    }
+
+    /**
+     * Get the specified Mcq weight WebElement.
+     * @param qnNumber Question number
+     * @param choiceIndex The index of the corresponding MCQ choice
+     * @return The MCQ weight WebElement for the specified choice.
+     */
+    public WebElement getMcqWeightBox(int qnNumber, int choiceIndex) {
+        String elementId = Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-" + choiceIndex + "-" + qnNumber;
+
+        return browser.driver.findElement(By.id(elementId));
+    }
+
+    /**
+     * Returns the whole MCQ weight column.
+     */
+    public WebElement getMcqWeightsColumn(int qnNumber) {
+        return browser.driver.findElement(By.id("mcqWeights-" + qnNumber));
+    }
+
+    public WebElement getMcqOtherWeightBox(int qnNumber) {
+        return browser.driver.findElement(By.id("mcqOtherWeight-" + qnNumber));
+    }
+
+    public void fillMcqWeightBox(int qnNumber, int choiceIndex, String value) {
+        WebElement weightBox = getMcqWeightBox(qnNumber, choiceIndex);
+        fillTextBox(weightBox, value);
+    }
+
+    public void fillMcqOtherWeightBox(int qnNumber, String value) {
+        WebElement otherWeightBox = getMcqOtherWeightBox(qnNumber);
+        fillTextBox(otherWeightBox, value);
     }
 
     public void clickRemoveMcqOptionLink(int optionIndex, int qnIndex) {

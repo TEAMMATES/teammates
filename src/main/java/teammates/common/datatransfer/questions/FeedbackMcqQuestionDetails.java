@@ -174,7 +174,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         String weightOther = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT);
+
         Assumption.assertNotNull("Null 'other' weight of MCQ question", weightOther);
+        Assumption.assertNotEmpty("Empty 'other' weight of MCQ question", weightOther);
+
         try {
             // Do not assign value to mcqOtherWeight if the weight can not be parsed.
             mcqOtherWeight = Double.parseDouble(weightOther);
