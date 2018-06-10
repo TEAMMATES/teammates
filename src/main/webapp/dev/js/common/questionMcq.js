@@ -34,7 +34,7 @@ function addMcqOption(questionNum) {
     <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}">
         <input type="number" class="form-control nonDestructive" value="0"
                 id="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}-${questionNum}"
-                name="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}" step="0.01">
+                name="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}" step="0.01" required>
     </div>
     `);
 
@@ -117,11 +117,14 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
 function toggleVisibilityOfMcqOtherWeight($checkbox, questionNum) {
     // The 'Choices are weighted' checkbox
     const $mcqAssignWeightCheckbox = $(`#mcqAssignWeights-${questionNum}`);
-    const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`).parent();
+    const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
 
     if ($checkbox.prop('checked') && $mcqAssignWeightCheckbox.prop('checked')) {
         $mcqOtherWeightCell.show();
+        // Set other weight as required.
+        $mcqOtherWeightCell.prop('required', true);
     } else {
+        $mcqOtherWeightCell.prop('required', false);
         $mcqOtherWeightCell.hide();
     }
 }
@@ -150,6 +153,26 @@ function bindMcqOtherOptionEnabled() {
         toggleMcqOtherOptionEnabled(checkbox, questionNum);
     });
 }
+
+/**
+ * Sets the required attribute for Mcq weight cells, and if 'other' option is checked,
+ * then sets the required attribute for other weight cell too.
+ */
+function setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, isRequired) {
+    const $weightCells = $weightColumn.find('input[id^="mcqWeight"]');
+    const $otherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
+    const isOtherOptionEnabled = $(`#mcqOtherOptionFlag-${questionNum}`).prop('checked');
+
+    $weightCells.each(function () {
+        $(this).prop('required', isRequired);
+    });
+
+    // If 'other' option is checked, make other weight required.
+    if (isOtherOptionEnabled) {
+        $otherWeightCell.prop('required', isRequired);
+    }
+}
+
 /**
  * Hides the weight cells and weight label on top of the cells when the checkbox is unchecked,
  * otherwise, shows the weight cells and label.
@@ -161,19 +184,24 @@ function bindMcqOtherOptionEnabled() {
 function toggleMcqAssignWeights($checkbox, questionNum) {
     // The weight label
     const $weightLabel = $checkbox.parent().siblings('div');
-    const $weightCells = $(`#mcqWeights-${questionNum}`);
+    const $weightColumn = $(`#mcqWeights-${questionNum}`);
     const $otherWeightCell = $(`#mcqOtherWeight-${questionNum}`).parent();
     const $otherEnabledCheckbox = $(`#mcqOtherOptionFlag-${questionNum}`);
+
     if ($checkbox.prop('checked')) {
         $weightLabel.show();
-        $weightCells.show();
+        $weightColumn.show();
 
         if ($otherEnabledCheckbox.prop('checked')) {
             $otherWeightCell.show();
         }
+        // Set the weight cells as required.
+        setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, true);
     } else {
         $weightLabel.hide();
-        $weightCells.hide();
+        // Set the weight cells as not required.
+        setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, false);
+        $weightColumn.hide();
         // If weight is not assigned, no need to check if the other option is checked,
         // As, other weight will be disabled anyway.
         $otherWeightCell.hide();
