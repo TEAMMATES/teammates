@@ -338,17 +338,30 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
-        ______TS("MCQ: Empty weight validation");
+        ______TS("MCQ: Test front-end validation for empty weights");
         feedbackEditPage.clickEditQuestionButton(1);
-        feedbackEditPage.fillMcqWeightBox(1, 0, "1.55");
-        // Leave the second weight cell blank
-        feedbackEditPage.fillMcqWeightBox(1, 1, "");
-        feedbackEditPage.clickSaveExistingQuestionButton(1);
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
 
-        // Check that the weight cell preserved it's default value.
-        feedbackEditPage.verifyFieldValue("mcqWeight-0-1", "0");
-        feedbackEditPage.verifyFieldValue("mcqWeight-1-1", "0");
+        // Check validation for MCQ weight cells
+        feedbackEditPage.fillMcqWeightBox(1, 0, "");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.isMcqWeightBoxFocused(1, 0);
+        feedbackEditPage.fillMcqWeightBox(1, 0, "0");
+
+        // Check validation for empty other weight
+        feedbackEditPage.fillMcqOtherWeightBox(1, "");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.isMcqOtherWeightBoxFocused(1);
+        feedbackEditPage.fillMcqOtherWeightBox(1, "0");
+
+        // Check validation for the weight cells added by 'add option' button
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.isElementPresent(By.id("mcqWeight-2-1"));
+        feedbackEditPage.fillMcqOption(1, 2, "Choice 3");
+        feedbackEditPage.fillMcqWeightBox(1, 2, "");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.isMcqWeightBoxFocused(1, 2);
+        feedbackEditPage.clickDiscardChangesLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
 
         ______TS("MCQ: Edit weights success");
         feedbackEditPage.clickEditQuestionButton(1);
@@ -372,5 +385,11 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMcqWeightBox(1, 2, "4");
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // Delete the question.
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 }

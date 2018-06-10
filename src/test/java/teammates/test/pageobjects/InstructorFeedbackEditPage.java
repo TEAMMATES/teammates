@@ -1252,6 +1252,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
+    public boolean isMcqWeightBoxFocused(int qnNumber, int choiceIndex) {
+        WebElement weightBox = getMcqWeightBox(qnNumber, choiceIndex);
+
+        return weightBox.equals(browser.driver.switchTo().activeElement());
+    }
+
+    public boolean isMcqOtherWeightBoxFocused(int qnNumber) {
+        WebElement weightBox = getMcqOtherWeightBox(qnNumber);
+        return weightBox.equals(browser.driver.switchTo().activeElement());
+    }
+
     public void fillMcqOptionForNewQuestion(int optionIndex, String optionText) {
         fillMcqOption(NEW_QUESTION_NUM, optionIndex, optionText);
     }

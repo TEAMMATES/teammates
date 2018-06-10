@@ -92,7 +92,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#mcqOtherWeight-${questionNum}`).parent().hide();
+        $(`#mcqOtherWeight-${questionNum}`).hide();
         changeMcqGenerateFor(questionNum);
     } else {
         $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', false);
@@ -106,7 +106,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
             $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').show();
             // If 'other' option is checked then show other weight cell.
             if ($(`#mcqOtherOptionFlag-${questionNum}`).prop('checked')) {
-                $(`#mcqOtherWeight-${questionNum}`).parent().show();
+                $(`#mcqOtherWeight-${questionNum}`).show();
             }
         }
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
@@ -185,7 +185,7 @@ function toggleMcqAssignWeights($checkbox, questionNum) {
     // The weight label
     const $weightLabel = $checkbox.parent().siblings('div');
     const $weightColumn = $(`#mcqWeights-${questionNum}`);
-    const $otherWeightCell = $(`#mcqOtherWeight-${questionNum}`).parent();
+    const $otherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
     const $otherEnabledCheckbox = $(`#mcqOtherOptionFlag-${questionNum}`);
 
     if ($checkbox.prop('checked')) {
