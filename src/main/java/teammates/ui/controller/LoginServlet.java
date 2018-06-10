@@ -10,24 +10,25 @@ import teammates.common.datatransfer.UserType;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-@SuppressWarnings("serial")
 /**
  * Servlet to handle Login
  */
+@SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
 
     @Override
-    public final void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public final void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
         this.doPost(req, resp);
     }
 
     @Override
-    public final void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        GateKeeper gateKeeper = new GateKeeper();
-        UserType user = gateKeeper.getCurrentUser();
-        boolean isInstructor = req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR) != null;
-        boolean isStudent = req.getParameter(Const.ParamsNames.LOGIN_STUDENT) != null;
-        boolean isAdmin = req.getParameter(Const.ParamsNames.LOGIN_ADMIN) != null;
+    public final void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
+        final GateKeeper gateKeeper = new GateKeeper();
+        final UserType user = gateKeeper.getCurrentUser();
+
+        final boolean isInstructor = req.getParameter(Const.ParamsNames.LOGIN_INSTRUCTOR) != null;
+        final boolean isStudent = req.getParameter(Const.ParamsNames.LOGIN_STUDENT) != null;
+        final boolean isAdmin = req.getParameter(Const.ParamsNames.LOGIN_ADMIN) != null;
 
         if (isInstructor) {
             if (isMasqueradeMode(user)) {
@@ -52,7 +53,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    private boolean isMasqueradeMode(UserType user) {
+    private boolean isMasqueradeMode(final UserType user) {
         return user != null;
     }
 }
