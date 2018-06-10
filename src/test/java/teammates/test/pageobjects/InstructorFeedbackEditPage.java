@@ -695,6 +695,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(addMcqOtherOptionCheckboxForNewQuestion);
     }
 
+    public void clickAddMcqOtherOptionCheckbox(int qnNumber) {
+        WebElement checkbox = browser.driver.findElement(By.id("mcqOtherOptionFlag-" + qnNumber));
+        click(checkbox);
+    }
+
     public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
         click(addMsqOtherOptionCheckboxForNewQuestion);
     }

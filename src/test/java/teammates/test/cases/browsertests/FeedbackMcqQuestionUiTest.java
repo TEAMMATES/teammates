@@ -417,6 +417,48 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.isElementPresent("mcqOption-4-1"));
         assertFalse(feedbackEditPage.isElementPresent("mcqWeight-4-1"));
 
+        ______TS("MCQ: Test that selecting generated option hides mcq weights cells and checkbox");
+        feedbackEditPage.clickEditQuestionButton(1);
+
+        // Test visibility of mcq weights and checkbox before selecting mcq generated option.
+        assertTrue(feedbackEditPage.isElementVisible(By.id("mcqAssignWeights-1")));
+        assertTrue(feedbackEditPage.isElementVisible(By.id("mcqWeights-1")));
+        assertTrue(feedbackEditPage.isElementVisible(By.id("mcqOtherWeight-1")));
+
+        feedbackEditPage.clickGenerateMcqOptionsCheckbox(1);
+
+        // Check that 'choices are weighted' checkbox is hidden
+        assertFalse(feedbackEditPage.isElementVisible(By.id("mcqAssignWeights-1")));
+        assertFalse(feedbackEditPage.isElementVisible(By.id("mcqWeights-1")));
+        assertFalse(feedbackEditPage.isElementVisible(By.id("mcqOtherWeight-1")));
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        ______TS("MCQ: Test mcq weight values after edit to generated options");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickGenerateMcqOptionsCheckbox(1); // Uncheck the generated option checkbox
+
+        // Check that weight fields are again visible after unchecking generated option,
+        // and also check that all the fields have the default values stored.
+        assertFalse(feedbackEditPage.isMcqAssignWeightCheckboxChecked(1));
+        assertFalse(browser.driver.findElement(By.id("mcqOtherOptionFlag-1")).isSelected());
+
+        // Add One option and check MCQ assign weight checkbox to check the mcq weight field value.
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.clickMcqAssignWeightsCheckbox(1);
+        assertTrue(feedbackEditPage.isElementVisible("mcqWeight-0-1"));
+        feedbackEditPage.verifyFieldValue("mcqWeight-0-1", "0");
+
+        // Check the other option to test the value of other weight
+        feedbackEditPage.clickAddMcqOtherOptionCheckbox(1);
+        assertTrue(feedbackEditPage.isElementVisible(By.id("mcqOtherWeight-1")));
+        feedbackEditPage.verifyFieldValue("mcqOtherWeight-1", "0");
+
+        // Discard Changes
+        feedbackEditPage.clickDiscardChangesLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
         // Delete the question.
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();

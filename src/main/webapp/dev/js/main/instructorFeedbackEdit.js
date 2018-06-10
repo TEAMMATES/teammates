@@ -363,14 +363,14 @@ function disableQuestion(questionNum) {
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`).parent().hide();
-        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).parent().hide();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).hide();
     } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`).parent().show();
-        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).parent().show();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).show();
     }
     toggleMcqAssignWeights($currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`), questionNum);
     toggleVisibilityOfMcqOtherWeight($currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`), questionNum);
@@ -480,7 +480,7 @@ function enableQuestion(questionNum) {
         $(`#mcqChoiceTable-${questionNum}`).hide();
         $(`#mcqAssignWeights-${questionNum}`).parent().hide();
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#mcqOtherWeight-${questionNum}`).parent().hide();
+        $(`#mcqOtherWeight-${questionNum}`).hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
     } else if ($(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $(`#msqChoiceTable-${questionNum}`).hide();
@@ -491,7 +491,7 @@ function enableQuestion(questionNum) {
         $(`#mcqAssignWeights-${questionNum}`).parent().show();
         $(`#msqChoiceTable-${questionNum}`).show();
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#mcqOtherWeight-${questionNum}`).parent().show();
+        $(`#mcqOtherWeight-${questionNum}`).show();
         $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
