@@ -392,6 +392,31 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
+        ______TS("MCQ: Test weight is not added for invalid choice value");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+
+        // Test for choice that has only spaces
+        assertTrue(feedbackEditPage.isElementPresent("mcqOption-3-1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqWeight-3-1"));
+        feedbackEditPage.fillMcqOption(1, 3, "                           "); // Choices with only spaces
+        feedbackEditPage.fillMcqWeightBox(1, 3, "5");
+
+        // Test for empty choice
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        assertTrue(feedbackEditPage.isElementPresent("mcqOption-4-1"));
+        assertTrue(feedbackEditPage.isElementPresent("mcqWeight-4-1"));
+        feedbackEditPage.fillMcqOption(1, 4, ""); // Choices with only spaces
+        feedbackEditPage.fillMcqWeightBox(1, 4, "6");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // Check that the two added choices and the corresponding weights are not present
+        assertFalse(feedbackEditPage.isElementPresent("mcqOption-3-1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqWeight-3-1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqOption-4-1"));
+        assertFalse(feedbackEditPage.isElementPresent("mcqWeight-4-1"));
+
         // Delete the question.
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
