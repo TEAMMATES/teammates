@@ -293,7 +293,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     @Test
-    public void testMcqWeightsFeature() {
+    public void testMcqWeightsFeature() throws Exception {
 
         ______TS("MCQ: Weight cells are hidden by default");
         feedbackEditPage.clickAddQuestionButton();
@@ -338,6 +338,9 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
+        // verify html page
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionWeightAddSuccess.html");
+
         ______TS("MCQ: Test front-end validation for empty weights");
         feedbackEditPage.clickEditQuestionButton(1);
 
@@ -375,6 +378,9 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.verifyFieldValue("mcqWeight-0-1", "1.55");
         feedbackEditPage.verifyFieldValue("mcqWeight-1-1", "2.77");
         feedbackEditPage.verifyFieldValue("mcqOtherWeight-1", "3.66");
+
+        // verify html page
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionWeightEditSuccess.html");
 
         ______TS("MCQ: Add more weights");
         feedbackEditPage.clickEditQuestionButton(1);
