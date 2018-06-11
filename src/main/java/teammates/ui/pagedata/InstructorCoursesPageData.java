@@ -14,6 +14,8 @@ import teammates.ui.template.ActiveCoursesTableRow;
 import teammates.ui.template.ArchivedCoursesTable;
 import teammates.ui.template.ArchivedCoursesTableRow;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.RecoveryCoursesTable;
+import teammates.ui.template.RecoveryCoursesTableRow;
 
 /**
  * This is the PageData object for the 'Courses' page.
@@ -26,6 +28,7 @@ public class InstructorCoursesPageData extends PageData {
 
     private ArchivedCoursesTable archivedCourses;
     private ActiveCoursesTable activeCourses;
+    private RecoveryCoursesTable recoveryCourses;
     private String courseIdToShow;
     private String courseNameToShow;
     private Map<String, InstructorAttributes> instructorsForCourses;
@@ -35,16 +38,19 @@ public class InstructorCoursesPageData extends PageData {
     }
 
     public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
+                     List<CourseAttributes> recoveryCoursesParam,
                      Map<String, InstructorAttributes> instructorsForCoursesParam) {
-        init(activeCoursesParam, archivedCoursesParam, instructorsForCoursesParam, "", "");
+        init(activeCoursesParam, archivedCoursesParam, recoveryCoursesParam, instructorsForCoursesParam, "", "");
     }
 
     public void init(List<CourseAttributes> activeCoursesParam, List<CourseAttributes> archivedCoursesParam,
+                     List<CourseAttributes> recoveryCoursesParam,
                      Map<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam,
                      String courseNameToShowParam) {
         this.instructorsForCourses = instructorsForCoursesParam;
         this.activeCourses = convertToActiveCoursesTable(activeCoursesParam);
         this.archivedCourses = convertToArchivedCoursesTable(archivedCoursesParam);
+        this.recoveryCourses = convertToRecoveryCoursesTable(recoveryCoursesParam);
         this.courseIdToShow = courseIdToShowParam;
         this.courseNameToShow = courseNameToShowParam;
     }
@@ -73,6 +79,10 @@ public class InstructorCoursesPageData extends PageData {
         return archivedCourses;
     }
 
+    public RecoveryCoursesTable getRecoveryCourses() {
+        return recoveryCourses;
+    }
+
     private ArchivedCoursesTable convertToArchivedCoursesTable(List<CourseAttributes> archivedCourses) {
         ArchivedCoursesTable archivedCoursesTable = new ArchivedCoursesTable();
 
@@ -85,14 +95,14 @@ public class InstructorCoursesPageData extends PageData {
 
             String unarchiveLink = getInstructorCourseArchiveLink(course.getId(), false, false);
             ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs",
-                                                       "t_course_unarchive" + idx, unarchiveLink, "", false);
+                                                       "t_course_unarchive" + idx, unarchiveLink, "", false, "");
 
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs",
                                                    "t_course_delete" + idx, deleteLink,
-                                                   Const.Tooltips.COURSE_MOVE_TO_RECOVERY, !hasDeletePermission);
+                                                   Const.Tooltips.COURSE_MOVE_TO_RECOVERY, !hasDeletePermission, "");
             deleteButton.setAttribute("data-course-id", course.getId());
 
             actionsParam.add(unarchivedButton);
@@ -125,26 +135,26 @@ public class InstructorCoursesPageData extends PageData {
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
             ElementTag enrollButton = createButton("Enroll", "btn btn-default btn-xs t_course_enroll" + idx, "",
                                                    getInstructorCourseEnrollLink(course.getId()),
-                                                   Const.Tooltips.COURSE_ENROLL, !hasModifyPermission);
+                                                   Const.Tooltips.COURSE_ENROLL, !hasModifyPermission, "");
 
             ElementTag viewButton = createButton("View", "btn btn-default btn-xs t_course_view" + idx, "",
                                                  getInstructorCourseDetailsLink(course.getId()),
-                                                 Const.Tooltips.COURSE_DETAILS, false);
+                                                 Const.Tooltips.COURSE_DETAILS, false, "");
 
             ElementTag editButton = createButton("Edit", "btn btn-default btn-xs t_course_edit" + idx, "",
                                                  getInstructorCourseEditLink(course.getId()),
-                                                 Const.Tooltips.COURSE_EDIT, false);
+                                                 Const.Tooltips.COURSE_EDIT, false, "");
 
             ElementTag archiveButton = createButton("Archive", "btn btn-default btn-xs t_course_archive" + idx, "",
                                                     getInstructorCourseArchiveLink(course.getId(), true, false),
-                                                    Const.Tooltips.COURSE_ARCHIVE, false);
+                                                    Const.Tooltips.COURSE_ARCHIVE, false, "");
 
             String deleteLink = getInstructorCourseDeleteLink(course.getId(), false);
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs "
                                                    + "t_course_delete" + idx, "", deleteLink,
-                                                   Const.Tooltips.COURSE_MOVE_TO_RECOVERY, !hasDeletePermission);
+                                                   Const.Tooltips.COURSE_MOVE_TO_RECOVERY, !hasDeletePermission, "");
             deleteButton.setAttribute("data-course-id", course.getId());
 
             actionsParam.add(enrollButton);
@@ -166,8 +176,49 @@ public class InstructorCoursesPageData extends PageData {
         return activeCourses;
     }
 
+    private RecoveryCoursesTable convertToRecoveryCoursesTable(List<CourseAttributes> courses) {
+        RecoveryCoursesTable recoveryCourses = new RecoveryCoursesTable();
+
+        int idx = -1;
+
+        for (CourseAttributes course : courses) {
+            idx++;
+
+            List<ElementTag> actionsParam = new ArrayList<>();
+
+            String restoreLink = getInstructorRecoveryRestoreCourseLink(course.getId());
+            ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_course_restore" + idx, "",
+                    restoreLink, Const.Tooltips.COURSE_RESTORE, false, "");
+
+            String deleteLink = getInstructorRecoveryDeleteCourseLink(course.getId(), false);
+            Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+            ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs course-delete-link "
+                            + "t_course_delete" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
+                    !hasDeletePermission, "color: red");
+            deleteButton.setAttribute("data-course-id", course.getId());
+
+            actionsParam.add(restoreButton);
+            actionsParam.add(deleteButton);
+
+            RecoveryCoursesTableRow row = new RecoveryCoursesTableRow(SanitizationHelper.sanitizeForHtml(course.getId()),
+                    SanitizationHelper.sanitizeForHtml(course.getName()),
+                    course.getCreatedAtDateString(),
+                    course.getCreatedAtDateStamp(),
+                    course.getCreatedAtFullDateTimeString(),
+                    course.getDeletedAtDateString(),
+                    course.getDeletedAtDateStamp(),
+                    course.getDeletedAtFullDateTimeString(),
+                    this.getInstructorCourseStatsLink(course.getId()),
+                    actionsParam);
+            recoveryCourses.getRows().add(row);
+        }
+
+        return recoveryCourses;
+    }
+
     private ElementTag createButton(String content, String buttonClass, String id, String href, String title,
-                                    boolean isDisabled) {
+                                    boolean isDisabled, String style) {
         ElementTag button = new ElementTag(content);
 
         button.setAttribute("class", buttonClass);
@@ -188,6 +239,10 @@ public class InstructorCoursesPageData extends PageData {
 
         if (isDisabled) {
             button.setAttribute("disabled", null);
+        }
+
+        if (style != null && !style.isEmpty()) {
+            button.setAttribute("style", style);
         }
         return button;
     }
