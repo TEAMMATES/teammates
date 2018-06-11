@@ -25,7 +25,7 @@ function addMcqOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertBefore($(`#mcqAddOptionRow-${questionNum}`));
+    `).appendTo($(`#mcqOptionRows-${questionNum}`));
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
