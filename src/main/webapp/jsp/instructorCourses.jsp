@@ -44,6 +44,15 @@
         <br>
         <br>
       </c:if>
+
+      <c:if test="${not empty data.recoveryCourses.rows}">
+        <course:recoveryCoursesTable recoveryCourses="${data.recoveryCourses}"/>
+        <course:actionsForAllCourses />
+        <br>
+        <br>
+        <br>
+        <br>
+      </c:if>
     </c:if>
   </div>
 </ti:instructorPage>
