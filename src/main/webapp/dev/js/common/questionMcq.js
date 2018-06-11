@@ -12,7 +12,7 @@ function addMcqOption(questionNum) {
     <div class="margin-bottom-7px" id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" disabled>
+                <span class="glyphicon glyphicon-resize-vertical"></span>
             </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}"
                     id="${ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
@@ -82,7 +82,7 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
 }
 
 function makeMcqOptionsReorderable(questionNum) {
-    $(`div[id^='mcqChoiceTable-${questionNum}']`).sortable({
+    $(`div[id^='mcqOptionRows-${questionNum}']`).sortable({
         update() {
             $(`div[id^='mcqOptionRow-'][id$=${questionNum}]`).each(function (index) {
                 $(this).attr('id', `mcqOptionRow-${index}-${questionNum}`);
@@ -90,7 +90,7 @@ function makeMcqOptionsReorderable(questionNum) {
                     name: `mcqOption-${index}`,
                     id: `mcqOption-${index}-${questionNum}`,
                 });
-                $(this).find('button[id="mcqRemoveOptionLink"]').attr('onclick', `removeMcqOption(${index},${questionNum}`);
+                $(this).find('button[id="mcqRemoveOptionLink"]').attr('onclick', `removeMcqOption(${index},${questionNum})`);
             });
         },
     });
