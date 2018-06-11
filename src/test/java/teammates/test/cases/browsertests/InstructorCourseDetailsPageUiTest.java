@@ -283,9 +283,13 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
                 retryManager.runUntilSuccessful(new RetryableTaskReturns<String>("Retrieve registration key") {
 
             @Override
-            public String run() throws RuntimeException, IOException, MessagingException {
+            public String run() throws RuntimeException {
 
-                return EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
+                try {
+                    return EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
+                } catch (IOException | MessagingException e) {
+                    return null;
+                }
             }
 
             @Override
@@ -295,7 +299,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         });
 
         return keyToSend.equals(keyReceivedInEmail);
-
     }
 
     @AfterClass

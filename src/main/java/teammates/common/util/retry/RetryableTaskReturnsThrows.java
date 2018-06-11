@@ -1,9 +1,5 @@
 package teammates.common.util.retry;
 
-import java.io.IOException;
-
-import javax.mail.MessagingException;
-
 /**
  * Abstract implementation of a {@link Retryable} task that returns a result, for easy extending through anonymous classes.
  * @param <T> Result type.
@@ -20,7 +16,7 @@ public abstract class RetryableTaskReturnsThrows<T, E extends Throwable> extends
     /**
      * Runs the task once and returns the result.
      */
-    public abstract T run() throws E, IOException, MessagingException;
+    public abstract T run() throws E;
 
     @Override
     protected final T runExec() throws E {
