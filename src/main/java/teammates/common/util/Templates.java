@@ -285,7 +285,7 @@ public final class Templates {
             public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
             public static final String MCQ_WEIGHT = "${mcqWeight}";
             public static final String MCQ_OTHER_WEIGHT = "${mcqOtherWeight}";
-            public static final String MCQ_CHECK_ASSIGN_WEIGHT = "${mcqCheckAssignWeights}";
+            public static final String MCQ_ASSIGN_WEIGHT_CHECKBOX = "${mcqCheckAssignWeights}";
             public static final String MCQ_OTHER_OPTION_ANSWER = "${mcqOtherOptionAnswer}";
             public static final String MCQ_CHECKED_GENERATED_OPTION = "${checkedGeneratedOptions}";
             public static final String MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS = "${mcqSubmissionFormOptionFragments}";
@@ -298,8 +298,8 @@ public final class Templates {
             public static final String MCQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}";
             public static final String MCQ_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}";
             public static final String MCQ_PARAM_OTHER_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT}";
-            public static final String MCQ_PARAM_ASSIGN_WEIGHT =
-                    "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED}";
+            public static final String MCQ_PARAM_HAS_ASSIGN_WEIGHT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED}";
             public static final String MCQ_TOOLTIPS_ASSIGN_WEIGHT =
                     "${Const.Tooltips.FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS}";
             public static final String MCQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}";

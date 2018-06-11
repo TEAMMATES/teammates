@@ -621,7 +621,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         String[] editWeightsParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about our product?",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", mcqDetails.getMcqChoices().get(1),
@@ -656,7 +656,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         String[] editOtherOptionWeightParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about our product?",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", Double.toString(mcqDetails.getMcqWeights().get(0)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", Double.toString(mcqDetails.getMcqWeights().get(1)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
@@ -690,7 +690,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         String[] editNullWeightsParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about our product?",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
                 // Remove this weight to create a null weight for choice-0
                 // Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
@@ -733,7 +733,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         String[] editNullOtherWeightsParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about our product?",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(mcqDetails.getNumOfMcqChoices()),
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-0", "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", mcqDetails.getMcqChoices().get(1),

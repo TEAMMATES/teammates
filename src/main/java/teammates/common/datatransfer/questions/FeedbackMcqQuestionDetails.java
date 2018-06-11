@@ -117,11 +117,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED);
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED);
             boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
             List<Double> mcqWeights = getMcqWeights(
                     requestParameters, numMcqChoicesCreated, hasAssignedWeights);
-            double mcqOtherWeight = getMcqOtherWeight(requestParameters, mcqOtherEnabled, hasAssignedWeights, mcqWeights);
+            double mcqOtherWeight = getMcqOtherWeight(requestParameters, mcqOtherEnabled, hasAssignedWeights);
             setMcqQuestionDetails(
                     numOfMcqChoices, mcqChoices, mcqOtherEnabled, hasAssignedWeights, mcqWeights, mcqOtherWeight);
         } else {
@@ -158,17 +158,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private double getMcqOtherWeight(Map<String, String[]> requestParameters,
-            boolean mcqOtherEnabled, boolean hasAssignedWeights, List<Double> mcqWeights) {
+            boolean mcqOtherEnabled, boolean hasAssignedWeights) {
 
         double mcqOtherWeight = 0;
 
         if (!hasAssignedWeights || !mcqOtherEnabled) {
-            return mcqOtherWeight;
-        }
-
-        // If no other option has weights attached,
-        // the other option should not have a weight attached either
-        if (mcqWeights.isEmpty()) {
             return mcqOtherWeight;
         }
 
@@ -445,11 +439,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.INSTRUCTOR_SELECTED, generateOptionsFor == FeedbackParticipantType.INSTRUCTORS ? "selected" : "",
                 Slots.INSTRUCTORS_TO_STRING, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Slots.MCQ_TOOLTIPS_ASSIGN_WEIGHT, Const.Tooltips.FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS,
-                Slots.MCQ_PARAM_ASSIGN_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED,
+                Slots.MCQ_PARAM_HAS_ASSIGN_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED,
                 Slots.MCQ_EDIT_FORM_WEIGHT_FRAGMENTS, weightFragmentHtml.toString(),
                 Slots.MCQ_PARAM_OTHER_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT,
                 Slots.MCQ_OTHER_WEIGHT, mcqOtherWeightValue,
-                Slots.MCQ_CHECK_ASSIGN_WEIGHT, hasAssignedWeights ? "checked" : "");
+                Slots.MCQ_ASSIGN_WEIGHT_CHECKBOX, hasAssignedWeights ? "checked" : "");
     }
 
     @Override
@@ -595,8 +589,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
-        }
 
+            // If no other option has weights attached,
+            // the 'other' option should not have a weight attached either
+            if (hasAssignedWeights && otherEnabled && mcqWeights.isEmpty() && mcqOtherWeight != 0) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
+            }
+        }
         //TODO: check that mcq options do not repeat. needed?
 
         return errors;

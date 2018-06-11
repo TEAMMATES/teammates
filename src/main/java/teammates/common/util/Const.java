@@ -712,7 +712,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqOtherOption";
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
         public static final String FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER = "mcqIsOtherOptionAnswer";
-        public static final String FEEDBACK_QUESTION_MCQ_WEIGHTS_ASSIGNED = "mcqAssignWeights";
+        public static final String FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED = "mcqAssignWeights";
         public static final String FEEDBACK_QUESTION_MCQ_WEIGHT = "mcqWeight";
         public static final String FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT = "mcqOtherWeight";
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
