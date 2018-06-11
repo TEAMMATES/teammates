@@ -402,20 +402,12 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMcqOption(1, 3, "                           "); // Choices with only spaces
         feedbackEditPage.fillMcqWeightBox(1, 3, "5");
 
-        // Test for empty choice
-        feedbackEditPage.clickAddMoreMcqOptionLink(1);
-        assertTrue(feedbackEditPage.isElementPresent("mcqOption-4-1"));
-        assertTrue(feedbackEditPage.isElementPresent("mcqWeight-4-1"));
-        feedbackEditPage.fillMcqOption(1, 4, ""); // Choices with only spaces
-        feedbackEditPage.fillMcqWeightBox(1, 4, "6");
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
         // Check that the two added choices and the corresponding weights are not present
         assertFalse(feedbackEditPage.isElementPresent("mcqOption-3-1"));
         assertFalse(feedbackEditPage.isElementPresent("mcqWeight-3-1"));
-        assertFalse(feedbackEditPage.isElementPresent("mcqOption-4-1"));
-        assertFalse(feedbackEditPage.isElementPresent("mcqWeight-4-1"));
 
         ______TS("MCQ: Test that selecting generated option hides mcq weights cells and checkbox");
         feedbackEditPage.clickEditQuestionButton(1);

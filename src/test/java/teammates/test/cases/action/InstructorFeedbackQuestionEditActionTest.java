@@ -648,6 +648,13 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         // All existing response should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
+        // Check that the weights are correctly edited
+        FeedbackQuestionAttributes editedQuestion = FeedbackQuestionsLogic.inst()
+                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
+        FeedbackMcqQuestionDetails editedQuestionDetails = (FeedbackMcqQuestionDetails) editedQuestion.getQuestionDetails();
+        assertEquals(1.0, editedQuestionDetails.getMcqWeights().get(0));
+        assertEquals(2.0, editedQuestionDetails.getMcqWeights().get(1));
+
         ______TS("Edit Other option Weight");
 
         // There is already responses for this question
@@ -682,6 +689,12 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // All existing response should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+
+        // Check that the weights are correctly edited
+        editedQuestion = FeedbackQuestionsLogic.inst()
+                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
+        editedQuestionDetails = (FeedbackMcqQuestionDetails) editedQuestion.getQuestionDetails();
+        assertEquals(5.0, editedQuestionDetails.getMcqOtherWeight());
 
         ______TS("Failed to edit weight when new weight is null");
         // There is already responses for this question
@@ -719,9 +732,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         // Old values of weights should be preserved due to keep existing policy
-        FeedbackQuestionAttributes editedQuestion = FeedbackQuestionsLogic.inst()
+        editedQuestion = FeedbackQuestionsLogic.inst()
                 .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
-        FeedbackMcqQuestionDetails editedQuestionDetails = (FeedbackMcqQuestionDetails) editedQuestion.getQuestionDetails();
+        editedQuestionDetails = (FeedbackMcqQuestionDetails) editedQuestion.getQuestionDetails();
         assertEquals(2, editedQuestionDetails.getMcqWeights().size());
         assertEquals(1.25, editedQuestionDetails.getMcqWeights().get(0));
         assertEquals(-1.7, editedQuestionDetails.getMcqWeights().get(1));

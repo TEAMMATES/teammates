@@ -17,7 +17,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues() {
-        ______TS("Default case: weights disabled, 'other' disabled");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
 
         assertEquals(FeedbackQuestionType.MCQ, mcqDetails.getQuestionType());
@@ -29,7 +28,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqWeights_allChoicesNull_weightsListShouldBeEmpty() {
-        ______TS("Failure: Weights enabled, null choices, custom weights, other disabled");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
@@ -53,7 +51,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqWeights_emptyChoice_weightForInValidChoiceShouldNotBeParsed() {
-        ______TS("Failure: weight not parsed as choice is only spaces");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -77,7 +74,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqWeights_allWeightsNull_weightsListShouldBeEmpty() {
-        ______TS("Failure: weights enabled, two choices, null weights, other disabled");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -97,7 +93,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqWeights_invalidWeights_weightNotParsed() {
-        ______TS("Failure: Weight not parsed, not valid double");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -121,7 +116,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqWeights_weightsEnabledValidChoicesAndWeights_weightsShouldHaveCorrectValues() {
-        ______TS("Success: Weights enalbed, two choices, custom weights, other disabled");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -149,7 +143,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqOtherWeight_weightsEnabledOtherDisabledValidWeights_otherWeightShouldHaveDefaultValue() {
-        ______TS("Failure: weights enabled, other disabled, custom other weight");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -174,7 +167,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqOtherWeight_weightAndOtherEnabledValidWeights_fieldShouldHaveCorrectValue() {
-        ______TS("Success: Weight and other enabled, all valid weights");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -198,7 +190,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqOtherWeight_weightsDisabledOtherEnabled_otherWeightShouldHaveDefaultValue() {
-        ______TS("Failure: weights disabled, other enabled, valid other weight");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -221,7 +212,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testGetMcqOtherWeight_invalidOtherWeight_otherWeightNotParsed() {
-        ______TS("Failure: other weight not parsed");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -269,7 +259,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testValidateQuestionDetails_choicesLessThanMinRequirement_errorReturned() {
-        ______TS("Number of choices is less than number of minimum choices");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -288,7 +277,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testValidateQuestionDetails_numberOfChoicesGreaterThanWeights_errorReturned() {
-        ______TS("weight assigned, number of choices is greater than number of weights");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -312,7 +300,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testValidateQuestionDetails_noValidationError_errorListShouldBeEmpty() {
-        ______TS("Success case: No validation errors");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
@@ -334,7 +321,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testValidateQuestionDetails_weightsAndOtherEnabledEmptyWeights_errorReturned() {
-        ______TS("Failure: weights enabled, other enabled, valid otherWeight but no weights");
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
 
