@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -13,10 +15,17 @@ public class InstructorCourseEnrollAjaxPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String user = getRequestParamValue(Const.ParamsNames.USER_ID);
-
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+
+        String user = getRequestParamValue(Const.ParamsNames.USER_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.USER_ID, user);
+
+        gateKeeper.verifyInstructorPrivileges(account);
+
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
+
+        gateKeeper.verifyAccessible(instructor, course);
 
         InstructorCourseEnrollAjaxPageData data = new InstructorCourseEnrollAjaxPageData(
                 logic.getAccount(user), sessionToken, logic.getStudentsForCourse(courseId));
