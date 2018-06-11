@@ -34,7 +34,7 @@ public class InstructorRecoveryDeleteAllCoursesAction extends Action {
         if (isRedirectedToHomePage()) {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
-        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_RECOVERY_PAGE);
+        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
     }
 
     /**
