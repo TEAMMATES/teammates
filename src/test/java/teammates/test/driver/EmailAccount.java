@@ -47,7 +47,6 @@ public final class EmailAccount {
         ListMessagesResponse listMessagesResponse;
         while (true) {
             try {
-                // Fetch all emails received by user.
                 listMessagesResponse = service.users().messages().list(username).setQ("is:UNREAD").execute();
                 break;
             } catch (GoogleJsonResponseException e) {

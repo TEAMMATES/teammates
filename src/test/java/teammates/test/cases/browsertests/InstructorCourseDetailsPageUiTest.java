@@ -2,12 +2,15 @@ package teammates.test.cases.browsertests;
 
 import java.io.IOException;
 
+import javax.mail.MessagingException;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.test.driver.BackDoor;
@@ -269,35 +272,25 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
-            throws Exception {
+            throws MaximumRetriesExceededException {
 
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
+        // TODO: Use linear backoff first before exponential backoff
         RetryManager retryManager = new RetryManager(5);
 
-        String keyReceivedInEmail = retryManager.runUntilSuccessful(new RetryableTaskReturns<String>("Received email") {
-
-            String keyReceivedInEmail;
-            boolean isDoneExecuting;
+        String keyReceivedInEmail =
+                retryManager.runUntilSuccessful(new RetryableTaskReturns<String>("Retrieve registration key") {
 
             @Override
-            public String run() throws RuntimeException {
+            public String run() throws RuntimeException, IOException, MessagingException {
 
-                try {
-                    keyReceivedInEmail =
-                            EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
-                    isDoneExecuting = true;
-                } catch (Exception e) {
-                    isDoneExecuting = false;
-                    e.printStackTrace();
-                }
-
-                return keyReceivedInEmail;
+                return EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
             }
 
             @Override
             public boolean isSuccessful(String result) {
-                return isDoneExecuting;
+                return result != null;
             }
         });
 
