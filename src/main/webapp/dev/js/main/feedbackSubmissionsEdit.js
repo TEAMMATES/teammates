@@ -1181,21 +1181,13 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
     }
 }
 
-function sortEvalueesByAttribute(qnNum) {
-    const selectedAttribute = $(`#sortEvaluees-${qnNum}`).val();
-    const evaluees = $(`select[name='responserecipient-${qnNum}-0'] option`);
-    const selectedOption = $(`select[name='responserecipient-${qnNum}-0']`).val();
-
-    // index 2 represents attribute name
+function toggleSectionTeamInfo(qnNum, numResponses) {
+    const isShowSectionTeamChecked = $(`#showSectionTeamFlag-${qnNum}`).prop('checked');
     const nameIndx = 2;
-    // represents the index of the selected attribute based on which the evaluees are being sorted
-    let attrIndx = nameIndx;
-    if (selectedAttribute === 'section') {
-        attrIndx = 0;
-    } else if (selectedAttribute === 'team') {
-        attrIndx = 1;
-    }
-    function nameComparator(e1Name, e2Name) {
+
+    function nameComparator(e1, e2) {
+        const e1Name = e1.text;
+        const e2Name = e2.text;
         if (e1Name > e2Name) {
             return 1;
         } else if (e1Name < e2Name) {
@@ -1203,42 +1195,65 @@ function sortEvalueesByAttribute(qnNum) {
         }
         return 0;
     }
-    function evalueeComparator(e1, e2) {
+    function sectionTeamComparator(e1, e2) {
         if (e1.text === '') {
             return -1;
         }
         if (e2.text === '') {
             return 1;
         }
-        const e1Name = e1.text.split(':')[nameIndx];
-        const e2Name = e2.text.split(':')[nameIndx];
-
-        if (attrIndx === nameIndx) {
-            return nameComparator(e1Name, e2Name);
-        }
-        const e1Attr = e1.text.split(':')[attrIndx];
-        const e2Attr = e2.text.split(':')[attrIndx];
+        const e1Attributes = e1.text.split(':');
+        const e2Attributes = e2.text.split(':');
 
         const numberPattern = /\d+/;
 
-        const e1AttrVal = parseInt(e1Attr.match(numberPattern), 10);
-        const e2AttrVal = parseInt(e2Attr.match(numberPattern), 10);
+        const e1SectionVal = parseInt(e1Attributes[0].match(numberPattern), 10);
+        const e2SectionVal = parseInt(e2Attributes[0].match(numberPattern), 10);
 
-        if (e1AttrVal === null || e2AttrVal === null) {
-            return 0;
-        }
-        // order based on numeric value of selected attribute
-        if (e1AttrVal > e2AttrVal) {
+        const e1TeamVal = parseInt(e1Attributes[1].match(numberPattern), 10);
+        const e2TeamVal = parseInt(e2Attributes[1].match(numberPattern), 10);
+
+        const e1Name = e1Attributes[nameIndx];
+        const e2Name = e2Attributes[nameIndx];
+
+        // order based on numeric value of section followed by team and name
+        if (e1SectionVal > e2SectionVal) {
             return 1;
-        } else if (e1AttrVal < e2AttrVal) {
+        } else if (e1SectionVal < e2SectionVal) {
+            return -1;
+        } else if (e1TeamVal > e2TeamVal) {
+            return 1;
+        } else if (e1TeamVal < e2TeamVal) {
+            return -1;
+        } else if (e1Name > e2Name) {
+            return 1;
+        } else if (e1Name < e2Name) {
             return -1;
         }
-        // if values are same order by name
-        return nameComparator(e1Name, e2Name);
+        return 0;
     }
-    evaluees.sort(evalueeComparator);
-    $(`select[name='responserecipient-${qnNum}-0']`).empty().append(evaluees);
-    $(`select[name='responserecipient-${qnNum}-0']`).val(selectedOption);
+    for (let i = 0; i < numResponses; i += 1) {
+        const evaluees = $(`select[name='responserecipient-${qnNum}-${i}'] option`);
+        const selectedOption = $(`select[name='responserecipient-${qnNum}-${i}']`).val();
+        if (isShowSectionTeamChecked) {
+            $(evaluees).each(function () {
+                const evalueeName = $(this).text();
+                if (evalueeName === '') {
+                    return;
+                }
+                $(this).text($(this).attr('section-team-info') + evalueeName);
+            });
+            evaluees.sort(sectionTeamComparator);
+        } else {
+            $(evaluees).each(function () {
+                const evalueeName = $(this).text().split(':')[nameIndx];
+                $(this).text(evalueeName);
+            });
+            evaluees.sort(nameComparator);
+        }
+        $(`select[name='responserecipient-${qnNum}-${i}']`).empty().append(evaluees);
+        $(`select[name='responserecipient-${qnNum}-${i}']`).val(selectedOption);
+    }
 }
 
 $(document).ready(() => {
@@ -1356,7 +1371,7 @@ $(document).ready(() => {
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 });
 
-window.sortEvalueesByAttribute = sortEvalueesByAttribute;
+window.toggleSectionTeamInfo = toggleSectionTeamInfo;
 window.validateNumScaleAnswer = validateNumScaleAnswer;
 window.updateConstSumMessageQn = updateConstSumMessageQn;
 window.updateRankMessageQn = updateRankMessageQn;

@@ -208,9 +208,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     team = student.team + ": ";
                 }
             }
-            result.add("<option value=\"" + sanitizeForHtml(email) + "\"" + (isSelected ? " selected" : "") + ">"
-                       + sanitizeForHtml(section) + sanitizeForHtml(team) + sanitizeForHtml(name)
-                       + "</option>"
+            result.add("<option value=\"" + sanitizeForHtml(email) + "\"" + (isSelected ? " selected" : "")
+                       + "section-team-info=\"" + sanitizeForHtml(section) + sanitizeForHtml(team) + "\"" + ">"
+                       + sanitizeForHtml(name) + "</option>"
             );
         });
 

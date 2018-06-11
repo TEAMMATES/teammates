@@ -61,7 +61,7 @@
       <c:if test="${not isRecipientNameHidden}">
         <div class="col-sm-12 form-inline mobile-align-left">
           <div class="row">
-            <div class="col-xs-8">
+            <div class="col-xs-5">
               <label for="input" style="text-indent: 24px">
                 <span data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.EVALUEE_DESCRIPTION %>">
                   Evaluee/Recipient
@@ -69,14 +69,12 @@
               </label>
             </div>
             <c:if test="${not isNumResponsesMax}">
-              <div class="col-xs-4 align-right padding-15px padding-top-0">
-                <label>Sort Evaluees By: </label>
-                <select id="sortEvaluees-${questionWithResponses.question.qnIndx}" class="form-control"
-                        onchange="sortEvalueesByAttribute(${questionWithResponses.question.qnIndx})">
-                  <option value="name">Name</option>
-                  <option value="section">Section</option>
-                  <option value="team">Team</option>
-                </select>
+              <div class="col-xs-7">
+                <label class="bold-label">
+                  <input type="checkbox" name="showSectionTeamFlag" id="showSectionTeamFlag-${questionWithResponses.question.qnIndx}"
+                      onchange="toggleSectionTeamInfo(${questionWithResponses.question.qnIndx}, ${questionWithResponses.numOfResponseBoxes})">
+                  Show section/team
+                </label>
               </div>
             </c:if>
           </div>
