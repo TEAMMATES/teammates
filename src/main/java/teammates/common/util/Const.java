@@ -230,11 +230,11 @@ public final class Const {
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
         public static final String COURSE_MOVE_TO_RECOVERY =
-                "Delete the course and its corresponding students and sessions to Recycle Bin";
+                "Delete the course and its corresponding students and sessions";
         public static final String COURSE_DELETE =
                 "Permanently Delete the course and its corresponding students and sessions";
         public static final String COURSE_RESTORE =
-                "Restore the deleted course and its corresponding students and sessions from Recycle Bin";
+                "Restore the deleted course and its corresponding students and sessions";
         public static final String COURSE_ARCHIVE =
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
@@ -1289,7 +1289,7 @@ public final class Const {
                 + "Go there to undo the archiving and bring the course back to the home page.";
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_MOVED_TO_RECYCLE_BIN =
-                "The course %s has been deleted. You can restore it from the recovery page.";
+                "The course %s has been deleted. You can restore it from the deleted courses table below.";
         public static final String COURSE_RESTORED = "The course %s has been restored.";
         public static final String COURSE_ALL_RESTORED = "All courses have been restored.";
         public static final String COURSE_DELETED =
