@@ -7,10 +7,10 @@ function addMcqOption(questionNum) {
 
     const curNumberOfChoiceCreated =
             parseInt($(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(), 10);
-    const lastChoice = $(`#mcqChoices-${questionNum}`).children().last();
-    const lastWeight = $(`#mcqWeights-${questionNum}`).children().last();
+    const $choiceColumn = $(`#mcqChoices-${questionNum}`);
+    const $weightColumn = $(`#mcqWeights-${questionNum}`);
 
-    const choice = (`
+    const choiceFragment = (`
     <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}"
             id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group">
@@ -30,7 +30,7 @@ function addMcqOption(questionNum) {
     </div>
     `);
 
-    const weight = (`
+    const weightFragment = (`
     <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}">
         <input type="number" class="form-control nonDestructive" value="0"
                 id="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}-${questionNum}"
@@ -39,11 +39,11 @@ function addMcqOption(questionNum) {
     `);
 
     if (curNumberOfChoiceCreated === 0) {
-        $(`#mcqChoices-${questionNum}`).html(choice);
-        $(`#mcqWeights-${questionNum}`).html(weight);
+        $choiceColumn.html(choiceFragment);
+        $weightColumn.html(weightFragment);
     } else {
-        $(choice).insertAfter(lastChoice);
-        $(weight).insertAfter(lastWeight);
+        $choiceColumn.append(choiceFragment);
+        $weightColumn.append(weightFragment);
     }
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
@@ -56,102 +56,24 @@ function addMcqOption(questionNum) {
 function removeMcqOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const $thisRow = $(`.mcqChoiceRow-${index}-${questionNum}`);
+    const $thisChoice = $(`#mcqOptionRow-${index}-${questionNum}`);
+    const $thisWeight = $(`#mcqWeight-${index}-${questionNum}`);
 
     // count number of child of mcqChoices div
     const numberOfOptions = $(`#mcqChoices-${questionNum}`).children('div').length;
 
     if (numberOfOptions <= 1) {
-        $thisRow.find('input[id^="mcqOption"]').val('');
-        $thisRow.find('input[id^="mcqWeight"]').val(0);
+        $thisChoice.find('input').val('');
+        $thisWeight.val(0);
     } else {
-        $thisRow.remove();
+        $thisChoice.remove();
+        // Remove the containing div of weight input field.
+        $thisWeight.parent().remove();
 
         if ($(questionId).attr('editStatus') === 'hasResponses') {
             $(questionId).attr('editStatus', 'mustDeleteResponses');
         }
     }
-}
-
-function mcqHasAssignedWeights(questionNum) {
-    return $(`#mcqAssignWeights-${questionNum}`).prop('checked');
-}
-
-function changeMcqGenerateFor(questionNum) {
-    $(`#mcqGeneratedOptions-${questionNum}`).val($(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
-}
-
-function toggleMcqGeneratedOptions(checkbox, questionNum) {
-    if ($(checkbox).prop('checked')) {
-        $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', true);
-        $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', true);
-        $(`#mcqOtherWeight-${questionNum}`).prop('disabled', true);
-        $(`#mcqChoiceTable-${questionNum}`).hide();
-        $(`#mcqAssignWeights-${questionNum}`).parent().hide();
-        // Hide the 'Weights' label
-        $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').hide();
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
-        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#mcqOtherWeight-${questionNum}`).hide();
-        changeMcqGenerateFor(questionNum);
-    } else {
-        $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', false);
-        $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', false);
-        $(`#mcqOtherWeight-${questionNum}`).prop('disabled', false);
-        $(`#mcqChoiceTable-${questionNum}`).show();
-        $(`#mcqAssignWeights-${questionNum}`).parent().show();
-        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        // If 'Choices are weighted' is checked, show the 'Weights' label
-        if (mcqHasAssignedWeights(questionNum)) {
-            $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').show();
-            // If 'other' option is checked then show other weight cell.
-            if ($(`#mcqOtherOptionFlag-${questionNum}`).prop('checked')) {
-                $(`#mcqOtherWeight-${questionNum}`).show();
-            }
-        }
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
-        $(`#mcqGeneratedOptions-${questionNum}`).val('NONE');
-    }
-}
-
-function toggleVisibilityOfMcqOtherWeight($checkbox, questionNum) {
-    // The 'Choices are weighted' checkbox
-    const $mcqAssignWeightCheckbox = $(`#mcqAssignWeights-${questionNum}`);
-    const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
-
-    if ($checkbox.prop('checked') && $mcqAssignWeightCheckbox.prop('checked')) {
-        $mcqOtherWeightCell.show();
-        // Set other weight as required.
-        $mcqOtherWeightCell.prop('required', true);
-    } else {
-        $mcqOtherWeightCell.prop('required', false);
-        $mcqOtherWeightCell.hide();
-    }
-}
-
-/**
- * If the 'other' option and Assign weight both are checked, shows the 'other' option,
- * otherwise hides it.
- * @param checkbox (Note that checkbox is a DOM element, not a jquery element)
- * @param questionNum
- */
-function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
-    const questionId = `#form_editquestion-${questionNum}`;
-
-    // Set visibility of mcq other weight cell.
-    toggleVisibilityOfMcqOtherWeight($(checkbox), questionNum);
-
-    if ($(questionId).attr('editStatus') === 'hasResponses') {
-        $(questionId).attr('editStatus', 'mustDeleteResponses');
-    }
-}
-
-function bindMcqOtherOptionEnabled() {
-    $('body').on('click', 'input[id^="mcqOtherOptionFlag"]', function () {
-        const checkbox = (this);
-        const questionNum = $(checkbox).closest('form').data('qnnumber');
-        toggleMcqOtherOptionEnabled(checkbox, questionNum);
-    });
 }
 
 /**
@@ -206,6 +128,76 @@ function toggleMcqAssignWeights($checkbox, questionNum) {
         // As, other weight will be disabled anyway.
         $otherWeightCell.hide();
     }
+}
+
+function changeMcqGenerateFor(questionNum) {
+    $(`#mcqGeneratedOptions-${questionNum}`).val($(`#mcqGenerateForSelect-${questionNum}`).prop('value'));
+}
+
+function toggleMcqGeneratedOptions(checkbox, questionNum) {
+    if ($(checkbox).prop('checked')) {
+        $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', true);
+        $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', true);
+        $(`#mcqOtherWeight-${questionNum}`).prop('disabled', true);
+        $(`#mcqChoiceTable-${questionNum}`).hide();
+        $(`#mcqAssignWeights-${questionNum}`).parent().hide();
+        // Hide the 'Weights' label
+        $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').hide();
+        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
+        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        $(`#mcqOtherWeight-${questionNum}`).hide();
+        changeMcqGenerateFor(questionNum);
+    } else {
+        $(`#mcqChoices-${questionNum}`).find('input[type=text]').prop('disabled', false);
+        $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', false);
+        $(`#mcqOtherWeight-${questionNum}`).prop('disabled', false);
+        $(`#mcqChoiceTable-${questionNum}`).show();
+        $(`#mcqAssignWeights-${questionNum}`).parent().show();
+        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
+        toggleMcqAssignWeights($(`#mcqAssignWeights-${questionNum}`), questionNum);
+        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
+        $(`#mcqGeneratedOptions-${questionNum}`).val('NONE');
+    }
+}
+
+function toggleVisibilityOfMcqOtherWeight($checkbox, questionNum) {
+    // The 'Choices are weighted' checkbox
+    const $mcqAssignWeightCheckbox = $(`#mcqAssignWeights-${questionNum}`);
+    const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
+
+    if ($checkbox.prop('checked') && $mcqAssignWeightCheckbox.prop('checked')) {
+        $mcqOtherWeightCell.show();
+        // Set other weight as required.
+        $mcqOtherWeightCell.prop('required', true);
+    } else {
+        $mcqOtherWeightCell.prop('required', false);
+        $mcqOtherWeightCell.hide();
+    }
+}
+
+/**
+ * If the 'other' option and Assign weight both are checked, shows the 'other' option,
+ * otherwise hides it.
+ * @param checkbox (Note that checkbox is a DOM element, not a jquery element)
+ * @param questionNum
+ */
+function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
+    const questionId = `#form_editquestion-${questionNum}`;
+
+    // Set visibility of mcq other weight cell.
+    toggleVisibilityOfMcqOtherWeight($(checkbox), questionNum);
+
+    if ($(questionId).attr('editStatus') === 'hasResponses') {
+        $(questionId).attr('editStatus', 'mustDeleteResponses');
+    }
+}
+
+function bindMcqOtherOptionEnabled() {
+    $('body').on('click', 'input[id^="mcqOtherOptionFlag"]', function () {
+        const checkbox = (this);
+        const questionNum = $(checkbox).closest('form').data('qnnumber');
+        toggleMcqOtherOptionEnabled(checkbox, questionNum);
+    });
 }
 
 function bindMcqAssignWeightsCheckbox() {

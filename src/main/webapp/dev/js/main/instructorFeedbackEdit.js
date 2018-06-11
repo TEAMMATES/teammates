@@ -476,26 +476,8 @@ function enableQuestion(questionNum) {
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).show();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).show();
 
-    if ($(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
-        $(`#mcqChoiceTable-${questionNum}`).hide();
-        $(`#mcqAssignWeights-${questionNum}`).parent().hide();
-        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#mcqOtherWeight-${questionNum}`).hide();
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
-    } else if ($(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
-        $(`#msqChoiceTable-${questionNum}`).hide();
-        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
-    } else {
-        $(`#mcqChoiceTable-${questionNum}`).show();
-        $(`#mcqAssignWeights-${questionNum}`).parent().show();
-        $(`#msqChoiceTable-${questionNum}`).show();
-        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#mcqOtherWeight-${questionNum}`).show();
-        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
-        $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
-    }
+    toggleMcqGeneratedOptions($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).get(0), questionNum);
+    toggleMsqGeneratedOptions($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).get(0), questionNum);
 
     toggleMsqMaxSelectableChoices(questionNum);
     toggleMsqMinSelectableChoices(questionNum);
@@ -533,9 +515,6 @@ function enableQuestion(questionNum) {
     showVisibilityCheckboxesIfCustomOptionSelected($currentQuestionForm);
     disableCornerMoveRubricColumnButtons(questionNum);
     hideInvalidRankRecipientFeedbackPaths(questionNum);
-
-    toggleMcqAssignWeights($(`#mcqAssignWeights-${questionNum}`), questionNum);
-    toggleVisibilityOfMcqOtherWeight($(`#mcqOtherOptionFlag-${questionNum}`), questionNum);
 }
 
 /**
