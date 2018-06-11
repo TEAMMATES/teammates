@@ -339,7 +339,6 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertFalse(feedbackEditPage.getMcqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
         assertFalse(feedbackEditPage.getMcqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
 
-
         ______TS("MCQ: Check Mcq weight default value");
         feedbackEditPage.fillQuestionTextBox("MCQ weight feature", NEW_QUESTION_INDEX);
         feedbackEditPage.fillQuestionDescription("More details", NEW_QUESTION_INDEX);
