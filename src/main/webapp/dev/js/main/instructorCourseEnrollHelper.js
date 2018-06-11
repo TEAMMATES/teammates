@@ -64,15 +64,9 @@ function unCapitalizeFirstLetter(string) {
  * @returns {Array} required student data
  */
 function getExistingStudentsData(studentsData, handsontableColHeader) {
-    const studentsDataList = [];
-    studentsData.forEach((student) => {
-        const tempStudentsData = [];
-        handsontableColHeader.forEach((header) => {
-            tempStudentsData.push(student[unCapitalizeFirstLetter(header)]);
-        });
-        studentsDataList.push(tempStudentsData);
-    });
-    return studentsDataList;
+    const headers = handsontableColHeader.map(unCapitalizeFirstLetter);
+    return studentsData.map(student => (headers.map(
+            header => student[header])));
 }
 
 export {
