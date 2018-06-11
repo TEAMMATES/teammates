@@ -58,6 +58,7 @@ import {
 
 import {
     addMcqOption,
+    makeMcqOptionsReorderable,
     removeMcqOption,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
@@ -483,6 +484,8 @@ function enableQuestion(questionNum) {
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
     }
 
+    makeMcqOptionsReorderable(questionNum);
+
     toggleMsqMaxSelectableChoices(questionNum);
     toggleMsqMinSelectableChoices(questionNum);
     if ($(`#constSumToRecipients-${questionNum}`).val() === 'true') {
@@ -577,6 +580,8 @@ function enableNewQuestion() {
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 
     toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
+
+    makeMcqOptionsReorderable(NEW_QUESTION);
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);

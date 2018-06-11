@@ -81,9 +81,25 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
     }
 }
 
+function makeMcqOptionsReorderable(questionNum) {
+    $(`div[id^='mcqChoiceTable-${questionNum}']`).sortable({
+        update() {
+            $(`div[id^='mcqOptionRow-'][id$=${questionNum}]`).each(function (index) {
+                $(this).attr('id', `mcqOptionRow-${index}-${questionNum}`);
+                $(this).find('input[id^="mcqOption-"]').attr({
+                    name: `mcqOption-${index}`,
+                    id: `mcqOption-${index}-${questionNum}`,
+                });
+                $(this).find('button[id="mcqRemoveOptionLink"]').attr('onclick', `removeMcqOption(${index},${questionNum}`);
+            });
+        },
+    });
+}
+
 export {
     addMcqOption,
     changeMcqGenerateFor,
+    makeMcqOptionsReorderable,
     removeMcqOption,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
