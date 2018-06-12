@@ -79,7 +79,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_COPIED, StatusMessageColor.SUCCESS));
         statusToAdmin = "Feedback Question " + questionNumber + " for session: <span class=\"bold\">("
                 + feedbackSessionName + ")</span> for Course <span class\"bold\">["
-                + courseId + "]</span> copied. <br>";
+                + courseId + "]</span> copied to Feedback Question " + feedbackQuestion.questionNumber + ". <br>";
     }
 
     private void deleteQuestion() {
