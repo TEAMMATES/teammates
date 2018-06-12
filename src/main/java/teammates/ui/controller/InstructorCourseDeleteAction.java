@@ -23,7 +23,15 @@ public class InstructorCourseDeleteAction extends Action {
         try {
             /* Move the course to recycle bin and setup status to be shown to user and admin */
             logic.moveCourseToRecovery(idOfCourseToDelete);
-            String statusMessage = String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN, idOfCourseToDelete);
+
+            String statusMessage;
+            if (isRedirectedToHomePage()) {
+                statusMessage = String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOME_PAGE,
+                        idOfCourseToDelete);
+            } else {
+                statusMessage = String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN_FROM_COURSES_PAGE,
+                        idOfCourseToDelete);
+            }
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             statusToAdmin = "Course moved to recycle bin: " + idOfCourseToDelete;
         } catch (Exception e) {
