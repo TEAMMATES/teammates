@@ -1237,6 +1237,10 @@ $(document).ready(() => {
         getVisibilityMessage(e.currentTarget);
     });
 
+    $(document).on('click', '.btn-copy-qn', (e) => {
+        copyQuestion($(e.currentTarget).data('qnnumber'));
+    });
+
     $(document).on('click', '.btn-discard-changes', (e) => {
         discardChanges($(e.currentTarget).data('qnnumber'));
     });
