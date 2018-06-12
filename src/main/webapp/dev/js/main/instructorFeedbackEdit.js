@@ -247,6 +247,12 @@ function checkEditFeedbackSession(form) {
     return true;
 }
 
+function copyQuestion(questionNum) {
+    if (questionNum === NEW_QUESTION) {
+        window.location.reload();
+        return false;
+    }
+}
 /**
  * Disables the editing of feedback session details.
  */
