@@ -310,7 +310,7 @@ function bindDeleteButtons() {
         const courseId = $button.data('courseid');
         const feedbackSessionName = $button.data('fsname');
 
-        const messageText = `Are you want to delete the feedback session ${feedbackSessionName} in ${courseId}?`;
+        const messageText = `Are you sure you want to delete the feedback session ${feedbackSessionName} in ${courseId}?`;
         const okCallback = function () {
             window.location = $button.attr('href');
         };
