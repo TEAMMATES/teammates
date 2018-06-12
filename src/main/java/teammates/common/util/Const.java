@@ -1286,9 +1286,9 @@ public final class Const {
                 COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>"
                 + "Go there to undo the archiving and bring the course back to the home page.";
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
-        public static final String COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOME_PAGE =
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE =
                 "The course %s has been deleted. You can restore it from courses page.";
-        public static final String COURSE_MOVED_TO_RECYCLE_BIN_FROM_COURSES_PAGE =
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN =
                 "The course %s has been deleted. You can restore it from the deleted courses table below.";
         public static final String COURSE_RESTORED = "The course %s has been restored.";
         public static final String COURSE_ALL_RESTORED = "All courses have been restored.";

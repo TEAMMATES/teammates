@@ -26,10 +26,10 @@ public class InstructorCourseDeleteAction extends Action {
 
             String statusMessage;
             if (isRedirectedToHomePage()) {
-                statusMessage = String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOME_PAGE,
+                statusMessage = String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE,
                         idOfCourseToDelete);
             } else {
-                statusMessage = String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN_FROM_COURSES_PAGE,
+                statusMessage = String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN,
                         idOfCourseToDelete);
             }
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
