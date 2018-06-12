@@ -862,7 +862,12 @@ Prevents content overflow in navbar. */
     padding: 20px 40px;
 }
 
-.student-enroll-spreadsheet .panel-default {
+.student-existing-data-spreadsheet .panel-default {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.student-enroll-spreadsheet {
     margin: 15px;
 }
 

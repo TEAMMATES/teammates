@@ -39,17 +39,24 @@
         <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
         <div class="col-md-12">
           <div class="form-group">
-            <div id="ajaxStatusBox"></div>
-            <div class="student-enroll-spreadsheet" id="data-spreadsheet">
+            <div class="student-existing-data-spreadsheet" id="data-spreadsheet">
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading ajax_submit">
+                  <div class="pull-right margin-left-7px">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                  </div>
+                  <div class='display-icon pull-right'></div>
                   <strong>Existing students</strong>
                 </div>
-                <div id="dataSpreadsheet"></div>
+                <div class="panel-collapse collapse">
+                  <div class="panel-body padding-0">
+                    <div id="dataSpreadsheet"></div>
+                  </div>
+                </div>
               </div>
             </div>
-            <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
             <div class="student-enroll-spreadsheet" id="enroll-spreadsheet">
+              <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <strong>New students</strong>
