@@ -69,9 +69,88 @@ function getExistingStudentsData(studentsData, handsontableColHeader) {
             header => student[header])));
 }
 
+/**
+ * Toggle the chevron image depending on the user's action.
+ * @param panelCollapse
+ * @param toggleChevron
+ */
+function toggleChevronImage(panelCollapse, toggleChevron) {
+    if ($(panelCollapse).attr('class').indexOf('checked') === -1) {
+        $(toggleChevron).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+    } else {
+        $(toggleChevron).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+    }
+}
+
+/**
+ * Shows the "Existing students" panel with the spreadsheet interface.
+ * @param $panelHeading
+ * @param panelCollapse
+ */
+function showExistingStudentsPanel($panelHeading, panelCollapse) {
+    $(panelCollapse).collapse('show');
+    $(panelCollapse[0]).addClass('checked');
+}
+
+/**
+ * Hides the "Existing students" panel.
+ * @param $panelHeading
+ * @param panelCollapse
+ */
+function hideExistingStudentsPanel($panelHeading, panelCollapse) {
+    $(panelCollapse[0]).collapse('hide');
+    $panelHeading.addClass('ajax_submit');
+    $(panelCollapse[0]).removeClass('checked');
+}
+
+/**
+ * Displays a message informing the user that there are no existing students in the course.
+ * @param displayIcon
+ */
+function displayNoExistingStudents(displayIcon) {
+    let statusMsg = '[ No existing students in course. ]';
+    statusMsg = `<strong style="margin-left: 1em; margin-right: 1em;">${statusMsg}</strong>`;
+    displayIcon.html(statusMsg);
+}
+
+/**
+ * Displays a message informing the user that an error surfaced during the AJAX request.
+ * @param displayIcon
+ */
+function displayErrorExecutingAjax(displayIcon) {
+    const warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+    let errorMsg = '[ Failed to load. Click here to retry. ]';
+    errorMsg = `<strong style="margin-left: 1em; margin-right: 1em;">${errorMsg}</strong>`;
+    displayIcon.html(warningSign + errorMsg);
+}
+
+/**
+ * Shows/Hides the "Existing students" panel depending on the current state of the panel.
+ * @param $panelHeading
+ * @param panelCollapse
+ * @param displayIcon
+ * @param toggleChevron
+ */
+/*  eslint no-unused-expressions: [2, { allowTernary: true }]   */
+function toggleExistingStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron) {
+    $panelHeading.removeClass('ajax_submit');
+    displayIcon.html('');
+
+    ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) ?
+            showExistingStudentsPanel($panelHeading, panelCollapse) :
+            hideExistingStudentsPanel($panelHeading, panelCollapse);
+
+    toggleChevronImage(panelCollapse, toggleChevron);
+}
+
 export {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
     getExistingStudentsData,
+    hideExistingStudentsPanel,
+    displayNoExistingStudents,
+    displayErrorExecutingAjax,
+    toggleExistingStudentsPanel,
+    toggleChevronImage,
 };

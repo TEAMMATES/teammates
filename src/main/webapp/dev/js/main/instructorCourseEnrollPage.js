@@ -14,6 +14,11 @@ import {
     getUserDataRows,
     getExistingStudentsData,
     getUpdatedData,
+    hideExistingStudentsPanel,
+    displayNoExistingStudents,
+    displayErrorExecutingAjax,
+    toggleExistingStudentsPanel,
+    toggleChevronImage,
 } from './instructorCourseEnrollHelper';
 
 const dataContainer = document.getElementById('dataSpreadsheet');
@@ -80,28 +85,29 @@ function updateDataDump() {
 
 /**
  * Loads existing student data into the spreadsheet interface.
- * @param data
+ * @param studentsData
+ * @param $panelHeading
+ * @param panelCollapse
+ * @param displayIcon
+ * @param toggleChevron
  */
-function loadExistingStudentsData(data) {
-    const studentsData = data.students;
-
-    if (studentsData.length === 0) {
-        $('#ajaxStatusBox').html('<div class=\'overflow-auto alert alert-warning ' +
-                'icon-warning statusMessage\'>No existing students in course.</div>');
-        $('#data-spreadsheet').hide();
-    } else {
-        $('#ajaxStatusBox').html('<div class=\'overflow-auto alert alert-success ' +
-                'icon-success statusMessage\'>Existing students have been successfully ' +
-                'loaded into the spreadsheet interface.</div>');
-        dataHandsontable.loadData(getExistingStudentsData(
-                studentsData, dataHandsontable.getColHeader()));
-    }
+function loadExistingStudentsData(studentsData, $panelHeading, panelCollapse, displayIcon, toggleChevron) {
+    dataHandsontable.loadData(getExistingStudentsData(
+            studentsData, dataHandsontable.getColHeader()));
+    toggleExistingStudentsPanel($panelHeading, panelCollapse,
+            displayIcon, toggleChevron);
+    dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
 }
 
 /**
  * Gets list of student data through an AJAX request.
+ * @param $panelHeading
+ * @param panelCollapse
+ * @param displayIcon
+ * @param toggleChevron
  */
-function getAjaxStudentList() {
+/*  eslint no-unused-expressions: [2, { allowTernary: true }]   */
+function getAjaxStudentList($panelHeading, panelCollapse, displayIcon, toggleChevron) {
     const $spreadsheetForm = $('#student-data-spreadsheet-form');
 
     $.ajax({
@@ -113,24 +119,39 @@ function getAjaxStudentList() {
             user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
         },
         beforeSend() {
-            $('#ajaxStatusBox').html('<div style="text-align: center">' +
-                    '<img src=\'/images/ajax-loader.gif\'/></div>');
+            displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
         },
         error() {
-            $('#ajaxStatusBox').html('<div class=\'overflow-auto alert alert-danger ' +
-                    'icon-danger statusMessage\'>Error loading existing students into spreadsheet interface. ' +
-                    'To retry, <button id=\'retryGetAjaxStudentList\' type=\'button\''
-                    + ' class=\'btn btn-danger btn-xs\'>Click here</button></div>');
+            displayErrorExecutingAjax(displayIcon);
         },
         success(data) {
-            loadExistingStudentsData(data);
+            (data.students.length === 0) ? displayNoExistingStudents(displayIcon) :
+            loadExistingStudentsData(data.students, $panelHeading, panelCollapse, displayIcon, toggleChevron);
         },
     });
 }
 
+/**
+ * Function to collapse "Existing students" panel and loads existing students' data when the user clicks on it.
+ */
+function collapseExistingStudentsPanel() {
+    const $panelHeading = $(this);
+    const panelCollapse = $panelHeading.parent().children('.panel-collapse');
+    const displayIcon = $panelHeading.children('.display-icon');
+    const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+
+    if ($panelHeading.attr('class').indexOf('ajax_submit') === -1) { // if panel is shown
+        hideExistingStudentsPanel($panelHeading, panelCollapse);
+        toggleChevronImage(panelCollapse, toggleChevron);
+    } else {
+        getAjaxStudentList($panelHeading, panelCollapse, displayIcon, toggleChevron);
+    }
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
-    getAjaxStudentList();
+
+    $('.ajax_submit').click(collapseExistingStudentsPanel);
 
     if ($('#enrollstudents').val()) {
         const allData = $('#enrollstudents').val().split('\n'); // data in the table including column headers (string format)
@@ -146,10 +167,6 @@ $(document).ready(() => {
             enrollHandsontable.loadData(data); // Reset all cells in the grid to contain data from the data array
         }
     }
-
-    $('#ajaxStatusBox').on('click', '#retryGetAjaxStudentList', () => {
-        getAjaxStudentList();
-    });
 
     $('#addEmptyRows').click(() => {
         const emptyRowsCount = $('#number-of-rows').val();
