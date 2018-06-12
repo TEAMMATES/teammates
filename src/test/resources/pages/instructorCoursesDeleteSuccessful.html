@@ -58,7 +58,7 @@
   <br>
   <div id="statusMessagesToUser">
     <div class="overflow-auto alert alert-success icon-success statusMessage">
-      The course CCAddUiTest.course1 has been deleted. You can restore it from the recovery page.
+      The course CCAddUiTest.course1 has been deleted. You can restore it from the deleted courses table below.
     </div>
   </div>
   <script defer="" src="/js/statusMessage.js" type="text/javascript">
@@ -147,7 +147,7 @@
             <a class="btn btn-default btn-xs t_course_archive0" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Archive
             </a>
-            <a class="btn btn-default btn-xs t_course_delete0" data-course-id="CCAddUiTest.CS1101" data-original-title="Delete the course and its corresponding students and sessions to Recycle Bin" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs t_course_delete0" data-course-id="CCAddUiTest.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Delete
             </a>
           </td>
@@ -195,13 +195,83 @@
             <a class="btn btn-default btn-xs t_course_archive1" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Archive
             </a>
-            <a class="btn btn-default btn-xs t_course_delete1" data-course-id="CCAddUiTest.CS2104" data-original-title="Delete the course and its corresponding students and sessions to Recycle Bin" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs t_course_delete1" data-course-id="CCAddUiTest.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Delete
             </a>
           </td>
         </tr>
       </tbody>
     </table>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2 class="text-muted">
+      Deleted courses
+    </h2>
+    <table class="table table-bordered table-striped" id="tableRecoveryCourses">
+      <thead class="fill-info">
+        <tr>
+          <th class="button-sort-none toggle-sort" id="btn_sortid">
+            Course ID
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" id="btn_sortname">
+            Course Name
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursecreateddate">
+            Creation Date
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursedeleteddate">
+            Deletion Date
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="align-center no-print">
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="recoverycourseid1">
+            CCAddUiTest.course1
+          </td>
+          <td id="recoverycoursename1">
+            Software Engineering $^&*()
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="recoverycoursecreateddate1">
+            ${datetime.now.courses}
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="recoverycoursedeleteddate1">
+            ${datetime.now.courses}
+          </td>
+          <td class="align-center no-print">
+            <a class="btn btn-default btn-xs t_course_restore0" data-original-title="Restore the deleted course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorRecoveryRestoreCourse?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Restore
+            </a>
+            <a class="btn btn-default btn-xs course-delete-link t_course_delete0" data-course-id="CCAddUiTest.course1" data-original-title="Permanently Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorRecoveryDeleteCourse?courseid=CCAddUiTest.course1&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" style="color: red" title="">
+              Delete Permanently
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row" style="text-align: right">
+      <a class="btn btn-info btn-md" href="/page/instructorRecoveryRestoreAllCourses?user=CCAddUiTest.instructor&token=${sessionToken}" id="restoreAllCourses">
+        Restore All Courses
+      </a>
+        
+      <a class="btn btn-danger btn-md course-delete-all-link" href="/page/instructorRecoveryDeleteAllCourses?user=CCAddUiTest.instructor&token=${sessionToken}" id="deleteAllCourses">
+        Delete All Courses
+      </a>
+         
+    </div>
     <br>
     <br>
     <br>
