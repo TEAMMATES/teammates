@@ -38,7 +38,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesAction extends Action {
     }
 
     /**
-     * Checks if the action is executed in homepage or 'Recovery' page based on its redirection.
+     * Checks if the action is executed in homepage or 'Courses' page based on its redirection.
      */
     private boolean isRedirectedToHomePage() {
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);

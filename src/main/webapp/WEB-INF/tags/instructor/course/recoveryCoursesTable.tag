@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorRecovery - Recovery course table" pageEncoding="UTF-8" %>
+<%@ tag description="instructorCourse - Recovery courses table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="recoveryCourses" type="teammates.ui.template.RecoveryCoursesTable" required="true" %>
