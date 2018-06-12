@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.time.ZoneId;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
