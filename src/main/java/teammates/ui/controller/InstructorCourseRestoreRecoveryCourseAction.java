@@ -30,17 +30,6 @@ public class InstructorCourseRestoreRecoveryCourseAction extends Action {
             setStatusForException(e);
         }
 
-        if (isRedirectedToHomePage()) {
-            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-        }
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
-    }
-
-    /**
-     * Checks if the action is executed in homepage or 'Recovery' page based on its redirection.
-     */
-    private boolean isRedirectedToHomePage() {
-        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        return nextUrl != null && nextUrl.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 }
