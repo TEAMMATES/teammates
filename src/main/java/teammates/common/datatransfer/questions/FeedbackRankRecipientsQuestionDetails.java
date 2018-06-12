@@ -254,10 +254,21 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         return responses;
     }
 
+    /**
+     * Constructs results statistics for each student.
+     * Statistics to student is only shown when visibility setting is permissive enough
+     * i.e., if the ranks for all team members are in the results bundle.
+     */
     private String getStudentQuestionResultsStatisticsHtml(
             String studentEmail, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        if (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+        if (question.recipientType.isTeam() &&
+                    (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                             || !question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS))) {
+            return "";
+        }
+        if (!question.recipientType.isTeam() &&
+                    (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                             || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
             return "";
         }
 
@@ -268,7 +279,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
                                               || question.recipientType == FeedbackParticipantType.OWN_TEAM;
 
-        String currentUserTeam = bundle.getTeamNameForEmail(studentEmail);
+        String currentUserTeam = bundle.roster.getStudentForEmail(studentEmail).getTeam();
         String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
         List<Integer> ranksReceived = recipientRanks.get(currentUserIdentifier);
         if (ranksReceived == null) {
@@ -285,8 +296,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(actualResponses);
 
-        String fragmentTemplateToUse = FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT;
-        String templateToUse = FormTemplates.RANK_RESULT_RECIPIENT_STATS;
         String ranksReceivedAsString = getListOfRanksReceivedAsString(ranksReceived);
         String overallRank = Integer.toString(recipientOverallRank.get(currentUserIdentifier));
         String name = bundle.getNameForEmail(currentUserIdentifier);
@@ -296,7 +305,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String selfRank = recipientSelfRanks.containsKey(currentUserIdentifier)
                 ? Integer.toString(recipientSelfRanks.get(currentUserIdentifier)) : "-";
 
-        fragments.append(Templates.populateTemplate(fragmentTemplateToUse,
+        fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
                 Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
                 Slots.TEAM, SanitizationHelper.sanitizeForHtml(currentUserTeam),
                 Slots.RANK_RECIEVED, ranksReceivedAsString,
@@ -306,7 +315,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         String statsTitle = isRecipientTypeTeam ? "Summary of responses received by your team"
                 : "Summary of responses received by you";
-        return Templates.populateTemplate(templateToUse,
+        return Templates.populateTemplate(FormTemplates.RANK_RESULT_RECIPIENT_STATS,
                 Slots.SUMMARY_TITLE, statsTitle,
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                 Slots.FRAGMENTS, fragments.toString());
