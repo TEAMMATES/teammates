@@ -48,7 +48,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
                 getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the recovery page.",
+        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from courses page.",
                 redirectResult.getStatusMessage());
 
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
@@ -76,7 +76,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the recovery page.",
+        assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the deleted courses table below.",
                 redirectResult.getStatusMessage());
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
@@ -99,7 +99,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         assertEquals(getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse1"),
                      redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The course icdct.tpa.id2 has been deleted. You can restore it from the recovery page.",
+        assertEquals("The course icdct.tpa.id2 has been deleted. You can restore it from the deleted courses table below.",
                 redirectResult.getStatusMessage());
 
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
