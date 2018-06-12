@@ -75,7 +75,6 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
         FeedbackQuestionAttributes feedbackQuestion =
                 logic.copyFeedbackQuestion(questionId, feedbackSessionName, courseId, instructorEmail);
-        
         statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_COPIED, StatusMessageColor.SUCCESS));
         statusToAdmin = "Feedback Question " + questionNumber + " for session: <span class=\"bold\">("
                 + feedbackSessionName + ")</span> for Course <span class\"bold\">["
