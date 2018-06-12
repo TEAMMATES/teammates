@@ -209,7 +209,7 @@ function addRubricCol(questionNum) {
         `<th class="rubricCol-${questionNum}-${newColNumber - 1}">
             <input type="number" class="form-control nonDestructive" value="0"
                     id="rubricWeight-${questionNum}-${newColNumber - 1}"
-                    name="rubricWeight-${newColNumber - 1}" step="0.01">
+                    name="rubricWeight-${newColNumber - 1}" step="0.01" required>
         </th>`;
 
     // Insert after last <th>
@@ -355,8 +355,19 @@ function highlightRubricCol(index, questionNum, highlight) {
 }
 
 /**
- * Shows the weight row if the "Choices are weighted" checkbox is checked, otherwise
- * hides the weight row.
+ * Sets the 'required' attribute in weight cells.
+ */
+function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
+    const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
+
+    $weightCells.each(function () {
+        $(this).prop('required', isRequired);
+    });
+}
+
+/**
+ * Shows the weight row and makes weight cells required if the "Choices are weighted" checkbox is checked,
+ * otherwise hides the weight row and removes the 'required' field from all weight cells.
  *
  * @param checkbox the "Choices are weighted" checkbox
  */
@@ -367,7 +378,9 @@ function toggleAssignWeightsRow($checkbox) {
     if ($checkbox.prop('checked')) {
         $weightsRow.show();
         $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
+        setRequiredAttributeToRubricWeights($weightsRow, true);
     } else {
+        setRequiredAttributeToRubricWeights($weightsRow, false);
         $weightsRow.hide();
     }
 }
