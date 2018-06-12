@@ -1,3 +1,12 @@
+/* global moment:false */
+
 $(document).ready(() => {
-    // nothing needs to be done for this page
+
+    const $success_button = $('#button_confirm');
+
+    const timezoneParameter = '&instructortimezone=' + moment.tz.guess();
+    const oldLinkWithoutTimezone = $success_button.attr('href');
+    const newLink = oldLinkWithoutTimezone + timezoneParameter;
+
+    $success_button.attr('href', newLink);
 });

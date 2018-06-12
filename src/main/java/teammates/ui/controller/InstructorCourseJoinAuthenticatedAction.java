@@ -48,11 +48,12 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
 
         // When instructor is added by admin and only sample courses are included and their timezones are updated
         if (institute != null) {
+            String timeZone = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_TIMEZONE);
             List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
 
             for (CourseAttributes course : courses) {
                 try {
-                    logic.updateCourse(course.getId(), course.getName(), ZoneId.systemDefault().toString());
+                    logic.updateCourse(course.getId(), course.getName(), timeZone);
                 } catch (InvalidParametersException e) {
                     setStatusForException(e, e.getMessage());
                     log.info(e.getMessage());
