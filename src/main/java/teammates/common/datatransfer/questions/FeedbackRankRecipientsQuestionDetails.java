@@ -239,21 +239,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                         Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
     }
 
-    private List<FeedbackResponseAttributes> getActualResponses(
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        List<FeedbackResponseAttributes> responses;
-        String questionId = question.getId();
-        //Get all actual responses for this question.
-        responses = new ArrayList<>();
-        for (FeedbackResponseAttributes response : bundle.actualResponses) {
-            if (response.feedbackQuestionId.equals(questionId)) {
-                responses.add(response);
-            }
-        }
-        return responses;
-    }
-
     /**
      * Constructs results statistics for each student.
      * Statistics to student is only shown when visibility setting is permissive enough
@@ -261,20 +246,20 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      */
     private String getStudentQuestionResultsStatisticsHtml(
             String studentEmail, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
-        if (question.recipientType.isTeam() &&
-                    (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                             || !question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS))) {
+        if (question.recipientType.isTeam()
+                    && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                                || !question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS))) {
             return "";
         }
-        if (!question.recipientType.isTeam() &&
-                    (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+        if (!question.recipientType.isTeam()
+                    && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                              || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
             return "";
         }
 
-        List<FeedbackResponseAttributes> actualResponses = getActualResponses(question, bundle);
+        List<FeedbackResponseAttributes> allResponses = bundle.getAllReponsesForQuestion(question);
 
-        Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(actualResponses);
+        Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(allResponses);
 
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
                                               || question.recipientType == FeedbackParticipantType.OWN_TEAM;
@@ -289,12 +274,12 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         StringBuilder fragments = new StringBuilder();
         Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
 
-        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(actualResponses);
+        Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(allResponses);
 
         Map<String, Integer> recipientOverallRankExceptSelf =
                 generateNormalizedOverallRankMapping(recipientRanksExcludingSelf);
 
-        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(actualResponses);
+        Map<String, Integer> recipientSelfRanks = generateSelfRankForEachRecipient(allResponses);
 
         String ranksReceivedAsString = getListOfRanksReceivedAsString(ranksReceived);
         String overallRank = Integer.toString(recipientOverallRank.get(currentUserIdentifier));

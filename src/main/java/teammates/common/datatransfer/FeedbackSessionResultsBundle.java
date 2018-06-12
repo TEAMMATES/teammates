@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -1731,5 +1732,14 @@ public class FeedbackSessionResultsBundle {
             }
         }
         return false;
+    }
+
+    public List<FeedbackResponseAttributes> getAllReponsesForQuestion(
+            FeedbackQuestionAttributes question) {
+        String questionId = question.getId();
+        //Get all actual responses for this question
+        return actualResponses.stream()
+                       .filter(response -> response.feedbackQuestionId.equals(questionId))
+                       .collect(Collectors.toList());
     }
 }
