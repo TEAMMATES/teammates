@@ -252,6 +252,9 @@ function copyQuestion(questionNum) {
         window.location.reload();
         return false;
     }
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('copy');
+    $(`#form_editquestion-${questionNum}`).submit();
+    return false;
 }
 /**
  * Disables the editing of feedback session details.
