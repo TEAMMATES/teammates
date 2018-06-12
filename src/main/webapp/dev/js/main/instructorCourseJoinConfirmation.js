@@ -1,12 +1,11 @@
 /* global moment:false */
 
 $(document).ready(() => {
+    const $successButton = $('#button_confirm');
 
-    const $success_button = $('#button_confirm');
-
-    const timezoneParameter = '&instructortimezone=' + moment.tz.guess();
-    const oldLinkWithoutTimezone = $success_button.attr('href');
+    const timezoneParameter = '&instructortimezone='.concat(moment.tz.guess());
+    const oldLinkWithoutTimezone = $successButton.attr('href');
     const newLink = oldLinkWithoutTimezone + timezoneParameter;
 
-    $success_button.attr('href', newLink);
+    $successButton.attr('href', newLink);
 });
