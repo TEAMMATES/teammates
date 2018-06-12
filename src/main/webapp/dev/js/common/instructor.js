@@ -325,7 +325,7 @@ function bindCourseDeleteLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
+        const messageText = `Are you sure you want to permanently delete the course: ${$clickedLink.data('courseId')}? `
                           + 'This operation will delete all students and sessions in this course. '
                           + 'All instructors of this course will not be able to access it hereafter as well.';
         const okCallback = function () {
@@ -342,7 +342,7 @@ function bindCourseDeleteAllLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = 'Are you sure you want to delete all the courses? '
+        const messageText = 'Are you sure you want to permanently delete all the courses? '
                 + 'This operation will delete all students and sessions in these courses. '
                 + 'All instructors of these courses will not be able to access them hereafter as well.';
         const okCallback = function () {
