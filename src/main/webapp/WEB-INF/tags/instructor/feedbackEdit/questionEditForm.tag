@@ -35,6 +35,11 @@
         </div>
         <div class="col-sm-5 mobile-margin-top-10px">
           <span class="mobile-no-pull pull-right">
+            <a class="btn btn-primary btn-xs btn-copy-qn"
+               data-qnnumber="${fqForm.questionIndex}"
+               data-toggle="tooltip" data-placement="top">
+              <span class="glyphicon glyphicon-file"></span> Copy
+            </a>
             <a class="btn btn-primary btn-xs btn-edit-qn"
                 id="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT %>-${fqForm.questionIndex}"
                 data-toggle="tooltip" data-placement="top"
