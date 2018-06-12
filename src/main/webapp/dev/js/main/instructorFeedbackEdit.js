@@ -296,6 +296,8 @@ function bindFeedbackSessionEditFormSubmission() {
         const questionNum = $($form).data('qnnumber');
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
 
+        addLoadingIndicator($('#button_submit'), 'Saving');
+
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -319,6 +321,7 @@ function bindFeedbackSessionEditFormSubmission() {
                     $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
                 }
 
+                removeLoadingIndicator($('#button_submit'), 'Save Changes');
                 if (!hasError) {
                     disableEditFS();
                 }
