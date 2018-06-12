@@ -95,9 +95,6 @@ public abstract class AppPage {
     private WebElement instructorStudentsTab;
 
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
-    private WebElement instructorRecoveryTab;
-
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
     private WebElement instructorHelpTab;
 
     @FindBy(id = "studentHomeNavLink")
@@ -520,16 +517,6 @@ public abstract class AppPage {
         click(instructorHomeTab);
         waitForPageToLoad();
         return changePageType(InstructorHomePage.class);
-    }
-
-    /**
-     * Equivalent to clicking the 'Recovery' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-    public InstructorRecoveryPage loadInstructorRecoveryTab() {
-        click(instructorRecoveryTab);
-        waitForPageToLoad();
-        return changePageType(InstructorRecoveryPage.class);
     }
 
     /**
