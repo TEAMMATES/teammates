@@ -515,14 +515,27 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         StringBuilder fragments = new StringBuilder();
         Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
+        Map<String, Double> averagePerOption = calculateAverageWeightPerOption(answerFrequency, responses.size());
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        answerFrequency.forEach((key, value) ->
-                fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                        Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
-                        Slots.COUNT, value.toString(),
-                        Slots.PERCENTAGE, df.format(100 * (double) value / responses.size()))));
+        for (String key : answerFrequency.keySet()) {
+            int count = answerFrequency.get(key);
+            // If weights are allowed, show the corresponding weights of a choice.
+            String weightString = "";
+            if ("Other".equals(key)) {
+                weightString = (hasAssignedWeights ? df.format(mcqOtherWeight) : "-");
+            } else {
+                weightString = (hasAssignedWeights ? df.format(mcqWeights.get(mcqChoices.indexOf(key))) : "-");
+            }
+
+            fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
+                    Slots.MCQ_WEIGHT, weightString,
+                    Slots.COUNT, Integer.toString(count),
+                    Slots.PERCENTAGE, df.format(100 * (double) count / responses.size()),
+                    Slots.AVERAGE, hasAssignedWeights ? df.format(averagePerOption.get(key)) : "-"));
+        }
 
         return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
     }
@@ -649,5 +662,43 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return answerFrequency;
+    }
+
+    /**
+     * Calculates the average weight of each option based on the all responses.
+     * Weights should be assigned or else an empty map will be returned.<br>
+     * The average of an option is calculated as follows:<br><br>
+     * Average = (frequency of the option based on responses) * (weight of the option) / total responses.
+     * @param answerFrequency
+     * @param responses
+     * @return averagePerOption map containing the mcq options and their corresponding average value.
+     */
+    private Map<String, Double> calculateAverageWeightPerOption(Map<String, Integer> answerFrequency,
+            int totalNumberOfResponses) {
+        Map<String, Double> averagePerOption = new LinkedHashMap<>();
+        // If weights are not assigned, return an empty map.
+        if (!hasAssignedWeights) {
+            return averagePerOption;
+        }
+
+        for (int i = 0; i < mcqChoices.size(); i++) {
+            String option = mcqChoices.get(i);
+            double weight = mcqWeights.get(i);
+            averagePerOption.put(option, weight);
+        }
+
+        if (otherEnabled) {
+            averagePerOption.put("Other", mcqOtherWeight);
+        }
+
+        for (String key : averagePerOption.keySet()) {
+            int frequency = answerFrequency.get(key);
+            double weight = averagePerOption.get(key);
+            double average = (frequency * weight) / totalNumberOfResponses;
+
+            // Replace the value by the actual average value.
+            averagePerOption.put(key, average);
+        }
+        return averagePerOption;
     }
 }
