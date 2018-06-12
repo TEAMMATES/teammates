@@ -366,6 +366,42 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorCourseRestoreRecoveryCourseLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+        return link;
+    }
+
+    public String getInstructorCourseRestoreAllRecoveryCoursesLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL;
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorCourseDeleteRecoveryCourseLink(String courseId, boolean isHome) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link,
+                Const.ParamsNames.NEXT_URL,
+                isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+                        : Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+        return link;
+    }
+
+    public String getInstructorCourseDeleteAllRecoveryCoursesLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL;
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorFeedbackSessionsLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
@@ -613,48 +649,6 @@ public class PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
-        return link;
-    }
-
-    public String getInstructorRecoveryLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_PAGE;
-        link = addUserIdToUrl(link);
-        return link;
-    }
-
-    public String getInstructorRecoveryRestoreCourseLink(String courseId) {
-        String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_RESTORE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-        return link;
-    }
-
-    public String getInstructorRecoveryRestoreAllCoursesLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_RESTORE_ALL;
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-
-        return link;
-    }
-
-    public String getInstructorRecoveryDeleteCourseLink(String courseId, boolean isHome) {
-        String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_DELETE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link,
-                Const.ParamsNames.NEXT_URL,
-                isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                        : Const.ActionURIs.INSTRUCTOR_RECOVERY_PAGE);
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-        return link;
-    }
-
-    public String getInstructorRecoveryDeleteAllCoursesLink() {
-        String link = Const.ActionURIs.INSTRUCTOR_RECOVERY_DELETE_ALL;
-        link = addUserIdToUrl(link);
-        link = addSessionTokenToUrl(link);
-
         return link;
     }
 

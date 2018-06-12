@@ -53,6 +53,10 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
         map(INSTRUCTOR_COURSE_DELETE, InstructorCourseDeleteAction.class);
         map(INSTRUCTOR_COURSE_ARCHIVE, InstructorCourseArchiveAction.class);
+        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE, InstructorCourseRestoreRecoveryCourseAction.class);
+        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL, InstructorCourseRestoreAllRecoveryCoursesAction.class);
+        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE, InstructorCourseDeleteRecoveryCourseAction.class);
+        map(INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL, InstructorCourseDeleteAllRecoveryCoursesAction.class);
         map(INSTRUCTOR_COURSE_DETAILS_PAGE, InstructorCourseDetailsPageAction.class);
         map(INSTRUCTOR_COURSE_JOIN, InstructorCourseJoinAction.class);
         map(INSTRUCTOR_COURSE_JOIN_AUTHENTICATED, InstructorCourseJoinAuthenticatedAction.class);
@@ -107,11 +111,6 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE, InstructorFeedbackSubmissionEditPageAction.class);
         map(INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE, InstructorFeedbackSubmissionEditSaveAction.class);
         map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
-        map(INSTRUCTOR_RECOVERY_PAGE, InstructorRecoveryPageAction.class);
-        map(INSTRUCTOR_RECOVERY_RESTORE, InstructorRecoveryRestoreCourseAction.class);
-        map(INSTRUCTOR_RECOVERY_RESTORE_ALL, InstructorRecoveryRestoreAllCoursesAction.class);
-        map(INSTRUCTOR_RECOVERY_DELETE, InstructorRecoveryDeleteCourseAction.class);
-        map(INSTRUCTOR_RECOVERY_DELETE_ALL, InstructorRecoveryDeleteAllCoursesAction.class);
         map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_AJAX_PAGE, InstructorStudentListAjaxPageAction.class);
