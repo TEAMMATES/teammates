@@ -38,7 +38,7 @@
             <a class="btn btn-primary btn-xs btn-copy-qn"
                data-qnnumber="${fqForm.questionIndex}"
                data-toggle="tooltip" data-placement="top">
-              <span class="glyphicon glyphicon-file"></span> Copy
+              <span class="glyphicon glyphicon-file"></span> Duplicate
             </a>
             <a class="btn btn-primary btn-xs btn-edit-qn"
                 id="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT %>-${fqForm.questionIndex}"
