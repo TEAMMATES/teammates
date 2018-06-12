@@ -11,8 +11,7 @@ function addMcqOption(questionNum) {
     const $weightColumn = $(`#mcqWeights-${questionNum}`);
 
     const choiceFragment = (`
-    <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}"
-            id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
+    <div class="margin-bottom-7px" id="mcqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group">
             <span class="input-group-addon">
                 <input type="radio" disabled>
@@ -31,7 +30,7 @@ function addMcqOption(questionNum) {
     `);
 
     const weightFragment = (`
-    <div class="margin-bottom-7px mcqChoiceRow-${curNumberOfChoiceCreated}-${questionNum}">
+    <div class="margin-bottom-7px">
         <input type="number" class="form-control nonDestructive" value="0"
                 id="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}-${questionNum}"
                 name="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}" step="0.01" required>
