@@ -513,7 +513,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        StringBuilder fragments = new StringBuilder();
+        StringBuilder responseSummaryFragments = new StringBuilder();
         Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
         Map<String, Double> averagePerOption = calculateAverageWeightPerOption(answerFrequency, responses.size());
 
@@ -529,7 +529,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 weightString = hasAssignedWeights ? df.format(mcqWeights.get(mcqChoices.indexOf(key))) : "-";
             }
 
-            fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+            responseSummaryFragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
                     Slots.MCQ_WEIGHT, weightString,
                     Slots.COUNT, Integer.toString(count),
@@ -542,13 +542,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String recipientStatsHtml = "";
         if (hasAssignedWeights) {
             String header = getRecipientStatsHeaderHtml();
+            StringBuilder bodyBuilder = new StringBuilder("");
             recipientStatsHtml = Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
-                    Slots.TABLE_BODY_HTML, "");
+                    Slots.TABLE_BODY_HTML, bodyBuilder.toString());
         }
         return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
-                Slots.FRAGMENTS, fragments.toString(),
+                Slots.FRAGMENTS, responseSummaryFragments.toString(),
                 Slots.MCQ_RECIPIENT_STATS_HTML, recipientStatsHtml);
     }
 
@@ -563,11 +564,23 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
      */
     public String getRecipientStatsHeaderHtml() {
         StringBuilder headerBuilder = new StringBuilder(100);
+        DecimalFormat df = new DecimalFormat("#.##");
+        StringBuilder choicesHtmlBuilder = new StringBuilder(100);
+
+        for (int i = 0; i < mcqChoices.size(); i++) {
+            String weight = df.format(mcqWeights.get(i));
+            String html = getRecipientStatsHeaderFragmentHtml(mcqChoices.get(i) + " [" + weight + "]");
+            choicesHtmlBuilder.append(html);
+        }
+        if (otherEnabled) {
+            String otherWeight = df.format(mcqOtherWeight);
+            String html = getRecipientStatsHeaderFragmentHtml("Other" + " [" + otherWeight + "]");
+            choicesHtmlBuilder.append(html);
+        }
 
         headerBuilder.append(getRecipientStatsHeaderFragmentHtml("Team"))
                      .append(getRecipientStatsHeaderFragmentHtml("Recipient Name"))
-                     .append(getRecipientStatsHeaderFragmentHtml("Choice"))
-                     .append(getRecipientStatsHeaderFragmentHtml("Weight"))
+                     .append(choicesHtmlBuilder.toString())
                      .append(getRecipientStatsHeaderFragmentHtml("Response Count"))
                      .append(getRecipientStatsHeaderFragmentHtml("Total"))
                      .append(getRecipientStatsHeaderFragmentHtml("Average"));
