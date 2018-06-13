@@ -166,7 +166,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         js.executeScript("const $successButton = $('#button_confirm');\n"
                 + "    const timezoneParameter = '&instructortimezone='.concat('UTC');\n"
                 + "    const oldLinkWithoutTimezone = $successButton.attr('href');\n"
-                + "    const removeTimezone = oldLinkWithoutTimezone.substring(0, oldLinkWithoutTimezone.lastIndexOf('&'));\n"
+                + "    const removeTimezone "
+                + "        = oldLinkWithoutTimezone.substring(0, oldLinkWithoutTimezone.lastIndexOf('&'));\n"
                 + "    const newLink = removeTimezone + timezoneParameter;\n"
                 + "    $successButton.attr('href', newLink); ");
 

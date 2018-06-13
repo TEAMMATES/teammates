@@ -1,9 +1,5 @@
 /* global moment:false */
 
-$(document).ready(() => {
-    updateJoinLinkWithTimezone();
-});
-
 function updateJoinLinkWithTimezone() {
     const $successButton = $('#button_confirm');
 
@@ -13,3 +9,7 @@ function updateJoinLinkWithTimezone() {
 
     $successButton.attr('href', newLink);
 }
+
+$(document).ready(() => {
+    updateJoinLinkWithTimezone();
+});

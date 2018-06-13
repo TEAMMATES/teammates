@@ -6,7 +6,6 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.SessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -62,7 +61,7 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
                     log.info(e.getMessage());
                 }
                 List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(course.getId());
-                for(FeedbackSessionAttributes session : sessions) {
+                for (FeedbackSessionAttributes session : sessions) {
                     session.setTimeZone(ZoneId.of(timeZone));
                     try {
                         logic.updateFeedbackSession(session);
