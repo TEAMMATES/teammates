@@ -1,6 +1,10 @@
 /* global moment:false */
 
 $(document).ready(() => {
+    updateJoinLinkWithTimezone();
+});
+
+function updateJoinLinkWithTimezone() {
     const $successButton = $('#button_confirm');
 
     const timezoneParameter = '&instructortimezone='.concat(moment.tz.guess());
@@ -8,4 +12,4 @@ $(document).ready(() => {
     const newLink = oldLinkWithoutTimezone + timezoneParameter;
 
     $successButton.attr('href', newLink);
-});
+}
