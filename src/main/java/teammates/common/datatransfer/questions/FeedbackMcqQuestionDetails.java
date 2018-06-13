@@ -542,11 +542,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String recipientStatsHtml = "";
         if (hasAssignedWeights) {
             String header = getRecipientStatsHeaderHtml();
-            StringBuilder bodyBuilder = new StringBuilder("");
+            String body = getPerRecipientStatsBodyHtml(responses, bundle, answerFrequency);
             recipientStatsHtml = Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
-                    Slots.TABLE_BODY_HTML, bodyBuilder.toString());
+                    Slots.TABLE_BODY_HTML, body);
         }
         return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
                 Slots.FRAGMENTS, responseSummaryFragments.toString(),
@@ -581,12 +581,110 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         headerBuilder.append(getRecipientStatsHeaderFragmentHtml("Team"))
                      .append(getRecipientStatsHeaderFragmentHtml("Recipient Name"))
                      .append(choicesHtmlBuilder.toString())
-                     .append(getRecipientStatsHeaderFragmentHtml("Response Count"))
                      .append(getRecipientStatsHeaderFragmentHtml("Total"))
                      .append(getRecipientStatsHeaderFragmentHtml("Average"));
 
         return headerBuilder.toString();
     }
+
+    public String getPerRecipientStatsBodyHtml(List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle, Map<String, Integer> answerFrequency) {
+        StringBuilder bodyBuilder = new StringBuilder(100);
+        Map<String, Map<String, Integer>> perRecipientResponses = calculatePerRecipientResponseCount(responses);
+        for (Map.Entry<String, Map<String, Integer>> entry : perRecipientResponses.entrySet()) {
+            String recipient = entry.getKey();
+            Map<String, Integer> responsesForRecipient = entry.getValue();
+            String statsRow = getPerRecipientStatsBodyFragmentHtml(recipient, responsesForRecipient, bundle);
+            bodyBuilder.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_FRAGMENT,
+                    Slots.MCQ_RECIPIENT_STAT_ROW, statsRow));
+        }
+
+        return bodyBuilder.toString();
+    }
+
+    public String getPerRecipientStatsBodyFragmentHtml(String recipient,
+            Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
+        StringBuilder html = new StringBuilder(100);
+        List<String> cols = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        String recipientName = bundle.getNameForEmail(recipient);
+        String recipientTeam = bundle.getTeamNameForEmail(recipient);
+        double total = 0;
+        double average = 0;
+        int numOfResponsesForThisRecipient = 0;
+        // <td> entries which displays recipient identification details.
+        cols.add(recipientTeam);
+        cols.add(recipientName);
+
+        // <td> entries which displays response counts for each option.
+        for (Map.Entry<String, Integer> countPerChoice : recipientResponses.entrySet()) {
+            String choice = countPerChoice.getKey();
+            int responseCount = countPerChoice.getValue();
+
+            double weight = 0;
+            cols.add(Integer.toString(responseCount));
+
+            // Get the weight of the choice.
+            if ("Other".equals(choice)) {
+                weight = mcqOtherWeight;
+            } else {
+                weight = mcqWeights.get(mcqChoices.indexOf(choice));
+            }
+            // Add the total weight of all responses of this choice to total.
+            total += responseCount * weight;
+            numOfResponsesForThisRecipient += responseCount;
+        }
+
+        // <td> entries which display total and average for the recipient.
+        cols.add(df.format(total));
+        average = numOfResponsesForThisRecipient == 0 ? 0 : total / numOfResponsesForThisRecipient;
+        cols.add(df.format(average));
+
+        // Generate HTML for all <td> entries using template
+        for (String col : cols) {
+            html.append(
+                    Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT,
+                    Slots.MCQ_RECIPIENT_STAT_CELL, col));
+        }
+
+        return html.toString();
+    }
+
+    private Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
+            List<FeedbackResponseAttributes> responses) {
+        Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();
+
+        for (FeedbackResponseAttributes response : responses) {
+            Map<String, Integer> responseCountPerOption = new LinkedHashMap<>();
+            for (String choice : mcqChoices) {
+                responseCountPerOption.put(choice, 0);
+            }
+            if (otherEnabled) {
+                responseCountPerOption.put("Other", 0);
+            }
+
+            perRecipientResponse.put(response.recipient, responseCountPerOption);
+        }
+
+        // Calculate responses of each option and increment the value of perRecipientResponses value.
+        for (FeedbackResponseAttributes response : responses) {
+            String recipient = response.recipient;
+            FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
+            boolean isOtherAnswer = frd.isOtherOptionAnswer();
+            String answer = isOtherAnswer ? "Other" : frd.getAnswerString();
+
+            // Retrieve the response count map of the recipient and increment the corresponding
+            // value of the answer string.
+            Map<String, Integer> responseMap = perRecipientResponse.get(recipient);
+            responseMap.put(answer, perRecipientResponse.get(recipient).get(answer) + 1);
+            perRecipientResponse.put(recipient, responseMap);
+        }
+
+        return perRecipientResponse;
+    }
+
+    // TODO: Sort the per recipient responses
 
     @Override
     public String getQuestionResultStatisticsCsv(
