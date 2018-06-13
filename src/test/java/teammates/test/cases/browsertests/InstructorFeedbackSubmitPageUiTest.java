@@ -475,7 +475,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     private void testMcqSubmitAction() {
         ______TS("test submit actions for mcq.");
-        
+
         // Test input disabled
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
         submitPage.waitForAndDismissAlertModal();
