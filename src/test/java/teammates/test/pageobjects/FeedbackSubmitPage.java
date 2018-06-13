@@ -11,6 +11,9 @@ import org.openqa.selenium.support.ui.Select;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeedbackSubmitPage extends AppPage {
 
     public FeedbackSubmitPage(Browser browser) {
@@ -40,6 +43,38 @@ public class FeedbackSubmitPage extends AppPage {
         Select selectElement = new Select(browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber)));
         selectElement.selectByVisibleText(recipientName);
+    }
+
+    public List<String> getRecipientsTextDropdown(int qnNumber, int responseNumber) {
+        Select selectElement = new Select(browser.driver.findElement(
+                By.name(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber)));
+        List<WebElement> optionElements = selectElement.getOptions();
+        List<String> recipients = new ArrayList<String>();
+        for (WebElement option: optionElements) {
+            recipients.add(option.getText());
+        }
+        return recipients;
+    }
+
+    public String getSelectedRecipientTextDropdown(int qnNumber, int responseNumber) {
+        Select selectElement = new Select(browser.driver.findElement(
+                By.name(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber)));
+        WebElement selectedOption = selectElement.getFirstSelectedOption();
+        return selectedOption.getText();
+    }
+
+    public String getRecipientTextDropdownByValue(int qnNumber, int responseNumber, String value) {
+        By optionSelector = By.cssSelector("select[name='responserecipient-" + qnNumber + "-" + responseNumber
+                + "'] " + "option[value='" + value + "']");
+        WebElement optionElement = browser.driver.findElement(optionSelector);
+        return optionElement.getText();
+    }
+
+    public void clickShowSectionTeamCheckBox(int qnNumber) {
+        By showSectionTeamCheckBox = By.cssSelector("input[id='showSectionTeamFlag-" + qnNumber + "']");
+        WebElement checkbox = browser.driver.findElement(showSectionTeamCheckBox);
+        waitForElementVisibility(checkbox);
+        click(checkbox);
     }
 
     public void fillResponseRichTextEditor(int qnNumber, int responseNumber, String text) {

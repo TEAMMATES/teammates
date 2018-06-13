@@ -107,7 +107,7 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                   <option value="">
                   </option>
-                  <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" selected="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -173,11 +173,21 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+              <div class="padding-0 col-xs-9">
+                <label class="bold-label">
+                  <input id="showSectionTeamFlag-2" name="showSectionTeamFlag" onchange="toggleSectionTeamInfo(2, 3)" type="checkbox">
+                  Show section/team
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -187,25 +197,25 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
                   <option value="">
                   </option>
-                  <option selected="" value="IFSubmitUiT.alice.b@gmail.tmt">
+                  <option section-team-info="None: Team 1</td></div>'&quot;: " selected="" value="IFSubmitUiT.alice.b@gmail.tmt">
                     Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="IFSubmitUiT.benny.c@gmail.tmt">
+                  <option section-team-info="None: Team 1</td></div>'&quot;: " value="IFSubmitUiT.benny.c@gmail.tmt">
                     Benny Charles
                   </option>
-                  <option value="IFSubmitUiT.charlie.d@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " value="IFSubmitUiT.charlie.d@gmail.tmt">
                     Charlie Davis
                   </option>
-                  <option value="IFSubmitUiT.danny.e@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " value="IFSubmitUiT.danny.e@gmail.tmt">
                     Danny Engrid
                   </option>
-                  <option style="display: none;" value="drop.out@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " style="display: none;" value="drop.out@gmail.tmt">
                     Drop out
                   </option>
-                  <option value="IFSubmitUiT.emily.f@gmail.tmt">
+                  <option section-team-info="Section 2: Team 3: " value="IFSubmitUiT.emily.f@gmail.tmt">
                     Emily
                   </option>
-                  <option style="display: none;" value="extra.guy@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " style="display: none;" value="extra.guy@gmail.tmt">
                     Extra guy
                   </option>
                 </select>
@@ -245,25 +255,25 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
                   <option value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.alice.b@gmail.tmt">
+                  <option section-team-info="None: Team 1</td></div>'&quot;: " style="display: none;" value="IFSubmitUiT.alice.b@gmail.tmt">
                     Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="IFSubmitUiT.benny.c@gmail.tmt">
+                  <option section-team-info="None: Team 1</td></div>'&quot;: " value="IFSubmitUiT.benny.c@gmail.tmt">
                     Benny Charles
                   </option>
-                  <option value="IFSubmitUiT.charlie.d@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " value="IFSubmitUiT.charlie.d@gmail.tmt">
                     Charlie Davis
                   </option>
-                  <option value="IFSubmitUiT.danny.e@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " value="IFSubmitUiT.danny.e@gmail.tmt">
                     Danny Engrid
                   </option>
-                  <option selected="" value="drop.out@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " selected="" value="drop.out@gmail.tmt">
                     Drop out
                   </option>
-                  <option value="IFSubmitUiT.emily.f@gmail.tmt">
+                  <option section-team-info="Section 2: Team 3: " value="IFSubmitUiT.emily.f@gmail.tmt">
                     Emily
                   </option>
-                  <option style="display: none;" value="extra.guy@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " style="display: none;" value="extra.guy@gmail.tmt">
                     Extra guy
                   </option>
                 </select>
@@ -303,25 +313,25 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
                   <option value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.alice.b@gmail.tmt">
+                  <option section-team-info="None: Team 1</td></div>'&quot;: " style="display: none;" value="IFSubmitUiT.alice.b@gmail.tmt">
                     Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="IFSubmitUiT.benny.c@gmail.tmt">
+                  <option section-team-info="None: Team 1</td></div>'&quot;: " value="IFSubmitUiT.benny.c@gmail.tmt">
                     Benny Charles
                   </option>
-                  <option value="IFSubmitUiT.charlie.d@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " value="IFSubmitUiT.charlie.d@gmail.tmt">
                     Charlie Davis
                   </option>
-                  <option value="IFSubmitUiT.danny.e@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " value="IFSubmitUiT.danny.e@gmail.tmt">
                     Danny Engrid
                   </option>
-                  <option style="display: none;" value="drop.out@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " style="display: none;" value="drop.out@gmail.tmt">
                     Drop out
                   </option>
-                  <option value="IFSubmitUiT.emily.f@gmail.tmt">
+                  <option section-team-info="Section 2: Team 3: " value="IFSubmitUiT.emily.f@gmail.tmt">
                     Emily
                   </option>
-                  <option selected="" value="extra.guy@gmail.tmt">
+                  <option section-team-info="Section 1: Team 2: " selected="" value="extra.guy@gmail.tmt">
                     Extra guy
                   </option>
                 </select>
@@ -387,7 +397,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="%GENERAL%">
+                  <option section-team-info="" value="%GENERAL%">
                     %GENERAL%
                   </option>
                 </select>
@@ -449,11 +459,15 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -463,16 +477,16 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                   <option value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option selected="" value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" selected="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -515,16 +529,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -566,16 +580,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-2" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -617,16 +631,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-3" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -697,7 +711,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-5-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -761,11 +775,21 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+              <div class="padding-0 col-xs-9">
+                <label class="bold-label">
+                  <input id="showSectionTeamFlag-6" name="showSectionTeamFlag" onchange="toggleSectionTeamInfo(6, 3)" type="checkbox">
+                  Show section/team
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -775,16 +799,16 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-6-0" style="width:275px;max-width:275px">
                   <option value="">
                   </option>
-                  <option selected="" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" selected="" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -826,16 +850,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-1" style="width:275px;max-width:275px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -876,16 +900,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-2" style="width:275px;max-width:275px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -955,7 +979,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -1049,11 +1073,21 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+              <div class="padding-0 col-xs-9">
+                <label class="bold-label">
+                  <input id="showSectionTeamFlag-8" name="showSectionTeamFlag" onchange="toggleSectionTeamInfo(8, 3)" type="checkbox">
+                  Show section/team
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -1063,16 +1097,16 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-8-0" style="width:275px;max-width:275px">
                   <option value="">
                   </option>
-                  <option selected="" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" selected="" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -1144,16 +1178,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-1" style="width:275px;max-width:275px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -1224,16 +1258,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-2" style="width:275px;max-width:275px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" style="display: none;" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -1333,7 +1367,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -1456,7 +1490,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -1599,7 +1633,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-11-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -1682,7 +1716,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-12-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -1785,7 +1819,7 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-13-0" style="display:none;max-width:125px">
                   <option value="">
                   </option>
-                  <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" selected="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -1835,11 +1869,21 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+              <div class="padding-0 col-xs-9">
+                <label class="bold-label">
+                  <input id="showSectionTeamFlag-14" name="showSectionTeamFlag" onchange="toggleSectionTeamInfo(14, 3)" type="checkbox">
+                  Show section/team
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -1849,16 +1893,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-0" style="width:275px;max-width:275px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -1884,16 +1928,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-1" style="width:275px;max-width:275px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -1919,16 +1963,16 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-2" style="width:275px;max-width:275px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr2@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr2@gmail.tmt">
                     Teammates Test2
                   </option>
-                  <option value="IFSubmitUiT.instr3@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr3@gmail.tmt">
                     Teammates Test3
                   </option>
-                  <option value="IFSubmitUiT.instr4@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr4@gmail.tmt">
                     Teammates Test4
                   </option>
-                  <option value="IFSubmitUiT.instr5@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr5@gmail.tmt">
                     Teammates Test5
                   </option>
                 </select>
@@ -1983,7 +2027,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -2086,7 +2130,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-16-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -2209,7 +2253,7 @@
                 <select class="participantSelect middlealign form-control" name="responserecipient-17-0" style="display:none;max-width:125px">
                   <option value="">
                   </option>
-                  <option selected="" value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" selected="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -2284,11 +2328,15 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -2298,13 +2346,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2345,13 +2393,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-1" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="Team 2">
+                  <option section-team-info="" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2392,13 +2440,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-18-2" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option value="Team 3">
+                  <option section-team-info="" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2463,11 +2511,15 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -2477,13 +2529,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2524,13 +2576,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="Team 2">
+                  <option section-team-info="" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2571,13 +2623,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-2" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option value="Team 3">
+                  <option section-team-info="" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2642,11 +2694,15 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -2656,13 +2712,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2721,13 +2777,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-1" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="Team 2">
+                  <option section-team-info="" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2786,13 +2842,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-20-2" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option value="Team 3">
+                  <option section-team-info="" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2874,11 +2930,15 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -2888,13 +2948,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-21-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2935,13 +2995,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-21-1" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="Team 2">
+                  <option section-team-info="" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -2982,13 +3042,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-21-2" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option value="Team 3">
+                  <option section-team-info="" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -3053,11 +3113,15 @@
             </li>
           </ul>
           <div class="col-sm-12 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                <label for="input" style="text-indent: 24px">
+                  <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                    Evaluee/Recipient
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
           <br>
           <br>
@@ -3067,13 +3131,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-22-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -3132,13 +3196,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-22-1" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="Team 2">
+                  <option section-team-info="" value="Team 2">
                     Team 2
                   </option>
-                  <option style="display: none;" value="Team 3">
+                  <option section-team-info="" style="display: none;" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -3197,13 +3261,13 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-22-2" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option style="display: none;" value="Team 1</td></div>'&quot;">
+                  <option section-team-info="" style="display: none;" value="Team 1</td></div>'&quot;">
                     Team 1&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option style="display: none;" value="Team 2">
+                  <option section-team-info="" style="display: none;" value="Team 2">
                     Team 2
                   </option>
-                  <option value="Team 3">
+                  <option section-team-info="" value="Team 3">
                     Team 3
                   </option>
                 </select>
@@ -3291,7 +3355,7 @@
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-23-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="IFSubmitUiT.instr@gmail.tmt">
+                  <option section-team-info="" value="IFSubmitUiT.instr@gmail.tmt">
                     Myself
                   </option>
                 </select>

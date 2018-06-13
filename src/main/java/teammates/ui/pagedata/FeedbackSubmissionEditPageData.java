@@ -209,7 +209,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 }
             }
             result.add("<option value=\"" + sanitizeForHtml(email) + "\"" + (isSelected ? " selected" : "")
-                       + "section-team-info=\"" + sanitizeForHtml(section) + sanitizeForHtml(team) + "\"" + ">"
+                       + " section-team-info=\"" + sanitizeForHtml(section) + sanitizeForHtml(team) + "\"" + ">"
                        + sanitizeForHtml(name) + "</option>"
             );
         });

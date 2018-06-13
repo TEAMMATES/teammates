@@ -1246,7 +1246,10 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
             evaluees.sort(sectionTeamComparator);
         } else {
             $(evaluees).each(function () {
-                const evalueeName = $(this).text().split(':')[nameIndx];
+                let evalueeName = $(this).text().split(':')[nameIndx];
+                if (evalueeName !== undefined) {
+                    evalueeName = evalueeName.trim();
+                }
                 $(this).text(evalueeName);
             });
             evaluees.sort(nameComparator);

@@ -3,6 +3,7 @@ package teammates.test.cases.browsertests;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
@@ -11,6 +12,11 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE}.
@@ -342,12 +348,137 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-"
                                                      + qnNumber + "-" + responseNumber));
+
+        // Test visibility of section/team and sorting
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+
+        // All recipients are students
+        qnNumber = 2;
+        // Reset existing selections to empty
+        submitPage.selectRecipient(qnNumber, 0, "");
+        submitPage.selectRecipient(qnNumber, 1, "");
+        submitPage.selectRecipient(qnNumber, 2, "");
+        List<String> studentNames = new ArrayList<>();
+        for (StudentAttributes student: BackDoor.getStudents("IFSubmitUiT.CS2104")) {
+            studentNames.add(student.name);
+        }
+        studentNames.add("");
+        Collections.sort(studentNames);
+
+        // Check names are sorted
+        responseNumber = 0;
+        List<String> actualRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
+        assertTrue(studentNames.equals(actualRecipients));
+
+        responseNumber = 1;
+        actualRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
+        assertTrue(studentNames.equals(actualRecipients));
+
+        responseNumber = 2;
+        actualRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
+        assertTrue(studentNames.equals(actualRecipients));
+
+        // Toggle show section/team checkbox
+        submitPage.clickShowSectionTeamCheckBox(qnNumber);
+
+        // Check if options are augmented with team and section info
+        responseNumber = 0;
+        for (StudentAttributes student: BackDoor.getStudents("IFSubmitUiT.CS2104")) {
+            String email = student.email;
+            String name = student.name;
+            String section = student.section;
+            String team = student.team;
+            String augmentedRecipient = submitPage.getRecipientTextDropdownByValue(qnNumber, responseNumber, email);
+            assertTrue(isRecipientAugmentedWithSectionAndTeam(name, section, team, augmentedRecipient));
+        }
+        // Check if options augmented with section and team info are sorted
+        List<String> expectedAugmentedRecipients = Arrays.asList("", "None: Team 1</td></div>'\": Alice Betsy</option></td></div>'\"",
+                                                                 "None: Team 1</td></div>'\": Benny Charles",
+                                                                 "Section 1: Team 2: Charlie Davis", "Section 1: Team 2: Danny Engrid",
+                                                                 "Section 1: New Team: Extra guy", "Section 2: Team 3: Emily");
+        List<String> actualAugmentedRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
+        assertTrue(expectedAugmentedRecipients.equals(actualAugmentedRecipients));
+
+        // Check selected choices persist on toggling checkbox
+        submitPage.clickShowSectionTeamCheckBox(qnNumber);
+        submitPage.selectRecipient(qnNumber, 0, "Danny Engrid");
+        submitPage.selectRecipient(qnNumber, 1, "Charlie Davis");
+        submitPage.selectRecipient(qnNumber, 2, "Benny Charles");
+
+        submitPage.clickShowSectionTeamCheckBox(qnNumber);
+        System.out.println(submitPage.getSelectedRecipientTextDropdown(qnNumber, 0));
+        assertEquals("Section 1: Team 2: Danny Engrid",
+                     submitPage.getSelectedRecipientTextDropdown(qnNumber, 0));
+        assertEquals("Section 1: Team 2: Charlie Davis",
+                     submitPage.getSelectedRecipientTextDropdown(qnNumber, 1));
+        assertEquals("None: Team 1</td></div>'\": Benny Charles",
+                     submitPage.getSelectedRecipientTextDropdown(qnNumber, 2));
+
+        // Section and Team removed when checkbox unticked
+        submitPage.clickShowSectionTeamCheckBox(qnNumber);
+        assertEquals("Danny Engrid",
+                     submitPage.getSelectedRecipientTextDropdown(qnNumber, 0));
+        assertEquals("Charlie Davis",
+                     submitPage.getSelectedRecipientTextDropdown(qnNumber, 1));
+        assertEquals("Benny Charles",
+                     submitPage.getSelectedRecipientTextDropdown(qnNumber, 2));
+
+        // All evaluees/recipients are instructors
+        qnNumber = 8;
+        // Reset existing selections to empty
+        submitPage.selectRecipient(qnNumber, 0, "");
+        submitPage.selectRecipient(qnNumber, 1, "");
+        submitPage.selectRecipient(qnNumber, 2, "");
+        List<String> instructorNames = new ArrayList<>();
+        for (InstructorAttributes instructor: testData.instructors.values()) {
+            instructorNames.add(instructor.name);
+        }
+        instructorNames.add("");
+        instructorNames.remove(testData.instructors.get("IFSubmitUiT.instr").name); // Remove giver instructor's name from evaluees
+        Collections.sort(instructorNames);
+
+        // Check names are sorted
+        responseNumber = 0;
+        actualRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
+        assertTrue(instructorNames.equals(actualRecipients));
+
+        responseNumber = 1;
+        actualRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
+        assertTrue(instructorNames.equals(actualRecipients));
+        responseNumber = 2;
+        actualRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
+        assertTrue(instructorNames.equals(actualRecipients));
+
+        // Toggle show section/team checkbox
+        submitPage.clickShowSectionTeamCheckBox(qnNumber);
+
+        // Check if options remain unchanged since instructors don't have section/team attribute
+        responseNumber = 0;
+        actualAugmentedRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
+        actualAugmentedRecipients.equals(instructorNames);
+
+        // Check selected choices persist on toggling checkbox
+        submitPage.clickShowSectionTeamCheckBox(qnNumber);
+        submitPage.selectRecipient(qnNumber, 0, "Teammates Test4");
+        submitPage.selectRecipient(qnNumber, 1, "Teammates Test2");
+        submitPage.selectRecipient(qnNumber, 2, "Teammates Test3");
+
+        submitPage.clickShowSectionTeamCheckBox(qnNumber);
+        assertEquals("Teammates Test4",
+                submitPage.getSelectedRecipientTextDropdown(qnNumber, 0));
+        assertEquals("Teammates Test2",
+                submitPage.getSelectedRecipientTextDropdown(qnNumber, 1));
+        assertEquals("Teammates Test3",
+                submitPage.getSelectedRecipientTextDropdown(qnNumber, 2));
     }
 
     private void testMcqSubmitAction() {
         ______TS("test submit actions for mcq.");
 
+
         // Test input disabled
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        submitPage.waitForAndDismissAlertModal();
         int qnNumber = 2;
         int responseNumber = 0;
 
@@ -651,4 +782,18 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
+    private boolean isRecipientAugmentedWithSectionAndTeam(String name, String section, String team, String augmentedRecipient) {
+        if (section == null) {
+            section = "";
+        } else {
+            section = section + ": ";
+        }
+
+        if (team == null) {
+            team = "";
+        } else {
+            team = team + ": ";
+        }
+        return augmentedRecipient.equals(section + team + name);
+    }
 }
