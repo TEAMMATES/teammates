@@ -1,5 +1,10 @@
 package teammates.test.cases.browsertests;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -12,11 +17,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE}.
@@ -359,7 +359,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(qnNumber, 1, "");
         submitPage.selectRecipient(qnNumber, 2, "");
         List<String> studentNames = new ArrayList<>();
-        for (StudentAttributes student: BackDoor.getStudents("IFSubmitUiT.CS2104")) {
+        for (StudentAttributes student : BackDoor.getStudents("IFSubmitUiT.CS2104")) {
             studentNames.add(student.name);
         }
         studentNames.add("");
@@ -383,7 +383,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Check if options are augmented with team and section info
         responseNumber = 0;
-        for (StudentAttributes student: BackDoor.getStudents("IFSubmitUiT.CS2104")) {
+        for (StudentAttributes student : BackDoor.getStudents("IFSubmitUiT.CS2104")) {
             String email = student.email;
             String name = student.name;
             String section = student.section;
@@ -392,10 +392,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
             assertTrue(isRecipientAugmentedWithSectionAndTeam(name, section, team, augmentedRecipient));
         }
         // Check if options augmented with section and team info are sorted
-        List<String> expectedAugmentedRecipients = Arrays.asList("", "None: Team 1</td></div>'\": Alice Betsy</option></td></div>'\"",
-                                                                 "None: Team 1</td></div>'\": Benny Charles",
-                                                                 "Section 1: Team 2: Charlie Davis", "Section 1: Team 2: Danny Engrid",
-                                                                 "Section 1: New Team: Extra guy", "Section 2: Team 3: Emily");
+        List<String> expectedAugmentedRecipients = Arrays.asList("",
+                "None: Team 1</td></div>'\": Alice Betsy</option></td></div>'\"",
+                "None: Team 1</td></div>'\": Benny Charles", "Section 1: Team 2: Charlie Davis",
+                "Section 1: Team 2: Danny Engrid", "Section 1: New Team: Extra guy", "Section 2: Team 3: Emily");
         List<String> actualAugmentedRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
         assertTrue(expectedAugmentedRecipients.equals(actualAugmentedRecipients));
 
@@ -430,11 +430,12 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(qnNumber, 1, "");
         submitPage.selectRecipient(qnNumber, 2, "");
         List<String> instructorNames = new ArrayList<>();
-        for (InstructorAttributes instructor: testData.instructors.values()) {
+        for (InstructorAttributes instructor : testData.instructors.values()) {
             instructorNames.add(instructor.name);
         }
         instructorNames.add("");
-        instructorNames.remove(testData.instructors.get("IFSubmitUiT.instr").name); // Remove giver instructor's name from evaluees
+        // Remove giver instructor's name from evaluees
+        instructorNames.remove(testData.instructors.get("IFSubmitUiT.instr").name);
         Collections.sort(instructorNames);
 
         // Check names are sorted
@@ -782,18 +783,17 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
 
-    private boolean isRecipientAugmentedWithSectionAndTeam(String name, String section, String team, String augmentedRecipient) {
-        if (section == null) {
-            section = "";
-        } else {
-            section = section + ": ";
-        }
+    private boolean isRecipientAugmentedWithSectionAndTeam(String name, String section, String team,
+                                                           String augmentedRecipient) {
+        String displayedSection = "";
+        String displayedTeam = "";
 
-        if (team == null) {
-            team = "";
-        } else {
-            team = team + ": ";
+        if (section != null) {
+            displayedSection = section + ": ";
         }
-        return augmentedRecipient.equals(section + team + name);
+        if (team != null) {
+            displayedTeam = team + ": ";
+        }
+        return (displayedSection + displayedTeam + name).equals(augmentedRecipient);
     }
 }
