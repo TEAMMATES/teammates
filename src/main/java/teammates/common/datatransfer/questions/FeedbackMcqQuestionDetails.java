@@ -524,9 +524,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // If weights are allowed, show the corresponding weights of a choice.
             String weightString = "";
             if ("Other".equals(key)) {
-                weightString = (hasAssignedWeights ? df.format(mcqOtherWeight) : "-");
+                weightString = hasAssignedWeights ? df.format(mcqOtherWeight) : "-";
             } else {
-                weightString = (hasAssignedWeights ? df.format(mcqWeights.get(mcqChoices.indexOf(key))) : "-");
+                weightString = hasAssignedWeights ? df.format(mcqWeights.get(mcqChoices.indexOf(key))) : "-";
             }
 
             fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
@@ -537,7 +537,42 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     Slots.AVERAGE, hasAssignedWeights ? df.format(averagePerOption.get(key)) : "-"));
         }
 
-        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
+        // If weights are assigned, create the per recipient statistics table,
+        // otherwise pass an empty string in it's place.
+        String recipientStatsHtml = "";
+        if (hasAssignedWeights) {
+            String header = getRecipientStatsHeaderHtml();
+            recipientStatsHtml = Templates.populateTemplate(
+                    FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
+                    Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
+                    Slots.TABLE_BODY_HTML, "");
+        }
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
+                Slots.FRAGMENTS, fragments.toString(),
+                Slots.MCQ_RECIPIENT_STATS_HTML, recipientStatsHtml);
+    }
+
+    private String getRecipientStatsHeaderFragmentHtml(String header) {
+        return Templates.populateTemplate(
+                FormTemplates.MCQ_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT,
+                Slots.STATS_TITLE, header);
+    }
+
+    /**
+     * Returns the html string for Per Recipient Statistics table header.
+     */
+    public String getRecipientStatsHeaderHtml() {
+        StringBuilder headerBuilder = new StringBuilder(100);
+
+        headerBuilder.append(getRecipientStatsHeaderFragmentHtml("Team"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Recipient Name"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Choice"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Weight"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Response Count"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Total"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Average"));
+
+        return headerBuilder.toString();
     }
 
     @Override
@@ -669,9 +704,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
      * Weights should be assigned or else an empty map will be returned.<br>
      * The average of an option is calculated as follows:<br><br>
      * Average = (frequency of the option based on responses) * (weight of the option) / total responses.
-     * @param answerFrequency
-     * @param responses
-     * @return averagePerOption map containing the mcq options and their corresponding average value.
      */
     private Map<String, Double> calculateAverageWeightPerOption(Map<String, Integer> answerFrequency,
             int totalNumberOfResponses) {

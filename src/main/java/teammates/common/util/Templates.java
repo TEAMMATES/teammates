@@ -93,6 +93,14 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionMcqResultStatsTemplate.html");
             public static final String MCQ_RESULT_STATS_OPTIONFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMcqResultStatsOptionFragment.html");
+            public static final String MCQ_RESULT_RECIPIENT_STATS =
+                    FileHelper.readResourceFile("feedbackQuestionMcqResultRecipientStatsTemplate.html");
+            public static final String MCQ_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMcqResultRecipientStatsHeaderFragment.html");
+            public static final String MCQ_RESULT_RECIPIENT_STATS_BODY_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMcqResultRecipientStatsBodyFragment.html");
+            public static final String MCQ_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMcqResultRecipientStatsBodyRowFragment.html");
 
             public static final String MSQ_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionMsqSubmissionFormTemplate.html");
@@ -305,6 +313,9 @@ public final class Templates {
             public static final String MCQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}";
             public static final String MCQ_PARAM_OTHER_OPTION_FLAG =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}";
+            public static final String MCQ_RECIPIENT_STAT_CELL = "${recipientStatCell}";
+            public static final String MCQ_RECIPIENT_STATS_HTML = "${perRecipientStatsHtml}";
+            public static final String MCQ_RECIPIENT_STAT_ROW = "${recipientStatRow}";
 
             // MSQ
             public static final String MSQ_CHOICE_VALUE = "${msqChoiceValue}";
