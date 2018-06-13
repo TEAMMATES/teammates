@@ -1,7 +1,14 @@
 package teammates.ui.template;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * View Model for student/feedbackResults/questionWithResponses.tag
+ *
+ * <p>Manages student feedback results questions details, self-responses tables and others-responses tables separately
+ * for a specific question.
+ */
 public class StudentFeedbackResultsQuestionWithResponses {
     private FeedbackResultsQuestionDetails questionDetails;
     private List<FeedbackResultsResponseTable> responseTables;
@@ -17,8 +24,24 @@ public class StudentFeedbackResultsQuestionWithResponses {
         return questionDetails;
     }
 
-    public List<FeedbackResultsResponseTable> getResponseTables() {
-        return responseTables;
+    /**
+     * Returns a list of responses which are provided by user himself.
+     */
+    public List<FeedbackResultsResponseTable> getSelfResponseTables() {
+        return responseTables.stream().filter(responseTable -> responseTable.isGiverNameYou())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a list of responses which are provided by others.
+     */
+    public List<FeedbackResultsResponseTable> getOthersResponseTables() {
+        return responseTables.stream().filter(responseTable -> !responseTable.isGiverNameYou())
+                .collect(Collectors.toList());
+    }
+
+    public boolean getIsSelfResponseTablesEmpty() {
+        return getSelfResponseTables().isEmpty();
     }
 
 }
