@@ -173,31 +173,28 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickCancelAddInstructorLink();
         assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
 
-        ______TS("Click cancel button after filling some fields of the form");
+        ______TS("Click cancel button after filling all fields of the form");
+        int newInstructorIndex = 8;
         courseEditPage.clickShowNewInstructorFormButton();
         assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
 
         courseEditPage.fillNewInstructorName(newInstructorName);
         courseEditPage.fillNewInstructorEmail(newInstructorEmail);
+        courseEditPage.fillNewInstructorDisplayName("Test Display");
+        courseEditPage.selectRoleForNewInstructor(newInstructorIndex, "Observer");
+
         courseEditPage.clickCancelAddInstructorLink();
         assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
 
-        ______TS("Confirm new instructor fields remain before page reload");
-        courseEditPage.clickShowNewInstructorFormButton();
-        assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
-
-        assertEquals(newInstructorName, courseEditPage.getNewInstructorName());
-        assertEquals(newInstructorEmail, courseEditPage.getNewInstructorEmail());
-        courseEditPage.clickCancelAddInstructorLink();
-        assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
-
-        ______TS("Confirm new instructor fields are empty after page reload");
-        courseEditPage.reloadPage();
+        ______TS("Confirm form is reset to default values");
         courseEditPage.clickShowNewInstructorFormButton();
         assertTrue(courseEditPage.verifyAddInstructorFormDisplayed());
 
         assertEquals("", courseEditPage.getNewInstructorName());
         assertEquals("", courseEditPage.getNewInstructorEmail());
+
+        assertTrue(courseEditPage.verifyAddInstructorFormDefaultValues(newInstructorIndex));
+
         courseEditPage.clickCancelAddInstructorLink();
         assertFalse(courseEditPage.verifyAddInstructorFormDisplayed());
     }

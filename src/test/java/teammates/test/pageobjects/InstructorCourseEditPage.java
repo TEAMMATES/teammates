@@ -62,6 +62,10 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "instructoremail")
     private WebElement newInstructorEmailTextBox;
 
+    @FindBy(xpath = "//form[@name='formAddInstructor']"
+            + "//input[@name='instructordisplayname']")
+    private WebElement newInstructorDisplayNameTextBox;
+
     @FindBy(id = "btnAddInstructor")
     private WebElement addInstructorButton;
 
@@ -168,6 +172,11 @@ public class InstructorCourseEditPage extends AppPage {
         return getTextBoxValue(newInstructorEmailTextBox);
     }
 
+    public String fillNewInstructorDisplayName(String value) {
+        fillTextBox(newInstructorDisplayNameTextBox, value);
+        return getTextBoxValue(newInstructorDisplayNameTextBox);
+    }
+
     public void clickEditInstructorLink(int instrNum) {
         click(getEditInstructorLink(instrNum));
         WebElement saveButton = getSaveInstructorButton(instrNum);
@@ -210,6 +219,20 @@ public class InstructorCourseEditPage extends AppPage {
         return newInstructorForm.isDisplayed();
     }
 
+    public boolean verifyAddInstructorFormDefaultValues(int newInstructorIndex) {
+        String checkbox = browser.driver.findElement(By.name(
+                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT)).getAttribute("value");
+        String instructorName = browser.driver.findElement(By.name(
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME)).getAttribute("value");
+        String instructorRole = browser.driver.findElement(By.id(
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME + "forinstructor"
+                        + newInstructorIndex)).getAttribute("value");
+
+        return "true".equals(checkbox) && "Instructor".equals(instructorName)
+                && instructorRole.equals(Const.InstructorPermissionRoleNames
+                .INSTRUCTOR_PERMISSION_ROLE_COOWNER); // default values taken from courseEditAddInstructorPanel.tag
+    }
+
     /**
      * Verifies that the instructor details fields for the given {@code instrNum} contain the updated values.
      * If {@code newIsDisplayedToStudents} is true, the display name field is checked against {@code newDisplayName}.
@@ -240,6 +263,12 @@ public class InstructorCourseEditPage extends AppPage {
     public void selectRoleForInstructor(int instrNum, String role) {
         WebElement roleRadioButton = browser.driver.findElement(By.cssSelector(
                 "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']"));
+        click(roleRadioButton);
+    }
+
+    public void selectRoleForNewInstructor(int newInstructorIndex, String role) {
+        WebElement roleRadioButton = browser.driver.findElement(By.cssSelector(
+                "input[id='instructorroleforinstructor" + newInstructorIndex + "'][value='" + role + "']"));
         click(roleRadioButton);
     }
 
