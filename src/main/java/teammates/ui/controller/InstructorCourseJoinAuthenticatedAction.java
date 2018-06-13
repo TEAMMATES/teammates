@@ -1,9 +1,12 @@
 package teammates.ui.controller;
 
+import java.time.ZoneId;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.SessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -45,7 +48,8 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
             log.info(e.getMessage());
         }
 
-        // When instructor is added by admin and only sample courses are included and their timezones are updated
+        // When instructor is added by admin and only sample course
+        // and sessions in that course are included and their timezones are updated
         if (institute != null) {
             String timeZone = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_TIMEZONE);
             List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
@@ -56,6 +60,16 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
                 } catch (InvalidParametersException e) {
                     setStatusForException(e, e.getMessage());
                     log.info(e.getMessage());
+                }
+                List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(course.getId());
+                for(FeedbackSessionAttributes session : sessions) {
+                    session.setTimeZone(ZoneId.of(timeZone));
+                    try {
+                        logic.updateFeedbackSession(session);
+                    } catch (InvalidParametersException e) {
+                        setStatusForException(e, e.getMessage());
+                        log.info(e.getMessage());
+                    }
                 }
             }
         }
