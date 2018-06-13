@@ -199,6 +199,11 @@ function enableEditInstructor(event) {
     hideNewInstructorForm();
 }
 
+function cancelAddInstructor() {
+    $('#formAddInstructor').get(0).reset();
+    hideNewInstructorForm();
+}
+
 function checkPrivilegesOfCoownerForInstructor(instrNum) {
     hideTunePermissionDiv(instrNum);
 
@@ -509,7 +514,7 @@ $(document).ready(() => {
         disableFormEditInstructor(instrNum);
     });
     $('a[id^="cancelAddInstructorLink"]').click(() =>
-        hideNewInstructorForm()
+        cancelAddInstructor()
     );
     bindCheckboxToggle();
     const index = $('#new-instructor-index').val();
