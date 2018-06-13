@@ -5,7 +5,7 @@
     Restore All Sessions
   </a>
   &nbsp;&nbsp;
-  <a class="btn btn-danger btn-md course-delete-all-sessions-link" id="deleteAllSessions">
+  <a class="btn btn-danger btn-md session-delete-all-link" id="deleteAllSessions">
     Delete All Sessions
   </a>
   &nbsp;&nbsp;&nbsp;

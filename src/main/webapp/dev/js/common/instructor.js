@@ -370,6 +370,21 @@ function bindSessionDeleteLinks() {
     });
 }
 
+function bindSessionDeleteAllLinks() {
+    $('body').on('click', '.session-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = 'Are you sure you want to permanently delete all feedback sessions?';
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.DANGER);
+    });
+}
+
 function attachEventToSendInviteLink() {
     $(document).on('click', '.course-student-remind-link', (event) => {
         event.preventDefault();
@@ -568,6 +583,7 @@ function prepareInstructorPages() {
     bindCourseDeleteLinks();
     bindCourseDeleteAllLinks();
     bindSessionDeleteLinks();
+    bindSessionDeleteAllLinks();
 }
 
 export {
