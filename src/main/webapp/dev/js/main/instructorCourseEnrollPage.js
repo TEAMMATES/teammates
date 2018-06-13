@@ -25,7 +25,7 @@ const dataContainer = document.getElementById('dataSpreadsheet');
 /* global Handsontable:false */
 const dataHandsontable = new Handsontable(dataContainer, {
     readOnly: true,
-    height: 500,
+    height: 400,
     autoWrapRow: true,
     preventOverflow: 'horizontal',
     manualColumnResize: true,
