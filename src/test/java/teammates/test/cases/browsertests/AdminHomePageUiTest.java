@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -159,6 +160,16 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         confirmationPage = AppPage.createCorrectLoginPageType(browser)
                            .loginAsJoiningInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.TEST_INSTRUCTOR_PASSWORD);
+
+        // Hardcode Timezone to UTC for testing purpose
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("const $successButton = $('#button_confirm');\n"
+                + "    const timezoneParameter = '&instructortimezone='.concat('UTC');\n"
+                + "    const oldLinkWithoutTimezone = $successButton.attr('href');\n"
+                + "    const removeTimezone = oldLinkWithoutTimezone.substring(0, oldLinkWithoutTimezone.lastIndexOf('&'));\n"
+                + "    const newLink = removeTimezone + timezoneParameter;\n"
+                + "    $successButton.attr('href', newLink); ");
+
         confirmationPage.clickConfirmButtonWithRetry();
 
         //check a account has been created for the requester successfully
