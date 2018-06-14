@@ -42,8 +42,8 @@
     <div class="panel-body">
       <c:choose>
         <c:when test="${not empty groupByQuestionPanel.questionTables}">
-          <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
-            <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${questionTable}"/>
+          <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable" varStatus="i">
+            <results:questionPanel isShowingResponses="${isShowingAll}" questionPanel="${questionTable}" questionIndex="${i.index}"/>
           </c:forEach>
         </c:when>
         <c:otherwise>
