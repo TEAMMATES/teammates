@@ -24,20 +24,18 @@ import {
 const dataContainer = document.getElementById('dataSpreadsheet');
 /* global Handsontable:false */
 const dataHandsontable = new Handsontable(dataContainer, {
-    readOnly: true,
     height: 400,
     autoWrapRow: true,
     preventOverflow: 'horizontal',
     manualColumnResize: true,
     manualRowResize: true,
     rowHeaders: true,
-    colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comments'],
+    colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comments', 'Fill in the new email here'],
     columnSorting: true,
     sortIndicator: true,
     minRows: 20,
-    maxCols: 5,
+    maxCols: 6,
     stretchH: 'all',
-    minSpareRows: 1,
 });
 
 const enrollContainer = document.getElementById('enrollSpreadsheet');
@@ -76,9 +74,9 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
  * Pushes the output data into the textarea (used for form submission).
  */
 function updateDataDump() {
-    const spreadsheetData = enrollHandsontable.getData();
+    const enrollSpreadsheetData = enrollHandsontable.getData();
     const dataPushToTextarea = getUpdatedHeaderString(enrollHandsontable.getColHeader());
-    const userDataRows = getUserDataRows(spreadsheetData);
+    const userDataRows = getUserDataRows(enrollSpreadsheetData);
     $('#enrollstudents').text(userDataRows === '' ?
             '' : dataPushToTextarea + userDataRows); // only pushes header string if userDataRows is not empty
 }
@@ -128,6 +126,17 @@ function getAjaxStudentList($panelHeading, panelCollapse, displayIcon, toggleChe
             (data.students.length === 0) ? displayNoExistingStudents(displayIcon) :
             loadExistingStudentsData(data.students, $panelHeading, panelCollapse, displayIcon, toggleChevron);
         },
+    });
+
+    dataHandsontable.updateSettings({
+        columns: [
+            { colHeader: 'Section' },
+            { colHeader: 'Team' },
+            { colHeader: 'Name' },
+            { colHeader: 'Email', readOnly: true },
+            { colHeader: 'Comments' },
+            { colHeader: 'Fill in the new email here' },
+        ],
     });
 }
 
