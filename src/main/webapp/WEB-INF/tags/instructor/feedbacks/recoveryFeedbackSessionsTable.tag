@@ -1,51 +1,52 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorFeedbacks - feedback sessions table/list" pageEncoding="UTF-8" %>
+<%@ tag description="instructorCourse - Recovery courses table" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
-<%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.common.util.FieldValidator" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ attribute name="recoveryFsList" type="teammates.ui.template.RecoveryFeedbackSessionsTable" required="true" %>
 
-<%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsTable" required="true"%>
-
-<h2 class="text-muted">Deleted Feedback Sessions</h2>
-<table class="table-responsive table table-striped table-bordered" id="table-sessions">
-  <thead>
-    <tr class="fill-info">
-      <th id="button_sortid" class="button-sort-ascending course-id-table-width toggle-sort">
-        Course ID <span class="icon-sort unsorted"></span>
-      </th>
-      <th id="button_sortname" class="button-sort-none session-name-table-width toggle-sort">
-        Session Name <span class="icon-sort unsorted"></span>
-      </th>
-      <th>Submissions</th>
-      <th>Responses</th>
-      <th>
-        <span title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE %>" data-toggle="tooltip" data-placement="top">
-          Response Rate
-        </span>
-      </th>
-      <th class="no-print">Action(s)</th>
-    </tr>
+<h2 class="text-muted">Deleted feedback sessions</h2>
+<table class="table table-bordered table-striped" id="tableRecoveryFeedbackSessions">
+  <thead class="fill-info">
+  <tr>
+    <th id="btn_sortid" class="button-sort-none toggle-sort">
+      Course ID<span class="icon-sort unsorted"></span>
+    </th>
+    <th id="btn_sortname" class="button-sort-none toggle-sort">
+      Session Name<span class="icon-sort unsorted"></span>
+    </th>
+    <th id="btn_sortcoursecreateddate" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" class="button-sort-none toggle-sort">
+      Creation Date<span class="icon-sort unsorted"></span>
+    </th>
+    <th id="btn_sortcoursedeleteddate" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" class="button-sort-none toggle-sort">
+      Deletion Date<span class="icon-sort unsorted"></span>
+    </th>
+    <th class="align-center no-print">Action(s)</th>
+  </tr>
   </thead>
-  <c:forEach items="${fsList.existingFeedbackSessions}" var="sessionRow" varStatus="i">
-    <tr id="session${i.index}" ${sessionRow.rowAttributes.attributesToString}>
-      <td>${sessionRow.courseId}</td>
-      <td>${sessionRow.name}</td>
-      <td>
-        <span title="${sessionRow.submissionsTooltip}" data-toggle="tooltip" data-placement="top">
-          ${sessionRow.submissionStatus}
-        </span>
+  <c:forEach items="${recoveryFsList.rows}" var="recoverySession" varStatus="i">
+    <tr>
+      <td id="recoverycourseid${i.index + fn:length(recoveryFsList.rows)}">${recoverySession.courseId}</td>
+      <td id="recoverysessionname${i.index + fn:length(recoveryFsList.rows)}">${recoverySession.sessionName}</td>
+      <td
+          id="recoverysessioncreateddate${i.index + fn:length(recoveryFsList.rows)}"
+          data-date-stamp="${recoverySession.createdTimeDateStamp}"
+          data-toggle="tooltip"
+          data-original-title="${recoverySession.createdTimeFullDateTimeString}">
+          ${recoverySession.createdTimeDateString}
       </td>
-      <td>
-        <span title="${sessionRow.publishedTooltip}" data-toggle="tooltip" data-placement="top">
-          ${sessionRow.publishedStatus}
-        </span>
+      <td
+          id="recoverysessiondeleteddate${i.index + fn:length(recoveryFsList.rows)}"
+          data-date-stamp="${recoverySession.deletedTimeDateStamp}"
+          data-toggle="tooltip"
+          data-original-title="${recoverySession.deletedTimeFullDateTimeString}">
+          ${recoverySession.deletedTimeDateString}
       </td>
-      <td class="session-response-for-test">
-        <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
-      </td>
-      <td class="no-print">
-        <tif:feedbackSessionActions actions="${sessionRow.actions}" />
+      <td class="align-center no-print">
+        <c:forEach items="${recoverySession.actions}" var="button">
+          <a ${button.attributesToString}>
+              ${button.content}
+          </a>
+        </c:forEach>
       </td>
     </tr>
   </c:forEach>
