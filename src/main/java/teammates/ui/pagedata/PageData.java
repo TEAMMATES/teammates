@@ -562,6 +562,40 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorFeedbackRestoreRecoverySessionLink(String courseId, String sessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+        return link;
+    }
+
+    public String getInstructorFeedbackRestoreAllRecoverySessionsLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE_ALL;
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorFeedbackDeleteRecoverySessionLink(String courseId, String sessionName) {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+        return link;
+    }
+
+    public String getInstructorFeedbackDeleteAllRecoverySessionsLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE_ALL;
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorStudentListLink() {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
         link = addUserIdToUrl(link);
