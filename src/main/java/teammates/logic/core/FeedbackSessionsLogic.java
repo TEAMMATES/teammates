@@ -39,6 +39,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * Handles operations related to feedback sessions.
@@ -265,6 +266,22 @@ public final class FeedbackSessionsLogic {
 
         for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
             fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId));
+        }
+
+        return fsList;
+    }
+
+    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructor(
+            List<InstructorAttributes> instructorList) {
+
+        List<InstructorAttributes> courseNotDeletedInstructorList = instructorList.stream()
+                .filter(instructor -> !coursesLogic.getCourse(instructor.courseId).isCourseDeleted())
+                .collect(Collectors.toList());
+
+        List<FeedbackSessionAttributes> fsList = new ArrayList<>();
+
+        for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
+            fsList.addAll(getRecoveryFeedbackSessionsListForCourse(instructor.courseId));
         }
 
         return fsList;
@@ -1473,6 +1490,13 @@ public final class FeedbackSessionsLogic {
 
     }
 
+    public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
+        feedbackSession.setDeletedTime();
+        fsDb.updateFeedbackSession(feedbackSession);
+    }
+
     public FeedbackSessionDetailsBundle getFeedbackSessionDetails(
             FeedbackSessionAttributes fsa) throws EntityDoesNotExistException {
 
@@ -2059,6 +2083,12 @@ public final class FeedbackSessionsLogic {
             String courseId) {
 
         return fsDb.getFeedbackSessionsForCourse(courseId);
+    }
+
+    private List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForCourse(
+            String courseId) {
+
+        return fsDb.getRecoveryFeedbackSessionsForCourse(courseId);
     }
 
     private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(

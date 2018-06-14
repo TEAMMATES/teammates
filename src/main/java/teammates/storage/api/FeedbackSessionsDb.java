@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
@@ -97,7 +98,17 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId));
+        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
+    }
+
+    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsForCourse(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
+                .filter(FeedbackSessionAttributes::isSessionDeleted)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -154,6 +165,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         fs.setInstructions(newAttributes.getInstructions());
+        fs.setDeletedTime(newAttributes.getDeletedTime());
         fs.setStartTime(newAttributes.getStartTime());
         fs.setEndTime(newAttributes.getEndTime());
         fs.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());

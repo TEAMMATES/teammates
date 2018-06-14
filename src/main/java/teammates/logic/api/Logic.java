@@ -1240,6 +1240,12 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorList);
     }
 
+    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructor(
+            List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(instructorList);
+        return feedbackSessionsLogic.getRecoveryFeedbackSessionsListForInstructor(instructorList);
+    }
+
     /**
      * Gets {@code FeedbackQuestions} and previously filled
      * {@code FeedbackResponses} that an instructor can view/submit as a
@@ -1496,6 +1502,15 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
+    }
+
+    public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        feedbackSessionsLogic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
     }
 
     /**
