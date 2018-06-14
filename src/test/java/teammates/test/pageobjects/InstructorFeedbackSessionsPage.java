@@ -572,13 +572,13 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         executeScript("$('#ajaxForSessions').submit();");
     }
 
-    public void verifyResendPublishedEmailButtonDoesNotExist(String courseId, String sessionName) {
+    public boolean checkIfResendPublishedEmailButtonExists(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         try {
             getLinkAtTableRow("session-resend-published-email-for-test", sessionRowId);
-            fail("This element should be hidden.");
+            return true;
         } catch (NoSuchElementException e) {
-            return;
+            return false;
         }
     }
 

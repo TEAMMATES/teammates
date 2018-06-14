@@ -613,7 +613,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
 
         // Test that the resend published link button doesn't exist
-        feedbackPage.verifyResendPublishedEmailButtonDoesNotExist(courseId, sessionName);
+        assertFalse(feedbackPage.checkIfResendPublishedEmailButtonExists(courseId, sessionName));
 
         feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
@@ -624,6 +624,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
 
+        ______TS("resend link action: PUBLISHED feedback session");
         // Test that the resend published link button can be clicked and the form can be cancelled
         feedbackPage.clickResendPublishedEmailLink(courseId, sessionName);
         feedbackPage.cancelResendPublishedEmailForm();
