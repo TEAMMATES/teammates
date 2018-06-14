@@ -27,10 +27,14 @@ public class InstructorFeedbackDeleteAction extends Action {
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        logic.deleteFeedbackSession(feedbackSessionName, courseId);
-        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED, StatusMessageColor.SUCCESS));
-        statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span> "
-                        + "from Course: <span class=\"bold\">[" + courseId + " deleted.";
+        try {
+            logic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED, StatusMessageColor.SUCCESS));
+            statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span> "
+                    + "from Course: <span class=\"bold\">[" + courseId + " deleted.";
+        } catch (Exception e) {
+            setStatusForException(e);
+        }
 
         return createRedirectResult(nextUrl);
     }
