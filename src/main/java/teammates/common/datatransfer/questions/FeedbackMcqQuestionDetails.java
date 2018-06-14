@@ -503,16 +503,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> unsortedResponses,
             FeedbackQuestionAttributes question,
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
 
-        if ("student".equals(view) || responses.isEmpty()) {
+        if ("student".equals(view) || unsortedResponses.isEmpty()) {
             return "";
         }
 
+        // Sort the list of responseAttributes based on recipient team and recipient name.
+        List<FeedbackResponseAttributes> responses = getResponseAttributesSorted(unsortedResponses, bundle);
         StringBuilder responseSummaryFragments = new StringBuilder();
         Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
         Map<String, Double> averagePerOption = calculateAverageWeightPerOption(answerFrequency, responses.size());
@@ -551,6 +553,23 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
                 Slots.FRAGMENTS, responseSummaryFragments.toString(),
                 Slots.MCQ_RECIPIENT_STATS_HTML, recipientStatsHtml);
+    }
+
+    /**
+     * Returns a list of {@link FeedbackResponseAttributes} sorted by comparing recipient Team name and
+     * recipient name for each recipient email.
+     * @param unsortedResponses The list of unsorted responses that needs to be sorted.
+     * @param bundle Result bundle that is used to retrieve recipientTeamName and recipientName for each recipient.
+     */
+    public List<FeedbackResponseAttributes> getResponseAttributesSorted(List<FeedbackResponseAttributes> unsortedResponses,
+            FeedbackSessionResultsBundle bundle) {
+        List<FeedbackResponseAttributes> responses = new LinkedList<>(unsortedResponses);
+
+        responses.sort(Comparator.comparing((FeedbackResponseAttributes obj) ->
+                bundle.getTeamNameForEmail(obj.recipient))
+                .thenComparing(obj -> bundle.getNameForEmail(obj.recipient)));
+
+        return responses;
     }
 
     private String getRecipientStatsHeaderFragmentHtml(String header) {
