@@ -1513,6 +1513,15 @@ public class Logic {
         feedbackSessionsLogic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
     }
 
+    public void restoreFeedbackSessionFromRecovery(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        feedbackSessionsLogic.restoreFeedbackSessionFromRecovery(feedbackSessionName, courseId);
+    }
+
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

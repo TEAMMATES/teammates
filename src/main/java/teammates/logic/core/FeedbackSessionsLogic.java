@@ -1497,6 +1497,13 @@ public final class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(feedbackSession);
     }
 
+    public void restoreFeedbackSessionFromRecovery(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
+        feedbackSession.resetDeletedTime();
+        fsDb.updateFeedbackSession(feedbackSession);
+    }
+
     public FeedbackSessionDetailsBundle getFeedbackSessionDetails(
             FeedbackSessionAttributes fsa) throws EntityDoesNotExistException {
 
