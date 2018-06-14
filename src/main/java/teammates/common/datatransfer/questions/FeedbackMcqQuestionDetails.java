@@ -542,7 +542,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         String recipientStatsHtml = "";
         if (hasAssignedWeights) {
             String header = getRecipientStatsHeaderHtml();
-            String body = getPerRecipientStatsBodyHtml(responses, bundle, answerFrequency);
+            String body = getPerRecipientStatsBodyHtml(responses, bundle);
             recipientStatsHtml = Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
@@ -560,7 +560,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Returns the html string for Per Recipient Statistics table header.
+     * Returns the html string for 'Per Recipient Statistics' table header.
      */
     public String getRecipientStatsHeaderHtml() {
         StringBuilder headerBuilder = new StringBuilder(100);
@@ -587,10 +587,16 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return headerBuilder.toString();
     }
 
+    /**
+     * Returns a HTML string which contains a sequence of "tr" tags.
+     * The "tr" tags enclose a sequence of "td" tags which have data related to a sub question.
+     * The sequence of "tr" tags are not enclosed in a "tbody" tag.
+     */
     public String getPerRecipientStatsBodyHtml(List<FeedbackResponseAttributes> responses,
-            FeedbackSessionResultsBundle bundle, Map<String, Integer> answerFrequency) {
+            FeedbackSessionResultsBundle bundle) {
         StringBuilder bodyBuilder = new StringBuilder(100);
         Map<String, Map<String, Integer>> perRecipientResponses = calculatePerRecipientResponseCount(responses);
+
         for (Map.Entry<String, Map<String, Integer>> entry : perRecipientResponses.entrySet()) {
             String recipient = entry.getKey();
             Map<String, Integer> responsesForRecipient = entry.getValue();
@@ -602,6 +608,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return bodyBuilder.toString();
     }
 
+    /**
+     * Returns a HTML string which contains a sequence of "td" tags.
+     * The "td" tags have data related to a sub question.
+     * The sequence of "td" tags are not enclosed in a "tr" tag.
+     */
     public String getPerRecipientStatsBodyFragmentHtml(String recipient,
             Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
         StringBuilder html = new StringBuilder(100);
@@ -651,6 +662,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return html.toString();
     }
 
+    /**
+     * Returns a Map containing response counts for each option for every recipient.
+     */
     private Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
             List<FeedbackResponseAttributes> responses) {
         Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();
