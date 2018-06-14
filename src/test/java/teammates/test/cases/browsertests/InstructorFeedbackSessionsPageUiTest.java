@@ -625,6 +625,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
 
         ______TS("resend link action: PUBLISHED feedback session");
+        // Test that the resend published link button exists
+        assertTrue(feedbackPage.checkIfResendPublishedEmailButtonExists(courseId, sessionName));
+
         // Test that the resend published link button can be clicked and the form can be cancelled
         feedbackPage.clickResendPublishedEmailLink(courseId, sessionName);
         feedbackPage.cancelResendPublishedEmailForm();
