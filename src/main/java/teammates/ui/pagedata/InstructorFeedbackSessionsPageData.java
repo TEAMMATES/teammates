@@ -31,6 +31,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
     private List<CourseAttributes> courseAttributes;
+    private Map<String, InstructorAttributes> instructorsForCourses;
 
     public InstructorFeedbackSessionsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -56,6 +57,8 @@ public class InstructorFeedbackSessionsPageData extends PageData {
                      Map<String, InstructorAttributes> instructors,
                      FeedbackSessionAttributes defaultFormValues, String sessionTemplateType,
                      String highlightedFeedbackSession) {
+
+        this.instructorsForCourses = instructors;
 
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
 
@@ -339,14 +342,18 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
             List<ElementTag> actionsParam = new ArrayList<>();
 
-            String restoreLink = getInstructorCourseRestoreRecoveryCourseLink(session.getCourseId());
-            ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_course_restore" + idx, "",
-                    restoreLink, Const.Tooltips.COURSE_RESTORE, false, "");
+            String restoreLink = getInstructorFeedbackRestoreRecoverySessionLink(session.getCourseId(),
+                    session.getSessionName());
+            ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_session_restore" + idx, "",
+                    restoreLink, Const.Tooltips.FEEDBACK_SESSION_RESTORE, false, "");
 
-            String deleteLink = getInstructorCourseDeleteRecoveryCourseLink(session.getCourseId(), false);
+            String deleteLink = getInstructorFeedbackDeleteRecoverySessionLink(session.getCourseId(),
+                    session.getSessionName());
+            Boolean hasDeletePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs course-delete-link "
-                            + "t_course_delete" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
-                    false, "color: red");
+                            + "t_session_delete" + idx, "", deleteLink, Const.Tooltips.FEEDBACK_SESSION_DELETE,
+                    !hasDeletePermission, "color: red");
             deleteButton.setAttribute("data-course-id", session.getCourseId());
 
             actionsParam.add(restoreButton);
