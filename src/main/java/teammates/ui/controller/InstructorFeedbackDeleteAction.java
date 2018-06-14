@@ -29,7 +29,14 @@ public class InstructorFeedbackDeleteAction extends Action {
 
         try {
             logic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED, StatusMessageColor.SUCCESS));
+
+            if (nextUrl.equals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN,
+                        StatusMessageColor.SUCCESS));
+            } else {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE,
+                        StatusMessageColor.SUCCESS));
+            }
             statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span> "
                     + "from Course: <span class=\"bold\">[" + courseId + " deleted.";
         } catch (Exception e) {
