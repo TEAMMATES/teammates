@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.pagedata.InstructorCourseStudentDetailsPageData;
 import teammates.ui.template.StudentInfoTable;
@@ -16,9 +17,11 @@ import teammates.ui.template.StudentProfile;
  */
 public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
 
+    private static final String GOOGLE_ID = "valid.googleId";
     private StudentAttributes inputStudent;
     private StudentProfileAttributes inputStudentProfile;
     private String pictureUrl;
+    private String courseDetailsLink;
     private boolean hasSection;
 
     @Test
@@ -69,6 +72,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(inputStudent.team, studentInfoTable.getTeam());
         assertEquals(inputStudent.comments, studentInfoTable.getComments());
         assertEquals(inputStudent.course, studentInfoTable.getCourseId());
+        assertEquals(courseDetailsLink, studentInfoTable.getCourseDetailsLink());
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
 
@@ -86,6 +90,11 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         String team = "TeamForJohnDoe";
         String section = "SectionForJohnDoe";
 
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, GOOGLE_ID);
+        this.courseDetailsLink = link;
+
         inputStudent = StudentAttributes
                 .builder(courseId, name, email)
                 .withSection(section)
@@ -95,7 +104,6 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     }
 
     private void createStudentProfile(String email, String pictureKey) {
-        String googleId = "valid.googleId";
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "Singaporean";
@@ -107,10 +115,10 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         } else {
             this.pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
                             + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
-                            + Const.ParamsNames.USER_ID + "=null";
+                            + Const.ParamsNames.USER_ID + "=" + GOOGLE_ID;
         }
 
-        inputStudentProfile = StudentProfileAttributes.builder(googleId)
+        inputStudentProfile = StudentProfileAttributes.builder(GOOGLE_ID)
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
@@ -124,8 +132,8 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private InstructorCourseStudentDetailsPageData createData() {
         createCommonData();
 
-        return new InstructorCourseStudentDetailsPageData(AccountAttributes.builder().build(), dummySessionToken,
-                inputStudent, inputStudentProfile, hasSection);
+        return new InstructorCourseStudentDetailsPageData(AccountAttributes.builder().withGoogleId(GOOGLE_ID).build(),
+                dummySessionToken, inputStudent, inputStudentProfile, hasSection);
     }
 
     private void createCommonData() {
