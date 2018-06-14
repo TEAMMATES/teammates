@@ -887,6 +887,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<String, Boolean> isSortable = new HashMap<>();
         boolean isCollapsible = true;
         List<InstructorFeedbackResultsResponseRow> responseRows = null;
+        boolean isCommentsOnResponsesAllowed = question.getQuestionDetails().isCommentsOnResponsesAllowed();
 
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         if (isShowingResponseRows) {
@@ -896,7 +897,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRows = buildResponseRowsForQuestion(question, responses);
                 break;
             case GIVER_QUESTION_RECIPIENT:
-                buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable);
+                buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable, isCommentsOnResponsesAllowed);
                 responseRows = buildResponseRowsForQuestionForSingleGiver(question, responses, participantIdentifier);
                 isCollapsible = false;
                 break;
@@ -981,7 +982,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags,
-                                                                     Map<String, Boolean> isSortable) {
+                                                                     Map<String, Boolean> isSortable,
+                                                                     boolean isCommentsOnResponsesAllowed) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
@@ -997,6 +999,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(recipientTeamElement);
         columnTags.add(recipientElement);
         columnTags.add(responseElement);
+
+        if (isCommentsOnResponsesAllowed) {
+            ElementTag actionElement = new ElementTag("Actions", "class", "action-header",
+                    "style", "width: 15%; min-width: 75px;");
+            columnTags.add(actionElement);
+            isSortable.put(actionElement.getContent(), false);
+        }
 
         isSortable.put(photoElement.getContent(), false);
         isSortable.put(recipientTeamElement.getContent(), true);
@@ -1164,7 +1173,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String participantWithResponse = isFirstGroupedByGiver ? response.recipient : response.giver;
             removeParticipantIdentifierFromList(possibleParticipantsWithoutResponses,
                                                 participantWithResponse);
-
             InstructorFeedbackResultsModerationButton moderationButton =
                     buildModerationButtonForExistingResponse(question, response);
 
@@ -1177,6 +1185,47 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             bundle.getResponseAnswerHtml(response, question), moderationButton);
 
             configureResponseRow(response.giver, response.recipient, responseRow);
+
+            if (isFirstGroupedByGiver) {
+                String giverName = bundle.getNameForEmail(response.giver);
+                String recipientName = bundle.getNameForEmail(response.recipient);
+
+                String giverTeam = bundle.getTeamNameForEmail(response.giver);
+                String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
+
+                giverName = bundle.appendTeamNameToName(giverName, giverTeam);
+                recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
+
+                List<FeedbackResponseCommentRow> comments =
+                        buildResponseComments(giverName, recipientName, question, response);
+                if (!comments.isEmpty()) {
+                    responseRow.setCommentsOnResponses(comments);
+                }
+                int responseRecipientIndex = 0;
+                int responseGiverIndex = 0;
+                int userIndex = 0;
+                Map<String, Integer> userIndexesForComments = new HashMap<String, Integer>();
+                Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+                boolean isCommentsOnResponsesAllowed =
+                        question.getQuestionDetails().isCommentsOnResponsesAllowed();
+                if (isCommentsOnResponsesAllowed) {
+                    FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
+                            responseVisibilityMap, giverName, recipientName);
+                    responseRow.setAddCommentButton(addCommentForm);
+                    if (userIndexesForComments.get(response.giver) == null) {
+                        userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);
+                    }
+                    responseGiverIndex = userIndexesForComments.get(response.giver);
+                    if (userIndexesForComments.get(response.recipient) == null) {
+                        userIndex = generateIndexForUser(response.recipient, userIndex, userIndexesForComments);
+                    }
+                    responseRecipientIndex = userIndexesForComments.get(response.recipient);
+
+                    responseRow.setResponseRecipientIndex(responseRecipientIndex);
+                    responseRow.setResponseGiverIndex(responseGiverIndex);
+                    responseRow.setCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
+                }
+            }
 
             responseRows.add(responseRow);
         }
@@ -1217,7 +1266,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responseRow.setRecipientProfilePictureAColumn(true);
 
             responseRow.setRecipientProfilePictureLink(getProfilePictureIfEmailValid(recipient));
-            responseRow.setActionsDisplayed(false);
+            responseRow.setActionsDisplayed(true);
             break;
         case RECIPIENT_QUESTION_GIVER:
             responseRow.setRecipientDisplayed(false);
