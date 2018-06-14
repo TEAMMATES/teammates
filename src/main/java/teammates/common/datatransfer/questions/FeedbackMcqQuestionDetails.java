@@ -513,19 +513,192 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        StringBuilder fragments = new StringBuilder();
+        StringBuilder responseSummaryFragments = new StringBuilder();
         Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
+        Map<String, Double> averagePerOption = calculateAverageWeightPerOption(answerFrequency, responses.size());
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        answerFrequency.forEach((key, value) ->
-                fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                        Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
-                        Slots.COUNT, value.toString(),
-                        Slots.PERCENTAGE, df.format(100 * (double) value / responses.size()))));
+        for (String key : answerFrequency.keySet()) {
+            int count = answerFrequency.get(key);
+            // If weights are allowed, show the corresponding weights of a choice.
+            String weightString = "";
+            if ("Other".equals(key)) {
+                weightString = hasAssignedWeights ? df.format(mcqOtherWeight) : "-";
+            } else {
+                weightString = hasAssignedWeights ? df.format(mcqWeights.get(mcqChoices.indexOf(key))) : "-";
+            }
 
-        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
+            responseSummaryFragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
+                    Slots.MCQ_WEIGHT, weightString,
+                    Slots.COUNT, Integer.toString(count),
+                    Slots.PERCENTAGE, df.format(100 * (double) count / responses.size()),
+                    Slots.AVERAGE, hasAssignedWeights ? df.format(averagePerOption.get(key)) : "-"));
+        }
+
+        // If weights are assigned, create the per recipient statistics table,
+        // otherwise pass an empty string in it's place.
+        String recipientStatsHtml = "";
+        if (hasAssignedWeights) {
+            String header = getRecipientStatsHeaderHtml();
+            String body = getPerRecipientStatsBodyHtml(responses, bundle);
+            recipientStatsHtml = Templates.populateTemplate(
+                    FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
+                    Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
+                    Slots.TABLE_BODY_HTML, body);
+        }
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
+                Slots.FRAGMENTS, responseSummaryFragments.toString(),
+                Slots.MCQ_RECIPIENT_STATS_HTML, recipientStatsHtml);
     }
+
+    private String getRecipientStatsHeaderFragmentHtml(String header) {
+        return Templates.populateTemplate(
+                FormTemplates.MCQ_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT,
+                Slots.STATS_TITLE, header);
+    }
+
+    /**
+     * Returns the html string for 'Per Recipient Statistics' table header.
+     */
+    public String getRecipientStatsHeaderHtml() {
+        StringBuilder headerBuilder = new StringBuilder(100);
+        DecimalFormat df = new DecimalFormat("#.##");
+        StringBuilder choicesHtmlBuilder = new StringBuilder(100);
+
+        for (int i = 0; i < mcqChoices.size(); i++) {
+            String weight = df.format(mcqWeights.get(i));
+            String html = getRecipientStatsHeaderFragmentHtml(mcqChoices.get(i) + " [" + weight + "]");
+            choicesHtmlBuilder.append(html);
+        }
+        if (otherEnabled) {
+            String otherWeight = df.format(mcqOtherWeight);
+            String html = getRecipientStatsHeaderFragmentHtml("Other" + " [" + otherWeight + "]");
+            choicesHtmlBuilder.append(html);
+        }
+
+        headerBuilder.append(getRecipientStatsHeaderFragmentHtml("Team"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Recipient Name"))
+                     .append(choicesHtmlBuilder.toString())
+                     .append(getRecipientStatsHeaderFragmentHtml("Total"))
+                     .append(getRecipientStatsHeaderFragmentHtml("Average"));
+
+        return headerBuilder.toString();
+    }
+
+    /**
+     * Returns a HTML string which contains a sequence of "tr" tags.
+     * The "tr" tags enclose a sequence of "td" tags which have data related to a sub question.
+     * The sequence of "tr" tags are not enclosed in a "tbody" tag.
+     */
+    public String getPerRecipientStatsBodyHtml(List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
+        StringBuilder bodyBuilder = new StringBuilder(100);
+        Map<String, Map<String, Integer>> perRecipientResponses = calculatePerRecipientResponseCount(responses);
+
+        for (Map.Entry<String, Map<String, Integer>> entry : perRecipientResponses.entrySet()) {
+            String recipient = entry.getKey();
+            Map<String, Integer> responsesForRecipient = entry.getValue();
+            String statsRow = getPerRecipientStatsBodyFragmentHtml(recipient, responsesForRecipient, bundle);
+            bodyBuilder.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_FRAGMENT,
+                    Slots.MCQ_RECIPIENT_STAT_ROW, statsRow));
+        }
+
+        return bodyBuilder.toString();
+    }
+
+    /**
+     * Returns a HTML string which contains a sequence of "td" tags.
+     * The "td" tags have data related to a sub question.
+     * The sequence of "td" tags are not enclosed in a "tr" tag.
+     */
+    public String getPerRecipientStatsBodyFragmentHtml(String recipient,
+            Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
+        StringBuilder html = new StringBuilder(100);
+        List<String> cols = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        String recipientName = bundle.getNameForEmail(recipient);
+        String recipientTeam = bundle.getTeamNameForEmail(recipient);
+        double total = 0;
+        double average = 0;
+        int numOfResponsesForThisRecipient = 0;
+        // <td> entries which displays recipient identification details.
+        cols.add(recipientTeam);
+        cols.add(recipientName);
+
+        // <td> entries which displays response counts for each option.
+        for (Map.Entry<String, Integer> countPerChoice : recipientResponses.entrySet()) {
+            String choice = countPerChoice.getKey();
+            int responseCount = countPerChoice.getValue();
+
+            double weight = 0;
+            cols.add(Integer.toString(responseCount));
+
+            // Get the weight of the choice.
+            if ("Other".equals(choice)) {
+                weight = mcqOtherWeight;
+            } else {
+                weight = mcqWeights.get(mcqChoices.indexOf(choice));
+            }
+            // Add the total weight of all responses of this choice to total.
+            total += responseCount * weight;
+            numOfResponsesForThisRecipient += responseCount;
+        }
+
+        // <td> entries which display total and average for the recipient.
+        cols.add(df.format(total));
+        average = numOfResponsesForThisRecipient == 0 ? 0 : total / numOfResponsesForThisRecipient;
+        cols.add(df.format(average));
+
+        // Generate HTML for all <td> entries using template
+        for (String col : cols) {
+            html.append(
+                    Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT,
+                    Slots.MCQ_RECIPIENT_STAT_CELL, col));
+        }
+
+        return html.toString();
+    }
+
+    /**
+     * Returns a Map containing response counts for each option for every recipient.
+     */
+    private Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
+            List<FeedbackResponseAttributes> responses) {
+        Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();
+
+        for (FeedbackResponseAttributes response : responses) {
+            Map<String, Integer> responseCountPerOption = new LinkedHashMap<>();
+            for (String choice : mcqChoices) {
+                responseCountPerOption.put(choice, 0);
+            }
+            if (otherEnabled) {
+                responseCountPerOption.put("Other", 0);
+            }
+
+            perRecipientResponse.put(response.recipient, responseCountPerOption);
+        }
+
+        // Calculate responses of each option and increment the value of perRecipientResponses value.
+        for (FeedbackResponseAttributes response : responses) {
+            String recipient = response.recipient;
+            FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
+            boolean isOtherAnswer = frd.isOtherOptionAnswer();
+            String answer = isOtherAnswer ? "Other" : frd.getAnswerString();
+
+            // Retrieve the response count map of the recipient and increment the corresponding
+            // value of the answer string.
+            Map<String, Integer> responseMap = perRecipientResponse.get(recipient);
+            responseMap.put(answer, perRecipientResponse.get(recipient).get(answer) + 1);
+            perRecipientResponse.put(recipient, responseMap);
+        }
+
+        return perRecipientResponse;
+    }
+
+    // TODO: Sort the per recipient responses
 
     @Override
     public String getQuestionResultStatisticsCsv(
@@ -649,5 +822,40 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return answerFrequency;
+    }
+
+    /**
+     * Calculates the average weight of each option based on the all responses.
+     * Weights should be assigned or else an empty map will be returned.<br>
+     * The average of an option is calculated as follows:<br><br>
+     * Average = (frequency of the option based on responses) * (weight of the option) / total responses.
+     */
+    private Map<String, Double> calculateAverageWeightPerOption(Map<String, Integer> answerFrequency,
+            int totalNumberOfResponses) {
+        Map<String, Double> averagePerOption = new LinkedHashMap<>();
+        // If weights are not assigned, return an empty map.
+        if (!hasAssignedWeights) {
+            return averagePerOption;
+        }
+
+        for (int i = 0; i < mcqChoices.size(); i++) {
+            String option = mcqChoices.get(i);
+            double weight = mcqWeights.get(i);
+            averagePerOption.put(option, weight);
+        }
+
+        if (otherEnabled) {
+            averagePerOption.put("Other", mcqOtherWeight);
+        }
+
+        for (String key : averagePerOption.keySet()) {
+            int frequency = answerFrequency.get(key);
+            double weight = averagePerOption.get(key);
+            double average = (frequency * weight) / totalNumberOfResponses;
+
+            // Replace the value by the actual average value.
+            averagePerOption.put(key, average);
+        }
+        return averagePerOption;
     }
 }
