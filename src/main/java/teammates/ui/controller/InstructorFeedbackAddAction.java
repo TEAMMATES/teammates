@@ -89,6 +89,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         List<InstructorAttributes> instructorList = new ArrayList<>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
+        List<FeedbackSessionAttributes> recoveryFeedbackSessions = loadRecoveryFeedbackSessionsList(instructorList);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
 
         if (feedbackSessions.isEmpty()) {
@@ -96,7 +97,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
                                                StatusMessageColor.WARNING));
         }
 
-        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs,
+        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, recoveryFeedbackSessions, instructors, fs,
                                        sessionTemplateType);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SESSIONS, data);
