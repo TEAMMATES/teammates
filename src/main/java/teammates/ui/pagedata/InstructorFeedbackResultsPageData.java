@@ -1159,6 +1159,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                           ? bundle.getPossibleRecipients(question, participantIdentifier)
                                                           : bundle.getPossibleGivers(question, participantIdentifier);
 
+        int responseRecipientIndex = 0;
+        int responseGiverIndex = 0;
+        int userIndex = 0;
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.isGiverVisible(response) || !bundle.isRecipientVisible(response)) {
                 possibleParticipantsWithoutResponses.clear();
@@ -1196,9 +1199,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 if (!comments.isEmpty()) {
                     responseRow.setCommentsOnResponses(comments);
                 }
-                int responseRecipientIndex = 0;
-                int responseGiverIndex = 0;
-                int userIndex = 0;
                 Map<String, Integer> userIndexesForComments = new HashMap<String, Integer>();
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
                 boolean isCommentsOnResponsesAllowed =
