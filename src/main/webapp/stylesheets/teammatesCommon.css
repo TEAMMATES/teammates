@@ -458,6 +458,11 @@ input.inline {
     width: 60%;
 }
 
+.panel-borderless {
+    border: none;
+    box-shadow: none:
+}
+
 .link-in-dark-bg:link {
     color: #F2FCAC;
 }
@@ -873,6 +878,11 @@ Prevents content overflow in navbar. */
 
 #enrollstudents {
     display: none;
+}
+
+#button_updatestudents {
+    display: none;
+    margin-right: 5px;
 }
 
 #number-of-rows {

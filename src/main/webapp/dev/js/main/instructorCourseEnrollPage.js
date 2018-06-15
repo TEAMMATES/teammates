@@ -148,11 +148,14 @@ function collapseExistingStudentsPanel() {
     const panelCollapse = $panelHeading.parent().children('.panel-collapse');
     const displayIcon = $panelHeading.children('.display-icon');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+    const updateButton = $panelHeading.find('#button_updatestudents');
 
     if ($panelHeading.attr('class').indexOf('ajax_submit') === -1) { // if panel is shown
+        updateButton.hide();
         hideExistingStudentsPanel($panelHeading, panelCollapse);
         toggleChevronImage(panelCollapse, toggleChevron);
     } else {
+        updateButton.show();
         getAjaxStudentList($panelHeading, panelCollapse, displayIcon, toggleChevron);
     }
 }

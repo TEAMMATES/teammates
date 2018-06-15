@@ -43,6 +43,9 @@
               <div class="panel panel-default">
                 <div class="panel-heading ajax_submit">
                   <div class="pull-right margin-left-7px">
+                    <button class="btn btn-primary btn-xs" type="button" id="button_updatestudents">
+                      Update
+                    </button>
                     <span class="glyphicon glyphicon-chevron-down"></span>
                   </div>
                   <div class='display-icon pull-right'></div>
