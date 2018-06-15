@@ -107,7 +107,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     @Test
     public void testRemindPublishActions() throws Exception {
         testRemindActions();
-        testPublishAction();
+        testPublishAndResendLinkAction();
         testUnpublishAction();
     }
 
@@ -600,7 +600,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         //TODO implement this
     }
 
-    private void testPublishAction() throws Exception {
+    private void testPublishAndResendLinkAction() throws Exception {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
@@ -612,6 +612,9 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickAndCancel(feedbackPage.getPublishLink(courseId, sessionName));
         assertFalse(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
 
+        // Test that the resend published link button doesn't exist
+        assertFalse(feedbackPage.checkIfResendPublishedEmailButtonExists(courseId, sessionName));
+
         feedbackPage.clickAndConfirm(feedbackPage.getPublishLink(courseId, sessionName));
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
         assertTrue(BackDoor.getFeedbackSession(courseId, sessionName).isPublished());
@@ -620,6 +623,31 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         ______TS("PUBLISHED: publish link hidden");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
+
+        ______TS("resend link action: PUBLISHED feedback session");
+        // Test that the resend published link button exists
+        assertTrue(feedbackPage.checkIfResendPublishedEmailButtonExists(courseId, sessionName));
+
+        // Test that the resend published link button can be clicked and the form can be cancelled
+        feedbackPage.clickResendPublishedEmailLink(courseId, sessionName);
+        feedbackPage.cancelResendPublishedEmailForm();
+
+        // Test the status message when the form is submitted with empty recipient list
+        feedbackPage.clickResendPublishedEmailLink(courseId, sessionName);
+        feedbackPage.waitForAjaxLoaderGifToDisappear();
+        feedbackPage.submitResendPublishedEmailForm();
+        feedbackPage.waitForPageToLoad();
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
+
+        // Test the status message when the form is submitted with a recipient list
+        feedbackPage.clickResendPublishedEmailLink(courseId, sessionName);
+        feedbackPage.waitForAjaxLoaderGifToDisappear();
+        feedbackPage.fillResendPublishedEmailForm();
+        feedbackPage.submitResendPublishedEmailForm();
+        feedbackPage.waitForPageToLoad();
+        feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
     }
 
     private void testUnpublishAction() throws Exception {
