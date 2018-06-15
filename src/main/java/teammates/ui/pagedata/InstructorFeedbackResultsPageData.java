@@ -994,23 +994,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag responseElement =
                 new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
                         "style", "min-width: 95px;");
+        ElementTag actionElement = new ElementTag("Actions", "class", "action-header",
+                "style", "width: 15%; min-width: 75px;");
 
         columnTags.add(photoElement);
         columnTags.add(recipientTeamElement);
         columnTags.add(recipientElement);
         columnTags.add(responseElement);
-
-        if (isCommentsOnResponsesAllowed) {
-            ElementTag actionElement = new ElementTag("Actions", "class", "action-header",
-                    "style", "width: 15%; min-width: 75px;");
-            columnTags.add(actionElement);
-            isSortable.put(actionElement.getContent(), false);
-        }
+        columnTags.add(actionElement);
 
         isSortable.put(photoElement.getContent(), false);
         isSortable.put(recipientTeamElement.getContent(), true);
         isSortable.put(recipientElement.getContent(), true);
         isSortable.put(responseElement.getContent(), true);
+        isSortable.put(actionElement.getContent(), false);
     }
 
     private void buildTableColumnHeaderForRecipientQuestionGiverView(List<ElementTag> columnTags,
