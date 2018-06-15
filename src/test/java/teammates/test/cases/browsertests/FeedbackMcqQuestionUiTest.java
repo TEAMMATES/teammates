@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,6 +53,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testReorderOptions();
     }
 
     @Override
@@ -291,4 +293,69 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    @Test
+    public void testReorderOptions() throws Exception {
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MCQ");
+
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreMcqOptionLinkForNewQuestion();
+
+        feedbackEditPage.fillMcqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMcqOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.fillMcqOptionForNewQuestion(2, "Choice 3");
+        feedbackEditPage.fillMcqOptionForNewQuestion(3, "Choice 4");
+
+        ______TS("MCQ: reorder existing options");
+
+        feedbackEditPage.dragAndDropMcqOption(NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.clickAddQuestionButton();
+        JSONObject mcqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                mcqQuestionDetails.get("mcqChoices").toString());
+
+        ______TS("MCQ: add option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.fillMcqOption(1, 4, "New Choice");
+        feedbackEditPage.dragAndDropMcqOption(1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        mcqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                mcqQuestionDetails.get("mcqChoices").toString());
+
+        ______TS("MCQ: delete option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMcqOptionLink(2, 1);
+        feedbackEditPage.fillMcqOption(1, 1, "Old Choice");
+        feedbackEditPage.dragAndDropMcqOption(1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        mcqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                mcqQuestionDetails.get("mcqChoices").toString());
+
+        ______TS("MCQ: add, delete and reorder options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMcqOptionLink(2, 1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        feedbackEditPage.fillMcqOption(1, 4, "New Choice");
+        feedbackEditPage.fillMcqOption(1, 5, "Newer Choice");
+        feedbackEditPage.dragAndDropMcqOption(1, 5, 0);
+        feedbackEditPage.dragAndDropMcqOption(1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        mcqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                mcqQuestionDetails.get("mcqChoices").toString());
+    }
 }

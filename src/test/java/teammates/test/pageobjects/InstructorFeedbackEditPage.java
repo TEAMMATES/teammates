@@ -15,6 +15,7 @@ import java.util.Locale;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -1257,8 +1258,33 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
 
+    public void fillMcqOption(int qnNumber, int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "-" + qnNumber));
+        fillTextBox(optionBox, optionText);
+    }
+
+    public void dragAndDropMcqOption(int qnNumber, int sourceIndex, int targetIndex) throws Exception {
+        WebElement draggedOptionElement = browser.driver.findElement(By.xpath("//div[@id='mcqOptionRow-"
+                + sourceIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+        WebElement targetElement = browser.driver.findElement(By.xpath("//div[@id='mcqOptionRow-"
+                + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+
+        Actions builder = new Actions(browser.driver);
+        builder.clickAndHold(draggedOptionElement).perform();
+        builder.moveToElement(targetElement, 0, 40).perform();
+        builder.moveToElement(targetElement, 0, 30).perform();
+        builder.moveToElement(targetElement, 0, 20).perform();
+        builder.moveToElement(targetElement).perform();
+        builder.moveToElement(targetElement, 0, -10).release().perform();
+    }
+
     public void clickAddMoreMcqOptionLinkForNewQuestion() {
         WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink-" + NEW_QUESTION_NUM));
+        click(addMoreOptionLink);
+    }
+
+    public void clickAddMoreMcqOptionLink(int qnNumber) {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink-" + qnNumber));
         click(addMoreOptionLink);
     }
 

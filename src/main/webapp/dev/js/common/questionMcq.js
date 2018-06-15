@@ -37,10 +37,11 @@ function addMcqOption(questionNum) {
 function removeMcqOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
+    const $mcqOptionRows = $(`#mcqOptionRows-${questionNum}`);
     const $thisRow = $(`#mcqOptionRow-${index}-${questionNum}`);
 
-    // count number of child rows the table have and - 1 because of add option button
-    const numberOfOptions = $thisRow.parent().children('div').length - 1;
+    // count number of child rows the table has
+    const numberOfOptions = $mcqOptionRows.children('div').length;
 
     if (numberOfOptions <= 1) {
         $thisRow.find('input').val('');
