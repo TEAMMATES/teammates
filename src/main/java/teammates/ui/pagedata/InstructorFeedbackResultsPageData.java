@@ -887,7 +887,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<String, Boolean> isSortable = new HashMap<>();
         boolean isCollapsible = true;
         List<InstructorFeedbackResultsResponseRow> responseRows = null;
-        boolean isCommentsOnResponsesAllowed = question.getQuestionDetails().isCommentsOnResponsesAllowed();
 
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
         if (isShowingResponseRows) {
@@ -897,7 +896,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRows = buildResponseRowsForQuestion(question, responses);
                 break;
             case GIVER_QUESTION_RECIPIENT:
-                buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable, isCommentsOnResponsesAllowed);
+                buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable);
                 responseRows = buildResponseRowsForQuestionForSingleGiver(question, responses, participantIdentifier);
                 isCollapsible = false;
                 break;
@@ -982,8 +981,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags,
-                                                                     Map<String, Boolean> isSortable,
-                                                                     boolean isCommentsOnResponsesAllowed) {
+                                                                     Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
