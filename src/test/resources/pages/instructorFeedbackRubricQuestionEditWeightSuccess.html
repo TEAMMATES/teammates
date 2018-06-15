@@ -788,6 +788,12 @@
               <input disabled="" name="questiondescription" type="hidden">
             </div>
             <div class="row">
+              <div class="col-sm-4">
+                <input checked="" class="nonDestructive" disabled="" id="rubricAssignWeights-1" name="rubricAssignWeights" type="checkbox">
+                <span class="tool-tip-decorate" data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
+                  Choices are weighted
+                </span>
+              </div>
               <br>
               <div class="col-sm-12 table-responsive">
                 <table class="table table-bordered margin-0" id="rubricEditTable-1">
@@ -813,24 +819,21 @@
                     </tr>
                     <tr id="rubricWeights-1">
                       <th style="text-align:center; vertical-align:middle;">
-                        <input checked="" class="nonDestructive" disabled="" id="rubricAssignWeights-1" name="rubricAssignWeights" type="checkbox">
-                        <span class="tool-tip-decorate" data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
-                          Weights
-                        </span>
+                        Weights
                         <span class="glyphicon glyphicon-arrow-right">
                         </span>
                       </th>
                       <th class="rubricCol-1-0">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-0" name="rubricWeight-0" step="0.01" type="number" value="2.25">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-0" name="rubricWeight-0" required="" step="0.01" type="number" value="2.25">
                       </th>
                       <th class="rubricCol-1-1">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-1" name="rubricWeight-1" step="0.01" type="number" value="0">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-1" name="rubricWeight-1" required="" step="0.01" type="number" value="0">
                       </th>
                       <th class="rubricCol-1-2">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-2" name="rubricWeight-2" step="0.01" type="number" value="0">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-2" name="rubricWeight-2" required="" step="0.01" type="number" value="0">
                       </th>
                       <th class="rubricCol-1-3">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-3" name="rubricWeight-3" step="0.01" type="number" value="0">
+                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-3" name="rubricWeight-3" required="" step="0.01" type="number" value="0">
                       </th>
                     </tr>
                   </thead>
@@ -1367,7 +1370,7 @@
               </li>
             </ul>
           </div>
-          <a href="/instructorHelp.jsp#fbQuestionTypes" rel="noopener noreferrer" target="_blank">
+          <a href="/instructorHelp.jsp#questions" rel="noopener noreferrer" target="_blank">
             <i class="glyphicon glyphicon-info-sign">
             </i>
           </a>
@@ -1814,16 +1817,19 @@
             </div>
             <div id="rubricForm">
               <div class="row">
+                <div class="col-sm-4">
+                  <input class="nonDestructive" id="rubricAssignWeights--1" name="rubricAssignWeights" type="checkbox">
+                  <span class="tool-tip-decorate" data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
+                    Choices are weighted
+                  </span>
+                </div>
                 <br>
                 <div class="col-sm-12 table-responsive">
                   <table class="table table-bordered margin-0" id="rubricEditTable--1">
                     <thead>
                       <tr>
                         <th style="text-align:center; vertical-align:middle;">
-                          <input class="nonDestructive" id="rubricAssignWeights--1" name="rubricAssignWeights" type="checkbox">
-                          <span class="tool-tip-decorate" data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
-                            Weights
-                          </span>
+                          Choices
                           <span class="glyphicon glyphicon-arrow-right">
                           </span>
                         </th>

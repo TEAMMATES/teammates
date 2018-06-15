@@ -100,9 +100,9 @@ import {
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,
-    moveAssignWeightsCheckbox,
     removeRubricCol,
     removeRubricRow,
+    toggleAssignWeightsRow,
 } from '../common/questionRubric';
 
 import {
@@ -287,6 +287,8 @@ function bindFeedbackSessionEditFormSubmission() {
         const questionNum = $($form).data('qnnumber');
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('edit');
 
+        addLoadingIndicator($('#button_submit'), 'Saving');
+
         // Use Ajax to submit form data
         $.ajax({
             url: `/page/instructorFeedbackEditSave?${makeCsrfTokenParam()}`,
@@ -310,6 +312,7 @@ function bindFeedbackSessionEditFormSubmission() {
                     $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
                 }
 
+                removeLoadingIndicator($('#button_submit'), 'Save Changes');
                 if (!hasError) {
                     disableEditFS();
                 }
@@ -370,7 +373,7 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).hide();
 
-    moveAssignWeightsCheckbox($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
+    toggleAssignWeightsRow($currentQuestionTable.find('input[id^="rubricAssignWeights"]'));
 
     if (!hasAssignedWeights(questionNum)) {
         $currentQuestionTable.find(`#rubricWeights-${questionNum}`).hide();
@@ -576,7 +579,7 @@ function enableNewQuestion() {
     $newQuestionTable.find(`.rubricRemoveChoiceLink-${NEW_QUESTION}`).show();
     $newQuestionTable.find(`.rubricRemoveSubQuestionLink-${NEW_QUESTION}`).show();
 
-    moveAssignWeightsCheckbox($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
+    toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);

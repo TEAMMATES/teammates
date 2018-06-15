@@ -209,7 +209,7 @@ function addRubricCol(questionNum) {
         `<th class="rubricCol-${questionNum}-${newColNumber - 1}">
             <input type="number" class="form-control nonDestructive" value="0"
                     id="rubricWeight-${questionNum}-${newColNumber - 1}"
-                    name="rubricWeight-${newColNumber - 1}" step="0.01">
+                    name="rubricWeight-${newColNumber - 1}" step="0.01" required>
         </th>`;
 
     // Insert after last <th>
@@ -355,44 +355,45 @@ function highlightRubricCol(index, questionNum, highlight) {
 }
 
 /**
- * Moves the "weights" checkbox to the weight row if it is checked, otherwise
- * moves it to the choice row
- *
- * @param checkbox the "weights" checkbox
+ * Sets the 'required' attribute in weight cells.
  */
-function moveAssignWeightsCheckbox(checkbox) {
-    const $choicesRow = checkbox.closest('thead').find('tr').eq(0);
-    const $weightsRow = checkbox.closest('thead').find('tr').eq(1);
-    const $choicesRowFirstCell = $choicesRow.find('th').first();
+function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
+    const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
+
+    $weightCells.each(function () {
+        $(this).prop('required', isRequired);
+    });
+}
+
+/**
+ * Shows the weight row and makes weight cells required if the "Choices are weighted" checkbox is checked,
+ * otherwise hides the weight row and removes the 'required' field from all weight cells.
+ *
+ * @param checkbox the "Choices are weighted" checkbox
+ */
+function toggleAssignWeightsRow($checkbox) {
+    const $weightsRow = $checkbox.closest('form').find('tr[id^="rubricWeights"]');
     const $weightsRowFirstCell = $weightsRow.find('th').first();
 
-    const $checkboxCellContent = checkbox.closest('th').children().detach();
-
-    $choicesRowFirstCell.empty();
-    $weightsRowFirstCell.empty();
-
-    if (checkbox.prop('checked')) {
-        $choicesRowFirstCell.append('Choices <span class="glyphicon glyphicon-arrow-right"></span>');
-        $weightsRowFirstCell.append($checkboxCellContent);
-        $weightsRowFirstCell.find('.glyphicon-arrow-right').show();
+    if ($checkbox.prop('checked')) {
+        $weightsRow.show();
+        $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
+        setRequiredAttributeToRubricWeights($weightsRow, true);
     } else {
-        $choicesRowFirstCell.append($checkboxCellContent);
-        $choicesRowFirstCell.find('.glyphicon-arrow-right').hide();
+        setRequiredAttributeToRubricWeights($weightsRow, false);
+        $weightsRow.hide();
     }
 }
 
 /**
- * Attaches event handlers to "weights" checkboxes to toggle the visibility of
- * the input boxes for rubric weights and move the "weights" checkbox to the
- * appropriate location
+ * Attaches event handlers to "Choices are weighted" checkboxes to toggle the visibility of
+ * the input boxes for rubric weights.
  */
 function bindAssignWeightsCheckboxes() {
     $('body').on('click', 'input[id^="rubricAssignWeights"]', function () {
         const $checkbox = $(this);
 
-        $checkbox.closest('form').find('tr[id^="rubricWeights"]').toggle();
-
-        moveAssignWeightsCheckbox($checkbox);
+        toggleAssignWeightsRow($checkbox);
     });
 }
 
@@ -436,7 +437,7 @@ export {
     hasAssignedWeights,
     highlightRubricCol,
     highlightRubricRow,
-    moveAssignWeightsCheckbox,
     removeRubricCol,
     removeRubricRow,
+    toggleAssignWeightsRow,
 };
