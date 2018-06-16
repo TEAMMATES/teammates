@@ -42,7 +42,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public Long feedbackResponseCommentId;
     public String giverSection;
     public String receiverSection;
-    public String giverRole;
+    public FeedbackParticipantType commentGiverType;
 
     FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
@@ -62,7 +62,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 .withCreatedAt(comment.getCreatedAt())
                 .withGiverSection(comment.getGiverSection())
                 .withReceiverSection(comment.getReceiverSection())
-                .withGiverRole(comment.getGiverRole())
+                .withCommentGiverType(comment.getCommentGiverType())
                 .withLastEditorEmail(comment.getLastEditorEmail())
                 .withLastEditedAt(comment.getLastEditedAt())
                 .withVisibilityFollowingFeedbackQuestion(comment.getIsVisibilityFollowingFeedbackQuestion())
@@ -125,6 +125,10 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
+        addNonEmptyError(validator.getInvalidityInfoForEmail(giverEmail), errors);
+
+        addNonEmptyError(validator.getInvalidityInfoForCommentGiverType(commentGiverType), errors);
+
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
         return errors;
@@ -133,7 +137,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     @Override
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
-                giverRole, feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
+                commentGiverType, feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
                 showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt);
     }
 
@@ -274,8 +278,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
-        public Builder withGiverRole(String giverRole) {
-            frca.giverRole = giverRole;
+        public Builder withCommentGiverType(FeedbackParticipantType giverRole) {
+            frca.commentGiverType = giverRole;
             return this;
         }
 

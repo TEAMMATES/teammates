@@ -7,7 +7,6 @@ import java.util.Set;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -19,7 +18,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
@@ -51,7 +49,7 @@ public final class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);
-        verifyIsUserOfCourse(frComment.courseId, frComment.giverEmail, frComment.giverRole);
+        verifyIsUserOfCourse(frComment.courseId, frComment.giverEmail, frComment.commentGiverType);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
         try {
@@ -364,36 +362,22 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    private void verifyIsUserOfCourse(String courseId, String giverEmail, String giverRole)
+    private void verifyIsUserOfCourse(String courseId, String giverEmail, FeedbackParticipantType giverRole)
             throws EntityDoesNotExistException {
-        if (Const.STUDENT.equals(giverRole)) {
+        if (FeedbackParticipantType.STUDENTS.equals(giverRole)) {
             StudentAttributes student = studentsLogic.getStudentForEmail(courseId, giverEmail);
             if (student == null) {
                 throw new EntityDoesNotExistException("User " + giverEmail + " is not a registered student for course "
                         + courseId + ".");
             }
-        } else if (Const.INSTRUCTOR.equals(giverRole)) {
+        } else if (FeedbackParticipantType.INSTRUCTORS.equals(giverRole)) {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, giverEmail);
             if (instructor == null) {
                 throw new EntityDoesNotExistException("User " + giverEmail
-                        + " is not a registered instructor for course " + courseId + ".");
-            }
-        } else if (Const.TEAM.equals(giverRole)) {
-            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
-            boolean isTeamPresentInCourse = false;
-            for (TeamDetailsBundle team : teams) {
-                if (team.name.equals(giverEmail)) {
-                    isTeamPresentInCourse = true;
-                    break;
-                }
-            }
-            if (!isTeamPresentInCourse) {
-                throw new EntityDoesNotExistException("User " + giverEmail + " is not a registered team for course "
-                        + courseId + ".");
+                                                              + " is not a registered instructor for course " + courseId + ".");
             }
         } else {
-            throw new EntityDoesNotExistException("User " + giverEmail
-                    + " is not a registered user for course " + courseId + ".");
+            throw new EntityDoesNotExistException("Unknown giver type :" + giverRole);
         }
 
     }

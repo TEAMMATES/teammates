@@ -39,7 +39,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_ID, commentId);
-        giverRole = getRequestParamValue(Const.ParamsNames.GIVER_ROLE);
+        giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE);
 
         if (!isSpecificUserJoinedCourse()) {
             return createPleaseJoinCourseResponse(courseId);
@@ -82,6 +82,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
             return createAjaxResult(data);
         }
 
+        FeedbackParticipantType commentGiverType = getCommentGiverType(giverRole);
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, userEmailForCourse, new Text(commentText))
                 .withFeedbackQuestionId(feedbackQuestionId)
@@ -89,7 +90,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
-                .withGiverRole(giverRole)
+                .withCommentGiverType(commentGiverType)
                 .build();
 
         //Set up visibility settings
@@ -136,7 +137,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
         data.commentId = commentId;
         data.commentGiverNameEmailTable = bundle.commentGiverEmailNameTable;
         data.question = logic.getFeedbackQuestion(feedbackQuestionId);
-        data.giverRole = giverRole;
+        data.commentGiverType = commentGiverType;
         data.moderation = isModeration;
         data.moderatedPersonEmail = moderatedPersonEmail;
         data.sessionTimeZone = session.getTimeZone();
@@ -155,4 +156,14 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
             throws EntityDoesNotExistException;
 
     protected abstract String getUserEmailForCourse();
+
+    private FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
+        if (commentGiverRole.equals(Const.STUDENT)) {
+            return FeedbackParticipantType.STUDENTS;
+        }
+        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
+            return FeedbackParticipantType.INSTRUCTORS;
+        }
+        return null;
+    }
 }

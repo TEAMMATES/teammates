@@ -30,8 +30,8 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseCommentId);
-        String giverRole = getRequestParamValue(Const.ParamsNames.GIVER_ROLE);
-        Assumption.assertNotNull(Const.ParamsNames.GIVER_ROLE, giverRole);
+        String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE);
+        Assumption.assertNotNull(Const.ParamsNames.COMMENT_GIVER_TYPE, giverRole);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -56,12 +56,13 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
             return createAjaxResult(data);
         }
 
+        FeedbackParticipantType commentGiverType = getCommentGiverType(giverRole);
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
-                .withGiverRole(giverRole)
+                .withCommentGiverType(commentGiverType)
                 .build();
 
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
@@ -132,5 +133,15 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+    }
+
+    private FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
+        if (commentGiverRole.equals(Const.STUDENT)) {
+            return FeedbackParticipantType.STUDENTS;
+        }
+        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
+            return FeedbackParticipantType.INSTRUCTORS;
+        }
+        return null;
     }
 }

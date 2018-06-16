@@ -225,7 +225,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         frc.setIsVisibilityFollowingFeedbackQuestion(false);
         frc.setLastEditorEmail(newAttributes.giverEmail);
         frc.setLastEditedAt(newAttributes.createdAt);
-        frc.setGiverRole(newAttributes.giverRole);
+        frc.setCommentGiverType(newAttributes.commentGiverType);
 
         if (newAttributes.feedbackResponseId != null) {
             frc.setFeedbackResponseId(newAttributes.feedbackResponseId);

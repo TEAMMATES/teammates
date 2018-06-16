@@ -57,9 +57,8 @@ public final class Const {
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
-    public static final String INSTRUCTOR = "Instructor";
-    public static final String STUDENT = "Student";
-    public static final String TEAM = "Team";
+    public static final String INSTRUCTOR = "instructor";
+    public static final String STUDENT = "student";
 
     //Used as
     public static final int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
@@ -786,7 +785,7 @@ public final class Const {
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
         public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
-        public static final String GIVER_ROLE = "giverRole";
+        public static final String COMMENT_GIVER_TYPE = "commentGiverType";
 
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";

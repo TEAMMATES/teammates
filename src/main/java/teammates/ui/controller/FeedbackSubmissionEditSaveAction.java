@@ -266,22 +266,34 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     logic.getFeedbackResponse(questionIdsForComments.get(commentIndex),
                             responseGiverMapForComments.get(commentIndex),
                             responseRecipientMapForComments.get(commentIndex));
-            String giverRole =
-                    getRequestParamValue(Const.ParamsNames.GIVER_ROLE + commentIndex);
-            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText, giverRole);
+            String commentGiverRole =
+                    getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
+            FeedbackParticipantType commentGiverType = getCommentGiverType(commentGiverRole);
+            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText,
+                    commentGiverType);
 
         }
     }
 
+    private FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
+        if (commentGiverRole.equals(Const.STUDENT)) {
+            return FeedbackParticipantType.STUDENTS;
+        }
+        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
+            return FeedbackParticipantType.INSTRUCTORS;
+        }
+        return null;
+    }
+
     private void updateResponseComment(String showCommentTo, String showGiverNameTo, String commentId,
                                        FeedbackResponseAttributes response, String updatedCommentText,
-                                       String giverRole) {
+                                       FeedbackParticipantType commentGiverType) {
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, response.giver, new Text(updatedCommentText))
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
-                .withGiverRole(giverRole)
+                .withCommentGiverType(commentGiverType)
                 .build();
 
         feedbackResponseComment.setId(Long.parseLong(commentId));
@@ -336,16 +348,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
             String showGiverNameTo =
                     getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndex);
-            String giverRole = getRequestParamValue("giverRole" + commentIndex);
-
-            createCommentsForResponses(responseGiver, questionId, responseToAddComment, commentText, giverRole,
+            String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
+            FeedbackParticipantType commentGiverType = getCommentGiverType(giverRole);
+            createCommentsForResponses(responseGiver, questionId, responseToAddComment, commentText, commentGiverType,
                     showCommentTo, showGiverNameTo);
         }
     }
 
     private void createCommentsForResponses(String userEmailForCourse, String questionId,
                                             FeedbackResponseAttributes response, String commentText,
-                                            String giverRole, String showCommentTo,
+                                            FeedbackParticipantType giverRole, String showCommentTo,
                                             String showGiverNameTo) throws EntityDoesNotExistException {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
@@ -355,7 +367,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
-                .withGiverRole(giverRole)
+                .withCommentGiverType(giverRole)
                 .build();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");

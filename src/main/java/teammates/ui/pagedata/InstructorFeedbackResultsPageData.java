@@ -1547,10 +1547,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
         //For backward compatibility
-        if (frcAttributes.giverRole == null) {
-            frcAttributes.giverRole = Const.INSTRUCTOR;
+        if (frcAttributes.commentGiverType == null) {
+            frcAttributes.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
         }
-        if (isInstructorAllowedToEditAndDeleteComment && Const.INSTRUCTOR.equals(frcAttributes.giverRole)) {
+        if (isInstructorAllowedToEditAndDeleteComment &&
+                    FeedbackParticipantType.INSTRUCTORS.equals(frcAttributes.commentGiverType)) {
             frc.enableEditDelete();
         }
 

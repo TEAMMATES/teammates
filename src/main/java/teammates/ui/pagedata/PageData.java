@@ -885,7 +885,7 @@ public class PageData {
                     frca.showGiverNameTo.add(type);
                 }
             }
-            frca.giverRole = Const.INSTRUCTOR;
+            frca.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
 
             return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                     getResponseCommentVisibilityString(question),
@@ -900,7 +900,7 @@ public class PageData {
             frca.showCommentTo.add(type);
             frca.showGiverNameTo.add(type);
         }
-        frca.giverRole = question.giverType.isTeam() ? "Team" : Const.STUDENT;
+        frca.commentGiverType = question.giverType.isTeam() ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                 getResponseCommentVisibilityString(frca, question),
                 getResponseCommentGiverNameVisibilityString(frca, question), responseVisibilityMap, timezone);

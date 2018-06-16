@@ -334,7 +334,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 .withFeedbackQuestionId(existingFrComment.feedbackQuestionId)
                 .withFeedbackResponseId(existingFrComment.feedbackResponseId)
                 .withCreatedAt(existingFrComment.createdAt)
-                .withGiverRole(existingFrComment.giverRole)
+                .withCommentGiverType(existingFrComment.commentGiverType)
                 .build();
 
         restoreFrCommentIdFromExistingOne(frComment, existingFrComment);

@@ -68,8 +68,8 @@ public class FeedbackResponseRow {
                     }
                 }
                 responseRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
-                if (responseRow.getGiverRole() == null) {
-                    responseRow.setGiverRole(Const.INSTRUCTOR);
+                if (responseRow.getCommentGiverType() == null) {
+                    responseRow.setCommentGiverType(FeedbackParticipantType.INSTRUCTORS);
                 }
 
                 boolean isInstructorGiver = results.roster.isInstructorOfCourse(giverEmail);
