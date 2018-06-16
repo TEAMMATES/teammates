@@ -710,8 +710,8 @@
   </div>
   <br>
   <input id="num-questions" type="hidden" value="1">
-  <input id="num-students" type="hidden" value="0">
-  <input id="num-teams" type="hidden" value="0">
+  <input id="num-students" type="hidden" value="4">
+  <input id="num-teams" type="hidden" value="1">
   <input id="num-instructors" type="hidden" value="1">
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
@@ -2502,12 +2502,24 @@
         <form action="/page/instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
           <div class="col-sm-6">
             <select class="form-control margin-bottom-7px" name="previewas">
+              <option value="student1InCourse1@gmail.tmt">
+                [Team 1] student1
+              </option>
+              <option value="student2InCourse1@gmail.tmt">
+                [Team 1] student2
+              </option>
+              <option value="student3InCourse1@gmail.tmt">
+                [Team 1] student3
+              </option>
+              <option value="student4InCourse1@gmail.tmt">
+                [Team 1] student4
+              </option>
             </select>
           </div>
           <input name="fsname" type="hidden" value="First Session">
           <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
           <div class="col-sm-6">
-            <input class="btn btn-primary" disabled="" id="button_preview_student" style="background: #66727A;" type="submit" value="Preview as Student">
+            <input class="btn btn-primary" id="button_preview_student" type="submit" value="Preview as Student">
           </div>
           <input name="user" type="hidden" value="FMcqQnUiT.instructor">
         </form>
