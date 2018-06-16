@@ -399,47 +399,55 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     private void extractFeedbackResponseCommentsForResponseData(FeedbackQuestionAttributes questionAttributes,
                                                                 int questionIndex, FeedbackResponseAttributes response,
                                                                 int responseIndex) {
-        if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
-            String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                                              + "-" + responseIndex + "-"
-                                                              + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                                              + "-" + questionIndex);
-            if (!StringHelper.isEmpty(commentText)) {
-                String commentIndex = "-" + responseIndex + "-"
-                                              + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex;
-                questionIdsForComments.put(commentIndex, questionAttributes.getId());
-                responseGiverMapForComments.put(commentIndex, response.giver);
-                responseRecipientMapForComments.put(commentIndex, response.recipient);
-                commentsToAddText.put(commentIndex, commentText);
-            }
+        if (!questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
+            return;
+        }
+        //When comment is added, comment text parameter is of type responsecommenttext-responseIndex-1-questionIndex
+        String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                                          + "-" + responseIndex + "-"
+                                                          + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                                          + "-" + questionIndex);
+        if (!StringHelper.isEmpty(commentText)) {
+            String commentIndex = "-" + responseIndex + "-"
+                                          + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-" + questionIndex;
 
-            String commentId =
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
-                                                 + "-" + responseIndex + "-"
-                                                 + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                                 + "-" + questionIndex + "-" + 1);
-            if (commentId != null && response.getId() != null) {
-                FeedbackResponseCommentAttributes commentCheck =
-                        logic.getFeedbackResponseComment(Long.parseLong(commentId));
+            questionIdsForComments.put(commentIndex, questionAttributes.getId());
+            responseGiverMapForComments.put(commentIndex, response.giver);
+            responseRecipientMapForComments.put(commentIndex, response.recipient);
+            commentsToAddText.put(commentIndex, commentText);
+            return;
+        }
 
-                String editedCommentText =
-                        getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                                     + "-" + responseIndex + "-"
-                                                     + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                                     + "-" + questionIndex + "-" + 1);
-                if (!StringHelper.isEmpty(editedCommentText)
-                            && !commentCheck.commentText.getValue().equals(editedCommentText)) {
-                    String commentIndx = "-" + responseIndex + "-"
-                                                 + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-"
-                                                 + questionIndex + "-" + 1;
-                    questionIdsForComments.put(commentIndx, questionAttributes.getId());
-                    commentsToUpdateId.put(commentIndx, commentId);
-                    commentsToUpdateText.put(commentIndx, editedCommentText);
-                    responseGiverMapForComments.put(commentIndx, response.giver);
-                    responseRecipientMapForComments.put(commentIndx, response.recipient);
-                }
+        //commentId exists only when comment is edited but not when it is newly added
+        // and it is of type responsecommentid-responseIndex-questionIndex-1
+        String commentId =
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
+                                             + "-" + responseIndex + "-"
+                                             + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                             + "-" + questionIndex + "-" + 1);
+        String editedCommentText =
+                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                             + "-" + responseIndex + "-"
+                                             + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                             + "-" + questionIndex + "-" + 1);
+        if (commentId != null && response.getId() != null) {
+            FeedbackResponseCommentAttributes commentCheck =
+                    logic.getFeedbackResponseComment(Long.parseLong(commentId));
+
+
+            if (!StringHelper.isEmpty(editedCommentText)
+                        && !commentCheck.commentText.getValue().equals(editedCommentText)) {
+                String commentIndx = "-" + responseIndex + "-"
+                                             + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE + "-"
+                                             + questionIndex + "-" + 1;
+                questionIdsForComments.put(commentIndx, questionAttributes.getId());
+                commentsToUpdateId.put(commentIndx, commentId);
+                commentsToUpdateText.put(commentIndx, editedCommentText);
+                responseGiverMapForComments.put(commentIndx, response.giver);
+                responseRecipientMapForComments.put(commentIndx, response.recipient);
             }
         }
+
     }
 
     /**
