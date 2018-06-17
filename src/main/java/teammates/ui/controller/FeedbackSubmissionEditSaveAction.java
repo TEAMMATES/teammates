@@ -275,6 +275,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
+    private FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
+        if (commentGiverRole.equals(Const.STUDENT)) {
+            return FeedbackParticipantType.STUDENTS;
+        }
+        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
+            return FeedbackParticipantType.INSTRUCTORS;
+        }
+        return null;
+    }
+
     private void updateResponseComment(String showCommentTo, String showGiverNameTo, String commentId,
                                        FeedbackResponseAttributes response, String updatedCommentText,
                                        String commentGiverString) {
@@ -343,7 +353,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     private void createCommentsForResponses(String userEmailForCourse, String questionId,
                                             FeedbackResponseAttributes response, String commentText,
-                                            String giverRole, String showCommentTo,
+                                            FeedbackParticipantType giverRole, String showCommentTo,
                                             String showGiverNameTo) throws EntityDoesNotExistException {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes

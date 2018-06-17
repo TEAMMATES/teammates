@@ -58,6 +58,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
             return createAjaxResult(data);
         }
 
+        FeedbackParticipantType commentGiverType = getCommentGiverType(giverRole);
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
                 .withCreatedAt(Instant.now())
@@ -134,5 +135,15 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+    }
+
+    private FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
+        if (commentGiverRole.equals(Const.STUDENT)) {
+            return FeedbackParticipantType.STUDENTS;
+        }
+        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
+            return FeedbackParticipantType.INSTRUCTORS;
+        }
+        return null;
     }
 }
