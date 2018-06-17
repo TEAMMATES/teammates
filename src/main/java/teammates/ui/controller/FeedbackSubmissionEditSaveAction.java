@@ -353,7 +353,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     private void createCommentsForResponses(String userEmailForCourse, String questionId,
                                             FeedbackResponseAttributes response, String commentText,
-                                            FeedbackParticipantType giverRole, String showCommentTo,
+                                            String giverRole, String showCommentTo,
                                             String showGiverNameTo) throws EntityDoesNotExistException {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
