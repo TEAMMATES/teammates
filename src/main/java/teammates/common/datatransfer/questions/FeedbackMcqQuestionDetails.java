@@ -635,41 +635,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public String getPerRecipientStatsBodyFragmentHtml(String recipient,
             Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
         StringBuilder html = new StringBuilder(100);
-        List<String> cols = new ArrayList<>();
-        DecimalFormat df = new DecimalFormat("0.00");
 
-        String recipientName = bundle.getNameForEmail(recipient);
-        String recipientTeam = bundle.getTeamNameForEmail(recipient);
-        double total = 0;
-        double average = 0;
-        int numOfResponsesForThisRecipient = 0;
-        // <td> entries which displays recipient identification details.
-        cols.add(recipientTeam);
-        cols.add(recipientName);
-
-        // <td> entries which displays response counts for each option.
-        for (Map.Entry<String, Integer> countPerChoice : recipientResponses.entrySet()) {
-            String choice = countPerChoice.getKey();
-            int responseCount = countPerChoice.getValue();
-
-            double weight = 0;
-            cols.add(Integer.toString(responseCount));
-
-            // Get the weight of the choice.
-            if ("Other".equals(choice)) {
-                weight = mcqOtherWeight;
-            } else {
-                weight = mcqWeights.get(mcqChoices.indexOf(choice));
-            }
-            // Add the total weight of all responses of this choice to total.
-            total += responseCount * weight;
-            numOfResponsesForThisRecipient += responseCount;
-        }
-
-        // <td> entries which display total and average for the recipient.
-        cols.add(df.format(total));
-        average = numOfResponsesForThisRecipient == 0 ? 0 : total / numOfResponsesForThisRecipient;
-        cols.add(df.format(average));
+        List<String> cols = generateStatisticsForEachRecipient(recipient, recipientResponses, bundle);
 
         // Generate HTML for all <td> entries using template
         for (String col : cols) {
@@ -767,7 +734,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
                          .append(SanitizationHelper.sanitizeForCsv(weightString)).append(',')
                          .append(Integer.toString(responseCount)).append(',')
-                         .append(df.format(100 * (double) responseCount / responses.size())).append(',')
+                         .append(df.format(100 * (double) responseCount / responses.size())).append("%,")
                          .append(df.format(averagePerOption.get(key))).append(System.lineSeparator());
             }
         } else {
@@ -839,45 +806,13 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public String getPerRecipientResponseStatsBodyFragmentCsv(String recipient,
             Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
         StringBuilder fragments = new StringBuilder(100);
-        List<String> cols = new ArrayList<>();
-        DecimalFormat df = new DecimalFormat("0.00");
-
-        String recipientName = bundle.getNameForEmail(recipient);
-        String recipientTeam = bundle.getTeamNameForEmail(recipient);
-        double total = 0;
-        double average = 0;
-        int numOfResponsesForThisRecipient = 0;
-
-        cols.add(recipientTeam);
-        cols.add(recipientName);
-
-        for (Map.Entry<String, Integer> countPerChoice : recipientResponses.entrySet()) {
-            String choice = countPerChoice.getKey();
-            int responseCount = countPerChoice.getValue();
-
-            double weight = 0;
-            cols.add(Integer.toString(responseCount));
-
-            // Get the weight of the choice.
-            if ("Other".equals(choice)) {
-                weight = mcqOtherWeight;
-            } else {
-                weight = mcqWeights.get(mcqChoices.indexOf(choice));
-            }
-            // Add the total weight of all responses of this choice to total.
-            total += responseCount * weight;
-            numOfResponsesForThisRecipient += responseCount;
-        }
-
-        cols.add(df.format(total));
-        average = numOfResponsesForThisRecipient == 0 ? 0 : total / numOfResponsesForThisRecipient;
-        cols.add(df.format(average));
+        List<String> statsForEachRecipient = generateStatisticsForEachRecipient(recipient, recipientResponses, bundle);
 
         // Add each column data in fragments
-        for (int i = 0; i < cols.size(); i++) {
-            fragments.append(SanitizationHelper.sanitizeForCsv(cols.get(i)));
+        for (int i = 0; i < statsForEachRecipient.size(); i++) {
+            fragments.append(SanitizationHelper.sanitizeForCsv(statsForEachRecipient.get(i)));
             // In case of last iteration, add line separator instead of comma.
-            if (i == cols.size() - 1) {
+            if (i == statsForEachRecipient.size() - 1) {
                 fragments.append(System.lineSeparator());
             } else {
                 fragments.append(',');
@@ -1022,4 +957,54 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
         return averagePerOption;
     }
+
+    /**
+     * Generates statistics for each recipient for 'Per recipient statistics' to be used for
+     * both the results page and csv files.
+     * The specific stats that are generated are -<br>
+     * Team, Name, Response count for each option, Total, Average.
+     * @param recipient whose statistics should be calculated
+     * @param recipientResponses Map containing the response count of each choice for the recipient
+     * @param bundle Feedback session results bundle to get the team name and name of the recipient
+     * @return List of strings containing the 'Per recipient stats' of the recipient
+     */
+    public List<String> generateStatisticsForEachRecipient(String recipient,
+            Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
+        List<String> recipientStats = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        String recipientName = bundle.getNameForEmail(recipient);
+        String recipientTeam = bundle.getTeamNameForEmail(recipient);
+        double total = 0;
+        double average = 0;
+        int numOfResponsesForThisRecipient = 0;
+
+        recipientStats.add(recipientTeam);
+        recipientStats.add(recipientName);
+
+        for (Map.Entry<String, Integer> countPerChoice : recipientResponses.entrySet()) {
+            String choice = countPerChoice.getKey();
+            int responseCount = countPerChoice.getValue();
+
+            double weight = 0;
+            recipientStats.add(Integer.toString(responseCount));
+
+            // Get the weight of the choice.
+            if ("Other".equals(choice)) {
+                weight = mcqOtherWeight;
+            } else {
+                weight = mcqWeights.get(mcqChoices.indexOf(choice));
+            }
+            // Add the total weight of all responses of this choice to total.
+            total += responseCount * weight;
+            numOfResponsesForThisRecipient += responseCount;
+        }
+
+        recipientStats.add(df.format(total));
+        average = numOfResponsesForThisRecipient == 0 ? 0 : total / numOfResponsesForThisRecipient;
+        recipientStats.add(df.format(average));
+
+        return recipientStats;
+    }
+
 }
