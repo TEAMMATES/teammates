@@ -175,7 +175,7 @@ public class InstructorSearchPageData extends PageData {
             String frCommentGiver = frcSearchResultBundle
                                             .commentGiverTable.get(frc.getId().toString());
             if (!Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(frCommentGiver)) {
-                frCommentGiver = frc.giverEmail;
+                frCommentGiver = frc.commentGiver;
             }
 
             ZoneId sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();

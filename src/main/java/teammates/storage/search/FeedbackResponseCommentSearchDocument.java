@@ -56,7 +56,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         relatedQuestion = fqDb.getFeedbackQuestion(comment.feedbackQuestionId);
         relatedResponse = frDb.getFeedbackResponse(comment.feedbackResponseId);
         course = coursesDb.getCourse(comment.courseId);
-        giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.giverEmail);
+        giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.commentGiver);
         relatedInstructors = new ArrayList<>();
         relatedStudents = new ArrayList<>();
 
@@ -167,7 +167,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                 + "question " + relatedQuestion.questionNumber + delim
                                 + relatedQuestion.getQuestionDetails().getQuestionText() + delim
                                 + relatedResponse.getResponseDetails().getAnswerString() + delim
-                                + comment.giverEmail + delim
+                                + comment.commentGiver + delim
                                 + (giverAsInstructor == null ? "" : giverAsInstructor.name) + delim
                                 + relatedPeopleBuilder.toString() + delim
                                 + comment.commentText.getValue();
@@ -184,7 +184,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                       : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
 
         String displayedName = giverAsInstructor == null
-                               ? comment.giverEmail
+                               ? comment.commentGiver
                                : giverAsInstructor.displayedName + " " + giverAsInstructor.name;
         return Document.newBuilder()
                 // these are used to filter documents visible to certain instructor
@@ -193,7 +193,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID)
                                             .setText(comment.courseId))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL)
-                                            .setText(comment.giverEmail))
+                                            .setText(comment.commentGiver))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL)
                                             .setText(relatedResponse.giver))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION)
@@ -334,7 +334,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
-            bundle.commentGiverEmailNameTable.put(comment.giverEmail, commentGiverName);
+            bundle.commentGiverEmailNameTable.put(comment.commentGiver, commentGiverName);
             boolean isLastEditorEmailInMap = !comment.lastEditorEmail.isEmpty()
                     && bundle.commentGiverEmailNameTable.containsKey(comment.lastEditorEmail);
             if (!isLastEditorEmailInMap) {
@@ -418,7 +418,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
 
         // comment giver can always see
-        if (instructorEmails.contains(comment.giverEmail)) {
+        if (instructorEmails.contains(comment.commentGiver)) {
             return true;
         }
         List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
@@ -496,7 +496,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                             frCommentSearchResults.comments.get(response.getId());
 
                     commentList.removeIf(comment -> {
-                        if (emailList.contains(comment.giverEmail)) {
+                        if (emailList.contains(comment.commentGiver)) {
                             return false;
                         }
 

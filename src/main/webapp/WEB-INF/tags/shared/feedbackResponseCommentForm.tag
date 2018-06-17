@@ -38,11 +38,11 @@
         <br>
         Recipient: ${fn:escapeXml(frc.responseRecipientName)}
       </p>
-      <c:if test="${frc.giverRole eq 'Instructor'}">
+      <c:if test="${frc.commentGiverType eq 'instructor'}">
         You may change comment's visibility using the visibility options on the right hand side.
       </c:if>
     </div>
-  <c:if test="${frc.giverRole eq 'Instructor'}">
+  <c:if test="${frc.commentGiverType eq 'instructor'}">
     <a id="frComment-visibility-options-trigger-${divId}"
        class="btn btn-sm btn-info pull-right toggle-visib-${fn:toLowerCase(formType)}-form"
        data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
@@ -54,7 +54,7 @@
     </a>
   </c:if>
   </div>
-<c:if test="${frc.giverRole eq 'Instructor'}">
+<c:if test="${frc.commentGiverType eq 'instructor'}">
   <div id="visibility-options-${divId}" class="panel panel-default" style="display: none;">
     <div class="panel-heading">
       Visibility Options
@@ -247,7 +247,7 @@
     <c:if test="${data.moderation}">
       <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
     </c:if>
-    <input type="hidden" name="<%=Const.ParamsNames.GIVER_ROLE %>-${divId}" value="${frc.giverRole}">
+    <input type="hidden" name="<%=Const.ParamsNames.COMMENT_GIVER_TYPE %>-${divId}" value="${frc.commentGiverType}">
   </c:when>
   <c:otherwise>
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
@@ -259,7 +259,7 @@
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>" value="${frc.showCommentToString}">
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>" value="${frc.showGiverNameToString}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
-    <input type="hidden" name="<%=Const.ParamsNames.GIVER_ROLE %>" value="${frc.giverRole}">
+    <input type="hidden" name="<%=Const.ParamsNames.COMMENT_GIVER_TYPE %>" value="${frc.commentGiverType}">
   </c:otherwise>
 </c:choose>
 <c:choose>

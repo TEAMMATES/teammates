@@ -223,9 +223,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         frc.setShowCommentTo(newAttributes.showCommentTo);
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
         frc.setIsVisibilityFollowingFeedbackQuestion(false);
-        frc.setLastEditorEmail(newAttributes.giverEmail);
+        frc.setLastEditorEmail(newAttributes.commentGiver);
         frc.setLastEditedAt(newAttributes.createdAt);
-        frc.setGiverRole(newAttributes.giverRole);
+        frc.setCommentGiverType(newAttributes.commentGiverType);
 
         if (newAttributes.feedbackResponseId != null) {
             frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
@@ -428,7 +428,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             return getFeedbackResponseCommentEntity(attributes.getId());
         }
 
-        return getFeedbackResponseCommentEntity(attributes.courseId, attributes.createdAt, attributes.giverEmail);
+        return getFeedbackResponseCommentEntity(attributes.courseId, attributes.createdAt, attributes.commentGiver);
     }
 
     @Override
@@ -442,7 +442,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return load()
                 .filter("courseId =", attributes.courseId)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(attributes.createdAt))
-                .filter("giverEmail =", attributes.giverEmail)
+                .filter("giverEmail =", attributes.commentGiver)
                 .keys();
     }
 

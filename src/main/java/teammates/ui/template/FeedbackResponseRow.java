@@ -53,7 +53,7 @@ public class FeedbackResponseRow {
                 String showCommentTo = StringHelper.removeEnclosingSquareBrackets(frc.showCommentTo.toString());
                 String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
                 String recipientName = results.getNameForEmail(response.recipient);
-                String giverEmail = frc.giverEmail;
+                String giverEmail = frc.commentGiver;
                 Map<String, String> commentGiverEmailNameTable = results.commentGiverEmailNameTable;
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
@@ -68,8 +68,8 @@ public class FeedbackResponseRow {
                     }
                 }
                 responseRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
-                if (responseRow.getGiverRole() == null) {
-                    responseRow.setGiverRole(Const.INSTRUCTOR);
+                if (responseRow.getCommentGiverType() == null) {
+                    responseRow.setCommentGiverType(FeedbackParticipantType.INSTRUCTORS);
                 }
 
                 boolean isInstructorGiver = results.roster.isInstructorOfCourse(giverEmail);

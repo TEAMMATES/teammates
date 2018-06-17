@@ -51,10 +51,10 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("fail: giver is not an instructor for the course");
 
-        frComment.giverEmail = "instructor1@course2.com";
+        frComment.commentGiver = "instructor1@course2.com";
 
         verifyExceptionThrownFromCreateFrComment(frComment,
-                "User " + frComment.giverEmail + " is not a registered instructor for course "
+                "User " + frComment.commentGiver + " is not a registered instructor for course "
                 + frComment.courseId + ".");
         frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
 
@@ -103,7 +103,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         ______TS("fail: invalid parameters");
 
         frComment.courseId = "invalid course id";
-        frComment.giverEmail = "invalid giver email";
+        frComment.commentGiver = "invalid giver email";
 
         verifyNullFromGetFrCommentForSession(frComment);
         verifyNullFromGetFrComment(frComment);
@@ -117,17 +117,17 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         FeedbackResponseCommentAttributes actualFrComment = actualFrComments.get(0);
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
+        assertEquals(frComment.commentGiver, actualFrComment.commentGiver);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
 
         ______TS("Typical successful case by feedback response comment details");
 
         actualFrComment =
                 frcLogic.getFeedbackResponseComment(
-                                 frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
+                                 frComment.feedbackResponseId, frComment.commentGiver, frComment.createdAt);
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
+        assertEquals(frComment.commentGiver, actualFrComment.commentGiver);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
 
         ______TS("Typical successful case by feedback response id");
@@ -136,7 +136,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         actualFrComment = actualFrComments.get(0);
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
+        assertEquals(frComment.commentGiver, actualFrComment.commentGiver);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
 
         ______TS("Typical successful case by feedback response comment id");
@@ -144,13 +144,13 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         actualFrComment = frcLogic.getFeedbackResponseComment(frComment.getId());
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
+        assertEquals(frComment.commentGiver, actualFrComment.commentGiver);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
 
         ______TS("Typical successful case for giver");
 
         actualFrComments = frcLogic.getFeedbackResponseCommentsForGiver(
-                                            frComment.courseId, frComment.giverEmail);
+                                            frComment.courseId, frComment.commentGiver);
         FeedbackResponseCommentAttributes tempFrComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         expectedFrComments.add(tempFrComment);
         tempFrComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q2S1C1");
@@ -162,7 +162,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         for (int i = 0; i < expectedFrComments.size(); i++) {
             assertEquals(expectedFrComments.get(i).courseId, actualFrComments.get(i).courseId);
-            assertEquals(expectedFrComments.get(i).giverEmail, actualFrComments.get(i).giverEmail);
+            assertEquals(expectedFrComments.get(i).commentGiver, actualFrComments.get(i).commentGiver);
             assertEquals(expectedFrComments.get(i).feedbackSessionName,
                          actualFrComments.get(i).feedbackSessionName);
         }
@@ -203,7 +203,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case update feedback response comment giver email");
 
-        String oldEmail = frComment.giverEmail;
+        String oldEmail = frComment.commentGiver;
         String updatedEmail = "newEmail@gmail.tmt";
         frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, oldEmail, updatedEmail);
 
@@ -211,7 +211,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                                            frComment.feedbackResponseId, updatedEmail, frComment.createdAt);
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(updatedEmail, actualFrComment.giverEmail);
+        assertEquals(updatedEmail, actualFrComment.commentGiver);
         assertEquals(updatedEmail, actualFrComment.lastEditorEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
 
@@ -225,7 +225,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         frcLogic.updateFeedbackResponseCommentsForChangingResponseId(oldId, updatedId);
 
         actualFrComment = frcLogic.getFeedbackResponseComment(
-                updatedId, frComment.giverEmail, frComment.createdAt);
+                updatedId, frComment.commentGiver, frComment.createdAt);
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
         assertEquals(updatedId, actualFrComment.feedbackResponseId);
@@ -308,7 +308,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     private void verifyNullFromGetFrComment(FeedbackResponseCommentAttributes frComment) {
         FeedbackResponseCommentAttributes frCommentGot =
                 frcLogic.getFeedbackResponseComment(
-                                 frComment.feedbackResponseId, frComment.giverEmail, frComment.createdAt);
+                                 frComment.feedbackResponseId, frComment.commentGiver, frComment.createdAt);
         assertNull(frCommentGot);
     }
 
@@ -330,11 +330,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         FeedbackResponseCommentAttributes frComment = FeedbackResponseCommentAttributes
                 .builder(existingFrComment.courseId, existingFrComment.feedbackSessionName,
-                        existingFrComment.giverEmail, existingFrComment.commentText)
+                        existingFrComment.commentGiver, existingFrComment.commentText)
                 .withFeedbackQuestionId(existingFrComment.feedbackQuestionId)
                 .withFeedbackResponseId(existingFrComment.feedbackResponseId)
                 .withCreatedAt(existingFrComment.createdAt)
-                .withGiverRole(existingFrComment.giverRole)
+                .withCommentGiverType(existingFrComment.commentGiverType)
                 .build();
 
         restoreFrCommentIdFromExistingOne(frComment, existingFrComment);

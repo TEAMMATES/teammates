@@ -16,6 +16,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -23,11 +24,14 @@ import teammates.storage.entity.FeedbackResponseComment;
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
+    private static final Logger log = Logger.getLogger();
 
     // Required fields
     public String courseId;
     public String feedbackSessionName;
-    public String giverEmail;
+    // commentGiver holds email of student/instructor if comment giver is student/instructor
+    // and name of team if comment giver is a team
+    public String commentGiver;
     public Text commentText;
 
     // Optional fields
@@ -42,7 +46,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public Long feedbackResponseCommentId;
     public String giverSection;
     public String receiverSection;
-    public String giverRole;
+    public FeedbackParticipantType commentGiverType;
 
     FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
@@ -62,7 +66,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 .withCreatedAt(comment.getCreatedAt())
                 .withGiverSection(comment.getGiverSection())
                 .withReceiverSection(comment.getReceiverSection())
-                .withGiverRole(comment.getGiverRole())
+                .withCommentGiverType(comment.getCommentGiverType())
                 .withLastEditorEmail(comment.getLastEditorEmail())
                 .withLastEditedAt(comment.getLastEditedAt())
                 .withVisibilityFollowingFeedbackQuestion(comment.getIsVisibilityFollowingFeedbackQuestion())
@@ -116,6 +120,20 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackResponseCommentId = id;
     }
 
+    public FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
+        if (commentGiverRole.equals(Const.STUDENT)) {
+            return FeedbackParticipantType.STUDENTS;
+        }
+        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
+            return FeedbackParticipantType.INSTRUCTORS;
+        }
+        if (commentGiverRole.equals(Const.TEAM)) {
+            return FeedbackParticipantType.TEAMS;
+        }
+        log.severe("Unknown comment giver type");
+        return null;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
@@ -125,6 +143,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
+        addNonEmptyError(validator.getInvalidityInfoForCommentGiverType(commentGiverType), errors);
+
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
         return errors;
@@ -132,8 +152,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     @Override
     public FeedbackResponseComment toEntity() {
-        return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
-                giverRole, feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
+        return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, commentGiver,
+                commentGiverType, feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
                 showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt);
     }
 
@@ -170,7 +190,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 + ", courseId = " + courseId
                 + ", feedbackSessionName = " + feedbackSessionName
                 + ", feedbackQuestionId = " + feedbackQuestionId
-                + ", giverEmail = " + giverEmail
+                + ", giverEmail = " + commentGiver
                 + ", feedbackResponseId = " + feedbackResponseId
                 + ", commentText = " + commentText.getValue()
                 + ", createdAt = " + createdAt
@@ -197,7 +217,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
             frca.courseId = courseId;
             frca.feedbackSessionName = feedbackSessionName;
-            frca.giverEmail = giverEmail;
+            frca.commentGiver = giverEmail;
             frca.commentText = commentText;
         }
 
@@ -243,7 +263,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         public Builder withLastEditorEmail(String lastEditorEmail) {
             frca.lastEditorEmail = lastEditorEmail == null
-                    ? frca.giverEmail
+                    ? frca.commentGiver
                     : lastEditorEmail;
             return this;
         }
@@ -274,8 +294,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
-        public Builder withGiverRole(String giverRole) {
-            frca.giverRole = giverRole;
+        public Builder withCommentGiverType(FeedbackParticipantType giverRole) {
+            frca.commentGiverType = giverRole;
             return this;
         }
 

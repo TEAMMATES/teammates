@@ -28,7 +28,7 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
     public Map<String, String> commentGiverNameEmailTable;
     public boolean isError;
     public FeedbackQuestionAttributes question;
-    public String giverRole;
+    public FeedbackParticipantType commentGiverType;
     public String moderatedPersonEmail;
     public boolean moderation;
     public ZoneId sessionTimeZone;
@@ -39,7 +39,7 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
 
     public FeedbackResponseCommentRow getComment() {
         FeedbackResponseCommentRow frc =
-                new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
+                new FeedbackResponseCommentRow(comment, comment.commentGiver, giverName, recipientName,
                                                showCommentToString, showGiverNameToString,
                                                getResponseVisibilities(), commentGiverNameEmailTable, sessionTimeZone);
         frc.enableEditDelete();
@@ -104,8 +104,8 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
                 + ")";
     }
 
-    public String getGiverRole() {
-        return giverRole;
+    public FeedbackParticipantType getCommentGiverType() {
+        return commentGiverType;
     }
 
     public String getModeratedPersonEmail() {

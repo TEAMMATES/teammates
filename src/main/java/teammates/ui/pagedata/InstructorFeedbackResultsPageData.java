@@ -1506,7 +1506,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
         if (frcAttributesList != null) {
             for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
-                if (frca.giverEmail.equals(giverEmail)) {
+                if (frca.commentGiver.equals(giverEmail)) {
                     return frca.getCommentText();
                 }
             }
@@ -1517,7 +1517,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private FeedbackResponseCommentRow buildResponseComment(String giverName, String recipientName,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             FeedbackResponseCommentAttributes frcAttributes) {
-        boolean isInstructorGiver = instructor.email.equals(frcAttributes.giverEmail);
+        boolean isInstructorGiver = instructor.email.equals(frcAttributes.commentGiver);
         boolean isInstructorWithPrivilegesToModify =
                 instructor.isAllowedForPrivilege(
                         response.giverSection, response.feedbackSessionName,
@@ -1540,17 +1540,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
-                                           frcAttributes, frcAttributes.giverEmail, giverName, recipientName,
+                                           frcAttributes, frcAttributes.commentGiver, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
                                            responseVisibilityMap, bundle.commentGiverEmailNameTable,
                                            bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
         //For backward compatibility
-        if (frcAttributes.giverRole == null) {
-            frcAttributes.giverRole = Const.INSTRUCTOR;
+        if (frcAttributes.commentGiverType == null) {
+            frcAttributes.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
         }
-        if (isInstructorAllowedToEditAndDeleteComment && Const.INSTRUCTOR.equals(frcAttributes.giverRole)) {
+        if (isInstructorAllowedToEditAndDeleteComment &&
+                    FeedbackParticipantType.INSTRUCTORS.equals(frcAttributes.commentGiverType)) {
             frc.enableEditDelete();
         }
 

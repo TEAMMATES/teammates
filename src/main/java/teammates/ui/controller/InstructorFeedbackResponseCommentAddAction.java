@@ -24,7 +24,7 @@ public class InstructorFeedbackResponseCommentAddAction extends FeedbackResponse
                 + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
                 + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                 + feedbackResponseComment.feedbackSessionName + "<br>"
-                + "by: " + feedbackResponseComment.giverEmail + " at "
+                + "by: " + feedbackResponseComment.commentGiver + " at "
                 + feedbackResponseComment.createdAt + "<br>"
                 + "comment text: " + feedbackResponseComment.commentText.getValue();
     }

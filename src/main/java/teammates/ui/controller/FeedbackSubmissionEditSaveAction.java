@@ -35,6 +35,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
+import teammates.storage.entity.FeedbackResponseComment;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
 public abstract class FeedbackSubmissionEditSaveAction extends Action {
@@ -266,24 +267,24 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     logic.getFeedbackResponse(questionIdsForComments.get(commentIndex),
                             responseGiverMapForComments.get(commentIndex),
                             responseRecipientMapForComments.get(commentIndex));
-            String giverRole =
-                    getRequestParamValue(Const.ParamsNames.GIVER_ROLE + commentIndex);
-            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText, giverRole);
+            String commentGiverString =
+                    getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
+            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText,
+                    commentGiverString);
 
         }
     }
 
     private void updateResponseComment(String showCommentTo, String showGiverNameTo, String commentId,
                                        FeedbackResponseAttributes response, String updatedCommentText,
-                                       String giverRole) {
+                                       String commentGiverString) {
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, response.giver, new Text(updatedCommentText))
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
-                .withGiverRole(giverRole)
                 .build();
-
+        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverType(commentGiverString);
         feedbackResponseComment.setId(Long.parseLong(commentId));
 
         //Edit visibility settings
@@ -311,7 +312,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                      + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                                      + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                                      + feedbackResponseComment.feedbackSessionName + "<br>"
-                                     + "by: " + feedbackResponseComment.giverEmail + "<br>"
+                                     + "by: " + feedbackResponseComment.commentGiver + "<br>"
                                      + "comment text: " + feedbackResponseComment.commentText.getValue();
         } catch (InvalidParametersException e) {
             setStatusForException(e);
@@ -332,12 +333,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String questionId = questionIdsForComments.get(commentIndex);
             FeedbackResponseAttributes responseToAddComment =
                     logic.getFeedbackResponse(questionId, responseGiver, responseRecipient);
-            String showCommentTo =
-                    getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
-            String showGiverNameTo =
-                    getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndex);
-            String giverRole = getRequestParamValue("giverRole" + commentIndex);
-
+            String showCommentTo = Const.VISIBILITY_SETTINGS_FOR_STUDENT_COMMENTS;
+            String showGiverNameTo = Const.VISIBILITY_SETTINGS_FOR_STUDENT_COMMENTS;
+            String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
             createCommentsForResponses(responseGiver, questionId, responseToAddComment, commentText, giverRole,
                     showCommentTo, showGiverNameTo);
         }
@@ -355,8 +353,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
-                .withGiverRole(giverRole)
                 .build();
+        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverType(giverRole);
         if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
             for (String viewer : showCommentToArray) {
@@ -391,7 +389,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                  + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
                                  + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                                  + feedbackResponseComment.feedbackSessionName + "<br>"
-                                 + "by: " + feedbackResponseComment.giverEmail + " at "
+                                 + "by: " + feedbackResponseComment.commentGiver + " at "
                                  + feedbackResponseComment.createdAt + "<br>"
                                  + "comment text: " + feedbackResponseComment.commentText.getValue();
     }

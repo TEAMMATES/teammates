@@ -26,7 +26,7 @@ public class StudentFeedbackResponseCommentAddAction extends FeedbackResponseCom
                     + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
                     + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                     + feedbackResponseComment.feedbackSessionName + "<br>"
-                    + "by: " + instructorEmail + "moderating as" + feedbackResponseComment.giverEmail + " at "
+                    + "by: " + instructorEmail + "moderating as" + feedbackResponseComment.commentGiver + " at "
                     + feedbackResponseComment.createdAt + "<br>"
                     + "comment text: " + feedbackResponseComment.commentText.getValue();
         } else {
@@ -34,7 +34,7 @@ public class StudentFeedbackResponseCommentAddAction extends FeedbackResponseCom
                     + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
                     + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                     + feedbackResponseComment.feedbackSessionName + "<br>"
-                    + "by: " + feedbackResponseComment.giverEmail + " at "
+                    + "by: " + feedbackResponseComment.commentGiver + " at "
                     + feedbackResponseComment.createdAt + "<br>"
                     + "comment text: " + feedbackResponseComment.commentText.getValue();
         }

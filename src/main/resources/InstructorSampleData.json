@@ -2787,7 +2787,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:17:00Z",
-      "giverRole": "Instructor"
+      "commentGiverType": "instructor"
     },
     "comment1FromT1C1ToR1Q5S1C1": {
       "courseId": "demo.course",
@@ -2814,7 +2814,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:20:00Z",
-      "giverRole": "Instructor"
+      "commentGiverType": "instructor"
     },
     "comment1FromT1C1ToR3Q5S1C1": {
       "courseId": "demo.course",
@@ -2841,7 +2841,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:23:00Z",
-      "giverRole": "Instructor"
+      "commentGiverType": "instructor"
     },
     "comment1FromT1C1ToR2Q2S1C1": {
       "courseId": "demo.course",
@@ -2868,7 +2868,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:26:00Z",
-      "giverRole": "Instructor"
+      "commentGiverType": "instructor"
     },
     "comment1FromT1C1ToR1Q2S2C1": {
       "courseId": "demo.course",
@@ -2899,7 +2899,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:29:00Z",
-      "giverRole": "Instructor"
+      "commentGiverType": "instructor"
     },
     "comment1FromT1C1ToR2Q2S2C1": {
       "courseId": "demo.course",
@@ -2930,7 +2930,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:33:00Z",
-      "giverRole": "Instructor"
+      "commentGiverType": "instructor"
     },
     "comment1FromT1C1ToR5Q2S2C1": {
       "courseId": "demo.course",
@@ -2961,7 +2961,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:36:00Z",
-      "giverRole": "Instructor"
+      "commentGiverType": "instructor"
     },
     "comment1FromT1C1ToR6Q2S2C1": {
       "courseId": "demo.course",
@@ -2992,7 +2992,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:39:00Z",
-      "giverRole": "Instructor"
+      "commentGiverType": "instructor"
     }
   },
   "profiles": {}

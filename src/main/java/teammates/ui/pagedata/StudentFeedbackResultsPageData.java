@@ -213,7 +213,7 @@ public class StudentFeedbackResultsPageData extends PageData {
 
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.commentGiverEmailNameTable,
+                comments.add(new FeedbackResponseCommentRow(comment, comment.commentGiver, bundle.commentGiverEmailNameTable,
                         bundle.getTimeZone()));
             }
         }

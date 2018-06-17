@@ -14,12 +14,14 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentEditAction extends Action {
+
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -30,8 +32,8 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseCommentId);
-        String giverRole = getRequestParamValue(Const.ParamsNames.GIVER_ROLE);
-        Assumption.assertNotNull(Const.ParamsNames.GIVER_ROLE, giverRole);
+        String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE);
+        Assumption.assertNotNull(Const.ParamsNames.COMMENT_GIVER_TYPE, giverRole);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -61,9 +63,9 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
-                .withGiverRole(giverRole)
                 .build();
 
+        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverType(giverRole);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
 
         //Edit visibility settings
@@ -100,10 +102,10 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                            + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
                            + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
                            + feedbackResponseComment.feedbackSessionName + "<br>"
-                           + "by: " + feedbackResponseComment.giverEmail + "<br>"
+                           + "by: " + feedbackResponseComment.commentGiver + "<br>"
                            + "comment text: " + feedbackResponseComment.commentText.getValue();
 
-            String commentGiverName = logic.getInstructorForEmail(courseId, frc.giverEmail).name;
+            String commentGiverName = logic.getInstructorForEmail(courseId, frc.commentGiver).name;
             String commentEditorName = instructor.name;
 
             // createdAt and lastEditedAt fields in updatedComment as well as sessionTimeZone
@@ -125,7 +127,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         if (frc == null) {
             return;
         }
-        if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
+        if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default
             return;
         }
         gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,

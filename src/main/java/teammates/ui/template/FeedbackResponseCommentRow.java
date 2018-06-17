@@ -24,7 +24,7 @@ public class FeedbackResponseCommentRow {
     private String responseGiverName;
     private String responseRecipientName;
     private String commentGiverName;
-    private String giverRole;
+    private FeedbackParticipantType commentGiverType;
 
     private String showCommentToString;
     private String showGiverNameToString;
@@ -48,7 +48,7 @@ public class FeedbackResponseCommentRow {
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
-        this.giverRole = frc.giverRole;
+        this.commentGiverType = frc.commentGiverType;
 
         //TODO TO REMOVE AFTER DATA MIGRATION
         this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(giverDisplay));
@@ -72,7 +72,7 @@ public class FeedbackResponseCommentRow {
                 showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
         this.sessionTimeZone = sessionTimeZone;
-        this.giverRole = frc.giverRole;
+        this.commentGiverType = frc.commentGiverType;
     }
 
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc, String giverName, String recipientName,
@@ -151,8 +151,8 @@ public class FeedbackResponseCommentRow {
         return whoCanSeeComment;
     }
 
-    public String getGiverRole() {
-        return giverRole;
+    public String getCommentGiverType() {
+        return commentGiverType.toSingularFormString();
     }
 
     public boolean isWithVisibilityIcon() {
@@ -252,8 +252,8 @@ public class FeedbackResponseCommentRow {
         this.whoCanSeeComment = whoCanSeeComment;
     }
 
-    public void setGiverRole(String giverRole) {
-        this.giverRole = giverRole;
+    public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
+        this.commentGiverType = commentGiverType;
     }
 
     public String getCommentGiverName() {

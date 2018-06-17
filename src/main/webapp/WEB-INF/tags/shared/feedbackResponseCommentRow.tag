@@ -31,7 +31,7 @@
   </c:otherwise>
 </c:choose>
 <c:choose>
-  <c:when test="${frc.giverRole eq 'Instructor'}">
+  <c:when test="${frc.commentGiverType eq 'instructor'}">
     <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %>
     </c:set>
     <c:set var="deleteLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>
@@ -123,7 +123,7 @@
   <div id="plainCommentText-${divId}" style="margin-left: 15px;">${frc.commentText}</div>
   <c:if test="${frc.editDeleteEnabled}">
     <c:choose>
-      <c:when test="${frc.giverRole eq 'Instructor'}">
+      <c:when test="${frc.commentGiverType eq 'instructor'}">
         <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %>
         </c:set>
       </c:when>
