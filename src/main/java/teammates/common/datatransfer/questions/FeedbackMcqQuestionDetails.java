@@ -695,10 +695,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder csv = new StringBuilder();
 
         // Add the Response Summary Statistics to the CSV String.
-        csv.append(getResponseSummaryStatsCsv(responses, bundle)).append(System.lineSeparator());
+        csv.append(getResponseSummaryStatsCsv(responses, bundle));
 
         // If weights are assigned, then add the 'Per Recipient Statistics' to the CSV string.
         if (hasAssignedWeights) {
+            csv.append(System.lineSeparator());
             csv.append("Per Recipient Statistics").append(System.lineSeparator());
             csv.append(getPerRecipientResponseStatsCsv(responses, bundle));
         }
@@ -971,7 +972,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> generateStatisticsForEachRecipient(String recipient,
             Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
         List<String> recipientStats = new ArrayList<>();
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("0.00");
 
         String recipientName = bundle.getNameForEmail(recipient);
         String recipientTeam = bundle.getTeamNameForEmail(recipient);
