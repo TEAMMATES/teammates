@@ -717,8 +717,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return perRecipientResponse;
     }
 
-    // TODO: Sort the per recipient responses
-
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -727,18 +725,165 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         if (responses.isEmpty()) {
             return "";
         }
+        StringBuilder csv = new StringBuilder();
 
-        StringBuilder fragments = new StringBuilder();
+        // Add the Response Summary Statistics to the CSV String.
+        csv.append(getResponseSummaryStatsCsv(responses, bundle)).append(System.lineSeparator());
+
+        // If weights are assigned, then add the 'Per Recipient Statistics' to the CSV string.
+        if (hasAssignedWeights) {
+            csv.append("Per Recipient Statistics").append(System.lineSeparator());
+            csv.append(getPerRecipientResponseStatsCsv(responses, bundle));
+        }
+        return csv.toString();
+    }
+
+    /**
+     * Returns a String containing the Response Summary statistics for CSV files.
+     */
+    public String getResponseSummaryStatsCsv(List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
+
+        String header = "";
         Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
+        Map<String, Double> averagePerOption = calculateAverageWeightPerOption(answerFrequency, responses.size());
+        StringBuilder fragments = new StringBuilder();
 
         DecimalFormat df = new DecimalFormat("#.##");
 
-        answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
-                     .append(value.toString()).append(',')
-                     .append(df.format(100 * (double) value / responses.size())).append(System.lineSeparator()));
+        // If weights are assigned, CSV file should include 'weight' and 'average' column as well.
+        if (hasAssignedWeights) {
+            header = "Choice, Weight, Response Count, Percentage, Average";
 
-        return "Choice, Response Count, Percentage" + System.lineSeparator()
-               + fragments.toString();
+            for (String key : answerFrequency.keySet()) {
+                int responseCount = answerFrequency.get(key);
+                String weightString = "";
+                if ("Other".equals(key)) {
+                    weightString = df.format(mcqOtherWeight);
+                } else {
+                    weightString = df.format(mcqWeights.get(mcqChoices.indexOf(key)));
+                }
+
+                fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
+                         .append(SanitizationHelper.sanitizeForCsv(weightString)).append(',')
+                         .append(Integer.toString(responseCount)).append(',')
+                         .append(df.format(100 * (double) responseCount / responses.size())).append(',')
+                         .append(df.format(averagePerOption.get(key))).append(System.lineSeparator());
+            }
+        } else {
+            header = "Choice, Response Count, Percentage";
+
+            answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
+                    .append(value.toString()).append(',')
+                    .append(df.format(100 * (double) value / responses.size())).append(System.lineSeparator()));
+        }
+
+        return header + System.lineSeparator() + fragments.toString();
+    }
+
+    /**
+     * Returns a String containing the 'Per Recipient Statistics' stats for CSV files for all recipients.
+     */
+    public String getPerRecipientResponseStatsCsv(List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
+        String header = getPerRecipientResponseStatsHeaderCsv();
+        // Get the response attributes sorted based on Recipient Teamname and recipient name.
+        List<FeedbackResponseAttributes> sortedResponses = getResponseAttributesSorted(responses, bundle);
+        String body = getPerRecipientResponseStatsBodyCsv(sortedResponses, bundle);
+
+        return header + body;
+    }
+
+    public String getPerRecipientResponseStatsHeaderCsv() {
+        StringBuilder header = new StringBuilder(100);
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        header.append("Team, Recipient Name,");
+
+        for (int i = 0; i < numOfMcqChoices; i++) {
+            String choiceString = mcqChoices.get(i) + " [" + df.format(mcqWeights.get(i)) + "]";
+            header.append(SanitizationHelper.sanitizeForCsv(choiceString)).append(',');
+        }
+        if (otherEnabled) {
+            String otherOptionString = "Other [" + df.format(mcqOtherWeight) + "]";
+            header.append(SanitizationHelper.sanitizeForCsv(otherOptionString)).append(',');
+        }
+        header.append("Total, Average").append(System.lineSeparator());
+        return header.toString();
+    }
+
+    /**
+     * Returns the 'Per Recipient' stats body part for CSV files.<br>
+     * @param responses The response attribute list should be sorted first before passing as an argument.
+     * @param bundle Feedback session results bundle
+     */
+    public String getPerRecipientResponseStatsBodyCsv(List<FeedbackResponseAttributes> responses,
+            FeedbackSessionResultsBundle bundle) {
+        StringBuilder bodyBuilder = new StringBuilder(100);
+        Map<String, Map<String, Integer>> perRecipientResponses = calculatePerRecipientResponseCount(responses);
+
+        for (Map.Entry<String, Map<String, Integer>> entry : perRecipientResponses.entrySet()) {
+            String recipient = entry.getKey();
+            Map<String, Integer> responsesForRecipient = entry.getValue();
+            String perRecipientStats = getPerRecipientResponseStatsBodyFragmentCsv(recipient, responsesForRecipient, bundle);
+            bodyBuilder.append(perRecipientStats);
+        }
+
+        return bodyBuilder.toString();
+
+    }
+
+    /**
+     * Returns a string containing a per recipient response stats for a single recipient.
+     */
+    public String getPerRecipientResponseStatsBodyFragmentCsv(String recipient,
+            Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
+        StringBuilder fragments = new StringBuilder(100);
+        List<String> cols = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        String recipientName = bundle.getNameForEmail(recipient);
+        String recipientTeam = bundle.getTeamNameForEmail(recipient);
+        double total = 0;
+        double average = 0;
+        int numOfResponsesForThisRecipient = 0;
+
+        cols.add(recipientTeam);
+        cols.add(recipientName);
+
+        for (Map.Entry<String, Integer> countPerChoice : recipientResponses.entrySet()) {
+            String choice = countPerChoice.getKey();
+            int responseCount = countPerChoice.getValue();
+
+            double weight = 0;
+            cols.add(Integer.toString(responseCount));
+
+            // Get the weight of the choice.
+            if ("Other".equals(choice)) {
+                weight = mcqOtherWeight;
+            } else {
+                weight = mcqWeights.get(mcqChoices.indexOf(choice));
+            }
+            // Add the total weight of all responses of this choice to total.
+            total += responseCount * weight;
+            numOfResponsesForThisRecipient += responseCount;
+        }
+
+        cols.add(df.format(total));
+        average = numOfResponsesForThisRecipient == 0 ? 0 : total / numOfResponsesForThisRecipient;
+        cols.add(df.format(average));
+
+        // Add each column data in fragments
+        for (int i = 0; i < cols.size(); i++) {
+            fragments.append(SanitizationHelper.sanitizeForCsv(cols.get(i)));
+            // In case of last iteration, add line separator instead of comma.
+            if (i == cols.size() - 1) {
+                fragments.append(System.lineSeparator());
+            } else {
+                fragments.append(',');
+            }
+        }
+        return fragments.toString();
     }
 
     @Override
