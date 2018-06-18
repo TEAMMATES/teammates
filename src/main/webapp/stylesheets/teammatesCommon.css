@@ -316,6 +316,10 @@ input.inline {
     margin-left: 7px;
 }
 
+.margin-left-3px {
+    margin-left: 3px !important;
+}
+
 .margin-left-auto {
     margin-left: auto;
 }
