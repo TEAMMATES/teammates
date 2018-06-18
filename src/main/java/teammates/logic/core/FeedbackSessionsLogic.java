@@ -1508,17 +1508,10 @@ public final class FeedbackSessionsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
-        List<String> courseIdList = coursesLogic.getCoursesForInstructor(instructorList).stream()
-                .map(CourseAttributes::getId)
-                .collect(Collectors.toList());
-
-        for (String courseId : courseIdList) {
-            List<FeedbackSessionAttributes> feedbackSessions = fsDb.getRecoveryFeedbackSessionsForCourse(courseId);
-
-            for (FeedbackSessionAttributes session : feedbackSessions) {
-                session.resetDeletedTime();
-                fsDb.updateFeedbackSession(session);
-            }
+        List<FeedbackSessionAttributes> feedbackSessionsList = getRecoveryFeedbackSessionsListForInstructor(instructorList);
+        for (FeedbackSessionAttributes session : feedbackSessionsList) {
+            session.resetDeletedTime();
+            fsDb.updateFeedbackSession(session);
         }
     }
 
