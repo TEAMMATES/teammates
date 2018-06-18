@@ -19,7 +19,6 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.UserRole;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -1488,6 +1487,16 @@ public final class FeedbackSessionsLogic {
 
         fsDb.deleteEntity(sessionToDelete);
 
+    }
+
+    public void deleteAllFeedbackSessionsCascade(List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+
+        List<FeedbackSessionAttributes> feedbackSessionsList = getRecoveryFeedbackSessionsListForInstructor(instructorList);
+
+        for (FeedbackSessionAttributes session : feedbackSessionsList) {
+            deleteFeedbackSessionCascade(session.getSessionName(), session.getCourseId());
+        }
     }
 
     public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)

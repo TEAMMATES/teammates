@@ -1504,6 +1504,14 @@ public class Logic {
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
     }
 
+    public void deleteAllFeedbackSessions(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(instructorList);
+
+        feedbackSessionsLogic.deleteAllFeedbackSessionsCascade(instructorList);
+    }
+
     public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
