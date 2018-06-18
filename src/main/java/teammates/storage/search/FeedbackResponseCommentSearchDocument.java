@@ -334,14 +334,14 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
             bundle.commentGiverTable.put(comment.getId().toString(),
                     getFilteredCommentGiverName(bundle, instructorCourseIdList, response, comment, commentGiverName));
-            bundle.commentGiverEmailNameTable.put(comment.commentGiver, commentGiverName);
+            bundle.commentGiverEmailToNameTable.put(comment.commentGiver, commentGiverName);
             boolean isLastEditorEmailInMap = !comment.lastEditorEmail.isEmpty()
-                    && bundle.commentGiverEmailNameTable.containsKey(comment.lastEditorEmail);
+                    && bundle.commentGiverEmailToNameTable.containsKey(comment.lastEditorEmail);
             if (!isLastEditorEmailInMap) {
                 InstructorAttributes instructor =
                         instructorsDb.getInstructorForEmail(response.courseId, comment.lastEditorEmail);
                 String commentLastEditorName = instructor.displayedName + " " + instructor.name;
-                bundle.commentGiverEmailNameTable.put(comment.lastEditorEmail, commentLastEditorName);
+                bundle.commentGiverEmailToNameTable.put(comment.lastEditorEmail, commentLastEditorName);
             }
             bundle.numberOfResults++;
         }

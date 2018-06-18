@@ -55,11 +55,10 @@ public class FeedbackSubmissionEditPageDataTest extends BaseTestCase {
         Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses =
                 new HashMap<>();
         Map<String, String> emailNameTable = new HashMap<>();
-        Map<String, String> emailLastNameTable = new HashMap<>();
         Map<String, String> emailTeamNameTable = new HashMap<>();
         CourseRoster roster = new CourseRoster(null, null);
         pageData.bundle = new FeedbackSessionQuestionsBundle(feedbackSession, questionResponseBundle, recipientList,
-                commentsForResponses, emailNameTable, emailLastNameTable, emailTeamNameTable, roster);
+                commentsForResponses, emailNameTable, emailTeamNameTable, roster);
         pageData.bundle.questionResponseBundle.put(question, responses);
     }
 

@@ -301,7 +301,6 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
 
         Map<String, String> emailNameTable = new HashMap<>();
-        Map<String, String> emailLastNameTable = new HashMap<>();
         Map<String, String> emailTeamNameTable = new HashMap<>();
 
         for (FeedbackQuestionAttributes question : questions) {
@@ -316,7 +315,7 @@ public final class FeedbackSessionsLogic {
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, emailNameTable,
-                emailLastNameTable, emailTeamNameTable, roster);
+                emailTeamNameTable, roster);
     }
 
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForInstructor(
@@ -422,7 +421,6 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
 
         Map<String, String> emailNameTable = new HashMap<>();
-        Map<String, String> emailLastNameTable = new HashMap<>();
         Map<String, String> emailTeamNameTable = new HashMap<>();
 
         for (FeedbackQuestionAttributes question : questions) {
@@ -439,13 +437,12 @@ public final class FeedbackSessionsLogic {
 
             for (FeedbackResponseAttributes response : bundle.get(question)) {
                 addEmailNamePairsToTable(emailNameTable, response, question, roster);
-                addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
                 addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
             }
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, emailNameTable,
-                emailLastNameTable, emailTeamNameTable, roster);
+                emailTeamNameTable, roster);
     }
 
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
@@ -481,7 +478,6 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
 
         Map<String, String> emailNameTable = new HashMap<>();
-        Map<String, String> emailLastNameTable = new HashMap<>();
         Map<String, String> emailTeamNameTable = new HashMap<>();
 
         updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
@@ -489,12 +485,11 @@ public final class FeedbackSessionsLogic {
 
         for (FeedbackResponseAttributes response : bundle.get(question)) {
             addEmailNamePairsToTable(emailNameTable, response, question, roster);
-            addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
             addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, emailNameTable,
-                emailLastNameTable, emailTeamNameTable, roster);
+                emailTeamNameTable, roster);
     }
 
     private void updateBundleAndRecipientListWithResponsesForStudent(

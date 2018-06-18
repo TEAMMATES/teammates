@@ -31,7 +31,7 @@ public class FeedbackResponseCommentRow {
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
-    private Map<String, String> commentGiverEmailNameTable;
+    private Map<String, String> commentGiverEmailToNameTable;
 
     private String whoCanSeeComment;
     private ZoneId sessionTimeZone;
@@ -41,8 +41,8 @@ public class FeedbackResponseCommentRow {
     private boolean isEditDeleteEnabled;
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-            Map<String, String> commentGiverEmailNameTable, ZoneId sessionTimeZone) {
-        this.commentGiverEmailNameTable = commentGiverEmailNameTable;
+                                      Map<String, String> commentGiverEmailToNameTable, ZoneId sessionTimeZone) {
+        this.commentGiverEmailToNameTable = commentGiverEmailToNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
@@ -57,9 +57,9 @@ public class FeedbackResponseCommentRow {
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
-            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> commentGiverEmailNameTable,
+            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> commentGiverEmailToNameTable,
             ZoneId sessionTimeZone) {
-        this(frc, giverDisplay, commentGiverEmailNameTable, sessionTimeZone);
+        this(frc, giverDisplay, commentGiverEmailToNameTable, sessionTimeZone);
         setDataForAddEditDelete(frc, giverName, recipientName,
                 showCommentToString, showGiverNameToString, responseVisibilities);
     }
@@ -264,18 +264,18 @@ public class FeedbackResponseCommentRow {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverEmail)) {
             return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
         }
-        if (commentGiverEmailNameTable.get(giverEmail) == null) {
+        if (commentGiverEmailToNameTable.get(giverEmail) == null) {
             return giverEmail;
         }
-        return commentGiverEmailNameTable.get(giverEmail);
+        return commentGiverEmailToNameTable.get(giverEmail);
     }
 
     private String getEditedAtText(String lastEditorEmail, Instant createdAt, Instant lastEditedAt) {
         if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
-        String lastEditor = commentGiverEmailNameTable.get(lastEditorEmail) == null ? lastEditorEmail
-                                : commentGiverEmailNameTable.get(lastEditorEmail);
+        String lastEditor = commentGiverEmailToNameTable.get(lastEditorEmail) == null ? lastEditorEmail
+                                : commentGiverEmailToNameTable.get(lastEditorEmail);
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
                 + (isGiverAnonymous

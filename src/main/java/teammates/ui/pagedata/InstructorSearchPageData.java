@@ -180,7 +180,7 @@ public class InstructorSearchPageData extends PageData {
 
             ZoneId sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
-                    frcSearchResultBundle.commentGiverEmailNameTable, sessionTimeZone);
+                    frcSearchResultBundle.commentGiverEmailToNameTable, sessionTimeZone);
 
             rows.add(frcDiv);
         }

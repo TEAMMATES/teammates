@@ -270,12 +270,12 @@ public class FeedbackSubmissionEditPageData extends PageData {
             String recipientName = bundle.getNameForEmail(existingResponse.recipient);
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
                     getResponseVisibilityMap(questionAttributes, false);
-            Map<String, String> commentGiverEmailNameTable = bundle.commentGiverEmailNameTable;
+            Map<String, String> commentGiverEmailToNameTable = bundle.commentGiverEmailToNameTable;
             if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()
                     && bundle.commentsForResponses.containsKey(existingResponse.getId())) {
                 comment = getResponseCommentsForQuestion(questionAttributes,
                         bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
-                        responseVisibilityMap, commentGiverEmailNameTable);
+                        responseVisibilityMap, commentGiverEmailToNameTable);
                 ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
                 FeedbackResponseCommentRow responseExplanationComment = buildFeedbackResponseCommentAddForm(
                         questionAttributes, existingResponse.getId(), responseVisibilityMap, giverName,
@@ -349,7 +349,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             FeedbackQuestionAttributes questionAttributes,
             List<FeedbackResponseCommentAttributes> frcList, String giverName,
             String recipientName, Map<FeedbackParticipantType, Boolean> responseVisibilityMap, Map<String,
-            String> commentGiverEmailNameTable) {
+            String> commentGiverEmailToNameTable) {
         ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
         if (isFeedbackSessionForInstructor) {
             for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
@@ -359,7 +359,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                             frcAttributes.commentGiver, giverName, recipientName,
                             getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                             getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
-                            responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
+                            responseVisibilityMap, commentGiverEmailToNameTable, sessionTimeZone);
                     setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
                     return frcRow;
                 }
@@ -372,7 +372,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                             frcAttributes.commentGiver, giverName, recipientName,
                             getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                             getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
-                            responseVisibilityMap, commentGiverEmailNameTable, sessionTimeZone);
+                            responseVisibilityMap, commentGiverEmailToNameTable, sessionTimeZone);
                     setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
                     return frcRow;
                 }

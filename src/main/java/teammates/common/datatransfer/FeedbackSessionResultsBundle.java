@@ -44,7 +44,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, String> emailNameTable;
     public Map<String, String> emailLastNameTable;
     public Map<String, String> emailTeamNameTable;
-    public Map<String, String> commentGiverEmailNameTable;
+    public Map<String, String> commentGiverEmailToNameTable;
     public Map<String, Set<String>> rosterTeamNameMembersTable;
     public Map<String, Set<String>> rosterSectionTeamNameTable;
     public Map<String, boolean[]> visibilityTable;
@@ -295,7 +295,7 @@ public class FeedbackSessionResultsBundle {
         this.emailNameTable = emailNameTable;
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
-        this.commentGiverEmailNameTable = roster.getCommentGiverEmailNameTableFromRoster();
+        this.commentGiverEmailToNameTable = roster.getCommentGiverEmailNameTableFromRoster();
         this.sectionTeamNameTable = sectionTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
@@ -1677,7 +1677,7 @@ public class FeedbackSessionResultsBundle {
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
             if (!frc.commentGiver.equals(response.giver)) {
-                commentRow.append("," + commentGiverEmailNameTable.get(frc.commentGiver) + ","
+                commentRow.append("," + commentGiverEmailToNameTable.get(frc.commentGiver) + ","
                                           + getTextFromComment(frc.commentText));
             }
         }

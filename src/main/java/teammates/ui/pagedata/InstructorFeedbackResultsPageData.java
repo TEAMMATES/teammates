@@ -1543,7 +1543,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                            frcAttributes, frcAttributes.commentGiver, giverName, recipientName,
                                            getResponseCommentVisibilityString(frcAttributes, question),
                                            getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap, bundle.commentGiverEmailNameTable,
+                                           responseVisibilityMap, bundle.commentGiverEmailToNameTable,
                                            bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
         //For backward compatibility

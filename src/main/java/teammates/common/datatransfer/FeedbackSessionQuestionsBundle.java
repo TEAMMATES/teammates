@@ -20,10 +20,9 @@ public class FeedbackSessionQuestionsBundle {
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle;
     public Map<String, Map<String, String>> recipientList;
     public Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses;
-    public Map<String, String> emailNameTable;
-    public Map<String, String> emailLastNameTable;
-    public Map<String, String> emailTeamNameTable;
-    public Map<String, String> commentGiverEmailNameTable;
+    public Map<String, String> emailToNameTable;
+    public Map<String, String> emailToTeamNameTable;
+    public Map<String, String> commentGiverEmailToNameTable;
     public CourseRoster roster;
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
@@ -36,19 +35,17 @@ public class FeedbackSessionQuestionsBundle {
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession, Map<FeedbackQuestionAttributes,
             List<FeedbackResponseAttributes>> questionResponseBundle, Map<String, Map<String, String>> recipientList,
-            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses,
-            Map<String, String> emailNameTable, Map<String, String> emailLastNameTable,
-            Map<String, String> emailTeamNameTable, CourseRoster roster) {
+                                          Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses,
+                                          Map<String, String> emailToNameTable, Map<String, String> emailToTeamNameTable, CourseRoster roster) {
 
         this.feedbackSession = feedbackSession;
         this.questionResponseBundle = questionResponseBundle;
         this.recipientList = recipientList;
         this.commentsForResponses = commentsForResponses;
-        this.emailNameTable = emailNameTable;
-        this.emailLastNameTable = emailLastNameTable;
-        this.emailTeamNameTable = emailTeamNameTable;
+        this.emailToNameTable = emailToNameTable;
+        this.emailToTeamNameTable = emailToTeamNameTable;
         this.roster = roster;
-        this.commentGiverEmailNameTable = roster.getCommentGiverEmailNameTableFromRoster();
+        this.commentGiverEmailToNameTable = roster.getCommentGiverEmailNameTableFromRoster();
 
     }
 
@@ -158,7 +155,7 @@ public class FeedbackSessionQuestionsBundle {
     }
 
     public String getNameForEmail(String email) {
-        String name = emailNameTable.get(email);
+        String name = emailToNameTable.get(email);
         if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         }
@@ -172,7 +169,7 @@ public class FeedbackSessionQuestionsBundle {
     }
 
     public String getTeamNameForEmail(String email) {
-        String teamName = emailTeamNameTable.get(email);
+        String teamName = emailToTeamNameTable.get(email);
         if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
         }

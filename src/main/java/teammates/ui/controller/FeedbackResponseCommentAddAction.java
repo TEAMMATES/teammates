@@ -135,7 +135,7 @@ public abstract class FeedbackResponseCommentAddAction extends Action {
 
         data.comment = createdComment;
         data.commentId = commentId;
-        data.commentGiverNameEmailTable = bundle.commentGiverEmailNameTable;
+        data.commentGiverNameToEmailTable = bundle.commentGiverEmailToNameTable;
         data.question = logic.getFeedbackQuestion(feedbackQuestionId);
         data.commentGiverType = feedbackResponseComment.getCommentGiverType(giverRole);
         data.moderation = isModeration;
