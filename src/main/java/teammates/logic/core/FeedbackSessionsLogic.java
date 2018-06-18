@@ -19,6 +19,7 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.UserRole;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -39,7 +40,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.entity.FeedbackSession;
 
 /**
  * Handles operations related to feedback sessions.
@@ -1502,6 +1502,24 @@ public final class FeedbackSessionsLogic {
         FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
         feedbackSession.resetDeletedTime();
         fsDb.updateFeedbackSession(feedbackSession);
+    }
+
+    public void restoreAllFeedbackSessionsFromRecovery(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+
+        List<String> courseIdList = coursesLogic.getCoursesForInstructor(instructorList).stream()
+                .map(CourseAttributes::getId)
+                .collect(Collectors.toList());
+
+        for (String courseId : courseIdList) {
+            List<FeedbackSessionAttributes> feedbackSessions = fsDb.getRecoveryFeedbackSessionsForCourse(courseId);
+
+            for (FeedbackSessionAttributes session : feedbackSessions) {
+                session.resetDeletedTime();
+                fsDb.updateFeedbackSession(session);
+            }
+        }
     }
 
     public FeedbackSessionDetailsBundle getFeedbackSessionDetails(

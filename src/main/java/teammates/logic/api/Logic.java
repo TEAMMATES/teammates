@@ -1522,6 +1522,14 @@ public class Logic {
         feedbackSessionsLogic.restoreFeedbackSessionFromRecovery(feedbackSessionName, courseId);
     }
 
+    public void restoreAllFeedbackSessionsFromRecovery(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(instructorList);
+
+        feedbackSessionsLogic.restoreAllFeedbackSessionsFromRecovery(instructorList);
+    }
+
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
