@@ -250,8 +250,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         retrievedInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
         assertEquals(instructor.googleId, retrievedInstructor.googleId);
 
-        expectedLogSegment = "<br>Timezone of new Instructor: UTC<br><br>Action Instructor Joins Course<br>Google ID: " + instructor.googleId
-                + "<br>Key : " + newInstructor.key;
+        expectedLogSegment = "<br>Timezone of new Instructor: UTC<br><br>Action Instructor Joins Course<br>Google ID: "
+                + instructor.googleId + "<br>Key : " + newInstructor.key;
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
     }
 
