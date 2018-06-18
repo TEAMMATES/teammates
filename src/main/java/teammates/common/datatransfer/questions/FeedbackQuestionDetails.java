@@ -115,7 +115,7 @@ public abstract class FeedbackQuestionDetails {
                     .append(fsrBundle.getCsvDetailedStudentCommentOnResponse(feedbackResponseAttributes));
         }
         detailedResponseRow.append(hasCommentsForResponses
-                ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
+                ? fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
                 .append(System.lineSeparator());
         return detailedResponseRow.toString();
     }

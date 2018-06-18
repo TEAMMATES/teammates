@@ -99,7 +99,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return feedbackResponseCommentId;
     }
 
-    public String getCommentText() {
+    public String convertCommentTextToString(boolean isCommentForCsv) {
         String htmlText = commentText.getValue();
         StringBuilder comment = new StringBuilder(200);
         comment.append(Jsoup.parse(htmlText).text());
@@ -110,6 +110,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 comment.append(element.absUrl("src") + ' ');
             }
         }
+        if(isCommentForCsv)
+            return SanitizationHelper.sanitizeForCsv(comment.toString());
+
         return SanitizationHelper.sanitizeForHtml(comment.toString());
     }
 

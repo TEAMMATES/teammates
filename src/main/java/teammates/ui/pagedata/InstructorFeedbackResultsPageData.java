@@ -1507,7 +1507,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         if (frcAttributesList != null) {
             for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
                 if (frca.commentGiver.equals(giverEmail)) {
-                    return frca.getCommentText();
+                    return frca.convertCommentTextToString(false);
                 }
             }
         }

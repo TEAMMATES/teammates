@@ -11,12 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -1672,13 +1666,13 @@ public class FeedbackSessionResultsBundle {
         return feedbackSession.getTimeZone();
     }
 
-    public StringBuilder getCsvDetailedFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
+    public StringBuilder getCsvDetailedInstructorFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
             if (!frc.commentGiver.equals(response.giver)) {
                 commentRow.append("," + commentGiverEmailToNameTable.get(frc.commentGiver) + ","
-                                          + getTextFromComment(frc.commentText));
+                                          + frc.convertCommentTextToString(true));
             }
         }
         return commentRow;
@@ -1688,24 +1682,10 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {
             if (frc.commentGiver.equals(response.giver)) {
-                return getTextFromComment(frc.commentText);
+                return frc.convertCommentTextToString(true);
             }
         }
         return "";
-    }
-
-    public String getTextFromComment(Text commentText) {
-        String htmlText = commentText.getValue();
-        StringBuilder comment = new StringBuilder(200);
-        comment.append(Jsoup.parse(htmlText).text());
-        if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
-            comment.append("Images Link: ");
-            Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
-            for (Element element : ele) {
-                comment.append(element.absUrl("src") + ' ');
-            }
-        }
-        return SanitizationHelper.sanitizeForCsv(comment.toString());
     }
 
     /**

@@ -967,7 +967,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)
                     + (shouldShowComments
-                            ? fsrBundle.getCsvDetailedFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
+                            ? fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
                     + System.lineSeparator());
         }
 
