@@ -23,7 +23,6 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
@@ -204,6 +203,55 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
                                              currentLoginId)
                              + "<br><br>Action Instructor Joins Course<br>Google ID: "
                              + currentLoginId + "<br>Key : " + newInstructor.key;
+        AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
+
+        ______TS("Typical case: New instructor joins the course with UTC timezone");
+
+        instructor = InstructorAttributes
+                .builder(null, instructor.courseId, "New Instructor", "ICJAAT3.instr@email.com")
+                .build();
+        InstructorsLogic.inst().createInstructor(instructor);
+        instructor.googleId = "ICJAAT3.instr";
+
+        newInstructorAccount = AccountAttributes.builder()
+                .withGoogleId(instructor.googleId)
+                .withName(instructor.name)
+                .withEmail(instructor.email)
+                .withInstitute("TEAMMATES Test Institute 5")
+                .withIsInstructor(true)
+                .withDefaultStudentProfileAttributes(instructor.googleId)
+                .build();
+        AccountsLogic.inst().createAccount(newInstructorAccount);
+
+        newInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
+
+        gaeSimulation.loginUser(instructor.googleId);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(newInstructor.key),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "TEAMMATES Test Institute 5",
+                Const.ParamsNames.INSTRUCTOR_TIMEZONE, "UTC"
+        };
+
+        joinAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(joinAction);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                        "idOfTypicalCourse1",
+                        false,
+                        "ICJAAT3.instr",
+                        StringHelper.encrypt(newInstructor.key)),
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        assertEquals("", redirectResult.getStatusMessage());
+
+        retrievedInstructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
+        assertEquals(instructor.googleId, retrievedInstructor.googleId);
+
+        expectedLogSegment = "<br>Timezone of new Instructor: UTC<br><br>Action Instructor Joins Course<br>Google ID: " + instructor.googleId
+                + "<br>Key : " + newInstructor.key;
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
     }
 
