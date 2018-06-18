@@ -25,7 +25,6 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         return Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {

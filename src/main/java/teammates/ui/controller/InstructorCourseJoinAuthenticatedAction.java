@@ -71,6 +71,10 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
                     }
                 }
             }
+            if(statusToAdmin == null) {
+                statusToAdmin = "";
+            }
+            statusToAdmin += "<br>Timezone of new Instructor: "  + timeZone;
         }
 
         /* Set status to be shown to admin */
