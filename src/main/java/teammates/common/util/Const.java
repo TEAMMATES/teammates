@@ -74,7 +74,6 @@ public final class Const {
 
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
-    public static final String VISIBILITY_SETTINGS_FOR_STUDENT_COMMENTS = "GIVER,INSTRUCTORS";
     /*
      * These constants are used as variable values to mean that the variable
      * is in a 'special' state.

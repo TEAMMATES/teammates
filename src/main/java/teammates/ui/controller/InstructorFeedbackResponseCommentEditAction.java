@@ -14,7 +14,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 /**
@@ -58,7 +57,6 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
             return createAjaxResult(data);
         }
 
-        FeedbackParticipantType commentGiverType = getCommentGiverType(giverRole);
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, instructor.email, new Text(commentText))
                 .withCreatedAt(Instant.now())
@@ -66,7 +64,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 .withReceiverSection(response.recipientSection)
                 .build();
 
-        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverType(giverRole);
+        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
 
         //Edit visibility settings
@@ -137,13 +135,4 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 
-    private FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
-        if (commentGiverRole.equals(Const.STUDENT)) {
-            return FeedbackParticipantType.STUDENTS;
-        }
-        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
-            return FeedbackParticipantType.INSTRUCTORS;
-        }
-        return null;
-    }
 }

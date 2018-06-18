@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import com.google.appengine.api.datastore.Text;
 
-import com.sun.org.apache.bcel.internal.generic.FALOAD;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -83,7 +82,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 .withReceiverSection(response.recipientSection)
                 .build();
 
-        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverType(giverRole);
+        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
 
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
@@ -135,7 +134,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.commentId = commentId;
         data.commentGiverNameToEmailTable = bundle.commentGiverEmailToNameTable;
         data.question = logic.getFeedbackQuestion(feedbackQuestionId);
-        data.commentGiverType = feedbackResponseComment.getCommentGiverType(giverRole);
+        data.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
         data.sessionTimeZone = session.getTimeZone();
         data.moderation = false;
 

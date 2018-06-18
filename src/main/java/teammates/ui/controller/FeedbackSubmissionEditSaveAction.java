@@ -35,7 +35,6 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
 public abstract class FeedbackSubmissionEditSaveAction extends Action {
@@ -257,10 +256,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                          Map<String, String> responseRecipientMapForComments,
                                          Map<String, String> questionIdsForComments) {
         for (String commentIndex : commentsToUpdateId.keySet()) {
-            String showCommentTo =
-                    getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
-            String showGiverNameTo =
-                    getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndex);
             String commentId = commentsToUpdateId.get(commentIndex);
             String updatedCommentText = commentsToUpdateText.get(commentIndex);
             FeedbackResponseAttributes response =
@@ -269,24 +264,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                             responseRecipientMapForComments.get(commentIndex));
             String commentGiverString =
                     getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
-            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText,
+            updateResponseComment(commentId, response, updatedCommentText,
                     commentGiverString);
 
         }
     }
 
-    private FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
-        if (commentGiverRole.equals(Const.STUDENT)) {
-            return FeedbackParticipantType.STUDENTS;
-        }
-        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
-            return FeedbackParticipantType.INSTRUCTORS;
-        }
-        return null;
-    }
-
-    private void updateResponseComment(String showCommentTo, String showGiverNameTo, String commentId,
-                                       FeedbackResponseAttributes response, String updatedCommentText,
+    private void updateResponseComment(String commentId, FeedbackResponseAttributes response, String updatedCommentText,
                                        String commentGiverString) {
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, response.giver, new Text(updatedCommentText))
@@ -294,24 +278,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
                 .build();
-        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverType(commentGiverString);
+        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(commentGiverString);
         feedbackResponseComment.setId(Long.parseLong(commentId));
-
-        //Edit visibility settings
-        feedbackResponseComment.showCommentTo = new ArrayList<>();
-        if (showCommentTo != null && !showCommentTo.isEmpty()) {
-            String[] showCommentToArray = showCommentTo.split(",");
-            for (String viewer : showCommentToArray) {
-                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
-            }
-        }
-        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
-        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
-            String[] showGiverNameToArray = showGiverNameTo.split(",");
-            for (String viewer : showGiverNameToArray) {
-                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
-            }
-        }
+        feedbackResponseComment.setVisibilitySettingsForStudentComment();
 
         FeedbackResponseCommentAttributes updatedComment = null;
         try {
@@ -343,18 +312,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String questionId = questionIdsForComments.get(commentIndex);
             FeedbackResponseAttributes responseToAddComment =
                     logic.getFeedbackResponse(questionId, responseGiver, responseRecipient);
-            String showCommentTo = Const.VISIBILITY_SETTINGS_FOR_STUDENT_COMMENTS;
-            String showGiverNameTo = Const.VISIBILITY_SETTINGS_FOR_STUDENT_COMMENTS;
             String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
-            createCommentsForResponses(responseGiver, questionId, responseToAddComment, commentText, giverRole,
-                    showCommentTo, showGiverNameTo);
+            createCommentsForResponses(responseGiver, questionId, responseToAddComment, commentText, giverRole);
         }
     }
 
     private void createCommentsForResponses(String userEmailForCourse, String questionId,
                                             FeedbackResponseAttributes response, String commentText,
-                                            String giverRole, String showCommentTo,
-                                            String showGiverNameTo) throws EntityDoesNotExistException {
+                                            String giverRole) throws EntityDoesNotExistException {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, userEmailForCourse, new Text(commentText))
@@ -364,20 +329,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
                 .build();
-        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverType(giverRole);
-        if (showCommentTo != null && !showCommentTo.isEmpty()) {
-            String[] showCommentToArray = showCommentTo.split(",");
-            for (String viewer : showCommentToArray) {
-                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
-            }
-        }
-        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
-        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
-            String[] showGiverNameToArray = showGiverNameTo.split(",");
-            for (String viewer : showGiverNameToArray) {
-                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
-            }
-        }
+        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
+        feedbackResponseComment.setVisibilitySettingsForStudentComment();
 
         FeedbackResponseCommentAttributes createdComment = null;
         try {

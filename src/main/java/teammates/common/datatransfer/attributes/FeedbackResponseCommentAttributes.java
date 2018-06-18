@@ -123,7 +123,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackResponseCommentId = id;
     }
 
-    public FeedbackParticipantType getCommentGiverType(String commentGiverRole) {
+    public FeedbackParticipantType getCommentGiverTypeFromString(String commentGiverRole) {
         if (commentGiverRole.equals(Const.STUDENT)) {
             return FeedbackParticipantType.STUDENTS;
         }
@@ -310,6 +310,17 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             for (Object object : objects) {
                 Objects.requireNonNull(object, REQUIRED_FIELD_CANNOT_BE_NULL);
             }
+        }
+    }
+
+    public void setVisibilitySettingsForStudentComment() {
+        FeedbackParticipantType[] types = {
+                FeedbackParticipantType.GIVER,
+                FeedbackParticipantType.INSTRUCTORS
+        };
+        for (FeedbackParticipantType type : types) {
+            showCommentTo.add(type);
+            showGiverNameTo.add(type);
         }
     }
 
