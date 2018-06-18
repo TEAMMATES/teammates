@@ -1403,7 +1403,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN =
                 "The feedback session has been deleted. You can restore it from the deleted sessions table below.";
         public static final String FEEDBACK_SESSION_RESTORED = "The feedback session has been restored.";
+        public static final String FEEDBACK_SESSION_ALL_RESTORED = "All sessions have been restored.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been permanently deleted.";
+        public static final String FEEDBACK_SESSION_ALL_DELETED = "All sessions have been permanently deleted.";
         public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS =
                 "The feedback session has been permanently deleted and is no longer accessible.";
         public static final String FEEDBACK_SESSION_PUBLISHED =
