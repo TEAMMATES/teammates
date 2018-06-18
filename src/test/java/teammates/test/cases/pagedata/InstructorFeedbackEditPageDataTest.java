@@ -21,7 +21,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
-import teammates.test.cases.BaseTestCase;
+import teammates.test.cases.BaseTestCaseWithMinimalGaeEnvironment;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
@@ -33,7 +33,7 @@ import teammates.ui.template.FeedbackSessionsForm;
 /**
  * SUT: {@link InstructorFeedbackEditPageData}.
  */
-public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
+public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalGaeEnvironment {
 
     private static final int DEFAULT_NUM_ENTITIES_TO_GIVE_RESPONSES_TO = 1;
     private static DataBundle dataBundle = getTypicalDataBundle();
