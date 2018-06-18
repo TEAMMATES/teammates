@@ -22,14 +22,16 @@
           </a>
         </div>
       </div>
-      <div class="form-group student-info-row">
-        <div class="col-xs-4 text-right">
-          <label>Section Name</label>
+      <c:if test="${studentInfoTable.hasSection}">
+        <div class="form-group student-info-row">
+          <div class="col-xs-4 text-right">
+            <label>Section Name</label>
+          </div>
+          <div class="col-xs-8" id="<%= Const.ParamsNames.SECTION_NAME %>">
+            <span>${fn:escapeXml(studentInfoTable.section)}</span>
+          </div>
         </div>
-        <div class="col-xs-8" id="<%= Const.ParamsNames.SECTION_NAME %>">
-          <span>${fn:escapeXml(studentInfoTable.section)}</span>
-        </div>
-      </div>
+      </c:if>
       <div class="form-group student-info-row">
         <div class="col-xs-4 text-right">
           <label>Team Name</label>
