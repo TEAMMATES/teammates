@@ -9,7 +9,7 @@ import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorCoursesPageData;
 
 /**
- * Action: Restore all courses from Recycle Bin for an instructor.
+ * Action: Restore all sessions from Recycle Bin for an instructor.
  */
 public class InstructorFeedbackRestoreAllRecoverySessionsAction extends Action {
 
@@ -21,7 +21,7 @@ public class InstructorFeedbackRestoreAllRecoverySessionsAction extends Action {
         InstructorCoursesPageData data = new InstructorCoursesPageData(account, sessionToken);
 
         try {
-            /* Restore all courses and setup status to be shown to user and admin */
+            /* Restore all sessions and setup status to be shown to user and admin */
             List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
             logic.restoreAllFeedbackSessionsFromRecovery(instructorList);
             String statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ALL_RESTORED;

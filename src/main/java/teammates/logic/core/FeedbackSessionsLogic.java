@@ -270,6 +270,11 @@ public final class FeedbackSessionsLogic {
         return fsList;
     }
 
+    /**
+     * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
+     * <br>
+     * Omits sessions if the corresponding courses are archived
+     */
     public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructor(
             List<InstructorAttributes> instructorList) {
 
@@ -1471,7 +1476,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Deletes a specific feedback session, and all its question and responses.
+     * Permanently deletes a specific feedback session in Recycle Bin, and all its questions and responses.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
@@ -1489,6 +1494,9 @@ public final class FeedbackSessionsLogic {
 
     }
 
+    /**
+     * Permanently deletes all feedback sessions in Recycle Bin, and all their questions and responses.
+     */
     public void deleteAllFeedbackSessionsCascade(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
@@ -1499,6 +1507,9 @@ public final class FeedbackSessionsLogic {
         }
     }
 
+    /**
+     * Soft-deletes a specific feedback session to Recycle Bin.
+     */
     public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
@@ -1506,6 +1517,9 @@ public final class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(feedbackSession);
     }
 
+    /**
+     * Restores a specific feedback session from Recycle Bin to feedback sessions table.
+     */
     public void restoreFeedbackSessionFromRecovery(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
@@ -1513,6 +1527,9 @@ public final class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(feedbackSession);
     }
 
+    /**
+     * Restores all feedback sessions from Recycle Bin to feedback sessions table.
+     */
     public void restoreAllFeedbackSessionsFromRecovery(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);

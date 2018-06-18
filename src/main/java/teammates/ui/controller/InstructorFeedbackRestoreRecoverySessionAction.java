@@ -6,7 +6,7 @@ import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 
 /**
- * Action: Restore a deleted course from Recycle Bin for an instructor.
+ * Action: Restore a specific session from Recycle Bin for an instructor.
  */
 public class InstructorFeedbackRestoreRecoverySessionAction extends Action {
 
@@ -24,7 +24,7 @@ public class InstructorFeedbackRestoreRecoverySessionAction extends Action {
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
-            /* Restore the deleted course and setup status to be shown to user and admin */
+            /* Restore the specified session and setup status to be shown to user and admin */
             logic.restoreFeedbackSessionFromRecovery(nameOfSessionToRestore, idOfCourseToRestore);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESTORED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Session <span class=\"bold\">[" + nameOfSessionToRestore + "]</span> "

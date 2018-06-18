@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorCourse - Restore and delete all courses buttons" pageEncoding="UTF-8" %>
+<%@ tag description="instructorFeedbacks - restore and delete all courses buttons" pageEncoding="UTF-8" %>
 <div class="row" style="text-align: right">
   <a class="btn btn-info btn-md" id="restoreAllSessions" href="${data.instructorFeedbackRestoreAllRecoverySessionsLink}">
     Restore All Sessions

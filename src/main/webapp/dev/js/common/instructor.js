@@ -380,7 +380,7 @@ function bindSessionDeleteAllLinks() {
             window.location = $clickedLink.attr('href');
         };
 
-        showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
+        showModalConfirmation('Confirm deleting all feedback sessions', messageText, okCallback, null,
                 null, null, BootstrapContextualColors.DANGER);
     });
 }

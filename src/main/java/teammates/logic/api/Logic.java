@@ -655,7 +655,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return Courses the given instructors is in except for courses in recycle bin.
+     * @return Courses the given instructors is in except for courses in Recycle Bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
@@ -663,6 +663,12 @@ public class Logic {
         return coursesLogic.getCoursesForInstructor(instructorList);
     }
 
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Courses in Recycle Bin that the given instructors is in.
+     */
     public List<CourseAttributes> getRecoveryCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
         Assumption.assertNotNull(instructorList);
@@ -723,7 +729,7 @@ public class Logic {
     }
 
     /**
-     * Moves a course to recycle bin.
+     * Moves a course to Recycle Bin.
      * All data related will not be deleted.
      */
     public void moveCourseToRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
@@ -732,7 +738,7 @@ public class Logic {
     }
 
     /**
-     * Recovers a course and all related data from recycle bin.
+     * Recovers a course and all related data from Recycle Bin.
      */
     public void restoreCourseFromRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -741,7 +747,7 @@ public class Logic {
     }
 
     /**
-     * Recovers all courses and all related data from recycle bin.
+     * Recovers all courses and all related data from Recycle Bin.
      */
     public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -1490,7 +1496,7 @@ public class Logic {
     }
 
     /**
-     * Deletes the feedback session but not the questions and
+     * Permanently deletes the feedback session in Recycle Bin, but not the questions and
      * responses associated to it.
      * Fails silently if no such feedback session. <br>
      * Preconditions: <br>
@@ -1504,14 +1510,23 @@ public class Logic {
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
     }
 
-    public void deleteAllFeedbackSessions(List<InstructorAttributes> instructorList)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    /**
+     * Permanently deletes feedback sessions in Recycle Bin, but not the questions and
+     * responses associated to them.
+     * Fails silently if no such feedback session. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public void deleteAllFeedbackSessions(List<InstructorAttributes> instructorList) {
 
         Assumption.assertNotNull(instructorList);
 
         feedbackSessionsLogic.deleteAllFeedbackSessionsCascade(instructorList);
     }
 
+    /**
+     * Soft-deletes a specific session to Recycle Bin.
+     */
     public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -1521,6 +1536,9 @@ public class Logic {
         feedbackSessionsLogic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
     }
 
+    /**
+     * Restores a specific session from Recycle Bin to feedback sessions table.
+     */
     public void restoreFeedbackSessionFromRecovery(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -1530,6 +1548,9 @@ public class Logic {
         feedbackSessionsLogic.restoreFeedbackSessionFromRecovery(feedbackSessionName, courseId);
     }
 
+    /**
+     * Restores all sessions from Recycle Bin to feedback sessions table.
+     */
     public void restoreAllFeedbackSessionsFromRecovery(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
 

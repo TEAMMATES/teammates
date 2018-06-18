@@ -93,7 +93,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return An empty list if no sessions are found for the given course.
+     * @return a list of all sessions for the given course expect those in the Recycle Bin. Otherwise returns an empty list.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -103,6 +103,11 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return a list of sessions for the given course in the Recycle Bin. Otherwise returns an empty list.
+     */
     public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 

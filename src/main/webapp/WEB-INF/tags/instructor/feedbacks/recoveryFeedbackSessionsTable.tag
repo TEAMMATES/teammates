@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorCourse - Recovery courses table" pageEncoding="UTF-8" %>
+<%@ tag description="instructorFeedbacks - recovery feedback sessions table/list" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="recoveryFsList" type="teammates.ui.template.RecoveryFeedbackSessionsTable" required="true" %>
