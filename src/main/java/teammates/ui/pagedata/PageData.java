@@ -562,10 +562,10 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackRestoreRecoverySessionLink(String courseId, String sessionName) {
+    public String getInstructorFeedbackRestoreRecoverySessionLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
         return link;
@@ -579,10 +579,10 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorFeedbackDeleteRecoverySessionLink(String courseId, String sessionName) {
+    public String getInstructorFeedbackDeleteRecoverySessionLink(String courseId, String feedbackSessionName) {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
         return link;
