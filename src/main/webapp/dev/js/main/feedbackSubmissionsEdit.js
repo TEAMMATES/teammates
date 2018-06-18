@@ -572,11 +572,11 @@ function updateConstSumQnInstructions(qnNum) {
         instruction += `${infoIcon} At least one ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     } else if (forceUnevenDistribution || forceAllUnevenDistribution) {
-    /*
-     * All points need to be different. forceUnevenDistribution is used to check the same for older versions which
-     * did not contain the feature "some receive different points". In such versions forceUnevenDistribution will
-     * be true for questions where "all receive different points" is selected.
-     */
+        /*
+         * All points need to be different. forceUnevenDistribution is used to check the same for older versions which
+         * did not contain the feature "some receive different points". In such versions forceUnevenDistribution will
+         * be true for questions where "all receive different points" is selected.
+         */
         instruction += `${infoIcon} Every ${distributeToRecipients ? 'recipient' : 'option'} `
                 + 'should be allocated different number of points.<br>';
     }
@@ -623,8 +623,8 @@ function updateConstSumQnMessages(qnNum) {
         }
     }
     /*
-     * Check current input provided by user
-     * and update error/sucess messages based on constraints
+     * Checks current input provided by user
+     * and updates error/success messages based on constraints
      */
     function checkAndDisplayMessage(messageElement) {
         let message = '';
