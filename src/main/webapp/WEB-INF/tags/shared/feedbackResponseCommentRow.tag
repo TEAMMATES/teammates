@@ -38,8 +38,6 @@
     </c:set>
   </c:when>
   <c:otherwise>
-    <c:set var="submitLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD %>
-    </c:set>
     <c:set var="deleteLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE %>
     </c:set>
   </c:otherwise>
@@ -122,16 +120,10 @@
   <%-- Do not add whitespace between the opening and closing tags --%>
   <div id="plainCommentText-${divId}" style="margin-left: 15px;">${frc.commentText}</div>
   <c:if test="${frc.editDeleteEnabled}">
-    <c:choose>
-      <c:when test="${frc.commentGiverType eq 'instructor'}">
-        <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %>
-        </c:set>
-      </c:when>
-      <c:otherwise>
-        <c:set var="submitLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD %>
-        </c:set>
-      </c:otherwise>
-    </c:choose>
+    <c:if test="${frc.commentGiverType eq 'instructor'}">
+      <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %>
+      </c:set>
+    </c:if>
     <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
     <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
         secondIndex="${secondIndex}"

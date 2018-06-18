@@ -295,7 +295,7 @@ public class FeedbackSessionResultsBundle {
         this.emailNameTable = emailNameTable;
         this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
-        this.commentGiverEmailToNameTable = roster.getCommentGiverEmailNameTableFromRoster();
+        this.commentGiverEmailToNameTable = roster.getEmailToNameTableFromRoster();
         this.sectionTeamNameTable = sectionTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;

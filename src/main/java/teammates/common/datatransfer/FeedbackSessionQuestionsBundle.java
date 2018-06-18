@@ -45,7 +45,7 @@ public class FeedbackSessionQuestionsBundle {
         this.emailToNameTable = emailToNameTable;
         this.emailToTeamNameTable = emailToTeamNameTable;
         this.roster = roster;
-        this.commentGiverEmailToNameTable = roster.getCommentGiverEmailNameTableFromRoster();
+        this.commentGiverEmailToNameTable = roster.getEmailToNameTableFromRoster();
 
     }
 
