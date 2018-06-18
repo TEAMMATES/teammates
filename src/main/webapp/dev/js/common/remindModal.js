@@ -15,6 +15,46 @@ function populateCheckBoxes($button) {
     }
 }
 
+function bindingSelectAllCheckBoxes() {
+    // set default checkboxes as unchecked
+    $('#remindAll').prop('checked', false);
+    $('#remindNotSubmitted').prop('checked', false);
+    // checks binding of select all checkboxes populated in the header
+    $('#remindAll').on('change', function () {
+        if (this.checked) {
+            $('input[class^="student-"]').prop('checked', true);
+            $('#remindNotSubmitted').prop('checked', true);
+        } else {
+            $('input[class^="student-"]').prop('checked', false);
+            $('#remindNotSubmitted').prop('checked', false);
+        }
+    });
+    $('#remindNotSubmitted').on('change', function () {
+        if (this.checked) {
+            $('input[class^="student-not-"]').prop('checked', true);
+            if ($('input[class^="student-"]:checked').length === $('input[class^="student-"]').length) {
+                $('#remindAll').prop('checked', true);
+            }
+        } else {
+            $('input[class^="student-not-"]').prop('checked', false);
+            $('#remindAll').prop('checked', false);
+        }
+    });
+    // checks binding of each checkbox populated in the data
+    $('input[class^="student-"]').on('change', () => {
+        if ($('input[class^="student-"]:checked').length === $('input[class^="student-"]').length) {
+            $('#remindAll').prop('checked', true);
+        } else {
+            $('#remindAll').prop('checked', false);
+        }
+        if ($('input[class^="student-not-"]:checked').length === $('input[class^="student-not-"]').length) {
+            $('#remindNotSubmitted').prop('checked', true);
+        } else {
+            $('#remindNotSubmitted').prop('checked', false);
+        }
+    });
+}
+
 function prepareRemindModal() {
     $('#remindModal').on('show.bs.modal', (event) => {
         const button = $(event.relatedTarget); // Button that triggered the modal
@@ -36,6 +76,7 @@ function prepareRemindModal() {
                     $('#studentList').html(data);
                     populateCheckBoxes(button);
                     $('#remindModal .remind-particular-button').prop('disabled', false).prop('value', 'Remind');
+                    bindingSelectAllCheckBoxes();
                 }, 500);
             },
         });
