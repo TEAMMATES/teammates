@@ -1399,7 +1399,7 @@ public final class Const {
         public static final String FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME =
                 "The end time for this feedback session cannot be earlier than the start time.";
         public static final String FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE =
-                "The feedback session has been deleted. You can restore it from sessions page.";
+                "The feedback session has been deleted. You can restore it from the 'Sessions' tab.";
         public static final String FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN =
                 "The feedback session has been deleted. You can restore it from the deleted sessions table below.";
         public static final String FEEDBACK_SESSION_RESTORED = "The feedback session has been restored.";
