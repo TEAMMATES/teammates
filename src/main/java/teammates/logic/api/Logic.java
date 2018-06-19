@@ -1246,10 +1246,22 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorList);
     }
 
-    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructor(
+    /**
+     * Returns a {@code List} of all feedback sessions in Recycle Bin WITHOUT their response
+     * statistics for a instructor.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructor(InstructorAttributes instructor) {
+        Assumption.assertNotNull(instructor);
+        return feedbackSessionsLogic.getRecoveryFeedbackSessionsListForInstructor(instructor);
+    }
+
+    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructors(
             List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull(instructorList);
-        return feedbackSessionsLogic.getRecoveryFeedbackSessionsListForInstructor(instructorList);
+        return feedbackSessionsLogic.getRecoveryFeedbackSessionsListForInstructors(instructorList);
     }
 
     /**
