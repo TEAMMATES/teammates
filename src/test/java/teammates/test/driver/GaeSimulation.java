@@ -242,7 +242,7 @@ public class GaeSimulation {
     public static Map<String, Object> getEnvironmentAttributesWithApplicationHostname() {
         Map<String, Object> attributes = new HashMap<>();
         try {
-            if(!TestProperties.TEAMMATES_URL.contains("localhost")) {
+            if (!TestProperties.TEAMMATES_URL.contains("localhost")) {
                 attributes.put("com.google.appengine.runtime.default_version_hostname",
                         new URL(TestProperties.TEAMMATES_URL).getAuthority().substring(10));
                 return attributes;
@@ -257,12 +257,15 @@ public class GaeSimulation {
         return attributes;
     }
 
+    /**
+     * Sets the environment of SystemProperty based on the URL.
+     */
     public static void setApplicationEnvironment() {
         try {
-            if(new URL(TestProperties.TEAMMATES_URL).getHost().contains("localhost")) {
-                SystemProperty.environment.set( SystemProperty.Environment.Value.Development );
+            if (new URL(TestProperties.TEAMMATES_URL).getHost().contains("localhost")) {
+                SystemProperty.environment.set(SystemProperty.Environment.Value.Development);
             } else {
-                SystemProperty.environment.set( SystemProperty.Environment.Value.Production );
+                SystemProperty.environment.set(SystemProperty.Environment.Value.Production);
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
