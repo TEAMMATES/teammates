@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.List;
 
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
@@ -16,12 +17,21 @@ public class InstructorFeedbackDeleteAllRecoverySessionsAction extends Action {
     @Override
     public ActionResult execute() {
 
-        gateKeeper.verifyInstructorPrivileges(account);
-
         InstructorCoursesPageData data = new InstructorCoursesPageData(account, sessionToken);
+        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
+
+        for (InstructorAttributes instructor : instructorList) {
+            List<FeedbackSessionAttributes> feedbackSessionList =
+                    logic.getRecoveryFeedbackSessionsListForInstructor(instructor);
+            for (FeedbackSessionAttributes feedbackSession : feedbackSessionList) {
+                gateKeeper.verifyAccessible(instructor,
+                        feedbackSession,
+                        false,
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+            }
+        }
 
         try {
-            List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
             logic.deleteAllFeedbackSessions(instructorList);
             String statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ALL_DELETED;
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
