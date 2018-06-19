@@ -21,7 +21,8 @@ public class InstructorFeedbackRestoreRecoverySessionAction extends Action {
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, account.googleId),
                 logic.getFeedbackSession(nameOfSessionToRestore, idOfCourseToRestore),
-                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                false,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
             /* Restore the specified session and setup status to be shown to user and admin */

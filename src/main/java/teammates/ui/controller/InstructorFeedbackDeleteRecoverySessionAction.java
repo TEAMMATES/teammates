@@ -21,7 +21,8 @@ public class InstructorFeedbackDeleteRecoverySessionAction extends Action {
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, account.googleId),
                 logic.getFeedbackSession(nameOfSessionToRestore, idOfCourseToRestore),
-                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                false,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
             logic.deleteFeedbackSession(nameOfSessionToRestore, idOfCourseToRestore);
