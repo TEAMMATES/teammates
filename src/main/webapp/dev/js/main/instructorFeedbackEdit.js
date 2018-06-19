@@ -58,10 +58,10 @@ import {
 
 import {
     addMcqOption,
-    bindMcqAssignWeightsCheckbox,
+    bindMcqHasAssignedWeightsCheckbox,
     bindMcqOtherOptionEnabled,
     removeMcqOption,
-    toggleMcqAssignWeights,
+    toggleMcqHasAssignedWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
     toggleVisibilityOfMcqOtherWeight,
@@ -365,17 +365,17 @@ function disableQuestion(questionNum) {
        If so, hide 'add Other option' and the mcq weight checkbox for mcq questions */
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`).parent().hide();
+        $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().hide();
         $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).hide();
     } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`).parent().show();
+        $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().show();
         $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).show();
     }
-    toggleMcqAssignWeights($currentQuestionTable.find(`#mcqAssignWeights-${questionNum}`), questionNum);
+    toggleMcqHasAssignedWeights($currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`), questionNum);
     toggleVisibilityOfMcqOtherWeight($currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`), questionNum);
 
     $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
@@ -578,7 +578,7 @@ function enableNewQuestion() {
     toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
-    toggleMcqAssignWeights($(`#mcqAssignWeights-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
     toggleVisibilityOfMcqOtherWeight($(`#mcqOtherOptionFlag-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
@@ -1192,7 +1192,7 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
-    bindMcqAssignWeightsCheckbox();
+    bindMcqHasAssignedWeightsCheckbox();
     bindMcqOtherOptionEnabled();
     bindMsqEvents();
     bindMoveRubricColButtons();

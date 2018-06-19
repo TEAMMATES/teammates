@@ -297,7 +297,7 @@ public final class Templates {
             public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
             public static final String MCQ_WEIGHT = "${mcqWeight}";
             public static final String MCQ_OTHER_WEIGHT = "${mcqOtherWeight}";
-            public static final String MCQ_ASSIGN_WEIGHT_CHECKBOX = "${mcqCheckAssignWeights}";
+            public static final String MCQ_ASSIGN_WEIGHT_CHECKBOX = "${mcqAssignWeightsCheckbox}";
             public static final String MCQ_OTHER_OPTION_ANSWER = "${mcqOtherOptionAnswer}";
             public static final String MCQ_CHECKED_GENERATED_OPTION = "${checkedGeneratedOptions}";
             public static final String MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS = "${mcqSubmissionFormOptionFragments}";

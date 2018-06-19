@@ -565,8 +565,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responses = new LinkedList<>(unsortedResponses);
 
-        responses.sort(Comparator.comparing((FeedbackResponseAttributes obj) ->
-                bundle.getTeamNameForEmail(obj.recipient))
+        responses.sort(Comparator
+                .comparing((FeedbackResponseAttributes obj) -> bundle.getTeamNameForEmail(obj.recipient))
                 .thenComparing(obj -> bundle.getNameForEmail(obj.recipient)));
 
         return responses;
@@ -632,11 +632,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
      * The "td" tags have data related to a sub question.
      * The sequence of "td" tags are not enclosed in a "tr" tag.
      */
-    public String getPerRecipientStatsBodyFragmentHtml(String recipient,
+    public String getPerRecipientStatsBodyFragmentHtml(String recipientEmail,
             Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
         StringBuilder html = new StringBuilder(100);
 
-        List<String> cols = generateStatisticsForEachRecipient(recipient, recipientResponses, bundle);
+        List<String> cols = generateStatisticsForEachRecipient(recipientEmail, recipientResponses, bundle);
 
         // Generate HTML for all <td> entries using template
         for (String col : cols) {
@@ -699,9 +699,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         // If weights are assigned, then add the 'Per Recipient Statistics' to the CSV string.
         if (hasAssignedWeights) {
-            csv.append(System.lineSeparator());
-            csv.append("Per Recipient Statistics").append(System.lineSeparator());
-            csv.append(getPerRecipientResponseStatsCsv(responses, bundle));
+            csv.append(System.lineSeparator())
+               .append("Per Recipient Statistics").append(System.lineSeparator())
+               .append(getPerRecipientResponseStatsCsv(responses, bundle));
         }
         return csv.toString();
     }
@@ -804,20 +804,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Returns a string containing a per recipient response stats for a single recipient.
      */
-    public String getPerRecipientResponseStatsBodyFragmentCsv(String recipient,
+    public String getPerRecipientResponseStatsBodyFragmentCsv(String recipientEmail,
             Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
         StringBuilder fragments = new StringBuilder(100);
-        List<String> statsForEachRecipient = generateStatisticsForEachRecipient(recipient, recipientResponses, bundle);
+        List<String> statsForEachRecipient = generateStatisticsForEachRecipient(recipientEmail, recipientResponses, bundle);
 
         // Add each column data in fragments
         for (int i = 0; i < statsForEachRecipient.size(); i++) {
-            fragments.append(SanitizationHelper.sanitizeForCsv(statsForEachRecipient.get(i)));
-            // In case of last iteration, add line separator instead of comma.
-            if (i == statsForEachRecipient.size() - 1) {
-                fragments.append(System.lineSeparator());
-            } else {
-                fragments.append(',');
-            }
+            fragments.append(String.join(", ", statsForEachRecipient) + System.lineSeparator());
         }
         return fragments.toString();
     }
@@ -964,18 +958,20 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
      * both the results page and csv files.
      * The specific stats that are generated are -<br>
      * Team, Name, Response count for each option, Total, Average.
-     * @param recipient whose statistics should be calculated
+     * @param recipientEmail Email of the recipient whose statistics should be calculated
      * @param recipientResponses Map containing the response count of each choice for the recipient
      * @param bundle Feedback session results bundle to get the team name and name of the recipient
      * @return List of strings containing the 'Per recipient stats' of the recipient
      */
-    public List<String> generateStatisticsForEachRecipient(String recipient,
+    public List<String> generateStatisticsForEachRecipient(String recipientEmail,
             Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
+
+        Assumption.assertTrue(hasAssignedWeights);
         List<String> recipientStats = new ArrayList<>();
         DecimalFormat df = new DecimalFormat("0.00");
 
-        String recipientName = bundle.getNameForEmail(recipient);
-        String recipientTeam = bundle.getTeamNameForEmail(recipient);
+        String recipientName = bundle.getNameForEmail(recipientEmail);
+        String recipientTeam = bundle.getTeamNameForEmail(recipientEmail);
         double total = 0;
         double average = 0;
         int numOfResponsesForThisRecipient = 0;

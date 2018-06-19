@@ -311,7 +311,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MCQ: Other weight Cell is visible when other option and weights both are enabled");
 
         // Check Assign MCQ weights Enabled but other option disabled
-        assertTrue(feedbackEditPage.isMcqAssignWeightCheckboxChecked(NEW_QUESTION_INDEX));
+        assertTrue(feedbackEditPage.isMcqHasAssignWeightCheckboxChecked(NEW_QUESTION_INDEX));
         assertFalse(browser.driver.findElement(By.id("mcqOtherOptionFlag-" + NEW_QUESTION_INDEX)).isSelected());
 
         // Assign Other option and test that other weight cell is displayed.
@@ -336,7 +336,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MCQ");
         // Check if the 'Choices are weighted' checkbox unchecked by default.
-        assertFalse(feedbackEditPage.isMcqAssignWeightCheckboxChecked(NEW_QUESTION_INDEX));
+        assertFalse(feedbackEditPage.isMcqHasAssignWeightCheckboxChecked(NEW_QUESTION_INDEX));
         // Check if the MCQ weights column hidden by default
         assertFalse(feedbackEditPage.getMcqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
         assertFalse(feedbackEditPage.getMcqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
@@ -513,14 +513,14 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("MCQ: Test that selecting generated option hides mcq weights cells and checkbox");
 
         // Test visibility of mcq weights and checkbox before selecting mcq generated option.
-        assertTrue(feedbackEditPage.isElementVisible(By.id("mcqAssignWeights--1")));
+        assertTrue(feedbackEditPage.isElementVisible(By.id("mcqHasAssignedWeights--1")));
         assertTrue(feedbackEditPage.isElementVisible(By.id("mcqWeights--1")));
         assertTrue(feedbackEditPage.isElementVisible(By.id("mcqOtherWeight--1")));
 
         feedbackEditPage.clickGenerateMcqOptionsCheckbox(NEW_QUESTION_INDEX);
 
         // Check that 'choices are weighted' checkbox is hidden
-        assertFalse(feedbackEditPage.isElementVisible(By.id("mcqAssignWeights--1")));
+        assertFalse(feedbackEditPage.isElementVisible(By.id("mcqHasAssignedWeights--1")));
         assertFalse(feedbackEditPage.isElementVisible(By.id("mcqWeights--1")));
         assertFalse(feedbackEditPage.isElementVisible(By.id("mcqOtherWeight--1")));
 
@@ -533,12 +533,12 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Check that weight fields are again visible after unchecking generated option,
         // and also check that all the fields have the default values stored.
-        assertFalse(feedbackEditPage.isMcqAssignWeightCheckboxChecked(1));
+        assertFalse(feedbackEditPage.isMcqHasAssignWeightCheckboxChecked(1));
         assertFalse(browser.driver.findElement(By.id("mcqOtherOptionFlag-1")).isSelected());
 
         // Add One option and check MCQ assign weight checkbox to check the mcq weight field value.
         feedbackEditPage.clickAddMoreMcqOptionLink(1);
-        feedbackEditPage.clickMcqAssignWeightsCheckbox(1);
+        feedbackEditPage.clickMcqHasAssignedWeightsCheckbox(1);
         assertTrue(feedbackEditPage.isElementVisible("mcqWeight-0-1"));
         feedbackEditPage.verifyFieldValue("mcqWeight-0-1", "0");
 

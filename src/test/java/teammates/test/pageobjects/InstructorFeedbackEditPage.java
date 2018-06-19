@@ -1286,17 +1286,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAddMoreMcqOptionLink(NEW_QUESTION_NUM);
     }
 
-    public void clickMcqAssignWeightsCheckbox(int qnNumber) {
-        WebElement mcqAssignWeightCheckbox = browser.driver.findElement(By.id("mcqAssignWeights-" + qnNumber));
+    public void clickMcqHasAssignedWeightsCheckbox(int qnNumber) {
+        WebElement mcqAssignWeightCheckbox = browser.driver.findElement(By.id("mcqHasAssignedWeights-" + qnNumber));
         click(mcqAssignWeightCheckbox);
     }
 
     public void clickMcqAssignWeightCheckboxForNewQuestion() {
-        clickMcqAssignWeightsCheckbox(NEW_QUESTION_NUM);
+        clickMcqHasAssignedWeightsCheckbox(NEW_QUESTION_NUM);
     }
 
-    public boolean isMcqAssignWeightCheckboxChecked(int qnNumber) {
-        WebElement checkbox = browser.driver.findElement(By.id("mcqAssignWeights-" + qnNumber));
+    public boolean isMcqHasAssignWeightCheckboxChecked(int qnNumber) {
+        WebElement checkbox = browser.driver.findElement(By.id("mcqHasAssignedWeights-" + qnNumber));
         return checkbox.isSelected();
     }
 

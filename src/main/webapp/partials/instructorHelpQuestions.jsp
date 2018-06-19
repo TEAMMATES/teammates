@@ -395,7 +395,7 @@
                       <div class="row">
                         <div class="col-sm-12 margin-bottom-7px">
                           <div class="col-sm-4 padding-0">
-                            <input type="checkbox" class="nonDestructive" id="mcqAssignWeights-1" name="mcqAssignWeights" checked="" disabled="">
+                            <input type="checkbox" class="nonDestructive" id="mcqHasAssignedWeights-1" name="mcqHasAssignedWeights" checked="" disabled="">
                             <span data-toggle="tooltip" data-placement="top" data-original-title="Assign weights to the choices for calculating statistics." class="tool-tip-decorate"> Choices are weighted </span>
                           </div>
                           <div class="col-sm-2 padding-left-45px align-center">

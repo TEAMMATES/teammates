@@ -102,7 +102,7 @@ function setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, isReq
  * @param $checkbox
  * @param questionNum
  */
-function toggleMcqAssignWeights($checkbox, questionNum) {
+function toggleMcqHasAssignedWeights($checkbox, questionNum) {
     // The weight label
     const $weightLabel = $checkbox.parent().siblings('div');
     const $weightColumn = $(`#mcqWeights-${questionNum}`);
@@ -139,9 +139,9 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', true);
         $(`#mcqOtherWeight-${questionNum}`).prop('disabled', true);
         $(`#mcqChoiceTable-${questionNum}`).hide();
-        $(`#mcqAssignWeights-${questionNum}`).parent().hide();
+        $(`#mcqHasAssignedWeights-${questionNum}`).parent().hide();
         // Hide the 'Weights' label
-        $(`#mcqAssignWeights-${questionNum}`).parent().siblings('div').hide();
+        $(`#mcqHasAssignedWeights-${questionNum}`).parent().siblings('div').hide();
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         $(`#mcqOtherWeight-${questionNum}`).hide();
@@ -151,9 +151,9 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         $(`#mcqWeights-${questionNum}`).find('input[type=number]').prop('disabled', false);
         $(`#mcqOtherWeight-${questionNum}`).prop('disabled', false);
         $(`#mcqChoiceTable-${questionNum}`).show();
-        $(`#mcqAssignWeights-${questionNum}`).parent().show();
+        $(`#mcqHasAssignedWeights-${questionNum}`).parent().show();
         $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        toggleMcqAssignWeights($(`#mcqAssignWeights-${questionNum}`), questionNum);
+        toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${questionNum}`), questionNum);
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#mcqGeneratedOptions-${questionNum}`).val('NONE');
     }
@@ -161,7 +161,7 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
 
 function toggleVisibilityOfMcqOtherWeight($checkbox, questionNum) {
     // The 'Choices are weighted' checkbox
-    const $mcqAssignWeightCheckbox = $(`#mcqAssignWeights-${questionNum}`);
+    const $mcqAssignWeightCheckbox = $(`#mcqHasAssignedWeights-${questionNum}`);
     const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
 
     if ($checkbox.prop('checked') && $mcqAssignWeightCheckbox.prop('checked')) {
@@ -199,21 +199,21 @@ function bindMcqOtherOptionEnabled() {
     });
 }
 
-function bindMcqAssignWeightsCheckbox() {
-    $('body').on('click', 'input[id^="mcqAssignWeights"]', function () {
+function bindMcqHasAssignedWeightsCheckbox() {
+    $('body').on('click', 'input[id^="mcqHasAssignedWeights"]', function () {
         const $checkbox = $(this);
         const questionNum = $checkbox.closest('form').data('qnnumber');
-        toggleMcqAssignWeights($checkbox, questionNum);
+        toggleMcqHasAssignedWeights($checkbox, questionNum);
     });
 }
 
 export {
     addMcqOption,
-    bindMcqAssignWeightsCheckbox,
+    bindMcqHasAssignedWeightsCheckbox,
     bindMcqOtherOptionEnabled,
     changeMcqGenerateFor,
     removeMcqOption,
-    toggleMcqAssignWeights,
+    toggleMcqHasAssignedWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
     toggleVisibilityOfMcqOtherWeight,
