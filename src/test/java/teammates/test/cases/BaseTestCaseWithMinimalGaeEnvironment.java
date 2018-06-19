@@ -16,6 +16,7 @@ public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCase {
 
     @BeforeClass
     public void setUpGae() {
+        GaeSimulation.setApplicationEnvironment();
         helper.setEnvAttributes(GaeSimulation.getEnvironmentAttributesWithApplicationHostname());
         helper.setUp();
     }

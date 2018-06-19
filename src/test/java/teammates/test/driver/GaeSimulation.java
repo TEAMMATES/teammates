@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.appengine.api.log.dev.LocalLogService;
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
@@ -79,9 +80,10 @@ public class GaeSimulation {
         localSearch.setPersistent(false);
         LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
         LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
+        setApplicationEnvironment();
+
         helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
                                             localTasks, localSearch, localModules, localLog);
-
         helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
         helper.setUp();
 
@@ -240,12 +242,31 @@ public class GaeSimulation {
     public static Map<String, Object> getEnvironmentAttributesWithApplicationHostname() {
         Map<String, Object> attributes = new HashMap<>();
         try {
+            if(!TestProperties.TEAMMATES_URL.contains("localhost")) {
+                attributes.put("com.google.appengine.runtime.default_version_hostname",
+                        new URL(TestProperties.TEAMMATES_URL).getAuthority().substring(10));
+                return attributes;
+            }
+
             attributes.put("com.google.appengine.runtime.default_version_hostname",
                     new URL(TestProperties.TEAMMATES_URL).getAuthority());
+
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
         return attributes;
+    }
+
+    public static void setApplicationEnvironment() {
+        try {
+            if(new URL(TestProperties.TEAMMATES_URL).getHost().contains("localhost")) {
+                SystemProperty.environment.set( SystemProperty.Environment.Value.Development );
+            } else {
+                SystemProperty.environment.set( SystemProperty.Environment.Value.Production );
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
