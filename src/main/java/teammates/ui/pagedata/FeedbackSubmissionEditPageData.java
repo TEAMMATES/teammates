@@ -277,7 +277,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                         bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
                         responseVisibilityMap, commentGiverEmailToNameTable);
                 ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
                         questionAttributes, existingResponse.getId(), responseVisibilityMap, giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx,
@@ -305,19 +305,19 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 String recipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);
                 String giverName = account.name;
                 ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
                         questionAttributes, "",
                         getResponseVisibilityMap(questionAttributes, !isFeedbackSessionForInstructor), giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 if (isPreview()) {
                     if (previewInstructor == null) {
                         giverName = getStudentToViewPageAs().name;
-                        frcForAdding = buildFeedbackResponseCommentAddForm(
+                        frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
                                 questionAttributes, "", getResponseVisibilityMap(questionAttributes, true), giverName,
                                 recipientName, false, sessionTimeZone);
                     } else {
                         giverName = getPreviewInstructor().name;
-                        frcForAdding = buildFeedbackResponseCommentAddForm(
+                        frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
                                 questionAttributes, "", getResponseVisibilityMap(questionAttributes, false), giverName,
                                 recipientName, true, sessionTimeZone);
                     }
@@ -351,31 +351,27 @@ public class FeedbackSubmissionEditPageData extends PageData {
             String recipientName, Map<FeedbackParticipantType, Boolean> responseVisibilityMap, Map<String,
             String> commentGiverEmailToNameTable) {
         ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
-        if (isFeedbackSessionForInstructor) {
-            for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
-                if (frcAttributes.commentGiver.equals(account.email)) {
-
-                    FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes,
-                            frcAttributes.commentGiver, giverName, recipientName,
-                            getResponseCommentVisibilityString(frcAttributes, questionAttributes),
-                            getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
-                            responseVisibilityMap, commentGiverEmailToNameTable, sessionTimeZone);
-                    setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
-                    return frcRow;
-                }
+        String commentGiver;
+        if (isFeedbackSessionForInstructor){
+            commentGiver = account.email;
+        }
+        else{
+            if(questionAttributes.giverType.isTeam()){
+                commentGiver = student.team;
+            } else{
+                commentGiver = student.email;
             }
-        } else {
-            for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
-                if (frcAttributes.commentGiver.equals(student.email) || frcAttributes.commentGiver.equals(student.team)) {
+        }
 
-                    FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes,
-                            frcAttributes.commentGiver, giverName, recipientName,
-                            getResponseCommentVisibilityString(frcAttributes, questionAttributes),
-                            getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
-                            responseVisibilityMap, commentGiverEmailToNameTable, sessionTimeZone);
-                    setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
-                    return frcRow;
-                }
+        for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
+            if (frcAttributes.commentGiver.equals(commentGiver)) {
+                FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes,
+                        frcAttributes.commentGiver, giverName, recipientName,
+                        getResponseCommentVisibilityString(frcAttributes, questionAttributes),
+                        getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
+                        responseVisibilityMap, commentGiverEmailToNameTable, sessionTimeZone);
+                setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
+                return frcRow;
             }
         }
         return null;
@@ -383,24 +379,28 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     private void setEditDeleteCommentOptionForUser(FeedbackResponseCommentAttributes frcAttributes,
             FeedbackResponseCommentRow frcRow) {
+        String commentGiver;
         if (isModeration) {
             if (isFeedbackSessionForInstructor) {
-                if (frcAttributes.commentGiver.equals(previewInstructor.email)) {
-                    frcRow.enableEditDelete();
-                }
+                commentGiver = previewInstructor.email;
             } else {
-                if (frcAttributes.commentGiver.equals(student.email) || frcAttributes.commentGiver.equals(student.team)) {
-                    frcRow.enableEditDelete();
+                if (frcAttributes.commentGiverType.isTeam()) {
+                    commentGiver = student.team;
+                } else {
+                    commentGiver = student.email;
                 }
             }
         } else if (isFeedbackSessionForInstructor) {
-            if (frcAttributes.commentGiver.equals(account.email)) {
-                frcRow.enableEditDelete();
-            }
+            commentGiver = account.email;
         } else {
-            if (frcAttributes.commentGiver.equals(student.email) || frcAttributes.commentGiver.equals(student.team)) {
-                frcRow.enableEditDelete();
+            if (frcAttributes.commentGiverType.isTeam()) {
+                commentGiver = student.team;
+            } else {
+                commentGiver = student.email;
             }
+        }
+        if (frcAttributes.commentGiver.equals(commentGiver)) {
+            frcRow.enableEditDelete();
         }
     }
 

@@ -515,7 +515,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (isCommentsOnResponsesAllowed) {
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
                         getResponseVisibilityMap(question, false);
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response.getId(),
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(question, response.getId(),
                         responseVisibilityMap, giverName, recipientName, true, bundle.getTimeZone());
 
                 responsePanel.setFrcForAdding(frcForAdding);
@@ -1141,7 +1141,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             boolean isCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
-                FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response.getId(),
+                FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddFormTemplate(question, response.getId(),
                         responseVisibilityMap, giverName, recipientName, true, bundle.getTimeZone());
                 responseRow.setAddCommentButton(addCommentForm);
                 if (userIndexesForComments.get(response.giver) == null) {

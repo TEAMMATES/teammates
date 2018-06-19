@@ -87,8 +87,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      * <li>{@code isVisibilityFollowingFeedbackQuestion = true}</li>
      * </ul>
      */
-    public static Builder builder(String courseId, String feedbackSessionName, String giverEmail, Text commentText) {
-        return new Builder(courseId, feedbackSessionName, giverEmail, commentText);
+    public static Builder builder(String courseId, String feedbackSessionName, String commentGiver, Text commentText) {
+        return new Builder(courseId, feedbackSessionName, commentGiver, commentText);
     }
 
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
