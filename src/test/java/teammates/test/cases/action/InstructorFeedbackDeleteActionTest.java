@@ -39,14 +39,14 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         InstructorFeedbackDeleteAction a = getAction(submissionParams);
         RedirectResult r = getRedirectResult(a);
 
-        assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
+        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE,
                         false,
                         "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN, r.getStatusMessage());
         assertFalse(r.isError);
     }
 
@@ -71,6 +71,9 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+
+        //delete the previous entity
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getSessionName(), fs.getCourseId());
 
         //recreate the entity
         FeedbackSessionsLogic.inst().createFeedbackSession(fs);

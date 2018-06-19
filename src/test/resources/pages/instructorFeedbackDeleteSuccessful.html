@@ -659,7 +659,7 @@
   <br>
   <div id="statusMessagesToUser" style="display: block;">
     <div class="overflow-auto alert alert-success icon-success statusMessage">
-      The feedback session has been deleted.
+      The feedback session has been deleted. You can restore it from the deleted sessions table below.
     </div>
   </div>
   <script defer="" src="/js/statusMessage.js" type="text/javascript">
@@ -1407,6 +1407,77 @@
     <p class="col-md-12 text-muted">
       Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.
     </p>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2 class="text-muted">
+      Deleted feedback sessions
+    </h2>
+    <table class="table table-bordered table-striped" id="tableRecoveryFeedbackSessions">
+      <thead class="fill-info">
+        <tr>
+          <th class="button-sort-none toggle-sort" id="btn_sortid">
+            Course ID
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" id="btn_sortname">
+            Session Name
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursecreateddate">
+            Creation Date
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="btn_sortcoursedeleteddate">
+            Deletion Date
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="align-center no-print">
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="recoverycourseid1">
+            CFeedbackUiT.CS1101
+          </td>
+          <td id="recoverysessionname1">
+            Long Instruction Test ##
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="recoverysessioncreateddate1">
+            ${datetime.now.courses}
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="recoverysessiondeleteddate1">
+            ${datetime.now.courses}
+          </td>
+          <td class="align-center no-print">
+            <a class="btn btn-default btn-xs t_session_restore0" data-original-title="Restore the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRestoreSession?courseid=CFeedbackUiT.CS1101&fsname=Long+Instruction+Test+%23%23&user=CFeedbackUiT.instructor&token=${sessionToken}" title="">
+              Restore
+            </a>
+            <a class="btn btn-default btn-xs t_session_delete0" data-course-id="CFeedbackUiT.CS1101" data-feedback-session-name="Long Instruction Test ##" data-original-title="Permanently delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDeleteSession?courseid=CFeedbackUiT.CS1101&fsname=Long+Instruction+Test+%23%23&user=CFeedbackUiT.instructor&token=${sessionToken}" id="fsDeleteLink" style="color: red" title="">
+              Delete Permanently
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row" style="text-align: right">
+      <a class="btn btn-info btn-md" href="/page/instructorFeedbackRestoreAllSessions?user=CFeedbackUiT.instructor&token=${sessionToken}" id="restoreAllSessions">
+        Restore All Sessions
+      </a>
+        
+      <a class="btn btn-danger btn-md session-delete-all-link" href="/page/instructorFeedbackDeleteAllSessions?user=CFeedbackUiT.instructor&token=${sessionToken}" id="deleteAllSessions">
+        Delete All Sessions
+      </a>
+         
+    </div>
+    <br>
     <br>
     <br>
     <br>

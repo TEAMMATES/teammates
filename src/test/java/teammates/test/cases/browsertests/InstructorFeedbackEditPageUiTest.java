@@ -1133,8 +1133,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         // check redirect to main feedback page
         InstructorFeedbackSessionsPage feedbackPage = feedbackEditPage.deleteSession();
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
-                .contains(Const.StatusMessages.FEEDBACK_SESSION_DELETED));
-        assertNull(getFeedbackSession(courseId, feedbackSessionName));
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
+        assertNotNull(getFeedbackSession(courseId, feedbackSessionName));
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {

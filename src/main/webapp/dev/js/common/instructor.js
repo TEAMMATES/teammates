@@ -359,7 +359,7 @@ function bindSessionDeleteLinks() {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = 'Are you sure you want to delete the feedback session '
+        const messageText = 'Are you sure you want to permanently delete the feedback session '
                 + `${$clickedLink.data('feedbackSessionName')} in ${$clickedLink.data('courseId')}?`;
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
