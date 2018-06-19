@@ -60,7 +60,7 @@
     },
     {
       "name": "Adrian Siwiec",
-      "username": "pierreSquared"
+      "username": "AdrianSiwiec"
     },
     {
       "name": "Ahsan Bagwan",
@@ -515,6 +515,7 @@
       "username": "theitrain"
     },
     {
+      "multiple": true,
       "name": "Jacob Li",
       "username": "jacoblipech"
     },
@@ -864,6 +865,11 @@
       "username": "Naman-sopho"
     },
     {
+      "multiple": true,
+      "name": "Nashmia Riaz",
+      "username": "nashmia-riaz"
+    },
+    {
       "name": "Nassim Bou Ghannam",
       "username": "nassimbg"
     },
@@ -963,6 +969,10 @@
     {
       "name": "Paweł Bąk",
       "username": "baczus0"
+    },
+    {
+      "name": "Pedro Lara Benitez",
+      "username": "pedrolarben"
     },
     {
       "multiple": true,
@@ -1416,6 +1426,10 @@
       "username": "ihsavru"
     },
     {
+      "name": "Vaggelis Malandrakis",
+      "username": "Vaggelis-Malandrakis"
+    },
+    {
       "name": "Vaibhav Desai"
     },
     {
@@ -1491,6 +1505,10 @@
       "multiple": true,
       "name": "Yasiru Nilan",
       "username": "yasirunilan"
+    },
+    {
+      "name": "Yatri Patel",
+      "username": "yatri1609"
     },
     {
       "multiple": true,
