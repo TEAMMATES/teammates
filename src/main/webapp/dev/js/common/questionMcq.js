@@ -81,11 +81,16 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
-
+/**
+ * Enables MCQ options for a question to be reordered through a drag and drop mechanism.
+ * Binds an update event to the option elements which is triggered whenever the order of
+ * elements change. The event handler updates the ids of elements to match the new order.
+ */
 function makeMcqOptionsReorderable(questionNum) {
-    $(`div[id^='mcqOptionRows-${questionNum}']`).sortable({
+    $(`div[id='mcqOptionRows-${questionNum}']`).sortable({
+        cursor: 'move',
         update() {
-            $(`div[id^='mcqOptionRow-'][id$=${questionNum}]`).each(function (index) {
+            $(this).children().each(function (index) {
                 $(this).attr('id', `mcqOptionRow-${index}-${questionNum}`);
                 $(this).find('input[id^="mcqOption-"]').attr({
                     name: `mcqOption-${index}`,
