@@ -65,17 +65,17 @@ public class CourseRoster {
     }
 
     public Map<String, String> getEmailToNameTableFromRoster() {
-        Map<String, String> emailToNameTable = new HashMap<>();
+        Map<String, String> commentGiverEmailNameTable = new HashMap<>();
         List<InstructorAttributes> instructorList = getInstructors();
         for (InstructorAttributes instructor : instructorList) {
-            emailToNameTable.put(instructor.email, instructor.name);
+            commentGiverEmailNameTable.put(instructor.email, instructor.name);
         }
 
         List<StudentAttributes> studentList = getStudents();
         for (StudentAttributes student : studentList) {
-            emailToNameTable.put(student.email, student.name);
+            commentGiverEmailNameTable.put(student.email, student.name);
         }
-        return emailToNameTable;
+        return commentGiverEmailNameTable;
     }
 
     private void populateStudentListByEmail(List<StudentAttributes> students) {

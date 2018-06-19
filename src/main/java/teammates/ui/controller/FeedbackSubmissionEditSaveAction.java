@@ -250,6 +250,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return createSpecificRedirectResult();
     }
 
+    /**
+     * Updates comments which were edited by feedback submitter.
+     * @param commentsToUpdateId key: comment index, value: comment id
+     * @param commentsToUpdateText key: comment index, value: comment text
+     * @param responseGiverMapForComments key: comment index, value: response giver
+     * @param responseRecipientMapForComments key: comment index, value: response recipient
+     */
     private void updateResponsesComments(Map<String, String> commentsToUpdateId,
                                          Map<String, String> commentsToUpdateText,
                                          Map<String, String> responseGiverMapForComments,
@@ -270,6 +277,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
+    // Updates edited comment
     private void updateResponseComment(String commentId, FeedbackResponseAttributes response, String updatedCommentText,
                                        String commentGiverString) {
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
@@ -301,6 +309,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
+    /**
+     * Saves comments which were newly added to feedback response.
+     * @param commentsToAddText key: comment index, value: comment text
+     * @param responseGiverMapForComments key: comment index, value: response giver
+     * @param responseRecipientMapForComments key: comment index, value: response recipient
+     * @param questionIdsForComments key: comment index, value: question id
+     */
     private void saveResponsesComments(Map<String, String> commentsToAddText,
                                        Map<String, String> responseGiverMapForComments,
                                        Map<String, String> responseRecipientMapForComments,
@@ -317,6 +332,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
+    // Creates respondent comments
     private void createCommentsForResponses(String userEmailForCourse, String questionId,
                                             FeedbackResponseAttributes response, String commentText,
                                             String giverRole) throws EntityDoesNotExistException {
@@ -357,6 +373,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                  + "comment text: " + feedbackResponseComment.commentText.getValue();
     }
 
+    // Extracts two types of feedback response comments- ones which were newly added and ones which were edited
     private void extractFeedbackResponseCommentsForResponseData(FeedbackQuestionAttributes questionAttributes,
                                                                 int questionIndex, FeedbackResponseAttributes response,
                                                                 int responseIndex) {

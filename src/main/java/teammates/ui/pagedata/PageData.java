@@ -856,6 +856,17 @@ public class PageData {
         return statusMessagesToUser;
     }
 
+    /**
+     * Builds form that will be used by respondents to add comments to their responses.
+     * @param question question of response
+     * @param responseId id of response
+     * @param responseVisibilityMap Map which determines the visibility settings of comment
+     * @param giverName name of person/team giving comment
+     * @param recipientName name of person/team receiving comment
+     * @param isInstructor whether the add form is for instructor
+     * @param
+     * @return
+     */
     public FeedbackResponseCommentRow buildFeedbackResponseCommentAddForm(FeedbackQuestionAttributes question,
             String responseId, Map<FeedbackParticipantType, Boolean> responseVisibilityMap, String giverName,
             String recipientName, boolean isInstructor, ZoneId timezone) {
@@ -892,14 +903,7 @@ public class PageData {
                     getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
                     timezone);
         }
-        FeedbackParticipantType[] types = {
-                FeedbackParticipantType.GIVER,
-                FeedbackParticipantType.INSTRUCTORS
-        };
-        for (FeedbackParticipantType type : types) {
-            frca.showCommentTo.add(type);
-            frca.showGiverNameTo.add(type);
-        }
+        frca.setVisibilitySettingsForStudentComment();
         frca.commentGiverType = question.giverType.isTeam() ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                 getResponseCommentVisibilityString(frca, question),

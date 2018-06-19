@@ -277,12 +277,12 @@ public class FeedbackSubmissionEditPageData extends PageData {
                         bundle.commentsForResponses.get(existingResponse.getId()), giverName, recipientName,
                         responseVisibilityMap, commentGiverEmailToNameTable);
                 ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
-                FeedbackResponseCommentRow responseExplanationComment = buildFeedbackResponseCommentAddForm(
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(
                         questionAttributes, existingResponse.getId(), responseVisibilityMap, giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx,
                         true, recipientOptionsForQuestion, submissionFormHtml,
-                        existingResponse.getId(), comment, responseExplanationComment));
+                        existingResponse.getId(), comment, frcForAdding));
                 responseSubmittedRecipient.add(recipientName);
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx,
@@ -305,25 +305,25 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 String recipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);
                 String giverName = account.name;
                 ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
-                FeedbackResponseCommentRow responseExplanationComment = buildFeedbackResponseCommentAddForm(
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(
                         questionAttributes, "",
                         getResponseVisibilityMap(questionAttributes, !isFeedbackSessionForInstructor), giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 if (isPreview()) {
                     if (previewInstructor == null) {
                         giverName = getStudentToViewPageAs().name;
-                        responseExplanationComment = buildFeedbackResponseCommentAddForm(
+                        frcForAdding = buildFeedbackResponseCommentAddForm(
                                 questionAttributes, "", getResponseVisibilityMap(questionAttributes, true), giverName,
                                 recipientName, false, sessionTimeZone);
                     } else {
                         giverName = getPreviewInstructor().name;
-                        responseExplanationComment = buildFeedbackResponseCommentAddForm(
+                        frcForAdding = buildFeedbackResponseCommentAddForm(
                                 questionAttributes, "", getResponseVisibilityMap(questionAttributes, false), giverName,
                                 recipientName, true, sessionTimeZone);
                     }
                 }
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
-                        submissionFormHtml, "", null, responseExplanationComment));
+                        submissionFormHtml, "", null, frcForAdding));
                 recipientIndxForUnsubmittedResponse++;
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,

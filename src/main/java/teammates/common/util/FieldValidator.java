@@ -689,6 +689,11 @@ public class FieldValidator {
         return errors;
     }
 
+    /**
+     * Checks if comment giver type is either instructor, student or team.
+     * @param commentGiverType comment giver type to be checked.
+     * @return Error string if type is invalid, otherwise empty string.
+     */
     public String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
         Assumption.assertNotNull("Non-null value expected", commentGiverType);
         if(!commentGiverType.equals(FeedbackParticipantType.STUDENTS)

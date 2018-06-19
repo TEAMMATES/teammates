@@ -363,21 +363,27 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    private void verifyIsUserOfCourse(String courseId, String commentGiver, FeedbackParticipantType giverRole)
+    /**
+     * Verifies if comment giver is registered user/team of course
+     * @param courseId id of course
+     * @param commentGiver person/team who gave comment
+     * @param commentGiverType type of comment giver                    *
+     */
+    private void verifyIsUserOfCourse(String courseId, String commentGiver, FeedbackParticipantType commentGiverType)
             throws EntityDoesNotExistException {
-        if (FeedbackParticipantType.STUDENTS.equals(giverRole)) {
+        if (FeedbackParticipantType.STUDENTS.equals(commentGiverType)) {
             StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
             if (student == null) {
                 throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered student for course "
                         + courseId + ".");
             }
-        } else if (FeedbackParticipantType.INSTRUCTORS.equals(giverRole)) {
+        } else if (FeedbackParticipantType.INSTRUCTORS.equals(commentGiverType)) {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
             if (instructor == null) {
                 throw new EntityDoesNotExistException("User " + commentGiver
                                                               + " is not a registered instructor for course " + courseId + ".");
             }
-        } else if (FeedbackParticipantType.TEAMS.equals(giverRole)) {
+        } else if (FeedbackParticipantType.TEAMS.equals(commentGiverType)) {
             List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
             boolean isTeamPresentInCourse = false;
             for (TeamDetailsBundle team : teams) {
@@ -391,7 +397,7 @@ public final class FeedbackResponseCommentsLogic {
                         + courseId + ".");
             }
         } else {
-            throw new EntityDoesNotExistException("Unknown giver type :" + giverRole);
+            throw new EntityDoesNotExistException("Unknown giver type :" + commentGiverType);
         }
 
     }

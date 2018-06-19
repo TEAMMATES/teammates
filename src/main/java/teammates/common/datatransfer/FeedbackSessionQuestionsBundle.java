@@ -154,8 +154,14 @@ public class FeedbackSessionQuestionsBundle {
         }
     }
 
-    public String getNameForEmail(String email) {
-        String name = emailToNameTable.get(email);
+    /**
+     * Returns name associated with the response giver. It can be either email of student/instructor or
+     * name of a team.
+     * @param responseGiver email of student/instructor or name of team
+     * @return name of student/instructor/team
+     */
+    public String getNameForEmail(String responseGiver) {
+        String name = emailToNameTable.get(responseGiver);
         if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         }
@@ -163,14 +169,19 @@ public class FeedbackSessionQuestionsBundle {
             return Const.USER_NOBODY_TEXT;
         }
         if (name.equals(Const.USER_IS_TEAM)) {
-            return getTeamNameForEmail(email);
+            return getTeamNameForEmail(responseGiver);
         }
         return name;
     }
 
-    public String getTeamNameForEmail(String email) {
-        String teamName = emailToTeamNameTable.get(email);
-        if (teamName == null || email.equals(Const.GENERAL_QUESTION)) {
+    /**
+     * Returns team name associated with response giver where response giver is a team.
+     * @param responseGiver email of the instructor to be checked.
+     * @return team name.
+     */
+    public String getTeamNameForEmail(String responseGiver) {
+        String teamName = emailToTeamNameTable.get(responseGiver);
+        if (teamName == null || responseGiver.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
         }
         return teamName;

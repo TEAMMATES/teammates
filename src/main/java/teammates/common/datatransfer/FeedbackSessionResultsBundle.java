@@ -1666,6 +1666,11 @@ public class FeedbackSessionResultsBundle {
         return feedbackSession.getTimeZone();
     }
 
+    /**
+     * Returns string of all instructor comments on a response appended to their names for csv.
+     * @param response feedback response from which comments are taken
+     * @return string of format ", name of instructor, comment"
+     */
     public StringBuilder getCsvDetailedInstructorFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);
@@ -1678,6 +1683,11 @@ public class FeedbackSessionResultsBundle {
         return commentRow;
     }
 
+    /**
+     * Returns string of student comment on a response for csv.
+     * @param response feedback response on which comment is given
+     * @return comment by student in form of string
+     */
     public String getCsvDetailedStudentCommentOnResponse(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {

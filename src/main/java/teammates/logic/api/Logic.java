@@ -2186,6 +2186,11 @@ public class Logic {
         return studentsLogic.getSectionForTeam(courseId, teamName);
     }
 
+    /**
+     * Returns a list of feedback comments associated with feedbackResponseId
+     *
+     * @see FeedbackResponseCommentsLogic#getFeedbackResponseCommentForResponse(String)
+     */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(feedbackResponseId);
     }

@@ -99,6 +99,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return feedbackResponseCommentId;
     }
 
+    /**
+     * Converts comment text in form of string i.e if it contains image, changes it into link.
+     * This function is used for showing comment in csv and in feedback results table. Thus it is sanitized accordingly.
+     * @param isCommentForCsv is comment meant for Csv
+     * @return Comment in form of string
+     */
     public String convertCommentTextToString(boolean isCommentForCsv) {
         String htmlText = commentText.getValue();
         StringBuilder comment = new StringBuilder(200);
@@ -123,14 +129,19 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackResponseCommentId = id;
     }
 
-    public FeedbackParticipantType getCommentGiverTypeFromString(String commentGiverRole) {
-        if (commentGiverRole.equals(Const.STUDENT)) {
+    /**
+     * Used to convert comment giver obtained from request parameter to appropriate FeedbackParticipantType
+     * @param commentGiverTypeString comment giver type
+     * @return comment giver type as FeedbackParticipantType
+     */
+    public FeedbackParticipantType getCommentGiverTypeFromString(String commentGiverTypeString) {
+        if (commentGiverTypeString.equals(Const.STUDENT)) {
             return FeedbackParticipantType.STUDENTS;
         }
-        if (commentGiverRole.equals(Const.INSTRUCTOR)) {
+        if (commentGiverTypeString.equals(Const.INSTRUCTOR)) {
             return FeedbackParticipantType.INSTRUCTORS;
         }
-        if (commentGiverRole.equals(Const.TEAM)) {
+        if (commentGiverTypeString.equals(Const.TEAM)) {
             return FeedbackParticipantType.TEAMS;
         }
         log.severe("Unknown comment giver type");
@@ -313,6 +324,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
     }
 
+    /**
+     * Sets default visibility settings for respondent comments.
+     */
     public void setVisibilitySettingsForStudentComment() {
         FeedbackParticipantType[] types = {
                 FeedbackParticipantType.GIVER,

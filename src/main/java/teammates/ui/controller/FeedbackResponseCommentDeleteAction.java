@@ -2,11 +2,15 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 public abstract class FeedbackResponseCommentDeleteAction extends Action {
+    Logger log = Logger.getLogger();
 
     protected String courseId;
     protected String feedbackSessionName;

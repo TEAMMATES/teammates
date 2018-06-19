@@ -264,6 +264,7 @@ public class FeedbackResponseCommentRow {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverEmail)) {
             return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
         }
+        // When comment giver is a team
         if (commentGiverEmailToNameTable.get(giverEmail) == null) {
             return giverEmail;
         }
