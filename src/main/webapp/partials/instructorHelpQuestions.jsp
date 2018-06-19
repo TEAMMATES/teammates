@@ -431,7 +431,6 @@
                                     </button>
                                   </span>
                                 </div>
-            
                               </div>
                               <div class="col-sm-3" id="mcqWeights-1">
                                 <div class="margin-bottom-7px">
@@ -440,7 +439,6 @@
                                 <div class="margin-bottom-7px">
                                   <input type="number" class="form-control nonDestructive" value="1" id="mcqWeight-1-1" name="mcqWeight-1" step="0.01" disabled="" required="">
                                 </div>
-            
                               </div>
                             </div>
                             <div id="mcqAddOptionRow-1">
@@ -449,7 +447,6 @@
                                   <span class="glyphicon glyphicon-plus">
                                   </span> add more options
                                 </a>
-            
                                 <div class="row">
                                   <div class="checkbox col-sm-9 padding-left-35px">
                                     <label class="bold-label">
@@ -464,7 +461,6 @@
                               </div>
                             </div>
                           </div>
-            
                           <input type="hidden" name="noofchoicecreated" id="noofchoicecreated-1" value="2" disabled="">
                         </div>
                         <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
@@ -489,7 +485,6 @@
                         <br>
                       </div></div>
                     </div>
-            
                     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                       <div class="margin-bottom-7px">
                         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
