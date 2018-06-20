@@ -1175,7 +1175,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "",
                 "Per Recipient Statistics",
                 "Team, Recipient Name,\"It's good [1.25]\",\"It's perfect [-1.7]\",\"Other [3]\",Total, Average",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"1\",\"0\",\"0\",\"1.25\",\"1.25\"",
+                "Team 1.1</td></div>'\", student1 In Course1</td></div>'\", 1, 0, 0, 1.25, 1.25",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"It's good\"",

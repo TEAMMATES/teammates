@@ -320,29 +320,6 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateQuestionDetails_weightsAndOtherEnabledEmptyWeights_errorReturned() {
-        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
-
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "mcq question text" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, new String[] { "NONE" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "2" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "Choice 1" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", new String[] { "Choice 2" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED, new String[] { "on" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, new String[] { "on" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, new String[] { "3.12" });
-
-        assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
-        assertTrue(mcqDetails.hasAssignedWeights());
-        assertTrue(mcqDetails.getOtherEnabled());
-        // If no other option has weights attached, 'other' option should not have a weight either.
-        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
-        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
-    }
-
-    @Test
     public void testExtractQuestionDetails_weightsEnabledForGenerateOptions_weightShouldRemainDisabled() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
