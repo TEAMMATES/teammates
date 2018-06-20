@@ -56,7 +56,7 @@
               id="button_add_comment-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
               data-recipientindex="${responseRecipientIndex}" data-giverindex="${responseGiverIndex}"
               data-qnindex="${questionIndex}" data-toggle="tooltip" data-placement="top"
-              title="<%=Const.Tooltips.COMMENT_ADD%>">
+              title="<%=Const.Tooltips.COMMENT_ADD%>" ${isSessionOpenForSubmission ? '' : 'disabled' }>
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
       </button>
       <c:choose>

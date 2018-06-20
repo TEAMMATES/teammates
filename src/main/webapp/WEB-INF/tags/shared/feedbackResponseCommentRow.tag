@@ -104,6 +104,7 @@
                 data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
                 <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
                 <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
+                <c:if test="${not isSessionOpenForSubmission && isOnFeedbackSubmissionEditPage}">disabled</c:if>
               </c:when>
               <c:otherwise>
                 class="btn btn-default btn-xs icon-button pull-right<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
