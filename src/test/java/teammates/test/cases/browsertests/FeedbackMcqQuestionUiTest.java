@@ -297,7 +297,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
     @Test
     public void testMcqWeightsFeature_shouldToggleStateCorrectly() {
 
-        ______TS("MCQ: Weight cells are visible when weights are assigned");
+        ______TS("MCQ: Weight cells are visible when assigneWeights checkbox is clicked?");
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MCQ");
 
@@ -321,8 +321,10 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         // Uncheck checkboxes for consistency among other tests,
         // otherwise these settings will persist after cancelling the question form
         // Uncheck the 'Choices are weighted' checkbox.
-        feedbackEditPage.clickMcqAssignWeightCheckboxForNewQuestion();
         feedbackEditPage.clickAddMcqOtherOptionCheckboxForNewQuestion();
+        assertFalse(feedbackEditPage.getMcqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+        feedbackEditPage.clickMcqAssignWeightCheckboxForNewQuestion();
+        assertFalse(feedbackEditPage.getMcqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
 
         // Cancel question
         feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
@@ -414,7 +416,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickMcqAssignWeightCheckboxForNewQuestion();
         feedbackEditPage.clickAddMcqOtherOptionCheckboxForNewQuestion();
 
-        // Fill MCQ choices and check corresponding weight values
+        // Fill MCQ choices and corresponding weight values
         feedbackEditPage.fillMcqOptionForNewQuestion(0, "Choice 1");
         feedbackEditPage.fillMcqWeightBox(NEW_QUESTION_INDEX, 0, "1");
         feedbackEditPage.fillMcqOptionForNewQuestion(1, "Choice 2");
@@ -445,10 +447,12 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMcqOption(1, 3, "                           "); // Choices with only spaces
         feedbackEditPage.fillMcqWeightBox(1, 3, "5");
 
+        // The question form removes invalid choices,
+        // So, the corresponding weights should be removed as well, without throwing an error.
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
 
-        // Check that the two added choices and the corresponding weights are not present
+        // Check that the invalid choice and the corresponding weight cell is removed from the question.
         assertFalse(feedbackEditPage.isElementPresent("mcqOption-3-1"));
         assertFalse(feedbackEditPage.isElementPresent("mcqWeight-3-1"));
 

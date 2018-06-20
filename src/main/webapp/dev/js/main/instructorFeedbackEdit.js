@@ -365,6 +365,7 @@ function disableQuestion(questionNum) {
        If so, hide 'add Other option' and the mcq weight checkbox for mcq questions */
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        // Hide the enclosing parent div to hide the weight checkbox and 'Choices are weighted' label.
         $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().hide();
         $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).hide();
     } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
@@ -372,6 +373,7 @@ function disableQuestion(questionNum) {
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
+        // Shows the enclosing parent div to show the weight checkbox and 'Choices are weighted' label.
         $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().show();
         $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).show();
     }
