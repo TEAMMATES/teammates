@@ -162,6 +162,8 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
             courseTimeZone = Const.DEFAULT_TIME_ZONE;
         }
         return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), courseTimeZone)
-                .withCreatedAt(entity.getCreatedAt()).withDeletedAt(entity.getDeletedAt()).build();
+                .withCreatedAt(entity.getCreatedAt())
+                .withDeletedAt(entity.getDeletedAt())
+                .build();
     }
 }
