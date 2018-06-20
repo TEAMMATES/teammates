@@ -568,13 +568,16 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
+
         return link;
     }
 
     public String getInstructorFeedbackRestoreAllRecoverySessionsLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
 
@@ -585,13 +588,16 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
+
         return link;
     }
 
     public String getInstructorFeedbackDeleteAllRecoverySessionsLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
         link = addUserIdToUrl(link);
         link = addSessionTokenToUrl(link);
 
