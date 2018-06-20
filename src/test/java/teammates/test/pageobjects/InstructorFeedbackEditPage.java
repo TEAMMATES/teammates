@@ -700,6 +700,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(checkbox);
     }
 
+    public boolean isMcqOtherOptionCheckboxChecked(int qnNumber) {
+        return browser.driver.findElement(By.id("mcqOtherOptionFlag-" + qnNumber)).isSelected();
+    }
+
     public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
         click(addMsqOtherOptionCheckboxForNewQuestion);
     }
@@ -1286,13 +1290,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAddMoreMcqOptionLink(NEW_QUESTION_NUM);
     }
 
-    public void clickMcqHasAssignedWeightsCheckbox(int qnNumber) {
-        WebElement mcqAssignWeightCheckbox = browser.driver.findElement(By.id("mcqHasAssignedWeights-" + qnNumber));
+    public WebElement getMcqHasAssignWeightsCheckbox(int qnNumber) {
+        return browser.driver.findElement(By.id("mcqHasAssignedWeights-" + qnNumber));
+    }
+
+    public void clickMcqHasAssignWeightsCheckbox(int qnNumber) {
+        WebElement mcqAssignWeightCheckbox = getMcqHasAssignWeightsCheckbox(qnNumber);
         click(mcqAssignWeightCheckbox);
     }
 
     public void clickMcqAssignWeightCheckboxForNewQuestion() {
-        clickMcqHasAssignedWeightsCheckbox(NEW_QUESTION_NUM);
+        clickMcqHasAssignWeightsCheckbox(NEW_QUESTION_NUM);
     }
 
     public boolean isMcqHasAssignWeightCheckboxChecked(int qnNumber) {
