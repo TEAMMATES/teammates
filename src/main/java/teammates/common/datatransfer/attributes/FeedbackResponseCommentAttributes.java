@@ -338,4 +338,20 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
     }
 
+    public void setVisibilitySettingsForInstructorComment(String showCommentTo, String showGiverNameTo) {
+        this.showCommentTo = new ArrayList<>();
+        if (showCommentTo != null && !showCommentTo.isEmpty()) {
+            String[] showCommentToArray = showCommentTo.split(",");
+            for (String viewer : showCommentToArray) {
+                this.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        this.showGiverNameTo = new ArrayList<>();
+        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
+            String[] showGiverNameToArray = showGiverNameTo.split(",");
+            for (String viewer : showGiverNameToArray) {
+                this.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+    }
 }

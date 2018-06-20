@@ -273,15 +273,23 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                             responseRecipientMapForComments.get(commentIndex));
             String commentGiverString =
                     getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
-            updateResponseComment(commentId, response, updatedCommentText,
+            String showCommentTo = null;
+            String showGiverNameTo = null;
+            if (this instanceof InstructorFeedbackSubmissionEditSaveAction) {
+                showCommentTo =
+                        getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
+                showGiverNameTo =
+                        getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndex);
+            }
+            updateResponseComment(showCommentTo, showGiverNameTo, commentId, response, updatedCommentText,
                     commentGiverString);
 
         }
     }
 
     // Updates edited comment
-    private void updateResponseComment(String commentId, FeedbackResponseAttributes response, String updatedCommentText,
-                                       String commentGiverString) {
+    private void updateResponseComment(String showCommentTo, String showGiverNameTo, String commentId,
+            FeedbackResponseAttributes response, String updatedCommentText, String commentGiverString) {
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, response.giver, new Text(updatedCommentText))
                 .withCreatedAt(Instant.now())
@@ -290,7 +298,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .build();
         feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(commentGiverString);
         feedbackResponseComment.setId(Long.parseLong(commentId));
-        feedbackResponseComment.setVisibilitySettingsForStudentComment();
+        if (showCommentTo == null && showGiverNameTo == null) {
+            feedbackResponseComment.setVisibilitySettingsForStudentComment();
+        } else {
+            feedbackResponseComment.setVisibilitySettingsForInstructorComment(showCommentTo, showGiverNameTo);
+        }
 
         FeedbackResponseCommentAttributes updatedComment = null;
         try {
@@ -330,14 +342,23 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             FeedbackResponseAttributes responseToAddComment =
                     logic.getFeedbackResponse(questionId, responseGiver, responseRecipient);
             String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
-            createCommentsForResponses(responseGiver, questionId, responseToAddComment, commentText, giverRole);
+            String showCommentTo = null;
+            String showGiverNameTo = null;
+            if (this instanceof InstructorFeedbackSubmissionEditSaveAction) {
+                showCommentTo =
+                        getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
+                showGiverNameTo =
+                        getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndex);
+            }
+            createCommentsForResponses(showCommentTo, showGiverNameTo, responseGiver, questionId, responseToAddComment,
+                    commentText, giverRole);
         }
     }
 
     // Creates respondent comments
-    private void createCommentsForResponses(String userEmailForCourse, String questionId,
-                                            FeedbackResponseAttributes response, String commentText,
-                                            String giverRole) throws EntityDoesNotExistException {
+    private void createCommentsForResponses(String showCommentTo, String showGiverNameTo, String userEmailForCourse,
+            String questionId, FeedbackResponseAttributes response, String commentText, String giverRole)
+            throws EntityDoesNotExistException {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder(courseId, feedbackSessionName, userEmailForCourse, new Text(commentText))
@@ -348,7 +369,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .withReceiverSection(response.recipientSection)
                 .build();
         feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
-        feedbackResponseComment.setVisibilitySettingsForStudentComment();
+        if (showCommentTo == null && showGiverNameTo == null) {
+            feedbackResponseComment.setVisibilitySettingsForStudentComment();
+        } else {
+            feedbackResponseComment.setVisibilitySettingsForInstructorComment(showCommentTo, showGiverNameTo);
+        }
 
         FeedbackResponseCommentAttributes createdComment = null;
         try {
