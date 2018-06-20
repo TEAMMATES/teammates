@@ -26,10 +26,10 @@ public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCase {
     @BeforeSuite
     public void setUpEnvironment() {
         try {
-            if (new URL(TestProperties.TEAMMATES_URL).getHost().contains("https://")) {
-                SystemProperty.environment.set(SystemProperty.Environment.Value.Development);
-            } else {
+            if (new URL(TestProperties.TEAMMATES_URL).getProtocol().equals("https")) {
                 SystemProperty.environment.set(SystemProperty.Environment.Value.Production);
+            } else {
+                SystemProperty.environment.set(SystemProperty.Environment.Value.Development);
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
