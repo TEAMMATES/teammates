@@ -1562,6 +1562,24 @@ public class Logic {
     }
 
     /**
+     * Gets all template feedback questions for an instructor<br>
+     * Returns an empty list if there are no questions
+     * for the session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(String templateType, String courseId,
+                                                                                String feedbackSessionName, String creatorEmail) {
+        Assumption.assertNotNull(templateType);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(creatorEmail);
+        
+        return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(
+                templateType, courseId, feedbackSessionName, creatorEmail);
+    }
+
+    /**
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.
