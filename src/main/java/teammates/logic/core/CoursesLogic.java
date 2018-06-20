@@ -533,7 +533,7 @@ public final class CoursesLogic {
     /**
      * Returns a list of {@link CourseAttributes} for soft-deleted courses for a given list of instructors.
      */
-    public List<CourseAttributes> getRecoveryCoursesForInstructor(List<InstructorAttributes> instructorList) {
+    public List<CourseAttributes> getRecoveryCoursesForInstructors(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
         List<String> recoveryCourseIdList = instructorList.stream()
@@ -552,6 +552,17 @@ public final class CoursesLogic {
         }
 
         return recoveryCourseList;
+    }
+
+    public CourseAttributes getRecoveryCourseForInstructor(InstructorAttributes instructor) {
+        Assumption.assertNotNull("Supplied parameter was null", instructor);
+
+        CourseAttributes recoveryCourse = coursesDb.getCourse(instructor.courseId);
+
+        if (recoveryCourse.isCourseDeleted()) {
+            return null;
+        }
+        return recoveryCourse;
     }
 
     /**
@@ -666,10 +677,7 @@ public final class CoursesLogic {
                 .collect(Collectors.toList());
 
         for (String courseId : recoveryCourseIdList) {
-            studentsLogic.deleteStudentsForCourse(courseId);
-            instructorsLogic.deleteInstructorsForCourse(courseId);
-            feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
-            coursesDb.deleteCourse(courseId);
+            deleteCourseCascade(courseId);
         }
     }
 
@@ -706,9 +714,7 @@ public final class CoursesLogic {
                 .collect(Collectors.toList());
 
         for (String courseId : recoveryCourseIdList) {
-            CourseAttributes course = coursesDb.getCourse(courseId);
-            course.resetDeletedAt();
-            coursesDb.updateCourse(course);
+            restoreCourseFromRecoveryCascade(courseId);
         }
     }
 
