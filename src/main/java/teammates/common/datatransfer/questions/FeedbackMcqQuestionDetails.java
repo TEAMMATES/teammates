@@ -810,9 +810,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         List<String> statsForEachRecipient = generateStatisticsForEachRecipient(recipientEmail, recipientResponses, bundle);
 
         // Add each column data in fragments
-        for (int i = 0; i < statsForEachRecipient.size(); i++) {
-            fragments.append(String.join(", ", statsForEachRecipient) + System.lineSeparator());
-        }
+        fragments.append(String.join(", ", statsForEachRecipient) + System.lineSeparator());
         return fragments.toString();
     }
 
