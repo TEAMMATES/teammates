@@ -20,6 +20,9 @@ public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCase {
 
     private LocalServiceTestHelper helper = new LocalServiceTestHelper();
 
+    /**
+     * Sets the environment of SystemProperty based on the URL.
+     */
     @BeforeSuite
     public void setUpEnvironment() {
         try {
