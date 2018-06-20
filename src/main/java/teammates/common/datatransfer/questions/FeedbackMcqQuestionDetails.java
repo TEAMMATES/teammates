@@ -700,8 +700,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         // If weights are assigned, then add the 'Per Recipient Statistics' to the CSV string.
         if (hasAssignedWeights) {
             csv.append(System.lineSeparator())
-               .append("Per Recipient Statistics").append(System.lineSeparator())
-               .append(getPerRecipientResponseStatsCsv(responses, bundle));
+                .append("Per Recipient Statistics").append(System.lineSeparator())
+                .append(getPerRecipientResponseStatsCsv(responses, bundle));
         }
         return csv.toString();
     }
@@ -854,12 +854,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // If weight is enabled, but other option is disabled, and mcqOtherWeight is not 0
             // In that case, this error will be triggered.
             if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) {
-                errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
-            }
-
-            // If no other option has weights attached,
-            // the 'other' option should not have a weight attached either
-            if (hasAssignedWeights && otherEnabled && mcqWeights.isEmpty() && mcqOtherWeight != 0) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
         }
