@@ -312,6 +312,13 @@ input.inline {
     padding-left: 7px;
 }
 
+/*
+!important is required to override Bootstrap .caret class match which matches 2 classes (.btn.caret)
+*/
+.margin-left-3px {
+    margin-left: 3px !important;
+}
+
 .margin-left-7px {
     margin-left: 7px;
 }
@@ -846,16 +853,12 @@ Prevents content overflow in navbar. */
     margin: 10px 0;
 }
 
-.more-info-point-details {
-    margin-left: 50px;
-}
-
 .more-info-column-info,
 .more-info-mass-edit-info {
     list-style: circle;
 }
 
-.more-info-email-details {
+.more-info-sub-point-details {
     list-style: disc;
     margin-left: -20px;
 }
@@ -864,6 +867,27 @@ Prevents content overflow in navbar. */
     border: thin solid grey;
     display: inline-block;
     padding: 20px 40px;
+}
+
+#student-data-spreadsheet .panel-body {
+    padding: 5px;
+    margin: 10px;
+}
+
+#enrollstudents {
+    display: none;
+}
+
+#number-of-rows {
+    width: 60px;
+    height: 32px;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #AAA;
+}
+
+#addEmptyRows {
+    margin-top: -3px;
 }
 
 #omni-comment-dropdown-trigger {
@@ -1225,6 +1249,10 @@ Default to alert color for visibility titles used within an alert context.
     display: block;
 }
 
+.remind-all {
+    width: 250px;
+}
+
 .remind-no-response {
     display: inline-block;
     padding-right: 5px;
@@ -1259,6 +1287,15 @@ Default to alert color for visibility titles used within an alert context.
 .modal-footer {
     margin-top: 0;
     padding: 14px 15px 15px;
+}
+
+.unanswered-exclamation-mark {
+    font-size: 200%;
+}
+
+.unanswered-message span {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 /* /////////////////////////////////////////////////////////
