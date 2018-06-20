@@ -27,6 +27,20 @@
       "isInstructor": false,
       "email": "student2InCourse1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "student3.tmms": {
+      "googleId": "FMcqQnUiT.student3",
+      "name": "student3",
+      "isInstructor": false,
+      "email": "student3InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student4.tmms": {
+      "googleId": "FMcqQnUiT.student4",
+      "name": "student4",
+      "isInstructor": false,
+      "email": "student4InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
