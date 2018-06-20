@@ -1299,7 +1299,7 @@ public final class Const {
                 + "Go there to undo the archiving and bring the course back to the home page.";
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE =
-                "The course %s has been deleted. You can restore it from courses page.";
+                "The course %s has been deleted. You can restore it from the 'Courses' tab.";
         public static final String COURSE_MOVED_TO_RECYCLE_BIN =
                 "The course %s has been deleted. You can restore it from the deleted courses table below.";
         public static final String COURSE_RESTORED = "The course %s has been restored.";

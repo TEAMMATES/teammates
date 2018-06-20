@@ -669,10 +669,16 @@ public class Logic {
      *
      * @return Courses in Recycle Bin that the given instructors is in.
      */
-    public List<CourseAttributes> getRecoveryCoursesForInstructor(List<InstructorAttributes> instructorList) {
+    public List<CourseAttributes> getRecoveryCoursesForInstructors(List<InstructorAttributes> instructorList) {
 
         Assumption.assertNotNull(instructorList);
-        return coursesLogic.getRecoveryCoursesForInstructor(instructorList);
+        return coursesLogic.getRecoveryCoursesForInstructors(instructorList);
+    }
+
+    public CourseAttributes getRecoveryCourseForInstructor(InstructorAttributes instructor) {
+
+        Assumption.assertNotNull(instructor);
+        return coursesLogic.getRecoveryCourseForInstructor(instructor);
     }
 
     /**
