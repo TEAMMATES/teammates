@@ -499,7 +499,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     && instructor.isAllowedForPrivilege(response.recipientSection,
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-            boolean isCommentsOnResponsesAllowed = question.getQuestionDetails()
+            boolean isInstructorCommentsOnResponsesAllowed = question.getQuestionDetails()
                     .isCommentsOnResponsesAllowed();
             Matcher matcher = sectionIdPattern.matcher(additionalInfoId);
             if (matcher.find()) {
@@ -510,13 +510,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     new InstructorFeedbackResultsResponsePanel(
                             question, response, questionText, sectionId, additionalInfoText, null,
                             displayableResponse, comments, isAllowedToSubmitSessionsInBothSection,
-                            isCommentsOnResponsesAllowed);
+                            isInstructorCommentsOnResponsesAllowed);
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
-            if (isCommentsOnResponsesAllowed) {
+            if (isInstructorCommentsOnResponsesAllowed) {
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
                         getResponseVisibilityMap(question, false);
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(question, response.getId(),
-                        responseVisibilityMap, giverName, recipientName, true, bundle.getTimeZone());
+                FeedbackResponseCommentRow frcForAdding =
+                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), responseVisibilityMap,
+                                giverName, recipientName, true, bundle.getTimeZone());
 
                 responsePanel.setFrcForAdding(frcForAdding);
 
@@ -528,8 +529,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private InstructorFeedbackResultsGroupByQuestionPanel buildGroupByQuestionPanel(
-            String participantIdentifier,
-            Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap,
+            String participantIdentifier, Entry<String, Map<FeedbackQuestionAttributes,
+            List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap,
             String additionalInfoId, int participantIndex) {
         List<InstructorFeedbackResultsQuestionTable> questionTables = new ArrayList<>();
 
@@ -1141,8 +1142,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             boolean isCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
-                FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddFormTemplate(question, response.getId(),
-                        responseVisibilityMap, giverName, recipientName, true, bundle.getTimeZone());
+                FeedbackResponseCommentRow addCommentForm =
+                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), responseVisibilityMap,
+                                giverName, recipientName, true, bundle.getTimeZone());
                 responseRow.setAddCommentButton(addCommentForm);
                 if (userIndexesForComments.get(response.giver) == null) {
                     userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);
@@ -1155,7 +1157,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
                 responseRow.setResponseRecipientIndex(responseRecipientIndex);
                 responseRow.setResponseGiverIndex(responseGiverIndex);
-                responseRow.setCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
+                responseRow.setInstructorCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
             }
             responseRows.add(responseRow);
         }
@@ -1550,8 +1552,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         if (frcAttributes.commentGiverType == null) {
             frcAttributes.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
         }
-        if (isInstructorAllowedToEditAndDeleteComment &&
-                    FeedbackParticipantType.INSTRUCTORS.equals(frcAttributes.commentGiverType)) {
+        if (isInstructorAllowedToEditAndDeleteComment
+                    && FeedbackParticipantType.INSTRUCTORS.equals(frcAttributes.commentGiverType)) {
             frc.enableEditDelete();
         }
 

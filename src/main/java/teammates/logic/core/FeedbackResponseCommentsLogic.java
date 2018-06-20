@@ -364,7 +364,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Verifies if comment giver is registered user/team of course
+     * Verifies if comment giver is registered user/team of course.
      * @param courseId id of course
      * @param commentGiver person/team who gave comment
      * @param commentGiverType type of comment giver                    *
@@ -381,7 +381,7 @@ public final class FeedbackResponseCommentsLogic {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
             if (instructor == null) {
                 throw new EntityDoesNotExistException("User " + commentGiver
-                                                              + " is not a registered instructor for course " + courseId + ".");
+                        + " is not a registered instructor for course " + courseId + ".");
             }
         } else if (FeedbackParticipantType.TEAMS.equals(commentGiverType)) {
             List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
@@ -399,7 +399,6 @@ public final class FeedbackResponseCommentsLogic {
         } else {
             throw new EntityDoesNotExistException("Unknown giver type :" + commentGiverType);
         }
-
     }
 
     private void verifyIsFeedbackSessionOfCourse(String courseId, String feedbackSessionName)

@@ -36,7 +36,7 @@ public class InstructorFeedbackResultsResponseRow {
     private List<FeedbackResponseCommentRow> commentsOnResponses;
     private int responseRecipientIndex;
     private int responseGiverIndex;
-    private boolean isCommentsOnResponsesAllowed;
+    private boolean isInstructorCommentsOnResponsesAllowed;
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
@@ -206,12 +206,12 @@ public class InstructorFeedbackResultsResponseRow {
         this.responseGiverIndex = responseGiverIndex;
     }
 
-    public boolean isCommentsOnResponsesAllowed() {
-        return isCommentsOnResponsesAllowed;
+    public boolean isInstructorCommentsOnResponsesAllowed() {
+        return isInstructorCommentsOnResponsesAllowed;
     }
 
-    public void setCommentsOnResponsesAllowed(boolean isCommentsOnResponsesAllowed) {
-        this.isCommentsOnResponsesAllowed = isCommentsOnResponsesAllowed;
+    public void setInstructorCommentsOnResponsesAllowed(boolean isCommentsOnResponsesAllowed) {
+        this.isInstructorCommentsOnResponsesAllowed = isCommentsOnResponsesAllowed;
     }
 
     public boolean isStudentCommentsOnResponsesAllowed() {

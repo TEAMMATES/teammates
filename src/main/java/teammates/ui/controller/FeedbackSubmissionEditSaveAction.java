@@ -193,8 +193,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         deleteResponses(responsesToDelete);
         updateResponses(responsesToUpdate);
 
+        //Saves the newly added comments
         saveResponsesComments(commentsToAddText, responseGiverMapForComments, responseRecipientMapForComments,
                                 questionIdsForComments);
+        //Updates edited comments
         updateResponsesComments(commentsToUpdateId, commentsToUpdateText, responseGiverMapForComments,
                                 responseRecipientMapForComments, questionIdsForComments);
 
@@ -412,7 +414,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             FeedbackResponseCommentAttributes commentCheck =
                     logic.getFeedbackResponseComment(Long.parseLong(commentId));
 
-
             if (!StringHelper.isEmpty(editedCommentText)
                         && !commentCheck.commentText.getValue().equals(editedCommentText)) {
                 String commentIndx = "-" + responseIndex + "-"
@@ -425,7 +426,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 responseRecipientMapForComments.put(commentIndx, response.recipient);
             }
         }
-
     }
 
     /**

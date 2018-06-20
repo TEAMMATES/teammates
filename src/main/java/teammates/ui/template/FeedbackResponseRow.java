@@ -89,7 +89,6 @@ public class FeedbackResponseRow {
                 }
                 this.responseComments.add(responseRow);
             }
-
         }
     }
 

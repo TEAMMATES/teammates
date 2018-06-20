@@ -35,8 +35,8 @@ public class FeedbackSessionQuestionsBundle {
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession, Map<FeedbackQuestionAttributes,
             List<FeedbackResponseAttributes>> questionResponseBundle, Map<String, Map<String, String>> recipientList,
-                                          Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses,
-                                          Map<String, String> emailToNameTable, Map<String, String> emailToTeamNameTable, CourseRoster roster) {
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses,
+            Map<String, String> emailToNameTable, Map<String, String> emailToTeamNameTable, CourseRoster roster) {
 
         this.feedbackSession = feedbackSession;
         this.questionResponseBundle = questionResponseBundle;

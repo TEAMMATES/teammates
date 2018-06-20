@@ -696,13 +696,14 @@ public class FieldValidator {
      */
     public String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
         Assumption.assertNotNull("Non-null value expected", commentGiverType);
-        if(!commentGiverType.equals(FeedbackParticipantType.STUDENTS)
+        if (!commentGiverType.equals(FeedbackParticipantType.STUDENTS)
                    && !commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)
-                   && !commentGiverType.equals(FeedbackParticipantType.TEAMS)){
+                   && !commentGiverType.equals(FeedbackParticipantType.TEAMS)) {
             return "Invalid comment giver type: " + commentGiverType;
         }
         return "";
     }
+
     public List<String> getValidityInfoForFeedbackResponseVisibility(
             List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo,

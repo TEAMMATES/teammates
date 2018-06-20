@@ -35,7 +35,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_ID, commentId);
-        String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE);
+        String commentGiverTypeString = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_GIVER_TYPE, commentGiverTypeString);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -82,7 +83,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 .withReceiverSection(response.recipientSection)
                 .build();
 
-        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
+        feedbackResponseComment.commentGiverType =
+                feedbackResponseComment.getCommentGiverTypeFromString(commentGiverTypeString);
 
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
@@ -134,7 +136,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.commentId = commentId;
         data.commentGiverNameToEmailTable = bundle.commentGiverEmailToNameTable;
         data.question = logic.getFeedbackQuestion(feedbackQuestionId);
-        data.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
+        data.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(commentGiverTypeString);
         data.sessionTimeZone = session.getTimeZone();
         data.moderation = false;
 

@@ -922,7 +922,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
             FeedbackResponseAttributes feedbackResponseAttributes,
-            FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
+            FeedbackQuestionAttributes question, boolean hasCommentsForResponse) {
 
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
@@ -936,7 +936,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
         //To show comment only once for each response.
-        boolean shouldShowComments = hasCommentsForResponses;
+        boolean shouldShowComments = hasCommentsForResponse;
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {

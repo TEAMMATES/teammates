@@ -57,6 +57,7 @@ public final class Const {
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
+    // Used as comment giver type for request parameters
     public static final String INSTRUCTOR = "instructor";
     public static final String STUDENT = "student";
     public static final String TEAM = "team";
@@ -1011,7 +1012,6 @@ public final class Const {
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
-        public static final String STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/studentFeedbackResponseCommentAdd";
         public static final String STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/studentFeedbackResponseCommentDelete";
 
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";

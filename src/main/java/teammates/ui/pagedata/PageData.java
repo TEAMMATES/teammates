@@ -904,7 +904,8 @@ public class PageData {
                     timezone);
         }
         frca.setVisibilitySettingsForStudentComment();
-        frca.commentGiverType = question.giverType.isTeam() ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
+        frca.commentGiverType =
+                question.giverType.isTeam() ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                 getResponseCommentVisibilityString(frca, question),
                 getResponseCommentGiverNameVisibilityString(frca, question), responseVisibilityMap, timezone);

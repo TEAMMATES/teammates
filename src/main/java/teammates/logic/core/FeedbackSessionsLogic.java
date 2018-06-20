@@ -378,6 +378,7 @@ public final class FeedbackSessionsLogic {
             });
         }
         normalizeMaximumResponseEntities(question, recipients);
+
         bundle.put(question, responses);
         recipientList.put(question.getId(), recipients);
 
@@ -949,10 +950,10 @@ public final class FeedbackSessionsLogic {
             prevGiver = response.giver;
 
             // do not show all possible givers and recipients if there are anonymous givers and recipients
-            boolean hasCommentsForResponses = fsrBundle.responseComments.containsKey(response.getId());
+            boolean hasCommentsForResponse = fsrBundle.responseComments.containsKey(response.getId());
 
             exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
-                    hasCommentsForResponses));
+                    hasCommentsForResponse));
         }
 
         // add the rows for the possible givers and recipients who have missing responses

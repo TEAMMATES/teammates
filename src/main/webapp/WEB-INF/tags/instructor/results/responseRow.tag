@@ -95,7 +95,7 @@
       <c:if test="${not empty responseRow.moderationButton}">
         <results:moderationButton moderationButton="${responseRow.moderationButton}" />
       </c:if>
-      <c:if test="${not responseRow.rowGrey && responseRow.commentsOnResponsesAllowed}">
+      <c:if test="${not responseRow.rowGrey && responseRow.instructorCommentsOnResponsesAllowed}">
         <button type="button" class="btn btn-default btn-xs comment-button" style="margin-top:0.5em;"
             data-toggle="modal" data-target="#commentModal-${responseRow.responseRecipientIndex}-${responseRow.responseGiverIndex}-${questionIndex}"
             data-recipientindex="${responseRow.responseRecipientIndex}" data-giverindex="${responseRow.responseGiverIndex}"

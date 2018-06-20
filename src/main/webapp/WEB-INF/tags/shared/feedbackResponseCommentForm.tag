@@ -13,7 +13,7 @@
 <%@ attribute name="divId" required="true" %>
 <%@ attribute name="formType" required="true" %>
 <%@ attribute name="textAreaId" required="true" %>
-<%@ attribute name="submitLink" required="true" %>
+<%@ attribute name="submitLink" %>
 <%@ attribute name="buttonText" required="true" %>
 <%@ attribute name="viewType" %>
 <%@ attribute name="isOnQuestionsPage" %>

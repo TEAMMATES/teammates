@@ -2187,7 +2187,7 @@ public class Logic {
     }
 
     /**
-     * Returns a list of feedback comments associated with feedbackResponseId
+     * Returns a list of feedback comments associated with feedbackResponseId.
      *
      * @see FeedbackResponseCommentsLogic#getFeedbackResponseCommentForResponse(String)
      */

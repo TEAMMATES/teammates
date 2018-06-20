@@ -213,8 +213,8 @@ public class StudentFeedbackResultsPageData extends PageData {
 
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                comments.add(new FeedbackResponseCommentRow(comment, comment.commentGiver, bundle.commentGiverEmailToNameTable,
-                        bundle.getTimeZone()));
+                comments.add(new FeedbackResponseCommentRow(comment, comment.commentGiver,
+                        bundle.commentGiverEmailToNameTable, bundle.getTimeZone()));
             }
         }
         return comments;

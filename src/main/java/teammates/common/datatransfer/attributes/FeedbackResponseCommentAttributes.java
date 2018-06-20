@@ -116,9 +116,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 comment.append(element.absUrl("src") + ' ');
             }
         }
-        if(isCommentForCsv)
+        if (isCommentForCsv) {
             return SanitizationHelper.sanitizeForCsv(comment.toString());
-
+        }
         return SanitizationHelper.sanitizeForHtml(comment.toString());
     }
 
@@ -130,7 +130,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     /**
-     * Used to convert comment giver obtained from request parameter to appropriate FeedbackParticipantType
+     * Used to convert comment giver obtained from request parameter to appropriate FeedbackParticipantType.
      * @param commentGiverTypeString comment giver type
      * @return comment giver type as FeedbackParticipantType
      */
@@ -308,8 +308,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
-        public Builder withCommentGiverType(FeedbackParticipantType giverRole) {
-            frca.commentGiverType = giverRole;
+        public Builder withCommentGiverType(FeedbackParticipantType commentGiverType) {
+            frca.commentGiverType = commentGiverType;
             return this;
         }
 

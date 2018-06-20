@@ -86,7 +86,7 @@ public abstract class FeedbackQuestionDetails {
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
                                              FeedbackResponseAttributes feedbackResponseAttributes,
-                                             FeedbackQuestionAttributes question, boolean hasCommentsForResponses) {
+                                             FeedbackQuestionAttributes question, boolean hasCommentsForResponse) {
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
         String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
@@ -110,11 +110,13 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question);
         detailedResponseRow.append(detailedResponseRowString);
-        if (isStudentCommentsOnResponsesAllowed() && hasCommentsForResponses) {
+        //Appends students comments if allowed and if comments exists on response
+        if (isStudentCommentsOnResponsesAllowed() && hasCommentsForResponse) {
             detailedResponseRow.append(',')
                     .append(fsrBundle.getCsvDetailedStudentCommentOnResponse(feedbackResponseAttributes));
         }
-        detailedResponseRow.append(hasCommentsForResponses
+        //Appends instructor comments if comments exists on response
+        detailedResponseRow.append(hasCommentsForResponse
                 ? fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
                 .append(System.lineSeparator());
         return detailedResponseRow.toString();

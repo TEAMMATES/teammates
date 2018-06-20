@@ -23,14 +23,10 @@
   </c:when>
 </c:choose>
 
-<c:choose>
-  <c:when test="${frc.commentGiverType eq 'instructor'}">
-    <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
-  </c:when>
-  <c:otherwise>
-    <c:set var="submitLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_ADD %></c:set>
-  </c:otherwise>
-</c:choose>
+<c:if test="${frc.commentGiverType eq 'instructor'}">
+  <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %>
+  </c:set>
+</c:if>
 
 <li class="list-group-item list-group-item-warning"
     id="showResponseCommentAddForm-${divId}" style="display: none;">
