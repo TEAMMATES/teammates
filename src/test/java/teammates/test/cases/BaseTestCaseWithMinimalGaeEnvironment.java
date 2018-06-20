@@ -1,11 +1,17 @@
 package teammates.test.cases;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 import teammates.test.driver.GaeSimulation;
+import teammates.test.driver.TestProperties;
 
 /**
  * Base class for all test cases which require a minimal GAE API environment registered.
@@ -14,9 +20,21 @@ public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCase {
 
     private LocalServiceTestHelper helper = new LocalServiceTestHelper();
 
+    @BeforeSuite
+    public void setUpEnvironment() {
+        try {
+            if (new URL(TestProperties.TEAMMATES_URL).getHost().contains("https://")) {
+                SystemProperty.environment.set(SystemProperty.Environment.Value.Development);
+            } else {
+                SystemProperty.environment.set(SystemProperty.Environment.Value.Production);
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @BeforeClass
     public void setUpGae() {
-        GaeSimulation.setApplicationEnvironment();
         helper.setEnvAttributes(GaeSimulation.getEnvironmentAttributesWithApplicationHostname());
         helper.setUp();
     }

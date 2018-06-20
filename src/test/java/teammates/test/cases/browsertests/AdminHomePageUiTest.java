@@ -1,5 +1,8 @@
 package teammates.test.cases.browsertests;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -83,15 +86,15 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
         InstructorAttributes instructorInBackend = getInstructorWithRetry(demoCourseId, instructor.email);
         assertEquals("Instructor Details must have 3 columns", homePage.getMessageFromResultTable(1));
 
-        String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
-        // use AppUrl from Config because the join link takes its base URL from build.properties
-        String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                        .withRegistrationKey(encryptedKey)
-                                        .withInstructorInstitution(institute)
-                                        .toAbsoluteString();
         assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created " + Const.JOIN_LINK,
                 homePage.getMessageFromResultTable(2));
-        assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(2)));
+
+        String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
+        String actualJoinLink = homePage.getJoinLink(homePage.getMessageFromResultTable(2));
+        assertTrue(actualJoinLink.contains(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN));
+        assertTrue(actualJoinLink.contains("?key=" + encryptedKey));
+        assertTrue(actualJoinLink.contains("&instructorinstitution="
+                + URLEncoder.encode(institute, StandardCharsets.UTF_8.toString())));
 
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
@@ -125,16 +128,16 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         homePage.createInstructor(instructor, institute);
 
-        encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
-        // use AppUrl from Config because the join link takes its base URL from build.properties
-        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
-                                        .withRegistrationKey(encryptedKey)
-                                        .withInstructorInstitution(institute)
-                                        .toAbsoluteString();
-
         assertEquals("Instructor AHPUiT Instrúctör WithPlusInEmail has been successfully created " + Const.JOIN_LINK,
                 homePage.getMessageFromResultTable(1));
-        assertEquals(expectedjoinUrl, homePage.getJoinLink(homePage.getMessageFromResultTable(1)));
+
+        encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
+        actualJoinLink = homePage.getJoinLink(homePage.getMessageFromResultTable(1));
+        assertTrue(actualJoinLink.contains(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN));
+        assertTrue(actualJoinLink.contains("?key=" + encryptedKey));
+        assertTrue(actualJoinLink.contains("&instructorinstitution="
+                + URLEncoder.encode(institute, StandardCharsets.UTF_8.toString())));
+
         homePage.logout();
         //verify the instructor and the demo course have been created
         assertNotNull(getCourseWithRetry(demoCourseId));
