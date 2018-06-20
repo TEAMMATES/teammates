@@ -190,7 +190,7 @@ public class InstructorCoursesPageData extends PageData {
             ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_course_restore" + idx, "",
                     restoreLink, Const.Tooltips.COURSE_RESTORE, false);
 
-            String deleteLink = getInstructorCourseDeleteRecoveryCourseLink(course.getId(), false);
+            String deleteLink = getInstructorCourseDeleteRecoveryCourseLink(course.getId());
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs course-delete-link "

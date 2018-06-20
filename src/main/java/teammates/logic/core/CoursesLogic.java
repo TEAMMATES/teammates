@@ -684,7 +684,7 @@ public final class CoursesLogic {
     /**
      * Move a course to recycle bin from its given corresponding ID.
      */
-    public void moveCourseToRecoveryCascade(String courseId)
+    public void moveCourseToRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes course = coursesDb.getCourse(courseId);
         course.setDeletedAt();
@@ -694,7 +694,7 @@ public final class CoursesLogic {
     /**
      * Recover a course from recycle bin from its given corresponding ID.
      */
-    public void restoreCourseFromRecoveryCascade(String courseId)
+    public void restoreCourseFromRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes course = coursesDb.getCourse(courseId);
         course.resetDeletedAt();
@@ -704,7 +704,7 @@ public final class CoursesLogic {
     /**
      * Recover all courses from recycle bin.
      */
-    public void restoreAllCoursesFromRecoveryCascade(List<InstructorAttributes> instructorList)
+    public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
@@ -714,7 +714,7 @@ public final class CoursesLogic {
                 .collect(Collectors.toList());
 
         for (String courseId : recoveryCourseIdList) {
-            restoreCourseFromRecoveryCascade(courseId);
+            restoreCourseFromRecovery(courseId);
         }
     }
 

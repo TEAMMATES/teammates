@@ -740,7 +740,7 @@ public class Logic {
      */
     public void moveCourseToRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
-        coursesLogic.moveCourseToRecoveryCascade(courseId);
+        coursesLogic.moveCourseToRecovery(courseId);
     }
 
     /**
@@ -749,7 +749,7 @@ public class Logic {
     public void restoreCourseFromRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
-        coursesLogic.restoreCourseFromRecoveryCascade(courseId);
+        coursesLogic.restoreCourseFromRecovery(courseId);
     }
 
     /**
@@ -758,7 +758,7 @@ public class Logic {
     public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(instructorList);
-        coursesLogic.restoreAllCoursesFromRecoveryCascade(instructorList);
+        coursesLogic.restoreAllCoursesFromRecovery(instructorList);
     }
 
     /**
