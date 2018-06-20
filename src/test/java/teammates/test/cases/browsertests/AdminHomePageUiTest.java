@@ -1,7 +1,6 @@
 package teammates.test.cases.browsertests;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.net.URL;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -10,6 +9,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.AppUrl;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.BackDoor;
@@ -89,11 +89,17 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                 homePage.getMessageFromResultTable(2));
 
         String encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
+
+        String expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                                        .withRegistrationKey(encryptedKey)
+                                                        .withInstructorInstitution(institute)
+                                                        .toAbsoluteString();
+        String expectedJoinLinkQuery = new URL(expectedjoinUrl).getQuery();
         String actualJoinLink = homePage.getJoinLink(homePage.getMessageFromResultTable(2));
+        String actualJoinLinkQuery = new URL(actualJoinLink).getQuery();
+
+        assertEquals(expectedJoinLinkQuery, actualJoinLinkQuery);
         assertTrue(actualJoinLink.contains(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN));
-        assertTrue(actualJoinLink.contains("?key=" + encryptedKey));
-        assertTrue(actualJoinLink.contains("&instructorinstitution="
-                + URLEncoder.encode(institute, StandardCharsets.UTF_8.toString())));
 
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
@@ -131,11 +137,17 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                 homePage.getMessageFromResultTable(1));
 
         encryptedKey = getKeyForInstructorWithRetry(demoCourseId, instructor.email);
+
+        expectedjoinUrl = Config.getAppUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN)
+                                                        .withRegistrationKey(encryptedKey)
+                                                        .withInstructorInstitution(institute)
+                                                        .toAbsoluteString();
+        expectedJoinLinkQuery = new URL(expectedjoinUrl).getQuery();
         actualJoinLink = homePage.getJoinLink(homePage.getMessageFromResultTable(1));
+        actualJoinLinkQuery = new URL(actualJoinLink).getQuery();
+
+        assertEquals(expectedJoinLinkQuery, actualJoinLinkQuery);
         assertTrue(actualJoinLink.contains(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN));
-        assertTrue(actualJoinLink.contains("?key=" + encryptedKey));
-        assertTrue(actualJoinLink.contains("&instructorinstitution="
-                + URLEncoder.encode(institute, StandardCharsets.UTF_8.toString())));
 
         homePage.logout();
         //verify the instructor and the demo course have been created
