@@ -846,16 +846,12 @@ Prevents content overflow in navbar. */
     margin: 10px 0;
 }
 
-.more-info-point-details {
-    margin-left: 50px;
-}
-
 .more-info-column-info,
 .more-info-mass-edit-info {
     list-style: circle;
 }
 
-.more-info-email-details {
+.more-info-sub-point-details {
     list-style: disc;
     margin-left: -20px;
 }
@@ -864,6 +860,27 @@ Prevents content overflow in navbar. */
     border: thin solid grey;
     display: inline-block;
     padding: 20px 40px;
+}
+
+#student-data-spreadsheet .panel-body {
+    padding: 5px;
+    margin: 10px;
+}
+
+#enrollstudents {
+    display: none;
+}
+
+#number-of-rows {
+    width: 60px;
+    height: 32px;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #AAA;
+}
+
+#addEmptyRows {
+    margin-top: -3px;
 }
 
 #omni-comment-dropdown-trigger {
