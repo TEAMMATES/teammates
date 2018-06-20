@@ -668,12 +668,11 @@ public abstract class AppPage {
 
     protected void fillSpreadsheet(String value) {
         try {
-            scrollElementToFirstCellAndClick(spreadsheetFirstCell);
+            scrollElementToFirstCellAndSendKeys(spreadsheetFirstCell, value);
         } catch (WebDriverException e) {
             System.out.println("Unexpectedly not able to click on the spreadsheet element because of: ");
             System.out.println(e);
         }
-        clearAndSendKeys(spreadsheetFirstCell, value);
     }
 
     protected void fillTextBox(WebElement textBoxElement, String value) {
@@ -1431,10 +1430,11 @@ public abstract class AppPage {
     }
 
     /**
-     * Scrolls element to first cell in spreadsheet and clicks on it.
+     * Scrolls element to first cell in spreadsheet, clicks on it and sends the value as keystrokes.
      */
-    void scrollElementToFirstCellAndClick(WebElement spreadsheetElement) {
-        new Actions(browser.driver).moveToElement(spreadsheetElement).click().perform();
+    void scrollElementToFirstCellAndSendKeys(WebElement spreadsheetElement, String value) {
+        new Actions(browser.driver).moveToElement(spreadsheetElement)
+                .click().sendKeys(value).build().perform();
     }
 
     /**
