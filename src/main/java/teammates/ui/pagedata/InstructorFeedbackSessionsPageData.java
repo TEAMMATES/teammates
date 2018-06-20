@@ -365,7 +365,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
                     !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", session.getCourseId());
             deleteButton.setAttribute("data-feedback-session-name", session.getSessionName());
-            deleteButton.setAttribute("style", "color:red");
+            deleteButton.setAttribute("style", "color: red");
 
             actionsParam.add(restoreButton);
             actionsParam.add(deleteButton);
