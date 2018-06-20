@@ -354,7 +354,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
             String restoreLink = getInstructorFeedbackRestoreRecoverySessionLink(session.getCourseId(),
                     session.getSessionName());
             ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_session_restore" + idx, "",
-                    restoreLink, Const.Tooltips.FEEDBACK_SESSION_RESTORE, false, "");
+                    restoreLink, Const.Tooltips.FEEDBACK_SESSION_RESTORE, false);
 
             String deleteLink = getInstructorFeedbackDeleteRecoverySessionLink(session.getCourseId(),
                     session.getSessionName());
@@ -362,9 +362,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs "
                             + "t_session_delete" + idx, "fsDeleteLink", deleteLink, Const.Tooltips.FEEDBACK_SESSION_DELETE,
-                    !hasDeletePermission, "color: red");
+                    !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", session.getCourseId());
             deleteButton.setAttribute("data-feedback-session-name", session.getSessionName());
+            deleteButton.setAttribute("style", "color:red");
 
             actionsParam.add(restoreButton);
             actionsParam.add(deleteButton);
@@ -387,7 +388,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     }
 
     private ElementTag createButton(String content, String buttonClass, String id, String href, String title,
-                                    boolean isDisabled, String style) {
+                                    boolean isDisabled) {
         ElementTag button = new ElementTag(content);
 
         button.setAttribute("class", buttonClass);
@@ -409,11 +410,6 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         if (isDisabled) {
             button.setAttribute("disabled", null);
         }
-
-        if (style != null && !style.isEmpty()) {
-            button.setAttribute("style", style);
-        }
         return button;
     }
-
 }
