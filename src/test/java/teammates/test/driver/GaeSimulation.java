@@ -79,9 +79,9 @@ public class GaeSimulation {
         localSearch.setPersistent(false);
         LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
         LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
-
         helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
                                             localTasks, localSearch, localModules, localLog);
+
         helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
         helper.setUp();
 
