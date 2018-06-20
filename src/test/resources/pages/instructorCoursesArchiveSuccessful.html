@@ -256,7 +256,7 @@
             ${datetime.now.courses}
           </td>
           <td class="align-center no-print">
-            <a class="btn btn-default btn-xs t_course_restore0" data-original-title="Restore the deleted course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorRecoveryRestoreCourse?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+            <a class="btn btn-default btn-xs t_course_restore0" data-original-title="Restore the deleted course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorRecoveryRestoreCourse?courseid=CCAddUiTest.course1&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
               Restore
             </a>
             <a class="btn btn-default btn-xs course-delete-link t_course_delete0" data-course-id="CCAddUiTest.course1" data-original-title="Permanently Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorRecoveryDeleteCourse?courseid=CCAddUiTest.course1&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" style="color: red" title="">
@@ -267,11 +267,11 @@
       </tbody>
     </table>
     <div class="row" style="text-align: right">
-      <a class="btn btn-info btn-md" href="/page/instructorRecoveryRestoreAllCourses?user=CCAddUiTest.instructor&token=${sessionToken}" id="restoreAllCourses">
+      <a class="btn btn-info btn-md" href="/page/instructorRecoveryRestoreAllCourses?next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" id="restoreAllCourses">
         Restore All Courses
       </a>
         
-      <a class="btn btn-danger btn-md course-delete-all-link" href="/page/instructorRecoveryDeleteAllCourses?user=CCAddUiTest.instructor&token=${sessionToken}" id="deleteAllCourses">
+      <a class="btn btn-danger btn-md course-delete-all-link" href="/page/instructorRecoveryDeleteAllCourses?next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" id="deleteAllCourses">
         Delete All Courses
       </a>
          

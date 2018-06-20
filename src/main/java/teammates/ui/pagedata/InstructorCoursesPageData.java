@@ -197,7 +197,7 @@ public class InstructorCoursesPageData extends PageData {
                             + "t_course_delete" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
                     !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", course.getId());
-            deleteButton.setAttribute("style", "color:red");
+            deleteButton.setAttribute("style", "color: red");
 
             actionsParam.add(restoreButton);
             actionsParam.add(deleteButton);
