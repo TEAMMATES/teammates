@@ -48,7 +48,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
                 getPageResultDestination(Const.ActionURIs.INSTRUCTOR_HOME_PAGE, false, "idOfInstructor1OfCourse1"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from courses page.",
+        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the 'Courses' tab.",
                 redirectResult.getStatusMessage());
 
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
