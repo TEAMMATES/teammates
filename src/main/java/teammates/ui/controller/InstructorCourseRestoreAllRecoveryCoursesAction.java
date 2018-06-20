@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.List;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
@@ -16,13 +17,20 @@ public class InstructorCourseRestoreAllRecoveryCoursesAction extends Action {
     @Override
     public ActionResult execute() {
 
-        gateKeeper.verifyInstructorPrivileges(account);
-
         InstructorCoursesPageData data = new InstructorCoursesPageData(account, sessionToken);
+        List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
+
+        for (InstructorAttributes instructor : instructorList) {
+            CourseAttributes course = logic.getRecoveryCourseForInstructor(instructor);
+            if (course != null) {
+                gateKeeper.verifyAccessible(instructor,
+                        course,
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+            }
+        }
 
         try {
             /* Restore all courses and setup status to be shown to user and admin */
-            List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
             logic.restoreAllCoursesFromRecovery(instructorList);
             String statusMessage = Const.StatusMessages.COURSE_ALL_RESTORED;
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
