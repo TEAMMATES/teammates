@@ -17,11 +17,11 @@ function sendEmailToNewEmailOption(event, newStudentEmail) {
     event.preventDefault();
     const messageText = `Do you want to resend past session links of this course to the new email ${newStudentEmail}?`;
     const yesCallback = function () {
-        $('#isSendEmail').val(true);
+        $('[name=\'sessionsummarysendemail\']').val(true);
         event.currentTarget.submit();
     };
     const noCallback = function () {
-        $('#isSendEmail').val(false);
+        $('[name=\'sessionsummarysendemail\']').val(false);
         event.currentTarget.submit();
     };
     showModalConfirmationWithCancel('Resend past links to the new email?', messageText,

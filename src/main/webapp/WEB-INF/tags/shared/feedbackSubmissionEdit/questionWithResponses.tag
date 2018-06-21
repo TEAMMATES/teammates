@@ -57,9 +57,9 @@
           </c:forEach>
         </ul>
       </c:if>
-
+      <div class="constraints-${questionWithResponses.question.qnIndx}"></div>
       <c:if test="${not isRecipientNameHidden}">
-        <div class="col-sm-12 form-inline mobile-align-left">
+        <div class="evalueeLabel-${questionWithResponses.question.qnIndx} form-inline mobile-align-left">
           <div class="row">
             <div class="col-xs-3">
               <label for="input" style="text-indent: 24px">
@@ -81,7 +81,6 @@
         </div>
         <br>
       </c:if>
-
       <c:if test="${questionWithResponses.question.giverTeam}">
         <p class="text-warning">Please note that you are submitting this response on behalf of your team.</p>
       </c:if>

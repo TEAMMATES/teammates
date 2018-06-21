@@ -49,7 +49,7 @@ public class FeedbackSubmitPage extends AppPage {
         Select selectElement = new Select(browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber)));
         List<WebElement> optionElements = selectElement.getOptions();
-        List<String> recipients = new ArrayList<String>();
+        List<String> recipients = new ArrayList<>();
         for (WebElement option : optionElements) {
             recipients.add(option.getText());
         }
@@ -136,6 +136,12 @@ public class FeedbackSubmitPage extends AppPage {
                       + "-" + responseSubNumber));
         Select dropdown = new Select(element);
         dropdown.selectByVisibleText(text);
+    }
+
+    public String getConstSumInstruction(int qnNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("constSumInstruction-" + qnNumber));
+        return element.getText();
     }
 
     public String getConstSumMessage(int qnNumber, int responseNumber) {

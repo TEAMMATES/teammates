@@ -950,6 +950,29 @@
         "INSTRUCTORS"
       ]
     },
+    "qn27InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "IFSubmitUiT.CS2104",
+      "creatorEmail": "IFSubmitUiT.instr@gmail.tmt",
+      "questionMetaData": {
+        "value": "{\"distributeToRecipients\":false,\"forceUnevenDistribution\":true,\"distributePointsFor\":\"At least some options\",\"pointsPerOption\":false,\"questionText\":\"How much more time should be spent on the following? Give points accordingly.\",\"numOfConstSumOptions\":3,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Design\",\"Usability\",\"Algo\"]}"
+      },
+      "questionNumber": 27,
+      "questionType": "CONSTSUM",
+      "giverType": "INSTRUCTORS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "IFSubmitUiT.CS2104",
