@@ -516,8 +516,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         // Sort the list of responseAttributes based on recipient team and recipient name.
         List<FeedbackResponseAttributes> responses = getResponseAttributesSorted(unsortedResponses, bundle);
         StringBuilder responseSummaryFragments = new StringBuilder();
-        Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
-        Map<String, Double> averagePerOption = calculateAverageWeightPerOption(answerFrequency, responses.size());
+        Map<String, Integer> answerFrequency = McqStatistics.collateAnswerFrequency(responses, this);
+        Map<String, Double> averagePerOption = McqStatistics.calculateAverageWeightPerOption(
+                this, answerFrequency, responses.size());
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -713,10 +714,12 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle) {
 
         String header = "";
-        Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
-        Map<String, Double> averagePerOption = calculateAverageWeightPerOption(answerFrequency, responses.size());
-        StringBuilder fragments = new StringBuilder();
 
+        Map<String, Integer> answerFrequency = McqStatistics.collateAnswerFrequency(responses, this);
+        Map<String, Double> averagePerOption = McqStatistics.calculateAverageWeightPerOption(
+                this, answerFrequency, responses.size());
+
+        StringBuilder fragments = new StringBuilder();
         DecimalFormat df = new DecimalFormat("#.##");
 
         // If weights are assigned, CSV file should include 'weight' and 'average' column as well.
@@ -887,64 +890,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    private Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-
-        for (String option : mcqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackResponseDetails responseDetails = response.getResponseDetails();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMcqResponseDetails) responseDetails).isOtherOptionAnswer();
-            String key = isOtherOptionAnswer ? "Other" : responseDetails.getAnswerString();
-
-            answerFrequency.put(key, answerFrequency.getOrDefault(key, 0) + 1);
-        }
-
-        return answerFrequency;
-    }
-
-    /**
-     * Calculates the average weight of each option based on the all responses.
-     * Weights should be assigned or else an empty map will be returned.<br>
-     * The average of an option is calculated as follows:<br><br>
-     * Average = (frequency of the option based on responses) * (weight of the option) / total responses.
-     */
-    private Map<String, Double> calculateAverageWeightPerOption(Map<String, Integer> answerFrequency,
-            int totalNumberOfResponses) {
-        Map<String, Double> averagePerOption = new LinkedHashMap<>();
-        // If weights are not assigned, return an empty map.
-        if (!hasAssignedWeights) {
-            return averagePerOption;
-        }
-
-        for (int i = 0; i < mcqChoices.size(); i++) {
-            String option = mcqChoices.get(i);
-            double weight = mcqWeights.get(i);
-            averagePerOption.put(option, weight);
-        }
-
-        if (otherEnabled) {
-            averagePerOption.put("Other", mcqOtherWeight);
-        }
-
-        for (String key : averagePerOption.keySet()) {
-            int frequency = answerFrequency.get(key);
-            double weight = averagePerOption.get(key);
-            double average = (frequency * weight) / totalNumberOfResponses;
-
-            // Replace the value by the actual average value.
-            averagePerOption.put(key, average);
-        }
-        return averagePerOption;
-    }
-
     /**
      * Generates statistics for each recipient for 'Per recipient statistics' to be used for
      * both the results page and csv files.
@@ -994,6 +939,85 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         recipientStats.add(df.format(average));
 
         return recipientStats;
+    }
+
+    /*
+     * Class to calculate response statistics for MCQ questions.
+     */
+    private static class McqStatistics {
+
+        private McqStatistics() {
+            // Utility class
+        }
+
+        /**
+         * Calculates the answer frequency for each option based on the received responses.
+         * @param responses
+         * @return
+         */
+        private static Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses,
+                FeedbackMcqQuestionDetails mcqDetails) {
+            Map<String, Integer> answerFrequency = new LinkedHashMap<>();
+            List<String> mcqChoices = mcqDetails.getMcqChoices();
+            boolean otherEnabled = mcqDetails.getOtherEnabled();
+
+            for (String option : mcqChoices) {
+                answerFrequency.put(option, 0);
+            }
+
+            if (otherEnabled) {
+                answerFrequency.put("Other", 0);
+            }
+
+            for (FeedbackResponseAttributes response : responses) {
+                FeedbackResponseDetails responseDetails = response.getResponseDetails();
+                boolean isOtherOptionAnswer =
+                        ((FeedbackMcqResponseDetails) responseDetails).isOtherOptionAnswer();
+                String key = isOtherOptionAnswer ? "Other" : responseDetails.getAnswerString();
+
+                answerFrequency.put(key, answerFrequency.getOrDefault(key, 0) + 1);
+            }
+
+            return answerFrequency;
+        }
+
+        /**
+         * Calculates the average weight of each option based on the all responses.
+         * Weights should be assigned or else an empty map will be returned.<br>
+         * The average of an option is calculated as follows:<br><br>
+         * Average = (frequency of the option based on responses) * (weight of the option) / total responses.
+         */
+        private static Map<String, Double> calculateAverageWeightPerOption(FeedbackMcqQuestionDetails mcqDetails,
+                Map<String, Integer> answerFrequency, int totalNumberOfResponses) {
+            Map<String, Double> averagePerOption = new LinkedHashMap<>();
+            boolean hasAssignedWeights = mcqDetails.hasAssignedWeights();
+
+            // If weights are not assigned, return an empty map.
+            if (!hasAssignedWeights) {
+                return averagePerOption;
+            }
+
+            for (int i = 0; i < mcqDetails.getMcqChoices().size(); i++) {
+                String option = mcqDetails.getMcqChoices().get(i);
+                double weight = mcqDetails.getMcqWeights().get(i);
+                averagePerOption.put(option, weight);
+            }
+
+            if (mcqDetails.getOtherEnabled()) {
+                averagePerOption.put("Other", mcqDetails.getMcqOtherWeight());
+            }
+
+            for (String key : averagePerOption.keySet()) {
+                int frequency = answerFrequency.get(key);
+                double weight = averagePerOption.get(key);
+                double average = (frequency * weight) / totalNumberOfResponses;
+
+                // Replace the value by the actual average value.
+                averagePerOption.put(key, average);
+            }
+            return averagePerOption;
+        }
+
     }
 
 }
