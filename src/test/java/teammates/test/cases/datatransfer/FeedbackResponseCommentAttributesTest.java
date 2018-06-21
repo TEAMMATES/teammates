@@ -62,7 +62,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         FeedbackResponseComment responseComment = new FeedbackResponseComment("course", "name",
                 "question", "giver", FeedbackParticipantType.STUDENTS, null, Instant.now(),
                 new Text("comment"), "giverSection", "receiverSection",
-                null, null, null, null);
+                null, null, null, null, false);
 
         FeedbackResponseCommentAttributes feedbackAttributes =
                 FeedbackResponseCommentAttributes.valueOf(responseComment);
