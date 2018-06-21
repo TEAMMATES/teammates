@@ -763,7 +763,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
             return totalWeightedResponseCount;
         }
- 
+
         /**
          * Generates statistics for each recipient for 'Per recipient statistics' to be used for
          * both the results page and csv files.
@@ -822,32 +822,30 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 List<FeedbackResponseAttributes> responses) {
             Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();
 
-            for (FeedbackResponseAttributes response : responses) {
-                Map<String, Integer> responseCountPerOption = new LinkedHashMap<>();
-                for (String choice : mcqChoices) {
-                    responseCountPerOption.put(choice, 0);
-                }
-                if (otherEnabled) {
-                    responseCountPerOption.put("Other", 0);
-                }
+            responses.forEach(response -> {
+                perRecipientResponse.computeIfAbsent(response.recipient, key -> {
+                    // construct default value for responseCount
+                    Map<String, Integer> responseCountPerOption = new LinkedHashMap<>();
+                    for (String choice : mcqChoices) {
+                        responseCountPerOption.put(choice, 0);
+                    }
+                    if (otherEnabled) {
+                        responseCountPerOption.put("Other", 0);
+                    }
+                    return responseCountPerOption;
+                });
+                perRecipientResponse.computeIfPresent(response.recipient, (key, responseCountPerOption) -> {
+                    // update responseCount here
+                    FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
+                    boolean isOtherAnswer = frd.isOtherOptionAnswer();
+                    String answer = isOtherAnswer ? "Other" : frd.getAnswerString();
 
-                perRecipientResponse.put(response.recipient, responseCountPerOption);
-            }
-
-            // Calculate responses of each option and increment the value of perRecipientResponses value.
-            for (FeedbackResponseAttributes response : responses) {
-                String recipient = response.recipient;
-                FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
-                boolean isOtherAnswer = frd.isOtherOptionAnswer();
-                String answer = isOtherAnswer ? "Other" : frd.getAnswerString();
-
-                // Retrieve the response count map of the recipient and increment the corresponding
-                // value of the answer string.
-                Map<String, Integer> responseMap = perRecipientResponse.get(recipient);
-                responseMap.put(answer, perRecipientResponse.get(recipient).get(answer) + 1);
-                perRecipientResponse.put(recipient, responseMap);
-            }
-
+                    responseCountPerOption.computeIfPresent(answer, (choice, count) -> {
+                        return ++count;
+                    });
+                    return responseCountPerOption;
+                });
+            });
             return perRecipientResponse;
         }
 
