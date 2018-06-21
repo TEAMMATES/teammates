@@ -1120,7 +1120,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        moderationButton,
                                                                        isStudentCommentsOnResponsesAllowed);
             if (isStudentCommentsOnResponsesAllowed) {
-                String comment = getStudentResponseCommentText(response.giver, response);
+                String comment = getStudentResponseCommentText(response);
                 responseRow.setStudentComment(comment);
             }
             configureResponseRow(prevGiver, response.recipient, responseRow);
@@ -1221,7 +1221,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             moderationButton, isStudentCommentsOnResponsesAllowed);
 
             if (isStudentCommentsOnResponsesAllowed) {
-                responseRow.setStudentComment(getStudentResponseCommentText(response.giver, response));
+                responseRow.setStudentComment(getStudentResponseCommentText(response));
             }
             configureResponseRow(response.giver, response.recipient, responseRow);
 
@@ -1504,11 +1504,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return comments;
     }
 
-    private String getStudentResponseCommentText(String giverEmail, FeedbackResponseAttributes response) {
+    private String getStudentResponseCommentText(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
         if (frcAttributesList != null) {
             for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
-                if (frca.commentGiver.equals(giverEmail)) {
+                if (frca.isCommentFromFeedbackParticipant) {
                     return frca.convertCommentTextToString(false);
                 }
             }

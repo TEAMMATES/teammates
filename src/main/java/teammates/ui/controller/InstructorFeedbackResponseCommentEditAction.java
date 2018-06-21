@@ -62,6 +62,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
+                .withCommentFromFeedbackParticipant(false)
                 .build();
 
         feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);

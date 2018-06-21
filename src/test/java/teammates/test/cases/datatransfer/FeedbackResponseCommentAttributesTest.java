@@ -46,6 +46,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                 .withLastEditedAt(null)
                 .withFeedbackResponseCommentId(null)
                 .withVisibilityFollowingFeedbackQuestion(null)
+                .withCommentFromFeedbackParticipant(null)
                 .build();
 
         // Default values for following fields

@@ -295,6 +295,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
+                .withCommentFromFeedbackParticipant(true)
                 .build();
         feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(commentGiverString);
         feedbackResponseComment.setId(Long.parseLong(commentId));
@@ -367,6 +368,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
+                .withCommentFromFeedbackParticipant(true)
                 .build();
         feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
         if (showCommentTo == null && showGiverNameTo == null) {

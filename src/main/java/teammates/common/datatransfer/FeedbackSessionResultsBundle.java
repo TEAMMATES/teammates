@@ -1675,7 +1675,7 @@ public class FeedbackSessionResultsBundle {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         StringBuilder commentRow = new StringBuilder(200);
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            if (!frc.commentGiver.equals(response.giver)) {
+            if (!frc.isCommentFromFeedbackParticipant) {
                 commentRow.append("," + commentGiverEmailToNameTable.get(frc.commentGiver) + ","
                                           + frc.convertCommentTextToString(true));
             }
@@ -1691,7 +1691,7 @@ public class FeedbackSessionResultsBundle {
     public String getCsvDetailedStudentCommentOnResponse(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            if (frc.commentGiver.equals(response.giver)) {
+            if (frc.isCommentFromFeedbackParticipant) {
                 return frc.convertCommentTextToString(true);
             }
         }

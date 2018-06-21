@@ -8,12 +8,12 @@ public class FeedbackSubmissionEditResponse {
     private List<String> recipientOptionsForQuestion;
     private String submissionFormHtml;
     private String responseId;
-    private FeedbackResponseCommentRow commentsOnResponses;
+    private FeedbackResponseCommentRow commentOnResponse;
     private FeedbackResponseCommentRow feedbackResponseCommentAdd;
 
     public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
                                           List<String> recipientOptionsForQuestion, String submissionFormHtml,
-                                          String responseId, FeedbackResponseCommentRow commentsOnResponses,
+                                          String responseId, FeedbackResponseCommentRow commentOnResponse,
                                           FeedbackResponseCommentRow feedbackResponseCommentAdd) {
 
         this.responseIndx = responseIndx;
@@ -21,7 +21,7 @@ public class FeedbackSubmissionEditResponse {
         this.recipientOptionsForQuestion = recipientOptionsForQuestion;
         this.submissionFormHtml = submissionFormHtml;
         this.responseId = responseId;
-        this.commentsOnResponses = commentsOnResponses;
+        this.commentOnResponse = commentOnResponse;
         this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
     }
 
@@ -45,8 +45,8 @@ public class FeedbackSubmissionEditResponse {
         return responseId;
     }
 
-    public FeedbackResponseCommentRow getCommentsOnResponses() {
-        return commentsOnResponses;
+    public FeedbackResponseCommentRow getCommentOnResponse() {
+        return commentOnResponse;
     }
 
     public FeedbackResponseCommentRow getFeedbackResponseCommentAdd() {

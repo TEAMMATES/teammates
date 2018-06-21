@@ -21,8 +21,8 @@
       </div>
       <div class="modal-body">
         <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
-            style="${not empty responseRow.commentsOnResponses ? 'margin-top:15px;' : 'display:none'}">
-          <c:forEach items="${responseRow.commentsOnResponses}" var="responseComment" varStatus="status">
+            style="${not empty responseRow.commentOnResponse ? 'margin-top:15px;' : 'display:none'}">
+          <c:forEach items="${responseRow.commentOnResponse}" var="responseComment" varStatus="status">
             <shared:feedbackResponseCommentRow frc="${responseComment}" firstIndex="${responseRecipientIndex}"
                 secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
                 frcIndex="${status.count}"/>

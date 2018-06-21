@@ -47,6 +47,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public String giverSection;
     public String receiverSection;
     public FeedbackParticipantType commentGiverType;
+    public boolean isCommentFromFeedbackParticipant;
 
     FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
@@ -72,6 +73,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 .withVisibilityFollowingFeedbackQuestion(comment.getIsVisibilityFollowingFeedbackQuestion())
                 .withShowCommentTo(comment.getShowCommentTo())
                 .withShowGiverNameTo(comment.getShowGiverNameTo())
+                .withCommentFromFeedbackParticipant(comment.getIsCommentFromFeedbackParticipant())
                 .build();
     }
 
@@ -310,6 +312,11 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         public Builder withCommentGiverType(FeedbackParticipantType commentGiverType) {
             frca.commentGiverType = commentGiverType;
+            return this;
+        }
+
+        public Builder withCommentFromFeedbackParticipant(Boolean isCommentFromFeedbackParticipant) {
+            frca.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
             return this;
         }
 

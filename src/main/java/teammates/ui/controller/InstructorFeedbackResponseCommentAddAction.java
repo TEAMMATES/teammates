@@ -81,6 +81,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 .withCreatedAt(Instant.now())
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
+                .withCommentFromFeedbackParticipant(false)
                 .build();
 
         feedbackResponseComment.commentGiverType =

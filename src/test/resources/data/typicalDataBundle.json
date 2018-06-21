@@ -1476,7 +1476,7 @@
       "courseId": "idOfTypicalCourse2",
       "feedbackSessionName": "Not answerable feedback session",
       "feedbackQuestionId": "1",
-      "giverEmail": "instructor3@course.tmt",
+      "commentGiver": "instructor3@course.tmt",
       "giverSection": "None",
       "receiverSection": "None",
       "commentGiverType": "instructor",
