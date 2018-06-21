@@ -94,7 +94,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "
-                        + "11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23.");
+                        + "11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
     }
 
     private void testSubmitAction() throws Exception {
@@ -346,7 +346,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24.");
     }
 
     private void testEditCommentsActionAfterAddingComments() throws IOException {
@@ -365,7 +365,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24.");
     }
 
     private void testDeleteCommentsActionAfterEditingComments() throws IOException {
