@@ -6,7 +6,6 @@ branches:
   only:
     - master
     - release
-    - check-travis
 
 notifications:
   email: false
