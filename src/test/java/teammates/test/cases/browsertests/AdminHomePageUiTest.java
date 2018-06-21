@@ -94,12 +94,11 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                                         .withRegistrationKey(encryptedKey)
                                                         .withInstructorInstitution(institute)
                                                         .toAbsoluteString();
-        String expectedJoinLinkQuery = new URL(expectedjoinUrl).getQuery();
+        String expectedJoinLinkUrlFileName = new URL(expectedjoinUrl).getFile();
         String actualJoinLink = homePage.getJoinLink(homePage.getMessageFromResultTable(2));
-        String actualJoinLinkQuery = new URL(actualJoinLink).getQuery();
+        String actualJoinLinkUrlFileName = new URL(actualJoinLink).getFile();
 
-        assertEquals(expectedJoinLinkQuery, actualJoinLinkQuery);
-        assertTrue(actualJoinLink.contains(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN));
+        assertEquals(expectedJoinLinkUrlFileName, actualJoinLinkUrlFileName);
 
         assertEquals(instructor.getName(), instructorInBackend.getName());
         assertEquals(instructor.getEmail(), instructorInBackend.getEmail());
@@ -142,12 +141,11 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
                                                         .withRegistrationKey(encryptedKey)
                                                         .withInstructorInstitution(institute)
                                                         .toAbsoluteString();
-        expectedJoinLinkQuery = new URL(expectedjoinUrl).getQuery();
+        expectedJoinLinkUrlFileName = new URL(expectedjoinUrl).getFile();
         actualJoinLink = homePage.getJoinLink(homePage.getMessageFromResultTable(1));
-        actualJoinLinkQuery = new URL(actualJoinLink).getQuery();
+        actualJoinLinkUrlFileName = new URL(actualJoinLink).getFile();
 
-        assertEquals(expectedJoinLinkQuery, actualJoinLinkQuery);
-        assertTrue(actualJoinLink.contains(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN));
+        assertEquals(expectedJoinLinkUrlFileName, actualJoinLinkUrlFileName);
 
         homePage.logout();
         //verify the instructor and the demo course have been created
