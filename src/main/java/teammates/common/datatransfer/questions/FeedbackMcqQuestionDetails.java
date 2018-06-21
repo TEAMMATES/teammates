@@ -519,8 +519,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         McqStatistics mcqStats = new McqStatistics(this);
         Map<String, Integer> answerFrequency = mcqStats.collateAnswerFrequency(responses);
-        Map<String, Double> averagePerOption = mcqStats.calculateAverageWeightPerOption(
-                answerFrequency, responses.size());
+        Map<String, Double> weightedPercentagePerOption = mcqStats.calculateWeightedPercentagePerOption(answerFrequency);
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -539,7 +538,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     Slots.MCQ_WEIGHT, weightString,
                     Slots.COUNT, Integer.toString(count),
                     Slots.PERCENTAGE, df.format(100 * (double) count / responses.size()),
-                    Slots.AVERAGE, hasAssignedWeights ? df.format(averagePerOption.get(key)) : "-"));
+                    Slots.WEIGHTED_PERCENTAGE,
+                            hasAssignedWeights ? df.format(weightedPercentagePerOption.get(key)) : "-"));
         }
 
         // If weights are assigned, create the per recipient statistics table,
@@ -715,41 +715,55 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
-         * Calculates the average weight of each option based on the all responses.
-         * Weights should be assigned or else an empty map will be returned.<br>
-         * The average of an option is calculated as follows:<br><br>
-         * Average = (frequency of the option based on responses) * (weight of the option) / total responses.
+         * Calculates the weighted percentage for each option in a mcq question.
+         * weighted percentage = (response count per option) * (weight of that option) / totalWeightedResponseCount<br>
+         * where as, totalWeightedResponseCount is defined as:<br>
+         * totalWeightedResponseCount += [response count of option i * weight of option i] for all options.
+         * @param answerFrequency Response count of each option in a mcq question.
          */
-        private Map<String, Double> calculateAverageWeightPerOption(Map<String, Integer> answerFrequency,
-                int totalNumberOfResponses) {
-            Map<String, Double> averagePerOption = new LinkedHashMap<>();
-
+        private Map<String, Double> calculateWeightedPercentagePerOption(Map<String, Integer> answerFrequency) {
+            Map<String, Double> weightedPercentagePerOption = new LinkedHashMap<>();
             // If weights are not assigned, return an empty map.
             if (!hasAssignedWeights) {
-                return averagePerOption;
+                return weightedPercentagePerOption;
             }
 
             for (int i = 0; i < mcqChoices.size(); i++) {
                 String option = mcqChoices.get(i);
                 double weight = mcqWeights.get(i);
-                averagePerOption.put(option, weight);
+                weightedPercentagePerOption.put(option, weight);
             }
 
             if (otherEnabled) {
-                averagePerOption.put("Other", mcqOtherWeight);
+                weightedPercentagePerOption.put("Other", mcqOtherWeight);
             }
 
-            for (String key : averagePerOption.keySet()) {
+            for (String key : weightedPercentagePerOption.keySet()) {
                 int frequency = answerFrequency.get(key);
-                double weight = averagePerOption.get(key);
-                double average = (frequency * weight) / totalNumberOfResponses;
+                double weight = weightedPercentagePerOption.get(key);
+                double weightedPercentage =
+                        100 * ((frequency * weight) / calculateTotalWeightedResponseCount(answerFrequency));
 
                 // Replace the value by the actual average value.
-                averagePerOption.put(key, average);
+                weightedPercentagePerOption.put(key, weightedPercentage);
             }
-            return averagePerOption;
+            return weightedPercentagePerOption;
         }
 
+        /**
+         * Calculates the sum of the product of response count and weight of that option, for all options.
+         * totalWeightedResponseCount += [(responseCount of option i) * (weight of option i)] for all options.
+         */
+        private double calculateTotalWeightedResponseCount(Map<String, Integer> answerFrequency) {
+            double totalWeightedResponseCount = 0;
+            for (String choice : answerFrequency.keySet()) {
+                double weight = "Other".equals(choice) ? mcqOtherWeight : mcqWeights.get(mcqChoices.indexOf(choice));
+                int responseCount = answerFrequency.get(choice);
+                totalWeightedResponseCount += responseCount * weight;
+            }
+            return totalWeightedResponseCount;
+        }
+ 
         /**
          * Generates statistics for each recipient for 'Per recipient statistics' to be used for
          * both the results page and csv files.
@@ -848,14 +862,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             String header = "";
 
             Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
-            Map<String, Double> averagePerOption = calculateAverageWeightPerOption(answerFrequency, responses.size());
+            Map<String, Double> weightedPercentagePerOption = calculateWeightedPercentagePerOption(answerFrequency);
 
             StringBuilder fragments = new StringBuilder();
             DecimalFormat df = new DecimalFormat("#.##");
 
             // If weights are assigned, CSV file should include 'weight' and 'average' column as well.
             if (hasAssignedWeights) {
-                header = "Choice, Weight, Response Count, Percentage, Average";
+                header = "Choice, Weight, Response Count, Percentage (%), Weighted Percentage (%)";
 
                 for (String key : answerFrequency.keySet()) {
                     int responseCount = answerFrequency.get(key);
@@ -869,11 +883,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
                              .append(SanitizationHelper.sanitizeForCsv(weightString)).append(',')
                              .append(Integer.toString(responseCount)).append(',')
-                             .append(df.format(100 * (double) responseCount / responses.size())).append("%,")
-                             .append(df.format(averagePerOption.get(key))).append(System.lineSeparator());
+                             .append(df.format(100 * (double) responseCount / responses.size())).append(',')
+                             .append(df.format(weightedPercentagePerOption.get(key))).append(System.lineSeparator());
                 }
             } else {
-                header = "Choice, Response Count, Percentage";
+                header = "Choice, Response Count, Percentage (%)";
 
                 answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
                         .append(value.toString()).append(',')

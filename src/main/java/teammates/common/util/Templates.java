@@ -270,6 +270,7 @@ public final class Templates {
             public static final String QUESTION_TYPE_NAME = "${questionTypeName}";
             public static final String COUNT = "${count}";
             public static final String PERCENTAGE = "${percentage}";
+            public static final String WEIGHTED_PERCENTAGE = "${weightedPercentage}";
             public static final String AVERAGE = "${Average}";
             public static final String MAX = "${Max}";
             public static final String MIN = "${Min}";
