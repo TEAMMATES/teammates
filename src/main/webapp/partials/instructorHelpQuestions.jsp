@@ -796,20 +796,20 @@
                                 <table class="table table-bordered table-striped margin-0">
                                   <thead>
                                     <tr>
-                                      <td>
-                                        Choice
+                                      <td class="button-sort-none toggle-sort">
+                                        Choice <span class="icon-sort unsorted"></span>
                                       </td>
-                                      <td>
-                                        Weight
+                                      <td class="button-sort-none toggle-sort">
+                                        Weight <span class="icon-sort unsorted"></span>
                                       </td>
-                                      <td>
-                                        Response Count
+                                      <td class="button-sort-none toggle-sort">
+                                        Response Count <span class="icon-sort unsorted"></span>
                                       </td>
-                                      <td>
-                                        Percentage
+                                      <td class="button-sort-none toggle-sort">
+                                        Percentage (%) <span class="icon-sort unsorted"></span>
                                       </td>
-                                      <td>
-                                        Average
+                                      <td class="button-sort-none toggle-sort">
+                                        Weighted Percentage (%) <span class="icon-sort unsorted"></span>
                                       </td>
                                     </tr>
                                   </thead>
@@ -825,10 +825,10 @@
                                         4
                                       </td>
                                       <td>
-                                        50%
+                                        50
                                       </td>
                                       <td>
-                                        1
+                                        66.67
                                       </td>
                                     </tr>
                                     <tr>
@@ -842,10 +842,10 @@
                                         2
                                       </td>
                                       <td>
-                                        25%
+                                        25
                                       </td>
                                       <td>
-                                        0.25
+                                        16.67
                                       </td>
                                     </tr>
                                     <tr>
@@ -859,10 +859,10 @@
                                         2
                                       </td>
                                       <td>
-                                        25%
+                                        25
                                       </td>
                                       <td>
-                                        0.25
+                                        16.67
                                       </td>
                                     </tr>
                                   </tbody>
