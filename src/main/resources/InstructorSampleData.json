@@ -2781,6 +2781,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:17:00Z",
       "commentText": {
         "value": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</p>"
@@ -2808,6 +2809,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:20:00Z",
       "commentText": {
         "value": "<p>Completely agree, the application does look pretty.</p>"
@@ -2835,6 +2837,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:23:00Z",
       "commentText": {
         "value": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>"
@@ -2862,6 +2865,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:26:00Z",
       "commentText": {
         "value": "<p>Hoping you keep using them on future projects.</p>"
@@ -2893,6 +2897,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:29:00Z",
       "commentText": {
         "value": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>"
@@ -2924,6 +2929,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:33:00Z",
       "commentText": {
         "value": "<p>Although there are some loopholes in UI, But overall looks good.</p>"
@@ -2955,6 +2961,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:36:00Z",
       "commentText": {
         "value": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>"
@@ -2986,6 +2993,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:39:00Z",
       "commentText": {
         "value": "<p>Design could have been more interactive.</p>"

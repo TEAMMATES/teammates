@@ -1431,6 +1431,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback"
@@ -1450,6 +1451,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-02-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 2"
@@ -1467,6 +1469,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-01-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"
@@ -1484,6 +1487,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2027-01-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 3 comment to instr1C2 response to student1C2"

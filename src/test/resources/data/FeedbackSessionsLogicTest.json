@@ -1295,6 +1295,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback"
@@ -1311,6 +1312,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-02-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 2"
@@ -1327,6 +1329,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2016-01-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback Question 3"

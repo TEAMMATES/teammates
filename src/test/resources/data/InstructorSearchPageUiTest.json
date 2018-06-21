@@ -557,6 +557,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to student 1 self feedback"
@@ -576,6 +577,7 @@
       ],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-02T23:59:00Z",
       "commentText": {
         "value": "Anonymous comment to feedback Question 2"
@@ -600,6 +602,7 @@
         "RECEIVER_TEAM_MEMBERS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-03T23:59:00Z",
       "commentText": {
         "value": "Instructor 2 comment to feedback Question 2 (Student 3 see this as anonymous comment)"
@@ -616,6 +619,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-01T23:59:00Z",
       "commentText": {
         "value": "Instructor 1 comment to feedback Question 2"
@@ -636,6 +640,7 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-04T23:59:00Z",
       "commentText": {
         "value": "Instructor 3 edited comment to feedback Question 2"
@@ -654,6 +659,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Comment value. Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
