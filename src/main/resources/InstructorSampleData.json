@@ -2787,7 +2787,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:17:00Z",
-      "commentGiverType": "instructor"
+      "commentGiverType": "INSTRUCTORS"
     },
     "comment1FromT1C1ToR1Q5S1C1": {
       "courseId": "demo.course",
@@ -2814,7 +2814,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:20:00Z",
-      "commentGiverType": "instructor"
+      "commentGiverType": "INSTRUCTORS"
     },
     "comment1FromT1C1ToR3Q5S1C1": {
       "courseId": "demo.course",
