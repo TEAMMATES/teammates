@@ -556,6 +556,7 @@
       "feedbackResponseId": "1%searchUI.student1InCourse1@gmail.tmt%searchUI.student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
@@ -576,6 +577,7 @@
         "INSTRUCTORS"
       ],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-02T23:59:00Z",
@@ -601,6 +603,7 @@
         "INSTRUCTORS",
         "RECEIVER_TEAM_MEMBERS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-03T23:59:00Z",
@@ -618,6 +621,7 @@
       "feedbackResponseId": "2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-01T23:59:00Z",
@@ -639,6 +643,7 @@
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2015-02-04T23:59:00Z",
@@ -658,6 +663,7 @@
       "feedbackResponseId": "1%searchUI.normal@sanitization.tmt%searchUI.normal@sanitization.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
