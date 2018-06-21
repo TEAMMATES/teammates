@@ -679,7 +679,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         List<Double> mcqWeights;
         double mcqOtherWeight;
         boolean otherEnabled;
-        
+
         McqStatistics(FeedbackMcqQuestionDetails mcqDetails) {
             this.mcqChoices = mcqDetails.getMcqChoices();
             this.mcqWeights = mcqDetails.getMcqWeights();
