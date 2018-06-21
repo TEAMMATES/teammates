@@ -2764,7 +2764,7 @@
       "courseId": "demo.course",
       "feedbackSessionName": "Session with different question types",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.demo.instructor@demo.course",
+      "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
       "receiverSection": "Tutorial Group 1",
       "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt",
@@ -2793,7 +2793,7 @@
       "courseId": "demo.course",
       "feedbackSessionName": "Session with different question types",
       "feedbackQuestionId": "5",
-      "giverEmail": "teammates.demo.instructor@demo.course",
+      "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
       "receiverSection": "Tutorial Group 1",
       "feedbackResponseId": "5%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
@@ -2820,7 +2820,7 @@
       "courseId": "demo.course",
       "feedbackSessionName": "Session with different question types",
       "feedbackQuestionId": "5",
-      "giverEmail": "teammates.demo.instructor@demo.course",
+      "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
       "receiverSection": "Tutorial Group 2",
       "feedbackResponseId": "5%alice.b.tmms@gmail.tmt%francis.g.tmms@gmail.tmt",
@@ -2839,15 +2839,15 @@
       "commentText": {
         "value": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>"
       },
-      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditorEmail": "teammates.demo.INSTRUCTORS@demo.course",
       "lastEditedAt": "2012-04-30T21:23:00Z",
-      "commentGiverType": "instructor"
+      "commentGiverType": "INSTRUCTORS"
     },
     "comment1FromT1C1ToR2Q2S1C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "Session with different question types",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.demo.instructor@demo.course",
+      "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 2",
       "receiverSection": "Tutorial Group 2",
       "feedbackResponseId": "2%charlie.d.tmms@gmail.tmt%charlie.d.tmms@gmail.tmt",
@@ -2868,13 +2868,13 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:26:00Z",
-      "commentGiverType": "instructor"
+      "commentGiverType": "INSTRUCTORS"
     },
     "comment1FromT1C1ToR1Q2S2C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "First team feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.demo.instructor@demo.course",
+      "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
       "receiverSection": "Tutorial Group 1",
       "feedbackResponseId": "2%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt",
@@ -2899,13 +2899,13 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:29:00Z",
-      "commentGiverType": "instructor"
+      "commentGiverType": "INSTRUCTORS"
     },
     "comment1FromT1C1ToR2Q2S2C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "First team feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.demo.instructor@demo.course",
+      "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
       "receiverSection": "Tutorial Group 1",
       "feedbackResponseId": "2%benny.c.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
@@ -2930,13 +2930,13 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:33:00Z",
-      "commentGiverType": "instructor"
+      "commentGiverType": "INSTRUCTORS"
     },
     "comment1FromT1C1ToR5Q2S2C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "First team feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.demo.instructor@demo.course",
+      "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 2",
       "receiverSection": "Tutorial Group 2",
       "feedbackResponseId": "2%charlie.d.tmms@gmail.tmt%charlie.d.tmms@gmail.tmt",
@@ -2961,13 +2961,13 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:36:00Z",
-      "commentGiverType": "instructor"
+      "commentGiverType": "INSTRUCTORS"
     },
     "comment1FromT1C1ToR6Q2S2C1": {
       "courseId": "demo.course",
       "feedbackSessionName": "First team feedback session",
       "feedbackQuestionId": "2",
-      "giverEmail": "teammates.demo.instructor@demo.course",
+      "commentGiver": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 2",
       "receiverSection": "Tutorial Group 2",
       "feedbackResponseId": "2%francis.g.tmms@gmail.tmt%francis.g.tmms@gmail.tmt",
@@ -2992,7 +2992,7 @@
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "lastEditedAt": "2012-04-30T21:39:00Z",
-      "commentGiverType": "instructor"
+      "commentGiverType": "INSTRUCTORS"
     }
   },
   "profiles": {}
