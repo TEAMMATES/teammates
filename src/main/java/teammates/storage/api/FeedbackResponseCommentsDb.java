@@ -335,7 +335,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         ofy().delete().keys(getEntityQueryKeys(id)).now();
     }
 
-    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String commentGiver) {
+    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt,
+                                                                     String commentGiver) {
         return load()
                 .filter("courseId =", courseId)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
