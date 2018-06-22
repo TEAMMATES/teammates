@@ -17,8 +17,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.logic.core.FeedbackQuestionsLogic;
+
 /**
  * SUT: {@link InstructorFeedbackQuestionAddAction}.
  */
