@@ -638,6 +638,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private void testFeedbackResponseCommentActions() throws Exception {
 
         ______TS("GQR view: Failure case: add empty feedback response comment using comment modal");
+        
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
@@ -671,7 +672,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-4-3-0"));
         resultsPage.closeCommentModal("-4-3-0");
 
-    ______TS("GQR view: Typical case: edit comment created by different instructor using comment modal");
+        ______TS("GQR view: Typical case: edit comment created by different instructor using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr2", "Open Session");
         resultsPage.displayByGiverQuestionRecipient();
@@ -722,7 +723,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-4-3-0"));
         resultsPage.closeCommentModal("-4-3-0");
 
-
         ______TS("Question view: Failure case: add empty feedback response comment using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -768,7 +768,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-1-1-0-1", "Comment edited by different instructor", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-1-1-0"));
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-1-1-0-1", 1);
-            resultsPage.closeCommentModal("-1-1-0");
+        resultsPage.closeCommentModal("-1-1-0");
 
         ______TS("Question view: Typical case: delete existing feedback response comments using comment modal");
 
