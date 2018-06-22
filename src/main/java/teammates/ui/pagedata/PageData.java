@@ -287,6 +287,13 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorCourseEnrollUpdateLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_UPDATE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+
     public String getInstructorCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);

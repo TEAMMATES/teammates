@@ -27,4 +27,8 @@ public class InstructorCourseEnrollPageData extends PageData {
     public String getInstructorCourseEnrollSaveLink() {
         return getInstructorCourseEnrollSaveLink(courseId);
     }
+
+    public String getInstructorCourseEnrollUpdateLink() {
+        return getInstructorCourseEnrollUpdateLink(courseId);
+    }
 }

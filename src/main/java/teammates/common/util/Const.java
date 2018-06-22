@@ -161,6 +161,7 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_DELETE,
                         ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
+                        ActionURIs.INSTRUCTOR_COURSE_ENROLL_UPDATE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE,
@@ -626,6 +627,7 @@ public final class Const {
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String INSTRUCTOR_NAME = "instructorname";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
+        public static final String STUDENTS_UPDATED_INFO = "massupdatestudents";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
         public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
@@ -935,6 +937,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE = "/page/instructorCourseEnrollAjaxPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
+        public static final String INSTRUCTOR_COURSE_ENROLL_UPDATE = "/page/instructorCourseEnrollUpdate";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
@@ -1443,6 +1446,7 @@ public final class Const {
                 "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>"
                 + "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
 
+        public static final String MASS_UPDATE_LINE_EMPTY = "You did not update any existing students' information.";
         public static final String EVENTUAL_CONSISTENCY_MESSAGE_STUDENT =
                 "You have successfully joined the course %1$s. "
                 + "<br>Updating of the course data on our servers is currently in progress "
