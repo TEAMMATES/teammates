@@ -161,6 +161,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         addNonEmptyError(validator.getInvalidityInfoForCommentGiverType(commentGiverType), errors);
 
+        errors.addAll(validator.getInvalidityInfoForVisibilityOfStudentComments(commentGiverType, showCommentTo,
+                showGiverNameTo));
+
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
         return errors;

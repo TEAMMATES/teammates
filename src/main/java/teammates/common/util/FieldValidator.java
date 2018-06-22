@@ -704,6 +704,25 @@ public class FieldValidator {
         return "";
     }
 
+    public List<String> getInvalidityInfoForVisibilityOfStudentComments(FeedbackParticipantType commentGiverType,
+            List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo) {
+        List<String> errors = new LinkedList<>();
+        if (commentGiverType.equals(FeedbackParticipantType.STUDENTS)
+                    || commentGiverType.equals(FeedbackParticipantType.TEAMS)) {
+            for (FeedbackParticipantType type : showCommentTo) {
+                if (!type.equals(FeedbackParticipantType.INSTRUCTORS) && !type.equals(FeedbackParticipantType.GIVER)) {
+                    errors.add("Student comment cannot be shown to " + type.toVisibilityString());
+                }
+            }
+            for (FeedbackParticipantType type : showGiverNameTo) {
+                if (!type.equals(FeedbackParticipantType.INSTRUCTORS) && !type.equals(FeedbackParticipantType.GIVER)) {
+                    errors.add("Student comment name cannot be shown to " + type.toVisibilityString());
+                }
+            }
+        }
+        return errors;
+    }
+
     public List<String> getValidityInfoForFeedbackResponseVisibility(
             List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo,
@@ -803,4 +822,5 @@ public class FieldValidator {
         return messageTemplate.replace("${fieldName}", fieldName)
                               .replace("${maxLength}", String.valueOf(maxLength));
     }
+
 }
