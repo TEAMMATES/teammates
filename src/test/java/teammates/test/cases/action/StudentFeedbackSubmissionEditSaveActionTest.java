@@ -514,7 +514,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         fr = dataBundle.feedbackResponses.get("response2ForQ3S2C1");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient); // necessary to get the correct responseId
-        System.out.println("Recipient: " +fr.recipient);
         assertNotNull("Feedback response not found in database", fr);
 
         submissionParams = new String[] {
