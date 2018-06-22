@@ -741,16 +741,13 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\": [\"The content\",\"Teaching style\"],\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0],\"msqOtherWeight\":3.0,\"generateOptionsFor\":\"NONE\",\"maxSelectableChoices\":-2147483648,\"minSelectableChoices\":-2147483648,\"questionType\":\"MSQ\",\"questionText\":\"What do you like best about the class?\"}"
-        },
-      "questionDescription": {
-        "value": "more details"
+        "value": "{\"msqChoices\":[\"The content\",\"Teaching style\"],\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0],\"msqOtherWeight\":3.0,\"questionType\":\"MSQ\",\"questionText\":\"What do you like best about the class?\"}"
       },
       "questionNumber": 4,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
-      "numberOfEntitiesToGiveFeedbackTo": 2,
+      "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS"
       ],
@@ -759,8 +756,7 @@
       ],
       "showRecipientNameTo": [
         "INSTRUCTORS"
-      ],
-      "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGBcM"
+      ]
     },
     "qn1InSession3InCourse1": {
       "feedbackSessionName": "NUMSCALE Session",
