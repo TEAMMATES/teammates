@@ -17,7 +17,8 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
-
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.logic.core.FeedbackQuestionsLogic;
 /**
  * SUT: {@link InstructorFeedbackQuestionAddAction}.
  */
@@ -280,6 +281,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(requestedParams.toArray(new String[0]));
         result = getRedirectResult(action);
 
+        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
+                .inst()
+                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 2);
+        System.out.println(fq.getJsonString());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
