@@ -638,7 +638,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private void testFeedbackResponseCommentActions() throws Exception {
 
         ______TS("GQR view: Failure case: add empty feedback response comment using comment modal");
-        
+
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
