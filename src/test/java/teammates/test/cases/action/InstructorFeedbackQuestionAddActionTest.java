@@ -281,10 +281,6 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(requestedParams.toArray(new String[0]));
         result = getRedirectResult(action);
 
-        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
-                .inst()
-                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 2);
-        System.out.println(fq.getJsonString());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
