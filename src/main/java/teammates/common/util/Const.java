@@ -507,6 +507,9 @@ public final class Const {
                 "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 2.";
         public static final String MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES =
                 "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 1.";
+        public static final String MSQ_ERROR_INVALID_WEIGHT =
+                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
+                + " must be valid numbers with precision up to 2 decimal places.";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -715,6 +718,9 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES = "msqMinSelectableChoices";
         public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES = "msqEnableMaxSelectableChoices";
         public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES = "msqEnableMinSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED = "msqHasAssignedWeights";
+        public static final String FEEDBACK_QUESTION_MSQ_WEIGHT = "msqWeight";
+        public static final String FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT = "msqOtherWeight";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
