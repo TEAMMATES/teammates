@@ -458,11 +458,6 @@ input.inline {
     width: 60%;
 }
 
-.panel-borderless {
-    border: none;
-    box-shadow: none:
-}
-
 .link-in-dark-bg:link {
     color: #F2FCAC;
 }
@@ -867,16 +862,17 @@ Prevents content overflow in navbar. */
     padding: 20px 40px;
 }
 
-.student-existing-data-spreadsheet .panel-default {
+.enroll-page-spreadsheet {
     margin-left: 15px;
     margin-right: 15px;
-}
-
-.student-enroll-spreadsheet {
-    margin: 15px;
+    margin-bottom: 25px;
 }
 
 #enrollstudents {
+    display: none;
+}
+
+#massupdatestudents {
     display: none;
 }
 

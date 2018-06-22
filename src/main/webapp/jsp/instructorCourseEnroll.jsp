@@ -32,20 +32,19 @@
         <strong>100</strong> students into one course, divide students into sections containing no more than
         <strong>100</strong> students.
       </div>
-      <form id="student-data-spreadsheet-form" action="${data.instructorCourseEnrollSaveLink}" method="post"
+      <br>
+      <form id="student-data-spreadsheet-form" method="post"
             class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
         <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
         <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
         <div class="col-md-12">
           <div class="form-group">
-            <div class="student-existing-data-spreadsheet" id="data-spreadsheet">
+            <div class="enroll-page-spreadsheet" id="data-spreadsheet">
+              <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
               <div class="panel panel-default">
                 <div class="panel-heading ajax_submit">
                   <div class="pull-right margin-left-7px">
-                    <button class="btn btn-primary btn-xs" type="button" id="button_updatestudents">
-                      Update
-                    </button>
                     <span class="glyphicon glyphicon-chevron-down"></span>
                   </div>
                   <div class='display-icon pull-right'></div>
@@ -57,9 +56,17 @@
                   </div>
                 </div>
               </div>
+              <textarea class="form-control" id="massupdatestudents" name="massupdatestudents"></textarea>
+              <div class="row">
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary btn-md pull-right"
+                            id="button_updatestudents" formaction="${data.instructorCourseEnrollUpdateLink}">
+                      Update
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="student-enroll-spreadsheet" id="enroll-spreadsheet">
-              <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
+            <div class="enroll-page-spreadsheet" id="enroll-spreadsheet">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <strong>New students</strong>
@@ -76,7 +83,8 @@
                 </div>
                 <div class="col-md-6">
                   <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
-                      class="btn btn-primary btn-md pull-right">
+                      class="btn btn-primary btn-md pull-right"
+                          formaction="${data.instructorCourseEnrollSaveLink}">
                     Enroll students
                   </button>
                 </div>

@@ -68,12 +68,14 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
     ],
 });
 
+let existingStudentsData = null;
+
 /**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
  *
  * Pushes the output data into the textarea (used for form submission).
  */
-function updateDataDump() {
+function updateEnrollDataDump() {
     const enrollSpreadsheetData = enrollHandsontable.getData();
     const dataPushToTextarea = getUpdatedHeaderString(enrollHandsontable.getColHeader());
     const userDataRows = getUserDataRows(enrollSpreadsheetData);
@@ -95,6 +97,7 @@ function loadExistingStudentsData(studentsData, $panelHeading, panelCollapse, di
     toggleExistingStudentsPanel($panelHeading, panelCollapse,
             displayIcon, toggleChevron);
     dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
+    existingStudentsData = dataHandsontable.getData();
 }
 
 /**
@@ -148,7 +151,7 @@ function collapseExistingStudentsPanel() {
     const panelCollapse = $panelHeading.parent().children('.panel-collapse');
     const displayIcon = $panelHeading.children('.display-icon');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
-    const updateButton = $panelHeading.find('#button_updatestudents');
+    const updateButton = $('#button_updatestudents');
 
     if ($panelHeading.attr('class').indexOf('ajax_submit') === -1) { // if panel is shown
         updateButton.hide();
@@ -158,6 +161,16 @@ function collapseExistingStudentsPanel() {
         updateButton.show();
         getAjaxStudentList($panelHeading, panelCollapse, displayIcon, toggleChevron);
     }
+}
+
+function updateExistingStudentsDataDump() {
+    const dataSpreadsheetData = dataHandsontable.getData();
+    const submitText = dataSpreadsheetData.filter((row, index) => (JSON.stringify(row) !==
+            JSON.stringify(existingStudentsData[index])))
+            .map(row => row.join('|'))
+            .join('\n');
+
+    $('#massupdatestudents').text(submitText === '' ? '' : submitText);
 }
 
 $(document).ready(() => {
@@ -185,5 +198,6 @@ $(document).ready(() => {
         enrollHandsontable.alter('insert_row', null, emptyRowsCount);
     });
 
-    $('#student-data-spreadsheet-form').submit(updateDataDump);
+    $('#button_enroll').submit(updateEnrollDataDump);
+    $('#button_updatestudents').click(updateExistingStudentsDataDump);
 });
