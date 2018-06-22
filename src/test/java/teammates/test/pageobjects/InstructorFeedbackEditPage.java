@@ -15,6 +15,7 @@ import java.util.Locale;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -1543,6 +1544,21 @@ public class InstructorFeedbackEditPage extends AppPage {
         selectDropdownByVisibleValue(
                 browser.driver.findElement(By.id("constSumDistributePointsSelect-" + questionNumber)),
                 distributePointsFor);
+    }
+
+    public void dragAndDropConstSumOption(int qnNumber, int sourceIndex, int targetIndex) {
+        WebElement draggedOptionElement = browser.driver.findElement(By.xpath("//div[@id='constSumOptionRow-"
+                + sourceIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+        WebElement targetElement = browser.driver.findElement(By.xpath("//div[@id='constSumOptionRow-"
+                + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+
+        Actions builder = new Actions(browser.driver);
+        builder.clickAndHold(draggedOptionElement).perform();
+        builder.moveToElement(targetElement, 0, 40).perform();
+        builder.moveToElement(targetElement, 0, 30).perform();
+        builder.moveToElement(targetElement, 0, 20).perform();
+        builder.moveToElement(targetElement).perform();
+        builder.moveToElement(targetElement, 0, -10).release().perform();
     }
 
     public void clickAssignWeightsCheckbox(int qnIndex) {
