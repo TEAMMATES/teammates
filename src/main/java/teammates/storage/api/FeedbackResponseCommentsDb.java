@@ -98,13 +98,13 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * @return Null if not found.
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
-            String feedbackResponseId, String giverEmail, Instant createdAt) {
+            String feedbackResponseId, String commentGiver, Instant createdAt) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
 
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, giverEmail, createdAt),
-                "Trying to get non-existent response comment: " + feedbackResponseId + "/from: " + giverEmail
+        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, commentGiver, createdAt),
+                "Trying to get non-existent response comment: " + feedbackResponseId + "/from: " + commentGiver
                 + "created at: " + createdAt);
     }
 
@@ -114,13 +114,13 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * @return Null if not found.
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
-            String courseId, Instant createdAt, String giverEmail) {
+            String courseId, Instant createdAt, String commentGiver) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
 
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, giverEmail),
-                "Trying to get non-existent response comment: from: " + giverEmail + " in the course " + courseId
+        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver),
+                "Trying to get non-existent response comment: from: " + commentGiver + " in the course " + courseId
                 + " created at: " + createdAt);
     }
 
@@ -129,11 +129,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String giverEmail) {
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String commentGiver) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
 
-        return makeAttributes(getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, giverEmail));
+        return makeAttributes(getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, commentGiver));
     }
 
     /*
@@ -335,11 +335,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         ofy().delete().keys(getEntityQueryKeys(id)).now();
     }
 
-    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
+    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String commentGiver) {
         return load()
                 .filter("courseId =", courseId)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
-                .filter("giverEmail =", giverEmail)
+                .filter("commentGiver =", commentGiver)
                 .first().now();
     }
 
@@ -348,19 +348,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(
-            String feedbackResponseId, String giverEmail, Instant createdAt) {
+            String feedbackResponseId, String commentGiver, Instant createdAt) {
         return load()
                 .filter("feedbackResponseId =", feedbackResponseId)
-                .filter("giverEmail =", giverEmail)
+                .filter("commentGiver =", commentGiver)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
                 .first().now();
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
-            String courseId, String giverEmail) {
+            String courseId, String commentGiver) {
         return load()
                 .filter("courseId =", courseId)
-                .filter("giverEmail =", giverEmail)
+                .filter("commentGiver =", commentGiver)
                 .list();
     }
 
@@ -443,7 +443,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return load()
                 .filter("courseId =", attributes.courseId)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(attributes.createdAt))
-                .filter("giverEmail =", attributes.commentGiver)
+                .filter("commentGiver =", attributes.commentGiver)
                 .keys();
     }
 
