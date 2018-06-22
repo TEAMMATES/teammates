@@ -293,8 +293,11 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
-    @Test
-    public void testReorderOptions() throws Exception {
+    /**
+     * Tests that MCQ options (new and existing) can be reordered using drag and drop mechanism.
+     * @throws Exception when option is not draggable
+     */
+    private void testReorderOptions() throws Exception {
 
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MCQ");

@@ -27,6 +27,8 @@ function addMcqOption(questionNum) {
     </div>
     `).appendTo($(`#mcqOptionRows-${questionNum}`));
 
+    $(`#mcqOptionRows-${questionNum}`).sortable('refresh');
+
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
     if ($(questionId).attr('editStatus') === 'hasResponses') {
@@ -87,7 +89,7 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
  * elements change. The event handler updates the ids of elements to match the new order.
  */
 function makeMcqOptionsReorderable(questionNum) {
-    $(`div[id='mcqOptionRows-${questionNum}']`).sortable({
+    $(`#mcqOptionRows-${questionNum}`).sortable({
         cursor: 'move',
         update() {
             $(this).children().each(function (index) {

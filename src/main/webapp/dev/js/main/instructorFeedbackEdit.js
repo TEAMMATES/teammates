@@ -487,8 +487,6 @@ function enableQuestion(questionNum) {
         $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
     }
 
-    makeMcqOptionsReorderable(questionNum);
-
     toggleMsqMaxSelectableChoices(questionNum);
     toggleMsqMinSelectableChoices(questionNum);
     if ($(`#constSumToRecipients-${questionNum}`).val() === 'true') {
@@ -1220,6 +1218,20 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
     });
 }
 
+/**
+ * Enables options of different question types
+ * to be reordered using a drag and drog mechanism
+ */
+function makeQuestionOptionsReorderable() {
+    const numQuestions = $('.questionTable').length;
+    for (let i = 1; i <= numQuestions; i += 1) {
+        const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
+        if (qnType === 'MCQ') {
+            makeMcqOptionsReorderable(i);
+        }
+    }
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
 
@@ -1235,6 +1247,7 @@ $(document).ready(() => {
     attachVisibilityDropdownEvent();
     attachVisibilityCheckboxEvent();
     setTooltipTriggerOnFeedbackPathMenuOptions();
+    makeQuestionOptionsReorderable();
 
     $('#fsSaveLink').on('click', (e) => {
         checkEditFeedbackSession(e.currentTarget.form);
