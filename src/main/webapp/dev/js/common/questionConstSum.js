@@ -23,6 +23,9 @@ function addConstSumOption(questionNum) {
     $(`
     <div class="margin-bottom-7px" id="constSumOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group width-100-pc">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-resize-vertical"></span>
+            </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}-${curNumberOfChoiceCreated}"
                     id="${ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}-${curNumberOfChoiceCreated}-${questionNum}"
                     class="form-control constSumOptionTextBox">
@@ -35,7 +38,7 @@ function addConstSumOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertBefore($(`#constSumAddOptionRow-${questionNum}`));
+    `).appendTo($(`#constSumOptionRows-${questionNum}`));
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -110,10 +113,33 @@ function changeConstSumDistributePointsFor(questionNum) {
             $(`#constSumDistributePointsSelect-${questionNum}`).prop('value'));
 }
 
+/**
+ * Enables options for distribute points question to be reordered through a drag and drop mechanism.
+ * Binds an update event to the option elements which is triggered whenever the order of
+ * elements change. The event handler updates the ids of elements to match the new order.
+ */
+function makeConstSumOptionsReorderable(questionNum) {
+    $(`#constSumOptionRows-${questionNum}`).sortable({
+        cursor: 'move',
+        update() {
+            $(this).children().each(function (index) {
+                $(this).attr('id', `constSumOptionRow-${index}-${questionNum}`);
+                $(this).find('input[id^="constSumOption-"]').attr({
+                    name: `constSumOption-${index}`,
+                    id: `constSumOption-${index}-${questionNum}`,
+                });
+                $(this).find('button[id="constSumRemoveOptionLink"]')
+                        .attr('onclick', `removeConstSumOption(${index},${questionNum})`);
+            });
+        },
+    });
+}
+
 export {
     addConstSumOption,
     bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
+    makeConstSumOptionsReorderable,
     removeConstSumOption,
     showConstSumOptionTable,
     toggleConstSumOptionsRadioButton,
