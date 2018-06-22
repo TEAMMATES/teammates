@@ -275,6 +275,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
             String showCommentTo = null;
             String showGiverNameTo = null;
+            // Only instructor can set visibility settings for his/her comments.
             if (this instanceof InstructorFeedbackSubmissionEditSaveAction) {
                 showCommentTo =
                         getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
@@ -342,9 +343,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String questionId = questionIdsForComments.get(commentIndex);
             FeedbackResponseAttributes responseToAddComment =
                     logic.getFeedbackResponse(questionId, responseGiver, responseRecipient);
-            String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
+            String commentGiverTypeString =
+                    getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE + commentIndex);
             String showCommentTo = null;
             String showGiverNameTo = null;
+            // Only instructor can set visibility settings for his/her comments.
             if (this instanceof InstructorFeedbackSubmissionEditSaveAction) {
                 showCommentTo =
                         getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO + commentIndex);
@@ -352,13 +355,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO + commentIndex);
             }
             createCommentsForResponses(showCommentTo, showGiverNameTo, responseGiver, questionId, responseToAddComment,
-                    commentText, giverRole);
+                    commentText, commentGiverTypeString);
         }
     }
 
     // Creates respondent comments
     private void createCommentsForResponses(String showCommentTo, String showGiverNameTo, String userEmailForCourse,
-            String questionId, FeedbackResponseAttributes response, String commentText, String giverRole)
+            String questionId, FeedbackResponseAttributes response, String commentText, String commentGiverTypeString)
             throws EntityDoesNotExistException {
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
@@ -370,7 +373,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 .withReceiverSection(response.recipientSection)
                 .withCommentFromFeedbackParticipant(true)
                 .build();
-        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
+        feedbackResponseComment.commentGiverType =
+                feedbackResponseComment.getCommentGiverTypeFromString(commentGiverTypeString);
         if (showCommentTo == null && showGiverNameTo == null) {
             feedbackResponseComment.setVisibilitySettingsForStudentComment();
         } else {

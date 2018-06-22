@@ -253,7 +253,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, oldEmail);
 
         for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setGiverEmail(updatedEmail);
+            responseComment.setCommentGiver(updatedEmail);
         }
 
         saveEntities(responseComments);

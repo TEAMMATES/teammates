@@ -76,7 +76,7 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertEquals(responseComment.getCourseId(), feedbackAttributes.courseId);
         assertEquals(responseComment.getFeedbackSessionName(), feedbackAttributes.feedbackSessionName);
         assertEquals(responseComment.getFeedbackQuestionId(), feedbackAttributes.feedbackQuestionId);
-        assertEquals(responseComment.getGiverEmail(), feedbackAttributes.commentGiver);
+        assertEquals(responseComment.getCommentGiver(), feedbackAttributes.commentGiver);
         assertEquals(responseComment.getFeedbackResponseId(), feedbackAttributes.feedbackResponseId);
         assertEquals(responseComment.getShowCommentTo(), feedbackAttributes.showCommentTo);
         assertEquals(responseComment.getShowGiverNameTo(), feedbackAttributes.showGiverNameTo);

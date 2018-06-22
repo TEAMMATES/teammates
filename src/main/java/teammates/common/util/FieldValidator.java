@@ -704,6 +704,13 @@ public class FieldValidator {
         return "";
     }
 
+    /**
+     * Checks visibility settings for student comment.
+     * @param commentGiverType comment giver type to be checked.
+     * @param showCommentTo comment to be shown to.
+     * @param showGiverNameTo comment giver name to be shown to.
+     * @return List of error strings if visibility settings is not set to only instructors and giver.
+     */
     public List<String> getInvalidityInfoForVisibilityOfStudentComments(FeedbackParticipantType commentGiverType,
             List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo) {
         List<String> errors = new LinkedList<>();

@@ -31,8 +31,8 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         String feedbackResponseCommentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseCommentId);
-        String giverRole = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE);
-        Assumption.assertNotNull(Const.ParamsNames.COMMENT_GIVER_TYPE, giverRole);
+        String commentGiverTypeString = getRequestParamValue(Const.ParamsNames.COMMENT_GIVER_TYPE);
+        Assumption.assertNotNull(Const.ParamsNames.COMMENT_GIVER_TYPE, commentGiverTypeString);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -65,7 +65,8 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 .withCommentFromFeedbackParticipant(false)
                 .build();
 
-        feedbackResponseComment.commentGiverType = feedbackResponseComment.getCommentGiverTypeFromString(giverRole);
+        feedbackResponseComment.commentGiverType =
+                feedbackResponseComment.getCommentGiverTypeFromString(commentGiverTypeString);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
 
         //Edit visibility settings

@@ -46,7 +46,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public Long feedbackResponseCommentId;
     public String giverSection;
     public String receiverSection;
+    //Determines the type of comment giver- instructor, student, or team
     public FeedbackParticipantType commentGiverType;
+    //true if comment is given by response giver
     public boolean isCommentFromFeedbackParticipant;
 
     FeedbackResponseCommentAttributes() {
@@ -60,7 +62,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
         return builder(comment.getCourseId(), comment.getFeedbackSessionName(),
-                comment.getGiverEmail(), comment.getCommentText())
+                    comment.getCommentGiver(), comment.getCommentText())
                 .withFeedbackResponseId(comment.getFeedbackResponseId())
                 .withFeedbackQuestionId(comment.getFeedbackQuestionId())
                 .withFeedbackResponseCommentId(comment.getFeedbackResponseCommentId())
@@ -348,6 +350,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
     }
 
+    /**
+     * Sets visibility settings for comments by instructor.
+     */
     public void setVisibilitySettingsForInstructorComment(String showCommentTo, String showGiverNameTo) {
         this.showCommentTo = new ArrayList<>();
         if (showCommentTo != null && !showCommentTo.isEmpty()) {

@@ -935,7 +935,7 @@ public class PageData {
     }
 
     //TODO investigate and fix the differences between question.isResponseVisibleTo and this method
-    private boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
+    public boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
         switch (participantType) {
         case GIVER:
             return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
