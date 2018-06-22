@@ -303,7 +303,12 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 List<String> recipientListForUnsubmittedResponse = getRecipientList(responseSubmittedRecipient,
                         bundle.getSortedRecipientList(questionAttributes.getId()));
                 String recipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);
-                String giverName = account.name;
+                String giverName;
+                if (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)) {
+                    giverName = bundle.roster.getStudentForEmail(account.email).team;
+                } else {
+                    giverName = account.name;
+                }
                 ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
                         questionAttributes, "",
