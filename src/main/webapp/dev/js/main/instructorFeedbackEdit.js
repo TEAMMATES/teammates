@@ -1168,7 +1168,10 @@ function readyFeedbackEditPage() {
             });
 
     $('#add-new-question-dropdown > li').click(function () {
-        showNewQuestionFrame($(this).data('questiontype'));
+        const questionType = $(this).data('questiontype');
+        if (questionType !== 'TEMPLATE') {
+            showNewQuestionFrame(questionType);
+        }
     });
 
     // Copy Binding
