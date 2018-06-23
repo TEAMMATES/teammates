@@ -205,18 +205,25 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     @Override
     public String toString() {
-        //TODO: print visibilityOptions also
-        return "FeedbackResponseCommentAttributes ["
-                + "feedbackResponseCommentId = " + feedbackResponseCommentId
-                + ", courseId = " + courseId
-                + ", feedbackSessionName = " + feedbackSessionName
-                + ", feedbackQuestionId = " + feedbackQuestionId
-                + ", giverEmail = " + commentGiver
-                + ", feedbackResponseId = " + feedbackResponseId
-                + ", commentText = " + commentText.getValue()
-                + ", createdAt = " + createdAt
-                + ", lastEditorEmail = " + lastEditorEmail
-                + ", lastEditedAt = " + lastEditedAt + "]";
+        return "FeedbackResponseCommentAttributes{" +
+                       "courseId='" + courseId + '\'' +
+                       ", feedbackSessionName='" + feedbackSessionName + '\'' +
+                       ", commentGiver='" + commentGiver + '\'' +
+                       ", commentText=" + commentText +
+                       ", feedbackResponseId='" + feedbackResponseId + '\'' +
+                       ", feedbackQuestionId='" + feedbackQuestionId + '\'' +
+                       ", showCommentTo=" + showCommentTo +
+                       ", showGiverNameTo=" + showGiverNameTo +
+                       ", isVisibilityFollowingFeedbackQuestion=" + isVisibilityFollowingFeedbackQuestion +
+                       ", createdAt=" + createdAt +
+                       ", lastEditorEmail='" + lastEditorEmail + '\'' +
+                       ", lastEditedAt=" + lastEditedAt +
+                       ", feedbackResponseCommentId=" + feedbackResponseCommentId +
+                       ", giverSection='" + giverSection + '\'' +
+                       ", receiverSection='" + receiverSection + '\'' +
+                       ", commentGiverType=" + commentGiverType +
+                       ", isCommentFromFeedbackParticipant=" + isCommentFromFeedbackParticipant +
+                       '}';
     }
 
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
