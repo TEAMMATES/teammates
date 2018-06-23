@@ -586,13 +586,22 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(subQnBox, choice);
     }
 
-    public void fillRubricWeightBox(String weight, int qnNumber, int choiceIndex) {
+    public WebElement getRubricWeightBox(int qnNumber, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
+        String elementId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + choiceIndex;
 
-        String elemid = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + choiceIndex;
+        return browser.driver.findElement(By.id(elementId));
+    }
 
-        WebElement weightBox = browser.driver.findElement(By.id(elemid));
+    public void fillRubricWeightBox(String weight, int qnNumber, int choiceIndex) {
+        WebElement weightBox = getRubricWeightBox(qnNumber, choiceIndex);
         fillTextBox(weightBox, weight);
+    }
+
+    public boolean isRubricWeightBoxFocused(int qnNumber, int choiceIndex) {
+        WebElement weightBox = getRubricWeightBox(qnNumber, choiceIndex);
+
+        return weightBox.equals(browser.driver.switchTo().activeElement());
     }
 
     public void fillRubricWeightBoxForNewQuestion(String weight, int choiceIndex) {

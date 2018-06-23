@@ -135,7 +135,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "3, 5, 7, 9, 10, 11, 12, 14, "
-                        + "15, 16, 18, 19, 20, 21, 22, 23.");
+                        + "15, 16, 18, 19, 20, 21, 22, 23, 24.");
 
         assertNotNull(BackDoor.getFeedbackResponse(
                                    fq.getId(), "IFSubmitUiT.instr@gmail.tmt", "IFSubmitUiT.alice.b@gmail.tmt"));
@@ -250,7 +250,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.submitWithoutConfirmationEmail();
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24.");
         assertEquals("<p>" + editedResponse + "</p>",
                     BackDoor.getFeedbackResponse(
                                  fq.getId(), "IFSubmitUiT.instr@gmail.tmt",
@@ -467,21 +467,59 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-"
                                                      + qnNumber + "-" + responseNumber));
 
-        // Test messages for different values entered
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+
+        // Test instructions displayed for filling the form
+        qnNumber = 17;
+        assertEquals("Total points distributed should add up to 100.",
+                     submitPage.getConstSumInstruction(qnNumber));
+
+        qnNumber = 18;
+        assertEquals("Total points distributed should add up to 400.",
+                     submitPage.getConstSumInstruction(qnNumber));
+
+        qnNumber = 19;
+        assertEquals("Total points distributed should add up to 400.\n"
+                     + "Every recipient should be allocated different number of points.",
+                     submitPage.getConstSumInstruction(qnNumber));
+
+        qnNumber = 20;
+        assertEquals("Total points distributed should add up to 100.\n"
+                    + "Every option should be allocated different number of points.",
+                    submitPage.getConstSumInstruction(qnNumber));
+
+        qnNumber = 21;
+        assertEquals("Total points distributed should add up to 400.\n"
+                    + "At least one recipient should be allocated different number of points.",
+                    submitPage.getConstSumInstruction(qnNumber));
+
+        qnNumber = 22;
+        assertEquals("Total points distributed should add up to 100.\n"
+                    + "At least one option should be allocated different number of points.",
+                    submitPage.getConstSumInstruction(qnNumber));
+
+        qnNumber = 24;
+        assertEquals("Total points distributed should add up to 100.\n"
+                    + "At least one option should be allocated different number of points.",
+                    submitPage.getConstSumInstruction(qnNumber));
+
+        // Test messages displayed for different user input
         qnNumber = 17;
         assertEquals("All points distributed!", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "80");
-        assertEquals("Over allocated 10 points.", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 110! Remove the extra 10 points allocated.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "");
-        assertEquals("70 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 30! Distribute the remaining 70 points.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "");
-        assertEquals("Please distribute 100 points among the above options.",
+        assertEquals("",
                      submitPage.getConstSumMessage(qnNumber, 0));
 
         // Test error message when submitting
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "10");
-        assertEquals("90 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 10! Distribute the remaining 90 points.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(
@@ -490,26 +528,39 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Test error message for const sum (to recipient) qn with uneven distribution
         qnNumber = 19;
-        assertEquals("100 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Actual total is 300! Distribute the remaining 100 points.\n"
+                     + "All allocated points are different!",
+                     submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "105");
-        assertEquals("80 points left to distribute. The same "
-                     + "amount of points should not be given multiple times.",
+        assertEquals("Actual total is 320! Distribute the remaining 80 points.\n"
+                     + "Multiple recipients are given same points! eg. 105.",
                      submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "106");
-        assertEquals("79 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 3));
-        submitPage.fillResponseTextBox(qnNumber, 0, 0, "155");
-        submitPage.fillResponseTextBox(qnNumber, 1, 0, "155");
-        assertEquals("Over allocated 15 points. The same "
-                     + "amount of points should not be given multiple times.",
+        assertEquals("Actual total is 321! Distribute the remaining 79 points.\n"
+                     + "All allocated points are different!",
+                     submitPage.getConstSumMessage(qnNumber, 3));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "400");
+        submitPage.fillResponseTextBox(qnNumber, 1, 0, "400");
+        assertEquals("Actual total is 905! Remove the extra 505 points allocated.\n"
+                     + "Multiple recipients are given same points! eg. 400.",
                      submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "154");
-        assertEquals("Over allocated 14 points.", submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Actual total is 659! Remove the extra 259 points allocated.\n"
+                     + "All allocated points are different!",
+                     submitPage.getConstSumMessage(qnNumber, 3));
+
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "");
+        submitPage.fillResponseTextBox(qnNumber, 1, 0, "");
+        submitPage.fillResponseTextBox(qnNumber, 2, 0, "");
+        submitPage.fillResponseTextBox(qnNumber, 3, 0, "");
+        assertEquals("", submitPage.getConstSumMessage(qnNumber, 3));
 
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "50");
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "50");
         submitPage.fillResponseTextBox(qnNumber, 2, 0, "200");
         submitPage.fillResponseTextBox(qnNumber, 3, 0, "100");
-        assertEquals("The same amount of points should not be given multiple times.",
+        assertEquals("All points distributed!\n"
+                     + "Multiple recipients are given same points! eg. 50.",
                      submitPage.getConstSumMessage(qnNumber, 3));
 
         submitPage.submitWithoutConfirmationEmail();
@@ -519,18 +570,24 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // Test error message for const sum (to options) qn with uneven distribution
         qnNumber = 20;
-        assertEquals("All points distributed!", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("All points distributed!\n"
+                     + "All allocated points are different!",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "25");
-        assertEquals("10 points left to distribute. The same "
-                     + "amount of points should not be given multiple times.",
+        assertEquals("Actual total is 90! Distribute the remaining 10 points.\n"
+                     + "Multiple options are given same points! eg. 25.",
                      submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "26");
-        assertEquals("9 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 91! Distribute the remaining 9 points.\n"
+                     + "All allocated points are different!",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "50");
-        assertEquals("Over allocated 15 points.", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 115! Remove the extra 15 points allocated.\n"
+                     + "All allocated points are different!",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "50");
-        assertEquals("Over allocated 25 points. The same "
-                     + "amount of points should not be given multiple times.",
+        assertEquals("Actual total is 125! Remove the extra 25 points allocated.\n"
+                     + "Multiple options are given same points! eg. 50.",
                      submitPage.getConstSumMessage(qnNumber, 0));
 
         // Test error message for const sum (to recipients) qn with uneven distribution for at least some recipients
@@ -539,48 +596,82 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(21, 1, 0, "95");
         submitPage.fillResponseTextBox(21, 2, 0, "95");
         submitPage.fillResponseTextBox(21, 3, 0, "96");
-        assertEquals("19 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Actual total is 381! Distribute the remaining 19 points.\n"
+                     + "At least one recipient has been allocated different number of points.",
+                     submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 3, 0, "95");
-        assertEquals("20 points left to distribute. Different "
-                        + "amount of points should be given to some options.",
-                submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Actual total is 380! Distribute the remaining 20 points.\n"
+                     + "All recipients are given 95 points. "
+                     + "Please allocate different points to at least one recipient.",
+                     submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "105");
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "105");
         submitPage.fillResponseTextBox(qnNumber, 2, 0, "105");
         submitPage.fillResponseTextBox(qnNumber, 3, 0, "105");
-        assertEquals("Over allocated 20 points. Different "
-                        + "amount of points should be given to some options.",
-                submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Actual total is 420! Remove the extra 20 points allocated.\n"
+                     + "All recipients are given 105 points. "
+                     + "Please allocate different points to at least one recipient.",
+                     submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 3, 0, "110");
-        assertEquals("Over allocated 25 points.", submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Actual total is 425! Remove the extra 25 points allocated.\n"
+                     + "At least one recipient has been allocated different number of points.",
+                     submitPage.getConstSumMessage(qnNumber, 3));
 
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "100");
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "100");
         submitPage.fillResponseTextBox(qnNumber, 2, 0, "100");
         submitPage.fillResponseTextBox(qnNumber, 3, 0, "100");
-        assertEquals("Different amount of points should be given to some options.",
-                submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("All points distributed!\n"
+                     + "All recipients are given 100 points. "
+                     + "Please allocate different points to at least one recipient.",
+                     submitPage.getConstSumMessage(qnNumber, 3));
 
         // Test error message for const sum (to options) qn with uneven distribution for at least some  options
         qnNumber = 22;
-        assertEquals("All points distributed!", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("All points distributed!\n"
+                     + "At least one option has been allocated different number of points.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "25");
-        assertEquals("10 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 90! Distribute the remaining 10 points.\n"
+                     + "At least one option has been allocated different number of points.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "25");
-        assertEquals("25 points left to distribute. Different "
-                        + "amount of points should be given to some options.",
-                submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 75! Distribute the remaining 25 points.\n"
+                     + "All options are given 25 points. "
+                     + "Please allocate different points to at least one option.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "60");
-        assertEquals("Over allocated 10 points.", submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 110! Remove the extra 10 points allocated.\n"
+                     + "At least one option has been allocated different number of points.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "60");
         submitPage.fillResponseTextBox(qnNumber, 0, 2, "60");
-        assertEquals("Over allocated 80 points. Different "
-                        + "amount of points should be given to some options.",
-                submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Actual total is 180! Remove the extra 80 points allocated.\n"
+                     + "All options are given 60 points. "
+                     + "Please allocate different points to at least one option.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
+
+        qnNumber = 24;
+        submitPage.fillResponseTextBox(24, 0, 0, "33");
+        submitPage.fillResponseTextBox(24, 0, 1, "33");
+        submitPage.fillResponseTextBox(24, 0, 2, "33");
+        assertEquals("Actual total is 99! Distribute the remaining 1 points.\n"
+                     + "All options are given 33 points. "
+                     + "Please allocate different points to at least one option.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(24, 0, 0, "31");
+        assertEquals("Actual total is 97! Distribute the remaining 3 points.\n"
+                     + "At least one option has been allocated different number of points.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(24, 0, 2, "36");
+        assertEquals("All points distributed!\n"
+                     + "At least one option has been allocated different number of points.",
+                     submitPage.getConstSumMessage(qnNumber, 0));
 
         // For other const sum question, just test one message.
         qnNumber = 18;
-        assertEquals("100 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Actual total is 300! Distribute the remaining 100 points.",
+                     submitPage.getConstSumMessage(qnNumber, 3));
     }
 
     private void testContribSubmitAction() {

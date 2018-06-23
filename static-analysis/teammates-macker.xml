@@ -316,6 +316,7 @@
                                 <include class="${testCases}.automated.**" />
                                 <include class="${testCases}.search.**" />
                                 <include class="${testCases}.BaseComponentTestCase" />
+                                <include class="${testCases}.BaseTestCaseWithMinimalGaeEnvironment" />
 
                                 <!-- violation that needs fixing -->
                                 <include class="${testCases}.pagedata.StudentFeedbackResultsPageDataTest" />
