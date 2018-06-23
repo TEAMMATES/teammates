@@ -246,18 +246,20 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      */
     private String getStudentQuestionResultsStatisticsHtml(
             String studentEmail, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
+        // at least should be able to viewed by other students for team recipient
         if (question.recipientType.isTeam()
                     && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                                 || !question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS))) {
             return "";
         }
+        // at least should be able to viewed by own team members for non-team recipient
         if (!question.recipientType.isTeam()
                     && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                              || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
             return "";
         }
 
-        List<FeedbackResponseAttributes> allResponses = bundle.getAllReponsesForQuestion(question);
+        List<FeedbackResponseAttributes> allResponses = bundle.getActualResponses(question);
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(allResponses);
 
@@ -267,6 +269,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String currentUserTeam = bundle.roster.getStudentForEmail(studentEmail).getTeam();
         String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
         List<Integer> ranksReceived = recipientRanks.get(currentUserIdentifier);
+        //If response recipient is instructor, responses for current student/team will not exist.
         if (ranksReceived == null) {
             return "";
         }

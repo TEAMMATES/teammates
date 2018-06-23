@@ -1734,12 +1734,21 @@ public class FeedbackSessionResultsBundle {
         return false;
     }
 
-    public List<FeedbackResponseAttributes> getAllReponsesForQuestion(
+    /**
+     * Returns list of responses with identities of giver/recipients NOT hidden which is used for
+     * anonymous result calculation.
+     * @param question question whose responses are required
+     * @return List of responses
+     */
+    public List<FeedbackResponseAttributes> getActualResponses(
             FeedbackQuestionAttributes question) {
         String questionId = question.getId();
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
         //Get all actual responses for this question
-        return actualResponses.stream()
+        responses = actualResponses.stream()
                        .filter(response -> response.feedbackQuestionId.equals(questionId))
                        .collect(Collectors.toList());
+        responses.sort(compareByGiverRecipientQuestion);
+        return responses;
     }
 }
