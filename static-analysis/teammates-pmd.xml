@@ -178,4 +178,6 @@
         <!-- Not worth the benefit -->
         <exclude name="InefficientEmptyStringCheck"/>
     </rule>
+
+    <rule ref="category/java/security.xml"/>
 </ruleset>
