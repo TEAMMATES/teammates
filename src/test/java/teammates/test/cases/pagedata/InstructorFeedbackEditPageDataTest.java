@@ -64,7 +64,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor,
+        data.init(fs, questions, null, questionHasResponses, studentList, instructorList, instructor,
                 true, instructorList.size(), courseDetails);
 
         // Test fs form
@@ -217,7 +217,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase {
         instructor = getInstructorFromBundle("instructor1OfCourse1");
         courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        data.init(fs, questions, questionHasResponses, studentList, instructorList, instructor, true,
+        data.init(fs, questions, null, questionHasResponses, studentList, instructorList, instructor, true,
                 instructorList.size(), courseDetails);
 
         fsForm = data.getFsForm();
