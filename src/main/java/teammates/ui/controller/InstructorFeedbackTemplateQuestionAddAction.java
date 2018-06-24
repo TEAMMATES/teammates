@@ -4,6 +4,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
@@ -41,7 +42,15 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
             if (index > 0) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
                         StatusMessageColor.SUCCESS));
+            } else {
+                statusToUser.add(new StatusMessage("No template questions are indicated to be added",
+                        StatusMessageColor.DANGER));
+                isError = true;
             }
+        } catch (InvalidParametersException e) {
+            statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
+            statusToAdmin = e.getMessage();
+            isError = true;
         }
     }
 }
