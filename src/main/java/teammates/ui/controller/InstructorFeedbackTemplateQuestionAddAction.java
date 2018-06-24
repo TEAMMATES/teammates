@@ -8,6 +8,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.ui.pagedata.PageData;
+
 public class InstructorFeedbackTemplateQuestionAddAction extends Action {
 
     @Override
@@ -52,5 +54,8 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
             statusToAdmin = e.getMessage();
             isError = true;
         }
+
+        return createRedirectResult(new PageData(account, sessionToken)
+                .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 }
