@@ -1018,6 +1018,37 @@ function bindCopyEvents() {
     });
 }
 
+function bindAddTemplateQnButton() {
+    $('#button_add_submit').click((e) => {
+        e.preventDefault();
+
+        let index = 0;
+        let hasPanelSelected = false;
+
+        $('#addTemplateQuestion > .panel-heading').each(function () {
+            const $this = $(this);
+            const questionNumInput = $this.children('input:first');
+            if (!questionNumInput.length) {
+                return;
+            }
+            if ($this.hasClass('panel-selected')) {
+                $(questionNumInput).attr('name', `templatequestionnum-${index}`);
+                index += 1;
+                hasPanelSelected = true;
+            }
+        });
+
+        if (hasPanelSelected) {
+            $('#addTemplateQuestionModalForm').submit();
+        } else {
+            setStatusMessage('No questions are selected to be added', BootstrapContextualColors.DANGER);
+            $('#addTemplateQuestionModal').modal('hide');
+        }
+
+        return false;
+    });
+}
+
 function hideOption($containingSelect, value) {
     $containingSelect.find(`option[value="${value}"]`).hide();
 }
@@ -1179,6 +1210,7 @@ function readyFeedbackEditPage() {
     bindCopyEvents();
     setupQuestionCopyModal();
 
+    bindAddTemplateQnButton();
     // Additional formatting & bindings.
     if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
         enableEditFS();
