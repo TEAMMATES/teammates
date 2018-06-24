@@ -519,7 +519,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         // Sort the list of responseAttributes based on recipient team and recipient name.
         List<FeedbackResponseAttributes> responses = mcqStats.getResponseAttributesSorted(unsortedResponses, bundle);
         Map<String, Integer> answerFrequency = mcqStats.collateAnswerFrequency(responses);
-        Map<String, Double> weightedPercentagePerOption = mcqStats.calculateWeightedPercentagePerOption(answerFrequency);
+        // Do not calculate weighted percentage if weights are not enabled.
+        Map<String, Double> weightedPercentagePerOption =
+                hasAssignedWeights ? mcqStats.calculateWeightedPercentagePerOption(answerFrequency)
+                : new LinkedHashMap<>();
 
         DecimalFormat df = new DecimalFormat("#.##");
 
@@ -725,8 +728,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             for (String key : weightedPercentagePerOption.keySet()) {
                 int frequency = answerFrequency.get(key);
                 double weight = weightedPercentagePerOption.get(key);
-                double weightedPercentage =
-                        100 * ((frequency * weight) / totalWeightedResponseCount);
+                double weightedPercentage = weight == 0 ? 0
+                        : 100 * ((frequency * weight) / totalWeightedResponseCount);
 
                 // Replace the value by the actual average value.
                 weightedPercentagePerOption.put(key, weightedPercentage);

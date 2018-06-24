@@ -94,6 +94,21 @@ function setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, isReq
     }
 }
 
+function toggleVisibilityOfMcqOtherWeight($checkbox, questionNum) {
+    // The 'Choices are weighted' checkbox
+    const $mcqAssignWeightCheckbox = $(`#mcqHasAssignedWeights-${questionNum}`);
+    const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
+
+    if ($checkbox.prop('checked') && $mcqAssignWeightCheckbox.prop('checked')) {
+        $mcqOtherWeightCell.show();
+        // Set other weight as required.
+        $mcqOtherWeightCell.prop('required', true);
+    } else {
+        $mcqOtherWeightCell.prop('required', false);
+        $mcqOtherWeightCell.hide();
+    }
+}
+
 /**
  * Hides the weight cells and weight label on top of the cells when the checkbox is unchecked,
  * otherwise, shows the weight cells and label.
@@ -113,9 +128,7 @@ function toggleMcqHasAssignedWeights($checkbox, questionNum) {
         $weightLabel.show();
         $weightColumn.show();
 
-        if ($otherEnabledCheckbox.prop('checked')) {
-            $otherWeightCell.show();
-        }
+        toggleVisibilityOfMcqOtherWeight($otherEnabledCheckbox, questionNum);
         // Set the weight cells as required.
         setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, true);
     } else {
@@ -123,9 +136,7 @@ function toggleMcqHasAssignedWeights($checkbox, questionNum) {
         // Set the weight cells as not required.
         setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, false);
         $weightColumn.hide();
-        // If weight is not assigned, no need to check if the other option is checked,
-        // As, other weight will be disabled anyway.
-        $otherWeightCell.hide();
+        toggleVisibilityOfMcqOtherWeight($otherEnabledCheckbox, questionNum);
     }
 }
 
@@ -156,21 +167,6 @@ function toggleMcqGeneratedOptions(checkbox, questionNum) {
         toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${questionNum}`), questionNum);
         $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
         $(`#mcqGeneratedOptions-${questionNum}`).val('NONE');
-    }
-}
-
-function toggleVisibilityOfMcqOtherWeight($checkbox, questionNum) {
-    // The 'Choices are weighted' checkbox
-    const $mcqAssignWeightCheckbox = $(`#mcqHasAssignedWeights-${questionNum}`);
-    const $mcqOtherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
-
-    if ($checkbox.prop('checked') && $mcqAssignWeightCheckbox.prop('checked')) {
-        $mcqOtherWeightCell.show();
-        // Set other weight as required.
-        $mcqOtherWeightCell.prop('required', true);
-    } else {
-        $mcqOtherWeightCell.prop('required', false);
-        $mcqOtherWeightCell.hide();
     }
 }
 
