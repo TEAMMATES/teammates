@@ -12,4 +12,15 @@ public class FeedbackTemplateQuestionDetails {
     private String qnVisibilityOption;
     private List<String> qnVisibilityHints;
 
+    public FeedbackTemplateQuestionDetails(int qnNumber, String qnType, String qnText, String qnFeedbackPath,
+                                           String qnVisibilityOption, List<String> qnVisibilityHints) {
+        this.qnNumber = qnNumber;
+        this.qnType = qnType;
+        this.qnText = qnText;
+        this.qnFeedbackPath = qnFeedbackPath;
+        this.qnVisibilityOption = qnVisibilityOption;
+        this.qnVisibilityHints = qnVisibilityHints;
+        this.qnDescription = getQnDescription();
+    }
+
 }
