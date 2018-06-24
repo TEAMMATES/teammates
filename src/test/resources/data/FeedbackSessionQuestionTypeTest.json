@@ -675,7 +675,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.25,-1.7],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"What do you like best about our product?\"}"
+        "value": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.25,1.7],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"What do you like best about our product?\"}"
       },
       "questionNumber": 4,
       "questionType": "MCQ",

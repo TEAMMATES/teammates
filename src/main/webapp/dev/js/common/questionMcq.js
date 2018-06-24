@@ -33,7 +33,7 @@ function addMcqOption(questionNum) {
     <div class="margin-bottom-7px">
         <input type="number" class="form-control nonDestructive" value="0"
                 id="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}-${questionNum}"
-                name="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}" step="0.01" required>
+                name="${ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}-${curNumberOfChoiceCreated}" step="0.01" min="0" required>
     </div>
     `);
 

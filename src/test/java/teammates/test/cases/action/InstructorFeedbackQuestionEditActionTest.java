@@ -737,7 +737,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         editedQuestionDetails = (FeedbackMcqQuestionDetails) editedQuestion.getQuestionDetails();
         assertEquals(2, editedQuestionDetails.getMcqWeights().size());
         assertEquals(1.25, editedQuestionDetails.getMcqWeights().get(0));
-        assertEquals(-1.7, editedQuestionDetails.getMcqWeights().get(1));
+        assertEquals(1.7, editedQuestionDetails.getMcqWeights().get(1));
 
         ______TS("Failed to edit 'other' option weight when new weight is null: Exception thrown");
         // There is already responses for this question

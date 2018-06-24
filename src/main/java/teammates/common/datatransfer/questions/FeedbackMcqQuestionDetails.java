@@ -859,9 +859,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 FeedbackSessionResultsBundle bundle) {
 
             String header = "";
-
             Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
-            Map<String, Double> weightedPercentagePerOption = calculateWeightedPercentagePerOption(answerFrequency);
 
             StringBuilder fragments = new StringBuilder();
             DecimalFormat df = new DecimalFormat("#.##");
@@ -869,6 +867,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // If weights are assigned, CSV file should include 'weight' and 'average' column as well.
             if (hasAssignedWeights) {
                 header = "Choice, Weight, Response Count, Percentage (%), Weighted Percentage (%)";
+                Map<String, Double> weightedPercentagePerOption = calculateWeightedPercentagePerOption(answerFrequency);
 
                 for (String key : answerFrequency.keySet()) {
                     int responseCount = answerFrequency.get(key);
