@@ -77,6 +77,19 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildTemplateQuestionsForm(templateQuestions);
     }
 
+    private void buildTemplateQuestionsForm(List<FeedbackQuestionAttributes> templateQuestions) {
+
+        templateQnForm = new ArrayList<>();
+        for (FeedbackQuestionAttributes fqa : templateQuestions) {
+            String questionTypeDisplayName = fqa.getQuestionDetails().getQuestionTypeDisplayName();
+            String questionText = fqa.getQuestionDetails().getQuestionText();
+            String recipientFeedbackPath = fqa.getRecipientType().toDisplayRecipientName();
+
+            templateQnForm.add(new FeedbackTemplateQuestionDetails(fqa.getQuestionNumber(), questionTypeDisplayName,
+                    questionText, recipientFeedbackPath, getDropdownMenuLabel(fqa), fqa.getVisibilityMessage()));
+        }
+    }
+
     private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
                                     List<StudentAttributes> studentList,
                                     List<InstructorAttributes> instructorList) {
