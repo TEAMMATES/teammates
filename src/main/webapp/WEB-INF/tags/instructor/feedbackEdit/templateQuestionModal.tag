@@ -20,6 +20,8 @@
               action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD %>">
 
           <c:forEach items="${data.templateQuestions}" var="templateQn">
+            <div class="panel panel-default" id="addTemplateQuestion">
+            </div>
           </c:forEach>
         </form>
       </div>
