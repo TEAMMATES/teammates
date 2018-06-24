@@ -1569,12 +1569,12 @@ public class Logic {
      * * All parameters are non-null.
      */
     public List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(String templateType, String courseId,
-                                                                                String feedbackSessionName, String creatorEmail) {
+                                                                                String feedbackSessionName,
+                                                                                String creatorEmail) {
         Assumption.assertNotNull(templateType);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(creatorEmail);
-        
         return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(
                 templateType, courseId, feedbackSessionName, creatorEmail);
     }

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.reflect.TypeToken;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -180,7 +181,6 @@ public final class FeedbackQuestionsLogic {
 
         return new ArrayList<>();
     }
-
 
     /**
      *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy.
