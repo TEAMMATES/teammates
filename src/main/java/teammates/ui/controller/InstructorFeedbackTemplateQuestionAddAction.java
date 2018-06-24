@@ -4,6 +4,9 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 public class InstructorFeedbackTemplateQuestionAddAction extends Action {
 
     @Override
@@ -33,6 +36,11 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
 
                 feedbackQuestionNum = getRequestParamValue(
                         Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER + "-" + index);
+            }
+
+            if (index > 0) {
+                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
+                        StatusMessageColor.SUCCESS));
             }
         }
     }
