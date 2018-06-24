@@ -1743,7 +1743,7 @@ public class FeedbackSessionResultsBundle {
     public List<FeedbackResponseAttributes> getActualResponses(
             FeedbackQuestionAttributes question) {
         String questionId = question.getId();
-        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+        List<FeedbackResponseAttributes> responses;
         //Get all actual responses for this question
         responses = actualResponses.stream()
                        .filter(response -> response.feedbackQuestionId.equals(questionId))
