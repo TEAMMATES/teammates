@@ -19,6 +19,8 @@
         <form class="form" id="addTemplateQuestionModalForm" role="form" method="post"
               action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD %>">
 
+          <c:forEach items="${data.templateQuestions}" var="templateQn">
+          </c:forEach>
         </form>
       </div>
       <div class="modal-footer margin-0">
