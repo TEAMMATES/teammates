@@ -409,6 +409,31 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertTrue(feedbackEditPage.isMcqWeightBoxFocused(1, 2));
         feedbackEditPage.clickRemoveMcqOptionLink(2, 1);
+        feedbackEditPage.clickDiscardChangesLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        ______TS("Test front-end validation for negative weights");
+        feedbackEditPage.clickEditQuestionButton(1);
+        // Check validation for mcq weight box
+        feedbackEditPage.fillMcqWeightBox(1, 0, "-2");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.isMcqWeightBoxFocused(1, 0);
+        feedbackEditPage.fillMcqWeightBox(1, 0, "2");
+
+        // Check validation for other weight
+        feedbackEditPage.fillMcqOtherWeightBox(1, "-3");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.isMcqOtherWeightBoxFocused(1);
+        feedbackEditPage.fillMcqOtherWeightBox(1, "2");
+
+        // Check validation for weight cells added by 'Add Option' button
+        feedbackEditPage.clickAddMoreMcqOptionLink(1);
+        assertTrue(feedbackEditPage.isElementPresent(By.id("mcqWeight-2-1")));
+        feedbackEditPage.fillMcqOption(1, 2, "Choice 3");
+        feedbackEditPage.fillMcqWeightBox(1, 2, "-5");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        assertTrue(feedbackEditPage.isMcqWeightBoxFocused(1, 2));
+        feedbackEditPage.clickRemoveMcqOptionLink(2, 1);
 
         // Delete the question.
         feedbackEditPage.clickDeleteQuestionLink(1);
