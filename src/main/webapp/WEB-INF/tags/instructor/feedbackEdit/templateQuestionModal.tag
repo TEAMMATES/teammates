@@ -126,6 +126,11 @@
               </div>
             </div>
           </c:forEach>
+
+          <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${feedbackSessionName}">
+          <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+          <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${courseId}">
+          <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
         </form>
       </div>
       <div class="modal-footer margin-0">
