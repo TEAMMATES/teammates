@@ -21,6 +21,14 @@
 
           <c:forEach items="${data.templateQuestions}" var="templateQn">
             <div class="panel panel-default" id="addTemplateQuestion">
+              <div class="panel-heading cursor-pointer">
+                <input type="hidden" value="${templateQn.qnNumber}">
+                <div class="panel-title">
+                  <label>
+                    <input type="checkbox">
+                  </label> ${templateQn.qnDescription}
+                </div>
+              </div>
             </div>
           </c:forEach>
         </form>
