@@ -18,5 +18,22 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
 
         List<FeedbackQuestionAttributes> templateQuestions = logic.getFeedbackSessionTemplateQuestions("TEAMEVALUATION",
                 courseId, feedbackSessionName, account.getEmail());
+        try {
+            int index = 0;
+            String feedbackQuestionNum = getRequestParamValue(
+                    Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER + "-" + index);
+
+            while (feedbackQuestionNum != null) {
+                FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(
+                        Integer.parseInt(feedbackQuestionNum) - 1);
+                feedbackQuestion.questionNumber = -1;
+                logic.createFeedbackQuestion(feedbackQuestion);
+
+                index++;
+
+                feedbackQuestionNum = getRequestParamValue(
+                        Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER + "-" + index);
+            }
+        }
     }
 }
