@@ -1049,6 +1049,33 @@ function bindAddTemplateQnButton() {
     });
 }
 
+let numPanelsSelected = 0;
+function bindAddTemplateQnEvents() {
+    $('body').on('click', '#addTemplateQuestion', function (e) {
+        const $heading = $(this).children('.panel-heading');
+        const $bodyCollapse = $(this).children('.panel-collapse');
+
+        const checkbox = $heading.children().children('label:first');
+        if ($(e.target).is('input') && $heading.hasClass('panel-selected')) {
+            $(checkbox).html('<input type="checkbox">');
+            $heading.removeClass('panel-selected');
+            numPanelsSelected -= 1;
+        } else if ($(e.target).is('input')) {
+            $(checkbox).html('<input type="checkbox" checked>');
+            $heading.addClass('panel-selected');
+            numPanelsSelected += 1;
+        } else if ($(e.target).is('.panel-heading') || $(e.target).is('.panel-title')) {
+            $bodyCollapse.collapse('toggle');
+        }
+
+        const $button = $('#button_add_submit');
+
+        $button.prop('disabled', numPanelsSelected <= 0);
+
+        return false;
+    });
+}
+
 function hideOption($containingSelect, value) {
     $containingSelect.find(`option[value="${value}"]`).hide();
 }
@@ -1211,6 +1238,7 @@ function readyFeedbackEditPage() {
     setupQuestionCopyModal();
 
     bindAddTemplateQnButton();
+    bindAddTemplateQnEvents();
     // Additional formatting & bindings.
     if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {
         enableEditFS();
