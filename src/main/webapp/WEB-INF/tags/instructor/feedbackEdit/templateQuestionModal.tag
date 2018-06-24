@@ -29,6 +29,101 @@
                   </label> ${templateQn.qnDescription}
                 </div>
               </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body">
+                  <div class="panel panel-primary questionTable" id="${templateQn.qnType}">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <span>
+                            <strong>Question</strong>
+                            <select class="nonDestructive text-primary" disabled="">
+                              <option> ${templateQn.qnNumber} </option>
+                            </select> &nbsp; ${templateQn.qnType}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                        <div class="form-group" style="padding: 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="control-label">
+                              Question
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <textarea class="form-control textvalue nonDestructive" rows="2" name="questiontext" data-toggle="tooltip" data-placement="top" title="" placeholder="A concise version of the question" disabled="" data-original-title="Please enter the question for users to give feedback about.">${templateQn.qnText}</textarea>
+                          </div>
+                        </div>
+                        <div class="form-group" style="padding: 0 15px;">
+                          <h5 class="col-sm-2">
+                            <label class="align-left">
+                              [Optional]<br>Description
+                            </label>
+                          </h5>
+                          <div class="col-sm-10">
+                            <div class="well panel panel-default panel-body question-description mce-content-body content-editor empty" data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Please enter the description of the question." spellcheck="false">
+                              <p><br data-mce-bogus="1"></p>
+                            </div>
+                          </div>
+                          <br>
+                          <c:choose>
+                            <c:when test="${templateQn.qnType == 'Team contribution question'}">
+                              <div class="col-sm-6 row">
+                                <div class="form-inline col-sm-12" id="contrib_tooltipText-1" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer">
+                                  <input type="checkbox" name="isNotSureAllowedCheck" checked="" disabled="">
+                                  <span style="margin-left: 5px; font-weight: bold;">Allow response giver to select 'Not Sure' as the answer</span>
+                                </div>
+                              </div>
+                            </c:when>
+                            <c:otherwise>
+                            <div class="row">
+                              <div class="col-xs-12 question-recommended-length">
+                                [Optional]
+                                <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The recommended length is shown to the respondent but not enforced" class="tool-tip-decorate">
+                                Recommended length
+                              </span>
+                                for the response:
+                                <input disabled="" type="number" class="form-control" name="recommendedlength" value="">
+                                words
+                              </div>
+                            </div>
+                            </c:otherwise>
+                          </c:choose>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
+                        </div>
+                        <div class="feedback-path-dropdown col-sm-12 btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">
+                            Students in this course will give feedback on <span class="glyphicon glyphicon-arrow-right"></span> ${templateQn.qnFeedbackPath}
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-sm-12 margin-bottom-15px padding-15px background-color-light-green">
+                        <div class="col-sm-12 padding-0 margin-bottom-7px">
+                          <b class="visibility-title">Visibility</b> (Who can see the responses?)
+                        </div>
+                        <div class="visibility-options-dropdown btn-group col-sm-12 margin-bottom-10px">
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="">${templateQn.qnVisibilityOption}</button>
+                        </div>
+                        <div class="col-sm-12 visibility-message overflow-hidden">This is the visibility hint as seen by the feedback giver:
+                          <ul class="text-muted background-color-warning">
+                            <c:forEach items="${templateQn.qnVisibilityHints}" var="visibilityHint">
+                              <li>${visibilityHint}</li>
+                            </c:forEach>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </c:forEach>
         </form>
