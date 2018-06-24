@@ -64,7 +64,6 @@ import {
     toggleMcqHasAssignedWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
-    toggleVisibilityOfMcqOtherWeight,
     changeMcqGenerateFor,
 } from '../common/questionMcq';
 
@@ -378,7 +377,6 @@ function disableQuestion(questionNum) {
         $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).show();
     }
     toggleMcqHasAssignedWeights($currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`), questionNum);
-    toggleVisibilityOfMcqOtherWeight($currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`), questionNum);
 
     $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
@@ -581,7 +579,6 @@ function enableNewQuestion() {
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
-    toggleVisibilityOfMcqOtherWeight($(`#mcqOtherOptionFlag-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`), NEW_QUESTION);

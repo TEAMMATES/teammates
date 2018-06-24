@@ -254,7 +254,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         // Removed to send null as otherWeight parameter
         // requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, new String[] { "" });
 
-        assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
+        mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ);
     }
 
     @Test

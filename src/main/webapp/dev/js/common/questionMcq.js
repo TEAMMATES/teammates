@@ -216,5 +216,4 @@ export {
     toggleMcqHasAssignedWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
-    toggleVisibilityOfMcqOtherWeight,
 };

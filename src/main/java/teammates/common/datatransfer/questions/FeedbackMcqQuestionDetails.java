@@ -513,11 +513,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
 
-        // Sort the list of responseAttributes based on recipient team and recipient name.
-        List<FeedbackResponseAttributes> responses = getResponseAttributesSorted(unsortedResponses, bundle);
         StringBuilder responseSummaryFragments = new StringBuilder();
 
         McqStatistics mcqStats = new McqStatistics(this);
+        // Sort the list of responseAttributes based on recipient team and recipient name.
+        List<FeedbackResponseAttributes> responses = mcqStats.getResponseAttributesSorted(unsortedResponses, bundle);
         Map<String, Integer> answerFrequency = mcqStats.collateAnswerFrequency(responses);
         Map<String, Double> weightedPercentagePerOption = mcqStats.calculateWeightedPercentagePerOption(answerFrequency);
 
@@ -556,23 +556,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
                 Slots.FRAGMENTS, responseSummaryFragments.toString(),
                 Slots.MCQ_RECIPIENT_STATS_HTML, recipientStatsHtml);
-    }
-
-    /**
-     * Returns a list of {@link FeedbackResponseAttributes} sorted by comparing recipient Team name and
-     * recipient name for each recipient email.
-     * @param unsortedResponses The list of unsorted responses that needs to be sorted.
-     * @param bundle Result bundle that is used to retrieve recipientTeamName and recipientName for each recipient.
-     */
-    public List<FeedbackResponseAttributes> getResponseAttributesSorted(List<FeedbackResponseAttributes> unsortedResponses,
-            FeedbackSessionResultsBundle bundle) {
-        List<FeedbackResponseAttributes> responses = new LinkedList<>(unsortedResponses);
-
-        responses.sort(Comparator
-                .comparing((FeedbackResponseAttributes obj) -> bundle.getTeamNameForEmail(obj.recipient))
-                .thenComparing(obj -> bundle.getNameForEmail(obj.recipient)));
-
-        return responses;
     }
 
     @Override
@@ -673,15 +656,17 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Class to calculate result statistics of responses for MCQ questions.
      */
-    private class McqStatistics {
+    private static class McqStatistics {
         boolean hasAssignedWeights;
         List<String> mcqChoices;
         List<Double> mcqWeights;
         double mcqOtherWeight;
         boolean otherEnabled;
+        int numOfMcqChoices;
 
         McqStatistics(FeedbackMcqQuestionDetails mcqDetails) {
             this.mcqChoices = mcqDetails.getMcqChoices();
+            this.numOfMcqChoices = mcqChoices.size();
             this.mcqWeights = mcqDetails.getMcqWeights();
             this.otherEnabled = mcqDetails.getOtherEnabled();
             this.hasAssignedWeights = mcqDetails.hasAssignedWeights();
@@ -723,10 +708,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
          */
         private Map<String, Double> calculateWeightedPercentagePerOption(Map<String, Integer> answerFrequency) {
             Map<String, Double> weightedPercentagePerOption = new LinkedHashMap<>();
-            // If weights are not assigned, return an empty map.
-            if (!hasAssignedWeights) {
-                return weightedPercentagePerOption;
-            }
+
+            Assumption.assertTrue("Weights should be enabled when calling the function", hasAssignedWeights);
+            double totalWeightedResponseCount = calculateTotalWeightedResponseCount(answerFrequency);
 
             for (int i = 0; i < mcqChoices.size(); i++) {
                 String option = mcqChoices.get(i);
@@ -742,7 +726,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 int frequency = answerFrequency.get(key);
                 double weight = weightedPercentagePerOption.get(key);
                 double weightedPercentage =
-                        100 * ((frequency * weight) / calculateTotalWeightedResponseCount(answerFrequency));
+                        100 * ((frequency * weight) / totalWeightedResponseCount);
 
                 // Replace the value by the actual average value.
                 weightedPercentagePerOption.put(key, weightedPercentage);
@@ -765,6 +749,23 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
+         * Returns a list of {@link FeedbackResponseAttributes} sorted by comparing recipient Team name and
+         * recipient name for each recipient email.
+         * @param unsortedResponses The list of unsorted responses that needs to be sorted.
+         * @param bundle Result bundle that is used to retrieve recipientTeamName and recipientName for each recipient.
+         */
+        public List<FeedbackResponseAttributes> getResponseAttributesSorted(
+                List<FeedbackResponseAttributes> unsortedResponses, FeedbackSessionResultsBundle bundle) {
+            List<FeedbackResponseAttributes> responses = new LinkedList<>(unsortedResponses);
+
+            responses.sort(Comparator
+                    .comparing((FeedbackResponseAttributes obj) -> bundle.getTeamNameForEmail(obj.recipient))
+                    .thenComparing(obj -> bundle.getNameForEmail(obj.recipient)));
+
+            return responses;
+        }
+
+        /**
          * Generates statistics for each recipient for 'Per recipient statistics' to be used for
          * both the results page and csv files.
          * The specific stats that are generated are -<br>
@@ -777,7 +778,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         public List<String> generateStatisticsForEachRecipient(String recipientEmail,
                 Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
 
-            Assumption.assertTrue(hasAssignedWeights);
+            Assumption.assertTrue("Weights should be enabled when calling the function", hasAssignedWeights);
             List<String> recipientStats = new ArrayList<>();
             DecimalFormat df = new DecimalFormat("0.00");
 
