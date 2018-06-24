@@ -121,7 +121,6 @@ function toggleMcqHasAssignedWeights($checkbox, questionNum) {
     // The weight label
     const $weightLabel = $checkbox.parent().siblings('div');
     const $weightColumn = $(`#mcqWeights-${questionNum}`);
-    const $otherWeightCell = $(`#mcqOtherWeight-${questionNum}`);
     const $otherEnabledCheckbox = $(`#mcqOtherOptionFlag-${questionNum}`);
 
     if ($checkbox.prop('checked')) {
