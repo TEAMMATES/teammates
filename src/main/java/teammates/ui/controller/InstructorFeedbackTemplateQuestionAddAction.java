@@ -1,4 +1,8 @@
 package teammates.ui.controller;
 
-public class instructorFeedbackTemplateQuestionAddAction {
+public class InstructorFeedbackTemplateQuestionAddAction extends Action {
+
+    @Override
+    protected ActionResult execute() {
+    }
 }
