@@ -495,7 +495,7 @@ public final class Const {
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
         public static final String MCQ_ERROR_INVALID_WEIGHT =
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
-                + " must be valid numbers with precision up to 2 decimal places.";
+                + " must be valid positive numbers with precision up to 2 decimal places.";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;

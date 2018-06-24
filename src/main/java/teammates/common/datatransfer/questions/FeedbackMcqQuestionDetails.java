@@ -623,6 +623,21 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
+
+            // If weights are enabled, and any of the weights have negative value, this error will
+            // be triggered.
+            if (hasAssignedWeights && !mcqWeights.isEmpty()) {
+                for (double weight : mcqWeights) {
+                    if (weight < 0) {
+                        errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
+                    }
+                }
+                // If 'Other' option is enabled, and other weight has negative value, then this value
+                // will be triggered.
+                if (otherEnabled && mcqOtherWeight < 0) {
+                    errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
+                }
+            }
         }
         //TODO: check that mcq options do not repeat. needed?
 
