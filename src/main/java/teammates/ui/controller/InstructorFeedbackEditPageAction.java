@@ -35,8 +35,8 @@ public class InstructorFeedbackEditPageAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        List<FeedbackQuestionAttributes> templateQuestions = logic.getFeedbackSessionTemplateQuestions("TEAMEVALUATION",
-                courseId, feedbackSessionName, account.getEmail());;
+        List<FeedbackQuestionAttributes> templateQuestions = logic.getFeedbackSessionTemplateQuestions(
+                "TEAMEVALUATION", courseId, feedbackSessionName, account.getEmail());
 
         Map<String, Boolean> questionHasResponses = new HashMap<>();
 
@@ -68,8 +68,9 @@ public class InstructorFeedbackEditPageAction extends Action {
 
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account, sessionToken);
 
-        data.init(feedbackSession, questions, questionHasResponses, studentList, instructorsWhoCanSubmit, instructor,
-                shouldLoadInEditMode, numOfInstructors, logic.getCourseDetails(courseId));
+        data.init(feedbackSession, questions, templateQuestions, questionHasResponses, studentList,
+                instructorsWhoCanSubmit, instructor, shouldLoadInEditMode,
+                numOfInstructors, logic.getCourseDetails(courseId));
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
