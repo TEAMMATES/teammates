@@ -15,6 +15,12 @@
         </button>
         <h4 class="modal-title" id="addTemplateQuestionModalTitle">Add Template Questions</h4>
       </div>
+      <div class="modal-body">
+        <form class="form" id="addTemplateQuestionModalForm" role="form" method="post"
+              action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD %>">
+
+        </form>
+      </div>
       <div class="modal-footer margin-0">
         <button type="button" class="btn btn-primary" id="button_add_submit" disabled>Add</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
