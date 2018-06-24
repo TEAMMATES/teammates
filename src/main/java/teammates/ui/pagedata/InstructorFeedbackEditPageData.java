@@ -26,6 +26,7 @@ import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
+import teammates.ui.template.FeedbackTemplateQuestionDetails;
 
 public class InstructorFeedbackEditPageData extends PageData {
 
@@ -38,6 +39,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private CourseDetailsBundle courseDetails;
     private int numOfInstructors;
     private FeedbackSessionAttributes feedbackSession;
+    private List<FeedbackTemplateQuestionDetails> templateQnForm;
     private Map<String, String> resolvedTimeFields = new HashMap<>();
 
     public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
@@ -45,9 +47,10 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
-                     Map<String, Boolean> questionHasResponses, List<StudentAttributes> studentList,
-                     List<InstructorAttributes> instructorList, InstructorAttributes instructor,
-                     boolean shouldLoadInEditMode, int numOfInstructors, CourseDetailsBundle courseDetails) {
+                     List<FeedbackQuestionAttributes> templateQuestions, Map<String, Boolean> questionHasResponses,
+                     List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
+                     InstructorAttributes instructor, boolean shouldLoadInEditMode,
+                     int numOfInstructors, CourseDetailsBundle courseDetails) {
         Assumption.assertNotNull(feedbackSession);
 
         buildFsForm(feedbackSession);
@@ -71,6 +74,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildPreviewForm(feedbackSession, studentList, instructorList);
         this.shouldLoadInEditMode = shouldLoadInEditMode;
 
+        buildTemplateQuestionsForm(templateQuestions);
     }
 
     private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
@@ -356,6 +360,10 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public FeedbackSessionPreviewForm getPreviewForm() {
         return previewForm;
+    }
+
+    public List<FeedbackTemplateQuestionDetails> getTemplateQuestions() {
+        return templateQnForm;
     }
 
     /**
