@@ -249,6 +249,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertTrue("Expected url is Unauthorised page, but is " + afterReportDownloadUrl,
                         afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
 
+        // Redirect to the instructor home page after showing error page
         loginAsCommonInstructor();
     }
 
