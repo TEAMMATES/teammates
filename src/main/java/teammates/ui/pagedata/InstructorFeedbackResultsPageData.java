@@ -514,7 +514,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             if (isInstructorCommentsOnResponsesAllowed) {
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
-                        getResponseVisibilityMap(question, false);
+                        getResponseVisibilityMap(question);
                 FeedbackResponseCommentRow frcForAdding =
                         buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), responseVisibilityMap,
                                 giverName, recipientName, true, bundle.getTimeZone());
@@ -1138,7 +1138,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!comments.isEmpty()) {
                 responseRow.setInstructorCommentsOnResponses(comments);
             }
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
+            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
             boolean isCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
@@ -1530,7 +1530,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
 
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
-                getResponseVisibilityMap(question, false);
+                getResponseVisibilityMap(question);
         String whoCanSeeComment = null;
         boolean isVisibilityIconShown = false;
         if (bundle.feedbackSession.isPublished()) {

@@ -145,25 +145,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackResponseCommentId = id;
     }
 
-    /**
-     * Used to convert comment giver obtained from request parameter to appropriate FeedbackParticipantType.
-     * @param commentGiverTypeString comment giver type
-     * @return comment giver type as FeedbackParticipantType
-     */
-    public FeedbackParticipantType getCommentGiverTypeFromString(String commentGiverTypeString) {
-        if (commentGiverTypeString.equals(Const.STUDENT)) {
-            return FeedbackParticipantType.STUDENTS;
-        }
-        if (commentGiverTypeString.equals(Const.INSTRUCTOR)) {
-            return FeedbackParticipantType.INSTRUCTORS;
-        }
-        if (commentGiverTypeString.equals(Const.TEAM)) {
-            return FeedbackParticipantType.TEAMS;
-        }
-        log.severe("Unknown comment giver type");
-        return null;
-    }
-
     @Override
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
@@ -175,8 +156,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         addNonEmptyError(validator.getInvalidityInfoForCommentGiverType(commentGiverType), errors);
 
-        errors.addAll(validator.getInvalidityInfoForVisibilityOfStudentComments(commentGiverType, showCommentTo,
-                showGiverNameTo));
+        addNonEmptyError(validator.getInvalidityInfoForVisibilityOfFeedbackParticipantComments(isCommentFromFeedbackParticipant, isVisibilityFollowingFeedbackQuestion),errors);
 
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
@@ -351,38 +331,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         private void validateRequiredFields(Object... objects) {
             for (Object object : objects) {
                 Objects.requireNonNull(object, REQUIRED_FIELD_CANNOT_BE_NULL);
-            }
-        }
-    }
-
-    /**
-     * Sets default visibility settings for comments by students.
-     */
-    public void setVisibilitySettingsForStudentComment() {
-        FeedbackParticipantType[] types = {
-                FeedbackParticipantType.GIVER,
-                FeedbackParticipantType.INSTRUCTORS
-        };
-        for (FeedbackParticipantType type : types) {
-            showCommentTo.add(type);
-            showGiverNameTo.add(type);
-        }
-    }
-
-    /**
-     * Sets visibility settings for comments by instructor.
-     */
-    public void setVisibilitySettingsForInstructorComment(String[] showCommentToArray, String[] showGiverNameToArray) {
-        this.showCommentTo = new ArrayList<>();
-        if (showCommentToArray.length > 0) {
-            for (String viewer : showCommentToArray) {
-                this.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
-            }
-        }
-        this.showGiverNameTo = new ArrayList<>();
-        if (showGiverNameToArray.length > 0) {
-            for (String viewer : showGiverNameToArray) {
-                this.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
     }

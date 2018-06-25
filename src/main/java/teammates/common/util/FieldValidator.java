@@ -704,30 +704,14 @@ public class FieldValidator {
         return "";
     }
 
-    /**
-     * Checks visibility settings for student comment.
-     * @param commentGiverType comment giver type to be checked.
-     * @param showCommentTo comment to be shown to.
-     * @param showGiverNameTo comment giver name to be shown to.
-     * @return List of error strings if visibility settings is not set to only instructors and giver.
-     */
-    public List<String> getInvalidityInfoForVisibilityOfStudentComments(FeedbackParticipantType commentGiverType,
-            List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo) {
-        List<String> errors = new LinkedList<>();
-        if (commentGiverType.equals(FeedbackParticipantType.STUDENTS)
-                    || commentGiverType.equals(FeedbackParticipantType.TEAMS)) {
-            for (FeedbackParticipantType type : showCommentTo) {
-                if (!type.equals(FeedbackParticipantType.INSTRUCTORS) && !type.equals(FeedbackParticipantType.GIVER)) {
-                    errors.add("Student comment cannot be shown to " + type.toVisibilityString());
-                }
-            }
-            for (FeedbackParticipantType type : showGiverNameTo) {
-                if (!type.equals(FeedbackParticipantType.INSTRUCTORS) && !type.equals(FeedbackParticipantType.GIVER)) {
-                    errors.add("Student comment name cannot be shown to " + type.toVisibilityString());
-                }
+    public String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(boolean isCommentFromFeedbackParticipant,
+            boolean isVisibilityFollowingFeedbackQuestion) {
+        if(isCommentFromFeedbackParticipant) {
+            if (!isVisibilityFollowingFeedbackQuestion) {
+                return "Comment by feedback participant not following visibility setting of the question.";
             }
         }
-        return errors;
+        return "";
     }
 
     public List<String> getValidityInfoForFeedbackResponseVisibility(

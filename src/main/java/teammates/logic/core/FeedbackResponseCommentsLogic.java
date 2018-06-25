@@ -50,7 +50,8 @@ public final class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);
-        verifyIsUserOfCourse(frComment.courseId, frComment.commentGiver, frComment.commentGiverType);
+        verifyIsUserOfCourse(frComment.courseId, frComment.commentGiver, frComment.commentGiverType,
+                frComment.isCommentFromFeedbackParticipant);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
         try {
@@ -369,39 +370,47 @@ public final class FeedbackResponseCommentsLogic {
      * @param commentGiver person/team who gave comment
      * @param commentGiverType type of comment giver                    *
      */
-    private void verifyIsUserOfCourse(String courseId, String commentGiver, FeedbackParticipantType commentGiverType)
-            throws EntityDoesNotExistException {
-        switch (commentGiverType)  {
-        case STUDENTS:
-            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
-            if (student == null) {
-                throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered student for course "
-                                                              + courseId + ".");
+    private void verifyIsUserOfCourse(String courseId, String commentGiver, FeedbackParticipantType commentGiverType,
+                                      boolean isCommentFromFeedbackParticipant) throws EntityDoesNotExistException {
+        if (isCommentFromFeedbackParticipant) {
+            switch (commentGiverType) {
+                case STUDENTS:
+                    StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
+                    if (student == null) {
+                        throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered student for course "
+                                                                      + courseId + ".");
+                    }
+                    break;
+                case INSTRUCTORS:
+                    InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
+                    if (instructor == null) {
+                        throw new EntityDoesNotExistException("User " + commentGiver
+                                                                      + " is not a registered instructor for course " + courseId + ".");
+                    }
+                    break;
+                case TEAMS:
+                    List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
+                    boolean isTeamPresentInCourse = false;
+                    for (TeamDetailsBundle team : teams) {
+                        if (team.name.equals(commentGiver)) {
+                            isTeamPresentInCourse = true;
+                            break;
+                        }
+                    }
+                    if (!isTeamPresentInCourse) {
+                        throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered team for course "
+                                                                      + courseId + ".");
+                    }
+                    break;
+                default:
+                    throw new EntityDoesNotExistException("Unknown giver type :" + commentGiverType);
             }
-            break;
-        case INSTRUCTORS:
+        } else {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
             if (instructor == null) {
                 throw new EntityDoesNotExistException("User " + commentGiver
                                                               + " is not a registered instructor for course " + courseId + ".");
             }
-            break;
-        case TEAMS:
-            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
-            boolean isTeamPresentInCourse = false;
-            for (TeamDetailsBundle team : teams) {
-                if (team.name.equals(commentGiver)) {
-                    isTeamPresentInCourse = true;
-                    break;
-                }
-            }
-            if (!isTeamPresentInCourse) {
-                throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered team for course "
-                                                              + courseId + ".");
-            }
-            break;
-        default:
-            throw new EntityDoesNotExistException("Unknown giver type :" + commentGiverType);
         }
     }
 

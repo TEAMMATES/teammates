@@ -183,7 +183,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
         }
 
-        saveNewReponses(responsesToSave);
+        saveNewResponses(responsesToSave);
         deleteResponses(responsesToDelete);
         updateResponses(responsesToUpdate);
 
@@ -293,7 +293,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
-    private void saveNewReponses(List<FeedbackResponseAttributes> responsesToSave)
+    private void saveNewResponses(List<FeedbackResponseAttributes> responsesToSave)
             throws EntityDoesNotExistException {
         try {
             logic.createFeedbackResponses(responsesToSave);
@@ -313,7 +313,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
-
     }
 
     private void deleteResponses(List<FeedbackResponseAttributes> responsesToDelete) {

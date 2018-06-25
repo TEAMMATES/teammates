@@ -269,7 +269,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             String commentGiverName = bundle.getNameForEmail(existingResponse.giver);
             String commentRecipientName = bundle.getNameForEmail(existingResponse.recipient);
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
-                    getResponseVisibilityMap(questionAttributes, false);
+                    getResponseVisibilityMap(questionAttributes);
             Map<String, String> commentGiverEmailToNameTable = bundle.commentGiverEmailToNameTable;
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()
                     && bundle.commentsForResponses.containsKey(existingResponse.getId())) {
@@ -312,18 +312,18 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
                         questionAttributes, "",
-                        getResponseVisibilityMap(questionAttributes, !isFeedbackSessionForInstructor), giverName,
+                        getResponseVisibilityMap(questionAttributes), giverName,
                         recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
                 if (isPreview()) {
                     if (previewInstructor == null) {
                         giverName = getStudentToViewPageAs().name;
                         frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
-                                questionAttributes, "", getResponseVisibilityMap(questionAttributes, true), giverName,
+                                questionAttributes, "", getResponseVisibilityMap(questionAttributes), giverName,
                                 recipientName, false, sessionTimeZone);
                     } else {
                         giverName = getPreviewInstructor().name;
                         frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
-                                questionAttributes, "", getResponseVisibilityMap(questionAttributes, false), giverName,
+                                questionAttributes, "", getResponseVisibilityMap(questionAttributes), giverName,
                                 recipientName, true, sessionTimeZone);
                     }
                 }
@@ -363,38 +363,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
                         getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                         getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
                         responseVisibilityMap, commentGiverEmailToNameTable, sessionTimeZone);
-                setEditDeleteCommentOptionForUser(frcAttributes, frcRow);
                 return frcRow;
             }
         }
         return null;
-    }
-
-    private void setEditDeleteCommentOptionForUser(FeedbackResponseCommentAttributes frcAttributes,
-            FeedbackResponseCommentRow frcRow) {
-        String commentGiver;
-        if (isModeration) {
-            if (isFeedbackSessionForInstructor) {
-                commentGiver = previewInstructor.email;
-            } else {
-                if (frcAttributes.commentGiverType.isTeam()) {
-                    commentGiver = student.team;
-                } else {
-                    commentGiver = student.email;
-                }
-            }
-        } else if (isFeedbackSessionForInstructor) {
-            commentGiver = account.email;
-        } else {
-            if (frcAttributes.commentGiverType.isTeam()) {
-                commentGiver = student.team;
-            } else {
-                commentGiver = student.email;
-            }
-        }
-        if (frcAttributes.commentGiver.equals(commentGiver)) {
-            frcRow.enableEditDelete();
-        }
     }
 
     /**

@@ -874,63 +874,51 @@ public class PageData {
                 .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
                 .withFeedbackResponseId(responseId)
                 .withFeedbackQuestionId(question.getFeedbackQuestionId())
+                .withCommentGiverType(question.giverType)
                 .build();
 
         frca.showCommentTo = new ArrayList<>();
         frca.showGiverNameTo = new ArrayList<>();
-        if (isInstructor) {
-            FeedbackParticipantType[] relevantTypes = {
-                    FeedbackParticipantType.GIVER,
-                    FeedbackParticipantType.RECEIVER,
-                    FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                    FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
-                    FeedbackParticipantType.STUDENTS,
-                    FeedbackParticipantType.INSTRUCTORS
-            };
+        FeedbackParticipantType[] relevantTypes = {
+                FeedbackParticipantType.GIVER,
+                FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS,
+                FeedbackParticipantType.INSTRUCTORS
+        };
 
-            for (FeedbackParticipantType type : relevantTypes) {
-                if (isResponseCommentVisibleTo(question, type)) {
-                    frca.showCommentTo.add(type);
-                }
-                if (isResponseCommentGiverNameVisibleTo(question, type)) {
-                    frca.showGiverNameTo.add(type);
-                }
+        for (FeedbackParticipantType type : relevantTypes) {
+            if (isResponseCommentVisibleTo(question, type)) {
+                frca.showCommentTo.add(type);
             }
-            frca.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
-
-            return new FeedbackResponseCommentRow(frca, giverName, recipientName,
-                    getResponseCommentVisibilityString(question),
-                    getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
-                    timezone);
+            if (isResponseCommentGiverNameVisibleTo(question, type)) {
+                frca.showGiverNameTo.add(type);
+            }
         }
-        frca.setVisibilitySettingsForStudentComment();
-        frca.commentGiverType =
-                question.giverType.isTeam() ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
+
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
-                getResponseCommentVisibilityString(frca, question),
-                getResponseCommentGiverNameVisibilityString(frca, question), responseVisibilityMap, timezone);
+                getResponseCommentVisibilityString(question),
+                getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
+                timezone);
     }
 
-    public Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question,
-            boolean isCommentGiverStudent) {
+    public Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = new HashMap<>();
 
-        if (isCommentGiverStudent) {
-            responseVisibilityMap.put(FeedbackParticipantType.INSTRUCTORS, true);
-        } else {
-            FeedbackParticipantType[] relevantTypes = {
-                    FeedbackParticipantType.GIVER,
-                    FeedbackParticipantType.RECEIVER,
-                    FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                    FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
-                    FeedbackParticipantType.STUDENTS,
-                    FeedbackParticipantType.INSTRUCTORS
-            };
+        FeedbackParticipantType[] relevantTypes = {
+                FeedbackParticipantType.GIVER,
+                FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS,
+                FeedbackParticipantType.INSTRUCTORS
+        };
 
-            for (FeedbackParticipantType participantType : relevantTypes) {
-                responseVisibilityMap.put(participantType, isResponseVisibleTo(participantType, question));
-            }
+        for (FeedbackParticipantType participantType : relevantTypes) {
+            responseVisibilityMap.put(participantType, isResponseVisibleTo(participantType, question));
         }
+
         return responseVisibilityMap;
     }
 
