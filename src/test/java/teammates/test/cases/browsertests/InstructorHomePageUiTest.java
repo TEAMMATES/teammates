@@ -246,9 +246,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
         // Get an error page due to missing parameters in URL
-        assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
-                afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
-                        || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
+        assertTrue("Expected url is Unauthorised page, but is " + afterReportDownloadUrl,
+                        afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
 
         loginAsCommonInstructor();
     }
