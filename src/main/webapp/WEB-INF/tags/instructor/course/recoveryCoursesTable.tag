@@ -4,9 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ attribute name="recoveryCourses" type="teammates.ui.template.RecoveryCoursesTable" required="true" %>
 
-<h2 class="text-muted">Deleted courses</h2>
-<table class="table table-bordered table-striped" id="tableRecoveryCourses">
-  <thead class="fill-info">
+<c:set var="tableHeaderClass" value="background-color-medium-gray text-color-gray font-weight-normal" />
+<table class="table table-bordered table-striped margin-0" id="tableRecoveryCourses">
+  <thead class="${tableHeaderClass}">
     <tr>
       <th id="btn_sortid" class="button-sort-none toggle-sort">
         Course ID<span class="icon-sort unsorted"></span>
