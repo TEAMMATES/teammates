@@ -694,6 +694,20 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             if (hasAssignedWeights && !otherEnabled && msqOtherWeight != 0) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
             }
+
+            // If weights are negative, this error will be triggered.
+            if (hasAssignedWeights && !msqWeights.isEmpty()) {
+                for (double weight : msqWeights) {
+                    if (weight < 0) {
+                        errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
+                    }
+                }
+                // If 'Other' option is enabled, and other weight has negative value, then this value
+                // will be triggered.
+                if (otherEnabled && msqOtherWeight < 0) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
+                }
+            }
         }
 
         //TODO: check that msq options do not repeat. needed?
