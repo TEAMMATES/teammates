@@ -5,10 +5,10 @@
 <%@ attribute name="archivedCourses" type="teammates.ui.template.ArchivedCoursesTable" required="true" %>
 <%@ attribute name="activeCourses" type="teammates.ui.template.ActiveCoursesTable" required="true" %>
 
-<h2 class="text-muted">Archived courses</h2>
+<h2 class="text-muted">💾 Archived courses</h2>
 <table class="table table-bordered table-striped" id="tableArchivedCourses">
   <thead>
-    <tr class="fill-default">
+    <tr class="fill-info">
       <th id="button_sortid" class="button-sort-none toggle-sort">
         Course ID<span class="icon-sort unsorted"></span>
       </th>
