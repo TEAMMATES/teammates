@@ -1,6 +1,7 @@
 package teammates.test.cases.browsertests;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -330,6 +331,11 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PAGE)
                                    .withUserId(testData.accounts.get(studentId).googleId);
         return loginAdminToPage(profileUrl, StudentProfilePage.class);
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        BackDoor.removeDataBundle(testData);
     }
 
 }

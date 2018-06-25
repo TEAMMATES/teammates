@@ -2,6 +2,7 @@ package teammates.test.cases.browsertests;
 
 import java.time.Instant;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -195,6 +196,11 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         studentHome = loginAdminToPage(homeUrl, StudentHomePage.class);
 
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        BackDoor.removeDataBundle(testData);
     }
 
 }
