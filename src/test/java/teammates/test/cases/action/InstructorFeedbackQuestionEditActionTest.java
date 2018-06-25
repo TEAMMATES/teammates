@@ -780,7 +780,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("msqSession");
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
-                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
+                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) fq.getQuestionDetails();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
@@ -807,7 +807,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editWeightsParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Choose all the food you like",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(
                         msqDetails.getNumOfChoicesForMsq(fs.getCourseId(), FeedbackParticipantType.NONE)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED, "on",
@@ -815,6 +815,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", "1.5",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", msqDetails.getMsqChoices().get(1),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", "2.5",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", msqDetails.getMsqChoices().get(2),
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-2", Double.toString(msqDetails.getMsqWeights().get(2)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT, Double.toString(msqDetails.getMsqOtherWeight())
         };
@@ -839,10 +841,13 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // Check that the weights are correctly edited
         FeedbackQuestionAttributes editedQuestion = FeedbackQuestionsLogic.inst()
-                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
+                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         FeedbackMsqQuestionDetails editedQuestionDetails = (FeedbackMsqQuestionDetails) editedQuestion.getQuestionDetails();
         assertEquals(1.5, editedQuestionDetails.getMsqWeights().get(0));
         assertEquals(2.5, editedQuestionDetails.getMsqWeights().get(1));
+        // Check that 'Other' weight and Choice 2 weight are unmodified
+        assertEquals(0.0, editedQuestionDetails.getMsqWeights().get(2));
+        assertEquals(3.0, editedQuestionDetails.getMsqOtherWeight());
 
         ______TS("MSQ: Edit Other option Weight");
 
@@ -850,14 +855,16 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         String[] editOtherOptionWeightParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Choose all the food you like",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(
                         msqDetails.getNumOfChoicesForMsq(fs.getCourseId(), FeedbackParticipantType.NONE)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", Double.toString(msqDetails.getMsqWeights().get(0)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", Double.toString(msqDetails.getMsqWeights().get(1)),
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-2", Double.toString(msqDetails.getMsqWeights().get(2)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", msqDetails.getMsqChoices().get(0),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", msqDetails.getMsqChoices().get(1),
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", msqDetails.getMsqChoices().get(2),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT, "5",
         };
@@ -882,7 +889,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // Check that the weights are correctly edited
         editedQuestion = FeedbackQuestionsLogic.inst()
-                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
+                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         editedQuestionDetails = (FeedbackMsqQuestionDetails) editedQuestion.getQuestionDetails();
         assertEquals(5.0, editedQuestionDetails.getMsqOtherWeight());
 
@@ -900,6 +907,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 // Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", msqDetails.getMsqChoices().get(1),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", msqDetails.getMsqChoices().get(2),
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-2", Double.toString(msqDetails.getMsqWeights().get(2)),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG, "on",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT, Double.toString(msqDetails.getMsqOtherWeight())
         };
@@ -924,11 +933,12 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
         // Old values of weights should be preserved due to keep existing policy
         editedQuestion = FeedbackQuestionsLogic.inst()
-                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
+                .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
         editedQuestionDetails = (FeedbackMsqQuestionDetails) editedQuestion.getQuestionDetails();
-        assertEquals(2, editedQuestionDetails.getMsqWeights().size());
+        assertEquals(3, editedQuestionDetails.getMsqWeights().size());
         assertEquals(1.0, editedQuestionDetails.getMsqWeights().get(0));
         assertEquals(2.0, editedQuestionDetails.getMsqWeights().get(1));
+        assertEquals(0.0, editedQuestionDetails.getMsqWeights().get(2));
 
         ______TS("MSQ: Failed to edit 'other' option weight when new weight is null: Exception thrown");
         // There is already responses for this question
@@ -943,6 +953,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", msqDetails.getMsqChoices().get(1),
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", msqDetails.getMsqChoices().get(2),
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-2", "0",
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG, "on",
                 // Removed to send null for otherWeight parameter
                 // Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT, Double.toString(mcqDetails.getMcqOtherWeight())

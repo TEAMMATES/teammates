@@ -719,31 +719,9 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true}"
+        "value": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0,0.0],\"msqOtherWeight\":3.0}"
       },
       "questionNumber": 3,
-      "questionType": "MSQ",
-      "giverType": "STUDENTS",
-      "recipientType": "SELF",
-      "numberOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
-    },
-    "qn4InSession2InCourse1": {
-      "feedbackSessionName": "MSQ Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"msqChoices\":[\"The content\",\"Teaching style\"],\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0],\"msqOtherWeight\":3.0,\"questionType\":\"MSQ\",\"questionText\":\"What do you like best about the class?\"}"
-      },
-      "questionNumber": 4,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
@@ -1218,39 +1196,6 @@
       "recipient": "student3InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "{\"isOther\":true,\"answers\":[\"Hotdog\"],\"otherFieldContent\":\"Hotdog\",\"questionType\":\"MSQ\"}"
-      }
-    },
-    "response1ForQ4S2C1": {
-      "feedbackSessionName": "MSQ Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "feedbackQuestionId": "4",
-      "feedbackQuestionType": "MSQ",
-      "giver": "student1InCourse1@gmail.tmt",
-      "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"The content\",\"Teaching style\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
-    },
-    "response2ForQ4S2C1": {
-      "feedbackSessionName": "MSQ Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "feedbackQuestionId": "4",
-      "feedbackQuestionType": "MSQ",
-      "giver": "student2InCourse1@gmail.tmt",
-      "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":false,\"answers\":[\"The content\"],\"otherFieldContent\":\"\",\"questionType\":\"MSQ\"}"
-      }
-    },
-    "response3ForQ4S2C1": {
-      "feedbackSessionName": "MSQ Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "feedbackQuestionId": "4",
-      "feedbackQuestionType": "MSQ",
-      "giver": "student3InCourse1@gmail.tmt",
-      "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"isOther\":true,\"answers\":[\"Assignments\"],\"otherFieldContent\":\"Assignments\",\"questionType\":\"MSQ\"}"
       }
     },
     "response1ForQ1S3C1": {
