@@ -25,7 +25,7 @@ public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCase {
      */
     @BeforeSuite
     public void setUpEnvironment() throws MalformedURLException {
-        if (new URL(TestProperties.TEAMMATES_URL).getProtocol().equals("https")) {
+        if (new URL(TestProperties.TEAMMATES_URL).getHost().contains(".appspot.com")) {
             SystemProperty.environment.set(SystemProperty.Environment.Value.Production);
         } else {
             SystemProperty.environment.set(SystemProperty.Environment.Value.Development);
