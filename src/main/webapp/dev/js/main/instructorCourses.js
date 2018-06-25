@@ -58,6 +58,35 @@ function linkAjaxForCourseStats() {
     $('td[id^="course-stats"] > a').click(courseStatsClickHandler);
 }
 
+function bindCollapseEvents() {
+    const panels = $('div.panel');
+    const heading = $(panels[1]).children('.panel-heading');
+    const bodyCollapse = $(panels[1]).children('.panel-collapse');
+    if (heading.length !== 0 && bodyCollapse.length !== 0) {
+        // $(heading[0]).attr('data-toggle', 'collapse');
+        $(heading[0]).attr('data-target', '#recoveryPanelBodyCollapse');
+        $(heading[0]).attr('id', 'recoveryPanelHeading');
+        $(heading[0]).css('cursor', 'pointer');
+        $(bodyCollapse[0]).attr('id', 'recoveryPanelBodyCollapse');
+    }
+
+    $('.ajax_submit').click((e) => {
+        const $targetElement = $(e.target);
+        if ($targetElement.is('a')) {
+            return;
+        }
+        const toggleChevronDown = $(panels[1]).find('.glyphicon-chevron-down');
+        const toggleChevronUp = $(panels[1]).find('.glyphicon-chevron-up');
+        if (toggleChevronDown.length === 0) {
+            $(bodyCollapse).collapse('toggle');
+            $(toggleChevronUp[0]).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+        } else {
+            $(bodyCollapse).collapse('toggle');
+            $(toggleChevronDown[0]).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+        }
+    });
+}
+
 $(document).ready(() => {
     prepareInstructorPages();
 
