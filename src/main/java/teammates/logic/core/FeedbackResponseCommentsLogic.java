@@ -374,42 +374,42 @@ public final class FeedbackResponseCommentsLogic {
                                       boolean isCommentFromFeedbackParticipant) throws EntityDoesNotExistException {
         if (isCommentFromFeedbackParticipant) {
             switch (commentGiverType) {
-                case STUDENTS:
-                    StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
-                    if (student == null) {
-                        throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered student for course "
-                                                                      + courseId + ".");
+            case STUDENTS:
+                StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
+                if (student == null) {
+                    throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered student for course "
+                            + courseId + ".");
+                }
+                break;
+            case INSTRUCTORS:
+                InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
+                if (instructor == null) {
+                    throw new EntityDoesNotExistException("User " + commentGiver
+                            + " is not a registered instructor for course " + courseId + ".");
+                }
+                break;
+            case TEAMS:
+                List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
+                boolean isTeamPresentInCourse = false;
+                for (TeamDetailsBundle team : teams) {
+                    if (team.name.equals(commentGiver)) {
+                        isTeamPresentInCourse = true;
+                        break;
                     }
-                    break;
-                case INSTRUCTORS:
-                    InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
-                    if (instructor == null) {
-                        throw new EntityDoesNotExistException("User " + commentGiver
-                                                                      + " is not a registered instructor for course " + courseId + ".");
-                    }
-                    break;
-                case TEAMS:
-                    List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
-                    boolean isTeamPresentInCourse = false;
-                    for (TeamDetailsBundle team : teams) {
-                        if (team.name.equals(commentGiver)) {
-                            isTeamPresentInCourse = true;
-                            break;
-                        }
-                    }
-                    if (!isTeamPresentInCourse) {
-                        throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered team for course "
-                                                                      + courseId + ".");
-                    }
-                    break;
-                default:
-                    throw new EntityDoesNotExistException("Unknown giver type :" + commentGiverType);
+                }
+                if (!isTeamPresentInCourse) {
+                    throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered team for course "
+                            + courseId + ".");
+                }
+                break;
+            default:
+                throw new EntityDoesNotExistException("Unknown giver type :" + commentGiverType);
             }
         } else {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
             if (instructor == null) {
                 throw new EntityDoesNotExistException("User " + commentGiver
-                                                              + " is not a registered instructor for course " + courseId + ".");
+                        + " is not a registered instructor for course " + courseId + ".");
             }
         }
     }

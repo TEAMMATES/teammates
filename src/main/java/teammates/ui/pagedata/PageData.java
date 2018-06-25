@@ -860,16 +860,14 @@ public class PageData {
      * Builds template that will be used by respondents to add comments to their responses.
      * @param question question of response
      * @param responseId id of response
-     * @param responseVisibilityMap Map which determines the visibility settings of comment
      * @param giverName name of person/team giving comment
      * @param recipientName name of person/team receiving comment
-     * @param isInstructor whether the add form is for instructor
      * @param timezone Time zone
      * @return Feedback response comment add form template
      */
     public FeedbackResponseCommentRow buildFeedbackResponseCommentAddFormTemplate(FeedbackQuestionAttributes question,
-            String responseId, Map<FeedbackParticipantType, Boolean> responseVisibilityMap, String giverName,
-            String recipientName, boolean isInstructor, ZoneId timezone) {
+            String responseId, String giverName,
+            String recipientName, ZoneId timezone) {
         FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
                 .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
                 .withFeedbackResponseId(responseId)
@@ -899,7 +897,7 @@ public class PageData {
 
         return new FeedbackResponseCommentRow(frca, giverName, recipientName,
                 getResponseCommentVisibilityString(question),
-                getResponseCommentGiverNameVisibilityString(question), responseVisibilityMap,
+                getResponseCommentGiverNameVisibilityString(question), getResponseVisibilityMap(question),
                 timezone);
     }
 

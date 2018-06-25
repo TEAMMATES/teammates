@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.util.Const;
 
 public class FeedbackSessionQuestionsBundle {
 
@@ -20,8 +19,6 @@ public class FeedbackSessionQuestionsBundle {
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle;
     public Map<String, Map<String, String>> recipientList;
     public Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses;
-    public Map<String, String> emailToNameTable;
-    public Map<String, String> emailToTeamNameTable;
     public Map<String, String> commentGiverEmailToNameTable;
     public CourseRoster roster;
 
@@ -35,18 +32,14 @@ public class FeedbackSessionQuestionsBundle {
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession, Map<FeedbackQuestionAttributes,
             List<FeedbackResponseAttributes>> questionResponseBundle, Map<String, Map<String, String>> recipientList,
-            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses,
-            Map<String, String> emailToNameTable, Map<String, String> emailToTeamNameTable, CourseRoster roster) {
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses, CourseRoster roster) {
 
         this.feedbackSession = feedbackSession;
         this.questionResponseBundle = questionResponseBundle;
         this.recipientList = recipientList;
         this.commentsForResponses = commentsForResponses;
-        this.emailToNameTable = emailToNameTable;
-        this.emailToTeamNameTable = emailToTeamNameTable;
         this.roster = roster;
         this.commentGiverEmailToNameTable = roster.getEmailToNameTableFromRoster();
-
     }
 
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {
@@ -154,36 +147,4 @@ public class FeedbackSessionQuestionsBundle {
         }
     }
 
-    /**
-     * Returns name associated with the response giver. It can be either email of student/instructor or
-     * name of a team.
-     * @param responseGiver email of student/instructor or name of team
-     * @return name of student/instructor/team
-     */
-    public String getNameForEmail(String responseGiver) {
-        String name = emailToNameTable.get(responseGiver);
-        if (name == null || name.equals(Const.USER_IS_MISSING)) {
-            return Const.USER_UNKNOWN_TEXT;
-        }
-        if (name.equals(Const.USER_IS_NOBODY)) {
-            return Const.USER_NOBODY_TEXT;
-        }
-        if (name.equals(Const.USER_IS_TEAM)) {
-            return getTeamNameForEmail(responseGiver);
-        }
-        return name;
-    }
-
-    /**
-     * Returns team name associated with response giver where response giver is a team.
-     * @param responseGiver email of the instructor to be checked.
-     * @return team name.
-     */
-    public String getTeamNameForEmail(String responseGiver) {
-        String teamName = emailToTeamNameTable.get(responseGiver);
-        if (teamName == null || responseGiver.equals(Const.GENERAL_QUESTION)) {
-            return Const.USER_NOBODY_TEXT;
-        }
-        return teamName;
-    }
 }

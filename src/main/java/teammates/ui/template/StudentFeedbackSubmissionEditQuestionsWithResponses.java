@@ -8,7 +8,7 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     private int numOfResponseBoxes;
     private int maxResponsesPossible;
     private boolean instructorCommentsOnResponsesAllowed;
-    private boolean FeedbackParticipantCommentsOnResponsesAllowed;
+    private boolean feedbackParticipantCommentsOnResponsesAllowed;
 
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
                                     List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes,
@@ -21,13 +21,13 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
 
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
             List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes, int maxResponsesPossible,
-            boolean instructorCommentsOnResponsesAllowed, boolean FeedbackParticipantCommentsOnResponsesAllowed) {
+            boolean instructorCommentsOnResponsesAllowed, boolean feedbackParticipantCommentsOnResponsesAllowed) {
         this.question = question;
         this.responses = responses;
         this.numOfResponseBoxes = numOfResponseBoxes;
         this.maxResponsesPossible = maxResponsesPossible;
         this.instructorCommentsOnResponsesAllowed = instructorCommentsOnResponsesAllowed;
-        this.FeedbackParticipantCommentsOnResponsesAllowed = FeedbackParticipantCommentsOnResponsesAllowed;
+        this.feedbackParticipantCommentsOnResponsesAllowed = feedbackParticipantCommentsOnResponsesAllowed;
     }
 
     public FeedbackSubmissionEditQuestion getQuestion() {
@@ -47,7 +47,7 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     }
 
     public boolean getFeedbackParticipantCommentsOnResponsesAllowed() {
-        return FeedbackParticipantCommentsOnResponsesAllowed;
+        return feedbackParticipantCommentsOnResponsesAllowed;
     }
 
     public boolean getInstructorCommentsOnResponsesAllowed() {

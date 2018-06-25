@@ -1672,11 +1672,10 @@ public class FeedbackSessionResultsBundle {
      * @return string of format ", name of instructor, comment"
      */
     public String getCsvDetailedInstructorFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
-        StringBuilder commentRow = new StringBuilder(200);
         if (!this.responseComments.containsKey(response.getId())) {
             return "";
         }
-
+        StringBuilder commentRow = new StringBuilder(200);
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {
             if (!frc.isCommentFromFeedbackParticipant) {

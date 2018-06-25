@@ -59,7 +59,7 @@ public class FeedbackResponseComment extends BaseEntity {
 
     private Boolean isVisibilityFollowingFeedbackQuestion;
 
-    /** True if the comment is given by a feedback participant */
+    /** True if the comment is given by a feedback participant. */
     private boolean isCommentFromFeedbackParticipant;
 
     /** The creation time of this comment. */

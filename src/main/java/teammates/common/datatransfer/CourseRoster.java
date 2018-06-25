@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Const;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
@@ -15,8 +18,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class CourseRoster {
 
+    private static final int EMAIL_NAME_PAIR = 0;
+    private static final int EMAIL_TEAMNAME_PAIR = 2;
+
     Map<String, StudentAttributes> studentListByEmail = new HashMap<>();
     Map<String, InstructorAttributes> instructorListByEmail = new HashMap<>();
+    Map<String, String> emailToNameTable = new HashMap<>();
+    Map<String, String> emailToTeamNameTable = new HashMap<>();
 
     public CourseRoster(List<StudentAttributes> students, List<InstructorAttributes> instructors) {
         populateStudentListByEmail(students);
@@ -104,4 +112,140 @@ public class CourseRoster {
         }
     }
 
+    public void addEmailNamePairsToTable(FeedbackResponseAttributes response,
+                                          FeedbackQuestionAttributes question) {
+        // keys of emailToNameTable are participantIdentifiers,
+        // which consists of students' email, instructors' email, team names, or %GENERAL%.
+        // participants identifiers of anonymous responses are not anonymised in the tables
+        addEmailNamePairsToTable(response, question, EMAIL_NAME_PAIR);
+    }
+
+    public void addEmailTeamNamePairsToTable(FeedbackResponseAttributes response, FeedbackQuestionAttributes question) {
+        addEmailNamePairsToTable(response, question, EMAIL_TEAMNAME_PAIR);
+    }
+
+    private void addEmailNamePairsToTable(FeedbackResponseAttributes response,
+                                          FeedbackQuestionAttributes question,
+                                          int pairType) {
+        if (question.giverType == FeedbackParticipantType.TEAMS
+                    && isStudentInCourse(response.giver)) {
+            emailToNameTable.putIfAbsent(
+                    response.giver + Const.TEAM_OF_EMAIL_OWNER,
+                    getNameTeamNamePairForEmail(question.giverType,
+                            response.giver)[pairType]);
+
+            StudentAttributes studentGiver = getStudentForEmail(response.giver);
+            if (studentGiver != null) {
+                emailToNameTable.putIfAbsent(studentGiver.team, getNameTeamNamePairForEmail(
+                        question.giverType,
+                        response.giver)[pairType]);
+            }
+        } else {
+            emailToNameTable.putIfAbsent(
+                    response.giver,
+                    getNameTeamNamePairForEmail(question.giverType,
+                            response.giver)[pairType]);
+        }
+
+        FeedbackParticipantType recipientType = null;
+        if (question.recipientType == FeedbackParticipantType.SELF) {
+            recipientType = question.giverType;
+        } else {
+            recipientType = question.recipientType;
+        }
+
+        emailToNameTable.putIfAbsent(
+                response.recipient,
+                getNameTeamNamePairForEmail(recipientType,
+                        response.recipient)[pairType]);
+    }
+
+    // return a pair of String that contains Giver/Recipient'sName (at index 0)
+    // and TeamName (at index 1)
+    private String[] getNameTeamNamePairForEmail(FeedbackParticipantType type,
+                                                 String email) {
+        String giverRecipientName = null;
+        String giverRecipientLastName = null;
+        String teamName = null;
+        String name = null;
+        String lastName = null;
+        String team = null;
+
+        StudentAttributes student = getStudentForEmail(email);
+        boolean isStudent = student != null;
+        if (isStudent) {
+            name = student.name;
+            team = student.team;
+            lastName = student.lastName;
+        } else {
+            InstructorAttributes instructor = getInstructorForEmail(email);
+            boolean isInstructor = instructor != null;
+            if (isInstructor) {
+                name = instructor.name;
+                lastName = instructor.name;
+                team = Const.USER_TEAM_FOR_INSTRUCTOR;
+            } else {
+                if (email.equals(Const.GENERAL_QUESTION)) {
+                    // Email represents that there is no specific recipient.
+                    name = Const.USER_IS_NOBODY;
+                    lastName = Const.USER_IS_NOBODY;
+                    team = email;
+                } else {
+                    // The email represents a missing *Attribute.
+                    // It might be a team name or the *Attribute has been deleted.
+                    name = Const.USER_IS_MISSING;
+                    lastName = Const.USER_IS_MISSING;
+                    team = email;
+                }
+            }
+        }
+
+        if (type == FeedbackParticipantType.TEAMS || type == FeedbackParticipantType.OWN_TEAM) {
+            giverRecipientName = team;
+            giverRecipientLastName = team;
+            teamName = "";
+        } else {
+            giverRecipientName = name;
+            giverRecipientLastName = lastName;
+            if (name.equals(Const.USER_IS_NOBODY) || name.equals(Const.USER_IS_MISSING)) {
+                teamName = "";
+            } else {
+                teamName = team;
+            }
+        }
+        return new String[] { giverRecipientName, giverRecipientLastName, teamName };
+    }
+
+    /**
+     * Returns name associated with the response giver. It can be either email of student/instructor or
+     * name of a team.
+     * @param responseGiver email of student/instructor or name of team
+     * @return name of student/instructor/team
+     */
+    public String getNameForEmail(String responseGiver) {
+        String name = emailToNameTable.get(responseGiver);
+        if (name == null || name.equals(Const.USER_IS_MISSING)) {
+            return Const.USER_UNKNOWN_TEXT;
+        }
+        if (name.equals(Const.USER_IS_NOBODY)) {
+            return Const.USER_NOBODY_TEXT;
+        }
+        if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(responseGiver);
+        }
+        return name;
+    }
+
+    /**
+     * Returns team name associated with response giver where response giver is a team.
+     * @param responseGiver email of the instructor to be checked.
+     * @return team name.
+     */
+    public String getTeamNameForEmail(String responseGiver) {
+        String teamName = emailToTeamNameTable.get(responseGiver);
+        if (teamName == null || responseGiver.equals(Const.GENERAL_QUESTION)) {
+            return Const.USER_NOBODY_TEXT;
+        }
+        return teamName;
+    }
 }

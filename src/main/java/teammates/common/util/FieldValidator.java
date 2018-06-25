@@ -706,10 +706,8 @@ public class FieldValidator {
 
     public String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(boolean isCommentFromFeedbackParticipant,
             boolean isVisibilityFollowingFeedbackQuestion) {
-        if(isCommentFromFeedbackParticipant) {
-            if (!isVisibilityFollowingFeedbackQuestion) {
-                return "Comment by feedback participant not following visibility setting of the question.";
-            }
+        if (isCommentFromFeedbackParticipant && !isVisibilityFollowingFeedbackQuestion) {
+            return "Comment by feedback participant not following visibility setting of the question.";
         }
         return "";
     }

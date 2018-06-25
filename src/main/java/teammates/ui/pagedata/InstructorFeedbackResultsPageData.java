@@ -513,11 +513,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             isInstructorCommentsOnResponsesAllowed);
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             if (isInstructorCommentsOnResponsesAllowed) {
-                Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
-                        getResponseVisibilityMap(question);
                 FeedbackResponseCommentRow frcForAdding =
-                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), responseVisibilityMap,
-                                giverName, recipientName, true, bundle.getTimeZone());
+                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), giverName,
+                                recipientName, bundle.getTimeZone());
 
                 responsePanel.setFrcForAdding(frcForAdding);
 
@@ -891,12 +889,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<InstructorFeedbackResultsResponseRow> responseRows = null;
 
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
-        boolean isFeedbackParticipantCommentsOnResponsesAllowed = questionDetails.isFeedbackParticipantCommentsOnResponsesAllowed();
+        boolean isFeedbackParticipantCommentsOnResponsesAllowed =
+                questionDetails.isFeedbackParticipantCommentsOnResponsesAllowed();
 
         if (isShowingResponseRows) {
             switch (viewType) {
             case QUESTION:
-                buildTableColumnHeaderForQuestionView(columnTags, isSortable, isFeedbackParticipantCommentsOnResponsesAllowed);
+                buildTableColumnHeaderForQuestionView(columnTags, isSortable,
+                        isFeedbackParticipantCommentsOnResponsesAllowed);
                 responseRows = buildResponseRowsForQuestion(question, responses);
                 break;
             case GIVER_QUESTION_RECIPIENT:
@@ -1001,8 +1001,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags,
-                                                                     Map<String, Boolean> isSortable,
-                                                                     boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
+            Map<String, Boolean> isSortable, boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
@@ -1031,8 +1030,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private void buildTableColumnHeaderForRecipientQuestionGiverView(List<ElementTag> columnTags,
-                                                                     Map<String, Boolean> isSortable,
-                                                                     boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
+            Map<String, Boolean> isSortable, boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag giverTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
@@ -1138,13 +1136,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!comments.isEmpty()) {
                 responseRow.setInstructorCommentsOnResponses(comments);
             }
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+
             boolean isCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
                 FeedbackResponseCommentRow addCommentForm =
-                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), responseVisibilityMap,
-                                giverName, recipientName, true, bundle.getTimeZone());
+                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), giverName,
+                                recipientName, bundle.getTimeZone());
                 responseRow.setAddCommentButton(addCommentForm);
                 if (userIndexesForComments.get(response.giver) == null) {
                     userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);

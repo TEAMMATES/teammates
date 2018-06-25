@@ -120,7 +120,7 @@ public abstract class FeedbackQuestionDetails {
         if (isInstructorCommentsOnResponsesAllowed()) {
             String instructorComments =
                     fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes);
-            detailedResponseRow.append(!instructorComments.isEmpty() ? instructorComments : "")
+            detailedResponseRow.append(instructorComments.isEmpty() ? "" : instructorComments)
                     .append(System.lineSeparator());
         }
         return detailedResponseRow.toString();

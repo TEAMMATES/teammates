@@ -53,7 +53,6 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
         data.setHeaderHidden(true);
         data.setPreviewInstructor(instructorUnderModeration);
         data.setSubmitAction(Const.ActionURIs.INSTRUCTOR_EDIT_INSTRUCTOR_FEEDBACK_SAVE);
-        data.setFeedbackSessionForInstructor(true);
 
         if (moderatedQuestionId != null) {
             data.setModeratedQuestionId(moderatedQuestionId);

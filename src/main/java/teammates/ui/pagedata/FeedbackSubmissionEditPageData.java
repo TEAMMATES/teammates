@@ -35,7 +35,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private String registerMessage;
     private String submitAction;
     private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
-    private boolean isFeedbackSessionForInstructor;
 
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student, String sessionToken) {
         super(account, student, sessionToken);
@@ -43,7 +42,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isModeration = false;
         isShowRealQuestionNumber = false;
         isHeaderHidden = false;
-        isFeedbackSessionForInstructor = false;
     }
 
     /**
@@ -139,10 +137,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         this.isSessionOpenForSubmission = isSessionOpenForSubmission;
     }
 
-    public void setFeedbackSessionForInstructor(boolean isFeedbackSessionForInstructor) {
-        this.isFeedbackSessionForInstructor = isFeedbackSessionForInstructor;
-    }
-
     public void setPreview(boolean isPreview) {
         this.isPreview = isPreview;
     }
@@ -227,9 +221,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
 
             boolean isInstructorCommentsOnResponsesAllowed =
-                                        questionAttributes.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
+                    questionAttributes.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
             boolean isFeedbackParticipantCommentsOnResponsesAllowed =
-                                        questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
+                    questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
             questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
                     question, responses, numOfResponseBoxes, maxResponsesPossible,
                     isInstructorCommentsOnResponsesAllowed, isFeedbackParticipantCommentsOnResponsesAllowed));
@@ -246,10 +240,12 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private List<FeedbackSubmissionEditResponse> createResponses(
                                     FeedbackQuestionAttributes questionAttributes, int qnIndx, int numOfResponseBoxes) {
         List<FeedbackSubmissionEditResponse> responses = new ArrayList<>();
-
-        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
+        String commentGiverName;
+        String commentRecipientName;
         List<String> responseSubmittedRecipient = new ArrayList<>();
         int responseIndx = 0;
+        ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
+        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
 
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             if (!isResponseRecipientValid(existingResponse)) {
@@ -265,24 +261,23 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                 questionAttributes.courseId, numOfResponseBoxes,
                                                 existingResponse.getResponseDetails(), student);
 
-            FeedbackResponseCommentRow responseCommentRow;
-            String commentGiverName = bundle.getNameForEmail(existingResponse.giver);
-            String commentRecipientName = bundle.getNameForEmail(existingResponse.recipient);
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
-                    getResponseVisibilityMap(questionAttributes);
+            commentGiverName = bundle.roster.getNameForEmail(existingResponse.giver);
+            commentRecipientName = bundle.roster.getNameForEmail(existingResponse.recipient);
+
             Map<String, String> commentGiverEmailToNameTable = bundle.commentGiverEmailToNameTable;
-            if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()
-                    && bundle.commentsForResponses.containsKey(existingResponse.getId())) {
-                responseCommentRow = getResponseCommentRowForResponse(questionAttributes,
-                        bundle.commentsForResponses.get(existingResponse.getId()), commentGiverName, commentRecipientName,
-                        responseVisibilityMap, commentGiverEmailToNameTable);
-                ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
+            if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+
+                FeedbackResponseCommentRow responseCommentRow = getResponseCommentRowForResponse(questionAttributes,
+                        existingResponse.getId(), commentGiverName, commentRecipientName, commentGiverEmailToNameTable);
+
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
-                        questionAttributes, existingResponse.getId(), responseVisibilityMap, commentGiverName,
-                        commentRecipientName, isFeedbackSessionForInstructor, sessionTimeZone);
+                        questionAttributes, existingResponse.getId(), commentGiverName,
+                        commentRecipientName, sessionTimeZone);
+
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx,
                         true, recipientOptionsForQuestion, submissionFormHtml,
                         existingResponse.getId(), responseCommentRow, frcForAdding));
+
                 responseSubmittedRecipient.add(commentRecipientName);
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx,
@@ -294,6 +289,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         int recipientIndxForUnsubmittedResponse = 0;
         while (responseIndx < numOfResponseBoxes) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
+
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                     .getQuestionWithoutExistingResponseSubmissionFormHtml(
                             isSessionOpenForSubmission, qnIndx, responseIndx,
@@ -302,31 +298,17 @@ public class FeedbackSubmissionEditPageData extends PageData {
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
                 List<String> recipientListForUnsubmittedResponse = getRecipientList(responseSubmittedRecipient,
                         bundle.getSortedRecipientList(questionAttributes.getId()));
-                String recipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);
-                String giverName;
+                commentRecipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);
+
                 if (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)) {
-                    giverName = bundle.roster.getStudentForEmail(account.email).team;
+                    commentGiverName = bundle.roster.getStudentForEmail(account.email).team;
                 } else {
-                    giverName = account.name;
+                    commentGiverName = account.name;
                 }
-                ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
+
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
-                        questionAttributes, "",
-                        getResponseVisibilityMap(questionAttributes), giverName,
-                        recipientName, isFeedbackSessionForInstructor, sessionTimeZone);
-                if (isPreview()) {
-                    if (previewInstructor == null) {
-                        giverName = getStudentToViewPageAs().name;
-                        frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
-                                questionAttributes, "", getResponseVisibilityMap(questionAttributes), giverName,
-                                recipientName, false, sessionTimeZone);
-                    } else {
-                        giverName = getPreviewInstructor().name;
-                        frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
-                                questionAttributes, "", getResponseVisibilityMap(questionAttributes), giverName,
-                                recipientName, true, sessionTimeZone);
-                    }
-                }
+                        questionAttributes, "", commentGiverName, commentRecipientName, sessionTimeZone);
+
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
                         submissionFormHtml, "", null, frcForAdding));
                 recipientIndxForUnsubmittedResponse++;
@@ -352,18 +334,20 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     private FeedbackResponseCommentRow getResponseCommentRowForResponse(
             FeedbackQuestionAttributes questionAttributes,
-            List<FeedbackResponseCommentAttributes> frcList, String giverName,
-            String recipientName, Map<FeedbackParticipantType, Boolean> responseVisibilityMap, Map<String,
-            String> commentGiverEmailToNameTable) {
+            String responseId, String giverName,
+            String recipientName, Map<String, String> commentGiverEmailToNameTable) {
+        if (!bundle.commentsForResponses.containsKey(responseId)) {
+            return null;
+        }
         ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
+        List<FeedbackResponseCommentAttributes> frcList = bundle.commentsForResponses.get(responseId);
         for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
             if (frcAttributes.isCommentFromFeedbackParticipant) {
-                FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes,
-                        frcAttributes.commentGiver, giverName, recipientName,
-                        getResponseCommentVisibilityString(frcAttributes, questionAttributes),
+                return new FeedbackResponseCommentRow(frcAttributes, frcAttributes.commentGiver, giverName,
+                        recipientName, getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                         getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
-                        responseVisibilityMap, commentGiverEmailToNameTable, sessionTimeZone);
-                return frcRow;
+                        getResponseVisibilityMap(questionAttributes), commentGiverEmailToNameTable, sessionTimeZone);
+
             }
         }
         return null;

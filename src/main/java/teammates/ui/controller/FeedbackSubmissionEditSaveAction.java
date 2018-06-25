@@ -333,10 +333,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
-    private void updateFeedbackParticipantComments(List<FeedbackResponseCommentAttributes> commentsToUpdate) throws EntityDoesNotExistException {
-        for (FeedbackResponseCommentAttributes feedbackResponseComment: commentsToUpdate) {
+    private void updateFeedbackParticipantComments(List<FeedbackResponseCommentAttributes> commentsToUpdate)
+            throws EntityDoesNotExistException {
+        for (FeedbackResponseCommentAttributes feedbackResponseComment : commentsToUpdate) {
             try {
-                FeedbackResponseCommentAttributes updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
+                FeedbackResponseCommentAttributes updatedComment =
+                        logic.updateFeedbackResponseComment(feedbackResponseComment);
                 //TODO: move putDocument to task queue
                 logic.putDocument(updatedComment);
                 statusToAdmin += this.getClass().getName() + ":<br>"

@@ -44,7 +44,6 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         data.bundle = getDataBundle(userEmailForCourse);
 
         data.setSessionOpenForSubmission(isSessionOpenForSpecificUser(data.bundle.feedbackSession));
-        data.setFeedbackSessionForInstructor(isFeedbackSubmissionForInstructor());
         data.init(regKey, email, courseId);
 
         setStatusToAdmin();

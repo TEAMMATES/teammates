@@ -973,7 +973,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
                 detailedResponsesRow.append(',').append(feedbackParticipantComment);
             }
-            detailedResponsesRow.append(shouldShowComments ? instructorComment : "" + System.lineSeparator());
+            detailedResponsesRow.append(shouldShowComments ? instructorComment : "");
+            detailedResponsesRow.append(System.lineSeparator());
         }
 
         return detailedResponsesRow.toString();

@@ -16,7 +16,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -24,7 +23,6 @@ import teammates.storage.entity.FeedbackResponseComment;
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
-    private static final Logger log = Logger.getLogger();
 
     // Required fields
     public String courseId;
@@ -156,7 +154,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
         addNonEmptyError(validator.getInvalidityInfoForCommentGiverType(commentGiverType), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForVisibilityOfFeedbackParticipantComments(isCommentFromFeedbackParticipant, isVisibilityFollowingFeedbackQuestion),errors);
+        addNonEmptyError(validator.getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
+                isCommentFromFeedbackParticipant, isVisibilityFollowingFeedbackQuestion), errors);
 
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
 
