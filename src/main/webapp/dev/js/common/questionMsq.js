@@ -117,6 +117,7 @@ function addMsqOption(questionNum) {
     <div class="margin-bottom-7px" id="msqOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
         <div class="input-group">
             <span class="input-group-addon">
+                <span class="glyphicon glyphicon-resize-vertical"></span>
                 <input type="checkbox" disabled>
             </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}-${curNumberOfChoiceCreated}"
@@ -130,7 +131,9 @@ function addMsqOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertBefore($(`#msqAddOptionRow-${questionNum}`));
+    `).appendTo($(`#msqOptionRows-${questionNum}`));
+
+    $(`#msqOptionRows-${questionNum}`).sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -144,10 +147,11 @@ function addMsqOption(questionNum) {
 function removeMsqOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
+    const $msqOptionRows = $(`#msqOptionRows-${questionNum}`);
     const $thisRow = $(`#msqOptionRow-${index}-${questionNum}`);
 
-    // count number of child rows the table have and - 1 because of add option button
-    const numberOfOptions = $thisRow.parent().children('div').length - 1;
+    // count number of child rows the table has
+    const numberOfOptions = $msqOptionRows.children('div').length;
 
     if (numberOfOptions <= 1) {
         $thisRow.find('input').val('');
@@ -207,6 +211,27 @@ function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
     }
 }
 
+/**
+ * Enables MSQ options for a question to be reordered through a drag and drop mechanism.
+ * Binds an update event to the option elements which is triggered whenever the order of
+ * elements changes. The event handler updates the ids of elements to match the new order.
+ */
+function makeMsqOptionsReorderable(questionNum) {
+    $(`#msqOptionRows-${questionNum}`).sortable({
+        cursor: 'move',
+        update() {
+            $(this).children().each(function (index) {
+                $(this).attr('id', `msqOptionRow-${index}-${questionNum}`);
+                $(this).find('input[id^="msqOption-"]').attr({
+                    name: `msqOption-${index}`,
+                    id: `msqOption-${index}-${questionNum}`,
+                });
+                $(this).find('button[id="msqRemoveOptionLink"]').attr('onclick', `removeMsqOption(${index},${questionNum})`);
+            });
+        },
+    });
+}
+
 function bindMsqEvents() {
     $(document).on('change', 'input[name="msqMaxSelectableChoices"]', (e) => {
         const questionNum = $(e.currentTarget).closest('form').attr('data-qnnumber');
@@ -233,6 +258,7 @@ export {
     addMsqOption,
     bindMsqEvents,
     changeMsqGenerateFor,
+    makeMsqOptionsReorderable,
     removeMsqOption,
     toggleMsqGeneratedOptions,
     toggleMsqOtherOptionEnabled,

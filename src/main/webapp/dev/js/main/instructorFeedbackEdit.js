@@ -68,6 +68,7 @@ import {
 import {
     addMsqOption,
     bindMsqEvents,
+    makeMsqOptionsReorderable,
     removeMsqOption,
     toggleMsqGeneratedOptions,
     toggleMsqMaxSelectableChoices,
@@ -1228,6 +1229,8 @@ function makeQuestionOptionsReorderable() {
         const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
         if (qnType === 'MCQ') {
             makeMcqOptionsReorderable(i);
+        } else if (qnType === 'MSQ') {
+            makeMsqOptionsReorderable(i);
         }
     }
 }

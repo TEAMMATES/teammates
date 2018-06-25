@@ -13,6 +13,7 @@ function addMcqOption(questionNum) {
         <div class="input-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-resize-vertical"></span>
+                <input type="radio" class="disabled_radio" disabled>
             </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}"
                     id="${ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}-${curNumberOfChoiceCreated}-${questionNum}"
@@ -83,10 +84,11 @@ function toggleMcqOtherOptionEnabled(checkbox, questionNum) {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 }
+
 /**
  * Enables MCQ options for a question to be reordered through a drag and drop mechanism.
  * Binds an update event to the option elements which is triggered whenever the order of
- * elements change. The event handler updates the ids of elements to match the new order.
+ * elements changes. The event handler updates the ids of elements to match the new order.
  */
 function makeMcqOptionsReorderable(questionNum) {
     $(`#mcqOptionRows-${questionNum}`).sortable({
