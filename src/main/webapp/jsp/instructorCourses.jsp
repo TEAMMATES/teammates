@@ -45,14 +45,15 @@
         <br>
       </c:if>
 
-      <c:if test="${not empty data.recoveryCourses.rows}">
-        <course:recoveryCoursesTable recoveryCourses="${data.recoveryCourses}"/>
-        <course:actionsForAllCourses />
-        <br>
-        <br>
-        <br>
-        <br>
-      </c:if>
+      <c:set var="isRecoveryCoursesEmpty" value="${empty data.recoveryCourses.rows}"/>
     </c:if>
   </div>
+
+  <c:if test="${!isRecoveryCoursesEmpty}">
+    <course:recoveryCoursePanel />
+    <br>
+    <br>
+    <br>
+    <br>
+  </c:if>
 </ti:instructorPage>
