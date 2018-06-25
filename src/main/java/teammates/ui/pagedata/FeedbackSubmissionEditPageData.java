@@ -227,12 +227,12 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
 
             boolean isInstructorCommentsOnResponsesAllowed =
-                                        questionAttributes.getQuestionDetails().isCommentsOnResponsesAllowed();
-            boolean isStudentCommentsOnResponsesAllowed =
-                                        questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed();
+                                        questionAttributes.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
+            boolean isFeedbackParticipantCommentsOnResponsesAllowed =
+                                        questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
             questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
                     question, responses, numOfResponseBoxes, maxResponsesPossible,
-                    isInstructorCommentsOnResponsesAllowed, isStudentCommentsOnResponsesAllowed));
+                    isInstructorCommentsOnResponsesAllowed, isFeedbackParticipantCommentsOnResponsesAllowed));
             qnIndx++;
         }
     }
@@ -271,7 +271,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
                     getResponseVisibilityMap(questionAttributes, false);
             Map<String, String> commentGiverEmailToNameTable = bundle.commentGiverEmailToNameTable;
-            if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()
+            if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()
                     && bundle.commentsForResponses.containsKey(existingResponse.getId())) {
                 responseCommentRow = getResponseCommentRowForResponse(questionAttributes,
                         bundle.commentsForResponses.get(existingResponse.getId()), commentGiverName, commentRecipientName,
@@ -299,7 +299,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                             isSessionOpenForSubmission, qnIndx, responseIndx,
                             questionAttributes.courseId, numOfResponseBoxes, student);
 
-            if (questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
+            if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
                 List<String> recipientListForUnsubmittedResponse = getRecipientList(responseSubmittedRecipient,
                         bundle.getSortedRecipientList(questionAttributes.getId()));
                 String recipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);

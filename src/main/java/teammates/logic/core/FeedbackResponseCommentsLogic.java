@@ -371,19 +371,22 @@ public final class FeedbackResponseCommentsLogic {
      */
     private void verifyIsUserOfCourse(String courseId, String commentGiver, FeedbackParticipantType commentGiverType)
             throws EntityDoesNotExistException {
-        if (FeedbackParticipantType.STUDENTS.equals(commentGiverType)) {
+        switch (commentGiverType)  {
+        case STUDENTS:
             StudentAttributes student = studentsLogic.getStudentForEmail(courseId, commentGiver);
             if (student == null) {
                 throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered student for course "
-                        + courseId + ".");
+                                                              + courseId + ".");
             }
-        } else if (FeedbackParticipantType.INSTRUCTORS.equals(commentGiverType)) {
+            break;
+        case INSTRUCTORS:
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);
             if (instructor == null) {
                 throw new EntityDoesNotExistException("User " + commentGiver
-                        + " is not a registered instructor for course " + courseId + ".");
+                                                              + " is not a registered instructor for course " + courseId + ".");
             }
-        } else if (FeedbackParticipantType.TEAMS.equals(commentGiverType)) {
+            break;
+        case TEAMS:
             List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
             boolean isTeamPresentInCourse = false;
             for (TeamDetailsBundle team : teams) {
@@ -394,9 +397,10 @@ public final class FeedbackResponseCommentsLogic {
             }
             if (!isTeamPresentInCourse) {
                 throw new EntityDoesNotExistException("User " + commentGiver + " is not a registered team for course "
-                        + courseId + ".");
+                                                              + courseId + ".");
             }
-        } else {
+            break;
+        default:
             throw new EntityDoesNotExistException("Unknown giver type :" + commentGiverType);
         }
     }

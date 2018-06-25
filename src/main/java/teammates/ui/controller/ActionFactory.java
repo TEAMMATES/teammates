@@ -120,7 +120,7 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
-        map(STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE, StudentFeedbackResponseCommentDeleteAction.class);
+        map(STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE, FeedbackParticipantFeedbackResponseCommentDeleteAction.class);
         map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
         map(STUDENT_PROFILE_PICTURE, StudentProfilePictureAction.class);
         map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);

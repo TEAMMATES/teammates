@@ -24,8 +24,8 @@ public class InstructorFeedbackResultsResponseRow {
     private boolean isRecipientProfilePictureAColumn;
     private String recipientProfilePictureLink;
 
-    private boolean isStudentCommentsOnResponsesAllowed;
-    private String studentComment;
+    private boolean isFeedbackParticipantCommentsOnResponsesAllowed;
+    private String feedbackParticipantComment;
 
     private boolean isActionsDisplayed;
 
@@ -33,7 +33,7 @@ public class InstructorFeedbackResultsResponseRow {
     private InstructorFeedbackResultsModerationButton moderationButton;
     private FeedbackResponseCommentRow addCommentButton;
 
-    private List<FeedbackResponseCommentRow> commentsOnResponses;
+    private List<FeedbackResponseCommentRow> instructorCommentsOnResponses;
     private int responseRecipientIndex;
     private int responseGiverIndex;
     private boolean isInstructorCommentsOnResponsesAllowed;
@@ -42,16 +42,16 @@ public class InstructorFeedbackResultsResponseRow {
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton,
-                                        boolean isStudentCommentsOnResponsesAllowed) {
+                                        boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
-             displayableResponse, moderationButton, false, isStudentCommentsOnResponsesAllowed);
+             displayableResponse, moderationButton, false, isFeedbackParticipantCommentsOnResponsesAllowed);
     }
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton, boolean isRowGrey,
-                                        boolean isStudentCommentsOnResponsesAllowed) {
+                                        boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
         this.giverTeam = giverTeam;
 
@@ -63,7 +63,7 @@ public class InstructorFeedbackResultsResponseRow {
         this.moderationButton = moderationButton;
 
         this.isRowGrey = isRowGrey;
-        this.isStudentCommentsOnResponsesAllowed = isStudentCommentsOnResponsesAllowed;
+        this.isFeedbackParticipantCommentsOnResponsesAllowed = isFeedbackParticipantCommentsOnResponsesAllowed;
     }
 
     public String getGiverDisplayableIdentifier() {
@@ -102,12 +102,12 @@ public class InstructorFeedbackResultsResponseRow {
         return isRowGrey;
     }
 
-    public String getStudentComment() {
-        return studentComment;
+    public String getFeedbackParticipantComment() {
+        return feedbackParticipantComment;
     }
 
-    public void setStudentComment(String studentComment) {
-        this.studentComment = studentComment;
+    public void setFeedbackParticipantComment(String feedbackParticipantComment) {
+        this.feedbackParticipantComment = feedbackParticipantComment;
     }
 
     public void setGiverProfilePictureLink(String giverProfilePictureLink) {
@@ -182,12 +182,12 @@ public class InstructorFeedbackResultsResponseRow {
         this.addCommentButton = addCommentButton;
     }
 
-    public List<FeedbackResponseCommentRow> getCommentsOnResponses() {
-        return commentsOnResponses;
+    public List<FeedbackResponseCommentRow> getInstructorCommentsOnResponses() {
+        return instructorCommentsOnResponses;
     }
 
-    public void setCommentsOnResponses(List<FeedbackResponseCommentRow> commentsOnResponses) {
-        this.commentsOnResponses = commentsOnResponses;
+    public void setInstructorCommentsOnResponses(List<FeedbackResponseCommentRow> instructorCommentsOnResponses) {
+        this.instructorCommentsOnResponses = instructorCommentsOnResponses;
     }
 
     public int getResponseRecipientIndex() {
@@ -214,12 +214,12 @@ public class InstructorFeedbackResultsResponseRow {
         this.isInstructorCommentsOnResponsesAllowed = isCommentsOnResponsesAllowed;
     }
 
-    public boolean isStudentCommentsOnResponsesAllowed() {
-        return isStudentCommentsOnResponsesAllowed;
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
+        return isFeedbackParticipantCommentsOnResponsesAllowed;
     }
 
-    public void setStudentCommentsOnResponsesAllowed(boolean isStudentCommentsOnResponsesAllowed) {
-        this.isStudentCommentsOnResponsesAllowed = isStudentCommentsOnResponsesAllowed;
+    public void setFeedbackParticipantCommentsOnResponsesAllowed(boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
+        this.isFeedbackParticipantCommentsOnResponsesAllowed = isFeedbackParticipantCommentsOnResponsesAllowed;
     }
 
 }

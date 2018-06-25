@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 
-public class StudentFeedbackResponseCommentDeleteAction extends FeedbackResponseCommentDeleteAction {
+public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends FeedbackResponseCommentDeleteAction {
     @Override
     protected void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session,
             FeedbackResponseAttributes response) {
@@ -24,7 +24,7 @@ public class StudentFeedbackResponseCommentDeleteAction extends FeedbackResponse
 
     @Override
     protected void appendToStatusToAdmin(Long commentId) {
-        statusToAdmin += "StudentFeedbackResponseCommentDeleteAction:<br>"
+        statusToAdmin += "FeedbackParticipantFeedbackResponseCommentDeleteAction:<br>"
                 + "Deleting feedback response comment: " + commentId + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
     }

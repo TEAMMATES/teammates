@@ -303,7 +303,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (showCommentTo == null && showGiverNameTo == null) {
             feedbackResponseComment.setVisibilitySettingsForStudentComment();
         } else {
-            feedbackResponseComment.setVisibilitySettingsForInstructorComment(showCommentTo, showGiverNameTo);
+            feedbackResponseComment.setVisibilitySettingsForInstructorComment(showCommentTo.split(","), showGiverNameTo.split(","));
         }
 
         FeedbackResponseCommentAttributes updatedComment = null;
@@ -359,7 +359,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
-    // Creates respondent comments
+    // Creates feedback participant comments
     private void createCommentsForResponses(String showCommentTo, String showGiverNameTo, String userEmailForCourse,
             String questionId, FeedbackResponseAttributes response, String commentText, String commentGiverTypeString)
             throws EntityDoesNotExistException {
@@ -378,7 +378,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (showCommentTo == null && showGiverNameTo == null) {
             feedbackResponseComment.setVisibilitySettingsForStudentComment();
         } else {
-            feedbackResponseComment.setVisibilitySettingsForInstructorComment(showCommentTo, showGiverNameTo);
+            feedbackResponseComment.setVisibilitySettingsForInstructorComment(showCommentTo.split(","),
+                    showGiverNameTo.split(","));
         }
 
         FeedbackResponseCommentAttributes createdComment = null;
@@ -410,7 +411,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     private void extractFeedbackResponseCommentsForResponseData(FeedbackQuestionAttributes questionAttributes,
                                                                 int questionIndex, FeedbackResponseAttributes response,
                                                                 int responseIndex) {
-        if (!questionAttributes.getQuestionDetails().isStudentCommentsOnResponsesAllowed()) {
+        if (!questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             return;
         }
         //When comment is added, comment text parameter is of type responsecommenttext-responseIndex-1-questionIndex

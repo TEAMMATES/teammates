@@ -87,8 +87,8 @@
   </c:if>
   <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
   <td class="word-wrap-break text-preserve-space<c:if test="${responseRow.rowGrey}"> color-neutral</c:if>">${responseRow.displayableResponse}</td>
-  <c:if test="${responseRow.studentCommentsOnResponsesAllowed}">
-    <td class="word-wrap-break<c:if test="${responseRow.rowGrey}"> color-neutral</c:if>">${responseRow.studentComment}</td>
+  <c:if test="${responseRow.FeedbackParticipantCommentsOnResponsesAllowed}">
+    <td class="word-wrap-break<c:if test="${responseRow.rowGrey}"> color-neutral</c:if>">${responseRow.feedbackParticipantComment}</td>
   </c:if>
   <c:if test="${responseRow.actionsDisplayed}">
     <td>

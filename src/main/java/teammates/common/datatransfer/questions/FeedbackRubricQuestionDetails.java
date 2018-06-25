@@ -915,14 +915,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 + "Recipient's Team" + "," + "Recipient's Full Name" + ","
                 + "Recipient's Last Name" + "," + "Recipient's Email" + ","
                 + "Sub Question" + "," + getCsvHeader() + "," + "Choice Number"
-                + getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)
+                + getCsvDetailedInstructorsCommentsHeader(noOfComments)
                 + System.lineSeparator();
     }
 
     @Override
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
             FeedbackResponseAttributes feedbackResponseAttributes,
-            FeedbackQuestionAttributes question, boolean hasCommentsForResponse) {
+            FeedbackQuestionAttributes question) {
 
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
@@ -936,7 +936,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
         //To show comment only once for each response.
-        boolean shouldShowComments = hasCommentsForResponse;
+        String instructorComment = fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes);
+        boolean shouldShowComments = instructorComment.isEmpty();
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
@@ -965,10 +966,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenIndexString) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
-                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber)
-                    + (shouldShowComments
-                            ? fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
-                    + System.lineSeparator());
+                    + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber));
+
+            if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
+                String feedbackParticipantComment =
+                        fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
+                detailedResponsesRow.append(',').append(feedbackParticipantComment);
+            }
+            detailedResponsesRow.append(shouldShowComments ? instructorComment : "" + System.lineSeparator());
         }
 
         return detailedResponsesRow.toString();
@@ -1044,7 +1049,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public boolean isStudentCommentsOnResponsesAllowed() {
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }
 

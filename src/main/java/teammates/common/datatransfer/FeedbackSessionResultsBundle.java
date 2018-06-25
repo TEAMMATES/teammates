@@ -1671,31 +1671,38 @@ public class FeedbackSessionResultsBundle {
      * @param response feedback response from which comments are taken
      * @return string of format ", name of instructor, comment"
      */
-    public StringBuilder getCsvDetailedInstructorFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
-        List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
+    public String getCsvDetailedInstructorFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
         StringBuilder commentRow = new StringBuilder(200);
+        if (!this.responseComments.containsKey(response.getId())) {
+            return "";
+        }
+
+        List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {
             if (!frc.isCommentFromFeedbackParticipant) {
                 commentRow.append("," + commentGiverEmailToNameTable.get(frc.commentGiver) + ","
-                                          + frc.convertCommentTextToString(true));
+                                          + frc.convertCommentTextToStringForCsv());
             }
         }
-        return commentRow;
+        return commentRow.toString();
     }
 
     /**
-     * Returns string of student comment on a response for csv.
+     * Returns string of comment by feedback participant on a response for csv.
      * @param response feedback response on which comment is given
-     * @return comment by student in form of string
+     * @return comment by feedback participant in form of string
      */
-    public String getCsvDetailedStudentCommentOnResponse(FeedbackResponseAttributes response) {
+    public String getCsvDetailedFeedbackParticipantCommentOnResponse(FeedbackResponseAttributes response) {
+        if (!this.responseComments.containsKey(response.getId())) {
+            return " ";
+        }
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {
             if (frc.isCommentFromFeedbackParticipant) {
-                return frc.convertCommentTextToString(true);
+                return frc.convertCommentTextToStringForCsv();
             }
         }
-        return "";
+        return " ";
     }
 
     /**

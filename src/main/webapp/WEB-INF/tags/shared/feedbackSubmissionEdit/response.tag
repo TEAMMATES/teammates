@@ -51,7 +51,7 @@
       </c:choose>:
   </div>
   <c:choose>
-    <c:when test="${questionWithResponses.studentCommentsOnResponsesAllowed}">
+    <c:when test="${questionWithResponses.FeedbackParticipantCommentsOnResponsesAllowed}">
       <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-${addOrEdit}-form"
               id="button_add_comment-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
               data-recipientindex="${responseRecipientIndex}" data-giverindex="${responseGiverIndex}"

@@ -496,7 +496,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     @Override
-    public boolean isStudentCommentsOnResponsesAllowed() {
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }
 

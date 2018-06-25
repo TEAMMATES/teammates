@@ -8,7 +8,7 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     private int numOfResponseBoxes;
     private int maxResponsesPossible;
     private boolean instructorCommentsOnResponsesAllowed;
-    private boolean studentCommentsOnResponsesAllowed;
+    private boolean FeedbackParticipantCommentsOnResponsesAllowed;
 
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
                                     List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes,
@@ -21,13 +21,13 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
 
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
             List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes, int maxResponsesPossible,
-            boolean instructorCommentsOnResponsesAllowed, boolean studentCommentsOnResponsesAllowed) {
+            boolean instructorCommentsOnResponsesAllowed, boolean FeedbackParticipantCommentsOnResponsesAllowed) {
         this.question = question;
         this.responses = responses;
         this.numOfResponseBoxes = numOfResponseBoxes;
         this.maxResponsesPossible = maxResponsesPossible;
         this.instructorCommentsOnResponsesAllowed = instructorCommentsOnResponsesAllowed;
-        this.studentCommentsOnResponsesAllowed = studentCommentsOnResponsesAllowed;
+        this.FeedbackParticipantCommentsOnResponsesAllowed = FeedbackParticipantCommentsOnResponsesAllowed;
     }
 
     public FeedbackSubmissionEditQuestion getQuestion() {
@@ -46,8 +46,8 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
         return maxResponsesPossible;
     }
 
-    public boolean getStudentCommentsOnResponsesAllowed() {
-        return studentCommentsOnResponsesAllowed;
+    public boolean getFeedbackParticipantCommentsOnResponsesAllowed() {
+        return FeedbackParticipantCommentsOnResponsesAllowed;
     }
 
     public boolean getInstructorCommentsOnResponsesAllowed() {

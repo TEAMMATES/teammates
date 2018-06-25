@@ -490,7 +490,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public boolean isStudentCommentsOnResponsesAllowed() {
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return true;
     }
 

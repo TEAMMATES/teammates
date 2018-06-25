@@ -76,17 +76,17 @@ public abstract class FeedbackQuestionDetails {
                                       + getCsvHeader();
         header.append(headerString);
 
-        if (isStudentCommentsOnResponsesAllowed()) {
-            headerString = ',' + "Respondent Comments";
+        if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
+            headerString = ',' + "Giver's Comments";
             header.append(headerString);
         }
-        header.append(getCsvDetailedFeedbackResponsesCommentsHeader(noOfComments)).append(System.lineSeparator());
+        header.append(getCsvDetailedInstructorsCommentsHeader(noOfComments)).append(System.lineSeparator());
         return header.toString();
     }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
                                              FeedbackResponseAttributes feedbackResponseAttributes,
-                                             FeedbackQuestionAttributes question, boolean hasCommentsForResponse) {
+                                             FeedbackQuestionAttributes question) {
         // Retrieve giver details
         String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
         String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
@@ -110,15 +110,19 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question);
         detailedResponseRow.append(detailedResponseRowString);
-        //Appends students comments if allowed and if comments exists on response
-        if (isStudentCommentsOnResponsesAllowed() && hasCommentsForResponse) {
-            detailedResponseRow.append(',')
-                    .append(fsrBundle.getCsvDetailedStudentCommentOnResponse(feedbackResponseAttributes));
+        //Appends feedback participant comments if allowed
+        if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
+            String feedbackParticipantComment =
+                    fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
+            detailedResponseRow.append(',').append(feedbackParticipantComment);
         }
         //Appends instructor comments if comments exists on response
-        detailedResponseRow.append(hasCommentsForResponse
-                ? fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes) : "")
-                .append(System.lineSeparator());
+        if (isInstructorCommentsOnResponsesAllowed()) {
+            String instructorComments =
+                    fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes);
+            detailedResponseRow.append(!instructorComments.isEmpty() ? instructorComments : "")
+                    .append(System.lineSeparator());
+        }
         return detailedResponseRow.toString();
     }
 
@@ -264,15 +268,13 @@ public abstract class FeedbackQuestionDetails {
         this.questionText = questionText;
     }
 
-    public boolean isCommentsOnResponsesAllowed() {
+    public boolean isInstructorCommentsOnResponsesAllowed() {
         return true;
     }
 
-    public boolean isStudentCommentsOnResponsesAllowed() {
-        return false;
-    }
+    public abstract boolean isFeedbackParticipantCommentsOnResponsesAllowed();
 
-    public String getCsvDetailedFeedbackResponsesCommentsHeader(int noOfComments) {
+    public String getCsvDetailedInstructorsCommentsHeader(int noOfComments) {
         StringBuilder commentsHeader = new StringBuilder(200);
 
         for (int i = noOfComments; i > 0; i--) {

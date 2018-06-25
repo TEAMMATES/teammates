@@ -950,12 +950,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
-    public boolean isCommentsOnResponsesAllowed() {
+    public boolean isInstructorCommentsOnResponsesAllowed() {
         return false;
     }
 
     @Override
-    public boolean isStudentCommentsOnResponsesAllowed() {
+    public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }
 }

@@ -59,8 +59,8 @@ public class FeedbackResponseComment extends BaseEntity {
 
     private Boolean isVisibilityFollowingFeedbackQuestion;
 
-    /** True if comment giver is same as response giver. */
-    private Boolean isCommentFromFeedbackParticipant;
+    /** True if the comment is given by a feedback participant */
+    private boolean isCommentFromFeedbackParticipant;
 
     /** The creation time of this comment. */
     private Date createdAt;
@@ -238,11 +238,11 @@ public class FeedbackResponseComment extends BaseEntity {
         this.lastEditedAt = TimeHelper.convertInstantToDate(lastEditedAt);
     }
 
-    public Boolean getIsCommentFromFeedbackParticipant() {
+    public boolean getIsCommentFromFeedbackParticipant() {
         return this.isCommentFromFeedbackParticipant;
     }
 
-    public void setIsCommentFromFeedbackParticipant(Boolean isCommentFromFeedbackParticipant) {
+    public void setIsCommentFromFeedbackParticipant(boolean isCommentFromFeedbackParticipant) {
         this.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
     }
 }

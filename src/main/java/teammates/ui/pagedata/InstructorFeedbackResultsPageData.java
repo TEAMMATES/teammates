@@ -500,7 +500,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             boolean isInstructorCommentsOnResponsesAllowed = question.getQuestionDetails()
-                    .isCommentsOnResponsesAllowed();
+                    .isInstructorCommentsOnResponsesAllowed();
             Matcher matcher = sectionIdPattern.matcher(additionalInfoId);
             if (matcher.find()) {
                 sectionId = Integer.parseInt(matcher.group(1));
@@ -891,23 +891,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<InstructorFeedbackResultsResponseRow> responseRows = null;
 
         FeedbackQuestionDetails questionDetails = questionToDetailsMap.get(question);
-        boolean isStudentCommentsOnResponsesAllowed = questionDetails.isStudentCommentsOnResponsesAllowed();
+        boolean isFeedbackParticipantCommentsOnResponsesAllowed = questionDetails.isFeedbackParticipantCommentsOnResponsesAllowed();
 
         if (isShowingResponseRows) {
             switch (viewType) {
             case QUESTION:
-                buildTableColumnHeaderForQuestionView(columnTags, isSortable, isStudentCommentsOnResponsesAllowed);
+                buildTableColumnHeaderForQuestionView(columnTags, isSortable, isFeedbackParticipantCommentsOnResponsesAllowed);
                 responseRows = buildResponseRowsForQuestion(question, responses);
                 break;
             case GIVER_QUESTION_RECIPIENT:
                 buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable,
-                        isStudentCommentsOnResponsesAllowed);
+                        isFeedbackParticipantCommentsOnResponsesAllowed);
                 responseRows = buildResponseRowsForQuestionForSingleGiver(question, responses, participantIdentifier);
                 isCollapsible = false;
                 break;
             case RECIPIENT_QUESTION_GIVER:
                 buildTableColumnHeaderForRecipientQuestionGiverView(columnTags, isSortable,
-                        isStudentCommentsOnResponsesAllowed);
+                        isFeedbackParticipantCommentsOnResponsesAllowed);
                 responseRows = buildResponseRowsForQuestionForSingleRecipient(question, responses, participantIdentifier);
                 isCollapsible = false;
                 break;
@@ -954,7 +954,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags,
                                                        Map<String, Boolean> isSortable,
-                                                       boolean isStudentCommentsOnResponseAllowed) {
+                                                       boolean isFeedbackParticipantCommentsOnResponseAllowed) {
         ElementTag giverTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none toggle-sort",
                         "style", "width: 10%; min-width: 67px;");
@@ -969,7 +969,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                         "style", "width: 10%; min-width: 90px;");
         ElementTag responseElement;
         ElementTag columnElement = new ElementTag();
-        if (isStudentCommentsOnResponseAllowed) {
+        if (isFeedbackParticipantCommentsOnResponseAllowed) {
             responseElement =
                     new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
                             "style", "width: 25%; min-width: 95px;");
@@ -987,7 +987,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(recipientTeamElement);
         columnTags.add(recipientElement);
         columnTags.add(responseElement);
-        if (isStudentCommentsOnResponseAllowed) {
+        if (isFeedbackParticipantCommentsOnResponseAllowed) {
             columnTags.add(columnElement);
         }
         columnTags.add(actionElement);
@@ -1002,7 +1002,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags,
                                                                      Map<String, Boolean> isSortable,
-                                                                     boolean isStudentCommentsOnResponsesAllowed) {
+                                                                     boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
@@ -1018,7 +1018,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(recipientTeamElement);
         columnTags.add(recipientElement);
         columnTags.add(responseElement);
-        if (isStudentCommentsOnResponsesAllowed) {
+        if (isFeedbackParticipantCommentsOnResponsesAllowed) {
             ElementTag columnElement = new ElementTag("Comments", "style", "width: 20%; min-width: 95px;");
             columnTags.add(columnElement);
             isSortable.put(columnElement.getContent(), false);
@@ -1032,7 +1032,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void buildTableColumnHeaderForRecipientQuestionGiverView(List<ElementTag> columnTags,
                                                                      Map<String, Boolean> isSortable,
-                                                                     boolean isStudentCommentsOnResponsesAllowed) {
+                                                                     boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag giverTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending toggle-sort",
@@ -1049,7 +1049,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(giverTeamElement);
         columnTags.add(giverElement);
         columnTags.add(responseElement);
-        if (isStudentCommentsOnResponsesAllowed) {
+        if (isFeedbackParticipantCommentsOnResponsesAllowed) {
             ElementTag columnElement = new ElementTag("Comments", "style", "width: 20%; min-width: 95px;");
             columnTags.add(columnElement);
             isSortable.put(columnElement.getContent(), false);
@@ -1109,8 +1109,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForExistingResponse(
                                                                                 question, response);
-            boolean isStudentCommentsOnResponsesAllowed =
-                    question.getQuestionDetails().isStudentCommentsOnResponsesAllowed();
+            boolean isFeedbackParticipantCommentsOnResponsesAllowed =
+                    question.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
             InstructorFeedbackResultsResponseRow responseRow = new InstructorFeedbackResultsResponseRow(
                                                                        bundle.getGiverNameForResponse(response),
                                                                        bundle.getTeamNameForEmail(response.giver),
@@ -1118,10 +1118,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        bundle.getTeamNameForEmail(response.recipient),
                                                                        bundle.getResponseAnswerHtml(response, question),
                                                                        moderationButton,
-                                                                       isStudentCommentsOnResponsesAllowed);
-            if (isStudentCommentsOnResponsesAllowed) {
-                String comment = getStudentResponseCommentText(response);
-                responseRow.setStudentComment(comment);
+                                                                       isFeedbackParticipantCommentsOnResponsesAllowed);
+            if (isFeedbackParticipantCommentsOnResponsesAllowed) {
+                String comment = getFeedbackParticipantCommentText(response);
+                responseRow.setFeedbackParticipantComment(comment);
             }
             configureResponseRow(prevGiver, response.recipient, responseRow);
             String giverName = bundle.getNameForEmail(response.giver);
@@ -1136,11 +1136,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             List<FeedbackResponseCommentRow> comments =
                     buildResponseComments(giverName, recipientName, question, response);
             if (!comments.isEmpty()) {
-                responseRow.setCommentsOnResponses(comments);
+                responseRow.setInstructorCommentsOnResponses(comments);
             }
             Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question, false);
             boolean isCommentsOnResponsesAllowed =
-                    question.getQuestionDetails().isCommentsOnResponsesAllowed();
+                    question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
             if (isCommentsOnResponsesAllowed) {
                 FeedbackResponseCommentRow addCommentForm =
                         buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), responseVisibilityMap,
@@ -1208,8 +1208,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsModerationButton moderationButton =
                     buildModerationButtonForExistingResponse(question, response);
 
-            boolean isStudentCommentsOnResponsesAllowed =
-                    question.getQuestionDetails().isStudentCommentsOnResponsesAllowed();
+            boolean isFeedbackParticipantCommentsOnResponsesAllowed =
+                    question.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
 
             InstructorFeedbackResultsResponseRow responseRow =
                     new InstructorFeedbackResultsResponseRow(
@@ -1218,10 +1218,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                             bundle.getRecipientNameForResponse(response),
                             bundle.getTeamNameForEmail(response.recipient),
                             bundle.getResponseAnswerHtml(response, question),
-                            moderationButton, isStudentCommentsOnResponsesAllowed);
+                            moderationButton, isFeedbackParticipantCommentsOnResponsesAllowed);
 
-            if (isStudentCommentsOnResponsesAllowed) {
-                responseRow.setStudentComment(getStudentResponseCommentText(response));
+            if (isFeedbackParticipantCommentsOnResponsesAllowed) {
+                responseRow.setFeedbackParticipantComment(getFeedbackParticipantCommentText(response));
             }
             configureResponseRow(response.giver, response.recipient, responseRow);
 
@@ -1310,12 +1310,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 InstructorFeedbackResultsModerationButton moderationButton =
                         buildModerationButtonForGiver(question, giverIdentifier, "btn btn-default btn-xs",
                                                       MODERATE_SINGLE_RESPONSE);
-                boolean isStudentCommentsOnResponsesAllowed =
-                        question.getQuestionDetails().isStudentCommentsOnResponsesAllowed();
+                boolean isFeedbackParticipantCommentsOnResponsesAllowed =
+                        question.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
                 InstructorFeedbackResultsResponseRow missingResponse =
                         new InstructorFeedbackResultsResponseRow(
                                 giverName, giverTeam, possibleRecipientName, possibleRecipientTeam,
-                                textToDisplay, moderationButton, true, isStudentCommentsOnResponsesAllowed);
+                                textToDisplay, moderationButton, true, isFeedbackParticipantCommentsOnResponsesAllowed);
 
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
                 configureResponseRow(giverIdentifier, possibleRecipient, missingResponse);
@@ -1343,8 +1343,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             String textToDisplay = questionDetails.getNoResponseTextInHtml(recipientIdentifier, possibleGiver,
                                                                            bundle, question);
-            boolean isStudentCommentsOnResponsesAllowed =
-                    question.getQuestionDetails().isStudentCommentsOnResponsesAllowed();
+            boolean isFeedbackParticipantCommentsOnResponsesAllowed =
+                    question.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
 
             if (questionDetails.shouldShowNoResponseText(question)) {
                 InstructorFeedbackResultsModerationButton moderationButton = buildModerationButtonForGiver(
@@ -1354,7 +1354,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 InstructorFeedbackResultsResponseRow missingResponse =
                         new InstructorFeedbackResultsResponseRow(possibleGiverName, possibleGiverTeam, recipientName,
                                 recipientTeam, textToDisplay, moderationButton, true,
-                                isStudentCommentsOnResponsesAllowed);
+                                isFeedbackParticipantCommentsOnResponsesAllowed);
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
                 configureResponseRow(possibleGiver, recipientIdentifier, missingResponse);
 
@@ -1504,12 +1504,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return comments;
     }
 
-    private String getStudentResponseCommentText(FeedbackResponseAttributes response) {
+    private String getFeedbackParticipantCommentText(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
         if (frcAttributesList != null) {
             for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
                 if (frca.isCommentFromFeedbackParticipant) {
-                    return frca.convertCommentTextToString(false);
+                    return frca.convertCommentTextToStringForHtml();
                 }
             }
         }

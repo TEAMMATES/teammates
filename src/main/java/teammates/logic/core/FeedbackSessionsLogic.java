@@ -307,7 +307,9 @@ public final class FeedbackSessionsLogic {
 
             updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                     userEmail, fsa, instructor, bundle, recipientList,
-                    question, instructorGiver, null, commentsForResponses);
+                    question, instructorGiver, null);
+            commentsForResponses = getCommentsOnResponses(bundle.get(question));
+
             for (FeedbackResponseAttributes response : bundle.get(question)) {
                 addEmailNamePairsToTable(emailNameTable, response, question, roster);
                 addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
@@ -316,6 +318,16 @@ public final class FeedbackSessionsLogic {
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, emailNameTable,
                 emailTeamNameTable, roster);
+    }
+
+    private Map<String, List<FeedbackResponseCommentAttributes>> getCommentsOnResponses(List<FeedbackResponseAttributes> responses) {
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses = new HashMap<>();
+        for (FeedbackResponseAttributes response : responses) {
+            List<FeedbackResponseCommentAttributes> comments =
+                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
+            commentsForResponses.put(response.getId(), comments);
+        }
+        return commentsForResponses;
     }
 
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForInstructor(
@@ -335,12 +347,9 @@ public final class FeedbackSessionsLogic {
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
 
-        InstructorAttributes instructorGiver = instructor;
-        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses = new HashMap<>();
-
         updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                 userEmail, fsa, instructor, bundle, recipientList,
-                question, instructorGiver, null, commentsForResponses);
+                question, instructor, null);
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
     }
@@ -353,8 +362,7 @@ public final class FeedbackSessionsLogic {
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
             Map<String, Map<String, String>> recipientList,
             FeedbackQuestionAttributes question,
-            InstructorAttributes instructorGiver, StudentAttributes studentGiver,
-            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses)
+            InstructorAttributes instructorGiver, StudentAttributes studentGiver)
             throws EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses =
                 frLogic.getFeedbackResponsesFromGiverForQuestion(
@@ -381,12 +389,6 @@ public final class FeedbackSessionsLogic {
 
         bundle.put(question, responses);
         recipientList.put(question.getId(), recipients);
-
-        for (FeedbackResponseAttributes response : responses) {
-            List<FeedbackResponseCommentAttributes> comments =
-                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
-            commentsForResponses.put(response.getId(), comments);
-        }
     }
 
     /**
@@ -949,11 +951,7 @@ public final class FeedbackSessionsLogic {
                                                 response.recipient, fsrBundle);
             prevGiver = response.giver;
 
-            // do not show all possible givers and recipients if there are anonymous givers and recipients
-            boolean hasCommentsForResponse = fsrBundle.responseComments.containsKey(response.getId());
-
-            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question,
-                    hasCommentsForResponse));
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question));
         }
 
         // add the rows for the possible givers and recipients who have missing responses

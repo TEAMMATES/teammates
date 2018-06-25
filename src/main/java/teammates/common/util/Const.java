@@ -62,7 +62,7 @@ public final class Const {
     public static final String STUDENT = "student";
     public static final String TEAM = "team";
 
-    //Used as giver index for student comments
+    //Used as giver index for feedback participant comments
     public static final int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
 
     // for course sorting in instructorHomePage

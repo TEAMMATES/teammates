@@ -104,15 +104,31 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     /**
-     * Converts comment text in form of string i.e if it contains image, changes it into link.
-     * This function is used for showing comment in csv and in feedback results table. Thus it is sanitized accordingly.
-     * @param isCommentForCsv is comment meant for Csv
+     * Converts comment text in form of string for csv i.e if it contains image, changes it into link.
      * @return Comment in form of string
      */
-    public String convertCommentTextToString(boolean isCommentForCsv) {
+    public String convertCommentTextToStringForCsv() {
         String htmlText = commentText.getValue();
         StringBuilder comment = new StringBuilder(200);
         comment.append(Jsoup.parse(htmlText).text());
+        convertImageToLinkInComment(comment, htmlText);
+        return SanitizationHelper.sanitizeForCsv(comment.toString());
+    }
+
+    /**
+     * Converts comment text in form of string for instructor results table.
+     * @return Comment in form of string
+     */
+    public String convertCommentTextToStringForHtml() {
+        String htmlText = commentText.getValue();
+        StringBuilder comment = new StringBuilder(200);
+        comment.append(Jsoup.parse(htmlText).text());
+        convertImageToLinkInComment(comment, htmlText);
+        return SanitizationHelper.sanitizeForHtml(comment.toString());
+    }
+
+    // Converts image in comment text to link.
+    private void convertImageToLinkInComment(StringBuilder comment, String htmlText) {
         if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
             comment.append("Images Link: ");
             Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
@@ -120,10 +136,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 comment.append(element.absUrl("src") + ' ');
             }
         }
-        if (isCommentForCsv) {
-            return SanitizationHelper.sanitizeForCsv(comment.toString());
-        }
-        return SanitizationHelper.sanitizeForHtml(comment.toString());
     }
 
     /**
@@ -344,7 +356,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     /**
-     * Sets default visibility settings for respondent comments.
+     * Sets default visibility settings for comments by students.
      */
     public void setVisibilitySettingsForStudentComment() {
         FeedbackParticipantType[] types = {
@@ -360,17 +372,15 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     /**
      * Sets visibility settings for comments by instructor.
      */
-    public void setVisibilitySettingsForInstructorComment(String showCommentTo, String showGiverNameTo) {
+    public void setVisibilitySettingsForInstructorComment(String[] showCommentToArray, String[] showGiverNameToArray) {
         this.showCommentTo = new ArrayList<>();
-        if (showCommentTo != null && !showCommentTo.isEmpty()) {
-            String[] showCommentToArray = showCommentTo.split(",");
+        if (showCommentToArray.length > 0) {
             for (String viewer : showCommentToArray) {
                 this.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
         this.showGiverNameTo = new ArrayList<>();
-        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
-            String[] showGiverNameToArray = showGiverNameTo.split(",");
+        if (showGiverNameToArray.length > 0) {
             for (String viewer : showGiverNameToArray) {
                 this.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
