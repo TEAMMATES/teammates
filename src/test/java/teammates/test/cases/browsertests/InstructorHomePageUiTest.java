@@ -60,6 +60,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testCourseLinks();
         testSearchAction();
         testSortAction();
+        testDownloadAction();
         testRemindActions();
         testPublishUnpublishResendLinkActions();
         testArchiveCourseAction();
@@ -219,6 +220,14 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                                         .toAbsoluteString();
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
+
+    }
+
+    private void testDownloadAction() {
+
+        // Test that download result button exist in homePage
+        homePage.verifyDownloadResultButtonExists(feedbackSessionClosed.getCourseId(),
+                feedbackSessionClosed.getSessionName());
 
     }
 
