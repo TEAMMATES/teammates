@@ -120,7 +120,7 @@ function changeConstSumDistributePointsFor(questionNum) {
 /**
  * Enables options for distribute points question to be reordered through a drag and drop mechanism.
  * Binds an update event to the option elements which is triggered whenever the order of
- * elements change. The event handler updates the ids of elements to match the new order.
+ * elements changes. The event handler updates the ids of elements to match the new order.
  */
 function makeConstSumOptionsReorderable(questionNum) {
     $(`#constSumOptionRows-${questionNum}`).sortable({

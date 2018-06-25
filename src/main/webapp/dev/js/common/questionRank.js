@@ -149,7 +149,10 @@ function addRankOption(questionNum) {
 
     $(`
     <div class="margin-bottom-7px" id="rankOptionRow-${curNumberOfChoiceCreated}-${questionNum}">
-        <div class="input-group">
+        <div class="input-group width-100-pc">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-resize-vertical"></span>
+            </span>
             <input type="text" name="${ParamsNames.FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}"
                     id="${ParamsNames.FEEDBACK_QUESTION_RANKOPTION}-${curNumberOfChoiceCreated}-${questionNum}"
                     class="form-control rankOptionTextBox">
@@ -161,7 +164,9 @@ function addRankOption(questionNum) {
             </span>
         </div>
     </div>
-    `).insertBefore($(`#rankAddOptionRow-${questionNum}`));
+    `).appendTo($(`#rankOptionRows-${questionNum}`));
+
+    $(`#rankOptionRows-${questionNum}`).sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -184,8 +189,8 @@ function removeRankOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
     const $thisRow = $(`#rankOptionRow-${index}-${questionNum}`);
 
-    // count number of child rows the table have and - 1 because of 'add option' button
-    const numberOfOptions = $thisRow.parent().children('div').length - 1;
+    // count number of child rows the table has
+    const numberOfOptions = $thisRow.parent().children('div').length;
 
     if (numberOfOptions <= 2) {
         $thisRow.find('input').val('');
@@ -198,6 +203,28 @@ function removeRankOption(index, questionNum) {
     }
 
     adjustMinMaxOptionsToBeRanked(questionNum);
+}
+
+/**
+ * Enables options for rank questions to be reordered through a drag and drop mechanism.
+ * Binds an update event to the option elements which is triggered whenever the order of
+ * elements changes. The event handler updates the ids of elements to match the new order.
+ */
+function makeRankOptionsReorderable(questionNum) {
+    $(`#rankOptionRows-${questionNum}`).sortable({
+        cursor: 'move',
+        update() {
+            $(this).children().each(function (index) {
+                $(this).attr('id', `rankOptionRow-${index}-${questionNum}`);
+                $(this).find('input[id^="rankOption-"]').attr({
+                    name: `rankOption-${index}`,
+                    id: `rankOption-${index}-${questionNum}`,
+                });
+                $(this).find('button[id="rankRemoveOptionLink"]')
+                        .attr('onclick', `removeRankOption(${index},${questionNum})`);
+            });
+        },
+    });
 }
 
 function bindRankEvents() {
@@ -260,6 +287,7 @@ export {
     bindRankEvents,
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
+    makeRankOptionsReorderable,
     removeRankOption,
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,

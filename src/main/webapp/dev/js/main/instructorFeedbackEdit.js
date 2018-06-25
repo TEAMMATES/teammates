@@ -85,6 +85,7 @@ import {
     bindRankEvents,
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
+    makeRankOptionsReorderable,
     removeRankOption,
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
@@ -1228,6 +1229,8 @@ function makeQuestionOptionsReorderable() {
         const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
         if (qnType === 'CONSTSUM') {
             makeConstSumOptionsReorderable(i);
+        } else if (qnType === 'RANK_OPTIONS') {
+            makeRankOptionsReorderable(i);
         }
     }
 }
