@@ -278,8 +278,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         // TODO: Use linear backoff first before exponential backoff
         RetryManager retryManager = new RetryManager(5);
 
-        String keyReceivedInEmail =
-                retryManager.runUntilSuccessful(new RetryableTaskReturnsThrows<String, Exception>("Retrieve registration key") {
+        String keyReceivedInEmail = retryManager.runUntilSuccessful(
+                new RetryableTaskReturnsThrows<String, Exception>("Retrieve registration key") {
                     @Override
                     public String run() throws IOException, MessagingException {
                         return EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
