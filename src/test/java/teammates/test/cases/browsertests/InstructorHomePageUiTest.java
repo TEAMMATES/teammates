@@ -238,7 +238,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         homePage.verifyDownloadLink(reportUrl);
 
-        ______TS("Typical case: download report unsuccessfully");
+        ______TS("Typical case: download report unsuccessfully due to missing parameters");
 
         reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
                 .withUserId("CHomeUiT.instructor.tmms");
