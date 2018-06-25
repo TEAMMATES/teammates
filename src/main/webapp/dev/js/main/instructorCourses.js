@@ -59,11 +59,11 @@ function linkAjaxForCourseStats() {
 }
 
 function bindCollapseEvents() {
-    const panels = $('div.panel');
-    const heading = $(panels[1]).children('.panel-heading');
-    const bodyCollapse = $(panels[1]).children('.panel-collapse');
+    const tables = $('div.courses-tables');
+    const panels = $(tables[0]).children('.panel');
+    const heading = $(panels[0]).children('.panel-heading');
+    const bodyCollapse = $(panels[0]).children('.panel-collapse');
     if (heading.length !== 0 && bodyCollapse.length !== 0) {
-        // $(heading[0]).attr('data-toggle', 'collapse');
         $(heading[0]).attr('data-target', '#recoveryPanelBodyCollapse');
         $(heading[0]).attr('id', 'recoveryPanelHeading');
         $(heading[0]).css('cursor', 'pointer');
@@ -110,7 +110,6 @@ $(document).ready(() => {
                 isFetchingCourses = false;
                 needsRetrying = true;
                 $('#coursesList').html('');
-                $('#recoveryCoursesList').html('');
                 setStatusMessage(
                         'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.',
                         BootstrapContextualColors.WARNING
@@ -131,12 +130,9 @@ $(document).ready(() => {
                 appendStatusMessage(statusMessages);
 
                 const appendedCoursesTable = $(data).find('#coursesList').html();
-                const recoveryAppendedCoursesTable = $(data).find('#recoveryCoursesList').html();
                 $('#coursesList')
                         .removeClass('align-center')
                         .html(appendedCoursesTable);
-                $('#recoveryCoursesList')
-                        .html(recoveryAppendedCoursesTable);
                 toggleSort($('#button_sortcourseid'));
                 linkAjaxForCourseStats();
 

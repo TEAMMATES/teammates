@@ -24,7 +24,7 @@
   <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
   <br>
 
-  <div id="coursesList" class="align-center">
+  <div id="coursesList" class="courses-tables align-center">
     <c:if test="${data.usingAjax}">
       <course:activeCoursesTable activeCourses="${data.activeCourses}"/>
       <br>
@@ -45,15 +45,13 @@
         <br>
       </c:if>
 
-      <c:set var="isRecoveryCoursesEmpty" value="${empty data.recoveryCourses.rows}"/>
+      <c:if test="${not empty data.recoveryCourses.rows}">
+        <course:recoveryCoursePanel />
+        <br>
+        <br>
+        <br>
+        <br>
+      </c:if>
     </c:if>
   </div>
-
-  <c:if test="${!isRecoveryCoursesEmpty}">
-    <course:recoveryCoursePanel />
-    <br>
-    <br>
-    <br>
-    <br>
-  </c:if>
 </ti:instructorPage>

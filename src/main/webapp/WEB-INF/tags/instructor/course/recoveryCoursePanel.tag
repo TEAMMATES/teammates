@@ -6,7 +6,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 
 <h2 class="text-muted">🗑️ Deleted courses</h2>
-<div id="recoveryCoursesList" class="panel">
+<div class="panel">
   <div class="panel-heading ajax_submit fill-default">
     <div class="pull-right margin-left-7px">
       <span class="glyphicon glyphicon-chevron-down"></span>
