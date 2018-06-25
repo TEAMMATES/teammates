@@ -1,0 +1,41 @@
+<%@ tag trimDirectiveWhitespaces="true" %>
+<%@ tag description="instructorCourses - Recovery courses table panel" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
+<%@ tag import="teammates.common.util.Const" %>
+
+<h2 class="text-muted">Deleted courses</h2>
+<div id="recoveryCoursesList" class="panel">
+  <div class="panel-heading ajax_submit fill-default">
+    <div class="pull-right margin-left-7px">
+      <span class="glyphicon glyphicon-chevron-down"></span>
+    </div>
+    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative"
+       id="btn-course-deleteall"
+       title="<%= Const.Tooltips.COURSE_DELETE_ALL %>"
+       data-toggle="tooltip"
+       data-placement="top">
+      <span class="glyphicon glyphicon-remove"></span>
+      <strong>Delete All</strong>
+    </a>
+    <a class="btn btn-default btn-xs pull-right pull-down"
+       id="btn-course-restoreall"
+       title="<%= Const.Tooltips.COURSE_RESTORE_ALL %>"
+       data-toggle="tooltip"
+       data-placement="top">
+      <span class="glyphicon glyphicon-ok"></span>
+      <strong>Restore All</strong>
+    </a>
+    <div class='display-icon pull-right'>
+    </div>
+    <strong>
+      Recycle Bin
+    </strong>
+  </div>
+  <div class="panel-collapse collapse">
+    <div class="panel-body padding-0">
+      <course:recoveryCoursesTable recoveryCourses="${data.recoveryCourses}"/>
+    </div>
+  </div>
+</div>
