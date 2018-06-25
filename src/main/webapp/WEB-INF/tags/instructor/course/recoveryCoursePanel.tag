@@ -5,7 +5,9 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <%@ tag import="teammates.common.util.Const" %>
 
-<h2 class="text-muted">🗑️ Deleted courses</h2>
+<h2 class="text-muted">
+  <span class="glyphicon glyphicon-trash"></span> Deleted courses
+</h2>
 <div class="panel">
   <div class="panel-heading ajax_submit fill-default">
     <div class="pull-right margin-left-7px">
