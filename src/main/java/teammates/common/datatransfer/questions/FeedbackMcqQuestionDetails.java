@@ -743,10 +743,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             for (String key : weightedPercentagePerOption.keySet()) {
                 int frequency = answerFrequency.get(key);
                 double weight = weightedPercentagePerOption.get(key);
-                double weightedPercentage = weight == 0 ? 0
+                double weightedPercentage = totalWeightedResponseCount == 0 ? 0
                         : 100 * ((frequency * weight) / totalWeightedResponseCount);
 
-                // Replace the value by the actual average value.
+                // Replace the value by the actual weighted percentage.
                 weightedPercentagePerOption.put(key, weightedPercentage);
             }
             return weightedPercentagePerOption;

@@ -391,7 +391,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "The Teacher",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-1", "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "The Team members",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-2", "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-2", "0",
         };
         List<String> requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(requestedParams, params);

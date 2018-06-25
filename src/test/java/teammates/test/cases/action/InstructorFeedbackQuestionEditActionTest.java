@@ -669,7 +669,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", mcqDetails.getMcqChoices().get(0),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", mcqDetails.getMcqChoices().get(1),
                 Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, "5",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT, "0",
         };
         requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(requestedParams, editOtherOptionWeightParams);
@@ -694,7 +694,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         editedQuestion = FeedbackQuestionsLogic.inst()
                 .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
         editedQuestionDetails = (FeedbackMcqQuestionDetails) editedQuestion.getQuestionDetails();
-        assertEquals(5.0, editedQuestionDetails.getMcqOtherWeight());
+        assertEquals(0.0, editedQuestionDetails.getMcqOtherWeight());
 
         ______TS("Failed to edit weight when new weight is null");
         // There is already responses for this question

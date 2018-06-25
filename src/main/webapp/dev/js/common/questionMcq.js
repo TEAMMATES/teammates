@@ -127,7 +127,6 @@ function toggleMcqHasAssignedWeights($checkbox, questionNum) {
         $weightLabel.show();
         $weightColumn.show();
 
-        toggleVisibilityOfMcqOtherWeight($otherEnabledCheckbox, questionNum);
         // Set the weight cells as required.
         setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, true);
     } else {
@@ -135,8 +134,10 @@ function toggleMcqHasAssignedWeights($checkbox, questionNum) {
         // Set the weight cells as not required.
         setRequiredAttributeForMcqWeightCells($weightColumn, questionNum, false);
         $weightColumn.hide();
-        toggleVisibilityOfMcqOtherWeight($otherEnabledCheckbox, questionNum);
     }
+
+    // Set the visibility of the 'Other' weight cell
+    toggleVisibilityOfMcqOtherWeight($otherEnabledCheckbox, questionNum);
 }
 
 function changeMcqGenerateFor(questionNum) {
