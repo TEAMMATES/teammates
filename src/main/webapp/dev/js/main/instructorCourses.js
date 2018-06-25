@@ -71,17 +71,16 @@ function bindCollapseEvents() {
     }
 
     $(heading[0]).click((e) => {
-        if ($(e.target).hasClass('btn-default')) {
-            return;
-        }
-        const toggleChevronDown = $(panels[0]).find('.glyphicon-chevron-down');
-        const toggleChevronUp = $(panels[0]).find('.glyphicon-chevron-up');
-        if (toggleChevronDown.length === 0) {
-            $(bodyCollapse).collapse('toggle');
-            $(toggleChevronUp[0]).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
-        } else {
-            $(bodyCollapse).collapse('toggle');
-            $(toggleChevronDown[0]).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+        if ($(e.target).hasClass('ajax_submit')) {
+            const toggleChevronDown = $(panels[0]).find('.glyphicon-chevron-down');
+            const toggleChevronUp = $(panels[0]).find('.glyphicon-chevron-up');
+            if (toggleChevronDown.length === 0) {
+                $(bodyCollapse).collapse('toggle');
+                $(toggleChevronUp[0]).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+            } else {
+                $(bodyCollapse).collapse('toggle');
+                $(toggleChevronDown[0]).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+            }
         }
     });
 }

@@ -9,9 +9,9 @@
   <span class="glyphicon glyphicon-trash"></span> Deleted courses
 </h2>
 <div class="panel">
-  <div class="panel-heading fill-default">
+  <div class="panel-heading ajax_submit fill-default">
     <div class="pull-right margin-left-7px">
-      <span class="glyphicon glyphicon-chevron-down"></span>
+      <span class="glyphicon ajax_submit glyphicon-chevron-down"></span>
     </div>
     <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px course-delete-all-link color-negative"
        id="btn-course-deleteall"
@@ -31,7 +31,7 @@
       <span class="glyphicon glyphicon-ok"></span>
       <strong>Restore All</strong>
     </a>
-    <strong>
+    <strong class="ajax_submit">
       Recycle Bin
     </strong>
   </div>
