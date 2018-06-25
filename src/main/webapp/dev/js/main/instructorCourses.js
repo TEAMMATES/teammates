@@ -70,13 +70,12 @@ function bindCollapseEvents() {
         $(bodyCollapse[0]).attr('id', 'recoveryPanelBodyCollapse');
     }
 
-    $('.ajax_submit').click((e) => {
-        const $targetElement = $(e.target);
-        if ($targetElement.is('a')) {
+    $(heading[0]).click((e) => {
+        if ($(e.target).hasClass('btn-default')) {
             return;
         }
-        const toggleChevronDown = $(panels[1]).find('.glyphicon-chevron-down');
-        const toggleChevronUp = $(panels[1]).find('.glyphicon-chevron-up');
+        const toggleChevronDown = $(panels[0]).find('.glyphicon-chevron-down');
+        const toggleChevronUp = $(panels[0]).find('.glyphicon-chevron-up');
         if (toggleChevronDown.length === 0) {
             $(bodyCollapse).collapse('toggle');
             $(toggleChevronUp[0]).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');

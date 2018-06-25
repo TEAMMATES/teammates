@@ -9,7 +9,7 @@
   <span class="glyphicon glyphicon-trash"></span> Deleted courses
 </h2>
 <div class="panel">
-  <div class="panel-heading ajax_submit fill-default">
+  <div class="panel-heading fill-default">
     <div class="pull-right margin-left-7px">
       <span class="glyphicon glyphicon-chevron-down"></span>
     </div>
@@ -31,8 +31,6 @@
       <span class="glyphicon glyphicon-ok"></span>
       <strong>Restore All</strong>
     </a>
-    <div class='display-icon pull-right'>
-    </div>
     <strong>
       Recycle Bin
     </strong>
