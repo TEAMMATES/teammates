@@ -11,8 +11,9 @@
     <div class="pull-right margin-left-7px">
       <span class="glyphicon glyphicon-chevron-down"></span>
     </div>
-    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative"
+    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px course-delete-all-link color-negative"
        id="btn-course-deleteall"
+       href="${data.instructorCourseDeleteAllRecoveryCoursesLink}"
        title="<%= Const.Tooltips.COURSE_DELETE_ALL %>"
        data-toggle="tooltip"
        data-placement="top">
@@ -21,6 +22,7 @@
     </a>
     <a class="btn btn-default btn-xs pull-right pull-down"
        id="btn-course-restoreall"
+       href="${data.instructorCourseRestoreAllRecoveryCoursesLink}"
        title="<%= Const.Tooltips.COURSE_RESTORE_ALL %>"
        data-toggle="tooltip"
        data-placement="top">
