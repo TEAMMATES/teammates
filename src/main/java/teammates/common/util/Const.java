@@ -233,8 +233,12 @@ public final class Const {
                 "Delete the course and its corresponding students and sessions";
         public static final String COURSE_DELETE =
                 "Permanently Delete the course and its corresponding students and sessions";
+        public static final String COURSE_DELETE_ALL =
+                "Permanently Delete all courses and their corresponding students and sessions";
         public static final String COURSE_RESTORE =
                 "Restore the deleted course and its corresponding students and sessions";
+        public static final String COURSE_RESTORE_ALL =
+                "Restore all deleted courses and their corresponding students and sessions";
         public static final String COURSE_ARCHIVE =
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
