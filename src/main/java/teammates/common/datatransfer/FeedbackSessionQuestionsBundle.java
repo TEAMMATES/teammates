@@ -19,7 +19,6 @@ public class FeedbackSessionQuestionsBundle {
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle;
     public Map<String, Map<String, String>> recipientList;
     public Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses;
-    public Map<String, String> commentGiverEmailToNameTable;
     public CourseRoster roster;
 
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
@@ -39,7 +38,6 @@ public class FeedbackSessionQuestionsBundle {
         this.recipientList = recipientList;
         this.commentsForResponses = commentsForResponses;
         this.roster = roster;
-        this.commentGiverEmailToNameTable = roster.getEmailToNameTableFromRoster();
     }
 
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {

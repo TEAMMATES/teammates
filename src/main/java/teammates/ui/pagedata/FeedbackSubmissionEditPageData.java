@@ -264,7 +264,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             commentGiverName = bundle.roster.getNameForEmail(existingResponse.giver);
             commentRecipientName = bundle.roster.getNameForEmail(existingResponse.recipient);
 
-            Map<String, String> commentGiverEmailToNameTable = bundle.commentGiverEmailToNameTable;
+            Map<String, String> commentGiverEmailToNameTable = bundle.roster.getEmailToNameTableFromRoster();
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
 
                 FeedbackResponseCommentRow responseCommentRow = getResponseCommentRowForResponse(questionAttributes,
