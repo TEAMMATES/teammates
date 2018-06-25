@@ -71,18 +71,24 @@
       <br>
       <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
           style="${not empty response.commentOnResponse ? 'margin-top:15px;': 'display:none'}">
-        <c:if test="${isCommentOnResponse}">
-          <shared:feedbackResponseCommentRow frc="${response.commentOnResponse}" firstIndex="${responseRecipientIndex}"
-                                             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-                                             frcIndex="1" isOnFeedbackSubmissionEditPage="true"
-                                             moderatedPersonEmail="${moderatedPersonEmail}"
-                                             isSessionOpenForSubmission="${isSessionOpenForSubmission}"/>
-        </c:if>
-          <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}" firstIndex="${responseRecipientIndex}"
-                                             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-                                             isOnFeedbackSubmissionEditPage="true"
-                                             moderatedPersonEmail="${moderatedPersonEmail}"
-                                             isPreview="${data.preview}" submitTable="${data.submittable}"/>
+        <c:choose>
+          <c:when test="${isCommentOnResponse}">
+            <shared:feedbackResponseCommentRow frc="${response.commentOnResponse}"
+                                               firstIndex="${responseRecipientIndex}"
+                                               secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
+                                               isOnFeedbackSubmissionEditPage="true"
+                                               moderatedPersonEmail="${moderatedPersonEmail}"
+                                               isSessionOpenForSubmission="${isSessionOpenForSubmission}"/>
+          </c:when>
+          <c:otherwise>
+            <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}"
+                                               firstIndex="${responseRecipientIndex}"
+                                               secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
+                                               isOnFeedbackSubmissionEditPage="true"
+                                               moderatedPersonEmail="${moderatedPersonEmail}"
+                                               isPreview="${data.preview}" submitTable="${data.submittable}"/>
+          </c:otherwise>
+        </c:choose>
       </ul>
        <c:if test="${not questionWithResponses.question.questionTypeConstsum}">
        </div>

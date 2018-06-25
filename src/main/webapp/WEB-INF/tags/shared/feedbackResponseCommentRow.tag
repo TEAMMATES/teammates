@@ -26,6 +26,9 @@
   <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
     <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
   </c:when>
+  <c:when test="${not empty firstIndex && not empty secondIndex}">
+    <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}" />
+  </c:when>
   <c:otherwise>
     <c:set var="divId" value="${frc.commentId}" />
   </c:otherwise>
@@ -101,7 +104,8 @@
               <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
                 class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
                 data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
-                data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+                data-qnindex="${thirdIndex}"
+                <c:if test="${not empty frcIndex}">data-frcindex="${frcIndex}"</c:if>
                 <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
                 <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
                 <c:if test="${not isSessionOpenForSubmission && isOnFeedbackSubmissionEditPage}">disabled</c:if>
