@@ -223,7 +223,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testDownloadAction() {
+    private void testDownloadAction() throws Exception {
 
         // Test that download result button exist in homePage
         homePage.verifyDownloadResultButtonExists(feedbackSessionClosed.getCourseId(),
