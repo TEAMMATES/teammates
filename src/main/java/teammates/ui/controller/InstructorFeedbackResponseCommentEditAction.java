@@ -19,7 +19,7 @@ import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 /**
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
-public class InstructorFeedbackResponseCommentEditAction extends Action {
+public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedbackResponseCommentAbstractAction {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -115,22 +115,4 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
 
         return createAjaxResult(data);
     }
-
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(
-            String feedbackResponseCommentId, InstructorAttributes instructor,
-            FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
-        FeedbackResponseCommentAttributes frc =
-                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
-        if (frc == null) {
-            return;
-        }
-        if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default
-            return;
-        }
-        gateKeeper.verifyAccessible(instructor, session, false, response.giverSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-    }
-
 }
