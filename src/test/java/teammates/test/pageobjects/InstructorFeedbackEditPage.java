@@ -1554,11 +1554,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         Actions builder = new Actions(browser.driver);
         builder.clickAndHold(draggedOptionElement).perform();
-        builder.moveToElement(targetElement, 0, 40).perform();
-        builder.moveToElement(targetElement, 0, 30).perform();
-        builder.moveToElement(targetElement, 0, 20).perform();
-        builder.moveToElement(targetElement).perform();
-        builder.moveToElement(targetElement, 0, -10).release().perform();
+        builder.moveToElement(targetElement, 0, 10).perform(); // drag option 10 units below target
+        builder.moveToElement(targetElement).perform(); // drag option to target
+        builder.moveToElement(targetElement, 0, -10).release().perform(); // drag option 10 units above target and release
     }
 
     public void clickAssignWeightsCheckbox(int qnIndex) {
