@@ -81,6 +81,7 @@ $(document).ready(() => {
                 isFetchingCourses = false;
                 needsRetrying = true;
                 $('#coursesList').html('');
+                $('#recoveryCoursesList').html('');
                 setStatusMessage(
                         'Courses could not be loaded. Click <a href="javascript:;" id="retryAjax">here</a> to retry.',
                         BootstrapContextualColors.WARNING
@@ -101,11 +102,16 @@ $(document).ready(() => {
                 appendStatusMessage(statusMessages);
 
                 const appendedCoursesTable = $(data).find('#coursesList').html();
+                const recoveryAppendedCoursesTable = $(data).find('#recoveryCoursesList').html();
                 $('#coursesList')
                         .removeClass('align-center')
                         .html(appendedCoursesTable);
+                $('#recoveryCoursesList')
+                        .html(recoveryAppendedCoursesTable);
                 toggleSort($('#button_sortcourseid'));
                 linkAjaxForCourseStats();
+
+                bindCollapseEvents();
             },
         });
     };
