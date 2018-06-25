@@ -10,9 +10,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
-import teammates.common.util.retry.RetryableTaskReturns;
+import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
 import teammates.test.driver.TestProperties;
@@ -53,7 +52,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void allTests() throws Exception {
+    public void allTests() throws Throwable {
         testContent();
         testTableSort();
         //No input validation required
@@ -161,7 +160,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyDownloadLink(studentListDownloadUrl);
     }
 
-    private void testRemindAction() throws Exception {
+    private void testRemindAction() throws Throwable {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         String courseName = testData.courses.get("CCDetailsUiT.CS2104").getName();
         StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
@@ -272,7 +271,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
-            throws MaximumRetriesExceededException {
+            throws Throwable {
 
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
@@ -280,16 +279,10 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         RetryManager retryManager = new RetryManager(5);
 
         String keyReceivedInEmail =
-                retryManager.runUntilSuccessful(new RetryableTaskReturns<String>("Retrieve registration key") {
-
+                retryManager.runUntilSuccessful(new RetryableTaskReturnsThrows<String, Exception>("Retrieve registration key") {
                     @Override
-                    public String run() throws RuntimeException {
-
-                        try {
-                            return EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
-                        } catch (IOException | MessagingException e) {
-                            return null;
-                        }
+                    public String run() throws IOException, MessagingException {
+                        return EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
                     }
 
                     @Override
