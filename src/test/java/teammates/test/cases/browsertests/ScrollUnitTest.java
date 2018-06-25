@@ -64,10 +64,11 @@ public class ScrollUnitTest extends BaseUiTestCase {
     }
 
     private void scrollToTop_feedbackEditPage_scrolledCorrectly() {
+        int scrollPos = 0;
         String duration = "400"; // 400ms which gives enough time to scroll
 
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) browser.driver;
-        javascriptExecutor.executeScript(SCROLL_TO_POSITION_SCRIPT, 0, duration);
+        javascriptExecutor.executeScript(SCROLL_TO_POSITION_SCRIPT, scrollPos, duration);
         ThreadHelper.waitFor(400);
 
         assertEquals((long) 0, javascriptExecutor.executeScript(VERTICAL_SCROLL_VALUE));
@@ -75,13 +76,15 @@ public class ScrollUnitTest extends BaseUiTestCase {
 
     private void scrollToElement_feedbackEditPage_scrolledCorrectly() {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) browser.driver;
+        String elementId = "empty_message";
 
-        assertFalse(feedbackEditPage.isElementInViewport("empty_message"));
+        assertFalse(feedbackEditPage.isElementInViewport(elementId));
+        String scrollToElementScript = "scrollToElement(document.getElementById(%s), {duration: 800});";
 
-        javascriptExecutor.executeScript("scrollToElement(document.getElementById('empty_message'), {duration: 800});");
+        javascriptExecutor.executeScript(String.format(scrollToElementScript, "\'" + elementId + "\'"));
         ThreadHelper.waitFor(800);
 
-        assertTrue(feedbackEditPage.isElementInViewport("empty_message"));
+        assertTrue(feedbackEditPage.isElementInViewport(elementId));
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
