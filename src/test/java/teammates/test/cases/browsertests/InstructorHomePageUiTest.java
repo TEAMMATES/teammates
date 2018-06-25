@@ -229,6 +229,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyDownloadResultButtonExists(feedbackSessionClosed.getCourseId(),
                 feedbackSessionClosed.getSessionName());
 
+        ______TS("Typical case: download report");
+
+        AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                .withUserId("CHomeUiT.instructor.tmms")
+                .withCourseId(feedbackSessionClosed.getCourseId())
+                .withSessionName(feedbackSessionClosed.getSessionName());
+
+        homePage.verifyDownloadLink(reportUrl);
+
     }
 
     private void testRemindActions() {
