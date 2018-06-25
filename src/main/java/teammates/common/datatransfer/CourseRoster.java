@@ -217,13 +217,13 @@ public class CourseRoster {
     }
 
     /**
-     * Returns name associated with the response giver. It can be either email of student/instructor or
+     * Returns name associated with the email. It can be either email of student/instructor or
      * name of a team.
-     * @param responseGiver email of student/instructor or name of team
+     * @param feedbackParticipantEmail email of student/instructor or name of team
      * @return name of student/instructor/team
      */
-    public String getNameForEmail(String responseGiver) {
-        String name = emailToNameTable.get(responseGiver);
+    public String getNameForEmail(String feedbackParticipantEmail) {
+        String name = emailToNameTable.get(feedbackParticipantEmail);
         if (name == null || name.equals(Const.USER_IS_MISSING)) {
             return Const.USER_UNKNOWN_TEXT;
         }
@@ -231,19 +231,19 @@ public class CourseRoster {
             return Const.USER_NOBODY_TEXT;
         }
         if (name.equals(Const.USER_IS_TEAM)) {
-            return getTeamNameForEmail(responseGiver);
+            return getTeamNameForEmail(feedbackParticipantEmail);
         }
         return name;
     }
 
     /**
-     * Returns team name associated with response giver where response giver is a team.
-     * @param responseGiver email of the instructor to be checked.
+     * Returns team name associated with email
+     * @param feedbackParticipantEmail email of the feedback participant
      * @return team name.
      */
-    public String getTeamNameForEmail(String responseGiver) {
-        String teamName = emailToTeamNameTable.get(responseGiver);
-        if (teamName == null || responseGiver.equals(Const.GENERAL_QUESTION)) {
+    public String getTeamNameForEmail(String feedbackParticipantEmail) {
+        String teamName = emailToTeamNameTable.get(feedbackParticipantEmail);
+        if (teamName == null || feedbackParticipantEmail.equals(Const.GENERAL_QUESTION)) {
             return Const.USER_NOBODY_TEXT;
         }
         return teamName;
