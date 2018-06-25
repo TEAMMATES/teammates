@@ -320,6 +320,22 @@ function bindDeleteButtons() {
     });
 }
 
+function bindCourseMoveToRecoveryLinks() {
+    $('body').on('click', '.course-move-to-recovery-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
+                + 'This action can be reverted by going to the "courses" tab and restoring the desired course(s).';
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm moving course to recovery', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.WARNING);
+    });
+}
+
 function bindCourseDeleteLinks() {
     $('body').on('click', '.course-delete-link', (event) => {
         event.preventDefault();
@@ -565,6 +581,7 @@ function prepareInstructorPages() {
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 
     // bind the event handler to show confirmation modal
+    bindCourseMoveToRecoveryLinks();
     bindCourseDeleteLinks();
     bindCourseDeleteAllLinks();
     bindSessionDeleteLinks();
