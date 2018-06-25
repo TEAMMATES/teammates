@@ -238,6 +238,19 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
 
         homePage.verifyDownloadLink(reportUrl);
 
+        ______TS("Typical case: download report unsuccessfully");
+
+        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+                .withUserId("CHomeUiT.instructor.tmms");
+        browser.driver.get(reportUrl.toAbsoluteString());
+        String afterReportDownloadUrl = browser.driver.getCurrentUrl();
+        assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
+        // Get an error page due to missing parameters in URL
+        assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
+                afterReportDownloadUrl.contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+                        || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
+
+        loginAsCommonInstructor();
     }
 
     private void testRemindActions() {
