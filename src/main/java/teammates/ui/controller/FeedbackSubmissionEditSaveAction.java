@@ -424,16 +424,24 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (!questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             return;
         }
+        String commentText;
         String commentId =
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
                                              + "-" + responseIndex + "-"
-                                             + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
+                                             + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
                                              + "-" + questionIndex);
-
-        String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                                          + "-" + responseIndex + "-"
-                                                          + Const.GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE
-                                                          + "-" + questionIndex);
+        if (commentId == null) {
+            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                                              + "-" + responseIndex + "-"
+                                                              + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
+                                                              + "-" + questionIndex);
+        } else {
+            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
+                                                       + "-" + responseIndex + "-"
+                                                       + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
+                                                       + "-" + questionIndex + "-"
+                                                       + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS);
+        }
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 FeedbackResponseCommentAttributes

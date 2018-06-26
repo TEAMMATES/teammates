@@ -57,13 +57,8 @@ public final class Const {
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
-    // Used as comment giver type for request parameters
-    public static final String INSTRUCTOR = "instructor";
-    public static final String STUDENT = "student";
-    public static final String TEAM = "team";
-
-    //Used as giver index for feedback participant comments
-    public static final int GIVER_INDEX_FOR_FEEDBACK_SUBMISSION_PAGE = 1;
+    //Used as giver index/ frc index for feedback participant comments
+    public static final int INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS = 1;
 
     // for course sorting in instructorHomePage
     public static final String SORT_BY_COURSE_ID = "id";
