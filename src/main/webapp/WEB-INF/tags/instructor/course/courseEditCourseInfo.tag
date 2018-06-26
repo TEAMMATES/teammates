@@ -14,12 +14,15 @@
   <div class="panel-heading">
     <strong>Course:</strong>
     <div class="pull-right">
-      <a style="display:none;" ${cancelEditingCourseButton.attributesToString}>
+
+      <a ${cancelEditingCourseButton.attributesToString}>
         ${cancelEditingCourseButton.content}
       </a>
+
       <a ${editCourseButton.attributesToString}>
         ${editCourseButton.content}
       </a>
+
       <a ${deleteCourseButton.attributesToString}>
         ${deleteCourseButton.content}
       </a>

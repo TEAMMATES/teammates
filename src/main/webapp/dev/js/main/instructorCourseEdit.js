@@ -513,8 +513,9 @@ $(document).ready(() => {
         checkTheRoleThatApplies(i + 1);
     }
 
-    $('#courseEditLink').click(editCourse);
+    $('a[id^="cancelEditCourseLink"]').hide();
     $('#cancelEditCourseLink').click(cancelEditingCourse);
+    $('#courseEditLink').click(editCourse);
     $('a[id^="instrCancelLink"]').hide();
     $('a[id^="instrCancelLink"]').click(function () {
         const instrNum = $(this).attr('id').substring('instrCancelLink'.length);
