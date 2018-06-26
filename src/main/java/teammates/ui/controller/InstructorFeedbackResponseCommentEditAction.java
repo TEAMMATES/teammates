@@ -20,7 +20,6 @@ import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
  * Action: Edit {@link FeedbackResponseCommentAttributes}.
  */
 public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedbackResponseCommentAbstractAction {
-
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -63,6 +62,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
                 .withCommentFromFeedbackParticipant(false)
                 .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .build();
+
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
 
         //Edit visibility settings

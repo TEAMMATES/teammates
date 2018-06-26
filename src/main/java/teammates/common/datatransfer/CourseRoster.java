@@ -112,6 +112,11 @@ public class CourseRoster {
         }
     }
 
+    /**
+     * Adds giver and recipient of response to emailToNameTable.
+     * @param response Feedback response
+     * @param question Feedback question
+     */
     public void addEmailNamePairsToTable(FeedbackResponseAttributes response,
                                           FeedbackQuestionAttributes question) {
         // keys of emailToNameTable are participantIdentifiers,
@@ -120,6 +125,11 @@ public class CourseRoster {
         addEmailNamePairsToTable(response, question, EMAIL_NAME_PAIR);
     }
 
+    /**
+     * Adds giver and recipient of response to emailToTeamNameTable.
+     * @param response Feedback response
+     * @param question Feedback question
+     */
     public void addEmailTeamNamePairsToTable(FeedbackResponseAttributes response, FeedbackQuestionAttributes question) {
         addEmailNamePairsToTable(response, question, EMAIL_TEAMNAME_PAIR);
     }

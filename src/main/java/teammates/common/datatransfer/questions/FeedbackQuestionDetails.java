@@ -70,10 +70,10 @@ public abstract class FeedbackQuestionDetails {
     public String getCsvDetailedResponsesHeader(int noOfComments) {
         StringBuilder header = new StringBuilder(1000);
         String headerString = "Team" + "," + "Giver's Full Name" + ","
-                                      + "Giver's Last Name" + "," + "Giver's Email" + ","
-                                      + "Recipient's Team" + "," + "Recipient's Full Name" + ","
-                                      + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-                                      + getCsvHeader();
+                + "Giver's Last Name" + "," + "Giver's Email" + ","
+                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
+                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
+                + getCsvHeader();
         header.append(headerString);
 
         if (isFeedbackParticipantCommentsOnResponsesAllowed()) {

@@ -242,16 +242,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return createSpecificRedirectResult();
     }
 
-    protected void appendToStatusToAdmin(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        statusToAdmin += this.getClass().getName() + ":<br>"
-                                 + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
-                                 + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
-                                 + feedbackResponseComment.feedbackSessionName + "<br>"
-                                 + "by: " + feedbackResponseComment.commentGiver + " at "
-                                 + feedbackResponseComment.createdAt + "<br>"
-                                 + "comment text: " + feedbackResponseComment.commentText.getValue();
-    }
-
     /**
      * If the {@code response} is an existing response, check that
      * the questionId and responseId that it has
@@ -308,7 +298,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         try {
             for (FeedbackResponseCommentAttributes frc : commentsToSave) {
                 logic.createFeedbackResponseComment(frc);
-                appendToStatusToAdmin(frc);
+                statusToAdmin += this.getClass().getName() + ":<br>"
+                        + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
+                        + "in course/feedback session: " + frc.courseId + "/"
+                        + frc.feedbackSessionName + "<br>"
+                        + "by: " + frc.commentGiver + " at "
+                        + frc.createdAt + "<br>"
+                        + "comment text: " + frc.commentText.getValue();
             }
         } catch (InvalidParametersException e) {
             setStatusForException(e);
@@ -342,11 +338,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 //TODO: move putDocument to task queue
                 logic.putDocument(updatedComment);
                 statusToAdmin += this.getClass().getName() + ":<br>"
-                                         + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
-                                         + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
-                                         + feedbackResponseComment.feedbackSessionName + "<br>"
-                                         + "by: " + feedbackResponseComment.commentGiver + "<br>"
-                                         + "comment text: " + feedbackResponseComment.commentText.getValue();
+                        + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                        + "in course/feedback session: " + feedbackResponseComment.courseId + "/"
+                        + feedbackResponseComment.feedbackSessionName + "<br>"
+                        + "by: " + feedbackResponseComment.commentGiver + "<br>"
+                        + "comment text: " + feedbackResponseComment.commentText.getValue();
             } catch (InvalidParametersException e) {
                 setStatusForException(e);
                 isError = true;
@@ -430,6 +426,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                              + "-" + responseIndex + "-"
                                              + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
                                              + "-" + questionIndex);
+        //comment id is null when adding comments
         if (commentId == null) {
             commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
                                                               + "-" + responseIndex + "-"
@@ -455,8 +452,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         .withShowGiverNameTo(questionAttributes.showGiverNameTo)
                         .withFeedbackQuestionId(questionAttributes.getFeedbackQuestionId())
                         .withFeedbackResponseId(response.getId())
+                        .withCommentGiverType(questionAttributes.giverType)
                         .build();
-        feedbackResponseComment.commentGiverType = questionAttributes.giverType;
+
         if (commentId == null) {
             commentsToSave.add(feedbackResponseComment);
         } else {

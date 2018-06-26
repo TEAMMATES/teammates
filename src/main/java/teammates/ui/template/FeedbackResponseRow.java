@@ -68,11 +68,8 @@ public class FeedbackResponseRow {
                     }
                 }
                 responseRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
-                if (responseRow.getCommentGiverType() == null) {
-                    responseRow.setCommentGiverType(FeedbackParticipantType.INSTRUCTORS);
-                }
-
                 boolean isInstructorGiver = results.roster.isInstructorOfCourse(giverEmail);
+                // Instructor cannot edit/delete feedback participant's comments from results page
                 if (isInstructorGiver) {
                     InstructorAttributes instructor = results.roster.getInstructorForEmail(giverEmail);
                     boolean isCommentGiverInstructor = giverEmail.equals(instructor.email);

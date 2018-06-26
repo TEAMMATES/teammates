@@ -87,8 +87,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // TODO multiple page data classes inheriting this for each view type,
     // rather than an enum determining behavior in many methods
     private InstructorFeedbackResultsPageViewType viewType;
-    // for comments form
-    private boolean isModeration;
 
     public InstructorFeedbackResultsPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -1527,8 +1525,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         boolean isInstructorAllowedToEditAndDeleteComment = isInstructorGiver || isInstructorWithPrivilegesToModify;
 
-        Map<FeedbackParticipantType, Boolean> responseVisibilityMap =
-                getResponseVisibilityMap(question);
+        Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
         String whoCanSeeComment = null;
         boolean isVisibilityIconShown = false;
         if (bundle.feedbackSession.isPublished()) {
@@ -1788,10 +1785,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return hasTeamsInNoSection
                 || viewTypeIsGiver && hasFeedbackFromInstructor
                 || viewTypeIsRecipient && hasFeedbackToInstructorOrGeneral;
-    }
-
-    public boolean isModeration() {
-        return isModeration;
     }
 
 }

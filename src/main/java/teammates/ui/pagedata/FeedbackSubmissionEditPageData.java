@@ -17,6 +17,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.FeedbackResponseComment;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSubmissionEditQuestion;
 import teammates.ui.template.FeedbackSubmissionEditResponse;
@@ -343,10 +344,13 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseCommentAttributes> frcList = bundle.commentsForResponses.get(responseId);
         for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
             if (frcAttributes.isCommentFromFeedbackParticipant) {
-                return new FeedbackResponseCommentRow(frcAttributes, frcAttributes.commentGiver, giverName,
-                        recipientName, getResponseCommentVisibilityString(frcAttributes, questionAttributes),
+                FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes,
+                        frcAttributes.commentGiver, giverName, recipientName,
+                        getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                         getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
                         getResponseVisibilityMap(questionAttributes), commentGiverEmailToNameTable, sessionTimeZone);
+                frcRow.enableEditDelete();
+                return frcRow;
 
             }
         }

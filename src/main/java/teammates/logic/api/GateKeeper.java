@@ -154,13 +154,18 @@ public class GateKeeper {
         }
     }
 
-    public void verifyAccessible(FeedbackResponseCommentAttributes frc, String accountEmail) {
+    /**
+     * Verifies that comment this accessible to feedback participant.
+     * @param frc comment to be accessed
+     * @param commentGiver email or team of feedback participant
+     */
+    public void verifyAccessible(FeedbackResponseCommentAttributes frc, String commentGiver) {
         verifyNotNull(frc, "feedback response comment");
-        verifyNotNull(frc.commentGiver, "comment giver");
-        verifyNotNull(accountEmail, "current account email");
+        verifyNotNull(frc.commentGiver, "feedback response comment giver");
+        verifyNotNull(commentGiver, "comment giver");
 
-        if (!frc.isCommentFromFeedbackParticipant || !frc.commentGiver.equals(accountEmail)) {
-            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to " + accountEmail);
+        if (!frc.isCommentFromFeedbackParticipant || !frc.commentGiver.equals(commentGiver)) {
+            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to " + commentGiver);
         }
     }
 

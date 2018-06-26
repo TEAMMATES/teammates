@@ -811,5 +811,4 @@ public class FieldValidator {
         return messageTemplate.replace("${fieldName}", fieldName)
                               .replace("${maxLength}", String.valueOf(maxLength));
     }
-
 }

@@ -11,7 +11,6 @@ import teammates.ui.template.FeedbackResultsTable;
 public class InstructorStudentRecordsAjaxPageData extends PageData {
 
     private List<FeedbackResultsTable> resultsTables;
-    private boolean moderation;
 
     public InstructorStudentRecordsAjaxPageData(AccountAttributes account, StudentAttributes student, String sessionToken,
                                                 List<FeedbackSessionResultsBundle> results) {
@@ -26,13 +25,5 @@ public class InstructorStudentRecordsAjaxPageData extends PageData {
 
     public List<FeedbackResultsTable> getResultsTables() {
         return resultsTables;
-    }
-
-    public void setModeration(boolean moderation) {
-        this.moderation = moderation;
-    }
-
-    public boolean isModeration() {
-        return moderation;
     }
 }
