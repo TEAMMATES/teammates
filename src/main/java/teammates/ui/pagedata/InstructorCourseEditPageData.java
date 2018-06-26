@@ -125,7 +125,9 @@ public class InstructorCourseEditPageData extends PageData {
         return editCourseButton;
     }
 
-    public ElementTag getCancelEditingCourseButton() { return cancelEditingCourseButton; }
+    public ElementTag getCancelEditingCourseButton() {
+        return cancelEditingCourseButton;
+    }
 
     public ElementTag getDeleteCourseButton() {
         return deleteCourseButton;
