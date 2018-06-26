@@ -17,7 +17,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSubmissionEditQuestion;
 import teammates.ui.template.FeedbackSubmissionEditResponse;
@@ -273,7 +272,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
                         questionAttributes, existingResponse.getId(), commentGiverName,
-                        commentRecipientName, sessionTimeZone);
+                        commentRecipientName, sessionTimeZone, true);
 
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx,
                         true, recipientOptionsForQuestion, submissionFormHtml,
@@ -300,15 +299,25 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 List<String> recipientListForUnsubmittedResponse = getRecipientList(responseSubmittedRecipient,
                         bundle.getSortedRecipientList(questionAttributes.getId()));
                 commentRecipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);
-
-                if (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)) {
-                    commentGiverName = bundle.roster.getStudentForEmail(account.email).team;
+                if (isPreview) {
+                    if (previewInstructor == null) {
+                        if (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)) {
+                            commentGiverName = bundle.roster.getStudentForEmail(studentToViewPageAs.email).team;
+                        } else {
+                            commentGiverName = studentToViewPageAs.name;
+                        }
+                    } else {
+                        commentGiverName = previewInstructor.name;
+                    }
                 } else {
-                    commentGiverName = account.name;
+                    if (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)) {
+                        commentGiverName = bundle.roster.getStudentForEmail(account.email).team;
+                    } else {
+                        commentGiverName = account.name;
+                    }
                 }
-
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
-                        questionAttributes, "", commentGiverName, commentRecipientName, sessionTimeZone);
+                        questionAttributes, "", commentGiverName, commentRecipientName, sessionTimeZone, true);
 
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
                         submissionFormHtml, "", null, frcForAdding));
