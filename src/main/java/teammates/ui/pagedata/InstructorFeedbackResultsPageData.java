@@ -513,7 +513,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (isInstructorCommentsOnResponsesAllowed) {
                 FeedbackResponseCommentRow frcForAdding =
                         buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), giverName,
-                                recipientName, bundle.getTimeZone());
+                                recipientName, bundle.getTimeZone(), false);
 
                 responsePanel.setFrcForAdding(frcForAdding);
 
@@ -1135,12 +1135,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setInstructorCommentsOnResponses(comments);
             }
 
-            boolean isCommentsOnResponsesAllowed =
+            boolean isInstructorCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
-            if (isCommentsOnResponsesAllowed) {
+            if (isInstructorCommentsOnResponsesAllowed) {
                 FeedbackResponseCommentRow addCommentForm =
-                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), giverName,
-                                recipientName, bundle.getTimeZone());
+                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), account.name,
+                                recipientName, bundle.getTimeZone(), false);
                 responseRow.setAddCommentButton(addCommentForm);
                 if (userIndexesForComments.get(response.giver) == null) {
                     userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);
@@ -1153,7 +1153,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
                 responseRow.setResponseRecipientIndex(responseRecipientIndex);
                 responseRow.setResponseGiverIndex(responseGiverIndex);
-                responseRow.setInstructorCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
+                responseRow.setInstructorCommentsOnResponsesAllowed(isInstructorCommentsOnResponsesAllowed);
             }
             responseRows.add(responseRow);
         }

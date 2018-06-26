@@ -863,17 +863,23 @@ public class PageData {
      * @param giverName name of person/team giving comment
      * @param recipientName name of person/team receiving comment
      * @param timezone Time zone
+     * @param isCommentFromFeedbackParticipant true if comment giver is feedback participant
      * @return Feedback response comment add form template
      */
     public FeedbackResponseCommentRow buildFeedbackResponseCommentAddFormTemplate(FeedbackQuestionAttributes question,
-            String responseId, String giverName,
-            String recipientName, ZoneId timezone) {
+            String responseId, String giverName, String recipientName, ZoneId timezone,
+            boolean isCommentFromFeedbackParticipant) {
         FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
                 .builder(question.courseId, question.feedbackSessionName, "", new Text(""))
                 .withFeedbackResponseId(responseId)
                 .withFeedbackQuestionId(question.getFeedbackQuestionId())
-                .withCommentGiverType(question.giverType)
+                .withCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant)
                 .build();
+        if (isCommentFromFeedbackParticipant) {
+            frca.commentGiverType = question.giverType;
+        } else {
+            frca.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+        }
 
         frca.showCommentTo = new ArrayList<>();
         frca.showGiverNameTo = new ArrayList<>();

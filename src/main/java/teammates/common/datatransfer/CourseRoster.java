@@ -247,7 +247,7 @@ public class CourseRoster {
     }
 
     /**
-     * Returns team name associated with email
+     * Returns team name associated with email.
      * @param feedbackParticipantEmail email of the feedback participant
      * @return team name.
      */

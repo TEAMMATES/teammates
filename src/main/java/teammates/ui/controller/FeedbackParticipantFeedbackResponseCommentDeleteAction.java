@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -8,7 +7,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.storage.entity.Instructor;
 import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
 
 public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Action {
@@ -60,7 +58,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
             gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         } else {
-            FeedbackResponseCommentAttributes frc =  logic.getFeedbackResponseComment(commentId);
+            FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(commentId);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
             switch (frc.commentGiverType) {

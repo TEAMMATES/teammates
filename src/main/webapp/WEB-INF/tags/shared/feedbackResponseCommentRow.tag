@@ -84,9 +84,6 @@
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
           <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
-          <c:if test="${data.moderation}">
-            <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
-          </c:if>
         <c:choose>
           <c:when test="${isOnFeedbackSubmissionEditPage}">
             </div>
