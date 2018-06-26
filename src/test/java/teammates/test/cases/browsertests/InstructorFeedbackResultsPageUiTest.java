@@ -664,7 +664,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyContainsElement(By.id("visibility-options-1-1-1-2"));
         resultsPage.closeCommentModal("-1-1-1");
 
-        ______TS("GQR view: Typical case: edit existing feedback response comment using comment modal");
+        ______TS("GQR view: Typical case: edit an existing feedback response comment using comment modal");
 
         resultsPage.clickCommentModalButton("-4-3-0");
         resultsPage.editFeedbackResponseComment("-4-3-0-1", "edited test comment");
@@ -672,7 +672,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-4-3-0"));
         resultsPage.closeCommentModal("-4-3-0");
 
-        ______TS("GQR view: Typical case: edit comment created by different instructor using comment modal");
+        ______TS("GQR view: Typical case: edit comment created by different instructors using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr2", "Open Session");
         resultsPage.displayByGiverQuestionRecipient();
@@ -685,7 +685,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-1-1-1-1", 1);
         resultsPage.closeCommentModal("-1-1-1");
 
-        ______TS("GQR view: Typical case: delete existing feedback response comments using comment modal");
+        ______TS("GQR view: Typical case: delete an existing feedback response comments using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverQuestionRecipient();
@@ -703,7 +703,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-1-1-1"));
         resultsPage.closeCommentModal("-1-1-1");
 
-        ______TS("GQR view: Typical case: add edit and delete successively");
+        ______TS("GQR view: Typical case: add, edit and delete successively");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverQuestionRecipient();
@@ -723,7 +723,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-4-3-0"));
         resultsPage.closeCommentModal("-4-3-0");
 
-        ______TS("Question view: Failure case: add empty feedback response comment using comment modal");
+        ______TS("Question view: Failure case: add an empty feedback response comment using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
@@ -750,7 +750,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyContainsElement(By.id("visibility-options-3-1-0-1"));
         resultsPage.closeCommentModal("-3-1-0");
 
-        ______TS("Question view: Typical case: edit existing feedback response comment using comment modal");
+        ______TS("Question view: Typical case: edit an existing feedback response comment using comment modal");
 
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.editFeedbackResponseComment("-2-1-0-1", "edited test comment");
@@ -770,7 +770,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-1-1-0-1", 1);
         resultsPage.closeCommentModal("-1-1-0");
 
-        ______TS("Question view: Typical case: delete existing feedback response comments using comment modal");
+        ______TS("Question view: Typical case: delete an existing feedback response comments using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
@@ -788,7 +788,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
 
-        ______TS("Question view: Typical case: add edit and delete successively");
+        ______TS("Question view: Typical case: add, edit and delete successively");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
