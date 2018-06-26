@@ -14,6 +14,7 @@ import teammates.ui.template.ElementTag;
 public class InstructorCourseEditPageData extends PageData {
     private int instructorToShowIndex;
     private ElementTag editCourseButton;
+    private ElementTag cancelEditingCourseButton;
     private ElementTag deleteCourseButton;
     private CourseAttributes course;
     private List<CourseEditInstructorPanel> instructorPanelList;
@@ -84,6 +85,7 @@ public class InstructorCourseEditPageData extends PageData {
                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
         editCourseButton = createEditCourseButton(isEditDeleteCourseButtonDisabled);
+        cancelEditingCourseButton = createCancelEditingCourseButton();
         deleteCourseButton = createDeleteCourseButton(isEditDeleteCourseButtonDisabled);
 
         boolean isAddInstructorButtonDisabled = !currentInstructor.isAllowedForPrivilege(
@@ -122,6 +124,8 @@ public class InstructorCourseEditPageData extends PageData {
     public ElementTag getEditCourseButton() {
         return editCourseButton;
     }
+
+    public ElementTag getCancelEditingCourseButton() { return cancelEditingCourseButton; }
 
     public ElementTag getDeleteCourseButton() {
         return deleteCourseButton;
@@ -166,6 +170,13 @@ public class InstructorCourseEditPageData extends PageData {
         String buttonId = "courseEditLink";
         return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INFO_EDIT,
                                  isDisabled);
+    }
+
+    private ElementTag createCancelEditingCourseButton() {
+        String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
+        String buttonId = "cancelEditCourseLink";
+        return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_CANCEL_EDIT,
+                false);
     }
 
     private ElementTag createDeleteCourseButton(boolean isDisabled) {

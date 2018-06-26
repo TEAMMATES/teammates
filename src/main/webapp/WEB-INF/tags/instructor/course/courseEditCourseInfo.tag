@@ -6,18 +6,20 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ attribute name="editCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
+<%@ attribute name="cancelEditingCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="deleteCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="course" type="teammates.common.datatransfer.attributes.CourseAttributes" required="true" %>
 
 <div class="panel panel-primary">
   <div class="panel-heading">
     <strong>Course:</strong>
-
     <div class="pull-right">
+      <a style="display:none;" ${cancelEditingCourseButton.attributesToString}>
+        ${cancelEditingCourseButton.content}
+      </a>
       <a ${editCourseButton.attributesToString}>
         ${editCourseButton.content}
       </a>
-
       <a ${deleteCourseButton.attributesToString}>
         ${deleteCourseButton.content}
       </a>
