@@ -744,7 +744,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return null;
     }
 
-    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

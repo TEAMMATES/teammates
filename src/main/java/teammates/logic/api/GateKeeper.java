@@ -7,6 +7,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -150,6 +151,16 @@ public class GateKeeper {
             throw new FeedbackSessionNotVisibleException(
                                             "This feedback session is not yet visible.",
                                             feedbacksession.getStartTimeString());
+        }
+    }
+
+    public void verifyAccessible(FeedbackResponseCommentAttributes frc, String accountEmail) {
+        verifyNotNull(frc, "feedback response comment");
+        verifyNotNull(frc.commentGiver, "comment giver");
+        verifyNotNull(accountEmail, "current account email");
+
+        if (!frc.isCommentFromFeedbackParticipant || !frc.commentGiver.equals(accountEmail)) {
+            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to " + accountEmail);
         }
     }
 

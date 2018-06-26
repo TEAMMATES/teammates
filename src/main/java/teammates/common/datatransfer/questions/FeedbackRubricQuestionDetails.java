@@ -1049,7 +1049,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return null;
     }
 
-    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

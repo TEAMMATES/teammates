@@ -123,8 +123,7 @@ public class FeedbackSessionQuestionsBundle {
             boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isRecipientVisibleToInstructor =
                     question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            boolean isResponseVisibleToInstructor =
-                    question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isResponseVisibleToInstructor = question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
             if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
                 questionsToHide.add(question);
