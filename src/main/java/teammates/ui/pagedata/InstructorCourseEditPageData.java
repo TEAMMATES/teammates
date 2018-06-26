@@ -177,7 +177,7 @@ public class InstructorCourseEditPageData extends PageData {
                                               isDisabled);
         button.setAttribute("data-course-id", course.getId());
         String existingClasses = button.removeAttribute("class");
-        button.setAttribute("class", existingClasses);
+        button.setAttribute("class", existingClasses + " course-move-to-recovery-link");
 
         return button;
     }

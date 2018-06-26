@@ -397,10 +397,14 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(courseNameTextBox, value);
     }
 
-    public InstructorCoursesPage clickDeleteCourseLink() {
-        click(deleteCourseLink);
+    public InstructorCoursesPage clickDeleteCourseLinkAndConfirm() {
+        clickAndConfirm(deleteCourseLink);
         waitForPageToLoad();
         return changePageType(InstructorCoursesPage.class);
+    }
+
+    public void clickDeleteCourseLinkAndCancel() {
+        clickAndCancel(deleteCourseLink);
     }
 
     /**
