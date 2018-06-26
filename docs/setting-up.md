@@ -46,7 +46,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Install Google Cloud SDK. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
    Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
-   # This command is to be run at the Google Cloud SDK directory
+   # Execute this command at the Google Cloud SDK directory
 
    # Linux/OS X
    ./install.sh --path-update true
@@ -58,7 +58,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 
    **Verification**: Run a `gcloud` command (e.g. `gcloud version`) in order to verify that you can access the SDK from the command line.
 
-1. Run this command to install App Engine Java SDK bundled with the Cloud SDK:
+1. Run the following command to install App Engine Java SDK bundled with the Cloud SDK:
    ```sh
    # Linux/OS X/Windows
    gcloud -q components install app-engine-java
