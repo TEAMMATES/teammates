@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<>();
     protected List<FeedbackResponseCommentAttributes> commentsToSave = new ArrayList<>();
     protected List<FeedbackResponseCommentAttributes> commentsToUpdate = new ArrayList<>();
+    protected Map<String, String> commentIndxToResponseReceiverMap = new HashMap<>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -297,6 +299,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             throws EntityDoesNotExistException {
         try {
             for (FeedbackResponseCommentAttributes frc : commentsToSave) {
+                FeedbackResponseAttributes response = logic.getFeedbackResponse(frc.feedbackQuestionId,
+                        frc.commentGiver, commentIndxToResponseReceiverMap.get(frc.feedbackResponseId));
+                frc.feedbackResponseId = response.getId();
                 logic.createFeedbackResponseComment(frc);
                 statusToAdmin += this.getClass().getName() + ":<br>"
                         + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
@@ -425,8 +430,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
                                              + "-" + responseIndex + "-"
                                              + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
-                                             + "-" + questionIndex);
-        //comment id is null when adding comments
+                                             + "-" + questionIndex + "-"
+                                             + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS);
+        //comment id is null when adding new comments
         if (commentId == null) {
             commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
                                                               + "-" + responseIndex + "-"
@@ -438,6 +444,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                        + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
                                                        + "-" + questionIndex + "-"
                                                        + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS);
+        }
+        if (commentText.isEmpty()) {
+            return;
         }
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
@@ -451,14 +460,21 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         .withShowCommentTo(questionAttributes.showResponsesTo)
                         .withShowGiverNameTo(questionAttributes.showGiverNameTo)
                         .withFeedbackQuestionId(questionAttributes.getFeedbackQuestionId())
-                        .withFeedbackResponseId(response.getId())
                         .withCommentGiverType(questionAttributes.giverType)
                         .build();
 
         if (commentId == null) {
+            // When adding new comments, it might be possible that response id is null (i.e. when response is added
+            // simultaneously), so we map comment index with response recipient which helps later in retrieving saved
+            // response to get response id when writing this new comment to database.
+            String commentIdx = responseIndex + "-" + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS + "-"
+                                        + questionIndex + "-" + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS;
+            feedbackResponseComment.feedbackResponseId = commentIdx;
+            commentIndxToResponseReceiverMap.put(commentIdx, response.recipient);
             commentsToSave.add(feedbackResponseComment);
         } else {
             feedbackResponseComment.setId(Long.parseLong(commentId));
+            feedbackResponseComment.feedbackResponseId = response.getId();
             commentsToUpdate.add(feedbackResponseComment);
         }
     }
