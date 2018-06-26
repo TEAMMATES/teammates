@@ -606,10 +606,10 @@
                     <select class="form-control" id="responsetext-3-0-0" name="responsetext-3-0" onchange="updateRankMessageQn('3')">
                       <option value="">
                       </option>
-                      <option class="color-neutral" selected="" value="1">
+                      <option class="color-neutral" value="1">
                         1
                       </option>
-                      <option value="2">
+                      <option class="color-neutral" selected="" value="2">
                         2
                       </option>
                     </select>
@@ -638,13 +638,13 @@
           <div class="evalueeForm-3 form-group margin-0" style="padding-left: 75px">
             <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-1" style="display:none;max-width:125px">
-                  <option selected="" value="">
+                <select class="participantSelect middlealign form-control" name="responserecipient-3-1" style="display:none;max-width:125px">
+                  <option value="">
                   </option>
                   <option style="display: none;" value="alice.b.tmms@gmail.tmt">
                     Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
                   </option>
-                  <option value="benny.c.tmms@gmail.tmt">
+                  <option selected="" value="benny.c.tmms@gmail.tmt">
                     Benny Charles
                   </option>
                 </select>
@@ -661,12 +661,12 @@
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-3-1-0" name="responsetext-3-1" onchange="updateRankMessageQn('3')">
-                      <option selected="" value="">
+                      <option value="">
                       </option>
-                      <option class="color-neutral" value="1">
+                      <option class="color-neutral" selected="" value="1">
                         1
                       </option>
-                      <option value="2">
+                      <option class="color-neutral" value="2">
                         2
                       </option>
                     </select>
@@ -676,11 +676,10 @@
                   <div class="col-sm-2" style="display:none">
                   </div>
                   <div class="col-sm-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="rankMessage-3-1">
-                      Please rank the above recipients.
+                    <hr class="margin-top-0" style="display: none;">
+                    <p class="" id="rankMessage-3-1">
                     </p>
-                    <hr>
+                    <hr style="display: none;">
                   </div>
                 </div>
                 <input id="rankToRecipients-3" type="hidden" value="true">
@@ -690,6 +689,7 @@
                 <input disabled="" id="maxOptionsToBeRanked-3" type="hidden" value="">
               </div>
             </div>
+            <input name="responseid-3-1" type="hidden" value="${question.id}%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt">
           </div>
         </div>
       </div>
@@ -1417,7 +1417,7 @@
     </div>
     <br>
     <br>
-    <input name="questiontype-8" type="hidden" value="RANK_RECIPIENTS">
+    <input name="questiontype-8" type="hidden" value="RANK_OPTIONS">
     <input name="questionid-8" type="hidden" value="${question.id}">
     <input name="questionresponsetotal-8" type="hidden" value="1">
     <div class="form-horizontal">
@@ -1426,7 +1426,7 @@
           Question 8:
           <br>
           <span class="text-preserve-space">
-            Rank yourself
+            Rank atleast 2 options based on impact they cause on your activities.
           </span>
         </div>
         <div class="panel-body">
@@ -1440,8 +1440,13 @@
             <li class="unordered">
               Instructors in this course can see your response, the name of the recipient, and your name.
             </li>
+          </ul>
+          <p class="text-muted">
+            Instructions:
+          </p>
+          <ul class="text-muted">
             <li class="unordered">
-              Your team members can see your response, and your name, but not the name of the recipient.
+              You need to rank at least 2 options.
             </li>
           </ul>
           <div class="constraints-8">
@@ -1466,7 +1471,8 @@
             <div class="col-sm-12">
               <div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label" style="display:none">
+                  <label class="col-sm-2 control-label">
+                    Motivation
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-8-0-0" name="responsetext-8-0" onchange="updateRankMessageQn('8')">
@@ -1475,24 +1481,140 @@
                       <option value="1">
                         1
                       </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
                     </select>
                   </div>
                 </div>
-                <div class="form-group" id="rankInfo-8-0" style="">
-                  <div class="col-sm-2" style="display:none">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Friends
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-8-0-1" name="responsetext-8-0" onchange="updateRankMessageQn('8')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Sleep
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-8-0-2" name="responsetext-8-0" onchange="updateRankMessageQn('8')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Appetite
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-8-0-3" name="responsetext-8-0" onchange="updateRankMessageQn('8')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Stress
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-8-0-4" name="responsetext-8-0" onchange="updateRankMessageQn('8')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" id="rankInfo-8-0">
+                  <div class="col-sm-2">
                   </div>
                   <div class="col-sm-3">
                     <hr class="margin-top-0">
                     <p class="text-color-blue" id="rankMessage-8-0">
-                      Please rank the above recipients.
+                      Please rank the above options.
                     </p>
                     <hr>
                   </div>
                 </div>
-                <input id="rankToRecipients-8" type="hidden" value="true">
-                <input id="rankNumOptions-8" type="hidden" value="0">
+                <input id="rankToRecipients-8" type="hidden" value="false">
+                <input id="rankNumOptions-8" type="hidden" value="5">
                 <input id="rankAreDuplicatesAllowed-8" type="hidden" value="false">
-                <input disabled="" id="minOptionsToBeRanked-8" type="hidden" value="">
+                <input id="minOptionsToBeRanked-8" type="hidden" value="2">
                 <input disabled="" id="maxOptionsToBeRanked-8" type="hidden" value="">
               </div>
             </div>
@@ -1511,7 +1633,7 @@
           Question 9:
           <br>
           <span class="text-preserve-space">
-            Rank atleast 2 options based on impact they cause on your activities.
+            Rank at most 2 options based on impact they cause on your activities.
           </span>
         </div>
         <div class="panel-body">
@@ -1531,7 +1653,7 @@
           </p>
           <ul class="text-muted">
             <li class="unordered">
-              You need to rank at least 2 options.
+              Rank no more than 2 options.
             </li>
           </ul>
           <div class="constraints-9">
@@ -1699,8 +1821,8 @@
                 <input id="rankToRecipients-9" type="hidden" value="false">
                 <input id="rankNumOptions-9" type="hidden" value="5">
                 <input id="rankAreDuplicatesAllowed-9" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-9" type="hidden" value="2">
-                <input disabled="" id="maxOptionsToBeRanked-9" type="hidden" value="">
+                <input disabled="" id="minOptionsToBeRanked-9" type="hidden" value="">
+                <input id="maxOptionsToBeRanked-9" type="hidden" value="2">
               </div>
             </div>
           </div>
@@ -1711,14 +1833,14 @@
     <br>
     <input name="questiontype-10" type="hidden" value="RANK_OPTIONS">
     <input name="questionid-10" type="hidden" value="${question.id}">
-    <input name="questionresponsetotal-10" type="hidden" value="1">
+    <input name="questionresponsetotal-10" type="hidden" value="4">
     <div class="form-horizontal">
       <div class="panel panel-primary">
         <div class="panel-heading">
           Question 10:
           <br>
           <span class="text-preserve-space">
-            Rank at most 2 options based on impact they cause on your activities.
+            Rank exactly 3 options based on popularity.
           </span>
         </div>
         <div class="panel-body">
@@ -1727,7 +1849,7 @@
           </p>
           <ul class="text-muted">
             <li class="unordered">
-              You can see your own feedback in the results page later on.
+              The receiving students can see your response, and your name.
             </li>
             <li class="unordered">
               Instructors in this course can see your response, the name of the recipient, and your name.
@@ -1738,33 +1860,53 @@
           </p>
           <ul class="text-muted">
             <li class="unordered">
-              Rank no more than 2 options.
+              You need to rank at least 3 options.
+            </li>
+            <li class="unordered">
+              Rank no more than 3 options.
             </li>
           </ul>
           <div class="constraints-10">
           </div>
+          <div class="evalueeLabel-10 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
           <br>
           <div class="evalueeForm-10 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
               <label>
                 <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
                   <option selected="" value="">
                   </option>
-                  <option value="alice.b.tmms@gmail.tmt">
-                    Myself
+                  <option value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
+                    Emily F.
                   </option>
                 </select>
                 <span>
-                  Myself
+                  Benny Charles
                 </span>
               </label>
               (Student):
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-9">
               <div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
-                    Motivation
+                    C
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-10-0-0" name="responsetext-10-0" onchange="updateRankMessageQn('10')">
@@ -1790,7 +1932,7 @@
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
-                    Friends
+                    C++
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-10-0-1" name="responsetext-10-0" onchange="updateRankMessageQn('10')">
@@ -1816,7 +1958,7 @@
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
-                    Sleep
+                    Java
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-10-0-2" name="responsetext-10-0" onchange="updateRankMessageQn('10')">
@@ -1842,7 +1984,7 @@
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
-                    Appetite
+                    C#
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-10-0-3" name="responsetext-10-0" onchange="updateRankMessageQn('10')">
@@ -1868,7 +2010,7 @@
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label">
-                    Stress
+                    Python
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-10-0-4" name="responsetext-10-0" onchange="updateRankMessageQn('10')">
@@ -1906,8 +2048,539 @@
                 <input id="rankToRecipients-10" type="hidden" value="false">
                 <input id="rankNumOptions-10" type="hidden" value="5">
                 <input id="rankAreDuplicatesAllowed-10" type="hidden" value="false">
-                <input disabled="" id="minOptionsToBeRanked-10" type="hidden" value="">
-                <input id="maxOptionsToBeRanked-10" type="hidden" value="2">
+                <input id="minOptionsToBeRanked-10" type="hidden" value="3">
+                <input id="maxOptionsToBeRanked-10" type="hidden" value="3">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="evalueeForm-10 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
+                <span>
+                  Charlie Davis
+                </span>
+              </label>
+              (Student):
+            </div>
+            <div class="col-sm-9">
+              <div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-1-0" name="responsetext-10-1" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C++
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-1-1" name="responsetext-10-1" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Java
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-1-2" name="responsetext-10-1" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C#
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-1-3" name="responsetext-10-1" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Python
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-1-4" name="responsetext-10-1" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" id="rankInfo-10-1">
+                  <div class="col-sm-2">
+                  </div>
+                  <div class="col-sm-3">
+                    <hr class="margin-top-0">
+                    <p class="text-color-blue" id="rankMessage-10-1">
+                      Please rank the above options.
+                    </p>
+                    <hr>
+                  </div>
+                </div>
+                <input id="rankToRecipients-10" type="hidden" value="false">
+                <input id="rankNumOptions-10" type="hidden" value="5">
+                <input id="rankAreDuplicatesAllowed-10" type="hidden" value="false">
+                <input id="minOptionsToBeRanked-10" type="hidden" value="3">
+                <input id="maxOptionsToBeRanked-10" type="hidden" value="3">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="evalueeForm-10 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-2" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
+                <span>
+                  Danny Engrid
+                </span>
+              </label>
+              (Student):
+            </div>
+            <div class="col-sm-9">
+              <div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-2-0" name="responsetext-10-2" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C++
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-2-1" name="responsetext-10-2" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Java
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-2-2" name="responsetext-10-2" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C#
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-2-3" name="responsetext-10-2" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Python
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-2-4" name="responsetext-10-2" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" id="rankInfo-10-2">
+                  <div class="col-sm-2">
+                  </div>
+                  <div class="col-sm-3">
+                    <hr class="margin-top-0">
+                    <p class="text-color-blue" id="rankMessage-10-2">
+                      Please rank the above options.
+                    </p>
+                    <hr>
+                  </div>
+                </div>
+                <input id="rankToRecipients-10" type="hidden" value="false">
+                <input id="rankNumOptions-10" type="hidden" value="5">
+                <input id="rankAreDuplicatesAllowed-10" type="hidden" value="false">
+                <input id="minOptionsToBeRanked-10" type="hidden" value="3">
+                <input id="maxOptionsToBeRanked-10" type="hidden" value="3">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="evalueeForm-10 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-3" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
+                    Benny Charles
+                  </option>
+                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
+                    Charlie Davis
+                  </option>
+                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
+                    Danny Engrid
+                  </option>
+                  <option value="emily.f.tmms@gmail.tmt">
+                    Emily F.
+                  </option>
+                </select>
+                <span>
+                  Emily F.
+                </span>
+              </label>
+              (Student):
+            </div>
+            <div class="col-sm-9">
+              <div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-3-0" name="responsetext-10-3" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C++
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-3-1" name="responsetext-10-3" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Java
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-3-2" name="responsetext-10-3" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    C#
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-3-3" name="responsetext-10-3" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">
+                    Python
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-10-3-4" name="responsetext-10-3" onchange="updateRankMessageQn('10')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                      <option value="3">
+                        3
+                      </option>
+                      <option value="4">
+                        4
+                      </option>
+                      <option value="5">
+                        5
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" id="rankInfo-10-3">
+                  <div class="col-sm-2">
+                  </div>
+                  <div class="col-sm-3">
+                    <hr class="margin-top-0">
+                    <p class="text-color-blue" id="rankMessage-10-3">
+                      Please rank the above options.
+                    </p>
+                    <hr>
+                  </div>
+                </div>
+                <input id="rankToRecipients-10" type="hidden" value="false">
+                <input id="rankNumOptions-10" type="hidden" value="5">
+                <input id="rankAreDuplicatesAllowed-10" type="hidden" value="false">
+                <input id="minOptionsToBeRanked-10" type="hidden" value="3">
+                <input id="maxOptionsToBeRanked-10" type="hidden" value="3">
               </div>
             </div>
           </div>
@@ -1916,7 +2589,7 @@
     </div>
     <br>
     <br>
-    <input name="questiontype-11" type="hidden" value="RANK_OPTIONS">
+    <input name="questiontype-11" type="hidden" value="RANK_RECIPIENTS">
     <input name="questionid-11" type="hidden" value="${question.id}">
     <input name="questionresponsetotal-11" type="hidden" value="4">
     <div class="form-horizontal">
@@ -1925,7 +2598,7 @@
           Question 11:
           <br>
           <span class="text-preserve-space">
-            Rank exactly 3 options based on popularity.
+            Rank atleast 2 recipients based on popularity.
           </span>
         </div>
         <div class="panel-body">
@@ -1945,10 +2618,7 @@
           </p>
           <ul class="text-muted">
             <li class="unordered">
-              You need to rank at least 3 options.
-            </li>
-            <li class="unordered">
-              Rank no more than 3 options.
+              You need to rank at least 2 recipients.
             </li>
           </ul>
           <div class="constraints-11">
@@ -1990,8 +2660,7 @@
             <div class="col-sm-9">
               <div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C
+                  <label class="col-sm-2 control-label" style="display:none">
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-11-0-0" name="responsetext-11-0" onchange="updateRankMessageQn('11')">
@@ -2009,132 +2678,24 @@
                       <option value="4">
                         4
                       </option>
-                      <option value="5">
-                        5
-                      </option>
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C++
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-0-1" name="responsetext-11-0" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    Java
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-0-2" name="responsetext-11-0" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C#
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-0-3" name="responsetext-11-0" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    Python
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-0-4" name="responsetext-11-0" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" id="rankInfo-11-0">
-                  <div class="col-sm-2">
+                <div class="form-group" id="rankInfo-11-0" style="display:none">
+                  <div class="col-sm-2" style="display:none">
                   </div>
                   <div class="col-sm-3">
                     <hr class="margin-top-0">
                     <p class="text-color-blue" id="rankMessage-11-0">
-                      Please rank the above options.
                     </p>
                     <hr>
                   </div>
                 </div>
-                <input id="rankToRecipients-11" type="hidden" value="false">
-                <input id="rankNumOptions-11" type="hidden" value="5">
+                <input id="rankToRecipients-11" type="hidden" value="true">
+                <input id="rankNumOptions-11" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-11" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-11" type="hidden" value="3">
-                <input id="maxOptionsToBeRanked-11" type="hidden" value="3">
+                <input id="minOptionsToBeRanked-11" type="hidden" value="2">
+                <input disabled="" id="maxOptionsToBeRanked-11" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -2167,8 +2728,7 @@
             <div class="col-sm-9">
               <div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C
+                  <label class="col-sm-2 control-label" style="display:none">
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-11-1-0" name="responsetext-11-1" onchange="updateRankMessageQn('11')">
@@ -2186,132 +2746,24 @@
                       <option value="4">
                         4
                       </option>
-                      <option value="5">
-                        5
-                      </option>
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C++
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-1-1" name="responsetext-11-1" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    Java
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-1-2" name="responsetext-11-1" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C#
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-1-3" name="responsetext-11-1" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    Python
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-1-4" name="responsetext-11-1" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" id="rankInfo-11-1">
-                  <div class="col-sm-2">
+                <div class="form-group" id="rankInfo-11-1" style="display:none">
+                  <div class="col-sm-2" style="display:none">
                   </div>
                   <div class="col-sm-3">
                     <hr class="margin-top-0">
                     <p class="text-color-blue" id="rankMessage-11-1">
-                      Please rank the above options.
                     </p>
                     <hr>
                   </div>
                 </div>
-                <input id="rankToRecipients-11" type="hidden" value="false">
-                <input id="rankNumOptions-11" type="hidden" value="5">
+                <input id="rankToRecipients-11" type="hidden" value="true">
+                <input id="rankNumOptions-11" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-11" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-11" type="hidden" value="3">
-                <input id="maxOptionsToBeRanked-11" type="hidden" value="3">
+                <input id="minOptionsToBeRanked-11" type="hidden" value="2">
+                <input disabled="" id="maxOptionsToBeRanked-11" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -2344,8 +2796,7 @@
             <div class="col-sm-9">
               <div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C
+                  <label class="col-sm-2 control-label" style="display:none">
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-11-2-0" name="responsetext-11-2" onchange="updateRankMessageQn('11')">
@@ -2363,132 +2814,24 @@
                       <option value="4">
                         4
                       </option>
-                      <option value="5">
-                        5
-                      </option>
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C++
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-2-1" name="responsetext-11-2" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    Java
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-2-2" name="responsetext-11-2" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C#
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-2-3" name="responsetext-11-2" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    Python
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-2-4" name="responsetext-11-2" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" id="rankInfo-11-2">
-                  <div class="col-sm-2">
+                <div class="form-group" id="rankInfo-11-2" style="display:none">
+                  <div class="col-sm-2" style="display:none">
                   </div>
                   <div class="col-sm-3">
                     <hr class="margin-top-0">
                     <p class="text-color-blue" id="rankMessage-11-2">
-                      Please rank the above options.
                     </p>
                     <hr>
                   </div>
                 </div>
-                <input id="rankToRecipients-11" type="hidden" value="false">
-                <input id="rankNumOptions-11" type="hidden" value="5">
+                <input id="rankToRecipients-11" type="hidden" value="true">
+                <input id="rankNumOptions-11" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-11" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-11" type="hidden" value="3">
-                <input id="maxOptionsToBeRanked-11" type="hidden" value="3">
+                <input id="minOptionsToBeRanked-11" type="hidden" value="2">
+                <input disabled="" id="maxOptionsToBeRanked-11" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -2521,8 +2864,7 @@
             <div class="col-sm-9">
               <div>
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C
+                  <label class="col-sm-2 control-label" style="display:none">
                   </label>
                   <div class="col-sm-3">
                     <select class="form-control" id="responsetext-11-3-0" name="responsetext-11-3" onchange="updateRankMessageQn('11')">
@@ -2540,132 +2882,25 @@
                       <option value="4">
                         4
                       </option>
-                      <option value="5">
-                        5
-                      </option>
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C++
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-3-1" name="responsetext-11-3" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    Java
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-3-2" name="responsetext-11-3" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    C#
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-3-3" name="responsetext-11-3" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">
-                    Python
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-11-3-4" name="responsetext-11-3" onchange="updateRankMessageQn('11')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                      <option value="5">
-                        5
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" id="rankInfo-11-3">
-                  <div class="col-sm-2">
+                <div class="form-group" id="rankInfo-11-3" style="">
+                  <div class="col-sm-2" style="display:none">
                   </div>
                   <div class="col-sm-3">
                     <hr class="margin-top-0">
                     <p class="text-color-blue" id="rankMessage-11-3">
-                      Please rank the above options.
+                      Please rank the above recipients.
                     </p>
                     <hr>
                   </div>
                 </div>
-                <input id="rankToRecipients-11" type="hidden" value="false">
-                <input id="rankNumOptions-11" type="hidden" value="5">
+                <input id="rankToRecipients-11" type="hidden" value="true">
+                <input id="rankNumOptions-11" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-11" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-11" type="hidden" value="3">
-                <input id="maxOptionsToBeRanked-11" type="hidden" value="3">
+                <input id="minOptionsToBeRanked-11" type="hidden" value="2">
+                <input disabled="" id="maxOptionsToBeRanked-11" type="hidden" value="">
               </div>
             </div>
           </div>
@@ -2683,7 +2918,7 @@
           Question 12:
           <br>
           <span class="text-preserve-space">
-            Rank atleast 2 recipients based on popularity.
+            Rank atmost 2 recipients based on popularity.
           </span>
         </div>
         <div class="panel-body">
@@ -2703,7 +2938,7 @@
           </p>
           <ul class="text-muted">
             <li class="unordered">
-              You need to rank at least 2 recipients.
+              Rank no more than 2 recipients.
             </li>
           </ul>
           <div class="constraints-12">
@@ -2779,8 +3014,8 @@
                 <input id="rankToRecipients-12" type="hidden" value="true">
                 <input id="rankNumOptions-12" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-12" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-12" type="hidden" value="2">
-                <input disabled="" id="maxOptionsToBeRanked-12" type="hidden" value="">
+                <input disabled="" id="minOptionsToBeRanked-12" type="hidden" value="">
+                <input id="maxOptionsToBeRanked-12" type="hidden" value="2">
               </div>
             </div>
           </div>
@@ -2847,8 +3082,8 @@
                 <input id="rankToRecipients-12" type="hidden" value="true">
                 <input id="rankNumOptions-12" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-12" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-12" type="hidden" value="2">
-                <input disabled="" id="maxOptionsToBeRanked-12" type="hidden" value="">
+                <input disabled="" id="minOptionsToBeRanked-12" type="hidden" value="">
+                <input id="maxOptionsToBeRanked-12" type="hidden" value="2">
               </div>
             </div>
           </div>
@@ -2915,8 +3150,8 @@
                 <input id="rankToRecipients-12" type="hidden" value="true">
                 <input id="rankNumOptions-12" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-12" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-12" type="hidden" value="2">
-                <input disabled="" id="maxOptionsToBeRanked-12" type="hidden" value="">
+                <input disabled="" id="minOptionsToBeRanked-12" type="hidden" value="">
+                <input id="maxOptionsToBeRanked-12" type="hidden" value="2">
               </div>
             </div>
           </div>
@@ -2984,8 +3219,8 @@
                 <input id="rankToRecipients-12" type="hidden" value="true">
                 <input id="rankNumOptions-12" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-12" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-12" type="hidden" value="2">
-                <input disabled="" id="maxOptionsToBeRanked-12" type="hidden" value="">
+                <input disabled="" id="minOptionsToBeRanked-12" type="hidden" value="">
+                <input id="maxOptionsToBeRanked-12" type="hidden" value="2">
               </div>
             </div>
           </div>
@@ -3003,7 +3238,7 @@
           Question 13:
           <br>
           <span class="text-preserve-space">
-            Rank atmost 2 recipients based on popularity.
+            Rank exactly 3 recipients based on popularity.
           </span>
         </div>
         <div class="panel-body">
@@ -3023,7 +3258,10 @@
           </p>
           <ul class="text-muted">
             <li class="unordered">
-              Rank no more than 2 recipients.
+              You need to rank at least 3 recipients.
+            </li>
+            <li class="unordered">
+              Rank no more than 3 recipients.
             </li>
           </ul>
           <div class="constraints-13">
@@ -3099,8 +3337,8 @@
                 <input id="rankToRecipients-13" type="hidden" value="true">
                 <input id="rankNumOptions-13" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-13" type="hidden" value="false">
-                <input disabled="" id="minOptionsToBeRanked-13" type="hidden" value="">
-                <input id="maxOptionsToBeRanked-13" type="hidden" value="2">
+                <input id="minOptionsToBeRanked-13" type="hidden" value="3">
+                <input id="maxOptionsToBeRanked-13" type="hidden" value="3">
               </div>
             </div>
           </div>
@@ -3167,8 +3405,8 @@
                 <input id="rankToRecipients-13" type="hidden" value="true">
                 <input id="rankNumOptions-13" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-13" type="hidden" value="false">
-                <input disabled="" id="minOptionsToBeRanked-13" type="hidden" value="">
-                <input id="maxOptionsToBeRanked-13" type="hidden" value="2">
+                <input id="minOptionsToBeRanked-13" type="hidden" value="3">
+                <input id="maxOptionsToBeRanked-13" type="hidden" value="3">
               </div>
             </div>
           </div>
@@ -3235,8 +3473,8 @@
                 <input id="rankToRecipients-13" type="hidden" value="true">
                 <input id="rankNumOptions-13" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-13" type="hidden" value="false">
-                <input disabled="" id="minOptionsToBeRanked-13" type="hidden" value="">
-                <input id="maxOptionsToBeRanked-13" type="hidden" value="2">
+                <input id="minOptionsToBeRanked-13" type="hidden" value="3">
+                <input id="maxOptionsToBeRanked-13" type="hidden" value="3">
               </div>
             </div>
           </div>
@@ -3304,331 +3542,8 @@
                 <input id="rankToRecipients-13" type="hidden" value="true">
                 <input id="rankNumOptions-13" type="hidden" value="0">
                 <input id="rankAreDuplicatesAllowed-13" type="hidden" value="false">
-                <input disabled="" id="minOptionsToBeRanked-13" type="hidden" value="">
-                <input id="maxOptionsToBeRanked-13" type="hidden" value="2">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br>
-    <br>
-    <input name="questiontype-14" type="hidden" value="RANK_RECIPIENTS">
-    <input name="questionid-14" type="hidden" value="${question.id}">
-    <input name="questionresponsetotal-14" type="hidden" value="4">
-    <div class="form-horizontal">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          Question 14:
-          <br>
-          <span class="text-preserve-space">
-            Rank exactly 3 recipients based on popularity.
-          </span>
-        </div>
-        <div class="panel-body">
-          <p class="text-muted">
-            Only the following persons can see your responses:
-          </p>
-          <ul class="text-muted">
-            <li class="unordered">
-              The receiving students can see your response, and your name.
-            </li>
-            <li class="unordered">
-              Instructors in this course can see your response, the name of the recipient, and your name.
-            </li>
-          </ul>
-          <p class="text-muted">
-            Instructions:
-          </p>
-          <ul class="text-muted">
-            <li class="unordered">
-              You need to rank at least 3 recipients.
-            </li>
-            <li class="unordered">
-              Rank no more than 3 recipients.
-            </li>
-          </ul>
-          <div class="constraints-14">
-          </div>
-          <div class="evalueeLabel-14 form-inline mobile-align-left">
-            <label for="input" style="text-indent: 24px">
-              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
-                Evaluee/Recipient
-              </span>
-            </label>
-          </div>
-          <br>
-          <br>
-          <div class="evalueeForm-14 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
-              <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-0" style="display:none;max-width:125px">
-                  <option selected="" value="">
-                  </option>
-                  <option value="benny.c.tmms@gmail.tmt">
-                    Benny Charles
-                  </option>
-                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                    Charlie Davis
-                  </option>
-                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
-                    Danny Engrid
-                  </option>
-                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
-                    Emily F.
-                  </option>
-                </select>
-                <span>
-                  Benny Charles
-                </span>
-              </label>
-              (Student):
-            </div>
-            <div class="col-sm-9">
-              <div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" style="display:none">
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-14-0-0" name="responsetext-14-0" onchange="updateRankMessageQn('14')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" id="rankInfo-14-0" style="display:none">
-                  <div class="col-sm-2" style="display:none">
-                  </div>
-                  <div class="col-sm-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="rankMessage-14-0">
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="rankToRecipients-14" type="hidden" value="true">
-                <input id="rankNumOptions-14" type="hidden" value="0">
-                <input id="rankAreDuplicatesAllowed-14" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-14" type="hidden" value="3">
-                <input id="maxOptionsToBeRanked-14" type="hidden" value="3">
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="evalueeForm-14 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
-              <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-1" style="display:none;max-width:125px">
-                  <option selected="" value="">
-                  </option>
-                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
-                    Benny Charles
-                  </option>
-                  <option value="charlie.d.tmms@gmail.tmt">
-                    Charlie Davis
-                  </option>
-                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
-                    Danny Engrid
-                  </option>
-                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
-                    Emily F.
-                  </option>
-                </select>
-                <span>
-                  Charlie Davis
-                </span>
-              </label>
-              (Student):
-            </div>
-            <div class="col-sm-9">
-              <div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" style="display:none">
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-14-1-0" name="responsetext-14-1" onchange="updateRankMessageQn('14')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" id="rankInfo-14-1" style="display:none">
-                  <div class="col-sm-2" style="display:none">
-                  </div>
-                  <div class="col-sm-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="rankMessage-14-1">
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="rankToRecipients-14" type="hidden" value="true">
-                <input id="rankNumOptions-14" type="hidden" value="0">
-                <input id="rankAreDuplicatesAllowed-14" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-14" type="hidden" value="3">
-                <input id="maxOptionsToBeRanked-14" type="hidden" value="3">
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="evalueeForm-14 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
-              <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-2" style="display:none;max-width:125px">
-                  <option selected="" value="">
-                  </option>
-                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
-                    Benny Charles
-                  </option>
-                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                    Charlie Davis
-                  </option>
-                  <option value="danny.e.tmms@gmail.tmt">
-                    Danny Engrid
-                  </option>
-                  <option style="display: none;" value="emily.f.tmms@gmail.tmt">
-                    Emily F.
-                  </option>
-                </select>
-                <span>
-                  Danny Engrid
-                </span>
-              </label>
-              (Student):
-            </div>
-            <div class="col-sm-9">
-              <div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" style="display:none">
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-14-2-0" name="responsetext-14-2" onchange="updateRankMessageQn('14')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" id="rankInfo-14-2" style="display:none">
-                  <div class="col-sm-2" style="display:none">
-                  </div>
-                  <div class="col-sm-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="rankMessage-14-2">
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="rankToRecipients-14" type="hidden" value="true">
-                <input id="rankNumOptions-14" type="hidden" value="0">
-                <input id="rankAreDuplicatesAllowed-14" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-14" type="hidden" value="3">
-                <input id="maxOptionsToBeRanked-14" type="hidden" value="3">
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="evalueeForm-14 form-group margin-0" style="padding-left: 75px">
-            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
-              <label>
-                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-3" style="display:none;max-width:125px">
-                  <option selected="" value="">
-                  </option>
-                  <option style="display: none;" value="benny.c.tmms@gmail.tmt">
-                    Benny Charles
-                  </option>
-                  <option style="display: none;" value="charlie.d.tmms@gmail.tmt">
-                    Charlie Davis
-                  </option>
-                  <option style="display: none;" value="danny.e.tmms@gmail.tmt">
-                    Danny Engrid
-                  </option>
-                  <option value="emily.f.tmms@gmail.tmt">
-                    Emily F.
-                  </option>
-                </select>
-                <span>
-                  Emily F.
-                </span>
-              </label>
-              (Student):
-            </div>
-            <div class="col-sm-9">
-              <div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" style="display:none">
-                  </label>
-                  <div class="col-sm-3">
-                    <select class="form-control" id="responsetext-14-3-0" name="responsetext-14-3" onchange="updateRankMessageQn('14')">
-                      <option selected="" value="">
-                      </option>
-                      <option value="1">
-                        1
-                      </option>
-                      <option value="2">
-                        2
-                      </option>
-                      <option value="3">
-                        3
-                      </option>
-                      <option value="4">
-                        4
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group" id="rankInfo-14-3" style="">
-                  <div class="col-sm-2" style="display:none">
-                  </div>
-                  <div class="col-sm-3">
-                    <hr class="margin-top-0">
-                    <p class="text-color-blue" id="rankMessage-14-3">
-                      Please rank the above recipients.
-                    </p>
-                    <hr>
-                  </div>
-                </div>
-                <input id="rankToRecipients-14" type="hidden" value="true">
-                <input id="rankNumOptions-14" type="hidden" value="0">
-                <input id="rankAreDuplicatesAllowed-14" type="hidden" value="false">
-                <input id="minOptionsToBeRanked-14" type="hidden" value="3">
-                <input id="maxOptionsToBeRanked-14" type="hidden" value="3">
+                <input id="minOptionsToBeRanked-13" type="hidden" value="3">
+                <input id="maxOptionsToBeRanked-13" type="hidden" value="3">
               </div>
             </div>
           </div>
