@@ -527,8 +527,9 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropMsqOption(NEW_QUESTION_INDEX, 2, 0);
         feedbackEditPage.clickAddQuestionButton();
         JSONObject msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData.getValue());
-        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                                                                .questionMetaData.getValue());
+        assertEquals(
+                "[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                 msqQuestionDetails.get("msqChoices").toString());
 
         ______TS("MSQ: add option and reorder");
@@ -539,8 +540,9 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData.getValue());
-        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                                                    .questionMetaData.getValue());
+        assertEquals(
+                "[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                 msqQuestionDetails.get("msqChoices").toString());
 
         ______TS("MSQ: delete option and reorder");
@@ -551,8 +553,9 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData.getValue());
-        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                                                    .questionMetaData.getValue());
+        assertEquals(
+                "[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
                 msqQuestionDetails.get("msqChoices").toString());
 
         ______TS("MSQ: add, delete and reorder options");
@@ -567,8 +570,9 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData.getValue());
-        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                                                    .questionMetaData.getValue());
+        assertEquals(
+                "[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
                 msqQuestionDetails.get("msqChoices").toString());
     }
 }

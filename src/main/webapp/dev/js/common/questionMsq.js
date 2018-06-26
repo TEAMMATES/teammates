@@ -15,7 +15,7 @@ function isGenerateOptionsEnabled(questionNum) {
 }
 
 function getNumOfMsqOptions(questionNum) {
-    return $(`#msqChoiceTable-${questionNum}`).children().length - 1;
+    return $(`#msqOptionRows-${questionNum}`).children().length;
 }
 
 function getMaxSelectableChoicesElement(questionNum) {
