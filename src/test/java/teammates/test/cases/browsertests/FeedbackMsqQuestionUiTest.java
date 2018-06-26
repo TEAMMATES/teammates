@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,6 +53,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testReorderOptions();
     }
 
     @Override
@@ -501,4 +503,72 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    /**
+     * Tests that MSQ options (new and existing) can be reordered using drag and drop mechanism.
+     * @throws Exception when option is not draggable
+     */
+    private void testReorderOptions() throws Exception {
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
+
+        feedbackEditPage.fillQuestionTextBoxForNewQuestion("Test question text");
+        feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+        feedbackEditPage.clickAddMoreMsqOptionLinkForNewQuestion();
+
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.fillMsqOptionForNewQuestion(2, "Choice 3");
+        feedbackEditPage.fillMsqOptionForNewQuestion(3, "Choice 4");
+
+        ______TS("MSQ: reorder existing options");
+
+        feedbackEditPage.dragAndDropMsqOption(NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.clickAddQuestionButton();
+        JSONObject msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                msqQuestionDetails.get("msqChoices").toString());
+
+        ______TS("MSQ: add option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.fillMsqOption(1, 4, "New Choice");
+        feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                msqQuestionDetails.get("msqChoices").toString());
+
+        ______TS("MSQ: delete option and reorder");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
+        feedbackEditPage.fillMsqOption(1, 1, "Old Choice");
+        feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                msqQuestionDetails.get("msqChoices").toString());
+
+        ______TS("MSQ: add, delete and reorder options");
+
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.fillMsqOption(1, 4, "New Choice");
+        feedbackEditPage.fillMsqOption(1, 5, "Newer Choice");
+        feedbackEditPage.dragAndDropMsqOption(1, 5, 0);
+        feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
+                .questionMetaData.getValue());
+        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                msqQuestionDetails.get("msqChoices").toString());
+    }
 }

@@ -584,6 +584,7 @@ function enableNewQuestion() {
     toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
     makeMcqOptionsReorderable(NEW_QUESTION);
+    makeMsqOptionsReorderable(NEW_QUESTION);
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);

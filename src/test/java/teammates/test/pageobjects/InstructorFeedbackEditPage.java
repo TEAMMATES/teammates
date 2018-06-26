@@ -1271,11 +1271,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         Actions builder = new Actions(browser.driver);
         builder.clickAndHold(draggedOptionElement).perform();
-        builder.moveToElement(targetElement, 0, 40).perform();
-        builder.moveToElement(targetElement, 0, 30).perform();
-        builder.moveToElement(targetElement, 0, 20).perform();
-        builder.moveToElement(targetElement).perform();
-        builder.moveToElement(targetElement, 0, -10).release().perform();
+        builder.moveToElement(targetElement, 0, 10).perform(); // drag option 10 units below target
+        builder.moveToElement(targetElement).perform(); // drag option to target
+        builder.moveToElement(targetElement, 0, -10).release().perform(); // drag option 10 units above target and release
     }
 
     public void clickAddMoreMcqOptionLinkForNewQuestion() {
@@ -1318,6 +1316,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void fillMsqOptionForNewQuestion(int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "-" + NEW_QUESTION_NUM));
         fillTextBox(optionBox, optionText);
+    }
+
+    public void dragAndDropMsqOption(int qnNumber, int sourceIndex, int targetIndex) throws Exception {
+        WebElement draggedOptionElement = browser.driver.findElement(By.xpath("//div[@id='msqOptionRow-"
+                + sourceIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+        WebElement targetElement = browser.driver.findElement(By.xpath("//div[@id='msqOptionRow-"
+                + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+
+        Actions builder = new Actions(browser.driver);
+        builder.clickAndHold(draggedOptionElement).perform();
+        builder.moveToElement(targetElement, 0, 10).perform(); // drag option 10 units below target
+        builder.moveToElement(targetElement).perform(); // drag option to target
+        builder.moveToElement(targetElement, 0, -10).release().perform(); // drag option 10 units above target and release
     }
 
     public void clickAddMoreMsqOptionLink(int qnIndex) {
