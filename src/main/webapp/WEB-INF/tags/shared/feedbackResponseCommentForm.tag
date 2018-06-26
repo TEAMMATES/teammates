@@ -38,11 +38,11 @@
         <br>
         Recipient: ${fn:escapeXml(frc.responseRecipientName)}
       </p>
-      <c:if test="${frc.commentGiverType eq 'instructor'}">
+      <c:if test="${not frc.commentFromFeedbackParticipant}">
         You may change comment's visibility using the visibility options on the right hand side.
       </c:if>
     </div>
-  <c:if test="${frc.commentGiverType eq 'instructor'}">
+  <c:if test="${not frc.commentFromFeedbackParticipant}">
     <a id="frComment-visibility-options-trigger-${divId}"
        class="btn btn-sm btn-info pull-right toggle-visib-${fn:toLowerCase(formType)}-form"
        data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
@@ -54,7 +54,7 @@
     </a>
   </c:if>
   </div>
-<c:if test="${frc.commentGiverType eq 'instructor'}">
+<c:if test="${not frc.commentFromFeedbackParticipant}">
   <div id="visibility-options-${divId}" class="panel panel-default" style="display: none;">
     <div class="panel-heading">
       Visibility Options

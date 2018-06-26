@@ -25,6 +25,7 @@ public class FeedbackResponseCommentRow {
     private String responseRecipientName;
     private String commentGiverName;
     private FeedbackParticipantType commentGiverType;
+    private boolean isCommentFromFeedbackParticipant;
 
     private String showCommentToString;
     private String showGiverNameToString;
@@ -49,6 +50,7 @@ public class FeedbackResponseCommentRow {
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
         this.commentGiverType = frc.commentGiverType;
+        this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
 
         //TODO TO REMOVE AFTER DATA MIGRATION
         this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(giverDisplay));
@@ -73,6 +75,7 @@ public class FeedbackResponseCommentRow {
         this.questionId = frc.feedbackQuestionId;
         this.sessionTimeZone = sessionTimeZone;
         this.commentGiverType = frc.commentGiverType;
+        this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
     }
 
     private void setDataForAddEditDelete(FeedbackResponseCommentAttributes frc, String giverName, String recipientName,
@@ -161,6 +164,10 @@ public class FeedbackResponseCommentRow {
 
     public boolean isEditDeleteEnabled() {
         return isEditDeleteEnabled;
+    }
+
+    public boolean isCommentFromFeedbackParticipant() {
+        return isCommentFromFeedbackParticipant;
     }
 
     private boolean isResponseVisibleTo(FeedbackParticipantType type) {
@@ -254,6 +261,10 @@ public class FeedbackResponseCommentRow {
 
     public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
         this.commentGiverType = commentGiverType;
+    }
+
+    public void setCommentFromFeedbackParticipant(boolean isCommentFromFeedbackParticipant) {
+        this.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
     }
 
     public String getCommentGiverName() {
