@@ -762,15 +762,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // TODO: use navigateTo instead
         courseEditPage = getCourseEditPage();
 
-        ______TS("delete course then cancel");
+        ______TS("delete course");
 
-        courseEditPage.clickDeleteCourseLinkAndCancel();
-
+        InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLink();
         assertNotNull(BackDoor.getCourse(courseId));
-
-        ______TS("delete course then proceed");
-
-        InstructorCoursesPage coursePage = courseEditPage.clickDeleteCourseLinkAndConfirm();
         assertTrue(coursePage.getTextsForAllStatusMessagesToUser()
                 .contains(String.format(Const.StatusMessages.COURSE_MOVED_TO_RECYCLE_BIN, courseId)));
     }
