@@ -488,6 +488,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
+        DecimalFormat weightFormat = new DecimalFormat("#.##");
 
         String optionFragmentTemplate = FormTemplates.MSQ_EDIT_FORM_OPTIONFRAGMENT;
         for (int i = 0; i < msqChoices.size(); i++) {
@@ -499,6 +500,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             optionListHtml.append(optionFragment).append(System.lineSeparator());
         }
+
+        // Create MSQ weights
+        StringBuilder weightFragmentHtml = new StringBuilder();
+        String weightFragmentTemplate = FormTemplates.MSQ_EDIT_FORM_WEIGHTFRAGMENT;
+        for (int i = 0; i < msqChoices.size(); i++) {
+            String weightFragment =
+                    Templates.populateTemplate(weightFragmentTemplate,
+                            Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
+                            Slots.ITERATOR, Integer.toString(i),
+                            Slots.MSQ_WEIGHT, hasAssignedWeights ? weightFormat.format(msqWeights.get(i)) : "0",
+                            Slots.MSQ_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT);
+            weightFragmentHtml.append(weightFragment).append(System.lineSeparator());
+        }
+
+        // Create MSQ other weight value
+        String msqOtherWeightValue = hasAssignedWeights && otherEnabled ? weightFormat.format(msqOtherWeight) : "0";
 
         boolean isMaxSelectableChoicesDisabled = maxSelectableChoices == Integer.MIN_VALUE;
         boolean isMinSelectableChoicesDisabled = minSelectableChoices == Integer.MIN_VALUE;
@@ -538,7 +555,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Slots.MSQ_MAX_SELECTABLE_CHOICES,
                         isMaxSelectableChoicesDisabled ? "2" : Integer.toString(maxSelectableChoices),
                 Slots.MSQ_MIN_SELECTABLE_CHOICES,
-                        isMinSelectableChoicesDisabled ? "1" : Integer.toString(minSelectableChoices));
+                        isMinSelectableChoicesDisabled ? "1" : Integer.toString(minSelectableChoices),
+                Slots.MSQ_TOOLTIPS_ASSIGN_WEIGHT, Const.Tooltips.FEEDBACK_QUESTION_MSQ_ASSIGN_WEIGHTS,
+                Slots.MSQ_PARAM_HAS_ASSIGN_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED,
+                Slots.MSQ_EDIT_FORM_WEIGHT_FRAGMENTS, weightFragmentHtml.toString(),
+                Slots.MSQ_PARAM_OTHER_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT,
+                Slots.MSQ_OTHER_WEIGHT, msqOtherWeightValue,
+                Slots.MSQ_ASSIGN_WEIGHT_CHECKBOX, hasAssignedWeights ? "checked" : "");
     }
 
     @Override
@@ -546,6 +569,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         // Add two empty options by default
         msqChoices.add("");
         msqChoices.add("");
+        hasAssignedWeights = false;
 
         return "<div id=\"msqForm\">"
                   + getQuestionSpecificEditFormHtml(-1)

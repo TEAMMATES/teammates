@@ -102,6 +102,8 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionMsqEditFormTemplate.html");
             public static final String MSQ_EDIT_FORM_OPTIONFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMsqEditFormOptionFragment.html");
+            public static final String MSQ_EDIT_FORM_WEIGHTFRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMsqEditFormWeightFragment.html");
             public static final String MSQ_ADDITIONAL_INFO_FRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMsqAdditionalInfoFragment.html");
             public static final String MSQ_ADDITIONAL_INFO =
@@ -300,6 +302,9 @@ public final class Templates {
 
             // MSQ
             public static final String MSQ_CHOICE_VALUE = "${msqChoiceValue}";
+            public static final String MSQ_WEIGHT = "${msqWeight}";
+            public static final String MSQ_OTHER_WEIGHT = "${msqOtherWeight}";
+            public static final String MSQ_ASSIGN_WEIGHT_CHECKBOX = "${msqAssignWeightsCheckbox}";
             public static final String MSQ_CHOICE_TEXT = "${msqChoiceText}";
             public static final String MSQ_OTHER_OPTION_ANSWER = "${msqOtherOptionAnswer}";
             public static final String MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS = "${msqSubmissionFormOptionFragments}";
@@ -329,6 +334,13 @@ public final class Templates {
             public static final String MSQ_PARAM_OTHER_OPTION_FLAG =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG}";
             public static final String MSQ_EDIT_FORM_OPTION_FRAGMENTS = "${msqEditFormOptionFragments}";
+            public static final String MSQ_EDIT_FORM_WEIGHT_FRAGMENTS = "${msqEditFormWeightFragments}";
+            public static final String MSQ_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT}";
+            public static final String MSQ_PARAM_OTHER_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT}";
+            public static final String MSQ_PARAM_HAS_ASSIGN_WEIGHT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED}";
+            public static final String MSQ_TOOLTIPS_ASSIGN_WEIGHT =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_MSQ_ASSIGN_WEIGHTS}";
             public static final String MSQ_PARAM_IS_OTHER_OPTION_ANSWER =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}";
 
