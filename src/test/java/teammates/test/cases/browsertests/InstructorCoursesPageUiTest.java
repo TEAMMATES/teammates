@@ -280,10 +280,16 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     }
 
     private void testDeleteAction() throws Exception {
-        String courseId = "CCAddUiTest.course1";
 
-        coursesPage.getDeleteLink(courseId).click();
-        coursesPage.verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
+        /* Explanation: We test both 'confirm' and 'cancel' cases here.
+         */
+
+        String courseId = "CCAddUiTest.course1";
+        coursesPage.clickAndCancel(coursesPage.getDeleteLink(courseId));
+        assertNotNull(BackDoor.getCourse(courseId));
+
+        coursesPage.clickAndConfirm(coursesPage.getDeleteLink(courseId))
+                .verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
     }
 
     private void testArchiveAction() throws Exception {
