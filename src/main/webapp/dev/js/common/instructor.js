@@ -310,13 +310,14 @@ function bindDeleteButtons() {
         const courseId = $button.data('courseid');
         const feedbackSessionName = $button.data('fsname');
 
-        const messageText = `Are you sure you want to delete the feedback session ${feedbackSessionName} in ${courseId}?`;
+        const messageText = `Are you sure you want to delete the feedback session ${feedbackSessionName} in ${courseId}? `
+                + 'This action can be reverted by going to the "sessions" tab and restoring the desired session(s).';
         const okCallback = function () {
             window.location = $button.attr('href');
         };
 
-        showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.DANGER);
+        showModalConfirmation('Confirm moving session to recovery', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.WARNING);
     });
 }
 
