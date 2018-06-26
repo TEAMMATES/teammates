@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -501,4 +502,301 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
+    @Test
+    public void testMsqWeightsFeature_shouldToggleStateCorrectly() {
+
+        ______TS("MSQ: Weight cells are visible when assigneWeights checkbox is clicked?");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
+
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        // Check if the MSQ weights column are visible or not.
+        assertTrue(feedbackEditPage.getMsqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
+        // Check the 'other' option is disabled and otherWeight cell is hidden
+        assertFalse(feedbackEditPage.isMsqOtherOptionCheckboxChecked(NEW_QUESTION_INDEX));
+        assertFalse(feedbackEditPage.getMsqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+
+        ______TS("MSQ: Other weight Cell is visible when other option and weights both are enabled");
+
+        // Check Assign MSQ weights Enabled but other option disabled
+        assertTrue(feedbackEditPage.isMsqHasAssignWeightCheckboxChecked(NEW_QUESTION_INDEX));
+        assertFalse(feedbackEditPage.isMsqOtherOptionCheckboxChecked(NEW_QUESTION_INDEX));
+
+        // Assign Other option and test that other weight cell is displayed.
+        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+        assertTrue(feedbackEditPage.getMsqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+
+        // Uncheck checkboxes for consistency among other tests,
+        // otherwise these settings will persist after cancelling the question form
+        // Uncheck the 'Choices are weighted' checkbox.
+        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+        assertFalse(feedbackEditPage.getMsqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        assertFalse(feedbackEditPage.getMsqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
+
+        // Cancel question
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+    }
+
+    @Test
+    public void testMsqWeightsFeature_shouldHaveCorrectDefaultValue() throws Exception {
+
+        ______TS("MSQ: Weight cells are hidden by default");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
+        // Check if the 'Choices are weighted' checkbox unchecked by default.
+        assertFalse(feedbackEditPage.isMsqHasAssignWeightCheckboxChecked(NEW_QUESTION_INDEX));
+        // Check if the MSQ weights column hidden by default
+        assertFalse(feedbackEditPage.getMsqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
+        assertFalse(feedbackEditPage.getMsqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+
+        ______TS("MSQ: Check Msq weight default value");
+        feedbackEditPage.fillQuestionTextBox("MSQ weight feature", NEW_QUESTION_INDEX);
+        feedbackEditPage.fillQuestionDescription("More details", NEW_QUESTION_INDEX);
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+
+        // Fill MSQ choices and check corresponding weight values
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.verifyFieldValue("msqWeight-0--1", "0");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.verifyFieldValue("msqWeight-1--1", "0");
+
+        // Verify MSQ other weight default value
+        feedbackEditPage.verifyFieldValue("msqOtherWeight--1", "0");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+
+        // verify html page
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionWeightAddSuccess.html");
+
+        // Delete the question
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+    }
+
+    @Test
+    public void testMsqWeightsFeature_shouldValidateFieldCorrectly() {
+        ______TS("MSQ: Test front-end validation for empty weights");
+        // Add a question with valid weights to check front-end validation
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+        feedbackEditPage.fillQuestionTextBox("MSQ weight front-end validation", NEW_QUESTION_INDEX);
+        feedbackEditPage.fillMsqOption(NEW_QUESTION_INDEX, 0, "Choice 1");
+        feedbackEditPage.fillMsqOption(NEW_QUESTION_INDEX, 1, "Choice 2");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 0, "1");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 1, "2");
+        feedbackEditPage.fillMsqOtherWeightBox(NEW_QUESTION_INDEX, "1");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        // Edit the question to enter invalid weight values
+        feedbackEditPage.clickEditQuestionButton(1);
+
+        // Check validation for MSQ weight cells
+        feedbackEditPage.fillMsqWeightBox(1, 0, "");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        assertTrue(feedbackEditPage.isMsqWeightBoxFocused(1, 0));
+        feedbackEditPage.fillMsqWeightBox(1, 0, "0");
+
+        // Check validation for empty other weight
+        feedbackEditPage.fillMsqOtherWeightBox(1, "");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        assertTrue(feedbackEditPage.isMsqOtherWeightBoxFocused(1));
+        feedbackEditPage.fillMsqOtherWeightBox(1, "0");
+
+        // Check validation for the weight cells added by 'add option' button
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        assertTrue(feedbackEditPage.isElementPresent(By.id("msqWeight-2-1")));
+        feedbackEditPage.fillMsqOption(1, 2, "Choice 3");
+        feedbackEditPage.fillMsqWeightBox(1, 2, "");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        assertTrue(feedbackEditPage.isMsqWeightBoxFocused(1, 2));
+        feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
+        feedbackEditPage.clickDiscardChangesLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+
+        ______TS("Test front-end validation for negative weights");
+        feedbackEditPage.clickEditQuestionButton(1);
+        // Check validation for Msq weight box
+        feedbackEditPage.fillMsqWeightBox(1, 0, "-2");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.isMsqWeightBoxFocused(1, 0);
+        feedbackEditPage.fillMsqWeightBox(1, 0, "2");
+
+        // Check validation for other weight
+        feedbackEditPage.fillMsqOtherWeightBox(1, "-3");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.isMsqOtherWeightBoxFocused(1);
+        feedbackEditPage.fillMsqOtherWeightBox(1, "2");
+
+        // Check validation for weight cells added by 'Add Option' button
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        assertTrue(feedbackEditPage.isElementPresent(By.id("msqWeight-2-1")));
+        feedbackEditPage.fillMsqOption(1, 2, "Choice 3");
+        feedbackEditPage.fillMsqWeightBox(1, 2, "-5");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        assertTrue(feedbackEditPage.isMsqWeightBoxFocused(1, 2));
+        feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
+
+        // Delete the question.
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+    }
+
+    @Test
+    public void testMsqWeightsFeature_shouldAddWeightsCorrectly() throws Exception {
+        ______TS("Success: Add weights");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
+        feedbackEditPage.fillQuestionTextBox("MSQ weight feature", NEW_QUESTION_INDEX);
+        feedbackEditPage.fillQuestionDescription("More details", NEW_QUESTION_INDEX);
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+
+        // Fill MSQ choices and corresponding weight values
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 0, "1");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 1, "2");
+        feedbackEditPage.fillMsqOtherWeightBox(NEW_QUESTION_INDEX, "3");
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+
+        ______TS("MSQ: Add more weights");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        assertTrue(feedbackEditPage.isElementPresent("msqOption-2-1"));
+        assertTrue(feedbackEditPage.isElementPresent("msqWeight-2-1"));
+        feedbackEditPage.fillMsqOption(1, 2, "Choice 3");
+        feedbackEditPage.fillMsqWeightBox(1, 2, "4");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        ______TS("MSQ: Failed to add weight due to invalid choice value");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+
+        // Test for choice that has only spaces
+        assertTrue(feedbackEditPage.isElementPresent("msqOption-3-1"));
+        assertTrue(feedbackEditPage.isElementPresent("msqWeight-3-1"));
+        feedbackEditPage.fillMsqOption(1, 3, "                           "); // Choices with only spaces
+        feedbackEditPage.fillMsqWeightBox(1, 3, "5");
+
+        // The question form removes invalid choices,
+        // So, the corresponding weights should be removed as well, without throwing an error.
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // Check that the invalid choice and the corresponding weight cell is removed from the question.
+        assertFalse(feedbackEditPage.isElementPresent("msqOption-3-1"));
+        assertFalse(feedbackEditPage.isElementPresent("msqWeight-3-1"));
+
+        // Delete the question.
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+    }
+
+    @Test
+    public void testMsqWeightsFeature_shouldEditWeightsCorrectly() throws Exception {
+        // Add a question to test edit weight feature.
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
+        feedbackEditPage.fillQuestionTextBox("MSQ weight feature", NEW_QUESTION_INDEX);
+        feedbackEditPage.fillQuestionDescription("More details", NEW_QUESTION_INDEX);
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+
+        // Fill MSQ choices and check corresponding weight values
+        feedbackEditPage.fillMsqOptionForNewQuestion(0, "Choice 1");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 0, "1");
+        feedbackEditPage.fillMsqOptionForNewQuestion(1, "Choice 2");
+        feedbackEditPage.fillMsqWeightBox(NEW_QUESTION_INDEX, 1, "2");
+        feedbackEditPage.fillMsqOtherWeightBox(NEW_QUESTION_INDEX, "3");
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        ______TS("MSQ: Edit weights success");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.fillMsqWeightBox(1, 0, "1.55");
+        feedbackEditPage.fillMsqWeightBox(1, 1, "2.77");
+        feedbackEditPage.fillMsqOtherWeightBox(1, "3.66");
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // verify weights for the question
+        feedbackEditPage.verifyFieldValue("msqWeight-0-1", "1.55");
+        feedbackEditPage.verifyFieldValue("msqWeight-1-1", "2.77");
+        feedbackEditPage.verifyFieldValue("msqOtherWeight-1", "3.66");
+
+        // verify html page
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionWeightEditSuccess.html");
+
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+    }
+
+    @Test
+    public void testMsqWeightsFeature_shouldNotHaveWeightsForGenerateOptions() {
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("MSQ");
+        feedbackEditPage.fillQuestionTextBox("MSQ weight feature", NEW_QUESTION_INDEX);
+        feedbackEditPage.fillQuestionDescription("More details", NEW_QUESTION_INDEX);
+        feedbackEditPage.clickMsqAssignWeightCheckboxForNewQuestion();
+        feedbackEditPage.clickAddMsqOtherOptionCheckboxForNewQuestion();
+
+        ______TS("MSQ: Test that selecting generated option hides msq weights cells and checkbox");
+        // Test visibility of msq weights and checkbox before selecting msq generated option.
+        assertTrue(feedbackEditPage.getMsqHasAssignWeightsCheckbox(NEW_QUESTION_INDEX).isDisplayed());
+        assertTrue(feedbackEditPage.getMsqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
+        assertTrue(feedbackEditPage.getMsqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(NEW_QUESTION_INDEX);
+
+        // Check that 'choices are weighted' checkbox is hidden
+        assertFalse(feedbackEditPage.getMsqHasAssignWeightsCheckbox(NEW_QUESTION_INDEX).isDisplayed());
+        assertFalse(feedbackEditPage.getMsqWeightsColumn(NEW_QUESTION_INDEX).isDisplayed());
+        assertFalse(feedbackEditPage.getMsqOtherWeightBox(NEW_QUESTION_INDEX).isDisplayed());
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        ______TS("MSQ: Test msq weight have default values after edit to generated options");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickGenerateMsqOptionsCheckbox(1); // Uncheck the generated option checkbox
+
+        // Check that weight fields are again visible after unchecking generated option,
+        // and also check that all the fields have the default values stored.
+        assertFalse(feedbackEditPage.isMsqHasAssignWeightCheckboxChecked(1));
+        assertFalse(feedbackEditPage.isMsqOtherOptionCheckboxChecked(1));
+
+        // Add One option and check MSQ assign weight checkbox to check the msq weight field value.
+        feedbackEditPage.clickAddMoreMsqOptionLink(1);
+        feedbackEditPage.clickMsqHasAssignWeightsCheckbox(1);
+        assertTrue(feedbackEditPage.getMsqWeightBox(1, 0).isDisplayed());
+        feedbackEditPage.verifyFieldValue("msqWeight-0-1", "0");
+
+        // Check the other option to test the value of other weight
+        feedbackEditPage.clickAddMsqOtherOptionCheckbox(1);
+        assertTrue(feedbackEditPage.getMsqOtherWeightBox(1).isDisplayed());
+        feedbackEditPage.verifyFieldValue("msqOtherWeight-1", "0");
+
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+    }
 }
