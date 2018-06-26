@@ -482,16 +482,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     additionalInfoId, giverIndex, recipientIndex));
             String displayableResponse = bundle.getResponseAnswerHtml(response, question);
 
-            String giverNameAndTeam = bundle.getNameForEmail(response.giver);
-            String recipientNameAndTeam = bundle.getNameForEmail(response.recipient);
+            String giverName = bundle.getNameForEmail(response.giver);
+            String recipientName = bundle.getNameForEmail(response.recipient);
 
             String giverTeam = bundle.getTeamNameForEmail(response.giver);
             String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
 
-            giverNameAndTeam = bundle.appendTeamNameToName(giverNameAndTeam, giverTeam);
-            recipientNameAndTeam = bundle.appendTeamNameToName(recipientNameAndTeam, recipientTeam);
+            giverName = bundle.appendTeamNameToName(giverName, giverTeam);
+            recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
 
-            List<FeedbackResponseCommentRow> comments = buildResponseComments(giverNameAndTeam, recipientNameAndTeam, question, response);
+            List<FeedbackResponseCommentRow> comments = buildResponseComments(giverName, recipientName, question, response);
             boolean isAllowedToSubmitSessionsInBothSection =
                     instructor.isAllowedForPrivilege(response.giverSection,
                                                      response.feedbackSessionName,
@@ -515,7 +515,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (isCommentsOnResponsesAllowed) {
                 Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddForm(question, response,
-                                                            responseVisibilityMap, giverNameAndTeam, recipientNameAndTeam);
+                                                            responseVisibilityMap, giverName, recipientName);
 
                 responsePanel.setFrcForAdding(frcForAdding);
 
@@ -1185,17 +1185,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
             configureResponseRow(response.giver, response.recipient, responseRow);
 
             if (isFirstGroupedByGiver) {
-                String giverName = bundle.getNameForEmail(response.giver);
-                String recipientName = bundle.getNameForEmail(response.recipient);
+                String giverNameAndTeam = bundle.getNameForEmail(response.giver);
+                String recipientNameAndTeam = bundle.getNameForEmail(response.recipient);
 
                 String giverTeam = bundle.getTeamNameForEmail(response.giver);
                 String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
 
-                giverName = bundle.appendTeamNameToName(giverName, giverTeam);
-                recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
+                giverNameAndTeam = bundle.appendTeamNameToName(giverNameAndTeam, giverTeam);
+                recipientNameAndTeam = bundle.appendTeamNameToName(recipientNameAndTeam, recipientTeam);
 
                 List<FeedbackResponseCommentRow> comments =
-                        buildResponseComments(giverName, recipientName, question, response);
+                        buildResponseComments(giverNameAndTeam, recipientNameAndTeam, question, response);
                 if (!comments.isEmpty()) {
                     responseRow.setCommentsOnResponses(comments);
                 }
@@ -1205,7 +1205,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                         question.getQuestionDetails().isCommentsOnResponsesAllowed();
                 if (isCommentsOnResponsesAllowed) {
                     FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
-                            responseVisibilityMap, giverName, recipientName);
+                            responseVisibilityMap, giverNameAndTeam, recipientNameAndTeam);
                     responseRow.setAddCommentButton(addCommentForm);
                     if (userIndexesForComments.get(response.giver) == null) {
                         userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);
