@@ -19,7 +19,7 @@ function isMaxOptionsToBeRankedEnabled(qnNumber) {
 function getNumOfRankOptions(qnNumber) {
     if (isRankOptionsQuestion(qnNumber)) {
         // for rank options question, return number of options
-        return $(`#rankOptionTable-${qnNumber}`).children('div[id^="rankOptionRow"]').length;
+        return $(`#rankOptionRows-${qnNumber}`).children().length;
     }
 
     // for rank recipients question, compute the number of recipients
@@ -187,10 +187,12 @@ function hideRankOptionTable(questionNum) {
 
 function removeRankOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
+
+    const $rankOptionRows = $(`#rankOptionRows-${questionNum}`);
     const $thisRow = $(`#rankOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table has
-    const numberOfOptions = $thisRow.parent().children('div').length;
+    const numberOfOptions = $rankOptionRows.children('div').length;
 
     if (numberOfOptions <= 2) {
         $thisRow.find('input').val('');
