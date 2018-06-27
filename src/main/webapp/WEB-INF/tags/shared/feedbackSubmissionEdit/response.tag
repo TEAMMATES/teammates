@@ -56,7 +56,8 @@
               id="button_add_comment-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
               data-recipientindex="${responseRecipientIndex}" data-giverindex="${responseGiverIndex}"
               data-qnindex="${questionIndex}" data-toggle="tooltip" data-placement="top"
-              title="<%=Const.Tooltips.COMMENT_ADD%>" ${isSessionOpenForSubmission ? '' : 'disabled' }>
+              title="<%=Const.Tooltips.COMMENT_ADD%>"
+              <c:if test="${data.preview or (not data.submittable)}"> disabled style="background: #66727A;"</c:if>>
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
       </button>
       <c:choose>
@@ -75,17 +76,17 @@
           <shared:feedbackResponseCommentRow frc="${response.commentOnResponse}"
                                              firstIndex="${responseRecipientIndex}"
                                              secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-                                             frcIndex="1"
-                                             isOnFeedbackSubmissionEditPage="true"
+                                             frcIndex="1" isOnFeedbackSubmissionEditPage="true"
                                              moderatedPersonEmail="${moderatedPersonEmail}"
-                                             isSessionOpenForSubmission="${isSessionOpenForSubmission}"/>
+                                             isSessionOpenForSubmission="${isSessionOpenForSubmission}"
+                                             isPreview="${data.preview}" submitTable="${data.submittable}"
+                                             isModeration="${data.moderation}"/>
         </c:if>
         <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}"
                                            firstIndex="${responseRecipientIndex}"
                                            secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-                                           isOnFeedbackSubmissionEditPage="true"
-                                           moderatedPersonEmail="${moderatedPersonEmail}"
-                                           isPreview="${data.preview}" submitTable="${data.submittable}"/>
+                                           isOnFeedbackSubmissionEditPage="true" isModeration="${data.moderation}"
+                                           moderatedPersonEmail="${moderatedPersonEmail}"/>
       </ul>
        <c:if test="${not questionWithResponses.question.questionTypeConstsum}">
        </div>

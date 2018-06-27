@@ -4,7 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
 <%@ attribute name="firstIndex" %>
 <%@ attribute name="secondIndex" %>
@@ -15,6 +14,9 @@
 <%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean"%>
 <%@ attribute name="moderatedPersonEmail" %>
+<%@ attribute name="submitTable" %>
+<%@ attribute name="isPreview" %>
+<%@ attribute name="isModeration" %>
 
 <c:choose>
   <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
@@ -74,7 +76,7 @@
               data-placement="top"
               title="<%= Const.Tooltips.COMMENT_DELETE %>"
              <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>
-             <c:if test="${not isSessionOpenForSubmission && isOnFeedbackSubmissionEditPage}">disabled</c:if>>
+             <c:if test="${isOnFeedbackSubmissionEditPage and isPreview or (not submitTable)}">disabled style="background: #66727A;" </c:if>>
             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
           </a>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
@@ -84,6 +86,9 @@
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
           <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
+          <c:if test="${isModeration}">
+            <input name="<%= Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON %>" value="${moderatedPersonEmail}" type="hidden">
+          </c:if>
         <c:choose>
           <c:when test="${isOnFeedbackSubmissionEditPage}">
             </div>
@@ -137,6 +142,7 @@
         submitLink="${submitLink}"
         buttonText="Save"
         isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
+        isModeration="${isModeration}"
         moderatedPersonEmail="${moderatedPersonEmail}"/>
   </c:if>
 </li>

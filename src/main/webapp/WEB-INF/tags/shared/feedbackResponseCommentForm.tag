@@ -1,3 +1,4 @@
+<%@ attribute name="isModeration" %>
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Feedback Response Comment Form With Visibility Options" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -19,7 +20,6 @@
 <%@ attribute name="isOnQuestionsPage" %>
 <%@ attribute name="isOnFeedbackSubmissionEditPage"%>
 <%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="isPreview" %>
 
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
@@ -244,10 +244,10 @@
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>-${divId}">
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>-${divId}" value="${frc.showCommentToString}">
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>-${divId}" value="${frc.showGiverNameToString}">
-    <c:if test="${data.moderation}">
-      <input name="moderatedperson" value="${moderatedPersonEmail}" type="hidden">
-    </c:if>
     <input type="hidden" name="<%=Const.ParamsNames.COMMENT_GIVER_TYPE %>-${divId}" value="${frc.commentGiverType}">
+    <c:if test="${isModeration}">
+      <input name="<%=Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON %>" value="${moderatedPersonEmail}" type="hidden">
+    </c:if>
   </c:when>
   <c:otherwise>
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>

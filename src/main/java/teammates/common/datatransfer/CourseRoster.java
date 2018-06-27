@@ -128,7 +128,7 @@ public class CourseRoster {
             return instructorListByEmail.get(email).name;
         }
         if (recipientType.equals(FeedbackParticipantType.TEAMS)
-                    || recipientType.equals((FeedbackParticipantType.OWN_TEAM))
+                    || recipientType.equals(FeedbackParticipantType.OWN_TEAM)
                     || recipientType.equals(FeedbackParticipantType.SELF)) {
             return email;
         }

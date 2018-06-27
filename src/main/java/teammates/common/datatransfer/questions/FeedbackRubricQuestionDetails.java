@@ -965,7 +965,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber));
 
-            if (isFeedbackParticipantCommentsOnResponsesAllowed() && i==0) {
+            if (isFeedbackParticipantCommentsOnResponsesAllowed() && i == 0) {
                 String feedbackParticipantComment =
                         fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
                 detailedResponsesRow.append(',').append(feedbackParticipantComment);

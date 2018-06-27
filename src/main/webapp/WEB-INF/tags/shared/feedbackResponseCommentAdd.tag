@@ -11,8 +11,7 @@
 <%@ attribute name="isOnQuestionsPage" %>
 <%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="isPreview" %>
-<%@ attribute name="submitTable" %>
+<%@ attribute name="isModeration" %>
 
 <c:choose>
   <c:when test="${not empty fourthIndex}">
@@ -42,5 +41,6 @@
       buttonText="Add"
       isOnQuestionsPage="${isOnQuestionsPage}"
       isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
+      isModeration="${isModeration}"
       moderatedPersonEmail="${moderatedPersonEmail}"/>
 </li>

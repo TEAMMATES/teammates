@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -302,7 +301,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 List<String> recipientListForUnsubmittedResponse = getRecipientList(responseSubmittedRecipient,
                         bundle.getSortedRecipientList(questionAttributes.getId()));
                 commentRecipientName = recipientListForUnsubmittedResponse.get(recipientIndxForUnsubmittedResponse);
-                if (isPreview) {
+                if (isPreview || isModeration) {
                     if (previewInstructor == null) {
                         if (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)) {
                             commentGiverName = bundle.roster.getStudentForEmail(studentToViewPageAs.email).team;
