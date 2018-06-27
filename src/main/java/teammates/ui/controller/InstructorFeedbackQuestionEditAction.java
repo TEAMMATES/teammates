@@ -48,8 +48,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             } else if ("delete".equals(editType)) {
                 // branch not tested because if it's not edit or delete, Assumption.fail will cause test failure
                 deleteQuestion();
-            } else if ("copy".equals(editType)) {
-                copyQuestion();
+            } else if ("duplicate".equals(editType)) {
+                duplicateQuestion();
             } else {
                 // Assumption.fails are not tested
                 Assumption.fail("Invalid editType");
@@ -64,7 +64,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                                             .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 
-    private void copyQuestion() throws InvalidParametersException {
+    private void duplicateQuestion() throws InvalidParametersException {
         String questionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -75,7 +75,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
 
         FeedbackQuestionAttributes feedbackQuestion =
                 logic.copyFeedbackQuestion(questionId, feedbackSessionName, courseId, instructorEmail);
-        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_COPIED, StatusMessageColor.SUCCESS));
+        statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_DUPLICATED, StatusMessageColor.SUCCESS));
         statusToAdmin = "Feedback Question " + questionNumber + " for session: <span class=\"bold\">("
                 + feedbackSessionName + ")</span> for Course <span class\"bold\">["
                 + courseId + "]</span> copied to Feedback Question " + feedbackQuestion.questionNumber + ". <br>";

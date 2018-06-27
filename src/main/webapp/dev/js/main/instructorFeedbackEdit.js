@@ -247,12 +247,12 @@ function checkEditFeedbackSession(form) {
     return true;
 }
 
-function copyQuestion(questionNum) {
+function duplicateQuestion(questionNum) {
     if (questionNum === NEW_QUESTION) {
         window.location.reload();
         return false;
     }
-    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('copy');
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('duplicate');
     $(`#form_editquestion-${questionNum}`).submit();
     return false;
 }
@@ -1249,8 +1249,8 @@ $(document).ready(() => {
         getVisibilityMessage(e.currentTarget);
     });
 
-    $(document).on('click', '.btn-copy-qn', (e) => {
-        copyQuestion($(e.currentTarget).data('qnnumber'));
+    $(document).on('click', '.btn-duplicate-qn', (e) => {
+        duplicateQuestion($(e.currentTarget).data('qnnumber'));
     });
 
     $(document).on('click', '.btn-discard-changes', (e) => {
