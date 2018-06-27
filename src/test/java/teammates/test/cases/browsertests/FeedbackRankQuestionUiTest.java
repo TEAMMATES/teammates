@@ -314,6 +314,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
+        testReorderOptions();
     }
 
     @Override
@@ -644,7 +645,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                                                         .questionMetaData.getValue());
         assertEquals(
                 "[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
-                rankOptionsQuestionDetails.get("rankOptions").toString());
+                rankOptionsQuestionDetails.get("options").toString());
 
         ______TS("Rank options: add option and reorder");
 
@@ -657,7 +658,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                                             .questionMetaData.getValue());
         assertEquals(
                 "[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
-                rankOptionsQuestionDetails.get("rankOptions").toString());
+                rankOptionsQuestionDetails.get("options").toString());
 
         ______TS("Rank options: delete option and reorder");
 
@@ -670,9 +671,9 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                                             .questionMetaData.getValue());
         assertEquals(
                 "[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
-                rankOptionsQuestionDetails.get("rankOptions").toString());
+                rankOptionsQuestionDetails.get("options").toString());
 
-        ______TS("CONSTSUM: add, delete and reorder options");
+        ______TS("Rank options: add, delete and reorder options");
 
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickRemoveRankOptionLink(1, 2);
@@ -687,9 +688,9 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                                                             .questionMetaData.getValue());
         assertEquals(
                 "[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
-                rankOptionsQuestionDetails.get("rankOptions").toString());
+                rankOptionsQuestionDetails.get("options").toString());
 
-        ______TS("CONSTSUM: delete question");
+        ______TS("Rank options: delete question");
 
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickCancel();

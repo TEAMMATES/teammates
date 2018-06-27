@@ -710,8 +710,8 @@
   </div>
   <br>
   <input id="num-questions" type="hidden" value="1">
-  <input id="num-students" type="hidden" value="1">
-  <input id="num-teams" type="hidden" value="1">
+  <input id="num-students" type="hidden" value="0">
+  <input id="num-teams" type="hidden" value="0">
   <input id="num-instructors" type="hidden" value="1">
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
@@ -1882,26 +1882,36 @@
               <div class="row">
                 <br>
                 <div class="col-sm-6" id="rankOptionTable--1">
-                  <div class="margin-bottom-7px" id="rankOptionRow-0--1">
-                    <div class="input-group width-100-pc">
-                      <input class="form-control" disabled="" id="rankOption-0--1" name="rankOption-0" type="text" value="">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,-1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
+                  <div id="rankOptionRows--1">
+                    <div class="margin-bottom-7px" id="rankOptionRow-0--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-resize-vertical">
                           </span>
-                        </button>
-                      </span>
+                        </span>
+                        <input class="form-control" disabled="" id="rankOption-0--1" name="rankOption-0" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="margin-bottom-7px" id="rankOptionRow-1--1">
-                    <div class="input-group width-100-pc">
-                      <input class="form-control" disabled="" id="rankOption-1--1" name="rankOption-1" type="text" value="">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,-1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
+                    <div class="margin-bottom-7px" id="rankOptionRow-1--1">
+                      <div class="input-group width-100-pc">
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-resize-vertical">
                           </span>
-                        </button>
-                      </span>
+                        </span>
+                        <input class="form-control" disabled="" id="rankOption-1--1" name="rankOption-1" type="text" value="">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" id="rankRemoveOptionLink" onclick="removeRankOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div id="rankAddOptionRow--1">
@@ -2395,15 +2405,12 @@
         <form action="/page/instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
           <div class="col-sm-6">
             <select class="form-control margin-bottom-7px" name="previewas">
-              <option value="alice.b.tmms@gmail.tmt">
-                [Team &lt;/option&gt;&lt;option value="dump"&gt;1'] Alice Betsy&lt;/td&gt;&lt;/div&gt;'"
-              </option>
             </select>
           </div>
           <input name="fsname" type="hidden" value="First Session">
           <input name="courseid" type="hidden" value="FContribQnUiT.CS2104">
           <div class="col-sm-6">
-            <input class="btn btn-primary" id="button_preview_student" type="submit" value="Preview as Student">
+            <input class="btn btn-primary" disabled="" id="button_preview_student" style="background: #66727A;" type="submit" value="Preview as Student">
           </div>
           <input name="user" type="hidden" value="FContribQnUiT.instructor">
         </form>
