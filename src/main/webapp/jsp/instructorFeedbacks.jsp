@@ -26,8 +26,7 @@
       <feedbacks:feedbackSessionsTable fsList = "${data.fsList}" />
 
       <c:if test="${not empty data.recoveryFsList.rows}">
-        <feedbacks:recoveryFeedbackSessionsTable recoveryFsList="${data.recoveryFsList}" />
-        <feedbacks:actionsForAllSessions />
+        <feedbacks:recoveryFeedbackSessionsPanel />
         <br>
         <br>
         <br>
