@@ -713,8 +713,8 @@ public class Logic {
     }
 
     /**
-     * Deletes the course and all data related to the course
-     * (instructors, students, feedback sessions).
+     * Permanently deletes a course and all data related to the course
+     * (instructors, students, feedback sessions) from Recycle Bin.
      * Fails silently if no such account. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -725,9 +725,8 @@ public class Logic {
     }
 
     /**
-     * Deletes all courses and all data related to the course
-     * (instructors, students, feedback sessions) from
-     * Recycle Bin.
+     * Permanently deletes all courses and all data related to these courses
+     * (instructors, students, feedback sessions) from Recycle Bin.
      */
     public void deleteAllCourses(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull(instructorList);
@@ -735,7 +734,7 @@ public class Logic {
     }
 
     /**
-     * Moves a course to recycle bin.
+     * Moves a course to Recycle Bin by its given corresponding ID.
      * All data related will not be deleted.
      */
     public void moveCourseToRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
@@ -744,7 +743,8 @@ public class Logic {
     }
 
     /**
-     * Recovers a course and all related data from recycle bin.
+     * Restores a course and all data related to the course from Recycle Bin by
+     * its given corresponding ID.
      */
     public void restoreCourseFromRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -753,7 +753,7 @@ public class Logic {
     }
 
     /**
-     * Recovers all courses and all related data from recycle bin.
+     * Restores all courses and all data related to these courses from Recycle Bin.
      */
     public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {

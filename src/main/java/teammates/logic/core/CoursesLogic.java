@@ -654,7 +654,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Delete a course in Recycle Bin permanently from its given corresponding ID.
+     * Permanently deletes a course in Recycle Bin by its given corresponding ID.
      * This will also cascade the data in other databases which are related to this course.
      */
     public void deleteCourseCascade(String courseId) {
@@ -665,8 +665,8 @@ public final class CoursesLogic {
     }
 
     /**
-     * Delete all courses in Recycle Bin permanently.
-     * This will also cascade the data in other databases which are related to this course.
+     * Permanently deletes all courses in Recycle Bin.
+     * This will also cascade the data in other databases which are related to these courses.
      */
     public void deleteAllCoursesCascade(List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
@@ -682,7 +682,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Move a course to recycle bin from its given corresponding ID.
+     * Moves a course to Recycle Bin by its given corresponding ID.
      */
     public void moveCourseToRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -692,7 +692,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Recover a course from recycle bin from its given corresponding ID.
+     * Restores a course from Recycle Bin by its given corresponding ID.
      */
     public void restoreCourseFromRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -702,7 +702,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Recover all courses from recycle bin.
+     * Restores all courses from Recycle Bin.
      */
     public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
