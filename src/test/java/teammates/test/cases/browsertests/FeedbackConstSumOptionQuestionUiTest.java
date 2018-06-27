@@ -280,8 +280,9 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.dragAndDropConstSumOption(NEW_QUESTION_INDEX, 2, 0);
         feedbackEditPage.clickAddQuestionButton();
         JSONObject constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData.getValue());
-        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                                                                    .questionMetaData.getValue());
+        assertEquals(
+                "[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                 constSumQuestionDetails.get("constSumOptions").toString());
 
         ______TS("CONSTSUM: add option and reorder");
@@ -292,8 +293,9 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.dragAndDropConstSumOption(1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData.getValue());
-        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                                                            .questionMetaData.getValue());
+        assertEquals(
+                "[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                 constSumQuestionDetails.get("constSumOptions").toString());
 
         ______TS("CONSTSUM: delete option and reorder");
@@ -304,8 +306,9 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.dragAndDropConstSumOption(1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData.getValue());
-        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                                                            .questionMetaData.getValue());
+        assertEquals(
+                "[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
                 constSumQuestionDetails.get("constSumOptions").toString());
 
         ______TS("CONSTSUM: add, delete and reorder options");
@@ -320,8 +323,9 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.dragAndDropConstSumOption(1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData.getValue());
-        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                                                            .questionMetaData.getValue());
+        assertEquals(
+                "[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
                 constSumQuestionDetails.get("constSumOptions").toString());
 
         ______TS("CONSTSUM: delete question");
