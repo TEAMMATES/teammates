@@ -132,6 +132,4 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 
     protected abstract RedirectResult createSpecificRedirectResult() throws EntityDoesNotExistException;
 
-    protected abstract boolean isFeedbackSubmissionForInstructor();
-
 }

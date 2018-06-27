@@ -7,7 +7,6 @@
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
 <%@ attribute name="isShowRealQuestionNumber" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="isInstructor" required="true" %>
 <%@ attribute name="moderatedPersonEmail" required="true" %>
 
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>

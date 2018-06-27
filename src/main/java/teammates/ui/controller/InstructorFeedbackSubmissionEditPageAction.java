@@ -70,8 +70,4 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
-    @Override
-    protected boolean isFeedbackSubmissionForInstructor() {
-        return true;
-    }
 }

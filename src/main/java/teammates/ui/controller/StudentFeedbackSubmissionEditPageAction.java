@@ -62,11 +62,6 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
     }
 
-    @Override
-    protected boolean isFeedbackSubmissionForInstructor() {
-        return false;
-    }
-
     private StudentAttributes getStudent() {
         if (student == null) {
             // branch of student != null is not covered since student is not set elsewhere, but this

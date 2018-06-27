@@ -1502,11 +1502,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private String getFeedbackParticipantCommentText(FeedbackResponseAttributes response) {
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
-        if (frcAttributesList != null) {
-            for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
-                if (frca.isCommentFromFeedbackParticipant) {
-                    return frca.convertCommentTextToStringForHtml();
-                }
+        if (frcAttributesList == null) {
+            return "";
+        }
+        for (FeedbackResponseCommentAttributes frca : frcAttributesList) {
+            if (frca.isCommentFromFeedbackParticipant) {
+                return frca.convertCommentTextToStringForHtml();
             }
         }
         return "";
@@ -1545,7 +1546,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
 
         if (isInstructorAllowedToEditAndDeleteComment
-                    && FeedbackParticipantType.INSTRUCTORS.equals(frcAttributes.commentGiverType)) {
+                    && !frcAttributes.isCommentFromFeedbackParticipant) {
             frc.enableEditDelete();
         }
 

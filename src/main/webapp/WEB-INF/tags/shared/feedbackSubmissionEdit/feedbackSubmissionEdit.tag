@@ -50,7 +50,7 @@
 <c:choose>
   <c:when test="${isInstructor}">
     <ti:instructorPage title="Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
-      <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}" isInstructor="${isInstructor}"/>
+      <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>
     </ti:instructorPage>
   </c:when>
   <c:otherwise>
@@ -63,7 +63,7 @@
           ${data.registerMessage}
         </div>
       </c:if>
-      <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}" isInstructor="${isInstructor}"/>
+      <tsfse:feedbackSubmissionForm moderatedPersonEmail="${moderatedPersonEmail}"/>
     </ts:studentPage>
   </c:otherwise>
 </c:choose>

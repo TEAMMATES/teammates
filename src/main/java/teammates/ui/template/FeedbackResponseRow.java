@@ -55,7 +55,7 @@ public class FeedbackResponseRow {
                 String recipientName = results.getNameForEmail(response.recipient);
                 String giverEmail = frc.commentGiver;
                 Map<String, String> commentGiverEmailNameTable = results.commentGiverEmailToNameTable;
-                FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
+                FeedbackResponseCommentRow responseCommentRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
                         commentGiverEmailNameTable, results.getTimeZone());
                 String whoCanSeeComment = null;
@@ -67,7 +67,7 @@ public class FeedbackResponseRow {
                         whoCanSeeComment = getTypeOfPeopleCanViewComment(frc, question);
                     }
                 }
-                responseRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
+                responseCommentRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
                 boolean isInstructorGiver = results.roster.isInstructorOfCourse(giverEmail);
                 // Instructor cannot edit/delete feedback participant's comments from results page
                 if (isInstructorGiver) {
@@ -80,11 +80,10 @@ public class FeedbackResponseRow {
                                     response.feedbackSessionName,
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
                     if (isCommentGiverInstructor || isAllowedToSubmitSessionsInBothSection) {
-                        responseRow.enableEditDelete();
+                        responseCommentRow.enableEditDelete();
                     }
-
                 }
-                this.responseComments.add(responseRow);
+                this.responseComments.add(responseCommentRow);
             }
         }
     }
