@@ -365,7 +365,9 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Verifies if comment giver is registered user/team of course.
+     * Verifies if comment giver is registered user/team of course. Since feedback participant comments can only be
+     * added through {@link teammates.ui.controller.FeedbackSubmissionEditSaveAction}, it is verified that comment giver
+     * has access to feedback session.
      * @param courseId id of course
      * @param commentGiver person/team who gave comment
      * @param commentGiverType type of comment giver                    *

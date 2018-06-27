@@ -303,12 +303,7 @@ public final class FeedbackSessionsLogic {
             updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                     userEmail, fsa, instructor, bundle, recipientList,
                     question, instructor, null);
-            commentsForResponses = getCommentsOnResponses(bundle.get(question));
-
-            for (FeedbackResponseAttributes response : bundle.get(question)) {
-                roster.addEmailNamePairsToTable(response, question);
-                roster.addEmailTeamNamePairsToTable(response, question);
-            }
+            commentsForResponses.putAll(getCommentsOnResponses(bundle.get(question)));
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
@@ -429,11 +424,6 @@ public final class FeedbackSessionsLogic {
 
             updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
                     bundle, recipientList, question, hiddenInstructorEmails, commentsForResponses);
-
-            for (FeedbackResponseAttributes response : bundle.get(question)) {
-                roster.addEmailNamePairsToTable(response, question);
-                roster.addEmailTeamNamePairsToTable(response, question);
-            }
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
@@ -473,11 +463,6 @@ public final class FeedbackSessionsLogic {
 
         updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
                 bundle, recipientList, question, hiddenInstructorEmails, commentsForResponses);
-
-        for (FeedbackResponseAttributes response : bundle.get(question)) {
-            roster.addEmailNamePairsToTable(response, question);
-            roster.addEmailTeamNamePairsToTable(response, question);
-        }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
     }

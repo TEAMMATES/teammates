@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -261,8 +262,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                 questionAttributes.courseId, numOfResponseBoxes,
                                                 existingResponse.getResponseDetails(), student);
 
-            commentGiverName = bundle.roster.getNameForEmail(existingResponse.giver);
-            commentRecipientName = bundle.roster.getNameForEmail(existingResponse.recipient);
+            commentGiverName = bundle.getRoster().getCommentGiverNameFromEmail(existingResponse.giver,
+                    questionAttributes.giverType);
+            commentRecipientName = bundle.getRoster().getCommentRecipientNameFromEmail(existingResponse.recipient,
+                    questionAttributes.recipientType);
 
             Map<String, String> commentGiverEmailToNameTable = bundle.roster.getEmailToNameTableFromRoster();
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {

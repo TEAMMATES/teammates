@@ -937,12 +937,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
         //To show comment only once for each response.
         String instructorComment = fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes);
-        boolean shouldShowComments = !instructorComment.isEmpty();
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {
-            //To show comment only once for each response.
-            shouldShowComments = i < 1 && shouldShowComments;
             int chosenIndex = frd.answer.get(i);
             String chosenChoiceNumber = "";
             String chosenChoiceValue = "";
@@ -968,12 +965,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber));
 
-            if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
+            if (isFeedbackParticipantCommentsOnResponsesAllowed() && i==0) {
                 String feedbackParticipantComment =
                         fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
                 detailedResponsesRow.append(',').append(feedbackParticipantComment);
             }
-            detailedResponsesRow.append(shouldShowComments ? instructorComment : "");
+            if (i == 0) {
+                //To show instructor comment only once for each response.
+                detailedResponsesRow.append(instructorComment);
+            }
             detailedResponsesRow.append(System.lineSeparator());
         }
 

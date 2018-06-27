@@ -65,15 +65,15 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
             case INSTRUCTORS:
                 gateKeeper.verifyAccessible(instructor, session, false,
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-                gateKeeper.verifyAccessible(frc, instructor.email);
+                gateKeeper.verifyAccessibleForDeletion(frc, instructor.email);
                 break;
             case STUDENTS:
                 gateKeeper.verifyAccessible(student, session);
-                gateKeeper.verifyAccessible(frc, student.email);
+                gateKeeper.verifyAccessibleForDeletion(frc, student.email);
                 break;
             case TEAMS:
                 gateKeeper.verifyAccessible(student, session);
-                gateKeeper.verifyAccessible(frc, student.team);
+                gateKeeper.verifyAccessibleForDeletion(frc, student.team);
                 break;
             default:
                 Assumption.fail("Invalid comment giver type");

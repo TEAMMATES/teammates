@@ -143,4 +143,8 @@ public class FeedbackSessionQuestionsBundle {
             questionResponseBundle.put(question, new ArrayList<>());
         }
     }
+
+    public CourseRoster getRoster() {
+        return roster;
+    }
 }
