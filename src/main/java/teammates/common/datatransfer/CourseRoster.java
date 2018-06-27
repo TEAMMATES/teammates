@@ -105,6 +105,12 @@ public class CourseRoster {
         }
     }
 
+    /**
+     * Used for getting comment giver name associated with email.
+     * @param email email of comment giver
+     * @param giverType type of comment giver
+     * @return name associated with email
+     */
     public String getCommentGiverNameFromEmail(String email, FeedbackParticipantType giverType) {
         if (giverType.equals(FeedbackParticipantType.TEAMS)) {
             return email;
@@ -118,6 +124,12 @@ public class CourseRoster {
         return email;
     }
 
+    /**
+     * Used for getting comment receiver name associated with email.
+     * @param email email of comment receiver
+     * @param recipientType type of comment receiver
+     * @return name associated with email
+     */
     public String getCommentRecipientNameFromEmail(String email, FeedbackParticipantType recipientType) {
         StudentAttributes student = getStudentForEmail(email);
         if (student != null) {

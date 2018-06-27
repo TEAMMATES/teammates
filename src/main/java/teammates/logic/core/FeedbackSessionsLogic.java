@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -948,8 +949,13 @@ public final class FeedbackSessionsLogic {
         int maxCommentsNum = 0;
         for (FeedbackResponseAttributes response : allResponses) {
             List<FeedbackResponseCommentAttributes> commentAttributes = responseComments.get(response.getId());
-            if (commentAttributes != null && maxCommentsNum < commentAttributes.size()) {
-                maxCommentsNum = commentAttributes.size();
+            if (commentAttributes != null) {
+                commentAttributes = commentAttributes.stream()
+                                            .filter(comment -> !comment.isCommentFromFeedbackParticipant)
+                                            .collect(Collectors.toList());
+                if (maxCommentsNum < commentAttributes.size()) {
+                    maxCommentsNum = commentAttributes.size();
+                }
             }
         }
 

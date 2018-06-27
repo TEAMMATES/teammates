@@ -14,7 +14,7 @@
 <%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean"%>
 <%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="submitTable" %>
+<%@ attribute name="submittable" %>
 <%@ attribute name="isPreview" %>
 <%@ attribute name="isModeration" %>
 
@@ -76,7 +76,7 @@
               data-placement="top"
               title="<%= Const.Tooltips.COMMENT_DELETE %>"
              <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>
-             <c:if test="${isOnFeedbackSubmissionEditPage and isPreview or (not submitTable)}">disabled style="background: #66727A;" </c:if>>
+             <c:if test="${isOnFeedbackSubmissionEditPage and (isPreview or (not submittable))}">disabled style="background: #66727A;" </c:if>>
             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
           </a>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">

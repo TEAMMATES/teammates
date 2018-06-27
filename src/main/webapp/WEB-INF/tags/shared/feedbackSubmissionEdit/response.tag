@@ -79,7 +79,7 @@
                                              frcIndex="1" isOnFeedbackSubmissionEditPage="true"
                                              moderatedPersonEmail="${moderatedPersonEmail}"
                                              isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-                                             isPreview="${data.preview}" submitTable="${data.submittable}"
+                                             isPreview="${data.preview}" submittable="${data.submittable}"
                                              isModeration="${data.moderation}"/>
         </c:if>
         <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}"

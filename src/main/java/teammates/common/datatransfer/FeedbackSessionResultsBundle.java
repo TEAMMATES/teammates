@@ -1693,7 +1693,7 @@ public class FeedbackSessionResultsBundle {
      */
     public String getCsvDetailedFeedbackParticipantCommentOnResponse(FeedbackResponseAttributes response) {
         if (!this.responseComments.containsKey(response.getId())) {
-            return " ";
+            return "";
         }
         List<FeedbackResponseCommentAttributes> frcList = this.responseComments.get(response.getId());
         for (FeedbackResponseCommentAttributes frc : frcList) {
@@ -1701,7 +1701,7 @@ public class FeedbackSessionResultsBundle {
                 return frc.convertCommentTextToStringForCsv();
             }
         }
-        return " ";
+        return "";
     }
 
     /**
