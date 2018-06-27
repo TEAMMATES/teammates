@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorFeedbacks - Feedback Session actions" pageEncoding="UTF-8" %>
+<%@ tag description="instructorHome - Feedback Session actions" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
@@ -11,7 +11,7 @@
     data-placement="top">
   Edit
 </a>
-<a class="btn btn-default btn-xs btn-tm-actions margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
+<a class="btn btn-default btn-xs btn-tm-actions session-delete-for-test margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
     href="${actions.allowedToDelete ? actions.deleteLink : 'javascript:;'}"
     title="<%= Const.Tooltips.FEEDBACK_SESSION_MOVE_TO_RECOVERY %>"
     data-toggle="tooltip"
