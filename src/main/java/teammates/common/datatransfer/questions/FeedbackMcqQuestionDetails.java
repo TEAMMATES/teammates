@@ -574,7 +574,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         // Add the Response Summary Statistics to the CSV String.
         csv.append(mcqStats.getResponseSummaryStatsCsv(responses, bundle));
 
-        // If weights are assigned, then add the 'Per Recipient Statistics' to the CSV string.
+        // If weights are assigned, add the 'Per Recipient Statistics' to the CSV string.
         if (hasAssignedWeights) {
             csv.append(System.lineSeparator())
                 .append("Per Recipient Statistics").append(System.lineSeparator())
@@ -605,35 +605,35 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // If weights are enabled, number of choices and weights should be same.
-            // In case if a user enters an invalid weight for a valid choice,
-            // the mcqChoices.size() will be greater than mcqWeights.size(), which will
-            // trigger this error message.
+            // If user enters an invalid weight for a valid choice,
+            // the mcqChoices.size() will be greater than mcqWeights.size(),
+            // in that case, trigger this error.
             if (hasAssignedWeights && mcqChoices.size() != mcqWeights.size()) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weights are not enabled, but weight list is not empty or otherWeight is not 0
-            // In that case, this error will be triggered.
+            // In that case, trigger this error.
             if (!hasAssignedWeights && (!mcqWeights.isEmpty() || mcqOtherWeight != 0)) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
 
-            // If weight is enabled, but other option is disabled, and mcqOtherWeight is not 0
-            // In that case, this error will be triggered.
+            // If weights are enabled, but other option is disabled, and mcqOtherWeight is not 0
+            // In that case, trigger this error.
             if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
 
-            // If weights are enabled, and any of the weights have negative value, this error will
-            // be triggered.
+            // If weights are enabled, and any of the weights have negative value,
+            // trigger this error.
             if (hasAssignedWeights && !mcqWeights.isEmpty()) {
                 for (double weight : mcqWeights) {
                     if (weight < 0) {
                         errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
                     }
                 }
-                // If 'Other' option is enabled, and other weight has negative value, then this value
-                // will be triggered.
+                // If 'Other' option is enabled, and other weight has negative value,
+                // trigger this error.
                 if (otherEnabled && mcqOtherWeight < 0) {
                     errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
                 }
@@ -980,7 +980,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return fragments.toString();
         }
 
-        // Generates MCQ Recipient Response statistics for result page.
+        // Generate MCQ Recipient Response statistics for result page.
 
         private String getRecipientStatsHeaderFragmentHtml(String header) {
             return Templates.populateTemplate(
