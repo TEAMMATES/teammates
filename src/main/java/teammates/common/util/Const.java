@@ -639,7 +639,6 @@ public final class Const {
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String COURSE_INDEX = "courseidx";
-        public static final String COURSE_DELETION_DATE = "coursedeletiondate";
         public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
         public static final String INSTRUCTOR_ID = "instructorid";
