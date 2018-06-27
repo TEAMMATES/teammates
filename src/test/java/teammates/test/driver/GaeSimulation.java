@@ -82,7 +82,7 @@ public class GaeSimulation {
         helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
                                             localTasks, localSearch, localModules, localLog);
 
-        helper.setEnvAttributes(generateEnvironmentAttributesWithApplicationHostnameSet());
+        helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
         helper.setUp();
 
         sc = new ServletRunner().newClient();
@@ -234,7 +234,10 @@ public class GaeSimulation {
         }
     }
 
-    private Map<String, Object> generateEnvironmentAttributesWithApplicationHostnameSet() {
+    /**
+     * Returns an environment attribute with application host name.
+     */
+    public static Map<String, Object> getEnvironmentAttributesWithApplicationHostname() {
         Map<String, Object> attributes = new HashMap<>();
         try {
             attributes.put("com.google.appengine.runtime.default_version_hostname",
