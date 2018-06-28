@@ -681,10 +681,13 @@
                   <span class="icon-sort unsorted">
                   </span>
                 </th>
-                <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="width: 45%; min-width: 95px;">
+                <th class="button-sort-none toggle-sort" id="button_sortFeedback" style="width: 25%; min-width: 95px;">
                   Feedback
                   <span class="icon-sort unsorted">
                   </span>
+                </th>
+                <th style="width: 20%; min-width: 95px;">
+                  Comments
                 </th>
                 <th class="action-header" style="width: 15%; min-width: 75px;">
                   Actions
@@ -713,6 +716,8 @@
                 </td>
                 <td class="word-wrap-break text-preserve-space">
                   It's good
+                </td>
+                <td class="word-wrap-break">
                 </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=FMcqQnUiT.instructor" class="inline" method="post" target="_blank">
@@ -743,7 +748,7 @@
                                 <div class="form-group form-inline">
                                   <div class="form-group text-muted">
                                     <p>
-                                      Giver: student1 (Team 1)
+                                      Giver: Teammates Test
                                       <br>
                                       Recipient: student2 (Team 1)
                                     </p>
@@ -804,7 +809,6 @@
                                 <div class="form-group">
                                   <div class="panel panel-default panel-body" id="responseCommentAddForm-2-1-0">
                                   </div>
-                                  <input name="responsecommenttext" type="hidden">
                                 </div>
                                 <div class="col-sm-offset-5">
                                   <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-1-0" type="button">
@@ -814,6 +818,7 @@
                                 <input name="questionid" type="hidden" value="${question.id}">
                                 <input name="isOnQuestionsPage" type="hidden" value="true">
                                 <input name="fsindex" type="hidden" value="2">
+                                <input name="responsecommenttext" type="hidden">
                                 <input name="responseid" type="hidden" value="${question.id}%student1InCourse1@gmail.tmt%student2InCourse1@gmail.tmt">
                                 <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
                                 <input name="fsname" type="hidden" value="MCQ Weight Session">
@@ -821,6 +826,7 @@
                                 <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                                 <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
                                 <input name="token" type="hidden" value="${sessionToken}">
+                                <input name="commentGiverType" type="hidden" value="instructor">
                               </form>
                             </li>
                           </ul>
@@ -857,6 +863,8 @@
                 <td class="word-wrap-break text-preserve-space">
                   It's perfect
                 </td>
+                <td class="word-wrap-break">
+                </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=FMcqQnUiT.instructor" class="inline" method="post" target="_blank">
                     <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
@@ -886,7 +894,7 @@
                                 <div class="form-group form-inline">
                                   <div class="form-group text-muted">
                                     <p>
-                                      Giver: student2 (Team 1)
+                                      Giver: Teammates Test
                                       <br>
                                       Recipient: student3 (Team 1)
                                     </p>
@@ -947,7 +955,6 @@
                                 <div class="form-group">
                                   <div class="panel panel-default panel-body" id="responseCommentAddForm-3-2-0">
                                   </div>
-                                  <input name="responsecommenttext" type="hidden">
                                 </div>
                                 <div class="col-sm-offset-5">
                                   <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-3-2-0" type="button">
@@ -957,6 +964,7 @@
                                 <input name="questionid" type="hidden" value="${question.id}">
                                 <input name="isOnQuestionsPage" type="hidden" value="true">
                                 <input name="fsindex" type="hidden" value="3">
+                                <input name="responsecommenttext" type="hidden">
                                 <input name="responseid" type="hidden" value="${question.id}%student2InCourse1@gmail.tmt%student3InCourse1@gmail.tmt">
                                 <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
                                 <input name="fsname" type="hidden" value="MCQ Weight Session">
@@ -964,6 +972,7 @@
                                 <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                                 <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
                                 <input name="token" type="hidden" value="${sessionToken}">
+                                <input name="commentGiverType" type="hidden" value="instructor">
                               </form>
                             </li>
                           </ul>
@@ -1000,6 +1009,8 @@
                 <td class="word-wrap-break text-preserve-space">
                   It's perfect
                 </td>
+                <td class="word-wrap-break">
+                </td>
                 <td>
                   <form action="/page/instructorEditStudentFeedbackPage?user=FMcqQnUiT.instructor" class="inline" method="post" target="_blank">
                     <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response">
@@ -1029,7 +1040,7 @@
                                 <div class="form-group form-inline">
                                   <div class="form-group text-muted">
                                     <p>
-                                      Giver: student3 (Team 1)
+                                      Giver: Teammates Test
                                       <br>
                                       Recipient: student4 (Team 1)
                                     </p>
@@ -1090,7 +1101,6 @@
                                 <div class="form-group">
                                   <div class="panel panel-default panel-body" id="responseCommentAddForm-4-3-0">
                                   </div>
-                                  <input name="responsecommenttext" type="hidden">
                                 </div>
                                 <div class="col-sm-offset-5">
                                   <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-4-3-0" type="button">
@@ -1100,6 +1110,7 @@
                                 <input name="questionid" type="hidden" value="${question.id}">
                                 <input name="isOnQuestionsPage" type="hidden" value="true">
                                 <input name="fsindex" type="hidden" value="4">
+                                <input name="responsecommenttext" type="hidden">
                                 <input name="responseid" type="hidden" value="${question.id}%student3InCourse1@gmail.tmt%student4InCourse1@gmail.tmt">
                                 <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
                                 <input name="fsname" type="hidden" value="MCQ Weight Session">
@@ -1107,6 +1118,7 @@
                                 <input name="showresponsecommentsto" type="hidden" value="GIVER, INSTRUCTORS">
                                 <input name="showresponsegiverto" type="hidden" value="GIVER, INSTRUCTORS">
                                 <input name="token" type="hidden" value="${sessionToken}">
+                                <input name="commentGiverType" type="hidden" value="instructor">
                               </form>
                             </li>
                           </ul>
