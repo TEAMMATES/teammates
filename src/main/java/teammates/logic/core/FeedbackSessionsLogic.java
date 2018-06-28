@@ -900,7 +900,7 @@ public final class FeedbackSessionsLogic {
         String prevGiver = "";
 
         int maxNumOfInstructorComments = getMaxNumberOfInstructorComments(allResponses, fsrBundle.getResponseComments());
-        boolean isFeedbackParticipantCommentPresent  = isFeedbackParticipantCommentPresent(allResponses,
+        boolean isFeedbackParticipantCommentPresent = isFeedbackParticipantCommentPresent(allResponses,
                 fsrBundle.getResponseComments());
         exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfInstructorComments,
                 isFeedbackParticipantCommentPresent));

@@ -54,10 +54,10 @@ public class FeedbackResponseRow {
                 String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
                 String recipientName = results.getNameForEmail(response.recipient);
                 String giverEmail = frc.commentGiver;
-                Map<String, String> commentGiverEmailNameTable = results.commentGiverEmailToNameTable;
+                Map<String, String> commentGiverEmailToNameTable = results.commentGiverEmailToNameTable;
                 FeedbackResponseCommentRow responseCommentRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
-                        commentGiverEmailNameTable, results.getTimeZone());
+                        commentGiverEmailToNameTable, results.getTimeZone());
                 String whoCanSeeComment = null;
                 boolean isVisibilityIconShown = false;
                 if (results.feedbackSession.isPublished()) {
