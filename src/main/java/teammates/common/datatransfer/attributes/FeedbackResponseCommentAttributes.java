@@ -166,7 +166,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, commentGiver,
                 commentGiverType, feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
-                showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt, isCommentFromFeedbackParticipant);
+                showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt, isCommentFromFeedbackParticipant,
+                isVisibilityFollowingFeedbackQuestion);
     }
 
     @Override
