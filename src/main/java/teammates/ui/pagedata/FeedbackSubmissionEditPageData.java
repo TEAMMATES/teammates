@@ -172,7 +172,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         this.submitAction = submitAction;
     }
 
-    public void setCourseStudentDetails(List<StudentAttributes> studentList) {
+    public void setStudentCourseDetails(List<StudentAttributes> studentList) {
         for (StudentAttributes student : studentList) {
             studentCourseDetails.put(student.email, student);
         }
@@ -268,8 +268,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 continue;
             }
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
-                                            questionAttributes.getId(), numOfResponseBoxes,
-                                                existingResponse.recipient);
+                                                            questionAttributes.getId(), numOfResponseBoxes,
+                                                            existingResponse.recipient);
 
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithExistingResponseSubmissionFormHtml(
@@ -283,8 +283,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         }
 
         while (responseIndx < numOfResponseBoxes) {
-            List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(),
-                                            numOfResponseBoxes, null);
+            List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
+                                                            questionAttributes.getId(),numOfResponseBoxes,
+                                                            null);
+
             String submissionFormHtml = questionAttributes.getQuestionDetails()
                                             .getQuestionWithoutExistingResponseSubmissionFormHtml(
                                                 isSessionOpenForSubmission, qnIndx, responseIndx,

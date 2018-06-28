@@ -48,7 +48,7 @@ public class InstructorEditInstructorFeedbackPageAction extends Action {
 
         Assumption.assertNotNull(data.bundle);
 
-        data.setCourseStudentDetails(logic.getStudentsForCourse(courseId));
+        data.setStudentCourseDetails(logic.getStudentsForCourse(courseId));
         data.setSessionOpenForSubmission(true);
         data.setModeration(true);
         data.setHeaderHidden(true);
