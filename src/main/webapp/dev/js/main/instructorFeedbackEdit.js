@@ -58,7 +58,10 @@ import {
 
 import {
     addMcqOption,
+    bindMcqHasAssignedWeightsCheckbox,
+    bindMcqOtherOptionEnabled,
     removeMcqOption,
+    toggleMcqHasAssignedWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
     changeMcqGenerateFor,
@@ -359,9 +362,12 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find('.removeOptionLink').hide();
 
     /* Check whether generate options for students/instructors/teams is selected
-       If so, hide 'add Other option' and weight checkbox for msq questions */
+       If so, hide 'add Other option' and weight checkbox for mcq and msq questions */
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        // Hide the enclosing parent div to hide the weight checkbox and 'Choices are weighted' label.
+        $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().hide();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).hide();
     } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         // Hide the enclosing parent div to hide the weight checkbox and 'Choices are weighted' label.
@@ -373,8 +379,10 @@ function disableQuestion(questionNum) {
         // Shows the enclosing parent div to show the weight checkbox and 'Choices are weighted' label.
         $currentQuestionTable.find(`#msqHasAssignedWeights-${questionNum}`).parent().show();
         $currentQuestionTable.find(`#msqOtherWeight-${questionNum}`).show();
+        $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().show();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).show();
     }
-
+    toggleMcqHasAssignedWeights($currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`), questionNum);
     toggleMsqHasAssignedWeights($currentQuestionTable.find(`#msqHasAssignedWeights-${questionNum}`), questionNum);
 
     $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
@@ -577,6 +585,7 @@ function enableNewQuestion() {
     toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqHasAssignedWeights($(`#msqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
 
@@ -1190,6 +1199,8 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMcqHasAssignedWeightsCheckbox();
+    bindMcqOtherOptionEnabled();
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
@@ -1279,6 +1290,7 @@ window.addRubricCol = addRubricCol;
 window.removeRubricCol = removeRubricCol;
 window.highlightRubricCol = highlightRubricCol;
 
+window.scrollToElement = scrollToElement;
 window.isWithinView = isWithinView;
 
 export {
