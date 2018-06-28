@@ -1,11 +1,14 @@
 package teammates.test.cases.action;
 
+import java.net.URL;
+
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
@@ -118,6 +121,13 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsWithLargeData);
         RedirectResult r = getRedirectResult(action);
 
+        expectedDestination = getPageResultDestination("/page/instructorFeedbackResultsPage", true, "");
+        expectedDestination = Config.getAppUrl(expectedDestination)
+                .withCourseId(session.getCourseId()).withUserId("idOfInstructor1OfCourse1")
+                .withSessionName(session.getFeedbackSessionName()).toAbsoluteString();
+        
+        assertEquals(new URL(expectedDestination).getFile(), r.getDestinationWithParams());
+        assertTrue(r.isError);
         ______TS("Failure case: params with null course id");
 
         try {
