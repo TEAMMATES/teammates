@@ -909,7 +909,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getCsvDetailedResponsesHeader(int noOfComments) {
+    public String getCsvDetailedResponsesHeader(int noOfComments, boolean isFeedbackParticipantCommentPresent) {
         return "Team" + "," + "Giver's Full Name" + ","
                 + "Giver's Last Name" + "," + "Giver's Email" + ","
                 + "Recipient's Team" + "," + "Recipient's Full Name" + ","

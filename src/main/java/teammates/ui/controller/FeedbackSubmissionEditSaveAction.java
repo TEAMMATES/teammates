@@ -445,7 +445,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                        + "-" + questionIndex + "-"
                                                        + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS);
         }
-        if (commentText.isEmpty()) {
+        if (commentText == null || commentText.isEmpty()) {
             return;
         }
 

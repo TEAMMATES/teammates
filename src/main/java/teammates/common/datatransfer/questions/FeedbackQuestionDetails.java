@@ -67,7 +67,7 @@ public abstract class FeedbackQuestionDetails {
     public abstract String getCsvHeader();
 
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
-    public String getCsvDetailedResponsesHeader(int noOfComments) {
+    public String getCsvDetailedResponsesHeader(int noOfInstructorComments, boolean isFeedbackParticipantCommentPresent) {
         StringBuilder header = new StringBuilder(1000);
         String headerString = "Team" + "," + "Giver's Full Name" + ","
                 + "Giver's Last Name" + "," + "Giver's Email" + ","
@@ -76,11 +76,11 @@ public abstract class FeedbackQuestionDetails {
                 + getCsvHeader();
         header.append(headerString);
 
-        if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
+        if (isFeedbackParticipantCommentsOnResponsesAllowed() && isFeedbackParticipantCommentPresent) {
             headerString = ',' + "Giver's Comments";
             header.append(headerString);
         }
-        header.append(getCsvDetailedInstructorsCommentsHeader(noOfComments)).append(System.lineSeparator());
+        header.append(getCsvDetailedInstructorsCommentsHeader(noOfInstructorComments)).append(System.lineSeparator());
         return header.toString();
     }
 
@@ -114,16 +114,17 @@ public abstract class FeedbackQuestionDetails {
         if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
             String feedbackParticipantComment =
                     fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
-            detailedResponseRow.append(',').append(feedbackParticipantComment);
+            if (!feedbackParticipantComment.isEmpty()) {
+                detailedResponseRow.append(',').append(feedbackParticipantComment);
+            }
         }
         //Appends instructor comments if comments exists on response
         if (isInstructorCommentsOnResponsesAllowed()) {
             String instructorComments =
                     fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes);
-            detailedResponseRow.append(instructorComments.isEmpty() ? "" : instructorComments)
-                    .append(System.lineSeparator());
+            detailedResponseRow.append(instructorComments.isEmpty() ? "" : instructorComments);
         }
-        return detailedResponseRow.toString();
+        return detailedResponseRow.append(System.lineSeparator()).toString();
     }
 
     public String getQuestionText() {

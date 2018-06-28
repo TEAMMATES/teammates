@@ -899,8 +899,11 @@ public final class FeedbackSessionsLogic {
         List<String> possibleRecipientsForGiver = new ArrayList<>();
         String prevGiver = "";
 
-        int maxNumOfResponseComments = getMaxNumberOfResponseComments(allResponses, fsrBundle.getResponseComments());
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfResponseComments));
+        int maxNumOfInstructorComments = getMaxNumberOfInstructorComments(allResponses, fsrBundle.getResponseComments());
+        boolean isFeedbackParticipantCommentPresent  = isFeedbackParticipantCommentPresent(allResponses,
+                fsrBundle.getResponseComments());
+        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfInstructorComments,
+                isFeedbackParticipantCommentPresent));
 
         for (FeedbackResponseAttributes response : allResponses) {
 
@@ -945,7 +948,25 @@ public final class FeedbackSessionsLogic {
         return exportBuilder;
     }
 
-    private int getMaxNumberOfResponseComments(List<FeedbackResponseAttributes> allResponses,
+    private boolean isFeedbackParticipantCommentPresent(List<FeedbackResponseAttributes> allResponses,
+            Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
+        if (allResponses == null || allResponses.isEmpty()) {
+            return false;
+        }
+        for (FeedbackResponseAttributes response : allResponses) {
+            List<FeedbackResponseCommentAttributes> commentAttributes = responseComments.get(response.getId());
+            if (commentAttributes != null) {
+                for (FeedbackResponseCommentAttributes comment : commentAttributes) {
+                    if (comment.isCommentFromFeedbackParticipant) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private int getMaxNumberOfInstructorComments(List<FeedbackResponseAttributes> allResponses,
             Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
 
         if (allResponses == null || allResponses.isEmpty()) {
