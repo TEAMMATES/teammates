@@ -110,7 +110,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
@@ -145,7 +146,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         r = getRedirectResult(a);
 
         assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED + Const.HTML_BR_TAG
+                + Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1.", r.getStatusMessage());
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
