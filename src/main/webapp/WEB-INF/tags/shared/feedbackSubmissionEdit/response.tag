@@ -34,7 +34,7 @@
   <div ${isNumResponsesMax ? 'class="col-sm-12 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
       ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:left"'}>
 
-    <label for="input">To${isRecipientTeam ? ' Team' : ''}: </label>
+    <label>
       <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control"
           name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
           style="${isNumResponsesMax ? 'display:none;max-width:125px' : 'width:275px;max-width:275px'}"
@@ -44,6 +44,7 @@
           ${option}
         </c:forEach>
       </select>
+    </label>
       <c:choose>
         <c:when test="${recipientType == 'STUDENT'}"> (Student)</c:when>
         <c:when test="${recipientType == 'INSTRUCTOR'}"> (Instructor)</c:when>
@@ -73,20 +74,15 @@
       <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
           style="${not empty response.commentOnResponse ? 'margin-top:15px;': 'display:none'}">
         <c:if test="${isCommentOnResponse}">
-          <shared:feedbackResponseCommentRow frc="${response.commentOnResponse}"
-                                             firstIndex="${responseRecipientIndex}"
-                                             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-                                             frcIndex="1" isOnFeedbackSubmissionEditPage="true"
-                                             moderatedPersonEmail="${moderatedPersonEmail}"
-                                             isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-                                             isPreview="${data.preview}" submittable="${data.submittable}"
-                                             isModeration="${data.moderation}"/>
+          <shared:feedbackResponseCommentRow frc="${response.commentOnResponse}" firstIndex="${responseRecipientIndex}"
+             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}" frcIndex="1"
+             isOnFeedbackSubmissionEditPage="true" moderatedPersonEmail="${moderatedPersonEmail}"
+             isSessionOpenForSubmission="${isSessionOpenForSubmission}" isPreview="${data.preview}"
+             submittable="${data.submittable}" isModeration="${data.moderation}"/>
         </c:if>
-        <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}"
-                                           firstIndex="${responseRecipientIndex}"
-                                           secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-                                           isOnFeedbackSubmissionEditPage="true" isModeration="${data.moderation}"
-                                           moderatedPersonEmail="${moderatedPersonEmail}"/>
+        <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}" firstIndex="${responseRecipientIndex}"
+           secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}" isOnFeedbackSubmissionEditPage="true"
+           isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
       </ul>
        <c:if test="${not questionWithResponses.question.questionTypeConstsum}">
        </div>

@@ -1,4 +1,3 @@
-<%@ attribute name="isModeration" %>
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ tag description="Feedback Response Comment Form With Visibility Options" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -20,6 +19,7 @@
 <%@ attribute name="isOnQuestionsPage" %>
 <%@ attribute name="isOnFeedbackSubmissionEditPage"%>
 <%@ attribute name="moderatedPersonEmail" %>
+<%@ attribute name="isModeration" %>
 
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
