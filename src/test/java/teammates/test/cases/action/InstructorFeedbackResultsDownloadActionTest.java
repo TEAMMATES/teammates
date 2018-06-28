@@ -106,6 +106,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1WithinSection1(result.getFileContent(), session);
 
+        ______TS("Failure case to mock ExceedingRangeException: data is too large to be downloaded in one go");
+
         ______TS("Failure case: params with null course id");
 
         try {
