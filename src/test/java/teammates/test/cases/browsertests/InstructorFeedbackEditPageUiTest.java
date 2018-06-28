@@ -1123,12 +1123,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testDeleteSessionAction() throws MaximumRetriesExceededException {
 
-        ______TS("session delete then cancel");
-
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteSessionLink());
-        assertNotNull(getFeedbackSessionWithRetry(courseId, feedbackSessionName));
-
-        ______TS("session delete then accept");
+        ______TS("session delete");
 
         // check redirect to main feedback page
         InstructorFeedbackSessionsPage feedbackPage = feedbackEditPage.deleteSession();

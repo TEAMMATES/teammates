@@ -11,7 +11,7 @@
     data-placement="top">
   Edit
 </a>
-<a class="btn btn-default btn-xs btn-tm-actions margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
+<a class="btn btn-default btn-xs btn-tm-actions session-delete margin-bottom-7px<c:if test="${not actions.allowedToDelete}"> disabled</c:if>"
     href="${actions.allowedToDelete ? actions.deleteLink : 'javascript:;'}"
     title="<%= Const.Tooltips.FEEDBACK_SESSION_MOVE_TO_RECOVERY %>"
     data-toggle="tooltip"
