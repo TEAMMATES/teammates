@@ -7,18 +7,24 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12">
-      <table class="table margin-0">
+    <div class="col-sm-12 table-responsive">
+      <table class="table table-bordered table-striped margin-0">
         <thead>
           <tr>
-            <td>
-              Choice
+            <td class="button-sort-none toggle-sort">
+              Choice <span class="icon-sort unsorted"></span>
             </td>
-            <td>
-              Response Count
+            <td class="button-sort-none toggle-sort">
+              Weight <span class="icon-sort unsorted"></span>
             </td>
-            <td>
-              Percentage
+            <td class="button-sort-none toggle-sort">
+              Response Count <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort">
+              Percentage (%) <span class="icon-sort unsorted"></span>
+            </td>
+            <td class="button-sort-none toggle-sort">
+              Weighted Percentage (%) <span class="icon-sort unsorted"></span>
             </td>
           </tr>
         </thead>
@@ -27,5 +33,6 @@
         </tbody>
       </table>
     </div>
+    ${perRecipientStatsHtml}
   </div>
 </div>
