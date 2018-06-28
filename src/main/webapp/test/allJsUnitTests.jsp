@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="<%= FrontEndLibrary.BOOTSTRAP_THEME_CSS %>" type="text/css" media="screen">
     <link rel="stylesheet" href="<%= FrontEndLibrary.QUNIT_CSS %>" type="text/css" media="screen">
+    <link rel="stylesheet" href="<%= FrontEndLibrary.HANDSONTABLE_CSS %>" type="text/css" media="screen">
   </head>
   <body>
     <div id="qunit"></div>
@@ -47,6 +48,7 @@
     <script type="text/javascript" src="<%= FrontEndLibrary.TINYMCE %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.QUNIT %>"></script>
     <script type="text/javascript" src="<%= FrontEndLibrary.BLANKET %>"></script>
+    <script type="text/javascript" src="<%= FrontEndLibrary.HANDSONTABLE %>"></script>
 
     <script type="text/javascript" src="/test/jsUnitTests.js" data-cover></script>
   </body>

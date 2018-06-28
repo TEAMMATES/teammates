@@ -12,6 +12,10 @@ import {
 } from '../common/datepicker';
 
 import {
+    prepareResendPublishedEmailModal,
+} from '../common/resendPublishedEmailModal';
+
+import {
     bindDeleteButtons,
     bindPublishButtons,
     bindRemindButtons,
@@ -288,6 +292,7 @@ $(document).ready(() => {
     linkAjaxForResponseRate();
 
     prepareRemindModal();
+    prepareResendPublishedEmailModal();
 
     if (typeof richTextEditorBuilder !== 'undefined') {
         /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
