@@ -121,13 +121,13 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsWithLargeData);
         RedirectResult r = getRedirectResult(action);
 
-        expectedDestination = getPageResultDestination("/page/instructorFeedbackResultsPage", true, "");
+        expectedDestination = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE, true, "");
         expectedDestination = Config.getAppUrl(expectedDestination)
                 .withCourseId(session.getCourseId()).withUserId("idOfInstructor1OfCourse1")
                 .withSessionName(session.getFeedbackSessionName()).toAbsoluteString();
-        
         assertEquals(new URL(expectedDestination).getFile(), r.getDestinationWithParams());
         assertTrue(r.isError);
+
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DOWNLOAD_FILE_SIZE_EXCEEDED, r.getStatusMessage());
 
         ______TS("Failure case: params with null course id");
