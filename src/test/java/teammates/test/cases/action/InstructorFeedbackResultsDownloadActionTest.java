@@ -116,7 +116,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1WithinSection1(result.getFileContent(), session);
 
-        ______TS("Failure case to mock ExceedingRangeException: data is too large to be downloaded in one go");
+        ______TS("Mock case to throw ExceedingRangeException: data is too large to be downloaded in one go");
 
         action = getAction(paramsWithLargeData);
         RedirectResult r = getRedirectResult(action);
