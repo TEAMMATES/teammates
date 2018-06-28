@@ -11,6 +11,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
+import teammates.ui.controller.RedirectResult;
 
 /**
  * SUT: {@link InstructorFeedbackResultsDownloadAction}.
@@ -37,6 +38,12 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1"
+        };
+
+        String[] paramsWithLargeData = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                "isLargeData", "true"
         };
 
         String[] paramsWithNullCourseId = {
@@ -107,6 +114,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         verifyFileContentForSession1InCourse1WithinSection1(result.getFileContent(), session);
 
         ______TS("Failure case to mock ExceedingRangeException: data is too large to be downloaded in one go");
+
+        action = getAction(paramsWithLargeData);
+        RedirectResult r = getRedirectResult(action);
 
         ______TS("Failure case: params with null course id");
 
