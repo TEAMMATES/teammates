@@ -222,7 +222,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         frc.setReceiverSection(newAttributes.receiverSection);
         frc.setShowCommentTo(newAttributes.showCommentTo);
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setIsVisibilityFollowingFeedbackQuestion(false);
+        frc.setIsVisibilityFollowingFeedbackQuestion(newAttributes.isVisibilityFollowingFeedbackQuestion);
         frc.setLastEditorEmail(newAttributes.commentGiver);
         frc.setLastEditedAt(newAttributes.createdAt);
         frc.setCommentGiverType(newAttributes.commentGiverType);
@@ -443,8 +443,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
         return load()
                 .filter("courseId =", attributes.courseId)
-                .filter("createdAt =", TimeHelper.convertInstantToDate(attributes.createdAt))
-                .filter("commentGiver =", attributes.commentGiver)
+                .filter("feedbackResponseId =", attributes.feedbackResponseId)
                 .keys();
     }
 
