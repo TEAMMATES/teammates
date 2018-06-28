@@ -109,6 +109,9 @@ public abstract class AppPage {
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
 
+    @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td)[1]")
+    private WebElement spreadsheetFirstCell;
+
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -661,6 +664,15 @@ public abstract class AppPage {
 
     public String getElementAttribute(By locator, String attrName) {
         return browser.driver.findElement(locator).getAttribute(attrName);
+    }
+
+    protected void fillSpreadsheet(String value) {
+        try {
+            scrollElementToFirstCellAndSendKeys(spreadsheetFirstCell, value);
+        } catch (WebDriverException e) {
+            System.out.println("Unexpectedly not able to click on the spreadsheet element because of: ");
+            System.out.println(e);
+        }
     }
 
     protected void fillTextBox(WebElement textBoxElement, String value) {
@@ -1415,6 +1427,14 @@ public abstract class AppPage {
                 + "const center = elementAbsoluteTop - (window.innerHeight / 2);"
                 + "window.scrollTo(0, center);", element);
         element.click();
+    }
+
+    /**
+     * Scrolls element to first cell in spreadsheet, clicks on it and sends the value as keystrokes.
+     */
+    void scrollElementToFirstCellAndSendKeys(WebElement spreadsheetElement, String value) {
+        new Actions(browser.driver).moveToElement(spreadsheetElement)
+                .click().sendKeys(value).build().perform();
     }
 
     /**

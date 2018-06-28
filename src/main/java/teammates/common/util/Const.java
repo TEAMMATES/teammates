@@ -237,6 +237,7 @@ public final class Const {
         public static final String COURSE_INFO_EDIT = "Edit course name";
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
         public static final String COURSE_INSTRUCTOR_CANCEL_EDIT = "Cancel editing instructor details";
+        public static final String COURSE_INSTRUCTOR_CANCEL_ADD = "Cancel adding an instructor";
         public static final String COURSE_INSTRUCTOR_DELETE = "Delete the instructor from the course";
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
 
@@ -411,6 +412,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
         public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS =
                 "Assign weights to the columns for calculating statistics.";
+        public static final String FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS =
+                "Assign weights to the choices for calculating statistics.";
 
         public static final String STUDENT_PROFILE_PICTURE = "Upload a profile picture";
         public static final String STUDENT_PROFILE_SHORTNAME = "This is the name you prefer to be called by";
@@ -491,6 +494,9 @@ public final class Const {
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ + ". Minimum number of options is: ";
         public static final String MCQ_ERROR_INVALID_OPTION =
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
+        public static final String MCQ_ERROR_INVALID_WEIGHT =
+                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
+                + " must be valid non-negative numbers with precision up to 2 decimal places.";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
@@ -707,6 +713,9 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqOtherOption";
         public static final String FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "mcqOtherOptionFlag";
         public static final String FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER = "mcqIsOtherOptionAnswer";
+        public static final String FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED = "mcqHasAssignedWeights";
+        public static final String FEEDBACK_QUESTION_MCQ_WEIGHT = "mcqWeight";
+        public static final String FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT = "mcqOtherWeight";
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTION = "msqOtherOption";
         public static final String FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG = "msqOtherOptionFlag";
