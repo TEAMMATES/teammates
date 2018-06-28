@@ -128,6 +128,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         assertEquals(new URL(expectedDestination).getFile(), r.getDestinationWithParams());
         assertTrue(r.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DOWNLOAD_FILE_SIZE_EXCEEDED, r.getStatusMessage());
+
         ______TS("Failure case: params with null course id");
 
         try {

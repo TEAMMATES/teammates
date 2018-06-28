@@ -1364,6 +1364,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS =
                 "The feedback session has been deleted and is no longer accessible.";
+        public static final String FEEDBACK_SESSION_DOWNLOAD_FILE_SIZE_EXCEEDED = "This session has more responses than "
+                + "that can be downloaded in one go. Please download responses for one question at a time instead. "
+                + "To download responses for a specific question, click on the corresponding question number.";
         public static final String FEEDBACK_SESSION_PUBLISHED =
                 "The feedback session has been published. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.";
