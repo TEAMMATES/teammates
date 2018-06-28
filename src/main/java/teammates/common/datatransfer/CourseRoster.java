@@ -7,7 +7,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Const;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
@@ -70,17 +69,17 @@ public class CourseRoster {
      * @return Map in which key is email of student/instructor and value is name.
      */
     public Map<String, String> getEmailToNameTableFromRoster() {
-        Map<String, String> commentGiverEmailNameTable = new HashMap<>();
+        Map<String, String> emailToNameTable = new HashMap<>();
         List<InstructorAttributes> instructorList = getInstructors();
         for (InstructorAttributes instructor : instructorList) {
-            commentGiverEmailNameTable.put(instructor.email, instructor.name);
+            emailToNameTable.put(instructor.email, instructor.name);
         }
 
         List<StudentAttributes> studentList = getStudents();
         for (StudentAttributes student : studentList) {
-            commentGiverEmailNameTable.put(student.email, student.name);
+            emailToNameTable.put(student.email, student.name);
         }
-        return commentGiverEmailNameTable;
+        return emailToNameTable;
     }
 
     private void populateStudentListByEmail(List<StudentAttributes> students) {
@@ -103,50 +102,5 @@ public class CourseRoster {
         for (InstructorAttributes i : instructors) {
             instructorListByEmail.put(i.email, i);
         }
-    }
-
-    /**
-     * Used for getting comment giver name associated with email.
-     * @param email email of comment giver
-     * @param giverType type of comment giver
-     * @return name associated with email
-     */
-    public String getCommentGiverNameFromEmail(String email, FeedbackParticipantType giverType) {
-        if (giverType.equals(FeedbackParticipantType.TEAMS)) {
-            return email;
-        }
-        if (giverType.equals(FeedbackParticipantType.STUDENTS)) {
-            return studentListByEmail.get(email).name;
-        }
-        if (giverType.equals(FeedbackParticipantType.INSTRUCTORS)) {
-            return instructorListByEmail.get(email).name;
-        }
-        return email;
-    }
-
-    /**
-     * Used for getting comment receiver name associated with email.
-     * @param email email of comment receiver
-     * @param recipientType type of comment receiver
-     * @return name associated with email
-     */
-    public String getCommentRecipientNameFromEmail(String email, FeedbackParticipantType recipientType) {
-        StudentAttributes student = getStudentForEmail(email);
-        if (student != null) {
-            return studentListByEmail.get(email).name;
-        }
-        InstructorAttributes instructor = getInstructorForEmail(email);
-        if (instructor != null) {
-            return instructorListByEmail.get(email).name;
-        }
-        if (recipientType.equals(FeedbackParticipantType.TEAMS)
-                    || recipientType.equals(FeedbackParticipantType.OWN_TEAM)
-                    || recipientType.equals(FeedbackParticipantType.SELF)) {
-            return email;
-        }
-        if (email.equals(Const.GENERAL_QUESTION)) {
-            return Const.USER_NOBODY_TEXT;
-        }
-        return Const.USER_UNKNOWN_TEXT;
     }
 }

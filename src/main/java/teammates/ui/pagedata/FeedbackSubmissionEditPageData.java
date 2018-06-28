@@ -261,12 +261,11 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                 questionAttributes.courseId, numOfResponseBoxes,
                                                 existingResponse.getResponseDetails(), student);
 
-            commentGiverName = bundle.getRoster().getCommentGiverNameFromEmail(existingResponse.giver,
-                    questionAttributes.giverType);
-            commentRecipientName = bundle.getRoster().getCommentRecipientNameFromEmail(existingResponse.recipient,
+            commentGiverName = getCommentGiverNameFromEmail(existingResponse.giver, questionAttributes.giverType);
+            commentRecipientName = getCommentRecipientNameFromEmail(existingResponse.recipient,
                     questionAttributes.recipientType);
 
-            Map<String, String> commentGiverEmailToNameTable = bundle.roster.getEmailToNameTableFromRoster();
+            Map<String, String> commentGiverEmailToNameTable = bundle.getRoster().getEmailToNameTableFromRoster();
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
 
                 FeedbackResponseCommentRow responseCommentRow = getResponseCommentRowForResponse(questionAttributes,
@@ -379,5 +378,50 @@ public class FeedbackSubmissionEditPageData extends PageData {
             }
         }
         return false;
+    }
+
+    /**
+     * Used for getting comment giver name associated with email.
+     * @param email email of comment giver
+     * @param giverType type of comment giver
+     * @return name associated with email
+     */
+    private String getCommentGiverNameFromEmail(String email, FeedbackParticipantType giverType) {
+        if (giverType.equals(FeedbackParticipantType.TEAMS)) {
+            return email;
+        }
+        if (giverType.equals(FeedbackParticipantType.STUDENTS)) {
+            return bundle.getRoster().getStudentForEmail(email).name;
+        }
+        if (giverType.equals(FeedbackParticipantType.INSTRUCTORS)) {
+            return bundle.getRoster().getInstructorForEmail(email).name;
+        }
+        return email;
+    }
+
+    /**
+     * Used for getting comment receiver name associated with email.
+     * @param email email of comment receiver
+     * @param recipientType type of comment receiver
+     * @return name associated with email
+     */
+    private String getCommentRecipientNameFromEmail(String email, FeedbackParticipantType recipientType) {
+        StudentAttributes student = bundle.getRoster().getStudentForEmail(email);
+        if (student != null) {
+            return student.name;
+        }
+        InstructorAttributes instructor = bundle.getRoster().getInstructorForEmail(email);
+        if (instructor != null) {
+            return instructor.name;
+        }
+        if (recipientType.equals(FeedbackParticipantType.TEAMS)
+                    || recipientType.equals(FeedbackParticipantType.OWN_TEAM)
+                    || recipientType.equals(FeedbackParticipantType.SELF)) {
+            return email;
+        }
+        if (email.equals(Const.GENERAL_QUESTION)) {
+            return Const.USER_NOBODY_TEXT;
+        }
+        return Const.USER_UNKNOWN_TEXT;
     }
 }

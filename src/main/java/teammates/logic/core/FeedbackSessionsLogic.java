@@ -424,10 +424,21 @@ public final class FeedbackSessionsLogic {
         for (FeedbackQuestionAttributes question : questions) {
 
             updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
-                    bundle, recipientList, question, hiddenInstructorEmails, commentsForResponses);
+                    bundle, recipientList, question, hiddenInstructorEmails);
+            updateBundleWithCommentsForResponses(bundle.get(question), commentsForResponses);
+
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
+    }
+
+    private void updateBundleWithCommentsForResponses(List<FeedbackResponseAttributes> responses,
+                                                 Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses) {
+        for (FeedbackResponseAttributes response : responses) {
+            List<FeedbackResponseCommentAttributes> comments =
+                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
+            commentsForResponses.put(response.getId(), comments);
+        }
     }
 
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForStudent(
@@ -463,7 +474,8 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
 
         updateBundleAndRecipientListWithResponsesForStudent(userEmail, student,
-                bundle, recipientList, question, hiddenInstructorEmails, commentsForResponses);
+                bundle, recipientList, question, hiddenInstructorEmails);
+        updateBundleWithCommentsForResponses(bundle.get(question), commentsForResponses);
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
     }
@@ -474,8 +486,7 @@ public final class FeedbackSessionsLogic {
             Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
             Map<String, Map<String, String>> recipientList,
             FeedbackQuestionAttributes question,
-            Set<String> hiddenInstructorEmails,
-            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses)
+            Set<String> hiddenInstructorEmails)
             throws EntityDoesNotExistException {
         List<FeedbackResponseAttributes> responses =
                 frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
@@ -489,11 +500,6 @@ public final class FeedbackSessionsLogic {
 
         bundle.put(question, responses);
         recipientList.put(question.getId(), recipients);
-        for (FeedbackResponseAttributes response : responses) {
-            List<FeedbackResponseCommentAttributes> comments =
-                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
-            commentsForResponses.put(response.getId(), comments);
-        }
     }
 
     /**

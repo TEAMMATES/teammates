@@ -365,12 +365,10 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Verifies if comment giver is registered user/team of course. Since feedback participant comments can only be
-     * added through {@link teammates.ui.controller.FeedbackSubmissionEditSaveAction}, it is verified that comment giver
-     * has access to feedback session.
+     * Verifies if comment giver is registered user/team of course.
      * @param courseId id of course
      * @param commentGiver person/team who gave comment
-     * @param commentGiverType type of comment giver                    *
+     * @param commentGiverType type of comment giver
      */
     private void verifyIsUserOfCourse(String courseId, String commentGiver, FeedbackParticipantType commentGiverType,
                                       boolean isCommentFromFeedbackParticipant) throws EntityDoesNotExistException {
