@@ -1048,10 +1048,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<String> possibleReceiversWithoutResponsesForGiver = new ArrayList<>();
 
         String prevGiver = "";
-        int responseRecipientIndex = 0;
-        int responseGiverIndex = 0;
-        int userIndex = 0;
-        Map<String, Integer> userIndexesForComments = new HashMap<String, Integer>();
+        Map<String, Integer> userIndexesForComments = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.isGiverVisible(response) || !bundle.isRecipientVisible(response)) {
                 possibleGiversWithoutResponses.clear();
@@ -1089,40 +1086,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        bundle.getResponseAnswerHtml(response, question),
                                                                        moderationButton);
             configureResponseRow(prevGiver, response.recipient, responseRow);
-            String giverName = bundle.getNameForEmail(response.giver);
-            String recipientName = bundle.getNameForEmail(response.recipient);
-
-            String giverTeam = bundle.getTeamNameForEmail(response.giver);
-            String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
-
-            giverName = bundle.appendTeamNameToName(giverName, giverTeam);
-            recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
-
-            List<FeedbackResponseCommentRow> comments =
-                    buildResponseComments(giverName, recipientName, question, response);
-            if (!comments.isEmpty()) {
-                responseRow.setCommentsOnResponses(comments);
-            }
-            Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-            boolean isCommentsOnResponsesAllowed =
-                    question.getQuestionDetails().isCommentsOnResponsesAllowed();
-            if (isCommentsOnResponsesAllowed) {
-                FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
-                        responseVisibilityMap, giverName, recipientName);
-                responseRow.setAddCommentButton(addCommentForm);
-                if (userIndexesForComments.get(response.giver) == null) {
-                    userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);
-                }
-                responseGiverIndex = userIndexesForComments.get(response.giver);
-                if (userIndexesForComments.get(response.recipient) == null) {
-                    userIndex = generateIndexForUser(response.recipient, userIndex, userIndexesForComments);
-                }
-                responseRecipientIndex = userIndexesForComments.get(response.recipient);
-
-                responseRow.setResponseRecipientIndex(responseRecipientIndex);
-                responseRow.setResponseGiverIndex(responseGiverIndex);
-                responseRow.setCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
-            }
+            addCommentsToResponseRow(response, question, responseRow, userIndexesForComments);
             responseRows.add(responseRow);
         }
 
@@ -1158,10 +1122,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<String> possibleParticipantsWithoutResponses = isFirstGroupedByGiver
                                                           ? bundle.getPossibleRecipients(question, participantIdentifier)
                                                           : bundle.getPossibleGivers(question, participantIdentifier);
-
-        int responseRecipientIndex = 0;
-        int responseGiverIndex = 0;
-        int userIndex = 0;
+        Map<String, Integer> userIndexesForComments = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.isGiverVisible(response) || !bundle.isRecipientVisible(response)) {
                 possibleParticipantsWithoutResponses.clear();
@@ -1185,41 +1146,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             configureResponseRow(response.giver, response.recipient, responseRow);
 
             if (isFirstGroupedByGiver) {
-                String giverNameAndTeam = bundle.getNameForEmail(response.giver);
-                String recipientNameAndTeam = bundle.getNameForEmail(response.recipient);
-
-                String giverTeam = bundle.getTeamNameForEmail(response.giver);
-                String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
-
-                giverNameAndTeam = bundle.appendTeamNameToName(giverNameAndTeam, giverTeam);
-                recipientNameAndTeam = bundle.appendTeamNameToName(recipientNameAndTeam, recipientTeam);
-
-                List<FeedbackResponseCommentRow> comments =
-                        buildResponseComments(giverNameAndTeam, recipientNameAndTeam, question, response);
-                if (!comments.isEmpty()) {
-                    responseRow.setCommentsOnResponses(comments);
-                }
-                Map<String, Integer> userIndexesForComments = new HashMap<String, Integer>();
-                Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-                boolean isCommentsOnResponsesAllowed =
-                        question.getQuestionDetails().isCommentsOnResponsesAllowed();
-                if (isCommentsOnResponsesAllowed) {
-                    FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
-                            responseVisibilityMap, giverNameAndTeam, recipientNameAndTeam);
-                    responseRow.setAddCommentButton(addCommentForm);
-                    if (userIndexesForComments.get(response.giver) == null) {
-                        userIndex = generateIndexForUser(response.giver, userIndex, userIndexesForComments);
-                    }
-                    responseGiverIndex = userIndexesForComments.get(response.giver);
-                    if (userIndexesForComments.get(response.recipient) == null) {
-                        userIndex = generateIndexForUser(response.recipient, userIndex, userIndexesForComments);
-                    }
-                    responseRecipientIndex = userIndexesForComments.get(response.recipient);
-
-                    responseRow.setResponseRecipientIndex(responseRecipientIndex);
-                    responseRow.setResponseGiverIndex(responseGiverIndex);
-                    responseRow.setCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
-                }
+                addCommentsToResponseRow(response, question, responseRow, userIndexesForComments);
             }
 
             responseRows.add(responseRow);
@@ -1244,6 +1171,47 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         return responseRows;
+    }
+
+    private void addCommentsToResponseRow(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
+            InstructorFeedbackResultsResponseRow responseRow, Map<String, Integer> userIndexesForComments) {
+        int responseRecipientIndex;
+        int responseGiverIndex;
+        String giverNameAndTeam = bundle.getNameForEmail(response.giver);
+        String recipientNameAndTeam = bundle.getNameForEmail(response.recipient);
+
+        String giverTeam = bundle.getTeamNameForEmail(response.giver);
+        String recipientTeam = bundle.getTeamNameForEmail(response.recipient);
+
+        giverNameAndTeam = bundle.appendTeamNameToName(giverNameAndTeam, giverTeam);
+        recipientNameAndTeam = bundle.appendTeamNameToName(recipientNameAndTeam, recipientTeam);
+
+        List<FeedbackResponseCommentRow> comments =
+                buildResponseComments(giverNameAndTeam, recipientNameAndTeam, question, response);
+        if (!comments.isEmpty()) {
+            responseRow.setCommentsOnResponses(comments);
+        }
+        Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
+        boolean isCommentsOnResponsesAllowed =
+                question.getQuestionDetails().isCommentsOnResponsesAllowed();
+        if (isCommentsOnResponsesAllowed) {
+            FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
+                    responseVisibilityMap, giverNameAndTeam, recipientNameAndTeam);
+            responseRow.setAddCommentButton(addCommentForm);
+            if (userIndexesForComments.get(response.giver) == null) {
+                userIndexesForComments.put(response.giver, userIndexesForComments.size() + 1);
+            }
+            responseGiverIndex = userIndexesForComments.get(response.giver);
+            if (userIndexesForComments.get(response.recipient) == null) {
+                userIndexesForComments.put(response.recipient, userIndexesForComments.size() + 1);
+            }
+            responseRecipientIndex = userIndexesForComments.get(response.recipient);
+
+            responseRow.setResponseRecipientIndex(responseRecipientIndex);
+            responseRow.setResponseGiverIndex(responseGiverIndex);
+            responseRow.setCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
+        }
+
     }
 
     private void configureResponseRow(String giver, String recipient,
@@ -1822,11 +1790,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     // Only used for testing the ui
     public void setLargeNumberOfRespondents(boolean needAjax) {
         this.isLargeNumberOfRespondents = needAjax;
-    }
-
-    private int generateIndexForUser(String name, int index, Map<String, Integer> userIndexesForComments) {
-        userIndexesForComments.put(name, index + 1);
-        return index + 1;
     }
 
     /**
