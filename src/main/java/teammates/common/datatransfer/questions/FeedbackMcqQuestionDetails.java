@@ -674,7 +674,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Class to calculate result statistics of responses for MCQ questions.
      */
-    private static class McqStatistics {
+    public static class McqStatistics {
         boolean hasAssignedWeights;
         List<String> mcqChoices;
         List<Double> mcqWeights;
@@ -682,7 +682,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         boolean otherEnabled;
         int numOfMcqChoices;
 
-        McqStatistics(FeedbackMcqQuestionDetails mcqDetails) {
+        public McqStatistics(FeedbackMcqQuestionDetails mcqDetails) {
             this.mcqChoices = mcqDetails.getMcqChoices();
             this.numOfMcqChoices = mcqChoices.size();
             this.mcqWeights = mcqDetails.getMcqWeights();
@@ -691,10 +691,19 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             this.mcqOtherWeight = mcqDetails.getMcqOtherWeight();
         }
 
+        public McqStatistics(FeedbackMsqQuestionDetails msqDetails) {
+            this.mcqChoices = msqDetails.getMsqChoices();
+            this.numOfMcqChoices = mcqChoices.size();
+            this.mcqWeights = msqDetails.getMsqWeights();
+            this.otherEnabled = msqDetails.getOtherEnabled();
+            this.hasAssignedWeights = msqDetails.hasAssignedWeights();
+            this.mcqOtherWeight = msqDetails.getMsqOtherWeight();
+        }
+
         /**
          * Calculates the answer frequency for each option based on the received responses.
          */
-        private Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
+        public Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
             Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
             for (String option : mcqChoices) {
@@ -724,7 +733,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
          * totalWeightedResponseCount += [response count of option i * weight of option i] for all options.
          * @param answerFrequency Response count of each option in a mcq question.
          */
-        private Map<String, Double> calculateWeightedPercentagePerOption(Map<String, Integer> answerFrequency) {
+        public Map<String, Double> calculateWeightedPercentagePerOption(Map<String, Integer> answerFrequency) {
             Map<String, Double> weightedPercentagePerOption = new LinkedHashMap<>();
 
             Assumption.assertTrue("Weights should be enabled when calling the function", hasAssignedWeights);
@@ -756,7 +765,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
          * Calculates the sum of the product of response count and weight of that option, for all options.
          * totalWeightedResponseCount += [(responseCount of option i) * (weight of option i)] for all options.
          */
-        private double calculateTotalWeightedResponseCount(Map<String, Integer> answerFrequency) {
+        public double calculateTotalWeightedResponseCount(Map<String, Integer> answerFrequency) {
             double totalWeightedResponseCount = 0;
             for (String choice : answerFrequency.keySet()) {
                 double weight = "Other".equals(choice) ? mcqOtherWeight : mcqWeights.get(mcqChoices.indexOf(choice));
@@ -837,7 +846,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Returns a Map containing response counts for each option for every recipient.
          */
-        private Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
+        public Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
                 List<FeedbackResponseAttributes> responses) {
             Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();
 
@@ -982,7 +991,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         // Generate MCQ Recipient Response statistics for result page.
 
-        private String getRecipientStatsHeaderFragmentHtml(String header) {
+        public String getRecipientStatsHeaderFragmentHtml(String header) {
             return Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT,
                     Slots.STATS_TITLE, header);

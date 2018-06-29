@@ -15,6 +15,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails.McqStatistics;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -623,15 +624,20 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> unsortedResponses,
             FeedbackQuestionAttributes question,
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
 
-        if ("student".equals(view) || responses.isEmpty()) {
+        if ("student".equals(view) || unsortedResponses.isEmpty()) {
             return "";
         }
+
+        // Reuse McqStatistics class to generate MSQ stats
+        McqStatistics msqStats = new McqStatistics(this);
+        // Sort responses based on recipient team and recipient name. 
+        List<FeedbackResponseAttributes> responses = msqStats.getResponseAttributesSorted(unsortedResponses, bundle);
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<>();
         int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
@@ -641,14 +647,47 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
 
         StringBuilder fragments = new StringBuilder();
-        answerFrequency.forEach((key, value) ->
-                fragments.append(Templates.populateTemplate(FormTemplates.MSQ_RESULT_STATS_OPTIONFRAGMENT,
-                                Slots.MSQ_CHOICE_VALUE, key,
-                                Slots.COUNT, value.toString(),
-                                Slots.PERCENTAGE,
-                                df.format(100 * divideOrReturnZero(value, numChoicesSelected)))));
 
-        return Templates.populateTemplate(FormTemplates.MSQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
+        // Do not calculate weighted percentage if weights are not enabled.
+        Map<String, Double> weightedPercentagePerOption =
+                hasAssignedWeights ? msqStats.calculateWeightedPercentagePerOption(answerFrequency)
+                : new LinkedHashMap<>();
+
+        for (String key : answerFrequency.keySet()) {
+            int count = answerFrequency.get(key);
+            // If weights are allowed, show the corresponding weights of a choice.
+            String weightString = "";
+            if ("Other".equals(key)) {
+                weightString = hasAssignedWeights ? df.format(msqOtherWeight) : "-";
+            } else {
+                weightString = hasAssignedWeights ? df.format(msqWeights.get(msqChoices.indexOf(key))) : "-";
+            }
+
+            fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
+                    Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
+                    Slots.MCQ_WEIGHT, weightString,
+                    Slots.COUNT, Integer.toString(count),
+                    Slots.PERCENTAGE, df.format(100 * divideOrReturnZero(count, numChoicesSelected)),
+                    Slots.WEIGHTED_PERCENTAGE,
+                            hasAssignedWeights ? df.format(weightedPercentagePerOption.get(key)) : "-"));
+        }
+
+        // If weights are assigned, create the per recipient statistics table,
+        // otherwise pass an empty string in it's place.
+        String recipientStatsHtml = "";
+        if (hasAssignedWeights) {
+            String header = msqStats.getRecipientStatsHeaderHtml();
+//            String body = msqStats.getPerRecipientStatsBodyHtml(responses, bundle);
+            recipientStatsHtml = Templates.populateTemplate(
+                    FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
+                    Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
+                    Slots.TABLE_BODY_HTML, "");
+        }
+
+        // Reuse MCQ result templates until there is a reason to use separate templates.
+        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS,
+                Slots.FRAGMENTS, fragments.toString(),
+                Slots.MCQ_RECIPIENT_STATS_HTML, recipientStatsHtml);
     }
 
     @Override
