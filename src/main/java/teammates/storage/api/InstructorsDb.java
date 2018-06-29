@@ -304,10 +304,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     private Instructor getInstructorEntityForEmail(String courseId, String email) {
-        return load()
-                .filter("courseId =", courseId)
-                .filter("email =", email)
-                .first().now();
+        return load().id(email + '%' + courseId).now();
     }
 
     private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
