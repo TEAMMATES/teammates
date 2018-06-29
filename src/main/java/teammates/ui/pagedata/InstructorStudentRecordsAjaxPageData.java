@@ -21,10 +21,10 @@ public class InstructorStudentRecordsAjaxPageData extends PageData {
             String studentName = result.appendTeamNameToName(student.name, student.team);
             this.resultsTables.add(new FeedbackResultsTable(i, studentName, result));
         }
-        
     }
 
     public List<FeedbackResultsTable> getResultsTables() {
         return resultsTables;
     }
+
 }

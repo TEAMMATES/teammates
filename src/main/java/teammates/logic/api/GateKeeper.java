@@ -155,17 +155,18 @@ public class GateKeeper {
     }
 
     /**
-     * Verifies that comment this accessible to feedback participant.
+     * Verifies that comment can be deleted by feedback participant.
      * @param frc comment to be accessed
-     * @param commentGiver email or team of feedback participant
+     * @param feedbackParticipant email or team of feedback participant
      */
-    public void verifyAccessibleForDeletion(FeedbackResponseCommentAttributes frc, String commentGiver) {
+    public void verifyAccessibleForDeletion(FeedbackResponseCommentAttributes frc, String feedbackParticipant) {
         verifyNotNull(frc, "feedback response comment");
         verifyNotNull(frc.commentGiver, "feedback response comment giver");
-        verifyNotNull(commentGiver, "comment giver");
+        verifyNotNull(feedbackParticipant, "comment giver");
 
-        if (!frc.isCommentFromFeedbackParticipant || !frc.commentGiver.equals(commentGiver)) {
-            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to " + commentGiver);
+        if (!frc.isCommentFromFeedbackParticipant || !frc.commentGiver.equals(feedbackParticipant)) {
+            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
+                    + feedbackParticipant);
         }
     }
 

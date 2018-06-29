@@ -67,7 +67,7 @@ public abstract class FeedbackQuestionDetails {
     public abstract String getCsvHeader();
 
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
-    public String getCsvDetailedResponsesHeader(int noOfInstructorComments, boolean isFeedbackParticipantCommentPresent) {
+    public String getCsvDetailedResponsesHeader(int noOfInstructorComments) {
         StringBuilder header = new StringBuilder(1000);
         String headerString = "Team" + "," + "Giver's Full Name" + ","
                 + "Giver's Last Name" + "," + "Giver's Email" + ","
@@ -76,7 +76,7 @@ public abstract class FeedbackQuestionDetails {
                 + getCsvHeader();
         header.append(headerString);
 
-        if (isFeedbackParticipantCommentsOnResponsesAllowed() && isFeedbackParticipantCommentPresent) {
+        if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
             headerString = ',' + "Giver's Comments";
             header.append(headerString);
         }

@@ -900,10 +900,7 @@ public final class FeedbackSessionsLogic {
         String prevGiver = "";
 
         int maxNumOfInstructorComments = getMaxNumberOfInstructorComments(allResponses, fsrBundle.getResponseComments());
-        boolean isFeedbackParticipantCommentPresent = isFeedbackParticipantCommentPresent(allResponses,
-                fsrBundle.getResponseComments());
-        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfInstructorComments,
-                isFeedbackParticipantCommentPresent));
+        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader(maxNumOfInstructorComments));
 
         for (FeedbackResponseAttributes response : allResponses) {
 
@@ -946,24 +943,6 @@ public final class FeedbackSessionsLogic {
 
         exportBuilder.append(System.lineSeparator() + System.lineSeparator());
         return exportBuilder;
-    }
-
-    private boolean isFeedbackParticipantCommentPresent(List<FeedbackResponseAttributes> allResponses,
-            Map<String, List<FeedbackResponseCommentAttributes>> responseComments) {
-        if (allResponses == null || allResponses.isEmpty()) {
-            return false;
-        }
-        for (FeedbackResponseAttributes response : allResponses) {
-            List<FeedbackResponseCommentAttributes> commentAttributes = responseComments.get(response.getId());
-            if (commentAttributes != null) {
-                for (FeedbackResponseCommentAttributes comment : commentAttributes) {
-                    if (comment.isCommentFromFeedbackParticipant) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     private int getMaxNumberOfInstructorComments(List<FeedbackResponseAttributes> allResponses,
