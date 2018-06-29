@@ -220,7 +220,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public InstructorFeedbackEditPage clickEditLink() {
-        WebElement button = browser.driver.findElement(By.id("edit_icon_button"));
+        WebElement button = browser.driver.findElement(By.id(Const.Tooltips.FEEDBACK_SESSION_EDIT));
         click(button);
 
         InstructorFeedbackEditPage editPage = changePageType(InstructorFeedbackEditPage.class);
