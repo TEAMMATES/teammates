@@ -120,7 +120,7 @@ function getAjaxStudentList(displayIcon) {
 /**
  * Expands "Existing students" panel and loads existing students' data (if spreadsheet is not empty)
  * into the spreadsheet interface. Spreadsheet interface would be shown after expansion.
- * The panel will be be collapsed otherwise if the spreadsheet interface is already shown.
+ * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
  */
 /*  eslint no-unused-expressions: [2, { allowTernary: true }]   */
 function expandCollapseExistingStudentsPanel() {
