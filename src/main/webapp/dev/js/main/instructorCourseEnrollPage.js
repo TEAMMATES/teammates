@@ -12,16 +12,15 @@ import {
 import {
     getUpdatedHeaderString,
     getUserDataRows,
-    getExistingStudentsData,
+    ajaxDataToHandsontableData,
     getUpdatedData,
-    hideExistingStudentsPanel,
     displayNoExistingStudents,
     displayErrorExecutingAjax,
-    toggleExistingStudentsPanel,
-    toggleChevronImage,
-} from './instructorCourseEnrollHelper';
+    getSpreadsheetLength,
+    toggleStudentsPanel,
+} from '../common/instructorEnroll';
 
-const dataContainer = document.getElementById('dataSpreadsheet');
+const dataContainer = document.getElementById('existingDataSpreadsheet');
 /* global Handsontable:false */
 const dataHandsontable = new Handsontable(dataContainer, {
     readOnly: true,
@@ -37,7 +36,6 @@ const dataHandsontable = new Handsontable(dataContainer, {
     minRows: 20,
     maxCols: 5,
     stretchH: 'all',
-    minSpareRows: 1,
 });
 
 const enrollContainer = document.getElementById('enrollSpreadsheet');
@@ -72,7 +70,6 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
 
 /**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
- *
  * Pushes the output data into the textarea (used for form submission).
  */
 function updateDataDump() {
@@ -86,72 +83,98 @@ function updateDataDump() {
 /**
  * Loads existing student data into the spreadsheet interface.
  * @param studentsData
- * @param $panelHeading
- * @param panelCollapse
- * @param displayIcon
- * @param toggleChevron
+ * @returns {Promise} confirmation that existing students data has been loaded into the spreadsheet.
  */
-function loadExistingStudentsData(studentsData, $panelHeading, panelCollapse, displayIcon, toggleChevron) {
-    dataHandsontable.loadData(getExistingStudentsData(
-            studentsData, dataHandsontable.getColHeader()));
-    toggleExistingStudentsPanel($panelHeading, panelCollapse,
-            displayIcon, toggleChevron);
-    dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
-}
-
-/**
- * Gets list of student data through an AJAX request.
- * @param $panelHeading
- * @param panelCollapse
- * @param displayIcon
- * @param toggleChevron
- */
-/*  eslint no-unused-expressions: [2, { allowTernary: true }]   */
-function getAjaxStudentList($panelHeading, panelCollapse, displayIcon, toggleChevron) {
-    const $spreadsheetForm = $('#student-data-spreadsheet-form');
-
-    $.ajax({
-        type: 'POST',
-        url: '/page/instructorCourseEnrollAjaxPage',
-        cache: false,
-        data: {
-            courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
-            user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
-        },
-        beforeSend() {
-            displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
-        },
-        error() {
-            displayErrorExecutingAjax(displayIcon);
-        },
-        success(data) {
-            (data.students.length === 0) ? displayNoExistingStudents(displayIcon) :
-            loadExistingStudentsData(data.students, $panelHeading, panelCollapse, displayIcon, toggleChevron);
-        },
+function loadExistingStudentsData(studentsData) {
+    return new Promise((resolve) => {
+        resolve(dataHandsontable.loadData(ajaxDataToHandsontableData(
+                studentsData, dataHandsontable.getColHeader())));
     });
 }
 
 /**
- * Function to collapse "Existing students" panel and loads existing students' data when the user clicks on it.
+ * Gets list of student data through an AJAX request.
+ * @param displayIcon
+ * @returns {Promise} the state of the result from the AJAX request
  */
-function collapseExistingStudentsPanel() {
+function getAjaxStudentList(displayIcon) {
+    return new Promise((resolve, reject) => {
+        const $spreadsheetForm = $('#student-spreadsheet-form');
+        $.ajax({
+            type: 'POST',
+            url: '/page/instructorCourseEnrollAjaxPage',
+            cache: false,
+            data: {
+                courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
+                user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
+            },
+            beforeSend() {
+                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
+            },
+        })
+                .done(resolve)
+                .fail(reject);
+    });
+}
+
+/**
+ * Expands "Existing students" panel and loads existing students' data (if spreadsheet is not empty)
+ * into the spreadsheet interface. Spreadsheet interface would be shown after expansion.
+ * The panel will be be collapsed otherwise if the spreadsheet interface is already shown.
+ */
+/*  eslint no-unused-expressions: [2, { allowTernary: true }]   */
+function expandCollapseExistingStudentsPanel() {
     const $panelHeading = $(this);
     const panelCollapse = $panelHeading.parent().children('.panel-collapse');
     const displayIcon = $panelHeading.children('.display-icon');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
-    if ($panelHeading.attr('class').indexOf('ajax_submit') === -1) { // if panel is shown
-        hideExistingStudentsPanel($panelHeading, panelCollapse);
-        toggleChevronImage(panelCollapse, toggleChevron);
+    // perform AJAX only if existing students' spreadsheet is empty
+    if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
+        getAjaxStudentList(displayIcon)
+                .then((data) => {
+                (data.students.length === 0) ? displayNoExistingStudents(displayIcon) :
+                    loadExistingStudentsData(data.students)
+                            .then(() => {
+                                toggleStudentsPanel($panelHeading, panelCollapse,
+                                        displayIcon, toggleChevron);
+                                dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
+                            });
+                }).catch(() => {
+                    displayErrorExecutingAjax(displayIcon);
+                });
     } else {
-        getAjaxStudentList($panelHeading, panelCollapse, displayIcon, toggleChevron);
+        toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron);
+        dataHandsontable.render(); // needed as the view is buggy after collapsing the panel);
+    }
+}
+
+/**
+ * Expands "New students" panel. Spreadsheet interface would be shown after expansion.
+ * The panel will be be collapsed otherwise if the spreadsheet interface is already shown.
+ */
+function expandCollapseNewStudentsPanel() {
+    const $panelHeading = $(this);
+    const panelCollapse = $panelHeading.parent().children('.panel-collapse');
+    const displayIcon = $panelHeading.children('.display-icon');
+    const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+
+    toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron);
+    enrollHandsontable.render();
+
+    if (panelCollapse.attr('class').indexOf('checked') === -1) { // if panel is not shown
+        $('.enroll-students').hide();
+    } else {
+        $('.enroll-students').show();
     }
 }
 
 $(document).ready(() => {
     prepareInstructorPages();
+    $('#enroll-spreadsheet').on('click', expandCollapseNewStudentsPanel);
+    $('#enroll-spreadsheet').trigger('click');
 
-    $('.ajax_submit').click(collapseExistingStudentsPanel);
+    $('#existing-data-spreadsheet').click(expandCollapseExistingStudentsPanel);
 
     if ($('#enrollstudents').val()) {
         const allData = $('#enrollstudents').val().split('\n'); // data in the table including column headers (string format)
@@ -168,10 +191,10 @@ $(document).ready(() => {
         }
     }
 
-    $('#addEmptyRows').click(() => {
+    $('#button_add_empty_rows').click(() => {
         const emptyRowsCount = $('#number-of-rows').val();
         enrollHandsontable.alter('insert_row', null, emptyRowsCount);
     });
 
-    $('#student-data-spreadsheet-form').submit(updateDataDump);
+    $('#student-spreadsheet-form').submit(updateDataDump);
 });
