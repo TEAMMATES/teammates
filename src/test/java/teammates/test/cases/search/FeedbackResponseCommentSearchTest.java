@@ -12,7 +12,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
  * SUT: {@link FeedbackResponseCommentsDb},
- *      {@link teammates.storage.search.FeedbackResponseCommentDocument},
+ *      {@link teammates.storage.search.FeedbackResponseCommentSearchDocument},
  *      {@link teammates.storage.search.FeedbackResponseCommentSearchQuery}.
  */
 public class FeedbackResponseCommentSearchTest extends BaseSearchTest {

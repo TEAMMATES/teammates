@@ -1530,7 +1530,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String whoCanSeeComment = null;
         boolean isVisibilityIconShown = false;
         if (bundle.feedbackSession.isPublished()) {
-            isVisibilityIconShown = !frcAttributes.showCommentTo.isEmpty();
+            isVisibilityIconShown = frcAttributes.isVisibilityFollowingFeedbackQuestion ? !question.showResponsesTo.isEmpty()
+                                            : !frcAttributes.showCommentTo.isEmpty();
 
             if (isVisibilityIconShown) {
                 whoCanSeeComment = getTypeOfPeopleCanViewComment(frcAttributes, question);

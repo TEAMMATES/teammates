@@ -488,7 +488,7 @@
                   <button class="btn btn-default btn-xs comment-button" data-giverindex="1" data-qnindex="0" data-recipientindex="1" data-target="#commentModal-1-1-0" data-toggle="modal" style="margin-top:0.5em;" type="button">
                     Add Comment
                   </button>
-                  <div aria-hidden="true" class="modal fade" id="commentModal-1-1-0" role="dialog" style="display: none;">
+                  <div class="modal fade" id="commentModal-1-1-0" role="dialog">
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -500,7 +500,7 @@
                           </h4>
                         </div>
                         <div class="modal-body">
-                          <ul class="list-group" id="responseCommentTable-1-1-0" style="margin-top: 15px;">
+                          <ul class="list-group" id="responseCommentTable-1-1-0" style="margin-top:15px;">
                             <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-1-0-1">
                               <div class="row" id="commentBar-1-1-0-1">
                                 <div class="col-xs-10">
@@ -687,12 +687,8 @@
                                   </table>
                                 </div>
                                 <div class="form-group">
-                                  <div class="panel panel-default panel-body mce-content-body content-editor empty" contenteditable="true" id="responseCommentAddForm-1-1-0" spellcheck="false" style="position: relative;">
-                                    <p>
-                                      <br data-mce-bogus="1">
-                                    </p>
+                                  <div class="panel panel-default panel-body" id="responseCommentAddForm-1-1-0">
                                   </div>
-                                  <input name="responseCommentAddForm-1-1-0" type="hidden">
                                 </div>
                                 <div class="col-sm-offset-5">
                                   <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-1-0" type="button">

@@ -443,6 +443,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return load()
                 .filter("courseId =", attributes.courseId)
                 .filter("feedbackResponseId =", attributes.feedbackResponseId)
+                .filter("createdAt =", TimeHelper.convertInstantToDate(attributes.createdAt))
+                .filter("giverEmail =", attributes.commentGiver)
                 .keys();
     }
 

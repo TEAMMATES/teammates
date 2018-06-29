@@ -265,7 +265,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         ______TS("typical success case for response");
 
         FeedbackResponseCommentAttributes anotherFrComment =
-                restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q2S1C1");
+                restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q3S1C1");
         verifyPresentInDatastore(anotherFrComment);
         frcLogic.deleteFeedbackResponseCommentsForResponse(anotherFrComment.feedbackResponseId);
         verifyAbsentInDatastore(anotherFrComment);
