@@ -153,17 +153,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public List<String> getInstructions() {
-        List<String> instructions = new ArrayList<>();
-
-        if (minOptionsToBeRanked != NO_VALUE) {
-            instructions.add("You need to rank at least " + minOptionsToBeRanked + " recipients.");
-        }
-
-        if (maxOptionsToBeRanked != NO_VALUE) {
-            instructions.add("Rank no more than " + maxOptionsToBeRanked + " recipients.");
-        }
-
-        return instructions;
+        return null;
     }
 
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {

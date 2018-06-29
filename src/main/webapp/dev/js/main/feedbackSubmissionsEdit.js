@@ -996,7 +996,37 @@ function getMaxOptionsToBeRanked(qnNum) {
     return Number.MAX_SAFE_INTEGER;
 }
 
-function updateRankMessageQn(qnNum) {
+/**
+ * Display instructions to be followed while allocating ranks to recipients and options
+ * @param qnNum - question number
+ */
+function updateRankQnInstructions(qnNum) {
+    const isDistributingToRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
+    const entityBeingRanked = isDistributingToRecipients ? 'recipients' : 'options';
+    const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
+
+    const instructionElement = $(`#rankInstruction-${qnNum}`);
+    let instruction = '';
+    const infoIcon = '<span class="glyphicon glyphicon-info-sign padding-right-10px"></span>';
+
+    if (!areDuplicateRanksAllowed) {
+        instruction += `${infoIcon} Every ${isDistributingToRecipients ? 'recipient' : 'option'} `
+                    + 'should be allocated a different rank.<br>';
+    }
+
+    if (isMinOptionsToBeRankedEnabled(qnNum)) {
+        const min = getMinOptionsToBeRanked(qnNum);
+        instruction += `${infoIcon} At least ${min} ${entityBeingRanked} should be ranked.<br>`;
+    }
+
+    if (isMaxOptionsToBeRankedEnabled(qnNum)) {
+        const max = getMaxOptionsToBeRanked(qnNum);
+        instruction += `${infoIcon} At most ${max} ${entityBeingRanked} should be ranked.<br>`;
+    }
+    instructionElement.html(instruction);
+}
+
+function updateRankQnMessages(qnNum) {
     const isDistributingToRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
     const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
@@ -1054,8 +1084,10 @@ function updateRankMessageQn(qnNum) {
         const errorIcon = '<span class="glyphicon glyphicon-remove padding-right-10px"></span>';
         const entityBeingRanked = isDistributingToRecipients ? 'recipients' : 'options';
 
+        // Don't display messages if all inputs are empty
         if (!allInputsEmpty) {
             if (!areDuplicateRanksAllowed) {
+                // Display message to confirm if all allocated ranks are different
                 if (areAllAnswersUnique) {
                     message += `<span class='text-color-green'> ${approvedIcon} All allocated ranks `
                             + 'are different.</span><br>';
@@ -1065,8 +1097,10 @@ function updateRankMessageQn(qnNum) {
                             + `eg. ${repeatedRanks[0]}. </span></br>`;
                 }
             }
+
             if (isMinOptionsToBeRankedEnabled(qnNum)) {
                 const min = getMinOptionsToBeRanked(qnNum);
+                // Display message to confirm if at least minimum options have been ranked
                 if (isMinOptionsToBeRankedViolated) {
                     message += `<span class='text-color-red'> ${errorIcon} You need to rank at least ${min} `
                             + `${entityBeingRanked}. You have ranked ${rankedOptions} `
@@ -1076,8 +1110,10 @@ function updateRankMessageQn(qnNum) {
                             + `${entityBeingRanked} have been ranked.</span><br>`;
                 }
             }
+
             if (isMaxOptionsToBeRankedEnabled(qnNum)) {
                 const max = getMaxOptionsToBeRanked(qnNum);
+                // Display message to confirm if at most maximum options have been ranked
                 if (isMaxOptionsToBeRankedViolated) {
                     message += `<span class='text-color-red'> ${errorIcon} You can rank at most ${max} `
                             + `${entityBeingRanked}. You have ranked ${rankedOptions - max} extra `
@@ -1161,7 +1197,8 @@ function updateRankMessages() {
 
     for (let i = 0; i < rankQuestionNums.length; i += 1) {
         const qnNum = rankQuestionNums[i];
-        updateRankMessageQn(qnNum);
+        updateRankQnInstructions(qnNum);
+        updateRankQnMessages(qnNum);
     }
 }
 
@@ -1173,16 +1210,51 @@ function prepareRankQuestions() {
 
         const isRankingRecipients = $(`#rankToRecipients-${qnNum}`).val() === 'true';
 
+        // Check if feedback session is open or under preview mode
         if (!$('#response_submit_button').is(':disabled')
             || isPreview()) {
+            const areDuplicateRanksAllowed = $(`#rankAreDuplicatesAllowed-${qnNum}`).val() === 'true';
+
+            // Display instructions and messages only if any constraints are set during question creation
+            if (!areDuplicateRanksAllowed || isMinOptionsToBeRankedEnabled(qnNum) || isMaxOptionsToBeRankedEnabled(qnNum)) {
+                // Add elements for displaying instructions to rank questions
+                $(`.constraints-${qnNum}`).each(function () {
+                    $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>' +
+                            `<p class="text-color-blue padding-left-35px" id="rankInstruction-${qnNum}"></p>` +
+                            '<hr class="margin-top-0 border-top-dark-gray">');
+                });
+
+                // Add elements for displaying messages/errors based on user input
+                $(`.evalueeForm-${qnNum}`).each(function (responseIndx) {
+                    $(this).after(`<div id="rankInputAlert-${qnNum}-${responseIndx}" style="display:none">` +
+                            `<p class="text-color-green padding-left-35px" id="rankMessage-${qnNum}-${responseIndx}"></p>` +
+                            '<hr class="margin-top-0 border-top-dark-gray">');
+                });
+            }
+
             if (isRankingRecipients) {
                 let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
                 numResponses = parseInt(numResponses, 10);
+                /*
+                 * Only display the last alert block since points
+                 * are distributed among recipients
+                 */
+                $(`#rankInputAlert-${qnNum}-${numResponses - 1}`).show();
+            } else {
+                /*
+                 * Display alert block for each recipient
+                 * since each recipient has its own set of options
+                 */
+                $(`[id^="rankInputAlert-${qnNum}-"]`).show();
 
-                $(`#rankInfo-${qnNum}-${numResponses - 1}`).show();
+                // Add further indentation to options for better layout if recipient name is visible
+                if ($(`.evalueeLabel-${qnNum}`).length) {
+                    $(`[id^="rankSubmissionFormOptionFragment-${qnNum}"]`).addClass('padding-left-55px');
+                    $(`[id^="rankSubmissionFormOptionFragment-${qnNum}"]`).addClass('margin-top-15px');
+                }
             }
         } else {
-            $(`[id^="rankInfo-${qnNum}-"]`).hide();
+            $(`[id^="rankInputAlert-${qnNum}-"]`).hide();
         }
     }
     updateRankMessages();
@@ -1425,4 +1497,4 @@ $(document).ready(() => {
 
 window.validateNumScaleAnswer = validateNumScaleAnswer;
 window.updateConstSumQnMessages = updateConstSumQnMessages;
-window.updateRankMessageQn = updateRankMessageQn;
+window.updateRankQnMessages = updateRankQnMessages;

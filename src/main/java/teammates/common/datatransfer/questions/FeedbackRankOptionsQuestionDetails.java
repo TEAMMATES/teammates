@@ -44,17 +44,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
     @Override
     public List<String> getInstructions() {
-        List<String> instructions = new ArrayList<>();
-
-        if (minOptionsToBeRanked != NO_VALUE) {
-            instructions.add("You need to rank at least " + minOptionsToBeRanked + " options.");
-        }
-
-        if (maxOptionsToBeRanked != NO_VALUE) {
-            instructions.add("Rank no more than " + maxOptionsToBeRanked + " options.");
-        }
-
-        return instructions;
+        return null;
     }
 
     @Override
