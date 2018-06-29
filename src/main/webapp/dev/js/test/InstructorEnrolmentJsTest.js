@@ -2,10 +2,10 @@ import {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
-    getExistingStudentsData,
-} from '../main/instructorCourseEnrollHelper';
+    ajaxDataToHandsontableData,
+} from '../common/instructorEnroll';
 
-QUnit.module('instructorCourseEnrollPage.js');
+QUnit.module('instructorEnroll.js');
 
 QUnit.test('getUpdatedHeaderString(handsontableColHeader)', (assert) => {
     assert.expect(1);
@@ -52,7 +52,7 @@ QUnit.test('getUpdatedData(spreadsheetDataRows)', (assert) => {
     assert.deepEqual(data, expectedData, 'Data successfully updated');
 });
 
-QUnit.test('getExistingStudentsData(studentsData, handsontableColHeader)', (assert) => {
+QUnit.test('ajaxDataToHandsontableData(studentsData, handsontableColHeader)', (assert) => {
     assert.expect(1);
     const studentsData = [{
         comments: 'testComments1',
@@ -78,6 +78,6 @@ QUnit.test('getExistingStudentsData(studentsData, handsontableColHeader)', (asse
     const handsontableColHeader = ['Section', 'Team', 'Name', 'Email', 'Comments'];
     const expectedStudentsData = [['testSection1', 'testTeam1', 'testName1', 'testEmail1@example.com', 'testComments1'],
         ['testSection2', 'testTeam2', 'testName2', 'testEmail2@example.com', '']];
-    const data = getExistingStudentsData(studentsData, handsontableColHeader);
+    const data = ajaxDataToHandsontableData(studentsData, handsontableColHeader);
     assert.deepEqual(data, expectedStudentsData, 'Retrieved existing students\' data successfully');
 });

@@ -259,7 +259,7 @@ public final class HtmlHelper {
 
     private static boolean isHandsontableAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "enrollSpreadsheet")
-                || checkForAttributeWithSpecificValue(attribute, "id", "dataSpreadsheet");
+                || checkForAttributeWithSpecificValue(attribute, "id", "existingDataSpreadsheet");
     }
 
     /**
