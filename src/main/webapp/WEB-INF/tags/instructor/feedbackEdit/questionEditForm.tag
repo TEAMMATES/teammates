@@ -35,12 +35,6 @@
         </div>
         <div class="col-sm-5 mobile-margin-top-10px">
           <span class="mobile-no-pull pull-right">
-            <a class="btn btn-primary btn-xs btn-duplicate-qn"
-               data-qnnumber="${fqForm.questionIndex}"
-               data-toggle="tooltip" data-placement="top"
-               title="<%= Const.Tooltips.FEEDBACK_QUESTION_DUPLICATE %>">
-              <span class="glyphicon glyphicon-file"></span> Duplicate
-            </a>
             <a class="btn btn-primary btn-xs btn-edit-qn"
                 id="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT %>-${fqForm.questionIndex}"
                 data-toggle="tooltip" data-placement="top"
@@ -63,6 +57,12 @@
                 data-qnnumber="${fqForm.questionIndex}"
                 data-toggle="tooltip" data-placement="top">
               <span class=" glyphicon glyphicon-trash"></span> Delete
+            </a>
+            <a class="btn btn-primary btn-xs btn-duplicate-qn"
+               data-qnnumber="${fqForm.questionIndex}"
+               data-toggle="tooltip" data-placement="top"
+               title="<%= Const.Tooltips.FEEDBACK_QUESTION_DUPLICATE %>">
+              <span class="glyphicon glyphicon-file"></span> Duplicate
             </a>
           </span>
         </div>
