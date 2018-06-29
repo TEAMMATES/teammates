@@ -22,7 +22,8 @@
             <div class="col-lg-8">
               <p class="form-control-static">${sessionPanel.feedbackSessionName}
                 <c:if test="${not empty sessionPanel.editLink}">
-                  <a href="${sessionPanel.editLink}">[Edit]</a>
+                  <a href="${sessionPanel.editLink}"><span class="glyphicon glyphicon-edit"></span> [Edit]
+                  </a>
                 </c:if>
               </p>
             </div>
