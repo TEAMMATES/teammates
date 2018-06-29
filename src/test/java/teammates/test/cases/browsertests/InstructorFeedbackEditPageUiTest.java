@@ -541,11 +541,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.verifyDuplicateButtonIsDisplayed(1));
         feedbackEditPage.clickDuplicateQuestionLink(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DUPLICATED);
-        // checks that the duplicated question is added to the feedback session
-        // content is not tested as it follows the same logic for copy question which is tested
+        // Check that the duplicated question is added to the feedback session
+        // Content is not tested as it follows the same logic for copy question which is tested
         assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 2));
 
-        // removed the question duplicated to not affect other test cases
+        // Remove the question duplicated to not affect other test cases
         feedbackEditPage.clickDeleteQuestionLink(2);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
 
