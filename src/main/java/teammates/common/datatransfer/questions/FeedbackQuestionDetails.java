@@ -114,9 +114,7 @@ public abstract class FeedbackQuestionDetails {
         if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
             String feedbackParticipantComment =
                     fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
-            if (!feedbackParticipantComment.isEmpty()) {
-                detailedResponseRow.append(',').append(feedbackParticipantComment);
-            }
+            detailedResponseRow.append(',').append(feedbackParticipantComment);
         }
         //Appends instructor comments if comments exists on response
         if (isInstructorCommentsOnResponsesAllowed()) {
