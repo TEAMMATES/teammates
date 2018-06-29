@@ -46,7 +46,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         String[] paramsWithLargeData = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                "isLargeData", "true"
+                "simulateExcessDataForTesting", "true"
         };
 
         String[] paramsWithNullCourseId = {
