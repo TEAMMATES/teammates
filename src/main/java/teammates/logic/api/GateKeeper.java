@@ -164,7 +164,7 @@ public class GateKeeper {
         verifyNotNull(frc.commentGiver, "feedback response comment giver");
         verifyNotNull(feedbackParticipant, "comment giver");
 
-        if (!frc.isCommentFromFeedbackParticipant || !frc.commentGiver.equals(feedbackParticipant)) {
+        if (!frc.commentGiver.equals(feedbackParticipant)) {
             throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
                     + feedbackParticipant);
         }

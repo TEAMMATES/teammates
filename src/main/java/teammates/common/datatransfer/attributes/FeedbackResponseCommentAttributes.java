@@ -60,7 +60,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
         return builder(comment.getCourseId(), comment.getFeedbackSessionName(),
-                    comment.getCommentGiver(), comment.getCommentText())
+                    comment.getGiverEmail(), comment.getCommentText())
                 .withFeedbackResponseId(comment.getFeedbackResponseId())
                 .withFeedbackQuestionId(comment.getFeedbackQuestionId())
                 .withFeedbackResponseCommentId(comment.getFeedbackResponseCommentId())

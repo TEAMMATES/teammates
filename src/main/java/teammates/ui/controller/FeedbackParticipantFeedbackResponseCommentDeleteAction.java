@@ -5,6 +5,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.pagedata.FeedbackResponseCommentAjaxPageData;
@@ -36,7 +37,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
 
         Long commentId = Long.parseLong(feedbackResponseCommentId);
 
-        verifyAccessibleForUserToFeedbackResponseComment(session, response, commentId);
+        verifyDeletePermissionForUserToFeedbackResponseComment(session, response, commentId);
 
         logic.deleteDocumentByCommentId(commentId);
         logic.deleteFeedbackResponseCommentById(commentId);
@@ -49,7 +50,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
         return createAjaxResult(data);
     }
 
-    private void verifyAccessibleForUserToFeedbackResponseComment(FeedbackSessionAttributes session,
+    private void verifyDeletePermissionForUserToFeedbackResponseComment(FeedbackSessionAttributes session,
             FeedbackResponseAttributes response, Long commentId) {
         if (isModeration) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -57,8 +58,10 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, false, response.recipientSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        } else {
-            FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(commentId);
+            return;
+        }
+        FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(commentId);
+        if (frc.isCommentFromFeedbackParticipant) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
             switch (frc.commentGiverType) {
@@ -79,6 +82,8 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
                 Assumption.fail("Invalid comment giver type");
                 break;
             }
+        } else {
+            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] not given by feedback participant.");
         }
     }
 

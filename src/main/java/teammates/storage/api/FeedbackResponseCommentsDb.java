@@ -253,7 +253,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, oldEmail);
 
         for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setCommentGiver(updatedEmail);
+            responseComment.setGiverEmail(updatedEmail);
         }
 
         saveEntities(responseComments);
@@ -335,12 +335,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         ofy().delete().keys(getEntityQueryKeys(id)).now();
     }
 
-    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt,
-                                                                     String commentGiver) {
+    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
-                .filter("commentGiver =", commentGiver)
+                .filter("giverEmail =", giverEmail)
                 .first().now();
     }
 
@@ -349,19 +348,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(
-            String feedbackResponseId, String commentGiver, Instant createdAt) {
+            String feedbackResponseId, String giverEmail, Instant createdAt) {
         return load()
                 .filter("feedbackResponseId =", feedbackResponseId)
-                .filter("commentGiver =", commentGiver)
+                .filter("giverEmail =", giverEmail)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
                 .first().now();
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
-            String courseId, String commentGiver) {
+            String courseId, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
-                .filter("commentGiver =", commentGiver)
+                .filter("giverEmail =", giverEmail)
                 .list();
     }
 

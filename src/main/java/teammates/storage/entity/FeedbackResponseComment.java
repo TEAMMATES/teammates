@@ -38,7 +38,7 @@ public class FeedbackResponseComment extends BaseEntity {
 
     /** The giver of the comment.
      * It is email in case when comment giver is a student or instructor, and team name in case of team. */
-    private String commentGiver;
+    private String giverEmail;
 
     /** Role of a comment giver.
      * Can only be INSTRUCTORS, STUDENTS or TEAMS. */
@@ -81,7 +81,7 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public FeedbackResponseComment(String courseId, String feedbackSessionName, String feedbackQuestionId,
-            String commentGiver, FeedbackParticipantType commentGiverType, String feedbackResponseId, Instant createdAt,
+            String giverEmail, FeedbackParticipantType commentGiverType, String feedbackResponseId, Instant createdAt,
             Text commentText, String giverSection, String receiverSection, List<FeedbackParticipantType> showCommentTo,
             List<FeedbackParticipantType> showGiverNameTo, String lastEditorEmail, Instant lastEditedAt,
             Boolean isCommentFromFeedbackParticipant, boolean isVisibilityFollowingFeedbackQuestion) {
@@ -89,7 +89,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
         this.feedbackQuestionId = feedbackQuestionId;
-        this.commentGiver = commentGiver;
+        this.giverEmail = giverEmail;
         this.commentGiverType = commentGiverType;
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = TimeHelper.convertInstantToDate(createdAt);
@@ -99,7 +99,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.showCommentTo = showCommentTo == null ? new ArrayList<FeedbackParticipantType>() : showCommentTo;
         this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
         this.isVisibilityFollowingFeedbackQuestion = isVisibilityFollowingFeedbackQuestion;
-        this.lastEditorEmail = lastEditorEmail == null ? commentGiver : lastEditorEmail;
+        this.lastEditorEmail = lastEditorEmail == null ? giverEmail : lastEditorEmail;
         this.lastEditedAt = lastEditedAt == null ? this.createdAt : TimeHelper.convertInstantToDate(lastEditedAt);
         this.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
     }
@@ -144,18 +144,18 @@ public class FeedbackResponseComment extends BaseEntity {
         this.isVisibilityFollowingFeedbackQuestion = isVisibilityFollowingFeedbackQuestion;
     }
 
-    public String getCommentGiver() {
-        return commentGiver;
+    public String getGiverEmail() {
+        return giverEmail;
     }
 
     /**
      * Sets the giver email of the response comment.
      *
-     * @param commentGiver the commentGiver to set.
+     * @param giverEmail the giverEmail to set.
      *         This is the email used by the user in the course, not the one associated with the user's google account.
      */
-    public void setCommentGiver(String commentGiver) {
-        this.commentGiver = commentGiver;
+    public void setGiverEmail(String giverEmail) {
+        this.giverEmail = giverEmail;
     }
 
     public FeedbackParticipantType getCommentGiverType() {
