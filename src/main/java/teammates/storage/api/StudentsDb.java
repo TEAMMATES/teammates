@@ -324,7 +324,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         // Update CourseStudent if it exists.
         CourseStudent courseStudent = getCourseStudentEntityForEmail(courseId, email);
         if (courseStudent != null) {
-            boolean isEmailChanged = !email.equals(newEmail);
+            boolean sisEmailChanged = !email.equals(newEmail);
             String lastName = StringHelper.splitName(newName)[1];
 
             if (isEmailChanged) {

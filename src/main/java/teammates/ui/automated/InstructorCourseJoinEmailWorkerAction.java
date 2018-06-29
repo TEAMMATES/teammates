@@ -39,7 +39,7 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
 
-        InstructorAttributes instructor = logic.getInstructorForEmail(courseId, instructorEmail);
+        InstructorAttributes instructor = logic.getInstructorById(courseId, instructorEmail);
         Assumption.assertNotNull(instructor);
 
         EmailWrapper email = new EmailGenerator()
