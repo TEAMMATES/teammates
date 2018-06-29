@@ -31,9 +31,9 @@ const BootstrapContextualColors = {
     // Additional contextual colors that can be used in the components of modals
     PRIMARY: 'primary',
     isValidType(type) {
-        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO ||
-        type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING ||
-        type === BootstrapContextualColors.DANGER;
+        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO
+                || type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING
+                || type === BootstrapContextualColors.DANGER;
     },
 };
 BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
