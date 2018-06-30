@@ -633,9 +633,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if ("student".equals(view) || unsortedResponses.isEmpty()) {
             return "";
         }
-
-        // Reuse McqStatistics class to generate MSQ stats
+        // Reuse McqStatistics class to generate MSQ Response summary stats
         McqStatistics msqStats = new McqStatistics(this);
+
         // Sort responses based on recipient team and recipient name. 
         List<FeedbackResponseAttributes> responses = msqStats.getResponseAttributesSorted(unsortedResponses, bundle);
 
@@ -676,12 +676,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         // otherwise pass an empty string in it's place.
         String recipientStatsHtml = "";
         if (hasAssignedWeights) {
+            MsqPerRecipientStatistics msqRecipientStats = new MsqPerRecipientStatistics(this, msqStats);
             String header = msqStats.getRecipientStatsHeaderHtml();
-//            String body = msqStats.getPerRecipientStatsBodyHtml(responses, bundle);
+            String body = msqRecipientStats.getPerRecipientStatsBodyHtml(responses, bundle);
             recipientStatsHtml = Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
-                    Slots.TABLE_BODY_HTML, "");
+                    Slots.TABLE_BODY_HTML, body);
         }
 
         // Reuse MCQ result templates until there is a reason to use separate templates.
@@ -917,7 +918,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
-    private int getNumberOfNonEmptyResponsesOfQuestion(List<String> answerStrings, Map<String, Integer> answerFrequency) {
+    private static int getNumberOfNonEmptyResponsesOfQuestion(List<String> answerStrings, Map<String,
+            Integer> answerFrequency) {
         int numChoices = 0;
         for (String answerString : answerStrings) {
             if (answerString.isEmpty()) {
@@ -935,4 +937,117 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return (denominator == 0) ? 0 : numerator / denominator;
     }
 
+    /**
+     * Calculate the Per Recipient Statistics for MSQ questions.
+     * Most of the methods reuse the existing {@link McqStatistics} class for generating msq stats.
+     */
+    private static class MsqPerRecipientStatistics {
+        List<String> msqChoices;
+        boolean otherEnabled;
+        McqStatistics msqStats;
+
+        MsqPerRecipientStatistics(FeedbackMsqQuestionDetails msqDetails,
+                McqStatistics msqStats) {
+            this.msqChoices = msqDetails.getMsqChoices();
+            this.otherEnabled = msqDetails.getOtherEnabled();
+            this.msqStats = msqStats;
+        }
+
+        /**
+         * Returns a Map containing response counts for each option for every recipient.
+         */
+        public Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
+                List<FeedbackResponseAttributes> responses) {
+            Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();
+
+            responses.forEach(response -> {
+                perRecipientResponse.computeIfAbsent(response.recipient, key -> {
+                    // construct default value for responseCount
+                    Map<String, Integer> responseCountPerOption = new LinkedHashMap<>();
+                    for (String choice : msqChoices) {
+                        responseCountPerOption.put(choice, 0);
+                    }
+                    if (otherEnabled) {
+                        responseCountPerOption.put("Other", 0);
+                    }
+                    return responseCountPerOption;
+                });
+                perRecipientResponse.computeIfPresent(response.recipient, (key, responseCountPerOption) -> {
+                    // update responseCount here
+                    FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
+                    return getNumberOfResponsesForEachResponse(frd, responseCountPerOption);
+                });
+            });
+            return perRecipientResponse;
+        }
+
+        /**
+         * Calculates the number of responses for each response attribute.
+         */
+        private Map<String, Integer> getNumberOfResponsesForEachResponse(FeedbackMsqResponseDetails responseDetails,
+                Map<String, Integer> responseCountPerOption) {
+            List<String> answerStrings = responseDetails.getAnswerStrings();
+            boolean isOtherOptionAnswer = responseDetails.isOtherOptionAnswer();
+            String otherAnswer = "";
+
+            if (isOtherOptionAnswer) {
+                responseCountPerOption.put("Other", responseCountPerOption.getOrDefault("Other", 0) + 1);
+
+                // remove other answer temporarily to calculate stats for other options
+                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                answerStrings.remove(otherAnswer);
+            }
+
+            getNumberOfNonEmptyResponsesOfQuestion(answerStrings, responseCountPerOption);
+
+            // restore other answer if any
+            if (isOtherOptionAnswer) {
+                answerStrings.add(otherAnswer);
+            }
+            return responseCountPerOption;
+        }
+
+        /**
+         * Returns a HTML string which contains a sequence of "tr" tags.
+         * The "tr" tags enclose a sequence of "td" tags which have data related to a sub question.
+         * The sequence of "tr" tags are not enclosed in a "tbody" tag.
+         */
+        public String getPerRecipientStatsBodyHtml(List<FeedbackResponseAttributes> responses,
+                FeedbackSessionResultsBundle bundle) {
+            StringBuilder bodyBuilder = new StringBuilder(100);
+            Map<String, Map<String, Integer>> perRecipientResponses = calculatePerRecipientResponseCount(responses);
+
+            for (Map.Entry<String, Map<String, Integer>> entry : perRecipientResponses.entrySet()) {
+                String recipient = entry.getKey();
+                Map<String, Integer> responsesForRecipient = entry.getValue();
+                String statsRow = getPerRecipientStatsBodyFragmentHtml(recipient, responsesForRecipient, bundle);
+                bodyBuilder.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_FRAGMENT,
+                        Slots.MCQ_RECIPIENT_STAT_ROW, statsRow));
+            }
+
+            return bodyBuilder.toString();
+        }
+
+        /**
+         * Returns a HTML string which contains a sequence of "td" tags.
+         * The "td" tags have data related to a sub question.
+         * The sequence of "td" tags are not enclosed in a "tr" tag.
+         */
+        public String getPerRecipientStatsBodyFragmentHtml(String recipientEmail,
+                Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
+            StringBuilder html = new StringBuilder(100);
+
+            List<String> cols = msqStats.generateStatisticsForEachRecipient(recipientEmail, recipientResponses, bundle);
+
+            // Generate HTML for all <td> entries using template
+            for (String col : cols) {
+                html.append(
+                        Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT,
+                        Slots.MCQ_RECIPIENT_STAT_CELL, col));
+            }
+
+            return html.toString();
+        }
+
+    }
 }
