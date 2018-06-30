@@ -67,7 +67,7 @@ public class Course extends BaseEntity {
     }
 
     public Instant getCreatedAt() {
-        return TimeHelper.convertDateToInstant(this.createdAt);
+        return TimeHelper.convertDateToInstant(createdAt);
     }
 
     public void setCreatedAt(Instant createdAt) {
@@ -75,7 +75,7 @@ public class Course extends BaseEntity {
     }
 
     public Instant getDeletedAt() {
-        return TimeHelper.convertDateToInstant(this.deletedAt);
+        return TimeHelper.convertDateToInstant(deletedAt);
     }
 
     public void setDeletedAt(Instant deletedAt) {
