@@ -1,9 +1,9 @@
 package teammates.ui.template;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -27,8 +27,9 @@ public class FeedbackResultsTable {
             if (contribFeedbackResponse != null && contribFeedbackResponse.recipient.equals(studentEmail)) {
                 received.computeIfAbsent(studentName, k -> new ArrayList<>());
             }
-            received = sortByKey(received);
-            for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
+
+            Map<String, List<FeedbackResponseAttributes>> receivedSorted = new TreeMap<>(received);
+            for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : receivedSorted.entrySet()) {
                 giverIndex++;
                 if (contribFeedbackResponse != null && entry.getKey().equals(this.studentName)) {
                     List<FeedbackResponseAttributes> newResponseReceived = entry.getValue();
@@ -75,13 +76,6 @@ public class FeedbackResultsTable {
             return newResponseDetails[0];
         }
         return null;
-    }
-
-    private Map<String, List<FeedbackResponseAttributes>> sortByKey(Map<String, List<FeedbackResponseAttributes>> received) {
-        LinkedHashMap<String, List<FeedbackResponseAttributes>> sortedMap = new LinkedHashMap<>();
-        received.entrySet().stream().sorted(Map.Entry.comparingByKey())
-                .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
-        return sortedMap;
     }
 
     public String getStudentName() {
