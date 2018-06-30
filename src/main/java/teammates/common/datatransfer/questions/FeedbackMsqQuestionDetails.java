@@ -662,7 +662,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             } else {
                 weightString = hasAssignedWeights ? df.format(msqWeights.get(msqChoices.indexOf(key))) : "-";
             }
-
+            // Reuse Mcq result template until there is any reason to use a separate template.
             fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                     Slots.MCQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(key),
                     Slots.MCQ_WEIGHT, weightString,
@@ -679,6 +679,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             MsqPerRecipientStatistics msqRecipientStats = new MsqPerRecipientStatistics(this, msqStats);
             String header = msqStats.getRecipientStatsHeaderHtml();
             String body = msqRecipientStats.getPerRecipientStatsBodyHtml(responses, bundle);
+            // Reuse Mcq result template until there is any reason to use a separate template.
             recipientStatsHtml = Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
@@ -740,34 +741,34 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // If weights are enabled, number of choices and weights should be same.
-            // In case if a user enters an invalid weight for a valid choice,
-            // the msqChoices.size() will be greater than msqWeights.size(), which will
-            // trigger this error message.
+            // If a user enters an invalid weight for a valid choice,
+            // the msqChoices.size() will be greater than msqWeights.size(), in that case
+            // trigger this error.
             if (hasAssignedWeights && msqChoices.size() != msqWeights.size()) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weights are not enabled, but weight list is not empty or otherWeight is not 0
-            // In that case, this error will be triggered.
+            // In that case, trigger this error.
             if (!hasAssignedWeights && (!msqWeights.isEmpty() || msqOtherWeight != 0)) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weight is enabled, but other option is disabled, and msqOtherWeight is not 0
-            // In that case, this error will be triggered.
+            // In that case, trigger this error.
             if (hasAssignedWeights && !otherEnabled && msqOtherWeight != 0) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
             }
 
-            // If weights are negative, this error will be triggered.
+            // If weights are negative, trigger this error.
             if (hasAssignedWeights && !msqWeights.isEmpty()) {
                 for (double weight : msqWeights) {
                     if (weight < 0) {
                         errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
                     }
                 }
-                // If 'Other' option is enabled, and other weight has negative value, then this value
-                // will be triggered.
+                // If 'Other' option is enabled, and other weight has negative value,
+                // trigger this error.
                 if (otherEnabled && msqOtherWeight < 0) {
                     errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
                 }
@@ -939,7 +940,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     /**
      * Calculate the Per Recipient Statistics for MSQ questions.
-     * Most of the methods reuse the existing {@link McqStatistics} class for generating msq stats.
      */
     private static class MsqPerRecipientStatistics {
         List<String> msqChoices;
@@ -951,6 +951,32 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             this.msqChoices = msqDetails.getMsqChoices();
             this.otherEnabled = msqDetails.getOtherEnabled();
             this.msqStats = msqStats;
+        }
+
+        /**
+         * Calculates the number of responses for each response attribute.
+         */
+        private Map<String, Integer> getNumberOfResponsesForEachResponse(FeedbackMsqResponseDetails responseDetails,
+                Map<String, Integer> responseCountPerOption) {
+            List<String> answerStrings = responseDetails.getAnswerStrings();
+            boolean isOtherOptionAnswer = responseDetails.isOtherOptionAnswer();
+            String otherAnswer = "";
+
+            if (isOtherOptionAnswer) {
+                responseCountPerOption.put("Other", responseCountPerOption.getOrDefault("Other", 0) + 1);
+
+                // remove other answer temporarily to calculate stats for other options
+                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                answerStrings.remove(otherAnswer);
+            }
+
+            getNumberOfNonEmptyResponsesOfQuestion(answerStrings, responseCountPerOption);
+
+            // restore other answer if any
+            if (isOtherOptionAnswer) {
+                answerStrings.add(otherAnswer);
+            }
+            return responseCountPerOption;
         }
 
         /**
@@ -982,29 +1008,25 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
-         * Calculates the number of responses for each response attribute.
+         * Returns a HTML string which contains a sequence of "td" tags.
+         * The "td" tags have data related to a sub question.
+         * The sequence of "td" tags are not enclosed in a "tr" tag.
          */
-        private Map<String, Integer> getNumberOfResponsesForEachResponse(FeedbackMsqResponseDetails responseDetails,
-                Map<String, Integer> responseCountPerOption) {
-            List<String> answerStrings = responseDetails.getAnswerStrings();
-            boolean isOtherOptionAnswer = responseDetails.isOtherOptionAnswer();
-            String otherAnswer = "";
+        public String getPerRecipientStatsBodyFragmentHtml(String recipientEmail,
+                Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
+            StringBuilder html = new StringBuilder(100);
 
-            if (isOtherOptionAnswer) {
-                responseCountPerOption.put("Other", responseCountPerOption.getOrDefault("Other", 0) + 1);
+            List<String> cols = msqStats.generateStatisticsForEachRecipient(recipientEmail, recipientResponses, bundle);
 
-                // remove other answer temporarily to calculate stats for other options
-                otherAnswer = answerStrings.get(answerStrings.size() - 1);
-                answerStrings.remove(otherAnswer);
+            // Generate HTML for all <td> entries using template
+            // Reuse Mcq result template until there is any reason to use a separate template.
+            for (String col : cols) {
+                html.append(
+                        Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT,
+                        Slots.MCQ_RECIPIENT_STAT_CELL, col));
             }
 
-            getNumberOfNonEmptyResponsesOfQuestion(answerStrings, responseCountPerOption);
-
-            // restore other answer if any
-            if (isOtherOptionAnswer) {
-                answerStrings.add(otherAnswer);
-            }
-            return responseCountPerOption;
+            return html.toString();
         }
 
         /**
@@ -1021,32 +1043,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 String recipient = entry.getKey();
                 Map<String, Integer> responsesForRecipient = entry.getValue();
                 String statsRow = getPerRecipientStatsBodyFragmentHtml(recipient, responsesForRecipient, bundle);
+                // Reuse Mcq result template until there is any reason to use a separate template.
                 bodyBuilder.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_FRAGMENT,
                         Slots.MCQ_RECIPIENT_STAT_ROW, statsRow));
             }
 
             return bodyBuilder.toString();
-        }
-
-        /**
-         * Returns a HTML string which contains a sequence of "td" tags.
-         * The "td" tags have data related to a sub question.
-         * The sequence of "td" tags are not enclosed in a "tr" tag.
-         */
-        public String getPerRecipientStatsBodyFragmentHtml(String recipientEmail,
-                Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
-            StringBuilder html = new StringBuilder(100);
-
-            List<String> cols = msqStats.generateStatisticsForEachRecipient(recipientEmail, recipientResponses, bundle);
-
-            // Generate HTML for all <td> entries using template
-            for (String col : cols) {
-                html.append(
-                        Templates.populateTemplate(FormTemplates.MCQ_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT,
-                        Slots.MCQ_RECIPIENT_STAT_CELL, col));
-            }
-
-            return html.toString();
         }
 
     }
