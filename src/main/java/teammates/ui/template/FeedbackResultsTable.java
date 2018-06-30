@@ -62,16 +62,16 @@ public class FeedbackResultsTable {
         FeedbackResponseAttributes[] newResponseDetails = new FeedbackResponseAttributes[1];
         boolean[] hasContriFeedbackResponseRow = {false};
 
-        rcvedFeedbacks.entrySet().forEach(entry -> {
-            for (FeedbackResponseAttributes questionResponses : entry.getValue()) {
-                if (questionResponses.feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB)) {
-                    newResponseDetails[0] = new FeedbackResponseAttributes(questionResponses);
-                    if (entry.getKey().equals(this.studentName)) {
-                        hasContriFeedbackResponseRow[0] = true;
-                    }
+        // Checks and find the perceived contrib response for a student without submission
+        rcvedFeedbacks.entrySet().forEach(entry -> entry.getValue().forEach(questionResponses -> {
+            if (questionResponses.feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB)) {
+                newResponseDetails[0] = new FeedbackResponseAttributes(questionResponses);
+                if (entry.getKey().equals(this.studentName)) {
+                    hasContriFeedbackResponseRow[0] = true;
                 }
             }
-        });
+        }));
+
         if (newResponseDetails[0] != null && !hasContriFeedbackResponseRow[0]) {
             return newResponseDetails[0];
         }
