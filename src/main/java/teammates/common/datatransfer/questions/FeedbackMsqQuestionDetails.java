@@ -700,22 +700,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (responses.isEmpty()) {
             return "";
         }
-
         Map<String, Integer> answerFrequency = new LinkedHashMap<>();
         int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
         }
+        StringBuilder csv = new StringBuilder();
+        McqStatistics msqStats = new McqStatistics(this);
 
-        DecimalFormat df = new DecimalFormat("#.##");
-        StringBuilder fragments = new StringBuilder();
-        answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key) + ','
-                + value.toString() + ','
-                + df.format(100 * divideOrReturnZero(value, numChoicesSelected))
-                + System.lineSeparator()));
+        // Reuse McqStatistics to generate response summary stats
+        csv.append(msqStats.getResponseSummaryStatsCsv(answerFrequency, bundle, numChoicesSelected));
 
-        return "Choice, Response Count, Percentage" + System.lineSeparator()
-               + fragments + System.lineSeparator();
+        return csv.toString();
     }
 
     @Override

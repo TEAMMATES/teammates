@@ -571,8 +571,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
         StringBuilder csv = new StringBuilder();
         McqStatistics mcqStats = new McqStatistics(this);
+        Map<String, Integer> answerFrequency = mcqStats.collateAnswerFrequency(responses);
         // Add the Response Summary Statistics to the CSV String.
-        csv.append(mcqStats.getResponseSummaryStatsCsv(responses, bundle));
+        csv.append(mcqStats.getResponseSummaryStatsCsv(answerFrequency, bundle, responses.size()));
 
         // If weights are assigned, add the 'Per Recipient Statistics' to the CSV string.
         if (hasAssignedWeights) {
@@ -882,16 +883,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Returns a String containing the Response Summary statistics for CSV files.
          */
-        public String getResponseSummaryStatsCsv(List<FeedbackResponseAttributes> responses,
-                FeedbackSessionResultsBundle bundle) {
+        public String getResponseSummaryStatsCsv(Map<String, Integer> answerFrequency,
+                FeedbackSessionResultsBundle bundle, int totalResponseCount) {
 
             String header = "";
-            Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
 
             StringBuilder fragments = new StringBuilder();
             DecimalFormat df = new DecimalFormat("#.##");
 
-            // If weights are assigned, CSV file should include 'weight' and 'average' column as well.
+            // If weights are assigned, CSV file should include 'Weight' and 'Weighted Percentage' column as well.
             if (hasAssignedWeights) {
                 header = "Choice, Weight, Response Count, Percentage (%), Weighted Percentage (%)";
                 Map<String, Double> weightedPercentagePerOption = calculateWeightedPercentagePerOption(answerFrequency);
@@ -908,7 +908,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
                              .append(SanitizationHelper.sanitizeForCsv(weightString)).append(',')
                              .append(Integer.toString(responseCount)).append(',')
-                             .append(df.format(100 * (double) responseCount / responses.size())).append(',')
+                             .append(df.format(100 * (double) responseCount / totalResponseCount)).append(',')
                              .append(df.format(weightedPercentagePerOption.get(key))).append(System.lineSeparator());
                 }
             } else {
@@ -916,7 +916,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
                 answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
                         .append(value.toString()).append(',')
-                        .append(df.format(100 * (double) value / responses.size())).append(System.lineSeparator()));
+                        .append(df.format(100 * (double) value / totalResponseCount)).append(System.lineSeparator()));
             }
 
             return header + System.lineSeparator() + fragments.toString();
