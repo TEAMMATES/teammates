@@ -21,11 +21,7 @@
             <label class="col-lg-4 control-label">Session:</label>
             <div class="col-lg-8">
               <p class="form-control-static">${sessionPanel.feedbackSessionName}
-<<<<<<< HEAD
                 <c:if test="${not empty sessionPanel.editLink}">&nbsp
-=======
-                <c:if test="${not empty sessionPanel.editLink}">
->>>>>>> master
                   <a href="${sessionPanel.editLink}">
                     <span class="glyphicon glyphicon-edit" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="edit_icon_button"></span>
                   </a>
