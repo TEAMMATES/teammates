@@ -17,6 +17,7 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -336,32 +337,36 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
-        return load()
+        FeedbackResponseComment frc = load()
                 .filter("courseId =", courseId)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
                 .filter("giverEmail =", giverEmail)
                 .first().now();
+        return setCommentGiverTypeForBackwardCompatibility(frc);
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(Long feedbackResponseCommentId) {
-        return load().id(feedbackResponseCommentId).now();
+        return setCommentGiverTypeForBackwardCompatibility(load().id(feedbackResponseCommentId).now());
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(
             String feedbackResponseId, String giverEmail, Instant createdAt) {
-        return load()
+        FeedbackResponseComment frc = load()
                 .filter("feedbackResponseId =", feedbackResponseId)
                 .filter("giverEmail =", giverEmail)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
                 .first().now();
+        return setCommentGiverTypeForBackwardCompatibility(frc);
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
             String courseId, String giverEmail) {
-        return load()
+        List<FeedbackResponseComment> frcList = load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
                 .list();
+        setCommentGiverTypeForBackwardCompatibility(frcList);
+        return frcList;
     }
 
     /*
@@ -369,10 +374,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForLastEditorInCourse(
             String courseId, String lastEditorEmail) {
-        return load()
+        List<FeedbackResponseComment> frcList = load()
                 .filter("courseId =", courseId)
                 .filter("lastEditorEmail =", lastEditorEmail)
                 .list();
+        setCommentGiverTypeForBackwardCompatibility(frcList);
+        return frcList;
     }
 
     private Query<FeedbackResponseComment> getFeedbackResponseCommentsForResponseQuery(String feedbackResponseId) {
@@ -380,15 +387,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId) {
-        return getFeedbackResponseCommentsForResponseQuery(feedbackResponseId).list();
+        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentsForResponseQuery(feedbackResponseId).list();
+        setCommentGiverTypeForBackwardCompatibility(frcList);
+        return frcList;
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSession(
             String courseId, String feedbackSessionName) {
-        return load()
+        List<FeedbackResponseComment> frcList = load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .list();
+        setCommentGiverTypeForBackwardCompatibility(frcList);
+        return frcList;
     }
 
     private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
@@ -400,6 +411,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("giverSection =", section)
                 .list();
+        setCommentGiverTypeForBackwardCompatibility(firstQueryResponseComments);
 
         for (FeedbackResponseComment comment : firstQueryResponseComments) {
             comments.put(comment.getFeedbackResponseCommentId(), comment);
@@ -410,6 +422,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("receiverSection =", section)
                 .list();
+        setCommentGiverTypeForBackwardCompatibility(secondQueryResponseComments);
 
         for (FeedbackResponseComment comment : secondQueryResponseComments) {
             comments.put(comment.getFeedbackResponseCommentId(), comment);
@@ -439,7 +452,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         if (id != null) {
             return getEntityQueryKeys(id);
         }
-
         return load()
                 .filter("courseId =", attributes.courseId)
                 .filter("feedbackResponseId =", attributes.feedbackResponseId)
@@ -457,5 +469,25 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return FeedbackResponseCommentAttributes.valueOf(entity);
+    }
+
+    //TODO: Remove after Data Migration
+    private FeedbackResponseComment setCommentGiverTypeForBackwardCompatibility(FeedbackResponseComment frc) {
+        if (frc != null && frc.getCommentGiverType() == null) {
+            frc.setCommentGiverType(FeedbackParticipantType.INSTRUCTORS);
+        }
+        return frc;
+    }
+
+    //TODO: Remove after Data Migration
+    private void setCommentGiverTypeForBackwardCompatibility(List<FeedbackResponseComment> frcList) {
+        if (frcList == null) {
+            return;
+        }
+        for (FeedbackResponseComment frc : frcList) {
+            if (frc.getCommentGiverType() == null) {
+                frc.setCommentGiverType(FeedbackParticipantType.INSTRUCTORS);
+            }
+        }
     }
 }
