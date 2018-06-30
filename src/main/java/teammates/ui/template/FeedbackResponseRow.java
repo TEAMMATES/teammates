@@ -24,7 +24,7 @@ public class FeedbackResponseRow {
     private List<FeedbackResponseCommentRow> responseComments;
 
     public FeedbackResponseRow(int fbIndex, int personIndex, String personType, FeedbackResponseAttributes response,
-                               FeedbackSessionResultsBundle results, Boolean showPcRow) {
+                               FeedbackSessionResultsBundle results, boolean showPcRow) {
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = results.questions.get(questionId);
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
