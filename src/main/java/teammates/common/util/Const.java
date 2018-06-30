@@ -236,9 +236,9 @@ public final class Const {
         public static final String COURSE_MOVE_TO_RECOVERY =
                 "Delete the course and its corresponding students and sessions";
         public static final String COURSE_DELETE =
-                "Permanently Delete the course and its corresponding students and sessions";
+                "Permanently delete the course and its corresponding students and sessions";
         public static final String COURSE_DELETE_ALL =
-                "Permanently Delete all courses and their corresponding students and sessions";
+                "Permanently delete all courses and their corresponding students and sessions";
         public static final String COURSE_RESTORE =
                 "Restore the deleted course and its corresponding students and sessions";
         public static final String COURSE_RESTORE_ALL =
