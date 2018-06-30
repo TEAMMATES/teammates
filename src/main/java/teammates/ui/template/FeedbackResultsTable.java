@@ -23,16 +23,16 @@ public class FeedbackResultsTable {
                                         result.getResponsesSortedByRecipient().get(studentName);
         int giverIndex = 0;
         if (received != null) {
-            FeedbackResponseAttributes contriFeedbackResponse = findContriFeedbackResponse(received);
-            if (contriFeedbackResponse != null && contriFeedbackResponse.recipient.equals(studentEmail)) {
+            FeedbackResponseAttributes contribFeedbackResponse = findContribFeedbackResponse(received);
+            if (contribFeedbackResponse != null && contribFeedbackResponse.recipient.equals(studentEmail)) {
                 received.computeIfAbsent(studentName, k -> new ArrayList<>());
             }
             received = sortByKey(received);
             for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : received.entrySet()) {
                 giverIndex++;
-                if (contriFeedbackResponse != null && entry.getKey().equals(this.studentName)) {
+                if (contribFeedbackResponse != null && entry.getKey().equals(this.studentName)) {
                     List<FeedbackResponseAttributes> newResponseReceived = entry.getValue();
-                    newResponseReceived.add(contriFeedbackResponse);
+                    newResponseReceived.add(contribFeedbackResponse);
                     FeedbackResponseAttributes.sortFeedbackResponses(newResponseReceived);
 
                     this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(),
@@ -56,7 +56,7 @@ public class FeedbackResultsTable {
         }
     }
 
-    private FeedbackResponseAttributes findContriFeedbackResponse(
+    private FeedbackResponseAttributes findContribFeedbackResponse(
             Map<String, List<FeedbackResponseAttributes>> rcvedFeedbacks) {
         FeedbackResponseAttributes[] newResponseDetails = new FeedbackResponseAttributes[1];
         boolean[] hasContriFeedbackResponseRow = {false};
