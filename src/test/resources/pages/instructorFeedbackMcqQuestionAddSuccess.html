@@ -710,8 +710,8 @@
   </div>
   <br>
   <input id="num-questions" type="hidden" value="1">
-  <input id="num-students" type="hidden" value="0">
-  <input id="num-teams" type="hidden" value="0">
+  <input id="num-students" type="hidden" value="4">
+  <input id="num-teams" type="hidden" value="1">
   <input id="num-instructors" type="hidden" value="1">
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
@@ -793,49 +793,71 @@
               <input disabled="" name="questiondescription" type="hidden">
             </div>
             <div class="row">
+              <div class="col-sm-12 margin-bottom-7px">
+                <div class="col-sm-4 padding-0">
+                  <input class="nonDestructive" disabled="" id="mcqHasAssignedWeights-1" name="mcqHasAssignedWeights" type="checkbox">
+                  <span class="tool-tip-decorate" data-original-title="Assign weights to the choices for calculating statistics." data-placement="top" data-toggle="tooltip">
+                    Choices are weighted
+                  </span>
+                </div>
+                <div class="col-sm-2 padding-left-45px align-center" style="display: none;">
+                  Weights
+                  <span class="glyphicon glyphicon-arrow-down">
+                  </span>
+                </div>
+              </div>
               <br>
               <div class="col-sm-6">
                 <div id="mcqChoiceTable-1">
-                  <div class="margin-bottom-7px" id="mcqOptionRow-0-1">
-                    <div class="input-group width-100-pc">
-                      <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="" type="radio">
-                      </span>
-                      <input class="form-control" disabled="" id="mcqOption-0-1" name="mcqOption-0" type="text" value="Choice 1">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" disabled="" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
+                  <div class="row">
+                    <div class="col-sm-9" id="mcqChoices-1">
+                      <div class="input-group margin-bottom-7px" id="mcqOptionRow-0-1">
+                        <span class="input-group-addon">
+                          <input class="disabled_radio" disabled="" type="radio">
+                        </span>
+                        <input class="form-control" disabled="" id="mcqOption-0-1" name="mcqOption-0" type="text" value="Choice 1">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" disabled="" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                      <div class="input-group margin-bottom-7px" id="mcqOptionRow-1-1">
+                        <span class="input-group-addon">
+                          <input class="disabled_radio" disabled="" type="radio">
+                        </span>
+                        <input class="form-control" disabled="" id="mcqOption-1-1" name="mcqOption-1" type="text" value="Choice 3">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" disabled="" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                      <div class="input-group margin-bottom-7px" id="mcqOptionRow-2-1">
+                        <span class="input-group-addon">
+                          <input class="disabled_radio" disabled="" type="radio">
+                        </span>
+                        <input class="form-control" disabled="" id="mcqOption-2-1" name="mcqOption-2" type="text" value="Choice 5">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default removeOptionLink" disabled="" id="mcqRemoveOptionLink" onclick="removeMcqOption(2,1)" style="display:none" tabindex="-1" type="button">
+                            <span class="glyphicon glyphicon-remove">
+                            </span>
+                          </button>
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="margin-bottom-7px" id="mcqOptionRow-1-1">
-                    <div class="input-group width-100-pc">
-                      <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="" type="radio">
-                      </span>
-                      <input class="form-control" disabled="" id="mcqOption-1-1" name="mcqOption-1" type="text" value="Choice 3">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" disabled="" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="margin-bottom-7px" id="mcqOptionRow-2-1">
-                    <div class="input-group width-100-pc">
-                      <span class="input-group-addon">
-                        <input class="disabled_radio" disabled="" type="radio">
-                      </span>
-                      <input class="form-control" disabled="" id="mcqOption-2-1" name="mcqOption-2" type="text" value="Choice 5">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default removeOptionLink" disabled="" id="mcqRemoveOptionLink" onclick="removeMcqOption(2,1)" style="display:none" tabindex="-1" type="button">
-                          <span class="glyphicon glyphicon-remove">
-                          </span>
-                        </button>
-                      </span>
+                    <div class="col-sm-3" id="mcqWeights-1" style="display: none;">
+                      <div class="margin-bottom-7px">
+                        <input class="form-control nonDestructive" disabled="" id="mcqWeight-0-1" min="0" name="mcqWeight-0" step="0.01" type="number" value="0">
+                      </div>
+                      <div class="margin-bottom-7px">
+                        <input class="form-control nonDestructive" disabled="" id="mcqWeight-1-1" min="0" name="mcqWeight-1" step="0.01" type="number" value="0">
+                      </div>
+                      <div class="margin-bottom-7px">
+                        <input class="form-control nonDestructive" disabled="" id="mcqWeight-2-1" min="0" name="mcqWeight-2" step="0.01" type="number" value="0">
+                      </div>
                     </div>
                   </div>
                   <div id="mcqAddOptionRow-1">
@@ -845,11 +867,16 @@
                         </span>
                         add more options
                       </a>
-                      <div class="checkbox">
-                        <label class="bold-label">
-                          <input disabled="" id="mcqOtherOptionFlag-1" name="mcqOtherOptionFlag" onchange="toggleMcqOtherOptionEnabled(this, 1)" type="checkbox">
-                          Add 'Other' option (Allows respondents to type in their own answer)
-                        </label>
+                      <div class="row">
+                        <div class="checkbox col-sm-9 padding-left-35px">
+                          <label class="bold-label">
+                            <input disabled="" id="mcqOtherOptionFlag-1" name="mcqOtherOptionFlag" type="checkbox">
+                            Add 'Other' option (Allows respondents to type in their own answer)
+                          </label>
+                        </div>
+                        <div class="col-sm-3">
+                          <input class="form-control nonDestructive" disabled="" id="mcqOtherWeight-1" min="0" name="mcqOtherWeight" step="0.01" style="display: none;" type="number" value="0">
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1385,35 +1412,56 @@
             </div>
             <div id="mcqForm">
               <div class="row">
+                <div class="col-sm-12 margin-bottom-7px">
+                  <div class="col-sm-4 padding-0">
+                    <input class="nonDestructive" id="mcqHasAssignedWeights--1" name="mcqHasAssignedWeights" type="checkbox">
+                    <span class="tool-tip-decorate" data-original-title="Assign weights to the choices for calculating statistics." data-placement="top" data-toggle="tooltip">
+                      Choices are weighted
+                    </span>
+                  </div>
+                  <div class="col-sm-2 padding-left-45px align-center">
+                    Weights
+                    <span class="glyphicon glyphicon-arrow-down">
+                    </span>
+                  </div>
+                </div>
                 <br>
                 <div class="col-sm-6">
                   <div id="mcqChoiceTable--1">
-                    <div class="margin-bottom-7px" id="mcqOptionRow-0--1">
-                      <div class="input-group width-100-pc">
-                        <span class="input-group-addon">
-                          <input class="disabled_radio" disabled="" type="radio">
-                        </span>
-                        <input class="form-control" disabled="" id="mcqOption-0--1" name="mcqOption-0" type="text" value="">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,-1)" style="display:none" tabindex="-1" type="button">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </button>
-                        </span>
+                    <div class="row">
+                      <div class="col-sm-9" id="mcqChoices--1">
+                        <div class="input-group margin-bottom-7px" id="mcqOptionRow-0--1">
+                          <span class="input-group-addon">
+                            <input class="disabled_radio" disabled="" type="radio">
+                          </span>
+                          <input class="form-control" disabled="" id="mcqOption-0--1" name="mcqOption-0" type="text" value="">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                          </span>
+                        </div>
+                        <div class="input-group margin-bottom-7px" id="mcqOptionRow-1--1">
+                          <span class="input-group-addon">
+                            <input class="disabled_radio" disabled="" type="radio">
+                          </span>
+                          <input class="form-control" disabled="" id="mcqOption-1--1" name="mcqOption-1" type="text" value="">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    <div class="margin-bottom-7px" id="mcqOptionRow-1--1">
-                      <div class="input-group width-100-pc">
-                        <span class="input-group-addon">
-                          <input class="disabled_radio" disabled="" type="radio">
-                        </span>
-                        <input class="form-control" disabled="" id="mcqOption-1--1" name="mcqOption-1" type="text" value="">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default removeOptionLink" id="mcqRemoveOptionLink" onclick="removeMcqOption(1,-1)" style="display:none" tabindex="-1" type="button">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </button>
-                        </span>
+                      <div class="col-sm-3" id="mcqWeights--1">
+                        <div class="margin-bottom-7px">
+                          <input class="form-control nonDestructive" id="mcqWeight-0--1" min="0" name="mcqWeight-0" step="0.01" type="number" value="0">
+                        </div>
+                        <div class="margin-bottom-7px">
+                          <input class="form-control nonDestructive" id="mcqWeight-1--1" min="0" name="mcqWeight-1" step="0.01" type="number" value="0">
+                        </div>
                       </div>
                     </div>
                     <div id="mcqAddOptionRow--1">
@@ -1423,11 +1471,16 @@
                           </span>
                           add more options
                         </a>
-                        <div class="checkbox">
-                          <label class="bold-label">
-                            <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" onchange="toggleMcqOtherOptionEnabled(this, -1)" type="checkbox">
-                            Add 'Other' option (Allows respondents to type in their own answer)
-                          </label>
+                        <div class="row">
+                          <div class="checkbox col-sm-9 padding-left-35px">
+                            <label class="bold-label">
+                              <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" type="checkbox">
+                              Add 'Other' option (Allows respondents to type in their own answer)
+                            </label>
+                          </div>
+                          <div class="col-sm-3">
+                            <input class="form-control nonDestructive" id="mcqOtherWeight--1" min="0" name="mcqOtherWeight" step="0.01" type="number" value="0">
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2467,12 +2520,24 @@
         <form action="/page/instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
           <div class="col-sm-6">
             <select class="form-control margin-bottom-7px" name="previewas">
+              <option value="student1InCourse1@gmail.tmt">
+                [Team 1] student1
+              </option>
+              <option value="student2InCourse1@gmail.tmt">
+                [Team 1] student2
+              </option>
+              <option value="student3InCourse1@gmail.tmt">
+                [Team 1] student3
+              </option>
+              <option value="student4InCourse1@gmail.tmt">
+                [Team 1] student4
+              </option>
             </select>
           </div>
           <input name="fsname" type="hidden" value="First Session">
           <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
           <div class="col-sm-6">
-            <input class="btn btn-primary" disabled="" id="button_preview_student" style="background: #66727A;" type="submit" value="Preview as Student">
+            <input class="btn btn-primary" id="button_preview_student" type="submit" value="Preview as Student">
           </div>
           <input name="user" type="hidden" value="FMcqQnUiT.instructor">
         </form>
