@@ -118,10 +118,6 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionMsqAdditionalInfoFragment.html");
             public static final String MSQ_ADDITIONAL_INFO =
                     FileHelper.readResourceFile("feedbackQuestionMsqAdditionalInfoTemplate.html");
-            public static final String MSQ_RESULT_STATS =
-                    FileHelper.readResourceFile("feedbackQuestionMsqResultStatsTemplate.html");
-            public static final String MSQ_RESULT_STATS_OPTIONFRAGMENT =
-                    FileHelper.readResourceFile("feedbackQuestionMsqResultStatsOptionFragment.html");
 
             public static final String NUMSCALE_EDIT_FORM =
                     FileHelper.readResourceFile("feedbackQuestionNumScaleEditFormTemplate.html");
