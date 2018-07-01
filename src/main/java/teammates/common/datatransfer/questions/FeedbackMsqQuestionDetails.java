@@ -636,7 +636,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         // Reuse McqStatistics class to generate MSQ Response summary stats
         McqStatistics msqStats = new McqStatistics(this);
 
-        // Sort responses based on recipient team and recipient name. 
+        // Sort responses based on recipient team and recipient name.
         List<FeedbackResponseAttributes> responses = msqStats.getResponseAttributesSorted(unsortedResponses, bundle);
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<>();
