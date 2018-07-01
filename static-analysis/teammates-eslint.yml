@@ -48,6 +48,15 @@ rules:
         "ExportDeclaration": "always",
         "ImportDeclaration": "always"
     }]
+    operator-linebreak: ["error", "before", {
+        overrides: {
+            "=": "after",
+            "+=": "after",
+            "-=": "after",
+            "*=": "after",
+            "/=": "after"
+        }
+    }]
 
     import/no-extraneous-dependencies: "off"
     import/prefer-default-export: "off"
