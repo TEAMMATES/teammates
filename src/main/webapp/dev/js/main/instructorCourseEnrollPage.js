@@ -50,8 +50,8 @@ function updateDataDump() {
     const spreadsheetData = handsontable.getData();
     const dataPushToTextarea = getUpdatedHeaderString(handsontable.getColHeader());
     const userDataRows = getUserDataRows(spreadsheetData);
-    $('#enrollstudents').text(userDataRows === '' ?
-            '' : dataPushToTextarea + userDataRows); // only pushes header string if userDataRows is not empty
+    $('#enrollstudents').text(userDataRows === ''
+            ? '' : dataPushToTextarea + userDataRows); // only pushes header string if userDataRows is not empty
 }
 
 $(document).ready(() => {
