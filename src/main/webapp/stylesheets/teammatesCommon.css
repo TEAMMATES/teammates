@@ -316,6 +316,10 @@ input.inline {
     padding-right: 25px !important;
 }
 
+.padding-left-25px {
+    padding-left: 25px;
+}
+
 .padding-left-35px {
     padding-left: 35px;
 }
