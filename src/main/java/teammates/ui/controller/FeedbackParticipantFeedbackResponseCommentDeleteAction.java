@@ -42,7 +42,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
         logic.deleteDocumentByCommentId(commentId);
         logic.deleteFeedbackResponseCommentById(commentId);
 
-        appendToStatusToAdmin(commentId);
+        appendStatusToAdmin(commentId);
 
         FeedbackResponseCommentAjaxPageData data =
                 new FeedbackResponseCommentAjaxPageData(account, sessionToken);
@@ -83,7 +83,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
         }
     }
 
-    private void appendToStatusToAdmin(Long commentId) {
+    private void appendStatusToAdmin(Long commentId) {
         statusToAdmin += "FeedbackParticipantFeedbackResponseCommentDeleteAction:<br>"
                 + "Deleting feedback response comment: " + commentId + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
