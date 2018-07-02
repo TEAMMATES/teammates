@@ -33,17 +33,16 @@
         <strong>100</strong> students.
       </div>
       <br>
-      <form id="student-data-spreadsheet-form" method="post"
-            class="form-horizontal" role="form">
+      <form id="student-data-spreadsheet-form" method="post" class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
         <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
         <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
         <div class="col-md-12">
           <div class="form-group">
-            <div class="enroll-page-spreadsheet" id="data-spreadsheet">
+            <div class="existing-students-spreadsheet">
               <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
-              <div class="panel panel-default">
-                <div class="panel-heading ajax_submit">
+              <div class="panel panel-default" >
+                <div class="panel-heading" id="existing-data-spreadsheet">
                   <div class="pull-right margin-left-7px">
                     <span class="glyphicon glyphicon-chevron-down"></span>
                   </div>
@@ -52,7 +51,7 @@
                 </div>
                 <div class="panel-collapse collapse">
                   <div class="panel-body padding-0">
-                    <div id="dataSpreadsheet"></div>
+                    <div id="existingDataSpreadsheet"></div>
                   </div>
                 </div>
               </div>
@@ -66,20 +65,33 @@
                 </div>
               </div>
             </div>
-            <div class="enroll-page-spreadsheet" id="enroll-spreadsheet">
+            <div class="enroll-students-spreadsheet">
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" id="enroll-spreadsheet">
+                  <div class="pull-right margin-left-7px">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                  </div>
+                  <div class='display-icon pull-right'></div>
                   <strong>New students</strong>
                 </div>
-                <div id="enrollSpreadsheet"></div>
+                <div class="panel-collapse collapse">
+                  <div class="panel-body padding-0">
+                    <div id="enrollSpreadsheet"></div>
+                  </div>
+                </div>
               </div>
-              <div class="row">
+              <div class="row enroll-students">
                 <div class="col-md-6">
-                  <button type="button" title="Add" id="addEmptyRows" class="btn btn-primary btn-md">
-                    Add
-                  </button>
-                  <input type="number" id="number-of-rows" value="1" min="0">
-                  <label>Rows</label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                      <button type="button" title="Add" id="button_add_empty_rows" class="btn btn-primary btn-md">
+                        Add row(s)
+                      </button>
+                    </span>
+                    <div class="col-xs-4">
+                      <input type="number" id="number-of-rows" class="form-control" value="1" min="0">
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-6">
                   <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
@@ -90,7 +102,7 @@
                 </div>
               </div>
               <br>
-              <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120"
+              <textarea class="form-control" id="enrollstudents" name="enrollstudents"
                   placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
             </div>
           </div>
@@ -110,7 +122,7 @@
         <ul>
           <li>
             If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and
-            paste into the spreadsheet interface above.<br><br>
+            paste into the <code>New students</code> spreadsheet interface above.<br><br>
             <table class="table table-striped table-bordered">
               <tr>
                 <th>Section</th>
@@ -168,6 +180,7 @@
           <li>You can re-arrange column order by clicking on the column header and dragging them left or right.</li>
           <li>To access more edit functions, right-click on a cell.</li>
           <li>Column width can be adjusted.</li>
+          <li>Expand the <code>Existing students</code> spreadsheet interface to view existing students in the course.</li>
         </ul>
       </li>
       <li>

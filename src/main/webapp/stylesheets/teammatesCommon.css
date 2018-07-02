@@ -83,6 +83,10 @@ Apply to alert to override Bootstrap's default 3d alerts
     padding-top: 10px;
 }
 
+.border-top-dark-gray {
+    border-top: 1px solid #CCC;
+}
+
 .bold-label {
     font-weight: 700 !important;
 }
@@ -134,6 +138,10 @@ Apply to alert to override Bootstrap's default 3d alerts
 .const-sum-options-label {
     max-width: 75%;
     padding-right: 15px;
+}
+
+div[class*="col-"][class*="col-no-padding"] {
+    padding: 0;
 }
 
 .ordered-table {
@@ -288,6 +296,10 @@ input.inline {
     margin-top: 7px;
 }
 
+.margin-top-15px {
+    margin-top: 15px;
+}
+
 .padding-0 {
     padding: 0;
 }
@@ -308,8 +320,23 @@ input.inline {
     padding-left: 35px;
 }
 
+.padding-left-55px {
+    padding-left: 55px;
+}
+
 .padding-left-7px {
     padding-left: 7px;
+}
+
+.padding-left-45px {
+    padding-left: 45px;
+}
+
+/*
+!important is required to override Bootstrap .caret class match which matches 2 classes (.btn.caret)
+*/
+.margin-left-3px {
+    margin-left: 3px !important;
 }
 
 .margin-left-7px {
@@ -862,10 +889,21 @@ Prevents content overflow in navbar. */
     padding: 20px 40px;
 }
 
-.enroll-page-spreadsheet {
+.enroll-students-spreadsheet {
     margin-left: 15px;
     margin-right: 15px;
     margin-bottom: 25px;
+}
+
+.existing-students-spreadsheet {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.enroll-students {
+    margin-top: -10px;
+    display: none;
 }
 
 #enrollstudents {
@@ -879,18 +917,6 @@ Prevents content overflow in navbar. */
 #button_updatestudents {
     display: none;
     margin-right: 5px;
-}
-
-#number-of-rows {
-    width: 60px;
-    height: 32px;
-    padding: 4px;
-    border-radius: 4px;
-    border: 1px solid #AAA;
-}
-
-#addEmptyRows {
-    margin-top: -3px;
 }
 
 #omni-comment-dropdown-trigger {
@@ -1250,6 +1276,10 @@ Default to alert color for visibility titles used within an alert context.
     color: gray;
     content: attr(data-placeholder);
     display: block;
+}
+
+.remind-all {
+    width: 250px;
 }
 
 .remind-no-response {

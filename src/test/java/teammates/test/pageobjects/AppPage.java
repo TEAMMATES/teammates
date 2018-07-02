@@ -110,7 +110,7 @@ public abstract class AppPage {
     private WebElement logoutButton;
 
     @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td[@class =\"enroll-handsontable\"])[1]")
-    private WebElement spreadsheetFirstCell;
+    private WebElement enrollSpreadsheetFirstCell;
 
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
@@ -668,12 +668,11 @@ public abstract class AppPage {
 
     protected void fillSpreadsheet(String value) {
         try {
-            scrollElementToFirstCellAndClick(spreadsheetFirstCell);
+            scrollElementToFirstCellAndSendKeys(enrollSpreadsheetFirstCell, value);
         } catch (WebDriverException e) {
             System.out.println("Unexpectedly not able to click on the spreadsheet element because of: ");
             System.out.println(e);
         }
-        clearAndSendKeys(spreadsheetFirstCell, value);
     }
 
     protected void fillTextBox(WebElement textBoxElement, String value) {
@@ -1431,12 +1430,11 @@ public abstract class AppPage {
     }
 
     /**
-     * Scrolls element to first cell in enroll spreadsheet and clicks on it.
+     * Scrolls element to first cell in spreadsheet, clicks on it and sends the value as keystrokes.
      */
-    void scrollElementToFirstCellAndClick(WebElement spreadsheetElement) {
-        WebElement spreadsheetBodyElement = browser.driver.findElement(By.id("enroll-spreadsheet"));
-        executeScript("arguments[0].scrollIntoView(true);", spreadsheetBodyElement);
-        new Actions(browser.driver).moveToElement(spreadsheetElement).click().perform();
+    void scrollElementToFirstCellAndSendKeys(WebElement spreadsheetElement, String value) {
+        new Actions(browser.driver).moveToElement(spreadsheetElement)
+                .click().sendKeys(value).build().perform();
     }
 
     /**

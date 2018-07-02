@@ -9,7 +9,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
-<link href="https://cdn.jsdelivr.net/npm/handsontable@3.0.0/dist/handsontable.full.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/handsontable@4.0.0/dist/handsontable.full.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -99,15 +99,17 @@
         </strong>
         students.
       </div>
-      <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" id="student-data-spreadsheet-form" method="post" role="form">
+      <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" id="student-spreadsheet-form" method="post" role="form">
         <input name="token" type="hidden" value="${sessionToken}">
         <input name="courseid" type="hidden" value="CCEnrollUiT.CS2104">
         <input name="user" type="hidden" value="CCEnrollUiT.teammates.test">
         <div class="col-md-12">
           <div class="form-group">
-            <div class="student-existing-data-spreadsheet" id="data-spreadsheet">
+            <div class="existing-students-spreadsheet">
+              <div id="statusMessagesToUser" style="display: none;">
+              </div>
               <div class="panel panel-default">
-                <div class="panel-heading ajax_submit">
+                <div class="panel-heading" id="existing-data-spreadsheet">
                   <div class="pull-right margin-left-7px">
                     <span class="glyphicon glyphicon-chevron-down">
                     </span>
@@ -124,25 +126,36 @@
                 </div>
               </div>
             </div>
-            <div class="student-enroll-spreadsheet" id="enroll-spreadsheet">
-              <div id="statusMessagesToUser" style="display: none;">
-              </div>
+            <div class="enroll-students-spreadsheet">
               <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" id="enroll-spreadsheet">
+                  <div class="pull-right margin-left-7px">
+                    <span class="glyphicon glyphicon-chevron-up">
+                    </span>
+                  </div>
+                  <div class="display-icon pull-right">
+                  </div>
                   <strong>
                     New students
                   </strong>
                 </div>
+                <div class="panel-collapse checked collapse in" style="height: auto;">
+                  <div class="panel-body padding-0">
+                  </div>
+                </div>
               </div>
-              <div class="row">
+              <div class="row enroll-students" style="display: block;">
                 <div class="col-md-6">
-                  <button class="btn btn-primary btn-md" id="addEmptyRows" title="Add" type="button">
-                    Add
-                  </button>
-                  <input id="number-of-rows" min="0" type="number" value="1">
-                  <label>
-                    Rows
-                  </label>
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary btn-md" id="button_add_empty_rows" title="Add" type="button">
+                        Add row(s)
+                      </button>
+                    </span>
+                    <div class="col-xs-4">
+                      <input class="form-control" id="number-of-rows" min="0" type="number" value="1">
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-6">
                   <button class="btn btn-primary btn-md pull-right" id="button_enroll" name="button_enroll" title="Enroll" type="submit">
@@ -151,7 +164,7 @@
                 </div>
               </div>
               <br>
-              <textarea class="form-control" cols="120" id="enrollstudents" name="enrollstudents" placeholder="Paste student data here ..." rows="6">
+              <textarea class="form-control" id="enrollstudents" name="enrollstudents" placeholder="Paste student data here ...">
               </textarea>
             </div>
           </div>
@@ -172,7 +185,11 @@
         </span>
         <ul>
           <li>
-            If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and paste into the spreadsheet interface above.
+            If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and paste into the
+            <code>
+              New students
+            </code>
+            spreadsheet interface above.
             <br>
             <br>
             <table class="table table-striped table-bordered">
@@ -309,6 +326,13 @@
           <li>
             Column width can be adjusted.
           </li>
+          <li>
+            Expand the
+            <code>
+              Existing students
+            </code>
+            spreadsheet interface to view existing students in the course.
+          </li>
         </ul>
       </li>
       <li>
@@ -432,12 +456,10 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootbox@4.4.0/bootbox.min.js" type="text/javascript">
 </script>
-<script src="https://cdn.jsdelivr.net/npm/handsontable@3.0.0/dist/handsontable.full.min.js" type="text/javascript">
+<script src="https://cdn.jsdelivr.net/npm/handsontable@4.0.0/dist/handsontable.full.min.js" type="text/javascript">
 </script>
 <script src="/js/instructorCourseEnrollPage.js" type="text/javascript">
 </script>
-<textarea class="copyPaste" id="HandsontableCopyPaste" tabindex="-1" wrap="hard">
-</textarea>
 <div class="htMenu htContextMenu">
 </div>
 </body>

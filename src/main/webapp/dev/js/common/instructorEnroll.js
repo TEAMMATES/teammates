@@ -4,7 +4,6 @@
  * Example: Changes this array ['Section', 'Team', 'Name', 'Email', 'Comments']
  * into a string = "Section|Team|Name|Email|Comments\n"
  *
- * @param handsontableColHeader
  * @returns {string} updated header string
  */
 function getUpdatedHeaderString(handsontableColHeader) {
@@ -26,7 +25,6 @@ function getUpdatedHeaderString(handsontableColHeader) {
  * "TestSection1|Team1||test1@xample.com|test1comments\n
  *  TestSection2||TestName2|test2@example.com|\n"
  *
- * @param spreadsheetData
  * @returns {string} user data rows
  */
 function getUserDataRows(spreadsheetData) {
@@ -39,8 +37,6 @@ function getUserDataRows(spreadsheetData) {
 /**
  * Pushes data from spreadsheetDataRows into an array.
  * Facilitates the function loadData for the Handsontable instance.
- *
- * @param spreadsheetDataRows
  * @returns {Array} updated data
  */
 function getUpdatedData(spreadsheetDataRows) {
@@ -49,21 +45,17 @@ function getUpdatedData(spreadsheetDataRows) {
 
 /**
  * Transforms the first uppercase letter of a string into a lowercase letter.
- * @param string
- * @returns {string} Handsontable column header in all lowercase letters
+ * @returns {string} string in all lowercase letters
  */
 function unCapitalizeFirstLetter(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
 /**
- * Prepares students data to be filled in the spreadsheet interface. These data is stored in an array.
- * Facilitates the function loadData for the Handsontable instance.
- * @param studentsData
- * @param handsontableColHeader
- * @returns {Array} required student data
+ * Converts returned AJAX data to a suitable format required by Handsontable.
+ * @returns {Array} student data
  */
-function getExistingStudentsData(studentsData, handsontableColHeader) {
+function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
     const headers = handsontableColHeader.map(unCapitalizeFirstLetter);
     return studentsData.map(student => (headers.map(
             header => student[header])));
@@ -71,8 +63,6 @@ function getExistingStudentsData(studentsData, handsontableColHeader) {
 
 /**
  * Toggle the chevron image depending on the user's action.
- * @param panelCollapse
- * @param toggleChevron
  */
 function toggleChevronImage(panelCollapse, toggleChevron) {
     if ($(panelCollapse).attr('class').indexOf('checked') === -1) {
@@ -83,33 +73,42 @@ function toggleChevronImage(panelCollapse, toggleChevron) {
 }
 
 /**
- * Shows the "Existing students" panel with the spreadsheet interface.
- * @param $panelHeading
- * @param panelCollapse
+ * Expands panel, showing the spreadsheet interface.
  */
-function showExistingStudentsPanel($panelHeading, panelCollapse) {
+function expandStudentsPanel(panelCollapse) {
     $(panelCollapse).collapse('show');
     $(panelCollapse[0]).addClass('checked');
 }
 
 /**
- * Hides the "Existing students" panel.
- * @param $panelHeading
- * @param panelCollapse
+ * Collapses panel, hiding the spreadsheet interface.
  */
-function hideExistingStudentsPanel($panelHeading, panelCollapse) {
+function collapseStudentsPanel(panelCollapse) {
     $(panelCollapse[0]).collapse('hide');
-    $panelHeading.addClass('ajax_submit');
     $(panelCollapse[0]).removeClass('checked');
 }
 
 /**
+ * Expands/Collapses the panel depending on the current state of the panel.
+ */
+function toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron) {
+    displayIcon.html('');
+    if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {
+        expandStudentsPanel(panelCollapse);
+    } else {
+        collapseStudentsPanel(panelCollapse);
+    }
+    toggleChevronImage(panelCollapse, toggleChevron);
+}
+
+/**
  * Displays a message informing the user that there are no existing students in the course.
- * @param displayIcon
  */
 function displayNoExistingStudents(displayIcon) {
-    let statusMsg = '[ No existing students in course. ]';
-    statusMsg = `<strong style="margin-left: 1em; margin-right: 1em;">${statusMsg}</strong>`;
+    const statusMsg = `
+        <strong style="margin-left: 1em; margin-right: 1em;">
+            [ No existing students in course. ]
+        </strong>`;
     displayIcon.html(statusMsg);
 }
 
@@ -119,38 +118,30 @@ function displayNoExistingStudents(displayIcon) {
  */
 function displayErrorExecutingAjax(displayIcon) {
     const warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-    let errorMsg = '[ Failed to load. Click here to retry. ]';
-    errorMsg = `<strong style="margin-left: 1em; margin-right: 1em;">${errorMsg}</strong>`;
+    const errorMsg = `
+        <strong style="margin-left: 1em; margin-right: 1em;">
+            [ Failed to load. Click here to retry. ]
+        </strong>`;
     displayIcon.html(warningSign + errorMsg);
 }
 
 /**
- * Shows/Hides the "Existing students" panel depending on the current state of the panel.
- * @param $panelHeading
- * @param panelCollapse
- * @param displayIcon
- * @param toggleChevron
+ * Returns the length of the current spreadsheet. Rows with all null values are filtered.
+ * @returns {int} length of current spreadsheet
  */
-/*  eslint no-unused-expressions: [2, { allowTernary: true }]   */
-function toggleExistingStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron) {
-    $panelHeading.removeClass('ajax_submit');
-    displayIcon.html('');
-
-    ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) ?
-            showExistingStudentsPanel($panelHeading, panelCollapse) :
-            hideExistingStudentsPanel($panelHeading, panelCollapse);
-
-    toggleChevronImage(panelCollapse, toggleChevron);
+function getSpreadsheetLength(dataHandsontable) {
+    return dataHandsontable
+            .filter(row => (!row.every(cell => cell === null)))
+            .length;
 }
 
 export {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
-    getExistingStudentsData,
-    hideExistingStudentsPanel,
+    ajaxDataToHandsontableData,
     displayNoExistingStudents,
     displayErrorExecutingAjax,
-    toggleExistingStudentsPanel,
-    toggleChevronImage,
+    getSpreadsheetLength,
+    toggleStudentsPanel,
 };
