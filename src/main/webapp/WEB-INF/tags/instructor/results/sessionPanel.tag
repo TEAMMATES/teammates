@@ -22,8 +22,12 @@
             <div class="col-lg-8">
               <p class="form-control-static">${sessionPanel.feedbackSessionName}
                 <c:if test="${not empty sessionPanel.editLink}">&nbsp
-                  <a href="${sessionPanel.editLink}">
-                    <span class="glyphicon glyphicon-edit" data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" id="edit_icon_button"></span>
+                  <a href="${sessionPanel.editLink}"
+                     id="edit_icon_button"
+                     data-original-title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
+                     data-placement="top"
+                     data-toggle="tooltip">
+                    <span class="glyphicon glyphicon-edit"></span>
                   </a>
                 </c:if>
               </p>
