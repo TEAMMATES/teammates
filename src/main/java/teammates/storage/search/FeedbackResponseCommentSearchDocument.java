@@ -38,7 +38,8 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     private FeedbackQuestionAttributes relatedQuestion;
     private FeedbackSessionAttributes relatedSession;
     private CourseAttributes course;
-    private InstructorAttributes giverAsInstructor; // comment giver
+    private String commentGiverName;
+    private String commentGiverDisplayedName;
     private List<InstructorAttributes> relatedInstructors;
     private List<StudentAttributes> relatedStudents;
 
@@ -56,7 +57,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         relatedQuestion = fqDb.getFeedbackQuestion(comment.feedbackQuestionId);
         relatedResponse = frDb.getFeedbackResponse(comment.feedbackResponseId);
         course = coursesDb.getCourse(comment.courseId);
-        giverAsInstructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.commentGiver);
+        commentGiverName = getCommentGiverName();
         relatedInstructors = new ArrayList<>();
         relatedStudents = new ArrayList<>();
 
@@ -168,7 +169,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                 + relatedQuestion.getQuestionDetails().getQuestionText() + delim
                                 + relatedResponse.getResponseDetails().getAnswerString() + delim
                                 + comment.commentGiver + delim
-                                + (giverAsInstructor == null ? "" : giverAsInstructor.name) + delim
+                                + commentGiverName + delim
                                 + relatedPeopleBuilder.toString() + delim
                                 + comment.commentText.getValue();
 
@@ -183,9 +184,6 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                       ? relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
                                       : comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
 
-        String displayedName = giverAsInstructor == null
-                               ? comment.commentGiver
-                               : giverAsInstructor.displayedName + " " + giverAsInstructor.name;
         return Document.newBuilder()
                 // these are used to filter documents visible to certain instructor
                 // TODO: some of the following fields are not used anymore
@@ -227,7 +225,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE)
                                             .setText(JsonUtils.toJson(relatedSession)))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME)
-                                            .setText(JsonUtils.toJson(displayedName)))
+                                            .setText(JsonUtils.toJson(commentGiverDisplayedName)))
                 .setId(comment.getId().toString())
                 .build();
     }
@@ -370,6 +368,21 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         return isCommentGiverNameVisibleToInstructor(
                 bundle.instructorEmails, instructorCourseIdList, response, comment)
                 ? name : Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
+    }
+
+    private String getCommentGiverName() {
+        if (comment.commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)) {
+            InstructorAttributes instructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.commentGiver);
+            commentGiverDisplayedName = instructor.displayedName;
+            return instructor.name;
+
+        }
+        if (comment.commentGiverType.equals(FeedbackParticipantType.STUDENTS)) {
+            commentGiverDisplayedName = "Student";
+            return studentsDb.getStudentForEmail(comment.courseId, comment.commentGiver).name;
+        }
+        commentGiverDisplayedName = "Team";
+        return comment.commentGiver;
     }
 
     private static String getFilteredGiverName(FeedbackResponseCommentSearchResultBundle bundle,

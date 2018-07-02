@@ -387,9 +387,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
      * @return name associated with email
      */
     private String getCommentGiverNameFromEmail(String email, FeedbackParticipantType giverType) {
-        if (giverType.equals(FeedbackParticipantType.TEAMS)) {
-            return email;
-        }
         if (giverType.equals(FeedbackParticipantType.STUDENTS)) {
             return bundle.getRoster().getStudentForEmail(email).name;
         }
