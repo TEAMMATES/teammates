@@ -69,7 +69,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         resultsPage.clickCommentModalButton("-1-1-0");
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-1-0-1", "Comment edited by different instructor");
-        resultsPage.verifyFeedbackResponseCommentAdded("-1-1-0-1", "Comment edited by different instructor", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-1-1-0-1",
+                "Comment edited by different instructor", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-1-1-0"));
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-1-1-0-1", 1);
         resultsPage.closeCommentModal("-1-1-0");
@@ -150,7 +151,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         ______TS("Typical case: edit comment created by different instructor");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-0-1-1-1", "Comment edited by different instructor");
-        resultsPage.verifyFeedbackResponseCommentAdded("-1-0-1-1-1", "Comment edited by different instructor", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-1-0-1-1-1",
+                "Comment edited by different instructor", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditCommentByDifferentInstructor.html");
 
         ______TS("Typical case: delete existing feedback response comment");
