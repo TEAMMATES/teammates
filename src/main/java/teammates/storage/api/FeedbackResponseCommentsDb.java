@@ -432,10 +432,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .filter("giverSection =", section)
                 .list();
 
-        if (firstQueryResponseComments != null) {
-            for (FeedbackResponseComment frc : firstQueryResponseComments) {
-                setCommentGiverTypeAsInstructorsIfNull(frc);
-            }
+        for (FeedbackResponseComment comment : firstQueryResponseComments) {
+            setCommentGiverTypeAsInstructorsIfNull(comment);
+            comments.put(comment.getFeedbackResponseCommentId(), comment);
         }
 
         List<FeedbackResponseComment> secondQueryResponseComments = load()
@@ -444,10 +443,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .filter("receiverSection =", section)
                 .list();
 
-        if (secondQueryResponseComments != null) {
-            for (FeedbackResponseComment frc : secondQueryResponseComments) {
-                setCommentGiverTypeAsInstructorsIfNull(frc);
-            }
+        for (FeedbackResponseComment comment : secondQueryResponseComments) {
+            setCommentGiverTypeAsInstructorsIfNull(comment);
+            comments.put(comment.getFeedbackResponseCommentId(), comment);
         }
 
         return comments.values();

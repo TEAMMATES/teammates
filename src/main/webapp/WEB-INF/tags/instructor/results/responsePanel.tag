@@ -44,7 +44,7 @@
               fourthIndex="${fourthIndex}" frcIndex="${status.count}"/>
         </c:forEach>
         <shared:feedbackResponseCommentAdd frc="${responsePanel.frcForAdding}" firstIndex="${firstIndex}"
-            secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}"/>
+            secondIndex="${secondIndex}" thirdIndex="${thirdIndex}" fourthIndex="${fourthIndex}" />
       </ul>
     </c:if>
 
