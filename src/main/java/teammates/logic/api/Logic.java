@@ -1219,18 +1219,6 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
     }
 
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForInstructor(
-            String feedbackSessionName, String courseId, String questionId, String userEmail)
-                throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-
-        return feedbackSessionsLogic
-                   .getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
-    }
-
     /**
      * Gets {@code FeedbackQuestions} and previously filled
      * {@code FeedbackResponses} that a student can view/submit as a

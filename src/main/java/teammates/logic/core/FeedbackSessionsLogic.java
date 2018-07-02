@@ -310,30 +310,6 @@ public final class FeedbackSessionsLogic {
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
     }
 
-    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForInstructor(
-            String feedbackSessionName, String courseId, String feedbackQuestionId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        FeedbackSessionAttributes fsa = fsDb.getFeedbackSession(
-                courseId, feedbackSessionName);
-
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_GET + courseId + "/" + feedbackSessionName);
-        }
-
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<>();
-        Map<String, Map<String, String>> recipientList = new HashMap<>();
-
-        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
-
-        updateBundleAndRecipientListWithResponsesForInstructor(courseId,
-                userEmail, fsa, instructor, bundle, recipientList,
-                question, instructor, null);
-
-        return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
-    }
-
     private void updateBundleAndRecipientListWithResponsesForInstructor(
             String courseId,
             String userEmail,

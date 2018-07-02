@@ -44,7 +44,7 @@ public class InstructorFeedbackResultsResponseRow {
                                         InstructorFeedbackResultsModerationButton moderationButton,
                                         boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
-             displayableResponse, moderationButton, false, isFeedbackParticipantCommentsOnResponsesAllowed);
+                displayableResponse, moderationButton, false, isFeedbackParticipantCommentsOnResponsesAllowed);
     }
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,

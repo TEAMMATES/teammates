@@ -21,14 +21,6 @@ public class FeedbackSessionQuestionsBundle {
     public Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses;
     public CourseRoster roster;
 
-    public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession,
-            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionResponseBundle,
-            Map<String, Map<String, String>> recipientList) {
-        this.feedbackSession = feedbackSession;
-        this.questionResponseBundle = questionResponseBundle;
-        this.recipientList = recipientList;
-    }
-
     public FeedbackSessionQuestionsBundle(FeedbackSessionAttributes feedbackSession, Map<FeedbackQuestionAttributes,
             List<FeedbackResponseAttributes>> questionResponseBundle, Map<String, Map<String, String>> recipientList,
             Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses, CourseRoster roster) {
