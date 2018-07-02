@@ -550,14 +550,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         StringBuilder fragments = new StringBuilder();
         answerFrequency.forEach((key, value) ->
-                fragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                                Slots.MCQ_CHOICE_VALUE, key,
+                fragments.append(Templates.populateTemplate(FormTemplates.MSQ_RESULT_STATS_OPTIONFRAGMENT,
+                                Slots.MSQ_CHOICE_VALUE, key,
                                 Slots.COUNT, value.toString(),
                                 Slots.PERCENTAGE,
                                 df.format(100 * divideOrReturnZero(value, numChoicesSelected)))));
 
-        //Use same template as MCQ for now, until they need to be different.
-        return Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
+        return Templates.populateTemplate(FormTemplates.MSQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
     }
 
     @Override
