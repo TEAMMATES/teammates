@@ -609,7 +609,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",  \"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about our product?\"}"
       },
       "questionNumber": 1,
       "questionType": "MCQ",
@@ -631,7 +631,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about the class' product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}"
       },
       "questionNumber": 2,
       "questionType": "MCQ",
@@ -653,9 +653,31 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"Content\",\"Teaching style\"],\"questionText\":\"What can be improved for this class?\",\"questionType\":\"MCQ\",\"otherEnabled\":true}"
+        "value": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"Content\",\"Teaching style\"],\"otherEnabled\": true,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What can be improved for this class?\"}"
       },
       "questionNumber": 3,
+      "questionType": "MCQ",
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn4InSession1InCourse1": {
+      "feedbackSessionName": "MCQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"hasAssignedWeights\":true,\"mcqWeights\":[1.25,1.7],\"mcqOtherWeight\":3.0,\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"otherEnabled\":true,\"generateOptionsFor\":\"NONE\",\"questionType\":\"MCQ\",\"questionText\":\"What do you like best about our product?\"}"
+      },
+      "questionNumber": 4,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
@@ -1097,6 +1119,17 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "{\"isOther\":true,\"answer\":\"Other\",\"otherFieldContent\":\"Lecture notes\",\"questionType\":\"MCQ\"}"
+      }
+    },
+    "response1ForQ4S1C1": {
+      "feedbackSessionName": "MCQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student1InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
       }
     },
     "response1ForQ1S2C1": {
