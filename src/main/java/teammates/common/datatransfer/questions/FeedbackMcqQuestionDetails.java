@@ -573,7 +573,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         McqStatistics mcqStats = new McqStatistics(this);
         Map<String, Integer> answerFrequency = mcqStats.collateAnswerFrequency(responses);
         // Add the Response Summary Statistics to the CSV String.
-        csv.append(mcqStats.getResponseSummaryStatsCsv(answerFrequency, bundle, responses.size()));
+        csv.append(mcqStats.getResponseSummaryStatsCsv(answerFrequency, responses.size()));
 
         // If weights are assigned, add the 'Per Recipient Statistics' to the CSV string.
         if (hasAssignedWeights) {
@@ -883,8 +883,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Returns a String containing the Response Summary statistics for CSV files.
          */
-        public String getResponseSummaryStatsCsv(Map<String, Integer> answerFrequency,
-                FeedbackSessionResultsBundle bundle, int totalResponseCount) {
+        public String getResponseSummaryStatsCsv(Map<String, Integer> answerFrequency, int totalResponseCount) {
 
             String header = "";
 

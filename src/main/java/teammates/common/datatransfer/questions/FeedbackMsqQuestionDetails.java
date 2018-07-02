@@ -709,7 +709,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         McqStatistics msqStats = new McqStatistics(this);
 
         // Reuse McqStatistics to generate response summary stats
-        csv.append(msqStats.getResponseSummaryStatsCsv(answerFrequency, bundle, numChoicesSelected));
+        csv.append(msqStats.getResponseSummaryStatsCsv(answerFrequency, numChoicesSelected));
 
         // Create 'Per recipient Stats' for csv if weights are enabled.
         if (hasAssignedWeights) {
@@ -929,7 +929,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
-    private static int getNumberOfNonEmptyResponsesOfQuestion(List<String> answerStrings, Map<String,
+    private int getNumberOfNonEmptyResponsesOfQuestion(List<String> answerStrings, Map<String,
             Integer> answerFrequency) {
         int numChoices = 0;
         for (String answerString : answerStrings) {
@@ -973,14 +973,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String otherAnswer = "";
 
             if (isOtherOptionAnswer) {
-                responseCountPerOption.put("Other", responseCountPerOption.getOrDefault("Other", 0) + 1);
+                responseCountPerOption.put("Other", responseCountPerOption.get("Other") + 1);
 
                 // remove other answer temporarily to calculate stats for other options
                 otherAnswer = answerStrings.get(answerStrings.size() - 1);
                 answerStrings.remove(otherAnswer);
             }
 
-            getNumberOfNonEmptyResponsesOfQuestion(answerStrings, responseCountPerOption);
+            for (String answerString : answerStrings) {
+                responseCountPerOption.put(answerString, responseCountPerOption.get(answerString) + 1);
+            }
 
             // restore other answer if any
             if (isOtherOptionAnswer) {
