@@ -125,7 +125,6 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
         resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "Teammates Test");
-        resultsPage.verifyContainsElement(By.id("frComment-visibility-options-trigger-0-1-0-1-1"));
         resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "Teammates Test");
         resultsPage.verifyContainsElement(By.id("visibility-options-0-1-0-1-2"));
 
