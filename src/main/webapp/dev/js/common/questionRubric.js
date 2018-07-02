@@ -30,9 +30,11 @@ function swapRubricCol(questionNum, firstColIndex, secondColIndex) {
     const elemSelector = (type, col, row = 0) => {
         if (type === CHOICE) {
             return getRubricChoiceElem(questionNum, col);
-        } else if (type === WEIGHT) {
+        }
+        if (type === WEIGHT) {
             return getRubricWeightElem(questionNum, col);
-        } else if (type === DESC) {
+        }
+        if (type === DESC) {
             return getRubricDescElem(questionNum, row, col);
         }
 
