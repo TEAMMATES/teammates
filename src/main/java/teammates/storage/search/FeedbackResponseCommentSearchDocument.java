@@ -373,13 +373,21 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     private String getCommentGiverName() {
         if (comment.commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)) {
             InstructorAttributes instructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.commentGiver);
+            if (instructor == null) {
+                commentGiverDisplayedName = comment.commentGiver;
+                return comment.commentGiver;
+            }
             commentGiverDisplayedName = instructor.displayedName;
             return instructor.name;
 
         }
         if (comment.commentGiverType.equals(FeedbackParticipantType.STUDENTS)) {
             commentGiverDisplayedName = "Student";
-            return studentsDb.getStudentForEmail(comment.courseId, comment.commentGiver).name;
+            StudentAttributes student = studentsDb.getStudentForEmail(comment.courseId, comment.commentGiver);
+            if (student == null) {
+                commentGiverDisplayedName = comment.commentGiver;
+                return comment.commentGiver;
+            }
         }
         commentGiverDisplayedName = "Team";
         return comment.commentGiver;
