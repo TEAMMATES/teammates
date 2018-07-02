@@ -41,14 +41,14 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "test comment 1");
-        resultsPage.verifyCommentRowContent("-2-1-0-1", "test comment 1", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-2-1-0-1", "test comment 1", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.verifyContainsElement(By.id("visibility-options-2-1-0-1"));
         resultsPage.closeCommentModal("-2-1-0");
 
         resultsPage.clickCommentModalButton("-3-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-3-1-0", "test comment 2");
-        resultsPage.verifyCommentRowContent("-3-1-0-1", "test comment 2", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-3-1-0-1", "test comment 2", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
         resultsPage.verifyContainsElement(By.id("visibility-options-3-1-0-1"));
         resultsPage.closeCommentModal("-3-1-0");
@@ -57,7 +57,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-2-1-0-1", "edited test comment");
-        resultsPage.verifyCommentRowContent("-2-1-0-1", "edited test comment", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-2-1-0-1", "edited test comment", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
 
@@ -66,9 +66,10 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(2);
+
         resultsPage.clickCommentModalButton("-1-1-0");
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-1-0-1", "Comment edited by different instructor");
-        resultsPage.verifyCommentRowContent("-1-1-0-1", "Comment edited by different instructor", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-1-1-0-1", "Comment edited by different instructor", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-1-1-0"));
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-1-1-0-1", 1);
         resultsPage.closeCommentModal("-1-1-0");
@@ -77,8 +78,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
-
         resultsPage.loadResultQuestionPanel(1);
+
         resultsPage.clickCommentModalButton("-3-1-0");
         resultsPage.deleteFeedbackResponseCommentInModal("-3-1-0-1");
         resultsPage.verifyRowMissing("-3-1-0-1");
@@ -100,10 +101,10 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0",
                 "successive action comment");
-        resultsPage.verifyCommentRowContent("-2-1-0-1", "successive action comment", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-2-1-0-1", "successive action comment", "Teammates Test");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-2-1-0-1", "edited successive action comment");
-        resultsPage.verifyCommentRowContent("-2-1-0-1", "edited successive action comment",
+        resultsPage.verifyFeedbackResponseCommentAdded("-2-1-0-1", "edited successive action comment",
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-2-1-0-1", 1);
 
@@ -124,8 +125,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
-        resultsPage.verifyCommentRowContent("-0-1-0-1-1", "test comment 1", "Teammates Test");
-        resultsPage.verifyCommentRowContent("-0-1-0-1-2", "test comment 2", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-0-1-0-1-1", "test comment 1", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-0-1-0-1-2", "test comment 2", "Teammates Test");
         resultsPage.verifyContainsElement(By.id("visibility-options-0-1-0-1-2"));
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
@@ -133,23 +134,23 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
-        resultsPage.verifyCommentRowContent("-0-0-1-1-1", "test comment 1", "Teammates Test");
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-0-0-1-1-1", "test comment 1", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
 
         resultsPage.loadResultSectionPanel(1, 2);
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
-        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "test comment 3", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-1-1-1-1-1", "test comment 3", "Teammates Test");
 
         ______TS("Typical case: edit existing feedback response comment");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-1-1-1-1", "edited test comment");
-        resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-1-1-1-1-1", "edited test comment", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditComment.html");
 
         ______TS("Typical case: edit comment created by different instructor");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-0-1-1-1", "Comment edited by different instructor");
-        resultsPage.verifyCommentRowContent("-1-0-1-1-1", "Comment edited by different instructor", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-1-0-1-1-1", "Comment edited by different instructor", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditCommentByDifferentInstructor.html");
 
         ______TS("Typical case: delete existing feedback response comment");
@@ -160,17 +161,17 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
 
         ______TS("Typical case: add edit and delete successively");
 
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-0-1-0-1-3", "successive action comment", "Teammates Test");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-0-1-0-1-3", "edited successive action comment");
-        resultsPage.verifyCommentRowContent("-0-1-0-1-3", "edited successive action comment",
+        resultsPage.verifyFeedbackResponseCommentAdded("-0-1-0-1-3", "edited successive action comment",
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
@@ -180,7 +181,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
-        resultsPage.verifyCommentRowContent("-0-0-1-1-2", "test comment 2", "Teammates Test");
+        resultsPage.verifyFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
     }

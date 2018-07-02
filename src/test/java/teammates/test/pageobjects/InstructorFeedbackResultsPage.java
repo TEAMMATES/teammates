@@ -424,12 +424,23 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ThreadHelper.waitFor(1500);
     }
 
-    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
+    private void waitForCommentRowContentEquals(String commentRowIdSuffix, String commentText, String giverName) {
         By commentRowSelector = By.id("responseCommentRow" + commentRowIdSuffix);
         WebElement commentRow = waitForElementPresence(commentRowSelector);
         waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
         assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName)
                    || commentRow.findElement(By.className("text-muted")).getText().contains("you"));
+    }
+
+    /**
+     * Verifies the new comment is added (works on both modal and inline).
+     * Note: this only verifies the new comment text is added and only <strong>approximately</strong>
+     * checks the state of the added comment based on implementation.
+     */
+    public void verifyFeedbackResponseCommentAdded(String commentRowIdSuffix, String commentText, String giverName) {
+        waitForCommentRowContentEquals(commentRowIdSuffix, commentText, giverName);
+        // Checks approximately that the added comment is constructed correctly
+        assertTrue(isElementPresent(By.id("responseCommentEditForm" + commentRowIdSuffix)));
     }
 
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
