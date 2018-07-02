@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.Priority;
@@ -274,16 +275,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                            "Danny Engrid",
                            "Emily");
 
-        verifySortingOrderAscending(By.id("button_sortToTeam"),
-                "Team 1{*}Team 2",
-                "Team 1{*}Team 2",
-                "Team 2{*}Team 2",
-                "Team 2{*}Team 3");
-
-        verifySortingOrderDescending(By.id("button_sortToTeam"),
-                "Team 1{*}Team 2",
-                "Team 1{*}Team 2",
-                "Team 1{*}Team 2",
+        verifySortingOrder(By.id("button_sortToTeam"),
+                SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 1</td></div>'\""),
+                SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 2"),
+                SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 2"),
                 "Team 2{*}Team 3");
 
     }
@@ -744,25 +739,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
             searchString.append(values[i - 1]).append("{*}");
         }
         resultsPage.verifyContains(searchString.toString());
-    }
-
-    private void verifySortingOrderAscending(By sortIcon, String... values) {
-        resultsPage.click(sortIcon);
-        StringBuilder searchString = new StringBuilder();
-        for (String value : values) {
-            searchString.append(value).append("{*}");
-        }
-        resultsPage.verifyContains(searchString.toString());
-    }
-
-    private void verifySortingOrderDescending(By sortIcon, String... values) {
-        resultsPage.click(sortIcon);
-
-        StringBuilder searchString = new StringBuilder();
-        searchString.setLength(0);
-        for (int i = values.length; i > 0; i--) {
-            searchString.append(values[i - 1]).append("{*}");
-        }
     }
 
     private void verifyModerateResponsesButton(int qnNumber, String... emails) {
