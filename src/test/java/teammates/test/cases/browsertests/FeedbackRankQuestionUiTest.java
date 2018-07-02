@@ -57,17 +57,56 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         // to check if deleting responses work
         submitPage.selectResponseTextDropdown(1, 1, 1, "");
-        assertEquals("Please rank the above options.", submitPage.getRankMessage(1, 1));
-
         submitPage.selectResponseTextDropdown(2, 0, 0, "1");
         submitPage.selectResponseTextDropdown(2, 1, 0, "2");
 
-        // test rank messages
-        assertEquals("Please rank the above recipients.", submitPage.getRankMessage(5, 3));
-        submitPage.selectResponseTextDropdown(5, 0, 0, "2");
-        assertTrue(submitPage.getRankMessage(5, 0).isEmpty());
-        submitPage.selectResponseTextDropdown(5, 1, 0, "2");
-        assertEquals("The same rank should not be given multiple times.", submitPage.getRankMessage(5, 3));
+        // check that no instruction element is inserted when there are no constraints on user input
+        assertFalse(submitPage.checkIfRankInstructionElementExists(1));
+
+        // check that no message element is inserted when there are no constraints on user input
+        assertFalse(submitPage.checkIfRankMessageElementExists(1, 0));
+        assertFalse(submitPage.checkIfRankMessageElementExists(1, 1));
+        assertFalse(submitPage.checkIfRankMessageElementExists(1, 2));
+
+        //test rank instructions for questions only forbidding duplicates
+        assertEquals("Every recipient should be allocated a different rank.",
+                     submitPage.getRankInstruction(2));
+        assertEquals("Every recipient should be allocated a different rank.",
+                     submitPage.getRankInstruction(3));
+        assertEquals("Every recipient should be allocated a different rank.",
+                     submitPage.getRankInstruction(4));
+        assertEquals("Every recipient should be allocated a different rank.",
+                     submitPage.getRankInstruction(5));
+
+        // test rank messages for questions only forbidding duplicates
+        int qnNumber = 2;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "");
+        submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "");
+        assertTrue(submitPage.getRankMessage(qnNumber, 1).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertEquals("All allocated ranks are different.",
+                     submitPage.getRankMessage(qnNumber, 1));
+        submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "1");
+        assertEquals("Multiple recipients are given the same rank! eg. 1.",
+                     submitPage.getRankMessage(qnNumber, 1));
+        submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "2");
+
+        qnNumber = 4;
+        assertTrue(submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertEquals("All allocated ranks are different.",
+                     submitPage.getRankMessage(qnNumber, 0));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "");
+        assertTrue(submitPage.getRankMessage(qnNumber, 0).isEmpty());
+
+        qnNumber = 5;
+        assertTrue(submitPage.getRankMessage(qnNumber, 3).isEmpty());
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "2");
+        assertEquals("All allocated ranks are different.",
+                     submitPage.getRankMessage(qnNumber, 3));
+        submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "2");
+        assertEquals("Multiple recipients are given the same rank! eg. 2.",
+                     submitPage.getRankMessage(qnNumber, 3));
 
         // try to submit with error
         submitPage.clickSubmitButton();
@@ -75,50 +114,56 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                 + "To skip a rank question, leave all the boxes blank.");
 
         submitPage.selectResponseTextDropdown(5, 1, 0, "1");
-        assertEquals("Please rank the above recipients.", submitPage.getRankMessage(5, 3));
+        assertEquals("All allocated ranks are different.",
+                     submitPage.getRankMessage(5, 3));
 
         // Submit
         submitPage.clickSubmitButton();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15.");
 
         FeedbackQuestionAttributes fq1 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
         assertNotNull(BackDoor.getFeedbackResponse(fq1.getId(),
-                                        "alice.b.tmms@gmail.tmt",
-                                        "tmms.helper1@gmail.tmt"));
+                "alice.b.tmms@gmail.tmt",
+                "tmms.helper1@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(fq1.getId(),
-                                        "alice.b.tmms@gmail.tmt",
-                                        "tmms.test@gmail.tmt"));
+                "alice.b.tmms@gmail.tmt",
+                "tmms.test@gmail.tmt"));
 
         FeedbackQuestionAttributes fq2 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 2);
         assertNotNull(BackDoor.getFeedbackResponse(fq2.getId(),
-                                        "alice.b.tmms@gmail.tmt",
-                                        "tmms.helper1@gmail.tmt"));
+                "alice.b.tmms@gmail.tmt",
+                "tmms.helper1@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fq2.getId(),
-                                        "alice.b.tmms@gmail.tmt",
-                                        "tmms.test@gmail.tmt"));
+                "alice.b.tmms@gmail.tmt",
+                "tmms.test@gmail.tmt"));
 
         // Go back to submission page and verify html
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRankUiT.CS4221", "student");
 
         // try to submit duplicate ranks for question that permits it
-        submitPage.selectResponseTextDropdown(6, 0, 0, "1");
-        submitPage.selectResponseTextDropdown(6, 1, 0, "1");
-        assertTrue("No error message expected", submitPage.getRankMessage(6, 0).isEmpty());
+        qnNumber = 6;
+        assertFalse(submitPage.checkIfRankInstructionElementExists(6));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "1");
+        assertFalse(submitPage.checkIfRankMessageElementExists(qnNumber, 1));
 
-        submitPage.selectResponseTextDropdown(1, 0, 0, "3");
-        assertEquals("The display message indicating this is a rank question is displayed until all options are ranked",
-                      "Please rank the above options.", submitPage.getRankMessage(1, 0));
-        submitPage.selectResponseTextDropdown(1, 0, 1, "3");
-        submitPage.selectResponseTextDropdown(1, 0, 2, "1");
-        submitPage.selectResponseTextDropdown(1, 0, 3, "4");
-        assertTrue("No error message expected", submitPage.getRankMessage(1, 0).isEmpty());
+        qnNumber = 1;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "3");
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "3");
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "1");
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "4");
+        assertFalse(submitPage.checkIfRankMessageElementExists(qnNumber, 0));
 
-        submitPage.selectResponseTextDropdown(7, 0, 0, "4");
-        submitPage.selectResponseTextDropdown(7, 0, 1, "3");
-        submitPage.selectResponseTextDropdown(7, 0, 2, "2");
-        submitPage.selectResponseTextDropdown(7, 0, 3, "1");
-        assertTrue("No error message expected", submitPage.getRankMessage(7, 0).isEmpty());
+        qnNumber = 7;
+        assertEquals("Every option should be allocated a different rank.",
+                     submitPage.getRankInstruction(qnNumber));
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "4");
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "3");
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "1");
+        assertEquals("All allocated ranks are different.",
+                     submitPage.getRankMessage(qnNumber, 0));
 
         submitPage.clickSubmitButton();
         // Go back to submission page
@@ -126,83 +171,308 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         // to verify that the question submit form with existing response works correctly
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageSuccessRank.html");
 
-        ______TS("Rank : min/max options to be ranked test");
+        ______TS("Rank : test instructions for min/max options to be ranked");
 
         // Question with only min options to be ranked restriction
-        int qnNumber = 8;
+        qnNumber = 8;
+        assertEquals("Every option should be allocated a different rank.\n"
+                    + "At least 2 options should be ranked.",
+                    submitPage.getRankInstruction(qnNumber));
+
+        // Question with only max options to be ranked restriction
+        qnNumber = 9;
+        assertEquals("Every option should be allocated a different rank.\n"
+                    + "At most 2 options should be ranked.",
+                    submitPage.getRankInstruction(qnNumber));
+
+        // Question with same min and max options to be ranked restriction
+        qnNumber = 10;
+        assertEquals("Every option should be allocated a different rank.\n"
+                    + "At least 3 options should be ranked.\n"
+                    + "At most 3 options should be ranked.",
+                    submitPage.getRankInstruction(qnNumber));
+
+        // Question with different min and max options to be ranked restriction
+        qnNumber = 11;
+        assertEquals("Every option should be allocated a different rank.\n"
+                    + "At least 2 options should be ranked.\n"
+                    + "At most 4 options should be ranked.",
+                    submitPage.getRankInstruction(qnNumber));
+
+        ______TS("Rank : test messages for min/max options to be ranked");
+
+        // Question with only min options to be ranked restriction
+        qnNumber = 8;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertEquals("You need to rank at least 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 2 options. You have ranked 1 options so far.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "");
-        assertEquals("You need to rank at least 2 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 2 options. You have ranked 1 options so far.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
 
         // Question with only max options to be ranked restriction
         qnNumber = 9;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
-        assertEquals("Rank no more than 2 options.", submitPage.getRankMessage(qnNumber, 0));
-        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "At most 2 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
 
-        // Question with both min and max options to be ranked restriction
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At most 2 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
+        assertEquals("All allocated ranks are different.\n"
+                    + "You can rank at most 2 options. You have ranked 1 extra options.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At most 2 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        // Question with same min and max options to be ranked restriction
         qnNumber = 10;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 3 options. You have ranked 1 options so far.\n"
+                    + "At most 3 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
-        assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 3 options. You have ranked 2 options so far.\n"
+                    + "At most 3 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 4, "4");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 3 options have been ranked.\n"
+                    + "At most 3 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "3");
-        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 3 options have been ranked.\n"
+                    + "You can rank at most 3 options. You have ranked 1 extra options.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "5");
-        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 3 options have been ranked.\n"
+                    + "You can rank at most 3 options. You have ranked 2 extra options.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
-        assertEquals("Rank no more than 3 options.", submitPage.getRankMessage(qnNumber, 0));
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 3 options have been ranked.\n"
+                    + "You can rank at most 3 options. You have ranked 1 extra options.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 3 options have been ranked.\n"
+                    + "At most 3 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
 
-        ______TS("Rank : min/max recipients to be ranked test");
-
-        // Question with only min recipients to be ranked restriction
+        // Question with different min and max options to be ranked restriction
         qnNumber = 11;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertEquals("You need to rank at least 2 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "2");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "");
-        assertEquals("You need to rank at least 2 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 2 options. You have ranked 1 options so far.\n"
+                    + "At most 4 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
 
-        // Question with only max recipients to be ranked restriction
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 options have been ranked.\n"
+                    + "At most 4 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 4, "4");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 options have been ranked.\n"
+                    + "At most 4 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 1, "3");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 options have been ranked.\n"
+                    + "At most 4 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "5");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 options have been ranked.\n"
+                    + "You can rank at most 4 options. You have ranked 1 extra options.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "3");
+        assertEquals("Multiple options are given the same rank! eg. 3.\n"
+                    + "At least 2 options have been ranked.\n"
+                    + "You can rank at most 4 options. You have ranked 1 extra options.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 3, "");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 options have been ranked.\n"
+                    + "At most 4 options have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 0));
+
+        ______TS("Rank : test instructions for min/max recipients to be ranked");
+
+        // Question with only min options to be ranked restriction
+        qnNumber = 12;
+        assertEquals("Every recipient should be allocated a different rank.\n"
+                    + "At least 2 recipients should be ranked.",
+                    submitPage.getRankInstruction(qnNumber));
+
+        // Question with only max options to be ranked restriction
+        qnNumber = 13;
+        assertEquals("Every recipient should be allocated a different rank.\n"
+                    + "At most 2 recipients should be ranked.",
+                    submitPage.getRankInstruction(qnNumber));
+
+        // Question with same min and max options to be ranked restriction
+        qnNumber = 14;
+        assertEquals("Every recipient should be allocated a different rank.\n"
+                    + "At least 3 recipients should be ranked.\n"
+                    + "At most 3 recipients should be ranked.",
+                    submitPage.getRankInstruction(qnNumber));
+
+        // Question with different min and max options to be ranked restriction
+        qnNumber = 15;
+        assertEquals("Every recipient should be allocated a different rank.\n"
+                    + "At least 2 recipients should be ranked.\n"
+                    + "At most 4 recipients should be ranked.",
+                    submitPage.getRankInstruction(qnNumber));
+
+
+        ______TS("Rank : test messages for min/max recipients to be ranked");
+
+        // Question with only min recipients to be ranked restriction
         qnNumber = 12;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "2");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
-        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
-        assertEquals("Rank no more than 2 recipients.", submitPage.getRankMessage(qnNumber, 3));
-        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 2 recipients. You have ranked 1 recipients so far.",
+                    submitPage.getRankMessage(qnNumber, 3));
 
-        // Question with both min and max options to be ranked restriction
+        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "2");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "");
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 2 recipients. You have ranked 1 recipients so far.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        // Question with only max recipients to be ranked restriction
         qnNumber = 13;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
-        assertEquals("You need to rank at least 3 recipients.", submitPage.getRankMessage(qnNumber, 3));
+        assertEquals("All allocated ranks are different.\n"
+                    + "At most 2 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "2");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At most 2 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
+        assertEquals("All allocated ranks are different.\n"
+                    + "You can rank at most 2 recipients. You have ranked 1 extra recipients.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At most 2 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        // Question with same min and max options to be ranked restriction
+        qnNumber = 14;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 3 recipients. You have ranked 1 recipients so far.\n"
+                    + "At most 3 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
         submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "2");
-        assertEquals("You need to rank at least 3 recipients.", submitPage.getRankMessage(qnNumber, 3));
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 3 recipients. You have ranked 2 recipients so far.\n"
+                    + "At most 3 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
         submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "3");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 3 recipients have been ranked.\n"
+                    + "At most 3 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+
         submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "4");
-        assertEquals("Rank no more than 3 recipients.", submitPage.getRankMessage(qnNumber, 3));
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 3 recipients have been ranked.\n"
+                    + "You can rank at most 3 recipients. You have ranked 1 extra recipients.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "");
-        assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 3 recipients have been ranked.\n"
+                    + "At most 3 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        // Question with different min and max options to be ranked restriction
+        qnNumber = 15;
+        submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
+        assertEquals("All allocated ranks are different.\n"
+                    + "You need to rank at least 2 recipients. You have ranked 1 recipients so far.\n"
+                    + "At most 4 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "2");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 recipients have been ranked.\n"
+                    + "At most 4 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "3");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 recipients have been ranked.\n"
+                    + "At most 4 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+
+        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
+        assertEquals("Multiple recipients are given the same rank! eg. 3.\n"
+                    + "At least 2 recipients have been ranked.\n"
+                    + "At most 4 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "4");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 recipients have been ranked.\n"
+                    + "At most 4 recipients have been ranked.",
+                    submitPage.getRankMessage(qnNumber, 3));
 
         ______TS("Rank : student results");
 
@@ -222,7 +492,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         int responseNumber = 0;
         int rowNumber = 0;
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-"
-                                                     + qnNumber + "-" + responseNumber + "-" + rowNumber));
+                + qnNumber + "-" + responseNumber + "-" + rowNumber));
 
         ______TS("Rank submission: test submission page if some students are not visible to the instructor");
         submitPage = loginToInstructorFeedbackSubmitPage("instructorhelper", "instructor");
@@ -236,7 +506,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(1, 0, 2, "2");
         submitPage.selectResponseTextDropdown(1, 0, 1, "1");
         submitPage.selectResponseTextDropdown(1, 0, 0, "3");
-        assertTrue(submitPage.getRankMessage(1, 0).isEmpty());
+        assertEquals("All allocated ranks are different.",
+                    submitPage.getRankMessage(1, 0));
 
         submitPage.selectRecipient(2, 0, "Emily F.");
         submitPage.selectResponseTextDropdown(2, 0, 13, "1");
@@ -246,7 +517,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         submitPage.selectResponseTextDropdown(2, 1, 11, "1");
         submitPage.selectResponseTextDropdown(2, 1, 1, "1");
         assertEquals("Testing duplicate rank for rank options",
-                     "The same rank should not be given multiple times.", submitPage.getRankMessage(2, 1));
+                    "Multiple options are given the same rank! eg. 1.",
+                    submitPage.getRankMessage(2, 1));
         submitPage.selectResponseTextDropdown(2, 1, 1, "2");
 
         submitPage.selectResponseTextDropdown(3, 0, 0, "1");
@@ -264,28 +536,28 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank instructor results : Giver > Recipient > Question");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
-                                                                 "giver-recipient-question");
+                        "giver-recipient-question");
         instructorResultsPage.loadResultSectionPanel(1, 2);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGRQView.html");
 
         ______TS("Rank instructor results : Giver > Question > Recipient");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
-                                                                 "giver-question-recipient");
+                        "giver-question-recipient");
         instructorResultsPage.loadResultSectionPanel(1, 2);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankGQRView.html");
 
         ______TS("Rank instructor results : Recipient > Question > Giver ");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
-                                                                 "recipient-question-giver");
+                        "recipient-question-giver");
         instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRQGView.html");
 
         ______TS("Rank instructor results : Recipient > Giver > Question");
         instructorResultsPage =
                 loginToInstructorFeedbackResultsPageWithViewType("instructor1", "instructor", false,
-                                                                 "recipient-giver-question");
+                        "recipient-giver-question");
         instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRankRGQView.html");
     }
@@ -457,15 +729,15 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Verify that fields are editable
         feedbackEditPage.verifyHtmlPart(By.id("questionTable-1"),
-                                        "/instructorFeedbackRankQuestionEdit.html");
+                "/instructorFeedbackRankQuestionEdit.html");
 
         feedbackEditPage.fillQuestionTextBox("edited Rank qn text", 1);
         feedbackEditPage.fillQuestionDescription("more details", 1);
 
         feedbackEditPage.clickRemoveRankOptionLink(1, 0);
         assertEquals("Should still remain with 2 options,"
-                         + "less than 2 options should not be permitted",
-                     2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
+                        + "less than 2 options should not be permitted",
+                2, feedbackEditPage.getNumOfOptionsInRankOptions(1));
 
         feedbackEditPage.fillRankOption(1, 1, " (Edited) Option 2 ");
 
@@ -615,50 +887,50 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
-                        .withUserId(instructorId)
-                        .withCourseId(courseId)
-                        .withSessionName(feedbackSessionName)
-                        .withEnableSessionEditDetails(true);
+                .withUserId(instructorId)
+                .withCourseId(courseId)
+                .withSessionName(feedbackSessionName)
+                .withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
             String instructorName, String fsName) {
         AppUrl submitPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                        .withUserId(testData.instructors.get(instructorName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                .withUserId(testData.instructors.get(instructorName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(submitPageUrl, FeedbackSubmitPage.class);
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
             String studentName, String fsName) {
         AppUrl submitPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                        .withUserId(testData.students.get(studentName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                .withUserId(testData.students.get(studentName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(submitPageUrl, FeedbackSubmitPage.class);
     }
 
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
             String studentName, String fsName) {
         AppUrl resultsPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-                        .withUserId(testData.students.get(studentName).googleId)
-                        .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                        .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                .withUserId(testData.students.get(studentName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
         return loginAdminToPage(resultsPageUrl, StudentFeedbackResultsPage.class);
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
             String instructorName, String fsName, boolean needAjax, String viewType) {
         AppUrl resultsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                    .withUserId(testData.instructors.get(instructorName).googleId)
-                    .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
-                    .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
+                .withUserId(testData.instructors.get(instructorName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
+                .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
         if (needAjax) {
             resultsPageUrl = resultsPageUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX,
-                                                      String.valueOf(needAjax));
+                    String.valueOf(needAjax));
         }
 
         if (viewType != null) {

@@ -195,9 +195,33 @@ public class FeedbackSubmitPage extends AppPage {
         return "true".equals(isChecked);
     }
 
+    public boolean checkIfRankMessageElementExists(int qnNumber, int responseNumber) {
+        try {
+            browser.driver.findElement(By.id("rankMessage-" + qnNumber + "-" + responseNumber));
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+        return true;
+    }
+
     public String getRankMessage(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.id("rankMessage-" + qnNumber + "-" + responseNumber));
+        return element.getText();
+    }
+
+    public boolean checkIfRankInstructionElementExists(int qnNumber) {
+        try {
+            browser.driver.findElement(By.id("rankInstruction-" + qnNumber));
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public String getRankInstruction(int qnNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("rankInstruction-" + qnNumber));
         return element.getText();
     }
 

@@ -1080,6 +1080,7 @@ function updateRankQnMessages(qnNum) {
 
     function updateRankMessagesInUpdatingRankMessageQn($messageElement) {
         let message = '';
+        let allChecksPassed = true;
         const approvedIcon = '<span class="glyphicon glyphicon-ok padding-right-10px"></span>';
         const errorIcon = '<span class="glyphicon glyphicon-remove padding-right-10px"></span>';
         const entityBeingRanked = isDistributingToRecipients ? 'recipients' : 'options';
@@ -1095,6 +1096,7 @@ function updateRankQnMessages(qnNum) {
                     message += `<span class='text-color-red'> ${errorIcon} Multiple `
                             + `${entityBeingRanked} are given the same rank! `
                             + `eg. ${repeatedRanks[0]}. </span></br>`;
+                    allChecksPassed = false;
                 }
             }
 
@@ -1105,6 +1107,7 @@ function updateRankQnMessages(qnNum) {
                     message += `<span class='text-color-red'> ${errorIcon} You need to rank at least ${min} `
                             + `${entityBeingRanked}. You have ranked ${rankedOptions} `
                             + `${entityBeingRanked} so far.</span><br>`;
+                    allChecksPassed = false;
                 } else {
                     message += `<span class='text-color-green'> ${approvedIcon} At least ${min} `
                             + `${entityBeingRanked} have been ranked.</span><br>`;
@@ -1118,11 +1121,21 @@ function updateRankQnMessages(qnNum) {
                     message += `<span class='text-color-red'> ${errorIcon} You can rank at most ${max} `
                             + `${entityBeingRanked}. You have ranked ${rankedOptions - max} extra `
                             + `${entityBeingRanked}.</span><br>`;
+                    allChecksPassed = false;
                 } else {
                     message += `<span class='text-color-green'> ${approvedIcon} At most ${max} `
                             + `${entityBeingRanked} have been ranked.</span><br>`;
                 }
             }
+        }
+
+        // update message element class for validateRankQuestions to work correctly
+        if (allChecksPassed) {
+            $messageElement.addClass('text-color-green');
+            $messageElement.removeClass('text-color-red');
+        } else {
+            $messageElement.addClass('text-color-red');
+            $messageElement.removeClass('text-color-green');
         }
         $messageElement.html(message);
         if (message === '') {
