@@ -651,9 +651,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(0, 1);
 
-        editCommentGivenByDifferentInstructor("-1-1-1");
+        editCommentGivenByDifferentInstructors("-1-1-1");
 
-        ______TS("GQR view: Typical case: delete an existing feedback response comments using comment modal");
+        ______TS("GQR view: Typical case: delete existing feedback response comments using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverQuestionRecipient();
@@ -683,15 +683,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         editCommentOnResponse("-2-1-0");
 
-        ______TS("Question view: Typical case: edit comment created by different instructor using comment modal");
+        ______TS("Question view: Typical case: edit comment created by different instructors using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr2", "Open Session");
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(2);
 
-        editCommentGivenByDifferentInstructor("-1-1-0");
+        editCommentGivenByDifferentInstructors("-1-1-0");
 
-        ______TS("Question view: Typical case: delete an existing feedback response comments using comment modal");
+        ______TS("Question view: Typical case: delete existing feedback response comments using comment modal");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
@@ -727,7 +727,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.closeCommentModal(commentId);
     }
 
-    private void editCommentGivenByDifferentInstructor(String commentId) {
+    private void editCommentGivenByDifferentInstructors(String commentId) {
         String editFormCommentId = commentId + "-1";
         resultsPage.clickCommentModalButton(commentId);
         resultsPage.editFeedbackResponseComment(editFormCommentId, "Comment edited by different instructor");
