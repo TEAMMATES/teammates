@@ -263,7 +263,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
+    public void editFeedbackResponseCommentInOpenedCommentModal(String commentIdSuffix, String newCommentText) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         click(commentRow.findElements(By.tagName("a")).get(1));
 

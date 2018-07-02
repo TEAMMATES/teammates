@@ -56,7 +56,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         ______TS("Typical case: edit existing feedback response comment using comment modal in questions's view");
 
         resultsPage.clickCommentModalButton("-2-1-0");
-        resultsPage.editFeedbackResponseComment("-2-1-0-1", "edited test comment");
+        resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-2-1-0-1", "edited test comment");
         resultsPage.verifyCommentRowContent("-2-1-0-1", "edited test comment", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-2-1-0"));
         resultsPage.closeCommentModal("-2-1-0");
@@ -67,7 +67,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(2);
         resultsPage.clickCommentModalButton("-1-1-0");
-        resultsPage.editFeedbackResponseComment("-1-1-0-1", "Comment edited by different instructor");
+        resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-1-0-1", "Comment edited by different instructor");
         resultsPage.verifyCommentRowContent("-1-1-0-1", "Comment edited by different instructor", "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm-1-1-0"));
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-1-1-0-1", 1);
@@ -102,7 +102,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
                 "successive action comment");
         resultsPage.verifyCommentRowContent("-2-1-0-1", "successive action comment", "Teammates Test");
 
-        resultsPage.editFeedbackResponseComment("-2-1-0-1", "edited successive action comment");
+        resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-2-1-0-1", "edited successive action comment");
         resultsPage.verifyCommentRowContent("-2-1-0-1", "edited successive action comment",
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-2-1-0-1", 1);
@@ -142,13 +142,13 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         ______TS("Typical case: edit existing feedback response comment");
 
-        resultsPage.editFeedbackResponseComment("-1-1-1-1-1", "edited test comment");
+        resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-1-1-1-1", "edited test comment");
         resultsPage.verifyCommentRowContent("-1-1-1-1-1", "edited test comment", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditComment.html");
 
         ______TS("Typical case: edit comment created by different instructor");
 
-        resultsPage.editFeedbackResponseComment("-1-0-1-1-1", "Comment edited by different instructor");
+        resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-0-1-1-1", "Comment edited by different instructor");
         resultsPage.verifyCommentRowContent("-1-0-1-1-1", "Comment edited by different instructor", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditCommentByDifferentInstructor.html");
 
@@ -169,7 +169,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-0-1-3", "successive action comment", "Teammates Test");
 
-        resultsPage.editFeedbackResponseComment("-0-1-0-1-3", "edited successive action comment");
+        resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-0-1-0-1-3", "edited successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-0-1-3", "edited successive action comment",
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
