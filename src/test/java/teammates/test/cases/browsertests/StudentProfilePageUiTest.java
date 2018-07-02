@@ -335,6 +335,20 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     @AfterClass
     public void classTearDown() {
+        // The data associated with the test accounts have to be removed when the test ends because
+        // the test accounts are shared across tests. In particular, the courses of test student1 account is not the same as
+        // `StudentHomePageUiTest` so it has to be cleared before running that test.
+
+        // Test data is never cleared after test in order to save datastore costs as we already remove and restore the data
+        // bundle when the test runs. This raises the question of why we do not remove the data bundle when the class
+        // ends then we do not have to remove it from startup. The reason is that in the case a test fails to tear down
+        // (fail to remove data bundle), another test should have no reason to fail.
+
+        // This means that removing the data bundle on startup is not always sufficient because a test only knows how
+        // to remove its associated data. This is the reason why `StudentHomePageUiTest` would fail if we don't remove the
+        // data bundle in this test.
+        // Extending removeDataBundle to remove data outside its associated data would introduce unnecessary complications
+        // like extra cost and now knowing exactly how much data to remove.
         BackDoor.removeDataBundle(testData);
     }
 
