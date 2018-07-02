@@ -1,5 +1,7 @@
 package teammates.test.cases.browsertests;
 
+import java.io.IOException;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
@@ -11,16 +13,16 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE},
  *      specifically for feedback response comments.
  */
-public class InstructorFeedbackResponseCommentResultsPageUiTest extends BaseUiTestCase {
+public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorFeedbackResponseCommentResultsPageUiTest.json");
+        testData = loadDataBundle("/InstructorFeedbackResultsPageResponseCommentUiTest.json");
         removeAndRestoreDataBundle(testData);
     }
 
     @Test
-    public void testFeedbackResponseCommentActions() throws Exception {
+    public void testFeedbackResponseCommentActions() throws IOException {
 
         InstructorFeedbackResultsPage resultsPage;
 
