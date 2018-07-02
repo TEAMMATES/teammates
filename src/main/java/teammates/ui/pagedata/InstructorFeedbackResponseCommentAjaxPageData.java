@@ -40,7 +40,12 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
                                                showCommentToString, showGiverNameToString,
                                                getResponseVisibilities(), instructorEmailNameTable, sessionTimeZone);
         frc.enableEditDelete();
-
+        String whoCanSeeComment;
+        boolean isVisibilityIconShown = !frc.getShowCommentToString().isEmpty();
+        if (isVisibilityIconShown) {
+            whoCanSeeComment = getTypeOfPeopleCanViewComment(comment, question);
+            frc.setVisibilityIcon(true, whoCanSeeComment);
+        }
         return frc;
     }
 
