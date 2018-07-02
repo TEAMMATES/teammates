@@ -4,7 +4,6 @@
  * Example: Changes this array ['Section', 'Team', 'Name', 'Email', 'Comments']
  * into a string = "Section|Team|Name|Email|Comments\n"
  *
- * @param handsontableColHeader
  * @returns {string} updated header string
  */
 function getUpdatedHeaderString(handsontableColHeader) {
@@ -26,7 +25,6 @@ function getUpdatedHeaderString(handsontableColHeader) {
  * "TestSection1|Team1||test1@xample.com|test1comments\n
  *  TestSection2||TestName2|test2@example.com|\n"
  *
- * @param spreadsheetData
  * @returns {string} user data rows
  */
 function getUserDataRows(spreadsheetData) {
@@ -39,8 +37,6 @@ function getUserDataRows(spreadsheetData) {
 /**
  * Pushes data from spreadsheetDataRows into an array.
  * Facilitates the function loadData for the Handsontable instance.
- *
- * @param spreadsheetDataRows
  * @returns {Array} updated data
  */
 function getUpdatedData(spreadsheetDataRows) {
@@ -49,8 +45,7 @@ function getUpdatedData(spreadsheetDataRows) {
 
 /**
  * Transforms the first uppercase letter of a string into a lowercase letter.
- * @param string
- * @returns {string} Handsontable column header in all lowercase letters
+ * @returns {string} string in all lowercase letters
  */
 function unCapitalizeFirstLetter(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
@@ -58,8 +53,6 @@ function unCapitalizeFirstLetter(string) {
 
 /**
  * Converts returned AJAX data to a suitable format required by Handsontable.
- * @param studentsData
- * @param handsontableColHeader
  * @returns {Array} student data
  */
 function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
@@ -70,8 +63,6 @@ function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
 
 /**
  * Toggle the chevron image depending on the user's action.
- * @param panelCollapse
- * @param toggleChevron
  */
 function toggleChevronImage(panelCollapse, toggleChevron) {
     if ($(panelCollapse).attr('class').indexOf('checked') === -1) {
@@ -82,48 +73,42 @@ function toggleChevronImage(panelCollapse, toggleChevron) {
 }
 
 /**
- * Shows the "Existing students" panel with the spreadsheet interface.
- * @param $panelHeading
- * @param panelCollapse
+ * Expands panel, showing the spreadsheet interface.
  */
-function expandStudentsPanel($panelHeading, panelCollapse) {
+function expandStudentsPanel(panelCollapse) {
     $(panelCollapse).collapse('show');
     $(panelCollapse[0]).addClass('checked');
 }
 
 /**
- * Hides the "Existing students" panel.
- * @param $panelHeading
- * @param panelCollapse
+ * Collapses panel, hiding the spreadsheet interface.
  */
-function collapseStudentsPanel($panelHeading, panelCollapse) {
+function collapseStudentsPanel(panelCollapse) {
     $(panelCollapse[0]).collapse('hide');
     $(panelCollapse[0]).removeClass('checked');
 }
 
 /**
- * Expands/Collapses the "Existing students" panel depending on the current state of the panel.
- * @param $panelHeading
- * @param panelCollapse
- * @param displayIcon
- * @param toggleChevron
+ * Expands/Collapses the panel depending on the current state of the panel.
  */
-/*  eslint no-unused-expressions: [2, { allowTernary: true }]   */
 function toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron) {
     displayIcon.html('');
-    ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) ?
-            expandStudentsPanel($panelHeading, panelCollapse) :
-            collapseStudentsPanel($panelHeading, panelCollapse);
+    if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {
+        expandStudentsPanel(panelCollapse);
+    } else {
+        collapseStudentsPanel(panelCollapse);
+    }
     toggleChevronImage(panelCollapse, toggleChevron);
 }
 
 /**
  * Displays a message informing the user that there are no existing students in the course.
- * @param displayIcon
  */
 function displayNoExistingStudents(displayIcon) {
-    let statusMsg = '[ No existing students in course. ]';
-    statusMsg = `<strong style="margin-left: 1em; margin-right: 1em;">${statusMsg}</strong>`;
+    const statusMsg = `
+        <strong style="margin-left: 1em; margin-right: 1em;">
+            [ No existing students in course. ]
+        </strong>`;
     displayIcon.html(statusMsg);
 }
 
@@ -133,8 +118,10 @@ function displayNoExistingStudents(displayIcon) {
  */
 function displayErrorExecutingAjax(displayIcon) {
     const warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-    let errorMsg = '[ Failed to load. Click here to retry. ]';
-    errorMsg = `<strong style="margin-left: 1em; margin-right: 1em;">${errorMsg}</strong>`;
+    const errorMsg = `
+        <strong style="margin-left: 1em; margin-right: 1em;">
+            [ Failed to load. Click here to retry. ]
+        </strong>`;
     displayIcon.html(warningSign + errorMsg);
 }
 

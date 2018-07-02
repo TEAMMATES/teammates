@@ -1,6 +1,7 @@
 /**
  * Holds Handsontable settings, reference and other information for the spreadsheet interface.
  */
+/* global Handsontable:false */
 import {
     prepareInstructorPages,
 } from '../common/instructor';
@@ -21,7 +22,6 @@ import {
 } from '../common/instructorEnroll';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
-/* global Handsontable:false */
 const dataHandsontable = new Handsontable(dataContainer, {
     readOnly: true,
     height: 400,
@@ -39,7 +39,6 @@ const dataHandsontable = new Handsontable(dataContainer, {
 });
 
 const enrollContainer = document.getElementById('enrollSpreadsheet');
-/* global Handsontable:false */
 const enrollHandsontable = new Handsontable(enrollContainer, {
     className: 'enroll-handsontable',
     height: 500,
@@ -82,7 +81,6 @@ function updateDataDump() {
 
 /**
  * Loads existing student data into the spreadsheet interface.
- * @param studentsData
  * @returns {Promise} confirmation that existing students data has been loaded into the spreadsheet.
  */
 function loadExistingStudentsData(studentsData) {
@@ -94,7 +92,6 @@ function loadExistingStudentsData(studentsData) {
 
 /**
  * Gets list of student data through an AJAX request.
- * @param displayIcon
  * @returns {Promise} the state of the result from the AJAX request
  */
 function getAjaxStudentList(displayIcon) {
@@ -122,7 +119,6 @@ function getAjaxStudentList(displayIcon) {
  * into the spreadsheet interface. Spreadsheet interface would be shown after expansion.
  * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
  */
-/*  eslint no-unused-expressions: [2, { allowTernary: true }]   */
 function expandCollapseExistingStudentsPanel() {
     const $panelHeading = $(this);
     const panelCollapse = $panelHeading.parent().children('.panel-collapse');
@@ -133,19 +129,22 @@ function expandCollapseExistingStudentsPanel() {
     if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
         getAjaxStudentList(displayIcon)
                 .then((data) => {
-                (data.students.length === 0) ? displayNoExistingStudents(displayIcon) :
-                    loadExistingStudentsData(data.students)
-                            .then(() => {
-                                toggleStudentsPanel($panelHeading, panelCollapse,
-                                        displayIcon, toggleChevron);
-                                dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
-                            });
+                    if (data.students.length === 0) {
+                        displayNoExistingStudents(displayIcon);
+                    } else {
+                        loadExistingStudentsData(data.students)
+                                .then(() => {
+                                    toggleStudentsPanel($panelHeading, panelCollapse,
+                                            displayIcon, toggleChevron);
+                                    dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
+                                });
+                    }
                 }).catch(() => {
                     displayErrorExecutingAjax(displayIcon);
                 });
     } else {
         toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron);
-        dataHandsontable.render(); // needed as the view is buggy after collapsing the panel);
+        dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
     }
 }
 
