@@ -328,6 +328,10 @@ input.inline {
     padding-left: 7px;
 }
 
+.padding-left-45px {
+    padding-left: 45px;
+}
+
 /*
 !important is required to override Bootstrap .caret class match which matches 2 classes (.btn.caret)
 */

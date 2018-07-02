@@ -76,8 +76,8 @@ function updateDataDump() {
     const spreadsheetData = enrollHandsontable.getData();
     const dataPushToTextarea = getUpdatedHeaderString(enrollHandsontable.getColHeader());
     const userDataRows = getUserDataRows(spreadsheetData);
-    $('#enrollstudents').text(userDataRows === '' ?
-            '' : dataPushToTextarea + userDataRows); // only pushes header string if userDataRows is not empty
+    $('#enrollstudents').text(userDataRows === ''
+            ? '' : dataPushToTextarea + userDataRows); // only pushes header string if userDataRows is not empty
 }
 
 /**
