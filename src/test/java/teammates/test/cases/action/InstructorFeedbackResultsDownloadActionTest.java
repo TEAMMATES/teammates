@@ -1,16 +1,20 @@
 package teammates.test.cases.action;
 
+import java.net.URL;
+
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.NullPostParameterException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
+import teammates.ui.controller.RedirectResult;
 
 /**
  * SUT: {@link InstructorFeedbackResultsDownloadAction}.
@@ -37,6 +41,12 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.SECTION_NAME, "Section 1"
+        };
+
+        String[] paramsWithLargeData = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                "simulateExcessDataForTesting", "true"
         };
 
         String[] paramsWithNullCourseId = {
@@ -105,6 +115,20 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1";
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1WithinSection1(result.getFileContent(), session);
+
+        ______TS("Mock case to throw ExceedingRangeException: data is too large to be downloaded in one go");
+
+        action = getAction(paramsWithLargeData);
+        RedirectResult r = getRedirectResult(action);
+
+        expectedDestination = getPageResultDestination(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE, true, "");
+        expectedDestination = Config.getAppUrl(expectedDestination)
+                .withCourseId(session.getCourseId()).withUserId("idOfInstructor1OfCourse1")
+                .withSessionName(session.getFeedbackSessionName()).toAbsoluteString();
+        assertEquals(new URL(expectedDestination).getFile(), r.getDestinationWithParams());
+        assertTrue(r.isError);
+
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DOWNLOAD_FILE_SIZE_EXCEEDED, r.getStatusMessage());
 
         ______TS("Failure case: params with null course id");
 

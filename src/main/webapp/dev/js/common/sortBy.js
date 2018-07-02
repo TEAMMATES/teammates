@@ -219,18 +219,14 @@ class TableButtonHelpers {
  * @param shouldSortAscending
  *     If this is true, sort in ascending order.
  *     Otherwise, sort in descending order
- * @param rowOffset
- *     Ignore rows above this when sorting. Start sorting from this row.
- *     The main use case for this is to ignore the first row, which usually contains the table headers.
- *     In that case, set rowOffset to 1 (thus ignoring row 0).
  */
-function sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSortAscending, rowOffset) {
+function sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSortAscending) {
     let columnType = 0;
     let store = [];
-    const $rowList = $('tr', $table);
+    const $rowList = $table.find('> tbody > tr');
 
     // Iterate through column's contents to decide which comparator to use
-    for (let i = rowOffset; i < $rowList.length; i += 1) {
+    for (let i = 0; i < $rowList.length; i += 1) {
         if ($rowList[i].cells[colIdx - 1] === undefined) {
             continue;
         }
@@ -253,8 +249,7 @@ function sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSort
         }
     }
 
-    const comparator = isDefined(comparatorOrNull) ? comparatorOrNull :
-        Comparators.getDefaultComparator(columnType);
+    const comparator = isDefined(comparatorOrNull) ? comparatorOrNull : Comparators.getDefaultComparator(columnType);
 
     store.sort((x, y) => {
         const compareResult = shouldSortAscending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())
@@ -300,9 +295,8 @@ function toggleSort($button, comparatorStringOrNull, extractorStringOrNull) {
     const comparatorOrNull = isDefined(comparatorStringOrNull) ? Comparators[comparatorStringOrNull] : null;
     const extractorOrNull = isDefined(extractorStringOrNull) ? Extractors[extractorStringOrNull] : null;
     const shouldSortAscending = !isSortedAscending;
-    const rowToStartSortingFrom = 1; // <th> occupies row 0
 
-    sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSortAscending, rowToStartSortingFrom);
+    sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSortAscending);
 
     // update the button and icon states
     if (shouldSortAscending) {

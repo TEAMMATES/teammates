@@ -29,5 +29,6 @@
   <ti:remindParticularStudentsModal remindParticularStudentsLink="${data.remindParticularStudentsLink}" />
   <feedbacks:copyFromModal copyFromModal="${data.copyFromModal}" />
   <ti:copyModal editCopyActionLink="${data.editCopyActionLink}" />
+  <ti:resendPublishedEmailModal sessionResendPublishedEmailLink="${data.sessionResendPublishedEmailLink}" />
 
 </ti:instructorPage>
