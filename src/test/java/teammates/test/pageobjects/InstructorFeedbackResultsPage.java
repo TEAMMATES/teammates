@@ -443,7 +443,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         assertTrue(isElementPresent(By.id("responseCommentEditForm" + commentRowIdSuffix)));
     }
 
-    public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
+    public void waitForCommentFormErrorMessageEquals(String commentTableIdSuffix, String errorMessage) {
         WebElement errorMessageSpan = waitForElementPresence(By.cssSelector("#errorMessage"));
         assertEquals(errorMessage, errorMessageSpan.getText());
     }

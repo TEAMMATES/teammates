@@ -34,7 +34,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "");
-        resultsPage.verifyCommentFormErrorMessage("-2-1-0", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        resultsPage.waitForCommentFormErrorMessageEquals("-2-1-0", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         resultsPage.closeCommentModal("-2-1-0");
 
         ______TS("Typical case: add new feedback response comments using comment modal in questions's view");
@@ -117,7 +117,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "");
-        resultsPage.verifyCommentFormErrorMessage("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        resultsPage.waitForCommentFormErrorMessageEquals("-0-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
 
         ______TS("Typical case: add new feedback response comments");
 
