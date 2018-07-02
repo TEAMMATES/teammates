@@ -110,17 +110,17 @@ public abstract class FeedbackQuestionDetails {
                 + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                 + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question);
         detailedResponseRow.append(detailedResponseRowString);
-        //Appends feedback participant comments if allowed
+        // Appends feedback participant comments if allowed
         if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
             String feedbackParticipantComment =
                     fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
             detailedResponseRow.append(',').append(feedbackParticipantComment);
         }
-        //Appends instructor comments if comments exists on response
+        // Appends instructor comments if comments exists on response
         if (isInstructorCommentsOnResponsesAllowed()) {
             String instructorComments =
                     fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes);
-            detailedResponseRow.append(instructorComments.isEmpty() ? "" : instructorComments);
+            detailedResponseRow.append(instructorComments);
         }
         return detailedResponseRow.append(System.lineSeparator()).toString();
     }

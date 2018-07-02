@@ -57,7 +57,7 @@ public final class Const {
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
-    //Used as giver index/ frc index for feedback participant comments
+    // Used as giver index/frc index for feedback participant comments
     public static final int INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS = 1;
 
     // for course sorting in instructorHomePage

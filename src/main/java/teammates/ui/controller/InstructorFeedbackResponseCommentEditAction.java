@@ -45,7 +45,7 @@ public class InstructorFeedbackResponseCommentEditAction extends InstructorFeedb
         FeedbackResponseCommentAjaxPageData data =
                 new FeedbackResponseCommentAjaxPageData(account, sessionToken);
 
-        //Edit comment text
+        // Edit comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, commentText);
         if (commentText.trim().isEmpty()) {

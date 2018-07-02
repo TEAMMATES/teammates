@@ -159,7 +159,7 @@ public class GateKeeper {
      * @param frc comment to be accessed
      * @param feedbackParticipant email or team of feedback participant
      */
-    public void verifyAccessibleForDeletion(FeedbackResponseCommentAttributes frc, String feedbackParticipant) {
+    public void verifyOwnership(FeedbackResponseCommentAttributes frc, String feedbackParticipant) {
         verifyNotNull(frc, "feedback response comment");
         verifyNotNull(frc.commentGiver, "feedback response comment giver");
         verifyNotNull(feedbackParticipant, "comment giver");

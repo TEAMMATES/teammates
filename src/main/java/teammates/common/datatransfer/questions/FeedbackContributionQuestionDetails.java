@@ -949,6 +949,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 : "";
     }
 
+    @Override
     public boolean isInstructorCommentsOnResponsesAllowed() {
         return false;
     }

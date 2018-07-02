@@ -66,17 +66,13 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
             StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
             switch (frc.commentGiverType) {
             case INSTRUCTORS:
-                gateKeeper.verifyAccessible(instructor, session, false,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-                gateKeeper.verifyAccessibleForDeletion(frc, instructor.email);
+                gateKeeper.verifyOwnership(frc, instructor.email);
                 break;
             case STUDENTS:
-                gateKeeper.verifyAccessible(student, session);
-                gateKeeper.verifyAccessibleForDeletion(frc, student.email);
+                gateKeeper.verifyOwnership(frc, student.email);
                 break;
             case TEAMS:
-                gateKeeper.verifyAccessible(student, session);
-                gateKeeper.verifyAccessibleForDeletion(frc, student.team);
+                gateKeeper.verifyOwnership(frc, student.team);
                 break;
             default:
                 Assumption.fail("Invalid comment giver type");

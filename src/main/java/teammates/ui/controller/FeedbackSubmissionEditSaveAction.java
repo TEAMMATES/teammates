@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected List<FeedbackResponseAttributes> responsesToUpdate = new ArrayList<>();
     protected List<FeedbackResponseCommentAttributes> commentsToSave = new ArrayList<>();
     protected List<FeedbackResponseCommentAttributes> commentsToUpdate = new ArrayList<>();
-    protected Map<String, String> commentIndxToResponseReceiverMap = new HashMap<>();
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -299,8 +297,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             throws EntityDoesNotExistException {
         try {
             for (FeedbackResponseCommentAttributes frc : commentsToSave) {
+                String responseRecipient = getRequestParamValue(frc.feedbackResponseId);
                 FeedbackResponseAttributes response = logic.getFeedbackResponse(frc.feedbackQuestionId,
-                        frc.commentGiver, commentIndxToResponseReceiverMap.get(frc.feedbackResponseId));
+                        frc.commentGiver, responseRecipient);
                 frc.feedbackResponseId = response.getId();
                 logic.createFeedbackResponseComment(frc);
                 statusToAdmin += this.getClass().getName() + ":<br>"
@@ -340,7 +339,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             try {
                 FeedbackResponseCommentAttributes updatedComment =
                         logic.updateFeedbackResponseComment(feedbackResponseComment);
-                //TODO: move putDocument to task queue
+                // TODO: move putDocument to task queue
                 logic.putDocument(updatedComment);
                 statusToAdmin += this.getClass().getName() + ":<br>"
                         + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
@@ -432,7 +431,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                              + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
                                              + "-" + questionIndex + "-"
                                              + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS);
-        //comment id is null when adding new comments
+        // comment id is null when adding new comments
         if (commentId == null) {
             commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
                                                               + "-" + responseIndex + "-"
@@ -465,12 +464,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
         if (commentId == null) {
             // When adding new comments, it might be possible that response id is null (i.e. when response is added
-            // simultaneously), so we map comment index with response recipient which helps later in retrieving saved
+            // simultaneously), so we save response recipient index which helps later in retrieving saved
             // response to get response id when writing this new comment to database.
-            String commentIdx = responseIndex + "-" + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS + "-"
-                                        + questionIndex + "-" + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS;
-            feedbackResponseComment.feedbackResponseId = commentIdx;
-            commentIndxToResponseReceiverMap.put(commentIdx, response.recipient);
+            feedbackResponseComment.feedbackResponseId =
+                    Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndex + "-" + responseIndex;
             commentsToSave.add(feedbackResponseComment);
         } else {
             feedbackResponseComment.setId(Long.parseLong(commentId));

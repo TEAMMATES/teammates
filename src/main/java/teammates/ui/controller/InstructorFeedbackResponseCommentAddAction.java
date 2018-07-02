@@ -83,7 +83,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                 .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .build();
 
-        //Set up visibility settings
+        // Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
         feedbackResponseComment.showCommentTo = new ArrayList<>();

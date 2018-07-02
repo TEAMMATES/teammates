@@ -44,9 +44,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public Long feedbackResponseCommentId;
     public String giverSection;
     public String receiverSection;
-    //Determines the type of comment giver- instructor, student, or team
+    // Determines the type of comment giver- instructor, student, or team
     public FeedbackParticipantType commentGiverType;
-    //true if comment is given by response giver
+    //  true if comment is given by response giver
     public boolean isCommentFromFeedbackParticipant;
 
     FeedbackResponseCommentAttributes() {
@@ -56,6 +56,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         showGiverNameTo = new ArrayList<>();
         isVisibilityFollowingFeedbackQuestion = true;
         createdAt = Instant.now();
+        commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+        isCommentFromFeedbackParticipant = false;
     }
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
@@ -114,7 +116,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     /**
-     * Converts comment text in form of string for instructor results table.
+     * Converts comment text in form of string.
      * @return Comment in form of string
      */
     public String convertCommentTextToStringForHtml() {
@@ -319,7 +321,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
-        public Builder withCommentFromFeedbackParticipant(Boolean isCommentFromFeedbackParticipant) {
+        public Builder withCommentFromFeedbackParticipant(boolean isCommentFromFeedbackParticipant) {
             frca.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
             return this;
         }

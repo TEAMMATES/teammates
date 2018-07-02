@@ -304,21 +304,10 @@ public final class FeedbackSessionsLogic {
             updateBundleAndRecipientListWithResponsesForInstructor(courseId,
                     userEmail, fsa, instructor, bundle, recipientList,
                     question, instructor, null);
-            commentsForResponses.putAll(getCommentsOnResponses(bundle.get(question)));
+            updateBundleWithCommentsForResponses(bundle.get(question), commentsForResponses);
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList, commentsForResponses, roster);
-    }
-
-    private Map<String, List<FeedbackResponseCommentAttributes>> getCommentsOnResponses(
-            List<FeedbackResponseAttributes> responses) {
-        Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses = new HashMap<>();
-        for (FeedbackResponseAttributes response : responses) {
-            List<FeedbackResponseCommentAttributes> comments =
-                    frcLogic.getFeedbackResponseCommentForResponse(response.getId());
-            commentsForResponses.put(response.getId(), comments);
-        }
-        return commentsForResponses;
     }
 
     public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsForInstructor(

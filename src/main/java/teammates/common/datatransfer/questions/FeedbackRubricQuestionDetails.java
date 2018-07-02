@@ -964,14 +964,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceValue) + ','
                     + SanitizationHelper.sanitizeForCsv(chosenChoiceNumber));
 
-            //To show feedbacck participant comment only once for each response.
+            // To show feedback participant comment only once for each response.
             if (isFeedbackParticipantCommentsOnResponsesAllowed() && i == 0) {
                 String feedbackParticipantComment =
                         fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
                 detailedResponsesRow.append(',').append(feedbackParticipantComment);
             }
             if (i == 0) {
-                //To show instructor comment only once for each response.
+                // To show instructor comment only once for each response.
                 detailedResponsesRow.append(instructorComment);
             }
             detailedResponsesRow.append(System.lineSeparator());

@@ -926,7 +926,7 @@ public class PageData {
         return responseVisibilityMap;
     }
 
-    //TODO investigate and fix the differences between question.isResponseVisibleTo and this method
+    // TODO investigate and fix the differences between question.isResponseVisibleTo and this method
     public boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
         switch (participantType) {
         case GIVER:
