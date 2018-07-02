@@ -28,7 +28,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         ______TS("Failure case: add empty feedback response comment using comment modal in question view");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage = loginToInstructorFeedbackResultsPage("IFResultsResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
@@ -63,7 +63,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         ______TS("Typical case: edit comment created by different instructor using comment modal in questions's view");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage = loginToInstructorFeedbackResultsPage("IFResultsResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(2);
 
@@ -76,7 +76,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         ______TS("Typical case: delete existing feedback response comments using comment modal in questions's view");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage = loginToInstructorFeedbackResultsPage("IFResultsResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
@@ -94,7 +94,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         ______TS("Typical case: add edit and delete successively");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage = loginToInstructorFeedbackResultsPage("IFResultsResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
@@ -131,7 +131,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage = loginToInstructorFeedbackResultsPage("IFResultsResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.verifyFeedbackResponseCommentAdded("-0-0-1-1-1", "test comment 1", "Teammates Test");
@@ -158,7 +158,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.deleteFeedbackResponseCommentInline("-1-1-1-1-1");
         resultsPage.verifyRowMissing("-1-1-1-1-1");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage = loginToInstructorFeedbackResultsPage("IFResultsResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.verifyFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
@@ -178,7 +178,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.deleteFeedbackResponseCommentInline("-0-1-0-1-3");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+        resultsPage = loginToInstructorFeedbackResultsPage("IFResultsResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.verifyFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
