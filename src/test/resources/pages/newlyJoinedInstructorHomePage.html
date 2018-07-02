@@ -56,6 +56,16 @@
                 (Select the student(s) you want to remind)
               </small>
             </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group" id="studentList">
@@ -146,7 +156,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Students
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -165,7 +175,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Instructors
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -179,7 +189,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Sessions
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -193,7 +203,7 @@
             <div class="dropdown courses-table-dropdown">
               <button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
                 Course
-                <span class="caret dropdown-toggle">
+                <span class="caret dropdown-toggle margin-left-3px">
                 </span>
               </button>
               <ul class="dropdown-menu">
@@ -328,6 +338,18 @@
                           Publish Results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="${test.instructor}">
+                            <input name="fsname" type="hidden" value="Second team feedback session">
+                            <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -427,6 +449,18 @@
                           Resend link to view results
                         </a>
                       </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="${test.instructor}">
+                            <input name="fsname" type="hidden" value="First team feedback session">
+                            <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -524,6 +558,18 @@
                       <li>
                         <a class="session-resend-published-email-for-test" data-actionlink="/page/instructorFeedbackResendPublishedEmailPage?courseid=AHPUiT____.instr1_.gma-demo&fsname=Session+with+different+question+types&user=${test.instructor}" data-courseid="AHPUiT____.instr1_.gma-demo" data-fsname="Session with different question types" data-target="#resendPublishedEmailModal" data-toggle="modal" href="javascript:;">
                           Resend link to view results
+                        </a>
+                      </li>
+                      <li>
+                        <a>
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
+                            <input class="btn-tm-actions session-results-download" name="fruploaddownloadbtn" style="border: none; padding: 0; background: none;" type="submit" value="Download Results">
+                            <input name="user" type="hidden" value="${test.instructor}">
+                            <input name="fsname" type="hidden" value="Session with different question types">
+                            <input name="courseid" type="hidden" value="AHPUiT____.instr1_.gma-demo">
+                            <input name="frshowstats" type="hidden" value="true">
+                            <input name="frindicatemissingresponses" type="hidden" value="true">
+                          </form>
                         </a>
                       </li>
                     </ul>

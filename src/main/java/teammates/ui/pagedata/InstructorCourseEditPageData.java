@@ -100,7 +100,9 @@ public class InstructorCourseEditPageData extends PageData {
                                                                           instructorIndex, instructor,
                                                                           sectionNames, feedbackNames);
 
-        if (instructor != null) {
+        if (instructor == null) {
+            instructorPanel.setCancelAddInstructorButton(createCancelAddInstructorButton());
+        } else {
             int panelIndex = instructorPanel.getIndex();
             boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
@@ -223,6 +225,14 @@ public class InstructorCourseEditPageData extends PageData {
 
         return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_EDIT,
                                  isDisabled);
+    }
+
+    private ElementTag createCancelAddInstructorButton() {
+        String buttonContent = "<span class=\"glyphicon glyphicon-remove\"></span> Cancel";
+        String buttonId = "cancelAddInstructorLink";
+
+        return createBasicButton(buttonContent, buttonId, "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_CANCEL_ADD,
+                false);
     }
 
     /**
