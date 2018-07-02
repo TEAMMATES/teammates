@@ -228,27 +228,27 @@
                           <label class="control-label pull-right">Access-level</label>
                         </div>
                         <div class="col-sm-9">
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Co-owner" checked="">&nbsp;Co-owner: Can do everything
+                          <input type="radio" name="instructorrole" id="instructorrole1forinstructor2" value="Co-owner" checked="">&nbsp;Co-owner: Can do everything
                           <a href="javascript:;">
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Manager">&nbsp;Manager: Can do everything except for deleting the course
+                          <input type="radio" name="instructorrole" id="instructorrole2forinstructor2" value="Manager">&nbsp;Manager: Can do everything except for deleting the course
                           <a href="javascript:;">
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Observer">&nbsp;Observer: Can only view information(students, submissions, comments etc.). &nbsp;Cannot edit/delete/submit anything.
+                          <input type="radio" name="instructorrole" id="instructorrole3forinstructor2" value="Observer">&nbsp;Observer: Can only view information(students, submissions, comments etc.). &nbsp;Cannot edit/delete/submit anything.
                           <a href="javascript:;">
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Tutor">&nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
+                          <input type="radio" name="instructorrole" id="instructorrole4forinstructor2" value="Tutor">&nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
                           <a href="javascript:;">
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor2" value="Custom">&nbsp;Custom: No access by default. Any access needs to be granted explicitly.
+                          <input type="radio" name="instructorrole" id="instructorrole5forinstructor2" value="Custom">&nbsp;Custom: No access by default. Any access needs to be granted explicitly.
                         </div>
                       </div>
                     </div>
@@ -415,27 +415,27 @@
                           <label class="control-label pull-right">Access-level</label>
                         </div>
                         <div class="col-sm-9">
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Co-owner"> &nbsp;Co-owner: Can do everything &nbsp;
+                          <input type="radio" name="instructorrole" id="instructorrole1forinstructor1" value="Co-owner"> &nbsp;Co-owner: Can do everything &nbsp;
                           <a href="javascript:;">
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Manager"> &nbsp;Manager: Can do everything except for deleting the course &nbsp;
+                          <input type="radio" name="instructorrole" id="instructorrole2forinstructor1" value="Manager"> &nbsp;Manager: Can do everything except for deleting the course &nbsp;
                           <a href="javascript:;">
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Observer"> &nbsp;Observer: Can only view information(students, submissions, comments etc.). &nbsp;Cannot edit/delete/submit anything. &nbsp;
+                          <input type="radio" name="instructorrole" id="instructorrole3forinstructor1" value="Observer"> &nbsp;Observer: Can only view information(students, submissions, comments etc.). &nbsp;Cannot edit/delete/submit anything. &nbsp;
                           <a href="javascript:;">
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Tutor"> &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions &nbsp;
+                          <input type="radio" name="instructorrole" id="instructorrole4forinstructor1" value="Tutor"> &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions &nbsp;
                           <a href="javascript:;">
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorroleforinstructor1" value="Custom" checked=""> &nbsp;Custom: No access by default. Any access needs to be granted explicitly.
+                          <input type="radio" name="instructorrole" id="instructorrole5forinstructor1" value="Custom" checked=""> &nbsp;Custom: No access by default. Any access needs to be granted explicitly.
                           <br>
                         </div>
                       </div>
@@ -788,6 +788,149 @@
         <h3 class="panel-title">How do I unarchive an archived course?</h3>
       </div>
       <div id="course-unarchive-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            To unarchive a course, first <a class="collapse-link" data-target="#course-view-archived-body" href="#course-view-archived">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
+            Then, click on the <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
+          </p>
+          <div class="bs-example">
+            <h2 class="text-muted">Archived courses</h2>
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr class="fill-default">
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Course ID<span class="icon-sort unsorted"></span>
+                </th>
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Course Name<span class="icon-sort unsorted"></span>
+                </th>
+                <th class="align-center no-print">Action(s)</th>
+              </tr>
+              </thead>
+              <tr>
+                <td>AI532</td>
+                <td>Artificial Intelligence</td>
+                <td class="align-center no-print">
+                  <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button>
+                  <button href="#" class="btn btn-default btn-xs" type="button">Delete</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3>Restoring Courses</h3>
+  <div class="panel-group">
+    <div class="panel panel-default" id="course-view-deleted">
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#course-view-deleted-body">
+        <h3 class="panel-title">How do I view courses I have deleted?</h3>
+      </div>
+      <div id="course-view-deleted-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            You can view all your archived courses by navigating to the <b>Courses</b> page.<br>
+            Scroll to the <b>Archived Courses</b> heading, which looks similar to this:
+          </p>
+          <div class="bs-example">
+            <h2 class="text-muted">Archived courses</h2>
+            <table class="table table-bordered table-striped">
+              <thead>
+              <tr class="fill-default">
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Course ID<span class="icon-sort unsorted"></span>
+                </th>
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Course Name<span class="icon-sort unsorted"></span>
+                </th>
+                <th class="align-center no-print">Action(s)</th>
+              </tr>
+              </thead>
+              <tr>
+                <td>AI532</td>
+                <td>Artificial Intelligence</td>
+                <td class="align-center no-print">
+                  <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button>
+                  <button href="#" class="btn btn-default btn-xs" type="button">Delete</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>
+            The courses you have previously archived are listed here.
+            In order to access information in an archived course, <a class="collapse-link" data-target="#course-unarchive-body" href="#course-unarchive">unarchive the course</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" id="course-restore">
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#course-restore-body">
+        <h3 class="panel-title">How do I restore a deleted course?</h3>
+      </div>
+      <div id="course-restore-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
+          </p>
+          <p>
+            In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>
+            Click on the <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
+            Then select <button class="btn btn-default btn-xs" type="button">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
+          </p>
+          <p>
+            You can also archive a course from the <b>Courses</b> page.<br>
+            Under 'Active Courses', click on the <button class="btn btn-default btn-xs" type="button">Archive</button> button in the row corresponding to the course you want to archive.
+          </p>
+          <div class="bs-example">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <strong>
+                      [AI532] : Artificial Intelligence
+                    </strong>
+                  </div>
+                  <div class="mobile-margin-top-10px col-sm-6">
+                    <span class="mobile-no-pull pull-right">
+                      <div class="dropdown courses-table-dropdown">
+                        <button class="btn btn-primary btn-xs" type="button">
+                          Students
+                          <span class="caret"></span>
+                        </button>
+                      </div>
+                      <div class="dropdown courses-table-dropdown">
+                        <button class="btn btn-primary btn-xs" type="button">
+                          Instructors
+                          <span class="caret"></span>
+                        </button>
+                      </div>
+                      <div class="dropdown courses-table-dropdown">
+                        <button class="btn btn-primary btn-xs" type="button">
+                          Sessions
+                          <span class="caret"></span>
+                        </button>
+                      </div>
+                      <div class="dropdown courses-table-dropdown">
+                        <button class="btn btn-primary btn-xs" type="button">
+                          Course
+                          <span class="caret"></span>
+                        </button>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" id="course-delete">
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#course-delete-body">
+        <h3 class="panel-title">How do I pernamently delete a course?</h3>
+      </div>
+      <div id="course-delete-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
             To unarchive a course, first <a class="collapse-link" data-target="#course-view-archived-body" href="#course-view-archived">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
