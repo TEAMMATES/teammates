@@ -52,7 +52,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void allTests() throws Throwable {
+    public void allTests() throws Exception {
         testContent();
         testTableSort();
         //No input validation required
@@ -160,7 +160,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.verifyDownloadLink(studentListDownloadUrl);
     }
 
-    private void testRemindAction() throws Throwable {
+    private void testRemindAction() throws Exception {
         String courseId = testData.courses.get("CCDetailsUiT.CS2104").getId();
         String courseName = testData.courses.get("CCDetailsUiT.CS2104").getName();
         StudentAttributes student1 = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
@@ -271,7 +271,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
-            throws Throwable {
+            throws Exception {
 
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
