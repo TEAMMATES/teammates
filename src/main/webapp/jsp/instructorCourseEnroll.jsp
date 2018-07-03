@@ -28,7 +28,10 @@
   <div class="panel panel-primary">
     <div class="panel-body fill-plain">
       <div class="text-muted padding-15px">
-        <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more than
+        <span class="glyphicon glyphicon-info-sign"></span><a href="#more-spreadsheet-info">
+        Scroll down</a> to see more information about the spreadsheet interfaces.
+        <br>
+        <span class="glyphicon glyphicon-info-sign"></span> If you want to enroll more than
         <strong>100</strong> students into one course, divide students into sections containing no more than
         <strong>100</strong> students.
       </div>
@@ -103,7 +106,7 @@
 
   <br>
 
-  <div class="more-info">
+  <div class="more-info" id="more-spreadsheet-info">
     <h2> More info </h2>
     <hr style="width: 80%; margin-left: 0px;">
     <ul>
