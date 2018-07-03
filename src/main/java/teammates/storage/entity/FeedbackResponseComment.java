@@ -159,10 +159,18 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public FeedbackParticipantType getCommentGiverType() {
+        // TODO: Remove after data migration
+        if (commentGiverType == null) {
+            return FeedbackParticipantType.INSTRUCTORS;
+        }
         return commentGiverType;
     }
 
     public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
+        // TODO: Remove after data migration
+        if (commentGiverType == null) {
+            this.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+        }
         this.commentGiverType = commentGiverType;
     }
 

@@ -17,7 +17,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -337,41 +336,32 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
-        FeedbackResponseComment frc = load()
+        return load()
                 .filter("courseId =", courseId)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
                 .filter("giverEmail =", giverEmail)
                 .first().now();
-        return setCommentGiverTypeAsInstructorsIfNull(frc);
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(Long feedbackResponseCommentId) {
-        return setCommentGiverTypeAsInstructorsIfNull(load().id(feedbackResponseCommentId).now());
+        return load().id(feedbackResponseCommentId).now();
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(
             String feedbackResponseId, String giverEmail, Instant createdAt) {
-        FeedbackResponseComment frc = load()
+        return load()
                 .filter("feedbackResponseId =", feedbackResponseId)
                 .filter("giverEmail =", giverEmail)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(createdAt))
                 .first().now();
-        return setCommentGiverTypeAsInstructorsIfNull(frc);
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
             String courseId, String giverEmail) {
-        List<FeedbackResponseComment> frcList = load()
+        return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
                 .list();
-        if (frcList == null) {
-            return null;
-        }
-        for (FeedbackResponseComment frc : frcList) {
-            setCommentGiverTypeAsInstructorsIfNull(frc);
-        }
-        return frcList;
     }
 
     /*
@@ -379,17 +369,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForLastEditorInCourse(
             String courseId, String lastEditorEmail) {
-        List<FeedbackResponseComment> frcList = load()
+        return load()
                 .filter("courseId =", courseId)
                 .filter("lastEditorEmail =", lastEditorEmail)
                 .list();
-        if (frcList == null) {
-            return null;
-        }
-        for (FeedbackResponseComment frc : frcList) {
-            setCommentGiverTypeAsInstructorsIfNull(frc);
-        }
-        return frcList;
     }
 
     private Query<FeedbackResponseComment> getFeedbackResponseCommentsForResponseQuery(String feedbackResponseId) {
@@ -397,29 +380,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId) {
-        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentsForResponseQuery(feedbackResponseId).list();
-        if (frcList == null) {
-            return null;
-        }
-        for (FeedbackResponseComment frc : frcList) {
-            setCommentGiverTypeAsInstructorsIfNull(frc);
-        }
-        return frcList;
+        return getFeedbackResponseCommentsForResponseQuery(feedbackResponseId).list();
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSession(
             String courseId, String feedbackSessionName) {
-        List<FeedbackResponseComment> frcList = load()
+        return load()
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .list();
-        if (frcList == null) {
-            return null;
-        }
-        for (FeedbackResponseComment frc : frcList) {
-            setCommentGiverTypeAsInstructorsIfNull(frc);
-        }
-        return frcList;
     }
 
     private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
@@ -433,7 +402,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .list();
 
         for (FeedbackResponseComment comment : firstQueryResponseComments) {
-            setCommentGiverTypeAsInstructorsIfNull(comment);
             comments.put(comment.getFeedbackResponseCommentId(), comment);
         }
 
@@ -444,7 +412,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .list();
 
         for (FeedbackResponseComment comment : secondQueryResponseComments) {
-            setCommentGiverTypeAsInstructorsIfNull(comment);
             comments.put(comment.getFeedbackResponseCommentId(), comment);
         }
 
@@ -489,13 +456,5 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return FeedbackResponseCommentAttributes.valueOf(entity);
-    }
-
-    //TODO: Remove after Data Migration
-    private FeedbackResponseComment setCommentGiverTypeAsInstructorsIfNull(FeedbackResponseComment frc) {
-        if (frc != null && frc.getCommentGiverType() == null) {
-            frc.setCommentGiverType(FeedbackParticipantType.INSTRUCTORS);
-        }
-        return frc;
     }
 }

@@ -2781,14 +2781,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:17:00Z",
       "commentText": {
         "value": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:17:00Z",
-      "commentGiverType": "INSTRUCTORS"
+      "lastEditedAt": "2012-04-30T21:17:00Z"
     },
     "comment1FromT1C1ToR1Q5S1C1": {
       "courseId": "demo.course",
@@ -2809,14 +2807,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:20:00Z",
       "commentText": {
         "value": "<p>Completely agree, the application does look pretty.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:20:00Z",
-      "commentGiverType": "INSTRUCTORS"
+      "lastEditedAt": "2012-04-30T21:20:00Z"
     },
     "comment1FromT1C1ToR3Q5S1C1": {
       "courseId": "demo.course",
@@ -2837,14 +2833,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:23:00Z",
       "commentText": {
         "value": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>"
       },
-      "lastEditorEmail": "teammates.demo.INSTRUCTORS@demo.course",
-      "lastEditedAt": "2012-04-30T21:23:00Z",
-      "commentGiverType": "INSTRUCTORS"
+      "lastEditorEmail": "teammates.demo.instructor@demo.course",
+      "lastEditedAt": "2012-04-30T21:23:00Z"
     },
     "comment1FromT1C1ToR2Q2S1C1": {
       "courseId": "demo.course",
@@ -2865,14 +2859,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:26:00Z",
       "commentText": {
         "value": "<p>Hoping you keep using them on future projects.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:26:00Z",
-      "commentGiverType": "INSTRUCTORS"
+      "lastEditedAt": "2012-04-30T21:26:00Z"
     },
     "comment1FromT1C1ToR1Q2S2C1": {
       "courseId": "demo.course",
@@ -2897,14 +2889,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:29:00Z",
       "commentText": {
         "value": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:29:00Z",
-      "commentGiverType": "INSTRUCTORS"
+      "lastEditedAt": "2012-04-30T21:29:00Z"
     },
     "comment1FromT1C1ToR2Q2S2C1": {
       "courseId": "demo.course",
@@ -2929,14 +2919,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:33:00Z",
       "commentText": {
         "value": "<p>Although there are some loopholes in UI, But overall looks good.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:33:00Z",
-      "commentGiverType": "INSTRUCTORS"
+      "lastEditedAt": "2012-04-30T21:33:00Z"
     },
     "comment1FromT1C1ToR5Q2S2C1": {
       "courseId": "demo.course",
@@ -2961,14 +2949,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:36:00Z",
       "commentText": {
         "value": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:36:00Z",
-      "commentGiverType": "INSTRUCTORS"
+      "lastEditedAt": "2012-04-30T21:36:00Z"
     },
     "comment1FromT1C1ToR6Q2S2C1": {
       "courseId": "demo.course",
@@ -2993,14 +2979,12 @@
         "INSTRUCTORS"
       ],
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "createdAt": "2012-04-30T21:39:00Z",
       "commentText": {
         "value": "<p>Design could have been more interactive.</p>"
       },
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
-      "lastEditedAt": "2012-04-30T21:39:00Z",
-      "commentGiverType": "INSTRUCTORS"
+      "lastEditedAt": "2012-04-30T21:39:00Z"
     }
   },
   "profiles": {}
