@@ -753,15 +753,20 @@
             Scroll to the <b>Archived Courses</b> heading, which looks similar to this:
           </p>
           <div class="bs-example">
-            <h2 class="text-muted">Archived courses</h2>
+            <h2 class="text-muted">
+              <span class="glyphicon glyphicon-floppy-disk"></span> Archived courses
+            </h2>
             <table class="table table-bordered table-striped">
               <thead>
-              <tr class="fill-default">
+              <tr class="fill-info">
                 <th onclick="toggleSort(this);" class="button-sort-none">
                   Course ID<span class="icon-sort unsorted"></span>
                 </th>
                 <th onclick="toggleSort(this);" class="button-sort-none">
                   Course Name<span class="icon-sort unsorted"></span>
+                </th>
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Creation Date<span class="icon-sort unsorted"></span>
                 </th>
                 <th class="align-center no-print">Action(s)</th>
               </tr>
@@ -769,6 +774,7 @@
               <tr>
                 <td>AI532</td>
                 <td>Artificial Intelligence</td>
+                <td>20 Jan 2018</td>
                 <td class="align-center no-print">
                   <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button>
                   <button href="#" class="btn btn-default btn-xs" type="button">Delete</button>
@@ -794,15 +800,20 @@
             Then, click on the <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
           </p>
           <div class="bs-example">
-            <h2 class="text-muted">Archived courses</h2>
+            <h2 class="text-muted">
+              <span class="glyphicon glyphicon-floppy-disk"></span> Archived courses
+            </h2>
             <table class="table table-bordered table-striped">
               <thead>
-              <tr class="fill-default">
+              <tr class="fill-info">
                 <th onclick="toggleSort(this);" class="button-sort-none">
                   Course ID<span class="icon-sort unsorted"></span>
                 </th>
                 <th onclick="toggleSort(this);" class="button-sort-none">
                   Course Name<span class="icon-sort unsorted"></span>
+                </th>
+                <th onclick="toggleSort(this);" class="button-sort-none">
+                  Creation Date<span class="icon-sort unsorted"></span>
                 </th>
                 <th class="align-center no-print">Action(s)</th>
               </tr>
@@ -810,6 +821,7 @@
               <tr>
                 <td>AI532</td>
                 <td>Artificial Intelligence</td>
+                <td>20 Jan 2018</td>
                 <td class="align-center no-print">
                   <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button>
                   <button href="#" class="btn btn-default btn-xs" type="button">Delete</button>
@@ -1069,7 +1081,7 @@
             <div class="panel">
               <div class="panel-heading fill-default">
                 <div class="pull-right margin-left-7px">
-                  <span class="glyphicon glyphicon-chevron-up"></span>
+                  <span class="glyphicon glyphicon-chevron-down"></span>
                 </div>
                 <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative"
                    data-toggle="tooltip"
@@ -1089,35 +1101,6 @@
               </div>
               <div class="panel-collapse">
                 <div class="panel-body padding-0">
-                  <table class="table table-bordered table-striped margin-0">
-                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                    <tr>
-                      <th onclick="toggleSort(this);" class="button-sort-none">
-                        Course ID<span class="icon-sort unsorted"></span>
-                      </th>
-                      <th onclick="toggleSort(this);" class="button-sort-none">
-                        Course Name<span class="icon-sort unsorted"></span>
-                      </th>
-                      <th onclick="toggleSort(this);" class="button-sort-none">
-                        Creation Date<span class="icon-sort unsorted"></span>
-                      </th>
-                      <th onclick="toggleSort(this);" class="button-sort-none">
-                        Deletion Date<span class="icon-sort unsorted"></span>
-                      </th>
-                      <th class="align-center no-print">Action(s)</th>
-                    </tr>
-                    </thead>
-                    <tr>
-                      <td>AI532</td>
-                      <td>Artificial Intelligence</td>
-                      <td>20 Jan 2018</td>
-                      <td>10 Mar 2018</td>
-                      <td class="align-center no-print">
-                        <button href="#" class="btn btn-default btn-xs" type="button">Restore</button>
-                        <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button>
-                      </td>
-                    </tr>
-                  </table>
                 </div>
               </div>
             </div>
