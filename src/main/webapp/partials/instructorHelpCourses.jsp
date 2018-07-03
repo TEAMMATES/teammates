@@ -907,58 +907,72 @@
       <div id="course-restore-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
-          </p>
-          <p>
-            In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>
-            Click on the <button class="btn btn-primary btn-xs" type="button">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
-            Then select <button class="btn btn-default btn-xs" type="button">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
-          </p>
-          <p>
-            You can also archive a course from the <b>Courses</b> page.<br>
-            Under 'Active Courses', click on the <button class="btn btn-default btn-xs" type="button">Archive</button> button in the row corresponding to the course you want to archive.
+            To restore a deleted course, first <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">view the course</a> that you would like to restore in the <b>Courses</b> page.<br>
+            Then, click on the <button href="#" class="btn btn-default btn-xs" type="button">Restore</button> button corresponding to the course you want to restore.
           </p>
           <div class="bs-example">
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <strong>
-                      [AI532] : Artificial Intelligence
-                    </strong>
-                  </div>
-                  <div class="mobile-margin-top-10px col-sm-6">
-                    <span class="mobile-no-pull pull-right">
-                      <div class="dropdown courses-table-dropdown">
-                        <button class="btn btn-primary btn-xs" type="button">
-                          Students
-                          <span class="caret"></span>
-                        </button>
-                      </div>
-                      <div class="dropdown courses-table-dropdown">
-                        <button class="btn btn-primary btn-xs" type="button">
-                          Instructors
-                          <span class="caret"></span>
-                        </button>
-                      </div>
-                      <div class="dropdown courses-table-dropdown">
-                        <button class="btn btn-primary btn-xs" type="button">
-                          Sessions
-                          <span class="caret"></span>
-                        </button>
-                      </div>
-                      <div class="dropdown courses-table-dropdown">
-                        <button class="btn btn-primary btn-xs" type="button">
-                          Course
-                          <span class="caret"></span>
-                        </button>
-                      </div>
-                    </span>
-                  </div>
+            <h2 class="text-muted">
+              <span class="glyphicon glyphicon-trash"></span> Deleted courses
+            </h2>
+            <div class="panel">
+              <div class="panel-heading fill-default">
+                <div class="pull-right margin-left-7px">
+                  <span class="glyphicon glyphicon-chevron-up"></span>
+                </div>
+                <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative"
+                   data-toggle="tooltip"
+                   data-placement="top">
+                  <span class="glyphicon glyphicon-remove"></span>
+                  <strong>Delete All</strong>
+                </a>
+                <a class="btn btn-default btn-xs pull-right pull-down"
+                   data-toggle="tooltip"
+                   data-placement="top">
+                  <span class="glyphicon glyphicon-ok"></span>
+                  <strong>Restore All</strong>
+                </a>
+                <strong>
+                  Recycle Bin
+                </strong>
+              </div>
+              <div class="panel-collapse">
+                <div class="panel-body padding-0">
+                  <table class="table table-bordered table-striped margin-0">
+                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                    <tr>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Course ID<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Course Name<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Creation Date<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Deletion Date<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th class="align-center no-print">Action(s)</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                      <td>AI532</td>
+                      <td>Artificial Intelligence</td>
+                      <td>20 Jan 2018</td>
+                      <td>10 Mar 2018</td>
+                      <td class="align-center no-print">
+                        <button href="#" class="btn btn-default btn-xs" type="button">Restore</button>
+                        <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button>
+                      </td>
+                    </tr>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
+          <p>
+            After restoring the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be restored.
+          </p>
         </div>
       </div>
     </div>
@@ -969,32 +983,144 @@
       <div id="course-delete-body" class="panel-collapse collapse">
         <div class="panel-body">
           <p>
-            To unarchive a course, first <a class="collapse-link" data-target="#course-view-archived-body" href="#course-view-archived">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
-            Then, click on the <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
+            To permanently delete a course, first <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">view the course</a> that you would like to permanently delete in the <b>Courses</b> page.<br>
+            Then, click on the <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button> button corresponding to the course you want to delete.
           </p>
           <div class="bs-example">
-            <h2 class="text-muted">Archived courses</h2>
-            <table class="table table-bordered table-striped">
-              <thead>
-              <tr class="fill-default">
-                <th onclick="toggleSort(this);" class="button-sort-none">
-                  Course ID<span class="icon-sort unsorted"></span>
-                </th>
-                <th onclick="toggleSort(this);" class="button-sort-none">
-                  Course Name<span class="icon-sort unsorted"></span>
-                </th>
-                <th class="align-center no-print">Action(s)</th>
-              </tr>
-              </thead>
-              <tr>
-                <td>AI532</td>
-                <td>Artificial Intelligence</td>
-                <td class="align-center no-print">
-                  <button href="#" class="btn btn-default btn-xs" type="button">Unarchive</button>
-                  <button href="#" class="btn btn-default btn-xs" type="button">Delete</button>
-                </td>
-              </tr>
-            </table>
+            <h2 class="text-muted">
+              <span class="glyphicon glyphicon-trash"></span> Deleted courses
+            </h2>
+            <div class="panel">
+              <div class="panel-heading fill-default">
+                <div class="pull-right margin-left-7px">
+                  <span class="glyphicon glyphicon-chevron-up"></span>
+                </div>
+                <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative"
+                   data-toggle="tooltip"
+                   data-placement="top">
+                  <span class="glyphicon glyphicon-remove"></span>
+                  <strong>Delete All</strong>
+                </a>
+                <a class="btn btn-default btn-xs pull-right pull-down"
+                   data-toggle="tooltip"
+                   data-placement="top">
+                  <span class="glyphicon glyphicon-ok"></span>
+                  <strong>Restore All</strong>
+                </a>
+                <strong>
+                  Recycle Bin
+                </strong>
+              </div>
+              <div class="panel-collapse">
+                <div class="panel-body padding-0">
+                  <table class="table table-bordered table-striped margin-0">
+                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                    <tr>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Course ID<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Course Name<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Creation Date<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Deletion Date<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th class="align-center no-print">Action(s)</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                      <td>AI532</td>
+                      <td>Artificial Intelligence</td>
+                      <td>20 Jan 2018</td>
+                      <td>10 Mar 2018</td>
+                      <td class="align-center no-print">
+                        <button href="#" class="btn btn-default btn-xs" type="button">Restore</button>
+                        <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>
+            After deleting the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be permanently deleted.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" id="course-all-action">
+      <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#course-all-action-body">
+        <h3 class="panel-title">How do I restore/delete all courses from Recycle Bin?</h3>
+      </div>
+      <div id="course-all-action-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            First <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">view the course</a> and check for courses in Recycle Bin.<br>
+            To restore all courses, click on the <a class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-ok"></span><strong> Restore All</strong></a> button in <b>Deleted Courses</b> heading; To delete all courses, click on the <a class="btn btn-default btn-xs color-negative" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-remove"></span><strong> Delete All</strong></a> button in <b>Deleted Courses</b> heading.
+          </p>
+          <div class="bs-example">
+            <h2 class="text-muted">
+              <span class="glyphicon glyphicon-trash"></span> Deleted courses
+            </h2>
+            <div class="panel">
+              <div class="panel-heading fill-default">
+                <div class="pull-right margin-left-7px">
+                  <span class="glyphicon glyphicon-chevron-up"></span>
+                </div>
+                <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px color-negative"
+                   data-toggle="tooltip"
+                   data-placement="top">
+                  <span class="glyphicon glyphicon-remove"></span>
+                  <strong>Delete All</strong>
+                </a>
+                <a class="btn btn-default btn-xs pull-right pull-down"
+                   data-toggle="tooltip"
+                   data-placement="top">
+                  <span class="glyphicon glyphicon-ok"></span>
+                  <strong>Restore All</strong>
+                </a>
+                <strong>
+                  Recycle Bin
+                </strong>
+              </div>
+              <div class="panel-collapse">
+                <div class="panel-body padding-0">
+                  <table class="table table-bordered table-striped margin-0">
+                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                    <tr>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Course ID<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Course Name<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Creation Date<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th onclick="toggleSort(this);" class="button-sort-none">
+                        Deletion Date<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th class="align-center no-print">Action(s)</th>
+                    </tr>
+                    </thead>
+                    <tr>
+                      <td>AI532</td>
+                      <td>Artificial Intelligence</td>
+                      <td>20 Jan 2018</td>
+                      <td>10 Mar 2018</td>
+                      <td class="align-center no-print">
+                        <button href="#" class="btn btn-default btn-xs" type="button">Restore</button>
+                        <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
