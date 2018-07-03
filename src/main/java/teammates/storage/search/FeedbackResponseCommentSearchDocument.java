@@ -377,19 +377,20 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 commentGiverDisplayedName = comment.commentGiver;
                 return comment.commentGiver;
             }
-            commentGiverDisplayedName = instructor.displayedName;
+            commentGiverDisplayedName = instructor.displayedName + " " + instructor.name;
             return instructor.name;
 
         }
         if (comment.commentGiverType.equals(FeedbackParticipantType.STUDENTS)) {
-            commentGiverDisplayedName = "Student";
             StudentAttributes student = studentsDb.getStudentForEmail(comment.courseId, comment.commentGiver);
             if (student == null) {
                 commentGiverDisplayedName = comment.commentGiver;
                 return comment.commentGiver;
             }
+            commentGiverDisplayedName = "Student " + student.name;
+            return student.name;
         }
-        commentGiverDisplayedName = "Team";
+        commentGiverDisplayedName = "Team " + comment.commentGiver;
         return comment.commentGiver;
     }
 
