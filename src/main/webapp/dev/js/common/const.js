@@ -31,9 +31,9 @@ const BootstrapContextualColors = {
     // Additional contextual colors that can be used in the components of modals
     PRIMARY: 'primary',
     isValidType(type) {
-        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO ||
-        type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING ||
-        type === BootstrapContextualColors.DANGER;
+        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO
+                || type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING
+                || type === BootstrapContextualColors.DANGER;
     },
 };
 BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
@@ -64,6 +64,7 @@ const ParamsNames = {
     FEEDBACK_QUESTION_TYPE: 'questiontype',
     FEEDBACK_QUESTION_NUMBEROFCHOICECREATED: 'noofchoicecreated',
     FEEDBACK_QUESTION_MCQCHOICE: 'mcqOption',
+    FEEDBACK_QUESTION_MCQ_WEIGHT: 'mcqWeight',
     FEEDBACK_QUESTION_MSQCHOICE: 'msqOption',
     FEEDBACK_QUESTION_CONSTSUMOPTION: 'constSumOption',
     FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS: 'constSumToRecipients',

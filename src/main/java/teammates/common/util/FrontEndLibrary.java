@@ -57,8 +57,8 @@ public final class FrontEndLibrary {
         JQUERY_PRINTTHIS = getLibrarySource("printthis", "printThis.js");
         JQUERY_UI = getLibrarySource("jquery-ui-dist", "jquery-ui.min.js");
         MOMENT = getLibrarySource("moment", "min/moment.min.js");
-        QUNIT_CSS = getLibrarySource("qunitjs", "qunit/qunit.css");
-        QUNIT = getLibrarySource("qunitjs", "qunit/qunit.js");
+        QUNIT_CSS = getLibrarySource("qunit", "qunit/qunit.css");
+        QUNIT = getLibrarySource("qunit", "qunit/qunit.js");
         TINYMCE = getLibrarySource("tinymce", "tinymce.min.js");
         TOPOJSON = getLibrarySource("topojson", "build/topojson.min.js");
         WORLDMAP = getLibrarySource("datamaps", "src/js/data/world.hires.topo.json");

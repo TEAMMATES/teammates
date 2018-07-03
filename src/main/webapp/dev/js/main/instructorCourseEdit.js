@@ -513,9 +513,7 @@ $(document).ready(() => {
         const instrNum = $(this).attr('id').substring('instrCancelLink'.length);
         disableFormEditInstructor(instrNum);
     });
-    $('a[id^="cancelAddInstructorLink"]').click(() =>
-        cancelAddInstructor()
-    );
+    $('a[id^="cancelAddInstructorLink"]').click(() => cancelAddInstructor());
     bindCheckboxToggle();
     const index = $('#new-instructor-index').val();
     bindChangingRole(index);
