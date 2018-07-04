@@ -158,14 +158,15 @@ public class InstructorSearchPageData extends PageData {
             String response = responseEntry.getResponseDetails().getAnswerHtmlInstructorView(question.getQuestionDetails());
 
             rows.add(new ResponseRow(giverName, recipientName, response,
-                                       createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle)));
+                                       createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle, question)));
         }
         return rows;
     }
 
     private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
                                     FeedbackResponseAttributes responseEntry,
-                                    FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
+                                    FeedbackResponseCommentSearchResultBundle frcSearchResultBundle,
+                                    FeedbackQuestionAttributes question) {
 
         List<FeedbackResponseCommentRow> rows = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
@@ -181,6 +182,7 @@ public class InstructorSearchPageData extends PageData {
             ZoneId sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
                     frcSearchResultBundle.instructorEmailNameTable, sessionTimeZone);
+            frcDiv.setVisibilityIconString(getTypeOfPeopleCanViewComment(frc, question));
 
             rows.add(frcDiv);
         }
