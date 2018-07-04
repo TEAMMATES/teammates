@@ -63,6 +63,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
 
+        // Unregistered student
+        StudentAttributes student2 = studentsLogic.getUnregisteredStudentsForCourse("idOfUnregisteredCourse").get(0);
+
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
 
@@ -157,12 +160,21 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionUnpublishedEmailForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionUnpublishedEmailForInstructor.html");
 
-        ______TS("send summary of all feedback sessions of course email");
+        ______TS("send summary of all feedback sessions of course email to new student. "
+                + "Previous student has joined the course");
 
         EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");
+
+        ______TS("send summary of all feedback sessions of course email to new student. "
+                + "Previous student has not joined the course");
+
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student2);
+        subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, student2.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForUnregisteredStudent.html");
 
         ______TS("feedback session submission email");
 
