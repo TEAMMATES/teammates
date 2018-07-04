@@ -6,7 +6,7 @@
 <%@ attribute name="filterPanel" type="teammates.ui.template.InstructorFeedbackResultsFilterPanel" required="true" %>
 
 <div id="editModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="width: 700px">
     <form method="post" action="${filterPanel.resultsLink}">
       <div class="modal-content">
         <div class="modal-header alert-info">
