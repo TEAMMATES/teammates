@@ -62,7 +62,7 @@
                data-qnnumber="${fqForm.questionIndex}"
                data-toggle="tooltip" data-placement="top"
                title="<%= Const.Tooltips.FEEDBACK_QUESTION_DUPLICATE %>">
-              <span class="glyphicon glyphicon-file"></span> Duplicate
+              <span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-file"></span> Duplicate
             </a>
           </span>
         </div>
