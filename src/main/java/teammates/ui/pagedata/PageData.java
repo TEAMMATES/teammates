@@ -866,7 +866,7 @@ public class PageData {
      * @param isCommentFromFeedbackParticipant true if comment giver is feedback participant
      * @return Feedback response comment add form template
      */
-    public FeedbackResponseCommentRow buildFeedbackResponseCommentAddFormTemplate(FeedbackQuestionAttributes question,
+    public FeedbackResponseCommentRow buildFeedbackResponseCommentFormForAdding(FeedbackQuestionAttributes question,
             String responseId, String giverName, String recipientName, ZoneId timezone,
             boolean isCommentFromFeedbackParticipant) {
         FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes

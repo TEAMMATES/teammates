@@ -512,7 +512,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             if (isInstructorCommentsOnResponsesAllowed) {
                 FeedbackResponseCommentRow frcForAdding =
-                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), giverName,
+                        buildFeedbackResponseCommentFormForAdding(question, response.getId(), giverName,
                                 recipientName, bundle.getTimeZone(), false);
 
                 responsePanel.setFrcForAdding(frcForAdding);
@@ -1139,7 +1139,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
             if (isInstructorCommentsOnResponsesAllowed) {
                 FeedbackResponseCommentRow addCommentForm =
-                        buildFeedbackResponseCommentAddFormTemplate(question, response.getId(), giverName,
+                        buildFeedbackResponseCommentFormForAdding(question, response.getId(), giverName,
                                 recipientName, bundle.getTimeZone(), false);
                 responseRow.setAddCommentButton(addCommentForm);
                 if (userIndexesForComments.get(response.giver) == null) {

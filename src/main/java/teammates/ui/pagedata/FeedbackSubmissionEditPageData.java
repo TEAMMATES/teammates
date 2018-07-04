@@ -269,7 +269,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 FeedbackResponseCommentRow responseCommentRow = getResponseCommentRowForResponse(questionAttributes,
                         existingResponse.getId(), commentGiverName, commentRecipientName, commentGiverEmailToNameTable);
 
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentFormForAdding(
                         questionAttributes, existingResponse.getId(), commentGiverName,
                         commentRecipientName, sessionTimeZone, true);
 
@@ -319,7 +319,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                         commentGiverName = account.name;
                     }
                 }
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
+                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentFormForAdding(
                         questionAttributes, "", commentGiverName, commentRecipientName, sessionTimeZone, true);
 
                 FeedbackSubmissionEditResponse response = new FeedbackSubmissionEditResponse(responseIndx, false,
