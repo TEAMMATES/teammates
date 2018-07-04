@@ -33,13 +33,11 @@
     <span class="text-muted">
       From: ${fn:escapeXml(frc.commentGiverName)} [${frc.createdAt}] ${frc.editedAt}
     </span>
-      <c:if test="${frc.withVisibilityIcon}">
-        <span class="glyphicon glyphicon-eye-open"
-            data-toggle="tooltip"
-            data-placement="top"
-            style="margin-left: 5px;"
-            title="This response comment is visible to ${frc.whoCanSeeComment}"></span>
-      </c:if>
+    <span class="glyphicon glyphicon-eye-open"
+        data-toggle="tooltip"
+        data-placement="top"
+        style="margin-left: 5px;"
+        title="This response comment is visible to ${frc.visibilityIconString}"></span>
     </div>
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">

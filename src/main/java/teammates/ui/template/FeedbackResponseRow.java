@@ -56,17 +56,7 @@ public class FeedbackResponseRow {
                 FeedbackResponseCommentRow responseRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
                         instructorEmailNameTable, results.getTimeZone());
-                String whoCanSeeComment = null;
-                boolean isVisibilityIconShown = false;
-                if (results.feedbackSession.isPublished()) {
-                    boolean isResponseCommentPublicToRecipient = !frc.showCommentTo.isEmpty();
-                    isVisibilityIconShown = isResponseCommentPublicToRecipient;
-
-                    if (isVisibilityIconShown) {
-                        whoCanSeeComment = getTypeOfPeopleCanViewComment(frc, question);
-                    }
-                }
-                responseRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
+                responseRow.setVisibilityIconString(getTypeOfPeopleCanViewComment(frc, question));
                 responseRow.enableEditDelete();
                 this.responseComments.add(responseRow);
             }
@@ -98,13 +88,17 @@ public class FeedbackResponseRow {
      */
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder(100);
         List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
         } else {
             showCommentTo = comment.showCommentTo;
         }
+        if (showCommentTo == null || showCommentTo.isEmpty()) {
+            return "nobody";
+        }
+
+        StringBuilder peopleCanView = new StringBuilder(100);
         for (int i = 0; i < showCommentTo.size(); i++) {
             FeedbackParticipantType commentViewer = showCommentTo.get(i);
             if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
@@ -141,4 +135,5 @@ public class FeedbackResponseRow {
     private String removeEndComma(String str) {
         return str.substring(0, str.length() - 2);
     }
+
 }

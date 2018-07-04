@@ -685,13 +685,17 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder(100);
         List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
         } else {
             showCommentTo = comment.showCommentTo;
         }
+        if (showCommentTo == null || showCommentTo.isEmpty()) {
+            return "nobody";
+        }
+
+        StringBuilder peopleCanView = new StringBuilder(100);
         for (int i = 0; i < showCommentTo.size(); i++) {
             FeedbackParticipantType commentViewer = showCommentTo.get(i);
             if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
@@ -725,7 +729,7 @@ public class PageData {
         return removeEndComma(peopleCanViewString);
     }
 
-    public String removeEndComma(String str) {
+    private String removeEndComma(String str) {
         return str.substring(0, str.length() - 2);
     }
 

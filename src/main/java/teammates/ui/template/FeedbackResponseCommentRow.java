@@ -32,10 +32,8 @@ public class FeedbackResponseCommentRow {
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
     private Map<String, String> instructorEmailNameTable;
 
-    private String whoCanSeeComment;
+    private String visibilityIconString;
     private ZoneId sessionTimeZone;
-
-    private boolean hasVisibilityIcon;
 
     private boolean isEditDeleteEnabled;
 
@@ -144,12 +142,8 @@ public class FeedbackResponseCommentRow {
         return showGiverNameToString;
     }
 
-    public String getWhoCanSeeComment() {
-        return whoCanSeeComment;
-    }
-
-    public boolean isWithVisibilityIcon() {
-        return hasVisibilityIcon;
+    public String getVisibilityIconString() {
+        return visibilityIconString;
     }
 
     public boolean isEditDeleteEnabled() {
@@ -240,9 +234,8 @@ public class FeedbackResponseCommentRow {
         this.isEditDeleteEnabled = true;
     }
 
-    public void setVisibilityIcon(boolean hasVisibilityIcon, String whoCanSeeComment) {
-        this.hasVisibilityIcon = hasVisibilityIcon;
-        this.whoCanSeeComment = whoCanSeeComment;
+    public void setVisibilityIconString(String visibilityIconString) {
+        this.visibilityIconString = visibilityIconString;
     }
 
     public String getCommentGiverName() {
