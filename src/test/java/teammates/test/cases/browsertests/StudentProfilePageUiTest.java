@@ -349,6 +349,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // data bundle in this test.
         // Extending removeDataBundle to remove data outside its associated data would introduce unnecessary complications
         // like extra cost and now knowing exactly how much data to remove.
+
+        // Hence, since the account of user being logged in is shared in this test and `StudentHomepageUiTest` we need to
+        // explicitly remove the data bundle in both tests to avoid instability of tests
         BackDoor.removeDataBundle(testData);
     }
 
