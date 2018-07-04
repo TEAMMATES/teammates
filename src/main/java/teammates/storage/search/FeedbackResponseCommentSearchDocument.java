@@ -21,6 +21,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -57,9 +58,9 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         relatedQuestion = fqDb.getFeedbackQuestion(comment.feedbackQuestionId);
         relatedResponse = frDb.getFeedbackResponse(comment.feedbackResponseId);
         course = coursesDb.getCourse(comment.courseId);
-        commentGiverName = getCommentGiverName();
         relatedInstructors = new ArrayList<>();
         relatedStudents = new ArrayList<>();
+        setCommentGiveNameAndDisplayedName();
 
         // prepare the response giver name and recipient name
         Set<String> addedEmailSet = new HashSet<>();
@@ -370,28 +371,36 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 ? name : Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
     }
 
-    private String getCommentGiverName() {
-        if (comment.commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)) {
-            InstructorAttributes instructor = instructorsDb.getInstructorForEmail(comment.courseId, comment.commentGiver);
+    private void setCommentGiveNameAndDisplayedName() {
+        switch (comment.commentGiverType) {
+        case INSTRUCTORS:
+            InstructorAttributes instructor =
+                    instructorsDb.getInstructorForEmail(comment.courseId, comment.commentGiver);
             if (instructor == null) {
                 commentGiverDisplayedName = comment.commentGiver;
-                return comment.commentGiver;
+                commentGiverName = comment.commentGiver;
+                break;
             }
             commentGiverDisplayedName = instructor.displayedName + " " + instructor.name;
-            return instructor.name;
-
-        }
-        if (comment.commentGiverType.equals(FeedbackParticipantType.STUDENTS)) {
+            commentGiverName = instructor.name;
+            break;
+        case STUDENTS:
             StudentAttributes student = studentsDb.getStudentForEmail(comment.courseId, comment.commentGiver);
             if (student == null) {
                 commentGiverDisplayedName = comment.commentGiver;
-                return comment.commentGiver;
+                commentGiverName = comment.commentGiver;
+                break;
             }
             commentGiverDisplayedName = "Student " + student.name;
-            return student.name;
+            commentGiverName = student.name;
+            break;
+        case TEAMS:
+            commentGiverDisplayedName = "Team " + comment.commentGiver;
+            commentGiverName = comment.commentGiver;
+            break;
+        default:
+            Assumption.fail("Unknown comment giver type.");
         }
-        commentGiverDisplayedName = "Team " + comment.commentGiver;
-        return comment.commentGiver;
     }
 
     private static String getFilteredGiverName(FeedbackResponseCommentSearchResultBundle bundle,

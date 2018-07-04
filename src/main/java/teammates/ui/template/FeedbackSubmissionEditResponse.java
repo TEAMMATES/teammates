@@ -8,21 +8,18 @@ public class FeedbackSubmissionEditResponse {
     private List<String> recipientOptionsForQuestion;
     private String submissionFormHtml;
     private String responseId;
-    private FeedbackResponseCommentRow commentOnResponse;
+    private FeedbackResponseCommentRow feedbackParticipantCommentOnResponse;
     private FeedbackResponseCommentRow feedbackResponseCommentAdd;
 
     public FeedbackSubmissionEditResponse(int responseIndx, boolean isExistingResponse,
                                           List<String> recipientOptionsForQuestion, String submissionFormHtml,
-                                          String responseId, FeedbackResponseCommentRow commentOnResponse,
-                                          FeedbackResponseCommentRow feedbackResponseCommentAdd) {
+                                          String responseId) {
 
         this.responseIndx = responseIndx;
         this.isExistingResponse = isExistingResponse;
         this.recipientOptionsForQuestion = recipientOptionsForQuestion;
         this.submissionFormHtml = submissionFormHtml;
         this.responseId = responseId;
-        this.commentOnResponse = commentOnResponse;
-        this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
     }
 
     public int getResponseIndx() {
@@ -45,11 +42,19 @@ public class FeedbackSubmissionEditResponse {
         return responseId;
     }
 
-    public FeedbackResponseCommentRow getCommentOnResponse() {
-        return commentOnResponse;
+    public FeedbackResponseCommentRow getFeedbackParticipantCommentOnResponse() {
+        return feedbackParticipantCommentOnResponse;
     }
 
     public FeedbackResponseCommentRow getFeedbackResponseCommentAdd() {
         return feedbackResponseCommentAdd;
+    }
+
+    public void setFeedbackParticipantCommentOnResponse(FeedbackResponseCommentRow feedbackParticipantCommentOnResponse) {
+        this.feedbackParticipantCommentOnResponse = feedbackParticipantCommentOnResponse;
+    }
+
+    public void setFeedbackResponseCommentAdd(FeedbackResponseCommentRow feedbackResponseCommentAdd) {
+        this.feedbackResponseCommentAdd = feedbackResponseCommentAdd;
     }
 }

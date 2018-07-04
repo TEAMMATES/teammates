@@ -495,6 +495,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientDisplayableIdentifier);
     }
 
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

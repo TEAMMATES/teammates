@@ -283,8 +283,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
 
-    private void saveNewResponses(List<FeedbackResponseAttributes> responsesToSave)
-            throws EntityDoesNotExistException {
+    private void saveNewResponses(List<FeedbackResponseAttributes> responsesToSave) {
         try {
             logic.createFeedbackResponses(responsesToSave);
             hasValidResponse = true;
@@ -295,23 +294,25 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
     private void saveNewCommentsByFeedbackParticipant(List<FeedbackResponseCommentAttributes> commentsToSave)
             throws EntityDoesNotExistException {
-        try {
-            for (FeedbackResponseCommentAttributes frc : commentsToSave) {
-                String responseRecipient = getRequestParamValue(frc.feedbackResponseId);
-                FeedbackResponseAttributes response = logic.getFeedbackResponse(frc.feedbackQuestionId,
-                        frc.commentGiver, responseRecipient);
-                frc.feedbackResponseId = response.getId();
+        for (FeedbackResponseCommentAttributes frc : commentsToSave) {
+            // Here feedbackResponseId contains the response index, which was saved at the time of extracting comments.
+            // We use this to get response id for feedback response comment.
+            String responseRecipient = getRequestParamValue(frc.feedbackResponseId);
+            FeedbackResponseAttributes response = logic.getFeedbackResponse(frc.feedbackQuestionId,
+                    frc.commentGiver, responseRecipient);
+            frc.feedbackResponseId = response.getId();
+            try {
                 logic.createFeedbackResponseComment(frc);
-                statusToAdmin += this.getClass().getName() + ":<br>"
-                        + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
-                        + "in course/feedback session: " + frc.courseId + "/"
-                        + frc.feedbackSessionName + "<br>"
-                        + "by: " + frc.commentGiver + " at "
-                        + frc.createdAt + "<br>"
-                        + "comment text: " + frc.commentText.getValue();
+            } catch (InvalidParametersException e) {
+                setStatusForException(e);
             }
-        } catch (InvalidParametersException e) {
-            setStatusForException(e);
+            statusToAdmin += this.getClass().getName() + ":<br>"
+                    + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
+                    + "in course/feedback session: " + frc.courseId + "/"
+                    + frc.feedbackSessionName + "<br>"
+                    + "by: " + frc.commentGiver + " at "
+                    + frc.createdAt + "<br>"
+                    + "comment text: " + frc.commentText.getValue();
         }
     }
 

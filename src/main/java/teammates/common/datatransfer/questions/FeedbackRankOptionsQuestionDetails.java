@@ -473,6 +473,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         return null;
     }
 
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

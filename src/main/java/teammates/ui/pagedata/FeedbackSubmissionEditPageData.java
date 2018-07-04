@@ -220,13 +220,11 @@ public class FeedbackSubmissionEditPageData extends PageData {
             List<FeedbackSubmissionEditResponse> responses =
                     createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
 
-            boolean isInstructorCommentsOnResponsesAllowed =
-                    questionAttributes.getQuestionDetails().isInstructorCommentsOnResponsesAllowed();
             boolean isFeedbackParticipantCommentsOnResponsesAllowed =
                     questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
             questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
                     question, responses, numOfResponseBoxes, maxResponsesPossible,
-                    isInstructorCommentsOnResponsesAllowed, isFeedbackParticipantCommentsOnResponsesAllowed));
+                    isFeedbackParticipantCommentsOnResponsesAllowed));
             qnIndx++;
         }
     }
@@ -275,15 +273,19 @@ public class FeedbackSubmissionEditPageData extends PageData {
                         questionAttributes, existingResponse.getId(), commentGiverName,
                         commentRecipientName, sessionTimeZone, true);
 
-                responses.add(new FeedbackSubmissionEditResponse(responseIndx,
+                FeedbackSubmissionEditResponse response = new FeedbackSubmissionEditResponse(responseIndx,
                         true, recipientOptionsForQuestion, submissionFormHtml,
-                        existingResponse.getId(), responseCommentRow, frcForAdding));
+                        existingResponse.getId());
+
+                response.setFeedbackParticipantCommentOnResponse(responseCommentRow);
+                response.setFeedbackResponseCommentAdd(frcForAdding);
+                responses.add(response);
 
                 responseSubmittedRecipient.add(commentRecipientName);
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx,
                         true, recipientOptionsForQuestion,
-                        submissionFormHtml, existingResponse.getId(), null, null));
+                        submissionFormHtml, existingResponse.getId()));
             }
             responseIndx++;
         }
@@ -303,7 +305,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 if (isPreview || isModeration) {
                     if (previewInstructor == null) {
                         if (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)) {
-                            commentGiverName = bundle.roster.getStudentForEmail(studentToViewPageAs.email).team;
+                            commentGiverName = bundle.getRoster().getStudentForEmail(studentToViewPageAs.email).team;
                         } else {
                             commentGiverName = studentToViewPageAs.name;
                         }
@@ -312,7 +314,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     }
                 } else {
                     if (questionAttributes.giverType.equals(FeedbackParticipantType.TEAMS)) {
-                        commentGiverName = bundle.roster.getStudentForEmail(account.email).team;
+                        commentGiverName = bundle.getRoster().getStudentForEmail(account.email).team;
                     } else {
                         commentGiverName = account.name;
                     }
@@ -320,12 +322,15 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentAddFormTemplate(
                         questionAttributes, "", commentGiverName, commentRecipientName, sessionTimeZone, true);
 
-                responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
-                        submissionFormHtml, "", null, frcForAdding));
+                FeedbackSubmissionEditResponse response = new FeedbackSubmissionEditResponse(responseIndx, false,
+                        recipientOptionsForQuestion, submissionFormHtml, "");
+
+                response.setFeedbackResponseCommentAdd(frcForAdding);
+                responses.add(response);
                 recipientIndxForUnsubmittedResponse++;
             } else {
                 responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion,
-                        submissionFormHtml, "", null, null));
+                        submissionFormHtml, ""));
             }
             responseIndx++;
         }

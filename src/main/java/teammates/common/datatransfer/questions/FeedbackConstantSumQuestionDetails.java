@@ -825,6 +825,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return null;
     }
 
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

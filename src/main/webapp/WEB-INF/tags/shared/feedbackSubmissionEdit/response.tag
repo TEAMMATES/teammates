@@ -15,7 +15,7 @@
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 <c:set var="recipientType" value="${questionWithResponses.question.recipientType}"/>
-<c:set var="isCommentOnResponse" value="${not empty response.commentOnResponse}"/>
+<c:set var="isCommentOnResponse" value="${not empty response.feedbackParticipantCommentOnResponse}"/>
 <c:set var="addOrEdit" value= "${isCommentOnResponse ? 'edit' : 'add'}"/>
 
 <c:choose>
@@ -72,14 +72,15 @@
       </c:choose>
       <br>
       <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
-          style="${not empty response.commentOnResponse ? 'margin-top:15px;': 'display:none'}">
+          style="${not empty response.feedbackParticipantCommentOnResponse ? 'margin-top:15px;': 'display:none'}">
         <c:if test="${isCommentOnResponse}">
-          <shared:feedbackResponseCommentRow frc="${response.commentOnResponse}" firstIndex="${responseRecipientIndex}"
-             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}" frcIndex="1"
-             isOnFeedbackSubmissionEditPage="true" moderatedPersonEmail="${moderatedPersonEmail}"
-             isSessionOpenForSubmission="${isSessionOpenForSubmission}" isPreview="${data.preview}"
-             submittable="${data.submittable}" isModeration="${data.moderation}"/>
+          <shared:feedbackResponseCommentRow frc="${response.feedbackParticipantCommentOnResponse}"
+              firstIndex="${responseRecipientIndex}" secondIndex="${responseGiverIndex}"
+              thirdIndex="${questionIndex}" frcIndex="1" isOnFeedbackSubmissionEditPage="true"
+              moderatedPersonEmail="${moderatedPersonEmail}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
+              isPreview="${data.preview}" submittable="${data.submittable}" isModeration="${data.moderation}"/>
         </c:if>
+
         <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}" firstIndex="${responseRecipientIndex}"
            secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}" isOnFeedbackSubmissionEditPage="true"
            isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>

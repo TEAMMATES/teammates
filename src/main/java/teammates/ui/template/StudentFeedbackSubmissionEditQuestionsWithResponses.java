@@ -7,26 +7,15 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     private List<FeedbackSubmissionEditResponse> responses;
     private int numOfResponseBoxes;
     private int maxResponsesPossible;
-    private boolean instructorCommentsOnResponsesAllowed;
     private boolean feedbackParticipantCommentsOnResponsesAllowed;
 
     public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
-                                    List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes,
-                                    int maxResponsesPossible) {
-        this.question = question;
-        this.responses = responses;
-        this.numOfResponseBoxes = numOfResponseBoxes;
-        this.maxResponsesPossible = maxResponsesPossible;
-    }
-
-    public StudentFeedbackSubmissionEditQuestionsWithResponses(FeedbackSubmissionEditQuestion question,
             List<FeedbackSubmissionEditResponse> responses, int numOfResponseBoxes, int maxResponsesPossible,
-            boolean instructorCommentsOnResponsesAllowed, boolean feedbackParticipantCommentsOnResponsesAllowed) {
+            boolean feedbackParticipantCommentsOnResponsesAllowed) {
         this.question = question;
         this.responses = responses;
         this.numOfResponseBoxes = numOfResponseBoxes;
         this.maxResponsesPossible = maxResponsesPossible;
-        this.instructorCommentsOnResponsesAllowed = instructorCommentsOnResponsesAllowed;
         this.feedbackParticipantCommentsOnResponsesAllowed = feedbackParticipantCommentsOnResponsesAllowed;
     }
 
@@ -49,9 +38,4 @@ public class StudentFeedbackSubmissionEditQuestionsWithResponses {
     public boolean getFeedbackParticipantCommentsOnResponsesAllowed() {
         return feedbackParticipantCommentsOnResponsesAllowed;
     }
-
-    public boolean getInstructorCommentsOnResponsesAllowed() {
-        return instructorCommentsOnResponsesAllowed;
-    }
-
 }
