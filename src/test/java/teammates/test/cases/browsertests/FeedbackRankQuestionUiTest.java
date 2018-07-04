@@ -80,7 +80,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         // Submit
         submitPage.clickSubmitButton();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13, 14.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13.");
 
         FeedbackQuestionAttributes fq1 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
         assertNotNull(BackDoor.getFeedbackResponse(fq1.getId(),
@@ -129,7 +129,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank : min/max options to be ranked test");
 
         // Question with only min options to be ranked restriction
-        int qnNumber = 9;
+        int qnNumber = 8;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("You need to rank at least 2 options.", submitPage.getRankMessage(qnNumber, 0));
         submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
@@ -140,7 +140,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
 
         // Question with only max options to be ranked restriction
-        qnNumber = 10;
+        qnNumber = 9;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
         submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
@@ -151,7 +151,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 0).isEmpty());
 
         // Question with both min and max options to be ranked restriction
-        qnNumber = 11;
+        qnNumber = 10;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("You need to rank at least 3 options.", submitPage.getRankMessage(qnNumber, 0));
         submitPage.selectResponseTextDropdown(qnNumber, 0, 2, "2");
@@ -170,7 +170,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         ______TS("Rank : min/max recipients to be ranked test");
 
         // Question with only min recipients to be ranked restriction
-        qnNumber = 12;
+        qnNumber = 11;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("You need to rank at least 2 recipients.", submitPage.getRankMessage(qnNumber, 3));
         submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "2");
@@ -181,7 +181,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
 
         // Question with only max recipients to be ranked restriction
-        qnNumber = 13;
+        qnNumber = 12;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
         submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "2");
@@ -192,7 +192,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue("No error message expected", submitPage.getRankMessage(qnNumber, 3).isEmpty());
 
         // Question with both min and max options to be ranked restriction
-        qnNumber = 14;
+        qnNumber = 13;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("You need to rank at least 3 recipients.", submitPage.getRankMessage(qnNumber, 3));
         submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "2");
