@@ -61,6 +61,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorAttributes instructor;
     private List<String> sections;
     private String selectedSection;
+    private String selectedSectionDetail;
     private String sortType;
     private String groupByTeam;
     private String showStats;
@@ -100,11 +101,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * <p>{@code bundle} should be set before this method
      */
     public void initForViewByQuestion(InstructorAttributes instructor,
-                                      String selectedSection, String showStats,
+                                      String selectedSection, String selectedSectionDetail, String showStats,
                                       String groupByTeam, boolean isMissingResponsesShown) {
         this.viewType = InstructorFeedbackResultsPageViewType.QUESTION;
         this.sortType = InstructorFeedbackResultsPageViewType.QUESTION.toString();
-        initCommonVariables(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
+        initCommonVariables(instructor, selectedSection, selectedSectionDetail, showStats, groupByTeam, isMissingResponsesShown);
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap =
                 bundle.getQuestionResponseMap();
@@ -127,12 +128,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         });
     }
 
-    private void initCommonVariables(InstructorAttributes instructor, String selectedSection,
+    private void initCommonVariables(InstructorAttributes instructor, String selectedSection, String selectedSectionDetail,
                                     String showStats, String groupByTeam, boolean isMissingResponsesShown) {
         Assumption.assertNotNull(bundle);
 
         this.instructor = instructor;
         this.selectedSection = selectedSection;
+        this.selectedSectionDetail = selectedSectionDetail;
         this.showStats = showStats;
         this.groupByTeam = groupByTeam;
         this.isMissingResponsesShown = isMissingResponsesShown;
@@ -177,7 +179,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Assumption.assertNotNull(bundle);
         this.viewType = view;
         this.sortType = view.toString();
-        initCommonVariables(instructor, selectedSection, showStats, groupByTeam,
+        initCommonVariables(instructor, selectedSection, null, showStats, groupByTeam,
                             isMissingResponsesShown);
 
         // results page to be loaded by ajax
@@ -1656,6 +1658,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return selectedSection;
     }
 
+    public String getSelectedSectionDetail() {
+        return selectedSectionDetail;
+    }
+
     public String getSortType() {
         return sortType;
     }
@@ -1739,7 +1745,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsFilterPanel getFilterPanel() {
         return new InstructorFeedbackResultsFilterPanel(
                 isStatsShown(), bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
-                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(),
+                selectedSectionDetail, isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(),
                 getSections(), isMissingResponsesShown);
     }
 
