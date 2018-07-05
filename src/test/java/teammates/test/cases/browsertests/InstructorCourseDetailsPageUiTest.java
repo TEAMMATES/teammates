@@ -2,13 +2,16 @@ package teammates.test.cases.browsertests;
 
 import java.io.IOException;
 
+import javax.mail.MessagingException;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.EmailAccount;
 import teammates.test.driver.TestProperties;
@@ -269,11 +272,25 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
     private boolean hasStudentReceivedReminder(String courseName, String courseId, String studentEmail)
             throws Exception {
+
         String keyToSend = BackDoor.getEncryptedKeyForStudent(courseId, studentEmail);
 
-        ThreadHelper.waitFor(5000); //TODO: remove this and use RetryManager with a shorter wait interval
-        String keyReceivedInEmail =
-                EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
+        // TODO: Use linear backoff first before exponential backoff
+        RetryManager retryManager = new RetryManager(5);
+
+        String keyReceivedInEmail = retryManager.runUntilSuccessful(
+                new RetryableTaskReturnsThrows<String, Exception>("Retrieve registration key") {
+                    @Override
+                    public String run() throws IOException, MessagingException {
+                        return EmailAccount.getRegistrationKeyFromGmail(studentEmail, courseName, courseId);
+                    }
+
+                    @Override
+                    public boolean isSuccessful(String result) {
+                        return result != null;
+                    }
+                });
+
         return keyToSend.equals(keyReceivedInEmail);
     }
 
