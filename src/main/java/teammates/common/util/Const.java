@@ -784,6 +784,7 @@ public final class Const {
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
         public static final String FEEDBACK_RESULTS_GROUPBYTEAM = "frgroupbyteam";
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
+        public static final String FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL = "frgroupbysectiondetail";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         public static final String FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES = "frindicatemissingresponses";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";

@@ -40,6 +40,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        String selectedSectionDetail = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL);
 
         if (selectedSection == null) {
             selectedSection = ALL_SECTION_OPTION;
