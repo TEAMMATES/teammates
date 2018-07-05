@@ -62,9 +62,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
 
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "student1InCourse1@gmail.tmt");
-
-        // Unregistered student
-        StudentAttributes student2 = studentsLogic.getUnregisteredStudentsForCourse("idOfUnregisteredCourse").get(0);
+        StudentAttributes unregisteredStudent = studentsLogic.getStudentForEmail("idOfUnregisteredCourse",
+                "student1InUnregisteredCourse@gmail.tmt");
 
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructor1@course1.tmt");
@@ -161,7 +160,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionUnpublishedEmailForInstructor.html");
 
         ______TS("send summary of all feedback sessions of course email to new student. "
-                + "Previous student has joined the course");
+                + "Edited student has joined the course");
 
         EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
@@ -169,12 +168,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");
 
         ______TS("send summary of all feedback sessions of course email to new student. "
-                + "Previous student has not joined the course");
+                + "Edited student has not joined the course");
 
-        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student2);
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
-        verifyEmail(email, student2.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForUnregisteredStudent.html");
+        verifyEmail(email, unregisteredStudent.email, subject,
+                "/summaryOfFeedbackSessionsOfCourseEmailForUnregisteredStudent.html");
 
         ______TS("feedback session submission email");
 
