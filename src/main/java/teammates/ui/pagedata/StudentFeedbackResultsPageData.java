@@ -205,15 +205,14 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @param feedbackResponseId  Response ID for which comments are created
      * @return Comments for the response
      */
-    private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(
-                                                                               String feedbackResponseId, FeedbackQuestionAttributes question) {
-
+    private List<FeedbackResponseCommentRow> createStudentFeedbackResultsResponseComments(String feedbackResponseId,
+            FeedbackQuestionAttributes question) {
         List<FeedbackResponseCommentRow> comments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
-                FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(comment, comment.giverEmail, bundle.instructorEmailNameTable,
-                        bundle.getTimeZone());
+                FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(comment, comment.giverEmail,
+                        bundle.instructorEmailNameTable, bundle.getTimeZone());
                 frcRow.setVisibilityIconString(getTypeOfPeopleCanViewComment(comment, question));
                 comments.add(frcRow);
             }
