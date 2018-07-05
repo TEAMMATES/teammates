@@ -9,11 +9,11 @@
 <div style="margin-bottom: 10px">
   <div class="well well-plain">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-6">
         <div data-toggle="tooltip" title="View results in different formats">
           <div class="row">
-            <label class="col-md-offset-1 col-md-3">View:</label>
-            <div class="col-md-8">
+            <label class="col-md-offset-1 col-md-5">View:</label>
+            <div class="col-md-6">
               <c:if test="${filterPanel.sortType == 'question'}">
                 Group by - Question
               </c:if>
@@ -36,8 +36,8 @@
           <br>
           <div class="row">
             <div data-toggle="tooltip" title="View results by sections">
-              <label class="col-md-offset-1 col-md-3">Section:</label>
-              <div class="col-md-8">
+              <label class="col-md-offset-1 col-md-5">Section:</label>
+              <div class="col-md-6">
                 <c:if test="${filterPanel.allSectionsSelected}">
                   All
                 </c:if>
@@ -65,7 +65,7 @@
           </div>
         </c:if>
       </div>
-      <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
+      <div class="col-md-offset-3 pull-right col-md-3 margin-bottom-15px">
         <label>Additional settings:</label>
         <ul>
           <li>
