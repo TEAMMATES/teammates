@@ -123,8 +123,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
 
     private List<String> buildExpectedErrorMessages() {
-        String feedbackSessionNameError = "The field 'feedback session name' is empty. The value of a/an feedback "
-                + "session name should be no longer than 38 characters. It should not be empty.";
+        String feedbackSessionNameError = "The field 'feedback session name' should not be empty. The value of 'feedback "
+                + "session name' field should be no longer than 38 characters.";
         String courseIdError = "The field 'course ID' is empty. A course ID can contain letters, numbers, fullstops, "
                 + "hyphens, underscores, and dollar signs. It cannot be longer than 40 characters, cannot be empty and "
                 + "cannot contain spaces.";
