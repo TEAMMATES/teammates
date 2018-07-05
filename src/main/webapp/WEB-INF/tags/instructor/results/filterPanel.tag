@@ -52,6 +52,17 @@
               </div>
             </div>
           </div>
+          <br>
+          <div id="selectedSection" class="row">
+            <c:if test="${!(filterPanel.allSectionsSelected or filterPanel.noneSectionSelected or filterPanel.sortType != 'question')}">
+              <div data-toggle="tooltip" title="Choose the way responses for the selected section is viewed">
+                <label class="col-md-offset-1 col-md-5">If showing only a section:</label>
+                <div class="col-md-6">
+                  ${fn:escapeXml(filterPanel.selectedSectionDetail)}
+                </div>
+              </div>
+            </c:if>
+          </div>
         </c:if>
       </div>
       <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
