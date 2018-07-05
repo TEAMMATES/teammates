@@ -39,6 +39,9 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
 
+        // The instructor is queried using the `id` (email%courseId) as it ensures that the
+        // instructor is retrieved (and not null) even if the index building for
+        // saving the new instructor takes more time in GAE.
         InstructorAttributes instructor = logic.getInstructorById(courseId, instructorEmail);
         Assumption.assertNotNull(instructor);
 
