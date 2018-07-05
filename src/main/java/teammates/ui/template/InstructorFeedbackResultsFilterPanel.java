@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -16,6 +17,7 @@ public class InstructorFeedbackResultsFilterPanel {
     private String sortType;
     private String resultsLink;
     private List<String> sections;
+    private List<String> sectionDetails;
 
     public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
@@ -32,6 +34,15 @@ public class InstructorFeedbackResultsFilterPanel {
         this.resultsLink = resultsLink;
         this.isMissingResponsesShown = isMissingResponsesShown;
         this.sections = sections;
+        initializeSectionDetails();
+    }
+
+    private void initializeSectionDetails() {
+        this.sectionDetails = new ArrayList<>();
+        sectionDetails.add("");
+        sectionDetails.add("Show response if the giver is in the selected section");
+        sectionDetails.add("Show response if the evaluee is in the selected section");
+        sectionDetails.add("Show response only if both are in the selected section");
     }
 
     public boolean isStatsShown() {
@@ -76,6 +87,10 @@ public class InstructorFeedbackResultsFilterPanel {
 
     public List<String> getSections() {
         return sections;
+    }
+
+    public List<String> getSectionDetails() {
+        return sectionDetails;
     }
 
 }
