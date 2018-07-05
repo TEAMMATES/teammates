@@ -18,11 +18,11 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
 1. Install Python 2.7.
 1. Install Node.js (minimum version 6.11.5).
 
-## Step 2: Obtain your own repository copy
+## Step 2: Obtain your own copy of the repository
 
 1. Fork our repo at https://github.com/TEAMMATES/teammates. Clone the fork to your hard disk.
 
-1. Add a remote name (e.g `upstream`) for your copy of the main repo to keep it in sync with, then fetch the remote-tracking branches from the main repo.
+1. Add a remote name (e.g upstream) for your copy of the main repo. Fetch the remote-tracking branches from the main repo to keep it in sync with your copy.
    ```sh
    git remote add upstream https://github.com/TEAMMATES/teammates.git
    git fetch upstream
@@ -89,7 +89,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 4: Set up an IDE (Recommended)
 
-You are encouraged, but not required, to use an IDE to assist many development tasks.
+You are encouraged, but not required, to use an IDE to assist development tasks.
 
 We currently support two IDEs: Eclipse IDE and IntelliJ IDEA.
 Support requests related to other IDEs will not be entertained.
@@ -98,6 +98,6 @@ Refer to [this document](ide-setup.md) if you wish to set up an IDE for developi
 
 ## Step 5: Start developing
 
-If you followed every step correctly, you should have successfully set up the development environment.
+If you have followed every step correctly, your development environment should be set up successfully.
 
 Proceed to the development routine as outlined in [this document](development.md).
