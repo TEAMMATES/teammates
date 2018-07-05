@@ -53,7 +53,6 @@ const richTextEditorBuilder = {
 /* eslint-enable camelcase */
 
 function setPlaceholderText(editor) {
-    console.log(editor.getContent());
     if (editor.getContent() === '') {
         tinymce.DOM.addClass(editor.bodyElement, 'empty');
     } else {
