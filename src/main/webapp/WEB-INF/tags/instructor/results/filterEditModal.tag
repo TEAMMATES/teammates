@@ -61,6 +61,20 @@
                     </select>
                   </div>
                 </div>
+                <div data-toggle="tooltip" title="Choose the way responses for the selected section is viewed">
+                  <div class="form-group">
+                    <label for="sectionSelectDetails" class="control-label">
+                      If showing only a section:
+                    </label>
+                    <select id="sectionSelectDetails" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL%>">
+                      <c:forEach items="${filterPanel.sectionDetails}" var="sectionDetail">
+                        <option value="${fn:escapeXml(sectionDetail)}"<c:if test="${filterPanel.selectedSectionDetail == sectionDetail}"> selected</c:if>>
+                            ${fn:escapeXml(sectionDetail)}
+                        </option>
+                      </c:forEach>
+                    </select>
+                  </div>
+                </div>
               </c:if>
             </div>
             <div class="col-md-5">
