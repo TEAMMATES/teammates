@@ -44,6 +44,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         if (selectedSection == null) {
             selectedSection = ALL_SECTION_OPTION;
+            selectedSectionDetail = null;
         }
 
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
