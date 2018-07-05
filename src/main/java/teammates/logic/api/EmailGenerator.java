@@ -129,7 +129,7 @@ public class EmailGenerator {
                                    ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
                                            "${joinUrl}", joinUrl,
                                            "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                                            "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()))
+                                           "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()))
                                    : "";
 
         for (FeedbackSessionAttributes fsa : sessions) {
