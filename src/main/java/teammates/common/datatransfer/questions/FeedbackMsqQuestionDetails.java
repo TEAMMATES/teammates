@@ -976,11 +976,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 responseCountPerOption.put("Other", responseCountPerOption.get("Other") + 1);
 
                 // remove other answer temporarily to calculate stats for other options
-                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                otherAnswer = responseDetails.getOtherFieldContent();
                 answerStrings.remove(otherAnswer);
             }
 
             for (String answerString : answerStrings) {
+                if (answerString.isEmpty()) {
+                    continue;
+                }
                 responseCountPerOption.put(answerString, responseCountPerOption.get(answerString) + 1);
             }
 
@@ -1064,7 +1067,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
-         * Returns the 'Per Recipient' stats body part for CSV files.<br>
+         * Returns the 'Per Recipient' stats body part for CSV files.
          * @param responses The response attribute list should be sorted first before passing as an argument.
          * @param bundle Feedback session results bundle
          */
