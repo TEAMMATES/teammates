@@ -41,63 +41,60 @@
         <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
         <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
         <div class="col-md-12">
-          <div class="form-group">
-            <div class="existing-students-spreadsheet">
-              <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
-              <div class="panel panel-default" >
-                <div class="panel-heading" id="existing-data-spreadsheet">
-                  <div class="pull-right margin-left-7px">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                  </div>
-                  <div class='display-icon pull-right'></div>
-                  <strong>Existing students</strong>
+          <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}"/>
+          <div class="panel panel-default" >
+            <div class="panel-heading" id="existing-data-spreadsheet">
+              <div class="pull-right margin-left-7px">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+              </div>
+              <div class='display-icon pull-right'></div>
+              <strong>Existing students</strong>
+            </div>
+            <div class="panel-collapse collapse">
+              <div class="panel-body padding-0">
+                <div id="existingDataSpreadsheet"></div>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-margin-correction">
+            <div class="panel panel-default">
+              <div class="panel-heading" id="enroll-spreadsheet">
+                <div class="pull-right margin-left-7px">
+                  <span class="glyphicon glyphicon-chevron-down"></span>
                 </div>
-                <div class="panel-collapse collapse">
-                  <div class="panel-body padding-0">
-                    <div id="existingDataSpreadsheet"></div>
-                  </div>
+                <div class='display-icon pull-right'></div>
+                <strong>New students</strong>
+              </div>
+              <div class="panel-collapse collapse">
+                <div class="panel-body padding-0">
+                  <div id="enrollSpreadsheet"></div>
                 </div>
               </div>
             </div>
-            <div class="enroll-students-spreadsheet">
-              <div class="panel panel-default">
-                <div class="panel-heading" id="enroll-spreadsheet">
-                  <div class="pull-right margin-left-7px">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                  </div>
-                  <div class='display-icon pull-right'></div>
-                  <strong>New students</strong>
-                </div>
-                <div class="panel-collapse collapse">
-                  <div class="panel-body padding-0">
-                    <div id="enrollSpreadsheet"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="row enroll-students">
-                <div class="col-md-6">
-                  <div class="input-group">
+            <div class="row enroll-students-spreadsheet-buttons">
+              <div class="col-md-6">
+                <div class="input-group">
                     <span class="input-group-btn">
                       <button type="button" title="Add" id="button_add_empty_rows" class="btn btn-primary btn-md">
                         Add row(s)
                       </button>
                     </span>
-                    <div class="col-xs-4">
-                      <input type="number" id="number-of-rows" class="form-control" value="1" min="0">
-                    </div>
+                  <div class="col-xs-4">
+                    <input type="number" id="number-of-rows" class="form-control" value="1" min="0">
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
-                      class="btn btn-primary btn-md pull-right">
-                    Enroll students
-                  </button>
-                </div>
               </div>
-              <br>
-              <textarea class="form-control" id="enrollstudents" name="enrollstudents"
-                  placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
+              <div class="col-md-6">
+                <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
+                        class="btn btn-primary btn-md pull-right">
+                  Enroll students
+                </button>
+              </div>
             </div>
+
+            <br>
+            <textarea class="form-control" id="enrollstudents" name="enrollstudents"
+                      placeholder="Paste student data here ...">${fn:escapeXml(data.enrollStudents)}</textarea>
           </div>
         </div>
       </form>
