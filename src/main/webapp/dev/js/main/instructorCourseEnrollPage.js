@@ -19,6 +19,8 @@ import {
     displayErrorExecutingAjax,
     getSpreadsheetLength,
     toggleStudentsPanel,
+    showUpdateModalBox,
+    getUpdatedStudentRows,
 } from '../common/instructorEnroll';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
@@ -81,6 +83,15 @@ function updateEnrollDataDump() {
 }
 
 /**
+ * Compares the current data in dataHandsontable with the data that is loaded from the initial AJAX request.
+ * The rows that are different would be marked as student entries to update in the 'massupdatestudents' textarea.
+ */
+function updateExistingStudentsDataDump() {
+    $('#massupdatestudents').text(
+            getUpdatedStudentRows(dataHandsontable.getData(), existingStudentsData));
+}
+
+/**
  * Loads existing student data into the spreadsheet interface.
  * @returns {Promise} confirmation that existing students data has been loaded into the spreadsheet.
  */
@@ -97,7 +108,7 @@ function loadExistingStudentsData(studentsData) {
  */
 function getAjaxStudentList(displayIcon) {
     return new Promise((resolve, reject) => {
-        const $spreadsheetForm = $('#student-spreadsheet-form');
+        const $spreadsheetForm = $('#student-data-spreadsheet-form');
         $.ajax({
             type: 'POST',
             url: '/page/instructorCourseEnrollAjaxPage',
@@ -113,7 +124,12 @@ function getAjaxStudentList(displayIcon) {
                 .done(resolve)
                 .fail(reject);
     });
+}
 
+/**
+ * Updates settings of dataHandsontable so that the "Email" column is read-only.
+ */
+function updateDataHandsontableSettings() {
     dataHandsontable.updateSettings({
         columns: [
             { colHeader: 'Section' },
@@ -133,24 +149,29 @@ function getAjaxStudentList(displayIcon) {
  */
 function expandCollapseExistingStudentsPanel() {
     const $panelHeading = $(this);
+    const panelName = 'Existing students';
     const panelCollapse = $panelHeading.parent().children('.panel-collapse');
     const displayIcon = $panelHeading.children('.display-icon');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
-    const updateButton = $('#button_updatestudents');
 
     // perform AJAX only if existing students' spreadsheet is empty
     if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
         getAjaxStudentList(displayIcon)
                 .then((data) => {
+                    updateDataHandsontableSettings();
                     if (data.students.length === 0) {
                         displayNoExistingStudents(displayIcon);
                     } else {
                         loadExistingStudentsData(data.students)
                                 .then(() => {
                                     toggleStudentsPanel($panelHeading, panelCollapse,
-                                            displayIcon, toggleChevron);
-                                    dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
-                                    updateButton.show();
+                                            displayIcon, toggleChevron, panelName);
+
+                                    // needed as the view is buggy after collapsing the panel
+                                    dataHandsontable.render();
+
+                                    // keep a copy of the current existing students data upon AJAX load
+                                    existingStudentsData = dataHandsontable.getData();
                                 });
                     }
                 }).catch(() => {
@@ -158,7 +179,6 @@ function expandCollapseExistingStudentsPanel() {
                 });
     } else {
         toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron);
-        updateButton.hide();
         dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
     }
 }
@@ -169,28 +189,13 @@ function expandCollapseExistingStudentsPanel() {
  */
 function expandCollapseNewStudentsPanel() {
     const $panelHeading = $(this);
+    const panelName = 'New students';
     const panelCollapse = $panelHeading.parent().children('.panel-collapse');
     const displayIcon = $panelHeading.children('.display-icon');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
-    toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron);
+    toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron, panelName);
     enrollHandsontable.render();
-
-    if (panelCollapse.attr('class').indexOf('checked') === -1) { // if panel is not shown
-        $('.enroll-students').hide();
-    } else {
-        $('.enroll-students').show();
-    }
-}
-
-function updateExistingStudentsDataDump() {
-    const dataSpreadsheetData = dataHandsontable.getData();
-    const submitText = dataSpreadsheetData.filter((row, index) => (JSON.stringify(row) !==
-            JSON.stringify(existingStudentsData[index])))
-            .map(row => row.join('|'))
-            .join('\n');
-
-    $('#massupdatestudents').text(submitText === '' ? '' : submitText);
 }
 
 $(document).ready(() => {
@@ -220,6 +225,9 @@ $(document).ready(() => {
         enrollHandsontable.alter('insert_row', null, emptyRowsCount);
     });
 
-    $('#button_enroll').submit(updateEnrollDataDump);
-    $('#button_updatestudents').click(updateExistingStudentsDataDump);
+    $('#button_enroll').click(updateEnrollDataDump);
+    $('#button_updatestudents').bind('click', () => {
+        updateExistingStudentsDataDump();
+        showUpdateModalBox($('#massupdatestudents').text());
+    });
 });
