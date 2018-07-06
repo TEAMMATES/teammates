@@ -892,13 +892,17 @@ Prevents content overflow in navbar. */
 .enroll-students-spreadsheet {
     margin-left: 15px;
     margin-right: 15px;
-    margin-bottom: 25px;
+    margin-bottom: -35px;
 }
 
 .existing-students-spreadsheet {
     margin-left: 15px;
     margin-right: 15px;
-    margin-bottom: 15px;
+}
+
+.existing-students {
+    margin-top: -10px;
+    display: none;
 }
 
 .enroll-students {
@@ -917,6 +921,7 @@ Prevents content overflow in navbar. */
 #button_updatestudents {
     display: none;
     margin-right: 5px;
+    margin-bottom: 20px;
 }
 
 #omni-comment-dropdown-trigger {
