@@ -176,7 +176,7 @@ function getNewEmailList(submitText) {
     return submitText.split('\n')
             .map(row => row.split('|'))
             .filter(row => row[newEmailColumnIndex] !== '')
-            .map((row, index) => (index + 1).concat('. ').concat(row[newEmailColumnIndex]))
+            .map((row, index) => String(index + 1).concat('. ').concat(row[newEmailColumnIndex]))
             .join('<br>');
 }
 
@@ -184,8 +184,8 @@ function getNewEmailList(submitText) {
  * Displays the modal box when the user clicks the 'Update' button.
  * User is given an option to resend past session links to new emails if existing emails are being updated.
  */
-function showUpdateModalBox(submitText) {
-    $(this).preventDefault();
+function showUpdateModalBox(submitText, event) {
+    event.preventDefault();
     const isOpenOrPublishedEmailSentInThisCourse = $('#openorpublishedemailsent').val();
     let newEmailList = '';
     if (submitText !== '') {
