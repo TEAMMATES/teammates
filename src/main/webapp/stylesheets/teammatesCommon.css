@@ -889,18 +889,11 @@ Prevents content overflow in navbar. */
     padding: 20px 40px;
 }
 
-.enroll-students-spreadsheet {
-    margin-left: 15px;
-    margin-right: 15px;
+.bottom-margin-correction {
+    margin-bottom: -15px;
 }
 
-.existing-students-spreadsheet {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 15px;
-}
-
-.enroll-students {
+.enroll-students-spreadsheet-buttons {
     margin-top: -10px;
     display: none;
 }
