@@ -226,8 +226,8 @@ $(document).ready(() => {
     });
 
     $('#button_enroll').click(updateEnrollDataDump);
-    $('#button_updatestudents').bind('click', () => {
+    $('#button_updatestudents').bind('click', (event) => {
         updateExistingStudentsDataDump();
-        showUpdateModalBox($('#massupdatestudents').text());
+        showUpdateModalBox($('#massupdatestudents').text(), event);
     });
 });
