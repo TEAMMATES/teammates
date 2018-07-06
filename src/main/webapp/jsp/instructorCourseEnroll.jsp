@@ -23,6 +23,12 @@
 <c:set var="USER_ID">
   <%=Const.ParamsNames.USER_ID%>
 </c:set>
+<c:set var="OPEN_OR_PUBLISHED_EMAIL_SEND_CHECK">
+  <%=Const.ParamsNames.OPEN_OR_PUBLISHED_EMAIL_SEND_CHECK%>
+</c:set>
+<c:set var="SESSION_SUMMARY_EMAIL_SEND_CHECK">
+  <%=Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK%>
+</c:set>
 <ti:instructorPage title="Enroll Students for ${data.courseId}" cssIncludes="${cssIncludes}" jsIncludes="${jsIncludes}">
 
   <div class="panel panel-primary">
@@ -32,11 +38,12 @@
         <strong>100</strong> students into one course, divide students into sections containing no more than
         <strong>100</strong> students.
       </div>
-      <br>
       <form id="student-data-spreadsheet-form" method="post" class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
         <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
         <input type="hidden" name="${USER_ID}" value="${data.account.googleId}">
+        <input type="hidden" name="${OPEN_OR_PUBLISHED_EMAIL_SEND_CHECK}" value="${data.openOrPublishedEmailSentForTheCourse}">
+        <input type="hidden" name="${SESSION_SUMMARY_EMAIL_SEND_CHECK}" value="false">
         <div class="col-md-12">
           <div class="form-group">
             <div class="existing-students-spreadsheet">
@@ -58,7 +65,7 @@
               <textarea class="form-control" id="massupdatestudents" name="massupdatestudents"></textarea>
               <div class="row">
                 <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary btn-md pull-right"
+                  <button type="submit" class="btn btn-primary btn-md pull-right existing-students"
                             id="button_updatestudents" formaction="${data.instructorCourseEnrollUpdateLink}">
                       Update
                   </button>
