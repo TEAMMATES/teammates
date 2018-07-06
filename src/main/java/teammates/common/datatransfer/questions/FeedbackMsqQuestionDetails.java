@@ -929,6 +929,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return numChoicesSelected;
     }
 
+    /**
+     * Returns the number of non-empty responses and updates the answer frequency for each option.<br>
+     * Response can be empty, when 'None of the above' option is selected. In such cases,
+     * no action is taken.
+     */
     private int getNumberOfNonEmptyResponsesOfQuestion(List<String> answerStrings, Map<String,
             Integer> answerFrequency) {
         int numChoices = 0;
@@ -981,6 +986,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             for (String answerString : answerStrings) {
+                // Answer string is empty when 'None of the above' option is selected,
+                // in that case, don't count that response.
                 if (answerString.isEmpty()) {
                     continue;
                 }
