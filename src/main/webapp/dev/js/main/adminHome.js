@@ -32,12 +32,15 @@ class InstructorAjaxResult {
         this.instructor = instructor;
         this.responseData = responseData;
     }
+
     isError() {
         return this.instructor.isError();
     }
+
     isAddFailed() {
         return !this.isError() && !this.responseData.isInstructorAddingResultForAjax;
     }
+
     /**
      * If The AJAX request never happened because the instructor itself is erroneous,
      * return the error message encapsulated in the InstructorError.
@@ -62,13 +65,16 @@ class InstructorError {
         this.message = message;
         this.originalString = originalString;
     }
+
     toString() {
         return this.originalString;
     }
+
     /* eslint-disable class-methods-use-this */
     isError() {
         return true;
     }
+
     /* eslint-enable class-methods-use-this */
     getErrorMessage() {
         return this.message;
@@ -91,6 +97,7 @@ class Instructor {
         instructor.institution = institution;
         return instructor;
     }
+
     /**
      * Takes in a string in either of the following formats:
      *  NAME | EMAIL | INSTITUTION
@@ -122,9 +129,11 @@ class Instructor {
         const institution = instructorData[3];
         return Instructor.create(name, email, institution);
     }
+
     toString() {
         return `${this.name} | ${this.email} | ${this.institution}`;
     }
+
     getParamString() {
         return $.param({
             instructorname: this.name,
@@ -132,10 +141,12 @@ class Instructor {
             instructorinstitution: this.institution,
         });
     }
+
     /* eslint-disable class-methods-use-this */
     isError() {
         return false;
     }
+
     /* eslint-enable class-methods-use-this */
     static allFromString(multipleInstructorsString) {
         return multipleInstructorsString
@@ -144,6 +155,7 @@ class Instructor {
                 .filter(str => str !== '') // get rid of any blank/whitespace-only lines
                 .map(singleInstructorString => Instructor.createFromString(singleInstructorString));
     }
+
     static allToString(instructors) {
         return instructors
                 .map(instructor => instructor.toString())

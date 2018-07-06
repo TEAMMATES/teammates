@@ -27,8 +27,9 @@
               <div class="col-lg-8">
                 <p class="form-control-static">
                   Second Session
-                  <a href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&editsessiondetails=true&user=CFResultsUiT.instr">
-                    [Edit]
+                  <a data-original-title="Edit feedback session details" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackEditPage?courseid=CFResultsUiT.CS2104&fsname=Second+Session&editsessiondetails=true&user=CFResultsUiT.instr" id="edit_icon_button">
+                    <span class="glyphicon glyphicon-edit">
+                    </span>
                   </a>
                 </p>
               </div>
@@ -2227,6 +2228,16 @@
                 (Select the student(s) you want to remind)
               </small>
             </h4>
+            <div>
+              <input id="remindAll" type="checkbox">
+              <label class="remind-all" for="remindAll">
+                Select all respondents
+              </label>
+              <input id="remindNotSubmitted" type="checkbox">
+              <label for="remindNotSubmitted">
+                Select all respondents not yet submitted
+              </label>
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group" id="studentList">

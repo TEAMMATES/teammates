@@ -154,6 +154,7 @@ public final class HtmlHelper {
                 Node attribute = attributes.item(i);
                 if (isTooltipAttribute(attribute)
                         || isPopoverAttribute(attribute)
+                        || isHandsontableAttribute(attribute) // ignored due to
                         || Config.STUDENT_MOTD_URL.isEmpty() && isMotdWrapperAttribute(attribute)) {
                     // ignore all tooltips and popovers, also ignore studentMotd if the URL is empty
                     return ignoreNode();
@@ -255,6 +256,10 @@ public final class HtmlHelper {
 
     private static boolean isTinymceStyleAttribute(Node attribute) {
         return checkForAttributeWithSpecificValue(attribute, "id", "mceDefaultStyles");
+    }
+
+    private static boolean isHandsontableAttribute(Node attribute) {
+        return checkForAttributeWithSpecificValue(attribute, "id", "spreadsheet");
     }
 
     /**

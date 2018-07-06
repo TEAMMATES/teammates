@@ -232,17 +232,16 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals("", editCopyData.redirectUrl);
 
-        expectedString = "The field 'feedback session name' is empty. "
-                         + "The value of a/an feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field 'feedback session name' should not be empty. "
+                         + "The value of 'feedback session name' field should be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
 
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field 'feedback session name' is empty. The value of "
-                + "a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field 'feedback session name' should not be empty. The value of "
+                + "'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Failure case: empty name, instructor feedbacks page");
@@ -261,17 +260,16 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals("", editCopyData.redirectUrl);
 
-        expectedString = "The field 'feedback session name' is empty. "
-                         + "The value of a/an feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field 'feedback session name' should not be empty. "
+                         + "The value of 'feedback session name' field should be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
 
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field 'feedback session name' is empty. The value of "
-                + "a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field 'feedback session name' should not be empty. The value of "
+                + "'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Failure case: empty name, instructor feedback copy page");
@@ -290,17 +288,16 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals("", editCopyData.redirectUrl);
 
-        expectedString = "The field 'feedback session name' is empty. "
-                         + "The value of a/an feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field 'feedback session name' should not be empty. "
+                         + "The value of 'feedback session name' field should be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
 
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field 'feedback session name' is empty. The value of "
-                + "a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field 'feedback session name' should not be empty. The value of "
+                + "'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Failure case: empty name, instructor feedback edit page");
@@ -319,17 +316,16 @@ public class InstructorFeedbackEditCopyActionTest extends BaseActionTest {
 
         assertEquals("", editCopyData.redirectUrl);
 
-        expectedString = "The field 'feedback session name' is empty. "
-                         + "The value of a/an feedback session name should be no longer than 38 characters. "
-                         + "It should not be empty.";
+        expectedString = "The field 'feedback session name' should not be empty. "
+                         + "The value of 'feedback session name' field should be no longer than 38 characters.";
         assertEquals(expectedString, editCopyData.errorMessage);
 
         expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
                 + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
-                + "Servlet Action Failure : The field 'feedback session name' is empty. The value of "
-                + "a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+                + "Servlet Action Failure : The field 'feedback session name' should not be empty. The value of "
+                + "'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackEditCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Successful case");

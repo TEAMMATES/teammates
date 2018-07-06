@@ -89,6 +89,7 @@
             <class name="teammates.test.cases.browsertests.AdminEmailPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminSessionsPageUiTest" />
             <class name="teammates.test.cases.browsertests.AdminSearchPageUiTest" />
+            <class name="teammates.test.cases.browsertests.ScrollUnitTest" />
         </classes>
     </test>
 

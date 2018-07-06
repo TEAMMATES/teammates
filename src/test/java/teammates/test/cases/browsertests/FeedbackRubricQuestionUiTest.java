@@ -213,15 +213,34 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         assertTrue(feedbackEditPage.isRubricSubQuestionBoxFocused(questionNum, subQuestionIndex));
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(questionNum, subQuestionIndex);
 
-        ______TS("empty weight test");
+        ______TS("Front-end validation for empty weight");
 
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("empty weight test");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
         feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
         feedbackEditPage.clickAddQuestionButton();
+        // Checks if the empty weight box is focused after clicking on 'Save question' button.
+        // If it is, that means the front-end validation works and the question is not submitted.
+        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 3));
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0", 3);
 
-        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
+        // Check if the weight cells added by 'Add Column' button are 'required' or not.
+        feedbackEditPage.clickAddRubricColLink(questionNum);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 4);
+        feedbackEditPage.clickAddQuestionButton();
+        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 4));
+
+        // Check if the 'required' attribute is removed and the question is successfully added or not,
+        // after the checkbox is unchecked.
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
     @Override

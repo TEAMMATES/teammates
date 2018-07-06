@@ -23,9 +23,9 @@
 </c:if>
 
 <br>
-<div class="form-group margin-0">
-  <div ${isNumResponsesMax ? 'class="col-sm-3 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
-      ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:right"'}>
+<div class="evalueeForm-${questionWithResponses.question.qnIndx} form-group margin-0" style="padding-left: 75px">
+  <div ${isNumResponsesMax ? 'class="col-sm-12 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
+      ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:left"'}>
 
     <label>
       <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control"

@@ -586,13 +586,22 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(subQnBox, choice);
     }
 
-    public void fillRubricWeightBox(String weight, int qnNumber, int choiceIndex) {
+    public WebElement getRubricWeightBox(int qnNumber, int choiceIndex) {
         String idSuffix = getIdSuffix(qnNumber);
+        String elementId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + choiceIndex;
 
-        String elemid = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + idSuffix + "-" + choiceIndex;
+        return browser.driver.findElement(By.id(elementId));
+    }
 
-        WebElement weightBox = browser.driver.findElement(By.id(elemid));
+    public void fillRubricWeightBox(String weight, int qnNumber, int choiceIndex) {
+        WebElement weightBox = getRubricWeightBox(qnNumber, choiceIndex);
         fillTextBox(weightBox, weight);
+    }
+
+    public boolean isRubricWeightBoxFocused(int qnNumber, int choiceIndex) {
+        WebElement weightBox = getRubricWeightBox(qnNumber, choiceIndex);
+
+        return weightBox.equals(browser.driver.switchTo().activeElement());
     }
 
     public void fillRubricWeightBoxForNewQuestion(String weight, int choiceIndex) {
@@ -686,12 +695,33 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(addMcqOtherOptionCheckboxForNewQuestion);
     }
 
+    public void clickAddMcqOtherOptionCheckbox(int qnNumber) {
+        WebElement checkbox = browser.driver.findElement(By.id("mcqOtherOptionFlag-" + qnNumber));
+        click(checkbox);
+    }
+
+    public boolean isMcqOtherOptionCheckboxChecked(int qnNumber) {
+        return browser.driver.findElement(By.id("mcqOtherOptionFlag-" + qnNumber)).isSelected();
+    }
+
     public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
         click(addMsqOtherOptionCheckboxForNewQuestion);
     }
 
     public WebElement getDeleteSessionLink() {
         return fsDeleteLink;
+    }
+
+    public boolean verifyDuplicateButtonIsDisplayed(int qnIndex) {
+        WebElement duplicateBn = browser.driver.findElement(
+                By.xpath("//a[contains(@class, 'btn-duplicate-qn')][@data-qnnumber='" + qnIndex + "']"));
+        return duplicateBn.isDisplayed();
+    }
+
+    public void clickDuplicateQuestionLink(int qnIndex) {
+        WebElement link = browser.driver.findElement(
+                By.xpath("//a[contains(@class, 'btn-duplicate-qn')][@data-qnnumber='" + qnIndex + "']"));
+        click(link);
     }
 
     public void clickDeleteQuestionLink(int qnIndex) {
@@ -1243,14 +1273,84 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
+    public boolean isMcqWeightBoxFocused(int qnNumber, int choiceIndex) {
+        WebElement weightBox = getMcqWeightBox(qnNumber, choiceIndex);
+
+        return weightBox.equals(browser.driver.switchTo().activeElement());
+    }
+
+    public boolean isMcqOtherWeightBoxFocused(int qnNumber) {
+        WebElement weightBox = getMcqOtherWeightBox(qnNumber);
+        return weightBox.equals(browser.driver.switchTo().activeElement());
+    }
+
     public void fillMcqOptionForNewQuestion(int optionIndex, String optionText) {
-        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "-" + NEW_QUESTION_NUM));
+        fillMcqOption(NEW_QUESTION_NUM, optionIndex, optionText);
+    }
+
+    public void fillMcqOption(int qnNumber, int optionIndex, String optionText) {
+        WebElement optionBox = browser.driver.findElement(By.id("mcqOption-" + optionIndex + "-" + qnNumber));
         fillTextBox(optionBox, optionText);
     }
 
-    public void clickAddMoreMcqOptionLinkForNewQuestion() {
-        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink-" + NEW_QUESTION_NUM));
+    public void clickAddMoreMcqOptionLink(int qnNumber) {
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("mcqAddOptionLink-" + qnNumber));
         click(addMoreOptionLink);
+    }
+
+    public void clickAddMoreMcqOptionLinkForNewQuestion() {
+        clickAddMoreMcqOptionLink(NEW_QUESTION_NUM);
+    }
+
+    public WebElement getMcqHasAssignWeightsCheckbox(int qnNumber) {
+        return browser.driver.findElement(By.id("mcqHasAssignedWeights-" + qnNumber));
+    }
+
+    public void clickMcqHasAssignWeightsCheckbox(int qnNumber) {
+        WebElement mcqAssignWeightCheckbox = getMcqHasAssignWeightsCheckbox(qnNumber);
+        click(mcqAssignWeightCheckbox);
+    }
+
+    public void clickMcqAssignWeightCheckboxForNewQuestion() {
+        clickMcqHasAssignWeightsCheckbox(NEW_QUESTION_NUM);
+    }
+
+    public boolean isMcqHasAssignWeightCheckboxChecked(int qnNumber) {
+        WebElement checkbox = browser.driver.findElement(By.id("mcqHasAssignedWeights-" + qnNumber));
+        return checkbox.isSelected();
+    }
+
+    /**
+     * Get the specified Mcq weight WebElement.
+     * @param qnNumber Question number
+     * @param choiceIndex The index of the corresponding MCQ choice
+     * @return The MCQ weight WebElement for the specified choice.
+     */
+    public WebElement getMcqWeightBox(int qnNumber, int choiceIndex) {
+        String elementId = Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-" + choiceIndex + "-" + qnNumber;
+
+        return browser.driver.findElement(By.id(elementId));
+    }
+
+    /**
+     * Returns the whole MCQ weight column.
+     */
+    public WebElement getMcqWeightsColumn(int qnNumber) {
+        return browser.driver.findElement(By.id("mcqWeights-" + qnNumber));
+    }
+
+    public WebElement getMcqOtherWeightBox(int qnNumber) {
+        return browser.driver.findElement(By.id("mcqOtherWeight-" + qnNumber));
+    }
+
+    public void fillMcqWeightBox(int qnNumber, int choiceIndex, String value) {
+        WebElement weightBox = getMcqWeightBox(qnNumber, choiceIndex);
+        fillTextBox(weightBox, value);
+    }
+
+    public void fillMcqOtherWeightBox(int qnNumber, String value) {
+        WebElement otherWeightBox = getMcqOtherWeightBox(qnNumber);
+        fillTextBox(otherWeightBox, value);
     }
 
     public void clickRemoveMcqOptionLink(int optionIndex, int qnIndex) {

@@ -311,6 +311,15 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         return getInstructorFeedbackEditCopyActionLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
     }
 
+    /**
+     * Retrieves the link to submit the request for resending the session published email.
+     * Also contains feedback page link to return to after the action.
+     * @return form submit action link
+     */
+    public String getSessionResendPublishedEmailLink() {
+        return getInstructorFeedbackResendPublishedEmailLink(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE);
+    }
+
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;
     }
