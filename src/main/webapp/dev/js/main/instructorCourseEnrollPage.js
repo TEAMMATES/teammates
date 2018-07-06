@@ -81,13 +81,10 @@ function updateDataDump() {
 
 /**
  * Loads existing student data into the spreadsheet interface.
- * @returns {Promise} confirmation that existing students data has been loaded into the spreadsheet.
  */
 function loadExistingStudentsData(studentsData) {
-    return new Promise((resolve) => {
-        resolve(dataHandsontable.loadData(ajaxDataToHandsontableData(
-                studentsData, dataHandsontable.getColHeader())));
-    });
+    dataHandsontable.loadData(ajaxDataToHandsontableData(
+            studentsData, dataHandsontable.getColHeader()));
 }
 
 /**
@@ -115,6 +112,16 @@ function getAjaxStudentList(displayIcon) {
 }
 
 /**
+ * Handles how the panels are displayed, including rendering the spreadsheet interface.
+ */
+function adjustStudentsPanelView($panelHeading, panelCollapse,
+        displayIcon, toggleChevron) {
+    toggleStudentsPanel($panelHeading, panelCollapse,
+            displayIcon, toggleChevron);
+    dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
+}
+
+/**
  * Expands "Existing students" panel and loads existing students' data (if spreadsheet is not empty)
  * into the spreadsheet interface. Spreadsheet interface would be shown after expansion.
  * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
@@ -132,25 +139,22 @@ function expandCollapseExistingStudentsPanel() {
                     if (data.students.length === 0) {
                         displayNoExistingStudents(displayIcon);
                     } else {
-                        loadExistingStudentsData(data.students)
-                                .then(() => {
-                                    toggleStudentsPanel($panelHeading, panelCollapse,
-                                            displayIcon, toggleChevron);
-                                    dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
-                                });
+                        loadExistingStudentsData(data.students);
+                        adjustStudentsPanelView($panelHeading, panelCollapse,
+                                displayIcon, toggleChevron);
                     }
                 }).catch(() => {
                     displayErrorExecutingAjax(displayIcon);
                 });
     } else {
-        toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron);
-        dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
+        adjustStudentsPanelView($panelHeading, panelCollapse,
+                displayIcon, toggleChevron);
     }
 }
 
 /**
- * Expands "New students" panel. Spreadsheet interface would be shown after expansion.
- * The panel will be be collapsed otherwise if the spreadsheet interface is already shown.
+ * Expands "New students" panel. Spreadsheet interface would be shown after expansion, including its affiliated buttons.
+ * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
  */
 function expandCollapseNewStudentsPanel() {
     const $panelHeading = $(this);
@@ -161,10 +165,10 @@ function expandCollapseNewStudentsPanel() {
     toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron);
     enrollHandsontable.render();
 
-    if (panelCollapse.attr('class').indexOf('checked') === -1) { // if panel is not shown
-        $('.enroll-students').hide();
+    if ($(panelCollapse[0]).hasClass('checked')) { // if panel is shown
+        $('.enroll-students-spreadsheet-buttons').show();
     } else {
-        $('.enroll-students').show();
+        $('.enroll-students-spreadsheet-buttons').hide();
     }
 }
 
