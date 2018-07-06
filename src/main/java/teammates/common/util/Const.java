@@ -383,6 +383,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS =
                 "Please enter the question for users to give feedback about. "
                 + "e.g. What is the biggest weakness of the presented product?";
+        public static final String FEEDBACK_QUESTION_DUPLICATE =
+                "Make a copy of the existing question and add to the current feedback session.";
         public static final String FEEDBACK_QUESTION_EDIT =
                 "Edit the existing question. Do remember to save the changes before moving on to editing another question.";
         public static final String FEEDBACK_QUESTION_DISCARDCHANGES =
@@ -1409,6 +1411,7 @@ public final class Const {
                 "You have not created any sessions yet. Use the form above to create a session.";
 
         public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
+        public static final String FEEDBACK_QUESTION_DUPLICATED = "The question has been duplicated below.";
         public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question have been updated.";
         public static final String FEEDBACK_QUESTION_DELETED = "The question has been deleted.";
         public static final String FEEDBACK_QUESTION_EMPTY =

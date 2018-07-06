@@ -712,6 +712,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         return fsDeleteLink;
     }
 
+    public boolean verifyDuplicateButtonIsDisplayed(int qnIndex) {
+        WebElement duplicateBn = browser.driver.findElement(
+                By.xpath("//a[contains(@class, 'btn-duplicate-qn')][@data-qnnumber='" + qnIndex + "']"));
+        return duplicateBn.isDisplayed();
+    }
+
+    public void clickDuplicateQuestionLink(int qnIndex) {
+        WebElement link = browser.driver.findElement(
+                By.xpath("//a[contains(@class, 'btn-duplicate-qn')][@data-qnnumber='" + qnIndex + "']"));
+        click(link);
+    }
+
     public void clickDeleteQuestionLink(int qnIndex) {
         WebElement link = browser.driver.findElement(
                 By.xpath("//a[contains(@class, 'btn-delete-qn')][@data-qnnumber='" + qnIndex + "']"));
