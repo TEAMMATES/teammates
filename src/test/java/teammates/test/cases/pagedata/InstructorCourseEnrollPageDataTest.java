@@ -25,7 +25,7 @@ public class InstructorCourseEnrollPageDataTest extends BaseTestCase {
                       + "Tut Group 2 | Team 3 | Thora Parker | thora@email.com";
 
         InstructorCourseEnrollPageData pageData =
-                new InstructorCourseEnrollPageData(account, dummySessionToken, courseId, enroll);
+                new InstructorCourseEnrollPageData(account, dummySessionToken, courseId, enroll, true);
 
         assertNotNull(pageData.getCourseId());
         assertEquals(courseId, pageData.getCourseId());
