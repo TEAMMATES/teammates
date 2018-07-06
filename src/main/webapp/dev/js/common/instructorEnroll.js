@@ -1,3 +1,12 @@
+import {
+    showModalConfirmation,
+    showModalConfirmationWithCancel,
+} from '../common/bootboxWrapper';
+
+import {
+    BootstrapContextualColors,
+} from '../common/const';
+
 /**
  * Retrieves updated column header order and generates a header string.
  *
@@ -73,30 +82,42 @@ function toggleChevronImage(panelCollapse, toggleChevron) {
 }
 
 /**
- * Expands panel, showing the spreadsheet interface.
+ * Expands panel, showing the spreadsheet interface and its affiliated buttons.
  */
-function expandStudentsPanel(panelCollapse) {
+function expandStudentsPanel(panelCollapse, panelName) {
     $(panelCollapse).collapse('show');
     $(panelCollapse[0]).addClass('checked');
+
+    if (panelName === 'New students') {
+        $('.enroll-students').show();
+    } else {
+        $('.existing-students').show();
+    }
 }
 
 /**
- * Collapses panel, hiding the spreadsheet interface.
+ * Collapses panel, hiding the spreadsheet interface and its affiliated buttons.
  */
-function collapseStudentsPanel(panelCollapse) {
+function collapseStudentsPanel(panelCollapse, panelName) {
     $(panelCollapse[0]).collapse('hide');
     $(panelCollapse[0]).removeClass('checked');
+
+    if (panelName === 'New students') {
+        $('.enroll-students').hide();
+    } else {
+        $('.existing-students').hide();
+    }
 }
 
 /**
  * Expands/Collapses the panel depending on the current state of the panel.
  */
-function toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron) {
+function toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron, panelName) {
     displayIcon.html('');
     if ($(panelCollapse[0]).attr('class').indexOf('checked') === -1) {
-        expandStudentsPanel(panelCollapse);
+        expandStudentsPanel(panelCollapse, panelName);
     } else {
-        collapseStudentsPanel(panelCollapse);
+        collapseStudentsPanel(panelCollapse, panelName);
     }
     toggleChevronImage(panelCollapse, toggleChevron);
 }
@@ -135,6 +156,71 @@ function getSpreadsheetLength(dataHandsontable) {
             .length;
 }
 
+/**
+ * Returns the row entries that are different from the initial row entries loaded by the AJAX action.
+ * @returns {string} updated student row entries
+ */
+function getUpdatedStudentRows(dataSpreadsheetData, existingStudentsData) {
+    return dataSpreadsheetData.filter((row, index) => (JSON.stringify(row)
+            !== JSON.stringify(existingStudentsData[index])))
+            .map(row => row.join('|'))
+            .join('\n');
+}
+
+/**
+ * Returns a list of new emails that would be updated.
+ * @returns {string} list of new emails in separate lines.
+ */
+function getNewEmailList(submitText) {
+    const newEmailColumnIndex = 5;
+    return submitText.split('\n')
+            .map(row => row.split('|'))
+            .filter(row => row[newEmailColumnIndex] !== '')
+            .map((row, index) => (index + 1).concat('. ').concat(row[newEmailColumnIndex]))
+            .join('<br>');
+}
+
+/**
+ * Displays the modal box when the user clicks the 'Update' button.
+ * User is given an option to resend past session links to new emails if existing emails are being updated.
+ */
+function showUpdateModalBox(submitText) {
+    $(this).preventDefault();
+    const isOpenOrPublishedEmailSentInThisCourse = $('#openorpublishedemailsent').val();
+    let newEmailList = '';
+    if (submitText !== '') {
+        newEmailList = getNewEmailList(submitText);
+    }
+
+    const yesCallback = function () {
+        $('[name=\'sessionsummarysendemail\']').val(true);
+        $('#button_updatestudents').unbind('click').click();
+    };
+    const noCallback = function () {
+        $('[name=\'sessionsummarysendemail\']').val(false);
+        $('#button_updatestudents').unbind('click').click();
+    };
+    const okCallback = function () {
+        $('[name=\'sessionsummarysendemail\']').val(false);
+        $('#button_updatestudents').unbind('click').click();
+    };
+
+    let messageText = `Updating any changes will result in some existing responses from this student to be deleted.
+    You may download the data before you make the changes.`;
+
+    if (newEmailList === '' || isOpenOrPublishedEmailSentInThisCourse === false) {
+        showModalConfirmation('Confirm update changes', messageText,
+                okCallback, null, null, null, BootstrapContextualColors.INFO);
+    } else {
+        messageText += `<br><br>Do you want to resend past session links of this course
+                        to the following ${newEmailList.split('<br>').length} new email(s)?<br>
+                        ${newEmailList}`;
+        showModalConfirmationWithCancel('Confirm update changes', messageText,
+                yesCallback, noCallback, null, 'Yes, save changes and resend links',
+                'No, just save the changes', 'Cancel', BootstrapContextualColors.INFO);
+    }
+}
+
 export {
     getUpdatedHeaderString,
     getUserDataRows,
@@ -144,4 +230,6 @@ export {
     displayErrorExecutingAjax,
     getSpreadsheetLength,
     toggleStudentsPanel,
+    showUpdateModalBox,
+    getUpdatedStudentRows,
 };
