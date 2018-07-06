@@ -46,7 +46,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 1. Install Google Cloud SDK. Follow the directions given [here](https://cloud.google.com/sdk/downloads).
    Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
    ```sh
-   # Execute this command at the Google Cloud SDK directory
+   # Run the following command at the Google Cloud SDK directory
 
    # Linux/OS X
    ./install.sh --path-update true
