@@ -750,7 +750,7 @@
         <div class="panel-body">
           <p>
             You can view all your archived courses by navigating to the <b>Courses</b> page.<br>
-            Scroll to the <b>Archived Courses</b> heading, which looks similar to this:
+            Scroll to the <b>Archived courses</b> heading, which looks similar to this:
           </p>
           <div class="bs-example">
             <h2 class="text-muted">
@@ -843,7 +843,7 @@
         <div class="panel-body">
           <p>
             You can view all your deleted courses by navigating to the <b>Courses</b> page.<br>
-            Scroll to the <b>Deleted Courses</b> heading, which looks similar to this:
+            Scroll to the <b>Deleted courses</b> heading, which looks similar to this:
           </p>
           <div class="bs-example">
             <h2 class="text-muted">
@@ -990,7 +990,7 @@
     </div>
     <div class="panel panel-default" id="course-delete">
       <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#course-delete-body">
-        <h3 class="panel-title">How do I pernamently delete a course?</h3>
+        <h3 class="panel-title">How do I permanently delete a course?</h3>
       </div>
       <div id="course-delete-body" class="panel-collapse collapse">
         <div class="panel-body">
@@ -1072,7 +1072,7 @@
         <div class="panel-body">
           <p>
             First <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">view the course</a> and check for courses in Recycle Bin.<br>
-            To restore all courses, click on the <a class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-ok"></span><strong> Restore All</strong></a> button in <b>Deleted Courses</b> heading; To delete all courses, click on the <a class="btn btn-default btn-xs color-negative" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-remove"></span><strong> Delete All</strong></a> button in <b>Deleted Courses</b> heading.
+            To restore all courses, click on the <a class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-ok"></span><strong> Restore All</strong></a> button in <b>Deleted courses</b> heading; to delete all courses, click on the <a class="btn btn-default btn-xs color-negative" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-remove"></span><strong> Delete All</strong></a> button in <b>Deleted courses</b> heading.
           </p>
           <div class="bs-example">
             <h2 class="text-muted">
