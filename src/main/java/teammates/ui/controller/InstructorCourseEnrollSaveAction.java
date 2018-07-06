@@ -38,6 +38,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
         String sanitizedStudentsInfo = SanitizationHelper.sanitizeForHtml(studentsInfo);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
 
+        boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
@@ -61,7 +62,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
             InstructorCourseEnrollPageData pageData =
-                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
+                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo,
+                            isOpenOrPublishedEmailSentForTheCourse);
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
@@ -74,7 +76,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
                                       + "please contact TEAMMATES support", StatusMessageColor.DANGER));
 
             InstructorCourseEnrollPageData pageData =
-                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
+                    new InstructorCourseEnrollPageData(account, sessionToken, courseId,
+                            studentsInfo, isOpenOrPublishedEmailSentForTheCourse);
 
             log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);

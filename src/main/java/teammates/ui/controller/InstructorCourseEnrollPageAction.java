@@ -24,8 +24,10 @@ public class InstructorCourseEnrollPageAction extends Action {
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
 
         /* Setup page data for 'Enroll' page of a course */
+        boolean isOpenOrPublishedEmailSentForTheCourse = logic.isOpenOrPublishedEmailSentForTheCourse(courseId);
         InstructorCourseEnrollPageData pageData =
-                new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
+                new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo,
+                        isOpenOrPublishedEmailSentForTheCourse);
 
         statusToAdmin = String.format(Const.StatusMessages.ADMIN_LOG_INSTRUCTOR_COURSE_ENROLL_PAGE_LOAD,
                                       courseId);
