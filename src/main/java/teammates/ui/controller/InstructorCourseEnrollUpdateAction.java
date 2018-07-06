@@ -9,16 +9,23 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StatusMessage;
+import teammates.common.util.StatusMessageColor;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.EmailGenerator;
 
 /**
  * Action: saving the list of edited students for a course of an instructor.
  */
 public class InstructorCourseEnrollUpdateAction extends Action {
 
+    private static final Logger log = Logger.getLogger();
     private static final int SECTION_COLUMN_INDEX = 0;
     private static final int TEAM_COLUMN_INDEX = 1;
     private static final int NAME_COLUMN_INDEX = 2;
@@ -63,6 +70,7 @@ public class InstructorCourseEnrollUpdateAction extends Action {
 
         String[] updatedStudentLinesArray = updatedStudentsInfo.split(System.lineSeparator());
         List<String> invalidityInfo = new ArrayList<>();
+        boolean isSessionSummarySendEmail = getRequestParamAsBoolean(Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK);
 
         for (int i = 0; i < updatedStudentLinesArray.length; i++) {
             String line = updatedStudentLinesArray[i].trim(); // remove the line feed
@@ -114,6 +122,16 @@ public class InstructorCourseEnrollUpdateAction extends Action {
 
                 if (isEmailChanged) {
                     logic.resetStudentGoogleId(student.email, courseId);
+                    if (isSessionSummarySendEmail) {
+                        try {
+                            EmailWrapper email = new EmailGenerator()
+                                    .generateFeedbackSessionSummaryOfCourse(courseId, student);
+                            emailSender.sendEmail(email);
+                        } catch (Exception e) {
+                            log.severe("Error while sending session summary email"
+                                    + TeammatesException.toStringWithStackTrace(e));
+                        }
+                    }
                 }
 
             } catch (EnrollException ee) {
@@ -126,6 +144,10 @@ public class InstructorCourseEnrollUpdateAction extends Action {
         if (!invalidityInfo.isEmpty()) {
             throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
         }
+
+        statusToUser.add(new StatusMessage(isSessionSummarySendEmail
+                ? Const.StatusMessages.STUDENT_UPDATED_AND_EMAIL_SENT
+                : Const.StatusMessages.STUDENT_UPDATED, StatusMessageColor.SUCCESS));
     }
 
     /**
