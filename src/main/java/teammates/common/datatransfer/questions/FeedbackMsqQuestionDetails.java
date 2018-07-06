@@ -15,7 +15,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails.McqStatistics;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails.ResponseStatistics;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -633,8 +633,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if ("student".equals(view) || unsortedResponses.isEmpty()) {
             return "";
         }
-        // Reuse McqStatistics class to generate MSQ Response summary stats
-        McqStatistics msqStats = new McqStatistics(this);
+        // Reuse ResponseStatistics class from FeedbackMcqQuestionDetails to generate MSQ Response summary stats
+        ResponseStatistics msqStats = new ResponseStatistics(this);
 
         // Sort responses based on recipient team and recipient name.
         List<FeedbackResponseAttributes> responses = msqStats.getResponseAttributesSorted(unsortedResponses, bundle);
@@ -706,9 +706,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         StringBuilder csv = new StringBuilder();
-        McqStatistics msqStats = new McqStatistics(this);
+        ResponseStatistics msqStats = new ResponseStatistics(this);
 
-        // Reuse McqStatistics to generate response summary stats
+        // Reuse ResponseStatistics class from FeedbackMcqQuestionDetails to generate response summary stats
         csv.append(msqStats.getResponseSummaryStatsCsv(answerFrequency, numChoicesSelected));
 
         // Create 'Per recipient Stats' for csv if weights are enabled.
@@ -954,10 +954,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private static class MsqPerRecipientStatistics {
         List<String> msqChoices;
         boolean otherEnabled;
-        McqStatistics msqStats;
+        ResponseStatistics msqStats;
 
         MsqPerRecipientStatistics(FeedbackMsqQuestionDetails msqDetails,
-                McqStatistics msqStats) {
+                ResponseStatistics msqStats) {
             this.msqChoices = msqDetails.getMsqChoices();
             this.otherEnabled = msqDetails.getOtherEnabled();
             this.msqStats = msqStats;
