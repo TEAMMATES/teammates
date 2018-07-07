@@ -1738,7 +1738,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(
                 bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
-                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection,
+                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection, selectedSectionDetail,
                 isMissingResponsesShown, isStatsShown());
     }
 
