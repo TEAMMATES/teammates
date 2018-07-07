@@ -58,6 +58,7 @@ public final class FeedbackSessionsLogic {
     private static final String PARAM_QUESTION_ID = "questionId";
     private static final String PARAM_RANGE = "range";
     private static final String PARAM_SECTION = "section";
+    private static final String PARAM_SECTION_DETAIL = "sectionDetail";
     private static final String PARAM_TO_SECTION = "toSection";
     private static final String PARAM_VIEW_TYPE = "viewType";
 
