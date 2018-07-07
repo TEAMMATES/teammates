@@ -581,7 +581,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 String feedbackSessionName, String courseId, String userEmail,
-                                                String questionId, String selectedSection)
+                                                String questionId, String selectedSection, String selectedSectionDetail)
                                         throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -614,7 +614,8 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section, int range, String viewType)
+            String feedbackSessionName, String courseId, String userEmail, String section,
+            int range, String viewType)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -639,7 +640,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, int range)
+            String feedbackSessionName, String courseId, String userEmail, String section, String sectionDetails, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -662,7 +663,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, int range)
+            String feedbackSessionName, String courseId, String userEmail, String section, String sectionDetails, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -688,7 +689,7 @@ public final class FeedbackSessionsLogic {
             String feedbackSessionName, String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        return getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, null);
+        return getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId, userEmail, null, null);
     }
 
     /**
@@ -696,7 +697,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
             String feedbackSessionName, String courseId, String userEmail,
-            String section)
+            String section, String sectionDetails)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -717,7 +718,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSection(
             String feedbackSessionName, String courseId, String userEmail,
-            String section)
+            String section, String sectionDetails)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -738,7 +739,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSection(
             String feedbackSessionName, String courseId, String userEmail,
-            String section)
+            String section, String sectionDetails)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -773,7 +774,7 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         return getFeedbackSessionResultsForUserInSectionByQuestions(
                 feedbackSessionName, courseId, userEmail,
-                UserRole.STUDENT, null, roster);
+                UserRole.STUDENT, null, null, roster);
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
@@ -782,13 +783,13 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         return getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, userEmail, null, questionId,
+                feedbackSessionName, courseId, userEmail, null, null, questionId,
                 isMissingResponsesShown, isStatsShown);
     }
 
     public String getFeedbackSessionResultsSummaryInSectionAsCsv(
-            String feedbackSessionName, String courseId, String userEmail,
-            String section, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
+            String feedbackSessionName, String courseId, String userEmail, String section,
+            String sectionDetail, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         FeedbackSessionResultsBundle results;
@@ -803,7 +804,7 @@ public final class FeedbackSessionsLogic {
                     feedbackSessionName, courseId, userEmail, questionId);
         } else {
             results = getFeedbackSessionResultsForInstructorFromQuestionInSection(
-                    feedbackSessionName, courseId, userEmail, questionId, section);
+                    feedbackSessionName, courseId, userEmail, questionId, section, sectionDetail);
         }
 
         if (!results.isComplete) {
@@ -833,7 +834,7 @@ public final class FeedbackSessionsLogic {
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
-                    results, entry, isMissingResponsesShown, isStatsShown, section));
+                    results, entry, isMissingResponsesShown, isStatsShown, section, sectionDetail));
         }
 
         return exportBuilder.toString();
@@ -842,7 +843,7 @@ public final class FeedbackSessionsLogic {
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
             FeedbackSessionResultsBundle fsrBundle,
             Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
-            boolean isMissingResponsesShown, boolean isStatsShown, String section) {
+            boolean isMissingResponsesShown, boolean isStatsShown, String section, String sectionDetail) {
 
         FeedbackQuestionAttributes question = entry.getKey();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
@@ -1510,13 +1511,13 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
 
         return getFeedbackSessionResultsForUserInSectionByQuestions(
-                feedbackSessionName, courseId, userEmail, role, section, roster);
+                feedbackSessionName, courseId, userEmail, role, section, null, roster);
     }
 
     /* Get the feedback results for user in a section iterated by questions */
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionByQuestions(
             String feedbackSessionName, String courseId, String userEmail,
-            UserRole role, String section, CourseRoster roster)
+            UserRole role, String section, String sectionDetails, CourseRoster roster)
             throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
@@ -1546,7 +1547,7 @@ public final class FeedbackSessionsLogic {
             List<FeedbackResponseAttributes> responsesForThisQn;
 
             responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                    question, userEmail, role, section);
+                    question, userEmail, role, section, sectionDetails);
 
             boolean hasResponses = !responsesForThisQn.isEmpty();
             if (hasResponses) {
@@ -1635,7 +1636,7 @@ public final class FeedbackSessionsLogic {
 
         if (questionId != null) {
             return getFeedbackSessionResultsForQuestionId(feedbackSessionName, courseId, userEmail, role, roster, session,
-                    allQuestions, relevantQuestions, isIncludeResponseStatus, section, questionId);
+                    allQuestions, relevantQuestions, isIncludeResponseStatus, section, sectionDetail, questionId);
         }
 
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
@@ -1767,7 +1768,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForQuestionId(String feedbackSessionName,
                 String courseId, String userEmail, UserRole role, CourseRoster roster, FeedbackSessionAttributes session,
                 List<FeedbackQuestionAttributes> allQuestions, Map<String, FeedbackQuestionAttributes> relevantQuestions,
-                boolean isIncludeResponseStatus, String section, String questionId) {
+                boolean isIncludeResponseStatus, String section, String sectionDetails, String questionId) {
 
         List<FeedbackResponseAttributes> responses = new ArrayList<>();
         Map<String, String> emailNameTable = new HashMap<>();
@@ -1791,7 +1792,7 @@ public final class FeedbackSessionsLogic {
                 List<FeedbackResponseAttributes> responsesForThisQn;
 
                 responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                                                question, userEmail, UserRole.INSTRUCTOR, section);
+                                                question, userEmail, UserRole.INSTRUCTOR, section, sectionDetails);
                 StudentAttributes student = getStudent(courseId, userEmail, role);
                 Set<String> studentsEmailInTeam = getTeammateEmails(courseId, student);
                 boolean hasResponses = !responsesForThisQn.isEmpty();
