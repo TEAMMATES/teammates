@@ -1309,19 +1309,20 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters(except questionId) are non-null. <br>
      * @see FeedbackSessionsLogic#getFeedbackSessionResultsSummaryInSectionAsCsv(String, String, String,
-     *      String, String, boolean, boolean)
+     *      String, String, String, boolean, boolean)
      */
     public String getFeedbackSessionResultSummaryInSectionAsCsv(
             String courseId, String feedbackSessionName, String instructorEmail,
-            String section, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
+            String section, String sectionDetail, String questionId, boolean isMissingResponsesShown, boolean isStatsShown)
             throws EntityDoesNotExistException, ExceedingRangeException {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(section);
+        Assumption.assertNotNull(sectionDetail);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsCsv(
-                feedbackSessionName, courseId, instructorEmail, section,
+                feedbackSessionName, courseId, instructorEmail, section, sectionDetail,
                 questionId, isMissingResponsesShown, isStatsShown);
     }
 
@@ -1675,7 +1676,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, int range)
+            String feedbackSessionName, String courseId, String userEmail, String section, String sectionDetails, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1683,7 +1684,7 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-                                        feedbackSessionName, courseId, userEmail, section, range);
+                                        feedbackSessionName, courseId, userEmail, section, sectionDetails, range);
     }
 
     /**
@@ -1693,7 +1694,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, int range)
+            String feedbackSessionName, String courseId, String userEmail, String section, String sectionDetails, int range)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1701,7 +1702,7 @@ public class Logic {
         Assumption.assertNotNull(userEmail);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorToSectionWithinRange(
-                                        feedbackSessionName, courseId, userEmail, section, range);
+                                        feedbackSessionName, courseId, userEmail, section, sectionDetails, range);
     }
 
     /**
@@ -1733,7 +1734,7 @@ public class Logic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                     String feedbackSessionName, String courseId, String userEmail,
-                                    String questionId, String selectedSection)
+                                    String questionId, String selectedSection, String selectedSectionDetail)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1742,7 +1743,7 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                             feedbackSessionName, courseId, userEmail,
-                                            questionId, selectedSection);
+                                            questionId, selectedSection, selectedSectionDetail);
     }
 
     /**
@@ -1771,7 +1772,7 @@ public class Logic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(String feedbackSessionName,
                                                                                         String courseId,
                                                                                         String userEmail,
-                                                                                        String section)
+                                                                                        String section, String sectionDetails)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1780,7 +1781,7 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                     userEmail, section);
+                                                                                     userEmail, section, sectionDetails);
     }
 
     /**
@@ -1792,7 +1793,7 @@ public class Logic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSection(String feedbackSessionName,
                                                                                           String courseId,
                                                                                           String userEmail,
-                                                                                          String section)
+                                                                                          String section, String sectionDetails)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1801,7 +1802,7 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorFromSection(feedbackSessionName, courseId,
-                                                                                       userEmail, section);
+                                                                                       userEmail, section, sectionDetails);
     }
 
     /**
@@ -1813,7 +1814,7 @@ public class Logic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSection(String feedbackSessionName,
                                                                                         String courseId,
                                                                                         String userEmail,
-                                                                                        String section)
+                                                                                        String section, String sectionDetails)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1822,7 +1823,7 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorToSection(feedbackSessionName, courseId,
-                                                                                     userEmail, section);
+                                                                                     userEmail, section, sectionDetails);
     }
 
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
