@@ -476,12 +476,26 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
                 String feedbackQuestionId, String section, String sectionDetail) {
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
+        if (sectionDetail.contains("both")) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .filter("receiverSection =", section)
+                    .list());
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .filter("receiverSection =", section)
-                .list());
+        } else if (sectionDetail.contains("giver")) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .list());
+
+        } else if (sectionDetail.contains("evaluee")) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("receiverSection =", section)
+                    .list());
+        }
+        // System.out.println("after sectionDetails feedbackresponse size: " + feedbackResponses.size());
 
         feedbackResponses.addAll(load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
