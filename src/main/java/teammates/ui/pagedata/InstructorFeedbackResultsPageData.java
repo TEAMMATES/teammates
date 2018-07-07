@@ -1086,7 +1086,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        bundle.getResponseAnswerHtml(response, question),
                                                                        moderationButton);
             configureResponseRow(prevGiver, response.recipient, responseRow);
-            addCommentsToResponseRow(response, question, responseRow, userIndexesForComments);
+            if (question.getQuestionDetails().isCommentsOnResponsesAllowed()) {
+                addCommentsToResponseRow(response, question, responseRow, userIndexesForComments);
+            } else {
+                responseRow.setCommentsOnResponsesAllowed(false);
+            }
             responseRows.add(responseRow);
         }
 
@@ -1145,8 +1149,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             configureResponseRow(response.giver, response.recipient, responseRow);
 
-            if (isFirstGroupedByGiver) {
+            if (isFirstGroupedByGiver && question.getQuestionDetails().isCommentsOnResponsesAllowed()) {
                 addCommentsToResponseRow(response, question, responseRow, userIndexesForComments);
+            } else {
+                responseRow.setCommentsOnResponsesAllowed(false);
             }
 
             responseRows.add(responseRow);
@@ -1175,8 +1181,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void addCommentsToResponseRow(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
             InstructorFeedbackResultsResponseRow responseRow, Map<String, Integer> userIndexesForComments) {
-        int responseRecipientIndex;
-        int responseGiverIndex;
+        responseRow.setCommentsOnResponsesAllowed(true);
         String giverNameAndTeam = bundle.getNameForEmail(response.giver);
         String recipientNameAndTeam = bundle.getNameForEmail(response.recipient);
 
@@ -1192,26 +1197,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responseRow.setCommentsOnResponses(comments);
         }
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-        boolean isCommentsOnResponsesAllowed =
-                question.getQuestionDetails().isCommentsOnResponsesAllowed();
-        if (isCommentsOnResponsesAllowed) {
-            FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
-                    responseVisibilityMap, giverNameAndTeam, recipientNameAndTeam);
-            responseRow.setAddCommentButton(addCommentForm);
-            if (userIndexesForComments.get(response.giver) == null) {
-                userIndexesForComments.put(response.giver, userIndexesForComments.size() + 1);
-            }
-            responseGiverIndex = userIndexesForComments.get(response.giver);
-            if (userIndexesForComments.get(response.recipient) == null) {
-                userIndexesForComments.put(response.recipient, userIndexesForComments.size() + 1);
-            }
-            responseRecipientIndex = userIndexesForComments.get(response.recipient);
-
-            responseRow.setResponseRecipientIndex(responseRecipientIndex);
-            responseRow.setResponseGiverIndex(responseGiverIndex);
-            responseRow.setCommentsOnResponsesAllowed(isCommentsOnResponsesAllowed);
+        FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
+                responseVisibilityMap, giverNameAndTeam, recipientNameAndTeam);
+        responseRow.setAddCommentButton(addCommentForm);
+        if (userIndexesForComments.get(response.giver) == null) {
+            userIndexesForComments.put(response.giver, userIndexesForComments.size() + 1);
         }
+        int responseGiverIndex = userIndexesForComments.get(response.giver);
+        if (userIndexesForComments.get(response.recipient) == null) {
+            userIndexesForComments.put(response.recipient, userIndexesForComments.size() + 1);
+        }
+        int responseRecipientIndex = userIndexesForComments.get(response.recipient);
 
+        responseRow.setResponseRecipientIndex(responseRecipientIndex);
+        responseRow.setResponseGiverIndex(responseGiverIndex);
     }
 
     private void configureResponseRow(String giver, String recipient,

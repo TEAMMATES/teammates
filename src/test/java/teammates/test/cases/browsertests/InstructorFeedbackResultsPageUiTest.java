@@ -636,14 +636,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
-        addCommentToEmptyResponse("-2-1-0");
+        addCommentToEmptyResponseAndCheckStatusMessage("-2-1-0");
 
         ______TS("GQR view: Typical case: add new feedback response comments using comment modal");
-        addCommentValidToResponse("-2-1-0");
-        addCommentValidToResponse("-3-1-0");
+        addCommentToValidResponseAndVerify("-2-1-0");
+        addCommentToValidResponseAndVerify("-3-1-0");
 
         ______TS("GQR view: Typical case: edit an existing feedback response comment using comment modal");
-        editCommentOnResponse("-2-1-0");
+        editCommentOnResponseAndVerify("-2-1-0", "edited test comment");
 
         ______TS("GQR view: Typical case: edit comment created by different instructors using comment modal");
 
@@ -651,7 +651,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(0, 1);
 
-        editCommentGivenByDifferentInstructors("-1-1-1");
+        editCommentOnResponseAndVerify("-1-1-1", "Comment edited by different instructor");
 
         ______TS("GQR view: Typical case: delete existing feedback response comments using comment modal");
 
@@ -659,8 +659,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
 
-        deleteComment("-2-1-0");
-        deleteComment("-3-1-0");
+        deleteCommentAndVerify("-2-1-0");
+        deleteCommentAndVerify("-3-1-0");
     }
 
     @Test
@@ -672,16 +672,16 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
-        addCommentToEmptyResponse("-2-1-0");
+        addCommentToEmptyResponseAndCheckStatusMessage("-2-1-0");
 
         ______TS("Question view: Typical case: add new feedback response comments using comment modal");
 
-        addCommentValidToResponse("-2-1-0");
-        addCommentValidToResponse("-3-1-0");
+        addCommentToValidResponseAndVerify("-2-1-0");
+        addCommentToValidResponseAndVerify("-3-1-0");
 
         ______TS("Question view: Typical case: edit an existing feedback response comment using comment modal");
 
-        editCommentOnResponse("-2-1-0");
+        editCommentOnResponseAndVerify("-2-1-0", "edited test comment");
 
         ______TS("Question view: Typical case: edit comment created by different instructors using comment modal");
 
@@ -689,7 +689,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(2);
 
-        editCommentGivenByDifferentInstructors("-1-1-0");
+        editCommentOnResponseAndVerify("-1-1-0", "Comment edited by different instructor");
 
         ______TS("Question view: Typical case: delete existing feedback response comments using comment modal");
 
@@ -697,18 +697,18 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
-        deleteComment("-2-1-0");
-        deleteComment("-3-1-0");
+        deleteCommentAndVerify("-2-1-0");
+        deleteCommentAndVerify("-3-1-0");
     }
 
-    private void addCommentToEmptyResponse(String commentId) {
+    private void addCommentToEmptyResponseAndCheckStatusMessage(String commentId) {
         resultsPage.clickCommentModalButton(commentId);
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentId, "");
         resultsPage.verifyCommentFormErrorMessage(commentId, Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         resultsPage.closeCommentModal(commentId);
     }
 
-    private void addCommentValidToResponse(String commentId) {
+    private void addCommentToValidResponseAndVerify(String commentId) {
         String editFormCommentId = commentId + "-1";
         resultsPage.clickCommentModalButton(commentId);
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentId, "test comment 1");
@@ -718,26 +718,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.closeCommentModal(commentId);
     }
 
-    private void editCommentOnResponse(String commentId) {
+    private void editCommentOnResponseAndVerify(String commentId, String commentText) {
         String editFormCommentId = commentId + "-1";
         resultsPage.clickCommentModalButton(commentId);
-        resultsPage.editFeedbackResponseComment(editFormCommentId, "edited test comment");
-        resultsPage.verifyCommentRowContent(editFormCommentId, "edited test comment", "Teammates Test");
-        resultsPage.isElementPresent(By.id("showResponseCommentAddForm" + commentId));
-        resultsPage.closeCommentModal(commentId);
-    }
-
-    private void editCommentGivenByDifferentInstructors(String commentId) {
-        String editFormCommentId = commentId + "-1";
-        resultsPage.clickCommentModalButton(commentId);
-        resultsPage.editFeedbackResponseComment(editFormCommentId, "Comment edited by different instructor");
-        resultsPage.verifyCommentRowContent(editFormCommentId, "Comment edited by different instructor", "Teammates Test");
+        resultsPage.editFeedbackResponseComment(editFormCommentId, commentText);
+        resultsPage.verifyCommentRowContent(editFormCommentId, commentText, "Teammates Test");
         resultsPage.isElementPresent(By.id("showResponseCommentAddForm" + commentId));
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow" + editFormCommentId, 1);
         resultsPage.closeCommentModal(commentId);
     }
 
-    private void deleteComment(String commentId) {
+    private void deleteCommentAndVerify(String commentId) {
         String editFormCommentId = commentId + "-1";
         resultsPage.clickCommentModalButton(commentId);
         resultsPage.deleteFeedbackResponseCommentInModal(editFormCommentId);
