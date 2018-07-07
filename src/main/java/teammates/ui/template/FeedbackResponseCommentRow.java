@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -38,13 +39,14 @@ public class FeedbackResponseCommentRow {
     private boolean isEditDeleteEnabled;
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-            Map<String, String> instructorEmailNameTable, ZoneId sessionTimeZone) {
+            Map<String, String> instructorEmailNameTable, ZoneId sessionTimeZone, FeedbackQuestionAttributes question) {
         this.instructorEmailNameTable = instructorEmailNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
+        this.visibilityIconString = getTypeOfPeopleCanViewComment(frc.isVisibilityFollowingFeedbackQuestion, question);
 
         //TODO TO REMOVE AFTER DATA MIGRATION
         this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(giverDisplay));
@@ -54,8 +56,8 @@ public class FeedbackResponseCommentRow {
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
             Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> instructorEmailNameTable,
-            ZoneId sessionTimeZone) {
-        this(frc, giverDisplay, instructorEmailNameTable, sessionTimeZone);
+            ZoneId sessionTimeZone, FeedbackQuestionAttributes question) {
+        this(frc, giverDisplay, instructorEmailNameTable, sessionTimeZone, question);
         setDataForAddEditDelete(frc, giverName, recipientName,
                 showCommentToString, showGiverNameToString, responseVisibilities);
     }
@@ -259,5 +261,58 @@ public class FeedbackResponseCommentRow {
                     ? ""
                     : "by " + SanitizationHelper.sanitizeForHtml(instructorEmailNameTable.get(lastEditorEmail)) + " ")
                 + "at " + TimeHelper.formatDateTimeForDisplay(lastEditedAt, sessionTimeZone) + ")";
+    }
+
+    /**
+     * Returns the type of people that can view the response comment.
+     */
+    private String getTypeOfPeopleCanViewComment(boolean isVisibilityFollowingFeedbackQuestion,
+                                                FeedbackQuestionAttributes relatedQuestion) {
+        List<FeedbackParticipantType> showCommentTo;
+        if (isVisibilityFollowingFeedbackQuestion) {
+            showCommentTo = relatedQuestion.showResponsesTo;
+        } else {
+            showCommentTo = this.showCommentTo;
+        }
+        if (showCommentTo == null || showCommentTo.isEmpty()) {
+            return "nobody";
+        }
+
+        StringBuilder peopleCanView = new StringBuilder(100);
+        for (int i = 0; i < showCommentTo.size(); i++) {
+            FeedbackParticipantType commentViewer = showCommentTo.get(i);
+            if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
+                peopleCanView.append("and ");
+            }
+
+            switch (commentViewer) {
+            case GIVER:
+                peopleCanView.append("response giver, ");
+                break;
+            case RECEIVER:
+                peopleCanView.append("response recipient, ");
+                break;
+            case OWN_TEAM:
+                peopleCanView.append("response giver's team, ");
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                peopleCanView.append("response recipient's team, ");
+                break;
+            case STUDENTS:
+                peopleCanView.append("other students in this course, ");
+                break;
+            case INSTRUCTORS:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
+            }
+        }
+        String peopleCanViewString = peopleCanView.toString();
+        return removeEndComma(peopleCanViewString);
+    }
+
+    private String removeEndComma(String str) {
+        return str.substring(0, str.length() - 2);
     }
 }

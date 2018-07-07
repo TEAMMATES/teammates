@@ -212,8 +212,7 @@ public class StudentFeedbackResultsPageData extends PageData {
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) {
                 FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(comment, comment.giverEmail,
-                        bundle.instructorEmailNameTable, bundle.getTimeZone());
-                frcRow.setVisibilityIconString(getTypeOfPeopleCanViewComment(comment, question));
+                        bundle.instructorEmailNameTable, bundle.getTimeZone(), question);
                 comments.add(frcRow);
             }
         }

@@ -181,9 +181,7 @@ public class InstructorSearchPageData extends PageData {
 
             ZoneId sessionTimeZone = frcSearchResultBundle.sessions.get(responseEntry.feedbackSessionName).getTimeZone();
             FeedbackResponseCommentRow frcDiv = new FeedbackResponseCommentRow(frc, frCommentGiver,
-                    frcSearchResultBundle.instructorEmailNameTable, sessionTimeZone);
-            frcDiv.setVisibilityIconString(getTypeOfPeopleCanViewComment(frc, question));
-
+                    frcSearchResultBundle.instructorEmailNameTable, sessionTimeZone, question);
             rows.add(frcDiv);
         }
         return rows;
