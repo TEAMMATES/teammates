@@ -595,6 +595,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_QUESTION_ID, questionId);
         params.put(PARAM_SECTION, selectedSection);
+        params.put(PARAM_SECTION_DETAIL, selectedSectionDetail);
 
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName, courseId, userEmail,
                                                           UserRole.INSTRUCTOR, roster, params);
@@ -653,6 +654,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_FROM_SECTION, "true");
         params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_SECTION, section);
+        params.put(PARAM_SECTION_DETAIL, sectionDetails);
         if (range > 0) {
             params.put(PARAM_RANGE, String.valueOf(range));
         }
@@ -676,6 +678,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_FROM_SECTION, "false");
         params.put(PARAM_TO_SECTION, "true");
         params.put(PARAM_SECTION, section);
+        params.put(PARAM_SECTION_DETAIL, sectionDetails);
         if (range > 0) {
             params.put(PARAM_RANGE, String.valueOf(range));
         }
@@ -710,6 +713,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_FROM_SECTION, "false");
         params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_SECTION, section);
+        params.put(PARAM_SECTION_DETAIL, sectionDetails);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
     }
@@ -731,6 +735,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_FROM_SECTION, "true");
         params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_SECTION, section);
+        params.put(PARAM_SECTION_DETAIL, sectionDetails);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
     }
@@ -752,6 +757,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_FROM_SECTION, "false");
         params.put(PARAM_TO_SECTION, "true");
         params.put(PARAM_SECTION, section);
+        params.put(PARAM_SECTION_DETAIL, sectionDetails);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
     }
