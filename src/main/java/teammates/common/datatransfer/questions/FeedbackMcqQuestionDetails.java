@@ -673,32 +673,32 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Class to calculate result statistics of responses for MCQ and MSQ questions.
+     * Class to calculate result statistics of responses.
      */
     public static class ResponseStatistics {
         boolean hasAssignedWeights;
-        List<String> mcqChoices;
-        List<Double> mcqWeights;
-        double mcqOtherWeight;
+        List<String> choices;
+        List<Double> weights;
+        double otherWeight;
         boolean otherEnabled;
-        int numOfMcqChoices;
+        int numOfChoices;
 
-        public ResponseStatistics(FeedbackMcqQuestionDetails mcqDetails) {
-            this.mcqChoices = mcqDetails.getMcqChoices();
-            this.numOfMcqChoices = mcqChoices.size();
-            this.mcqWeights = mcqDetails.getMcqWeights();
-            this.otherEnabled = mcqDetails.getOtherEnabled();
-            this.hasAssignedWeights = mcqDetails.hasAssignedWeights();
-            this.mcqOtherWeight = mcqDetails.getMcqOtherWeight();
+        public ResponseStatistics(FeedbackMcqQuestionDetails questionDetails) {
+            this.choices = questionDetails.getMcqChoices();
+            this.numOfChoices = choices.size();
+            this.weights = questionDetails.getMcqWeights();
+            this.otherEnabled = questionDetails.getOtherEnabled();
+            this.hasAssignedWeights = questionDetails.hasAssignedWeights();
+            this.otherWeight = questionDetails.getMcqOtherWeight();
         }
 
-        public ResponseStatistics(FeedbackMsqQuestionDetails msqDetails) {
-            this.mcqChoices = msqDetails.getMsqChoices();
-            this.numOfMcqChoices = mcqChoices.size();
-            this.mcqWeights = msqDetails.getMsqWeights();
-            this.otherEnabled = msqDetails.getOtherEnabled();
-            this.hasAssignedWeights = msqDetails.hasAssignedWeights();
-            this.mcqOtherWeight = msqDetails.getMsqOtherWeight();
+        public ResponseStatistics(FeedbackMsqQuestionDetails questionDetails) {
+            this.choices = questionDetails.getMsqChoices();
+            this.numOfChoices = choices.size();
+            this.weights = questionDetails.getMsqWeights();
+            this.otherEnabled = questionDetails.getOtherEnabled();
+            this.hasAssignedWeights = questionDetails.hasAssignedWeights();
+            this.otherWeight = questionDetails.getMsqOtherWeight();
         }
 
         /**
@@ -707,7 +707,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         public Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
             Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
-            for (String option : mcqChoices) {
+            for (String option : choices) {
                 answerFrequency.put(option, 0);
             }
 
@@ -728,11 +728,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
-         * Calculates the weighted percentage for each option in a mcq question.
+         * Calculates the weighted percentage for each option.
          * weighted percentage = (response count per option) * (weight of that option) / totalWeightedResponseCount<br>
          * where as, totalWeightedResponseCount is defined as:<br>
          * totalWeightedResponseCount += [response count of option i * weight of option i] for all options.
-         * @param answerFrequency Response count of each option in a mcq question.
+         * @param answerFrequency Response count of each option.
          */
         public Map<String, Double> calculateWeightedPercentagePerOption(Map<String, Integer> answerFrequency) {
             Map<String, Double> weightedPercentagePerOption = new LinkedHashMap<>();
@@ -740,14 +740,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             Assumption.assertTrue("Weights should be enabled when calling the function", hasAssignedWeights);
             double totalWeightedResponseCount = calculateTotalWeightedResponseCount(answerFrequency);
 
-            for (int i = 0; i < mcqChoices.size(); i++) {
-                String option = mcqChoices.get(i);
-                double weight = mcqWeights.get(i);
+            for (int i = 0; i < choices.size(); i++) {
+                String option = choices.get(i);
+                double weight = weights.get(i);
                 weightedPercentagePerOption.put(option, weight);
             }
 
             if (otherEnabled) {
-                weightedPercentagePerOption.put("Other", mcqOtherWeight);
+                weightedPercentagePerOption.put("Other", otherWeight);
             }
 
             for (String key : weightedPercentagePerOption.keySet()) {
@@ -769,7 +769,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         public double calculateTotalWeightedResponseCount(Map<String, Integer> answerFrequency) {
             double totalWeightedResponseCount = 0;
             for (String choice : answerFrequency.keySet()) {
-                double weight = "Other".equals(choice) ? mcqOtherWeight : mcqWeights.get(mcqChoices.indexOf(choice));
+                double weight = "Other".equals(choice) ? otherWeight : weights.get(choices.indexOf(choice));
                 int responseCount = answerFrequency.get(choice);
                 totalWeightedResponseCount += responseCount * weight;
             }
@@ -828,9 +828,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
                 // Get the weight of the choice.
                 if ("Other".equals(choice)) {
-                    weight = mcqOtherWeight;
+                    weight = otherWeight;
                 } else {
-                    weight = mcqWeights.get(mcqChoices.indexOf(choice));
+                    weight = weights.get(choices.indexOf(choice));
                 }
                 // Add the total weight of all responses of this choice to total.
                 total += responseCount * weight;
@@ -855,7 +855,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 perRecipientResponse.computeIfAbsent(response.recipient, key -> {
                     // construct default value for responseCount
                     Map<String, Integer> responseCountPerOption = new LinkedHashMap<>();
-                    for (String choice : mcqChoices) {
+                    for (String choice : choices) {
                         responseCountPerOption.put(choice, 0);
                     }
                     if (otherEnabled) {
@@ -878,7 +878,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return perRecipientResponse;
         }
 
-        // Generate MCQ Recipient Response statistics for csv files.
+        // Generate Recipient Response statistics for csv files.
 
         /**
          * Returns a String containing the Response Summary statistics for CSV files.
@@ -899,9 +899,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     int responseCount = answerFrequency.get(key);
                     String weightString = "";
                     if ("Other".equals(key)) {
-                        weightString = df.format(mcqOtherWeight);
+                        weightString = df.format(otherWeight);
                     } else {
-                        weightString = df.format(mcqWeights.get(mcqChoices.indexOf(key)));
+                        weightString = df.format(weights.get(choices.indexOf(key)));
                     }
 
                     fragments.append(SanitizationHelper.sanitizeForCsv(key)).append(',')
@@ -927,7 +927,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         public String getPerRecipientResponseStatsCsv(List<FeedbackResponseAttributes> responses,
                 FeedbackSessionResultsBundle bundle) {
             String header = getPerRecipientResponseStatsHeaderCsv();
-            // Get the response attributes sorted based on Recipient Teamname and recipient name.
+            // Get the response attributes sorted based on Recipient Team name and recipient name.
             List<FeedbackResponseAttributes> sortedResponses = getResponseAttributesSorted(responses, bundle);
             String body = getPerRecipientResponseStatsBodyCsv(sortedResponses, bundle);
 
@@ -940,12 +940,12 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             header.append("Team, Recipient Name,");
 
-            for (int i = 0; i < numOfMcqChoices; i++) {
-                String choiceString = mcqChoices.get(i) + " [" + df.format(mcqWeights.get(i)) + "]";
+            for (int i = 0; i < numOfChoices; i++) {
+                String choiceString = choices.get(i) + " [" + df.format(weights.get(i)) + "]";
                 header.append(SanitizationHelper.sanitizeForCsv(choiceString)).append(',');
             }
             if (otherEnabled) {
-                String otherOptionString = "Other [" + df.format(mcqOtherWeight) + "]";
+                String otherOptionString = "Other [" + df.format(otherWeight) + "]";
                 header.append(SanitizationHelper.sanitizeForCsv(otherOptionString)).append(',');
             }
             header.append("Total, Average").append(System.lineSeparator());
@@ -988,7 +988,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             return fragments.toString();
         }
 
-        // Generate MCQ Recipient Response statistics for result page.
+        // Generate Recipient Response statistics for result page.
 
         public String getRecipientStatsHeaderFragmentHtml(String header) {
             return Templates.populateTemplate(
@@ -1004,14 +1004,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             DecimalFormat df = new DecimalFormat("#.##");
             StringBuilder choicesHtmlBuilder = new StringBuilder(100);
 
-            for (int i = 0; i < mcqChoices.size(); i++) {
-                String weight = df.format(mcqWeights.get(i));
-                String html = getRecipientStatsHeaderFragmentHtml(mcqChoices.get(i) + " [" + weight + "]");
+            for (int i = 0; i < choices.size(); i++) {
+                String weight = df.format(weights.get(i));
+                String html = getRecipientStatsHeaderFragmentHtml(choices.get(i) + " [" + weight + "]");
                 choicesHtmlBuilder.append(html);
             }
             if (otherEnabled) {
-                String otherWeight = df.format(mcqOtherWeight);
-                String html = getRecipientStatsHeaderFragmentHtml("Other" + " [" + otherWeight + "]");
+                String otherWeightString = df.format(otherWeight);
+                String html = getRecipientStatsHeaderFragmentHtml("Other" + " [" + otherWeightString + "]");
                 choicesHtmlBuilder.append(html);
             }
 
