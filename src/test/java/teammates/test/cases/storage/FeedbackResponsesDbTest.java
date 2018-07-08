@@ -240,27 +240,27 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
 
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1");
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", null);
 
         assertEquals(3, responses.size());
 
         ______TS("No responses as they are filtered out");
 
-        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2");
+        responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2", null);
 
         assertEquals(0, responses.size());
 
         ______TS("null params");
 
         try {
-            frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1");
+            frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1", null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
 
         try {
-            frDb.getFeedbackResponsesForQuestionInSection(questionId, null);
+            frDb.getFeedbackResponsesForQuestionInSection(questionId, null, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -268,7 +268,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("non-existent feedback question");
 
-        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1", null).isEmpty());
     }
 
     @Test
