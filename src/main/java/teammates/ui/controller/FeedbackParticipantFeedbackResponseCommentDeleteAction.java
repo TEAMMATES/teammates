@@ -62,17 +62,18 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
         }
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(commentId);
         if (frc.isCommentFromFeedbackParticipant) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
             switch (frc.commentGiverType) {
             case INSTRUCTORS:
+                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 gateKeeper.verifyOwnership(frc, instructor.email);
                 break;
             case STUDENTS:
+                StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
                 gateKeeper.verifyOwnership(frc, student.email);
                 break;
             case TEAMS:
-                gateKeeper.verifyOwnership(frc, student.team);
+                StudentAttributes studentOfTeam = logic.getStudentForGoogleId(courseId, account.googleId);
+                gateKeeper.verifyOwnership(frc, studentOfTeam.team);
                 break;
             default:
                 Assumption.fail("Invalid comment giver type");
