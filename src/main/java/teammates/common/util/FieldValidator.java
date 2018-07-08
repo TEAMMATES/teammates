@@ -713,6 +713,12 @@ public class FieldValidator {
         return "";
     }
 
+    /**
+     * Checks if visibility of comment is following question when comment is from a feedback participant.
+     * @param isCommentFromFeedbackParticipant true if comment is from feedback participant.
+     * @param isVisibilityFollowingFeedbackQuestion true if visibility of comment follows question.
+     * @return Error string if condition is not met, otherwise empty string.
+     */
     public String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(boolean isCommentFromFeedbackParticipant,
             boolean isVisibilityFollowingFeedbackQuestion) {
         if (isCommentFromFeedbackParticipant && !isVisibilityFollowingFeedbackQuestion) {
