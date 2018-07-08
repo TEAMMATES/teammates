@@ -4,16 +4,16 @@
     "bootbox": "4.4.0",
     "bootstrap": "3.1.1",
     "d3": "3.5.17",
-    "datamaps": "0.5.8",
+    "datamaps": "0.5.9",
     "handsontable": "3.0.0",
     "guillotine": "1.3.1",
     "jquery": "1.12.4",
     "jquery-highlight": "3.4.0",
     "jquery-ui-dist": "1.12.1",
-    "moment": "2.21.0",
+    "moment": "2.22.2",
     "printthis": "0.1.5",
-    "qunitjs": "2.4.1",
-    "tinymce": "4.7.9",
+    "qunit": "2.6.1",
+    "tinymce": "4.7.13",
     "topojson": "1.6.27"
   }
 }
