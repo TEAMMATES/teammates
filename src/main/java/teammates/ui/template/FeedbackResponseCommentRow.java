@@ -46,7 +46,7 @@ public class FeedbackResponseCommentRow {
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
-        this.visibilityIconString = getTypeOfPeopleCanViewComment(frc.isVisibilityFollowingFeedbackQuestion, question);
+        this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
 
         //TODO TO REMOVE AFTER DATA MIGRATION
         this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(giverDisplay));
@@ -266,13 +266,13 @@ public class FeedbackResponseCommentRow {
     /**
      * Returns the type of people that can view the response comment.
      */
-    private String getTypeOfPeopleCanViewComment(boolean isVisibilityFollowingFeedbackQuestion,
+    private String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
                                                 FeedbackQuestionAttributes relatedQuestion) {
         List<FeedbackParticipantType> showCommentTo;
-        if (isVisibilityFollowingFeedbackQuestion) {
+        if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
         } else {
-            showCommentTo = this.showCommentTo;
+            showCommentTo = comment.showCommentTo;
         }
         if (showCommentTo == null || showCommentTo.isEmpty()) {
             return "nobody";
