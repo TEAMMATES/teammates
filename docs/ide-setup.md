@@ -5,7 +5,7 @@
 
 ## Eclipse IDE
 
-> - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows or Linux.
+> - If you are using Windows, replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...`. The steps are similar for Linux users.
 > - If you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES.
 
 Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or Oxygen](http://www.eclipse.org/downloads/).
@@ -100,7 +100,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 > - Replace all references of `IntelliJ IDEA → Preferences` to `File → Settings` if you are using Windows or Linux.
 
 Supported IntelliJ versions: IntelliJ IDEA Ultimate Edition (required to work with Google App Engine).
-You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
+You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student at an educational institution.
 
 ### Prerequisites
 
@@ -108,7 +108,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 
    * Click `Configure → Project Defaults → Project Structure` (or `File → Project Structure` if a project is currently open).
      Select SDKs in Platform Settings and check if there is an SDK named `1.8` with a JDK home path pointing to a JDK 8 path.
-     Otherwise add a new SDK using JDK 8 with a name of `1.8`.
+     Otherwise, add a new SDK using JDK 8 with a name of `1.8`.
      ![intellijsetupguide-1.png](images/intellijsetupguide-1.png)
 
 1. You need the [Google Cloud Tools](https://cloud.google.com/tools/intellij/docs/quickstart-IDEA#install) plugin installed and configured:
@@ -116,14 +116,14 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
    ![intellijsetupguide-2.png](images/intellijsetupguide-2.png)
    * During installation, you may encounter a prompt to disable the obsolete `Google App Engine Integration` plugin. Answer `Yes`.
    * After installation, restart IntelliJ IDEA and configure the plugin.
-     Click `Configure → Settings/Preferences` (or `IntelliJ IDEA → Preferences` if a project is currently open),
+     Click `Configure → Settings/Preferences` (or `IntelliJ IDEA → Preferences` if the project is open),
      go to `Other Settings → Google → Cloud SDK`, and select your Google Cloud SDK directory.
      ![intellijsetupguide-3.png](images/intellijsetupguide-3.png)
 
 ### Project Setup
 
 1. Import the project as a Gradle project as follows:
-   1. Click `Import Project` (or `File → New → Project from Existing Sources...` if a project is currently open).
+   1. Click `Import Project` (or `File → New → Project from Existing Sources...` if the project is open).
    1. Select the local repository folder and click `Open`.
    1. Select `Import project from external model` and then `Gradle`.
    1. Click `Next`.
@@ -136,17 +136,17 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
       `Framework detected: Google App Engine Standard framework is detected.`.\
       **OR**\
       `Frameworks detected: Web, Google App Engine Standard frameworks are detected`.\
-      Click `Configure` and ensure that only the `Google App Engine Standard` framework is shown, then click `OK`.
-      If there are other frameworks shown, click `Cancel` and wait until indexing completes, then try again.
+      Click on `Configure` and ensure that only the `Google App Engine Standard` framework is shown, then click `OK`.
+      If there are other frameworks shown, click `Cancel` and wait until indexing is completed, then try again.
       > If you closed or missed the dialog box, go to `View → Tool Windows → Event Log`.
-        You should see the same message as the dialog box, click `Configure` and then `OK`.
+        You should see the same message as the message in the dialog box. Click `Configure` and then `OK`.
 
 1. Configure the following project-specific settings (all can be found in `IntelliJ IDEA → Preferences → ...`):
 
    * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
      Configure for all the languages used in TEAMMATES:
      1. Go to `Editor → Code Style`.
-     1. Select `Project` for `Scheme` if you do not wish to make the rules the default for your IDE.
+     1. Select `Project` for `Scheme` if you do not wish to make the settings the default for your IDE.
      1. For `Java`, `JavaScript`, `JSON`, `CSS`, `XML`, `HTML`, and `JSP`:
         * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `4`, `4`, and `8` respectively.
         * For `HTML`, `JSON`, and `JSP`, the numbers are `2`, `2`, and `4` instead.
