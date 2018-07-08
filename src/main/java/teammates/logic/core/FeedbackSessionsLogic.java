@@ -1639,6 +1639,7 @@ public final class FeedbackSessionsLogic {
         boolean isIncludeResponseStatus = Boolean.parseBoolean(params.get(PARAM_IS_INCLUDE_RESPONSE_STATUS));
 
         String section = params.get(PARAM_SECTION);
+        String sectionDetail = params.get(PARAM_SECTION_DETAIL);
         String questionId = params.get(PARAM_QUESTION_ID);
 
         if (questionId != null) {
