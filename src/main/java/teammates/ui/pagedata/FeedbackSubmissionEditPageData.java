@@ -329,5 +329,4 @@ public class FeedbackSubmissionEditPageData extends PageData {
         }
         return false;
     }
-
 }
