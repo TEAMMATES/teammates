@@ -258,9 +258,13 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             FeedbackResponseCommentAttributes comment = JsonUtils.fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(),
                     FeedbackResponseCommentAttributes.class);
-            if (frcDb.getFeedbackResponseComment(comment.getId()) == null) {
+            FeedbackResponseCommentAttributes commentFromDb = frcDb.getFeedbackResponseComment(comment.getId());
+            if (commentFromDb == null) {
                 frcDb.deleteDocument(comment);
                 continue;
+            } else {
+                // TODO: Remove after Data Migration
+                comment.commentGiver = commentFromDb.commentGiver;
             }
             List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
             if (commentList == null) {
