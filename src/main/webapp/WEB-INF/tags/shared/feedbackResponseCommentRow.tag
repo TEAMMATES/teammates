@@ -11,7 +11,6 @@
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="frcIndex" %>
 <%@ attribute name="viewType" %>
-<%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean"%>
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="submittable" %>
@@ -61,7 +60,7 @@
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
         <c:choose>
-          <c:when test="${isOnFeedbackSubmissionEditPage}">
+          <c:when test="${frc.commentFromFeedbackParticipant}">
             <div class="responseCommentDeleteForm pull-right float-right clearfix">
           </c:when>
           <c:otherwise>
@@ -76,7 +75,7 @@
               data-placement="top"
               title="<%= Const.Tooltips.COMMENT_DELETE %>"
              <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>
-             <c:if test="${isOnFeedbackSubmissionEditPage and (isPreview or (not submittable))}">disabled style="background: #66727A;" </c:if>>
+             <c:if test="${frc.commentFromFeedbackParticipant and (isPreview or (not submittable))}">disabled style="background: #66727A;" </c:if>>
             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
           </a>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
@@ -90,7 +89,7 @@
             <input name="<%= Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON %>" value="${moderatedPersonEmail}" type="hidden">
           </c:if>
         <c:choose>
-          <c:when test="${isOnFeedbackSubmissionEditPage}">
+          <c:when test="${frc.commentFromFeedbackParticipant}">
             </div>
           </c:when>
           <c:otherwise>
@@ -107,7 +106,7 @@
                 <c:if test="${not empty frcIndex}">data-frcindex="${frcIndex}"</c:if>
                 <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
                 <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
-                <c:if test="${not isSessionOpenForSubmission && isOnFeedbackSubmissionEditPage}">disabled</c:if>
+                <c:if test="${not isSessionOpenForSubmission && frc.commentFromFeedbackParticipant}">disabled</c:if>
               </c:when>
               <c:otherwise>
                 class="btn btn-default btn-xs icon-button pull-right<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
@@ -141,7 +140,6 @@
         textAreaId="${textAreaId}"
         submitLink="${submitLink}"
         buttonText="Save"
-        isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
         isModeration="${isModeration}"
         moderatedPersonEmail="${moderatedPersonEmail}"/>
   </c:if>

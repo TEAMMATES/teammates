@@ -17,14 +17,13 @@
 <%@ attribute name="buttonText" required="true" %>
 <%@ attribute name="viewType" %>
 <%@ attribute name="isOnQuestionsPage" %>
-<%@ attribute name="isOnFeedbackSubmissionEditPage"%>
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="isModeration" %>
 
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
 <c:choose>
-  <c:when test="${isOnFeedbackSubmissionEditPage}">
+  <c:when test="${frc.commentFromFeedbackParticipant}">
     <div class="responseComment${formType}Form"<c:if test="${isEditForm}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
   </c:when>
   <c:otherwise>
@@ -32,7 +31,7 @@
   </c:otherwise>
 </c:choose>
 <div class="form-group form-inline">
-    <div class="form-group text-muted"<c:if test="${isOnFeedbackSubmissionEditPage}"> style="margin-left:1em;"</c:if>>
+    <div class="form-group text-muted"<c:if test="${frc.commentFromFeedbackParticipant}"> style="margin-left:1em;"</c:if>>
       <c:choose>
         <c:when test="${frc.commentFromFeedbackParticipant}">
           <p>
@@ -225,7 +224,7 @@
         type="button"
         class="btn btn-primary"
         id="button_save_comment_for_${fn:toLowerCase(formType)}-${divId}"
-        <c:if test="${isOnFeedbackSubmissionEditPage}">
+        <c:if test="${frc.commentFromFeedbackParticipant}">
           style="display: none;"
         </c:if>>
       ${buttonText}
@@ -246,7 +245,7 @@
 </c:if>
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${fsIndex}">
 <c:choose>
-  <c:when test="${isOnFeedbackSubmissionEditPage}">
+  <c:when test="${frc.commentFromFeedbackParticipant}">
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>-${divId}" value="${frc.commentId}"></c:if>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>-${divId}">
     <c:if test="${isModeration}">
@@ -266,7 +265,7 @@
   </c:otherwise>
 </c:choose>
 <c:choose>
-  <c:when test="${isOnFeedbackSubmissionEditPage}">
+  <c:when test="${frc.commentFromFeedbackParticipant}">
     </div>
   </c:when>
   <c:otherwise>

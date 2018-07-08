@@ -69,13 +69,13 @@
           <c:if test="${isCommentOnResponse}">
             <shared:feedbackResponseCommentRow frc="${response.feedbackParticipantCommentOnResponse}"
                 firstIndex="${responseRecipientIndex}" secondIndex="${responseGiverIndex}"
-                thirdIndex="${questionIndex}" frcIndex="1" isOnFeedbackSubmissionEditPage="true"
-                moderatedPersonEmail="${moderatedPersonEmail}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-                isPreview="${data.preview}" submittable="${data.submittable}" isModeration="${data.moderation}"/>
+                thirdIndex="${questionIndex}" frcIndex="1" moderatedPersonEmail="${moderatedPersonEmail}"
+                isSessionOpenForSubmission="${isSessionOpenForSubmission}" isPreview="${data.preview}"
+                submittable="${data.submittable}" isModeration="${data.moderation}"/>
           </c:if>
 
           <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}" firstIndex="${responseRecipientIndex}"
-             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}" isOnFeedbackSubmissionEditPage="true"
+             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
              isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
         </ul>
       </div>

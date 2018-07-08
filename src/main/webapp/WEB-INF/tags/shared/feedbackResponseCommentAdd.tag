@@ -9,7 +9,6 @@
 <%@ attribute name="thirdIndex" %>
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="isOnQuestionsPage" %>
-<%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="isModeration" %>
 
@@ -22,7 +21,7 @@
   </c:when>
 </c:choose>
 
-<c:if test="${frc.commentGiverType eq 'instructor'}">
+<c:if test="${not frc.commentFromFeedbackParticipant}">
   <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %>
   </c:set>
 </c:if>
@@ -40,7 +39,6 @@
       submitLink="${submitLink}"
       buttonText="Add"
       isOnQuestionsPage="${isOnQuestionsPage}"
-      isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
       isModeration="${isModeration}"
       moderatedPersonEmail="${moderatedPersonEmail}"/>
 </li>
