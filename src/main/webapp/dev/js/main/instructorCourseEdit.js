@@ -435,13 +435,12 @@ function editCourse() {
 }
 
 function cancelEditingCourse() {
-    $('#detailsTable').get(0).reset();
-    $('#btnSaveCourse').hide();
     $(`#${ParamsNames.COURSE_NAME}`).prop('disabled', true);
     $(`#${ParamsNames.COURSE_TIME_ZONE}`).prop('disabled', true);
     $('#auto-detect-time-zone').prop('disabled', true);
     $('#courseEditLink').show();
     $('#cancelEditCourseLink').hide();
+    $('#btnSaveCourse').hide();
 }
 
 let instructorSize;
@@ -514,7 +513,7 @@ $(document).ready(() => {
     }
 
     $('a[id^="cancelEditCourseLink"]').hide();
-    $('#cancelEditCourseLink').click(cancelEditingCourse);
+    $('a[id^="cancelEditCourseLink"]').click(cancelEditingCourse);
     $('#courseEditLink').click(editCourse);
     $('a[id^="instrCancelLink"]').hide();
     $('a[id^="instrCancelLink"]').click(function () {
