@@ -9,7 +9,6 @@
 <%@ attribute name="thirdIndex" %>
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="isOnQuestionsPage" %>
-<%@ attribute name="isOnFeedbackSubmissionEditPage" %>
 <%@ attribute name="moderatedPersonEmail" %>
 <%@ attribute name="isModeration" %>
 
@@ -40,7 +39,6 @@
       submitLink="${submitLink}"
       buttonText="Add"
       isOnQuestionsPage="${isOnQuestionsPage}"
-      isOnFeedbackSubmissionEditPage="${isOnFeedbackSubmissionEditPage}"
       isModeration="${isModeration}"
       moderatedPersonEmail="${moderatedPersonEmail}"/>
 </li>
