@@ -16,6 +16,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
+        String sectionDetail = getRequestParamValue(Const.ParamsNames.SECTION_NAME_DETAIL);
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         boolean isStatsShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
@@ -50,7 +51,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                               + " in Course " + courseId + " was downloaded";
             } else {
                 fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                        courseId, feedbackSessionName, instructor.email, section,
+                        courseId, feedbackSessionName, instructor.email, section, sectionDetail,
                         questionId, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
                 statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
