@@ -875,11 +875,6 @@ public class PageData {
                 .withFeedbackQuestionId(question.getFeedbackQuestionId())
                 .withCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant)
                 .build();
-        if (isCommentFromFeedbackParticipant) {
-            frca.commentGiverType = question.giverType;
-        } else {
-            frca.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
-        }
 
         frca.showCommentTo = new ArrayList<>();
         frca.showGiverNameTo = new ArrayList<>();

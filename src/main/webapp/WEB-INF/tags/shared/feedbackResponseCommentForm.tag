@@ -242,9 +242,6 @@
   <c:when test="${isOnFeedbackSubmissionEditPage}">
     <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>-${divId}" value="${frc.commentId}"></c:if>
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>-${divId}">
-    <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>-${divId}" value="${frc.showCommentToString}">
-    <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>-${divId}" value="${frc.showGiverNameToString}">
-    <input type="hidden" name="<%=Const.ParamsNames.COMMENT_GIVER_TYPE %>-${divId}" value="${frc.commentGiverType}">
     <c:if test="${isModeration}">
       <input name="<%=Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON %>" value="${moderatedPersonEmail}" type="hidden">
     </c:if>
@@ -259,7 +256,6 @@
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>" value="${frc.showCommentToString}">
     <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>" value="${frc.showGiverNameToString}">
     <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
-    <input type="hidden" name="<%=Const.ParamsNames.COMMENT_GIVER_TYPE %>" value="${frc.commentGiverType}">
   </c:otherwise>
 </c:choose>
 <c:choose>
