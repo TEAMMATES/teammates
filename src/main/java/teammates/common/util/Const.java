@@ -812,6 +812,7 @@ public final class Const {
         public static final String RESPONSE_COMMENTS_SHOWCOMMENTSTO = "showresponsecommentsto";
         public static final String RESPONSE_COMMENTS_SHOWGIVERTO = "showresponsegiverto";
         public static final String SECTION_NAME = "sectionname";
+        public static final String SECTION_NAME_DETAIL = "sectionnamedetail";
 
         public static final String TEAM_NAME = "teamname";
         public static final String COMMENTS = "comments";
