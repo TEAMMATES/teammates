@@ -33,14 +33,21 @@
 </c:choose>
 <div class="form-group form-inline">
     <div class="form-group text-muted"<c:if test="${isOnFeedbackSubmissionEditPage}"> style="margin-left:1em;"</c:if>>
-      <p>
-        Giver: ${fn:escapeXml(frc.responseGiverName)}
-        <br>
-        Recipient: ${fn:escapeXml(frc.responseRecipientName)}
-      </p>
-      <c:if test="${not frc.commentFromFeedbackParticipant}">
-        You may change comment's visibility using the visibility options on the right hand side.
-      </c:if>
+      <c:choose>
+        <c:when test="${frc.commentFromFeedbackParticipant}">
+          <p>
+            Your comment about the above response
+          </p>
+        </c:when>
+        <c:otherwise>
+          <p>
+            Giver: ${fn:escapeXml(frc.responseGiverName)}
+            <br>
+            Recipient: ${fn:escapeXml(frc.responseRecipientName)}
+          </p>
+            You may change comment's visibility using the visibility options on the right hand side.
+        </c:otherwise>
+      </c:choose>
     </div>
   <c:if test="${not frc.commentFromFeedbackParticipant}">
     <a id="frComment-visibility-options-trigger-${divId}"
