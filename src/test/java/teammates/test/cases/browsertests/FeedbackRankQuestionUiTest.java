@@ -643,9 +643,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddQuestionButton();
         JSONObject rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                                         .questionMetaData.getValue());
-        assertEquals(
-                "[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
-                rankOptionsQuestionDetails.get("options").toString());
+        assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                     rankOptionsQuestionDetails.get("options").toString());
 
         ______TS("Rank options: add option and reorder");
 
@@ -656,9 +655,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());
-        assertEquals(
-                "[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
-                rankOptionsQuestionDetails.get("options").toString());
+        assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
+                     rankOptionsQuestionDetails.get("options").toString());
 
         ______TS("Rank options: delete option and reorder");
 
@@ -669,9 +667,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());
-        assertEquals(
-                "[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
-                rankOptionsQuestionDetails.get("options").toString());
+        assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
+                     rankOptionsQuestionDetails.get("options").toString());
 
         ______TS("Rank options: add, delete and reorder options");
 
@@ -686,9 +683,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());
-        assertEquals(
-                "[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
-                rankOptionsQuestionDetails.get("options").toString());
+        assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
+                     rankOptionsQuestionDetails.get("options").toString());
 
         ______TS("Rank options: delete question");
 
