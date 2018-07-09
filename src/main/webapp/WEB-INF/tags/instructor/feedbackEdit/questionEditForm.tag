@@ -58,6 +58,12 @@
                 data-toggle="tooltip" data-placement="top">
               <span class=" glyphicon glyphicon-trash"></span> Delete
             </a>
+            <a class="btn btn-primary btn-xs btn-duplicate-qn"
+               data-qnnumber="${fqForm.questionIndex}"
+               data-toggle="tooltip" data-placement="top"
+               title="<%= Const.Tooltips.FEEDBACK_QUESTION_DUPLICATE %>">
+              <span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-file"></span> Duplicate
+            </a>
           </span>
         </div>
       </div>
