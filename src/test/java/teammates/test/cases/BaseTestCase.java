@@ -3,7 +3,6 @@ package teammates.test.cases;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Locale;
 
 import org.junit.Assert;
 import org.testng.AssertJUnit;
