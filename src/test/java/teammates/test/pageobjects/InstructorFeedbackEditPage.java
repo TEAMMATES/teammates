@@ -848,7 +848,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public WebElement getSelectQuestionNumberDropdown(int qnNumber) {
-        return browser.driver.findElement(By.id("questionnum-" + qnNumber));
+        return browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER + "-" + qnNumber));
+    }
+
+    public WebElement getSelectQuestionNumberStatic(int qnNumber) {
+        return browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC + "-" + qnNumber));
     }
 
     public void selectQuestionNumber(int qnNumber, int newQnNumber) {
@@ -862,8 +866,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public int getSelectedQuestionNumber(int qnNumber) {
-        Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
-        return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
+        if (isQuestionEnabled(qnNumber)) {
+            Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
+            return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
+        } else {
+            return Integer.parseInt(getSelectQuestionNumberStatic(qnNumber).getText().substring(0, 1));
+        }
     }
 
     /**

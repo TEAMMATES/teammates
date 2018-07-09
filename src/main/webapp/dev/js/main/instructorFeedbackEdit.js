@@ -365,7 +365,7 @@ function disableQuestion(questionNum) {
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
     $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).hide();
-    $currentQuestionTable.find(`#questionnum-non-menu-${questionNum}`).show();
+    $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).show();
     $currentQuestionTable.find('[id^="mcqAddOptionLink-"]').hide();
     $currentQuestionTable.find('[id^="msqAddOptionLink-"]').hide();
     $currentQuestionTable.find('.removeOptionLink').hide();
@@ -481,7 +481,7 @@ function enableQuestion(questionNum) {
             .not('.disabled_radio')
             .prop('disabled', false);
 
-    $currentQuestionTable.find(`#questionnum-non-menu-${questionNum}`).hide();
+    $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).hide();
 
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
@@ -696,7 +696,7 @@ function restoreOriginal(questionNum) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).val(questionNum);
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).prop('disabled', true);
         $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).hide();
-        $(`#questionnum-non-menu-${questionNum}`).show();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).show();
     }
 
     // re-attach events for form elements

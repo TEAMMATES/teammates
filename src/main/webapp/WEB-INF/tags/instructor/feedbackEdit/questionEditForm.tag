@@ -21,7 +21,7 @@
         <div class="col-sm-7">
           <span>
             <strong>Question
-              <span id="questionnum-non-menu-${fqForm.questionIndex}">${fqForm.questionIndex}:</span>
+              <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC %>-${fqForm.questionIndex}">${fqForm.questionIndex}:</span>
             </strong>
             <select class="questionNumber nonDestructive text-primary"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>"
