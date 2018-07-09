@@ -3,11 +3,13 @@ package teammates.test.cases;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.junit.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
@@ -37,6 +39,14 @@ public class BaseTestCase {
         print(" * " + description);
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
+
+    /**
+     * Set the required locale for tests
+     */
+    @BeforeSuite
+    public void setLocale() {
+        Locale.setDefault(new Locale("en", "US"));
+    }
 
     @BeforeClass
     public void printTestClassHeader() {
