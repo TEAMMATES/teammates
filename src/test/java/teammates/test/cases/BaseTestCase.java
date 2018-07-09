@@ -41,7 +41,7 @@ public class BaseTestCase {
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
     /**
-     * Set the required locale for tests
+     * Set the required locale for tests.
      */
     @BeforeSuite
     public void setLocale() {
