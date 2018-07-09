@@ -47,10 +47,7 @@ public final class EmailAccount {
         ListMessagesResponse listMessagesResponse;
         while (true) {
             try {
-                // Get last 5 emails received by the user as there may be other emails received. However, this may fail
-                // unexpectedly if there are 5 additional emails received excluding the one from TEAMMATES.
-                listMessagesResponse = service.users().messages().list(username).setMaxResults(5L)
-                        .setQ("is:UNREAD").execute();
+                listMessagesResponse = service.users().messages().list(username).setQ("is:UNREAD").execute();
                 break;
             } catch (GoogleJsonResponseException e) {
                 if (e.getDetails().getCode() == HttpStatusCodes.STATUS_CODE_FORBIDDEN) {

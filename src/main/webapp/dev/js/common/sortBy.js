@@ -249,8 +249,7 @@ function sortTable($table, colIdx, comparatorOrNull, extractorOrNull, shouldSort
         }
     }
 
-    const comparator = isDefined(comparatorOrNull) ? comparatorOrNull :
-        Comparators.getDefaultComparator(columnType);
+    const comparator = isDefined(comparatorOrNull) ? comparatorOrNull : Comparators.getDefaultComparator(columnType);
 
     store.sort((x, y) => {
         const compareResult = shouldSortAscending ? comparator(x[0].toUpperCase(), y[0].toUpperCase())

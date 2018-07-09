@@ -40,7 +40,7 @@ public class InstructorFeedbackResultsResponseRow {
                                         String displayableResponse,
                                         InstructorFeedbackResultsModerationButton moderationButton) {
         this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
-             displayableResponse, moderationButton, false);
+                displayableResponse, moderationButton, false);
     }
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,

@@ -15,7 +15,7 @@ function isGenerateOptionsEnabled(questionNum) {
 }
 
 function getNumOfMsqOptions(questionNum) {
-    return $(`#msqOptionRows-${questionNum}`).children().length;
+    return $(`#msqChoices-${questionNum}`).children().length;
 }
 
 function getMaxSelectableChoicesElement(questionNum) {
@@ -131,9 +131,9 @@ function addMsqOption(questionNum) {
             </span>
         </div>
     </div>
-    `).appendTo($(`#msqOptionRows-${questionNum}`));
+    `).appendTo($(`#msqChoices-${questionNum}`));
 
-    $(`#msqOptionRows-${questionNum}`).sortable('refresh');
+    $(`#msqChoices-${questionNum}`).sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -147,11 +147,11 @@ function addMsqOption(questionNum) {
 function removeMsqOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const $msqOptionRows = $(`#msqOptionRows-${questionNum}`);
+    const $msqChoices = $(`#msqChoices-${questionNum}`);
     const $thisRow = $(`#msqOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table has
-    const numberOfOptions = $msqOptionRows.children('div').length;
+    const numberOfOptions = $msqChoices.children('div').length;
 
     if (numberOfOptions <= 1) {
         $thisRow.find('input').val('');
@@ -217,7 +217,7 @@ function toggleMsqOtherOptionEnabled(checkbox, questionNum) {
  * elements changes. The event handler updates the ids of elements to match the new order.
  */
 function makeMsqOptionsReorderable(questionNum) {
-    $(`#msqOptionRows-${questionNum}`).sortable({
+    $(`#msqChoices-${questionNum}`).sortable({
         cursor: 'move',
         update() {
             $(this).children().each(function (index) {

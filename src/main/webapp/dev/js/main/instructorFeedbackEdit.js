@@ -58,8 +58,11 @@ import {
 
 import {
     addMcqOption,
+    bindMcqHasAssignedWeightsCheckbox,
+    bindMcqOtherOptionEnabled,
     makeMcqOptionsReorderable,
     removeMcqOption,
+    toggleMcqHasAssignedWeights,
     toggleMcqGeneratedOptions,
     toggleMcqOtherOptionEnabled,
     changeMcqGenerateFor,
@@ -249,6 +252,15 @@ function checkEditFeedbackSession(form) {
     return true;
 }
 
+function duplicateQuestion(questionNum) {
+    if (questionNum === NEW_QUESTION) {
+        window.location.reload();
+        return false;
+    }
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('duplicate');
+    $(`#form_editquestion-${questionNum}`).submit();
+    return false;
+}
 /**
  * Disables the editing of feedback session details.
  */
@@ -360,15 +372,22 @@ function disableQuestion(questionNum) {
     $currentQuestionTable.find('.removeOptionLink').hide();
 
     /* Check whether generate options for students/instructors/teams is selected
-       If so, hide 'add Other option' */
+       If so, hide 'add Other option' and the mcq weight checkbox for mcq questions */
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        // Hide the enclosing parent div to hide the weight checkbox and 'Choices are weighted' label.
+        $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().hide();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).hide();
     } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
+        // Shows the enclosing parent div to show the weight checkbox and 'Choices are weighted' label.
+        $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().show();
+        $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).show();
     }
+    toggleMcqHasAssignedWeights($currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`), questionNum);
 
     $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
@@ -471,22 +490,8 @@ function enableQuestion(questionNum) {
     $currentQuestionTable.find(`.rubricRemoveChoiceLink-${questionNum}`).show();
     $currentQuestionTable.find(`.rubricRemoveSubQuestionLink-${questionNum}`).show();
 
-    if ($(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
-        $(`#mcqChoiceTable-${questionNum}`).hide();
-        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', false);
-    } else if ($(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
-        $(`#msqChoiceTable-${questionNum}`).hide();
-        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
-        $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', false);
-    } else {
-        $(`#mcqChoiceTable-${questionNum}`).show();
-        $(`#msqChoiceTable-${questionNum}`).show();
-        $(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
-        $(`#mcqGenerateForSelect-${questionNum}`).prop('disabled', true);
-        $(`#msqGenerateForSelect-${questionNum}`).prop('disabled', true);
-    }
+    toggleMcqGeneratedOptions($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).get(0), questionNum);
+    toggleMsqGeneratedOptions($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).get(0), questionNum);
 
     toggleMsqMaxSelectableChoices(questionNum);
     toggleMsqMinSelectableChoices(questionNum);
@@ -587,6 +592,7 @@ function enableNewQuestion() {
     makeMsqOptionsReorderable(NEW_QUESTION);
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`), NEW_QUESTION);
@@ -1199,6 +1205,8 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     bindAssignWeightsCheckboxes();
+    bindMcqHasAssignedWeightsCheckbox();
+    bindMcqOtherOptionEnabled();
     bindMsqEvents();
     bindMoveRubricColButtons();
     bindRankEvents();
@@ -1262,6 +1270,10 @@ $(document).ready(() => {
         getVisibilityMessage(e.currentTarget);
     });
 
+    $(document).on('click', '.btn-duplicate-qn', (e) => {
+        duplicateQuestion($(e.currentTarget).data('qnnumber'));
+    });
+
     $(document).on('click', '.btn-discard-changes', (e) => {
         discardChanges($(e.currentTarget).data('qnnumber'));
     });
@@ -1305,6 +1317,7 @@ window.addRubricCol = addRubricCol;
 window.removeRubricCol = removeRubricCol;
 window.highlightRubricCol = highlightRubricCol;
 
+window.scrollToElement = scrollToElement;
 window.isWithinView = isWithinView;
 
 export {
