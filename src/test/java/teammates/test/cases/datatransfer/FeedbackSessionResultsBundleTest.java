@@ -24,7 +24,7 @@ public class FeedbackSessionResultsBundleTest extends BaseTestCase {
     public void testGetAllResponses() {
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
 
-        ______TS("test getAllResponsesForQuestion function");
+        ______TS("test getActualResponses() function");
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 
@@ -54,12 +54,11 @@ public class FeedbackSessionResultsBundleTest extends BaseTestCase {
 
         FeedbackQuestionAttributes fqa = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         List<FeedbackResponseAttributes> allResponses = bundle.getActualResponses(fqa);
+        assertEquals(2, allResponses.size());
 
         List<String> allResponsesString = new ArrayList<>();
-        for (int i = 1; i <= 2; i++) {
-            allResponsesString.add(allResponses.get(i - 1).toString());
-        }
-        assertEquals(2, allResponses.size());
+        allResponsesString.add(allResponses.get(0).toString());
+        allResponsesString.add(allResponses.get(1).toString());
         assertTrue("Responses are missing", allResponsesString.containsAll(allExpectedResponses));
     }
 }
