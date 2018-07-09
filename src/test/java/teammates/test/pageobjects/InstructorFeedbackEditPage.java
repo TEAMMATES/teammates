@@ -869,9 +869,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         if (isQuestionEnabled(qnNumber)) {
             Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
             return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
-        } else {
-            return Integer.parseInt(getSelectQuestionNumberStatic(qnNumber).getText().substring(0, 1));
         }
+        return Integer.parseInt(getSelectQuestionNumberStatic(qnNumber).getText().substring(0, 1));
     }
 
     /**
