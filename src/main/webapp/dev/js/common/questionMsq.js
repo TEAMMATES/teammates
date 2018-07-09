@@ -202,6 +202,10 @@ function setRequiredAttributeForMsqWeightCells($weightColumn, questionNum, isReq
     }
 }
 
+/**
+ * Toggle visiblity of the msq other weight cell.
+ * @param $checkbox is the 'Add Other Option' checkbox.
+ */
 function toggleVisibilityOfMsqOtherWeight($checkbox, questionNum) {
     // The 'Choices are weighted' checkbox
     const $msqAssignWeightCheckbox = $(`#msqHasAssignedWeights-${questionNum}`);

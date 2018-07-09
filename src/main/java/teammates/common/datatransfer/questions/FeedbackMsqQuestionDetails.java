@@ -1034,7 +1034,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
          * The "td" tags have data related to a sub question.
          * The sequence of "td" tags are not enclosed in a "tr" tag.
          */
-        public String getPerRecipientStatsBodyFragmentHtml(String recipientEmail,
+        private String getPerRecipientStatsBodyFragmentHtml(String recipientEmail,
                 Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
             StringBuilder html = new StringBuilder(100);
 
@@ -1098,7 +1098,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Returns a string containing a per recipient response stats for a single recipient.
          */
-        public String getPerRecipientResponseStatsBodyFragmentCsv(String recipientEmail,
+        private String getPerRecipientResponseStatsBodyFragmentCsv(String recipientEmail,
                 Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
             StringBuilder fragments = new StringBuilder(100);
             List<String> statsForEachRecipient = responseStats.generateStatisticsForEachRecipient(
