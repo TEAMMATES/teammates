@@ -22,7 +22,7 @@ public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCase {
     private LocalServiceTestHelper helper = new LocalServiceTestHelper();
 
     /**
-     * Sets the environment of SystemProperty based on the URL and default locale required for tests
+     * Sets the environment of SystemProperty based on the URL and default locale required for tests.
      */
     @BeforeSuite
     public void setUpEnvironmentAndLocale() throws MalformedURLException {
