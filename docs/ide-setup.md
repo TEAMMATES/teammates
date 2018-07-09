@@ -5,7 +5,7 @@
 
 ## Eclipse IDE
 
-> - If you are using Windows, replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...`. The steps are similar for Linux users.
+> - Replace all references of `Eclipse → Preferences → ...` to `Window → Preferences → ...` if you are using Windows or Linux.
 > - If you worry that these settings will interfere with your other projects, you can use a separate Eclipse instance for TEAMMATES.
 
 Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or Oxygen](http://www.eclipse.org/downloads/).
@@ -53,7 +53,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 
 1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found in `Eclipse → Preferences → ...`):
    * Text encoding: `UTF-8` is used for text encoding.
-     Configure for all the languages used in TEAMMATES in `Eclipse → Preferences → ...`. Change to the encoding to `UTF-8` if it is not the default value.
+     Configure for all the languages used in TEAMMATES in `Eclipse → Preferences → ...`. Change the encoding to `UTF-8` if it is not the default value.
      * General: `General → Workspace → Text file encoding`.
      * HTML: `Web → HTML Files → Encoding`. Alternatively, tick `Use workspace encoding`.
      * CSS: `Web → CSS Files → Encoding`.
@@ -100,7 +100,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 > - Replace all references of `IntelliJ IDEA → Preferences` to `File → Settings` if you are using Windows or Linux.
 
 Supported IntelliJ versions: IntelliJ IDEA Ultimate Edition (required to work with Google App Engine).
-You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student at an educational institution.
+You can sign up for the free [JetBrains student license](https://www.jetbrains.com/student/) if you are a student registered in an educational institution.
 
 ### Prerequisites
 
