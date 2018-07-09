@@ -15,9 +15,6 @@ dist: trusty
 
 addons:
   firefox: "46.0"
-  apt:
-    packages:
-    - language-pack-de
 
 before_install:
   - |
@@ -31,9 +28,6 @@ before_install:
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid \
     --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1440x900x16"
   - nvm install node
-  - export LANG=de_DE.UTF-8
-  - export LC_ALL=de_DE.UTF-8
-  - locale
 
 before_script:
   - export DISPLAY=:99.0
@@ -57,7 +51,6 @@ install: true
 script:
   - npm run build
   - ./gradlew appengineStart
-  - locale
   - ./gradlew ciTests
 
 after_failure:
