@@ -833,7 +833,7 @@
       </div>
     </div>
   </div>
-  <h3>Restoring Courses</h3>
+  <h3>Restoring Deleted Courses</h3>
   <div class="panel-group">
     <div class="panel panel-default" id="course-view-deleted">
       <div class="panel-heading cursor-pointer" data-toggle="collapse" data-target="#course-view-deleted-body">
