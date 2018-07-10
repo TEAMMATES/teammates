@@ -15,7 +15,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails.ResponseStatistics;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails.MultipleOptionStatistics;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -633,11 +633,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if ("student".equals(view) || unsortedResponses.isEmpty()) {
             return "";
         }
-        // Reuse ResponseStatistics class from FeedbackMcqQuestionDetails to generate MSQ Response summary stats
-        ResponseStatistics responseStats = new ResponseStatistics(this);
 
+        MSQStatistics msqStats = new MSQStatistics(this);
         // Sort responses based on recipient team and recipient name.
-        List<FeedbackResponseAttributes> responses = responseStats.getResponseAttributesSorted(unsortedResponses, bundle);
+        List<FeedbackResponseAttributes> responses = msqStats.getResponseAttributesSorted(unsortedResponses, bundle);
 
         Map<String, Integer> answerFrequency = new LinkedHashMap<>();
         int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
@@ -650,7 +649,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         // Do not calculate weighted percentage if weights are not enabled.
         Map<String, Double> weightedPercentagePerOption =
-                hasAssignedWeights ? responseStats.calculateWeightedPercentagePerOption(answerFrequency)
+                hasAssignedWeights ? msqStats.calculateWeightedPercentagePerOption(answerFrequency)
                 : new LinkedHashMap<>();
 
         for (String key : answerFrequency.keySet()) {
@@ -676,9 +675,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         // otherwise pass an empty string in it's place.
         String recipientStatsHtml = "";
         if (hasAssignedWeights) {
-            PerRecipientStatistics perRecipientStats = new PerRecipientStatistics(this, responseStats);
-            String header = responseStats.getRecipientStatsHeaderHtml();
-            String body = perRecipientStats.getPerRecipientStatsBodyHtml(responses, bundle);
+            String header = msqStats.getRecipientStatsHeaderHtml();
+            String body = msqStats.getPerRecipientStatsBodyHtml(responses, bundle);
             // Reuse Mcq result template until there is any reason to use a separate template.
             recipientStatsHtml = Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
@@ -706,18 +704,16 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         StringBuilder csv = new StringBuilder();
-        ResponseStatistics responseStats = new ResponseStatistics(this);
+        MSQStatistics msqStats = new MSQStatistics(this);
 
-        // Reuse ResponseStatistics class from FeedbackMcqQuestionDetails to generate response summary stats
-        csv.append(responseStats.getResponseSummaryStatsCsv(answerFrequency, numChoicesSelected));
+        csv.append(msqStats.getResponseSummaryStatsCsv(answerFrequency, numChoicesSelected));
 
         // Create 'Per recipient Stats' for csv if weights are enabled.
         if (hasAssignedWeights) {
-            PerRecipientStatistics perRecipientStats = new PerRecipientStatistics(this, responseStats);
-            String header = responseStats.getPerRecipientResponseStatsHeaderCsv();
+            String header = msqStats.getPerRecipientResponseStatsHeaderCsv();
             // Get the response attributes sorted based on Recipient Team name and recipient name.
-            List<FeedbackResponseAttributes> sortedResponses = responseStats.getResponseAttributesSorted(responses, bundle);
-            String body = perRecipientStats.getPerRecipientResponseStatsBodyCsv(sortedResponses, bundle);
+            List<FeedbackResponseAttributes> sortedResponses = msqStats.getResponseAttributesSorted(responses, bundle);
+            String body = msqStats.getPerRecipientResponseStatsBodyCsv(sortedResponses, bundle);
             String perRecipientStatsCsv = header + body;
 
             // Add per recipient stats to csv string
@@ -956,16 +952,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Calculate the Per Recipient Statistics for MSQ questions.
      */
-    private static class PerRecipientStatistics {
-        List<String> choices;
-        boolean otherEnabled;
-        ResponseStatistics responseStats;
+    private static class MSQStatistics extends MultipleOptionStatistics {
 
-        PerRecipientStatistics(FeedbackMsqQuestionDetails questionDetails,
-                ResponseStatistics responseStats) {
-            this.choices = questionDetails.getMsqChoices();
-            this.otherEnabled = questionDetails.getOtherEnabled();
-            this.responseStats = responseStats;
+        MSQStatistics(FeedbackMsqQuestionDetails msqDetails) {
+            super(msqDetails);
         }
 
         /**
@@ -1038,7 +1028,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
             StringBuilder html = new StringBuilder(100);
 
-            List<String> cols = responseStats.generateStatisticsForEachRecipient(recipientEmail, recipientResponses, bundle);
+            List<String> cols = generateStatisticsForEachRecipient(recipientEmail, recipientResponses, bundle);
 
             // Generate HTML for all <td> entries using template
             // Reuse Mcq result template until there is any reason to use a separate template.
@@ -1101,7 +1091,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         private String getPerRecipientResponseStatsBodyFragmentCsv(String recipientEmail,
                 Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
             StringBuilder fragments = new StringBuilder(100);
-            List<String> statsForEachRecipient = responseStats.generateStatisticsForEachRecipient(
+            List<String> statsForEachRecipient = generateStatisticsForEachRecipient(
                     recipientEmail, recipientResponses, bundle);
 
             // Add each column data in fragments
