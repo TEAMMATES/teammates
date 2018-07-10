@@ -54,8 +54,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                         courseId, feedbackSessionName, instructor.email, section, sectionDetail,
                         questionId, isMissingResponsesShown, isStatsShown);
                 fileName = courseId + "_" + feedbackSessionName + "_" + section + questionName;
-                statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName
-                              + " in Course " + courseId + " within " + section + " was downloaded";
+                statusToAdmin = "Summary data for Feedback Session " + feedbackSessionName + " in Course " + courseId
+                                + " within " + section + " in " + sectionDetail + " was downloaded";
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block
