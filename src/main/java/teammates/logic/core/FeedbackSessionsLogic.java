@@ -642,7 +642,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorFromSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, String sectionDetails, int range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -654,7 +654,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_FROM_SECTION, "true");
         params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_SECTION, section);
-        params.put(PARAM_SECTION_DETAIL, sectionDetails);
+
         if (range > 0) {
             params.put(PARAM_RANGE, String.valueOf(range));
         }
@@ -666,7 +666,7 @@ public final class FeedbackSessionsLogic {
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorToSectionWithinRange(
-            String feedbackSessionName, String courseId, String userEmail, String section, String sectionDetails, int range)
+            String feedbackSessionName, String courseId, String userEmail, String section, int range)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -678,7 +678,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_FROM_SECTION, "false");
         params.put(PARAM_TO_SECTION, "true");
         params.put(PARAM_SECTION, section);
-        params.put(PARAM_SECTION_DETAIL, sectionDetails);
+
         if (range > 0) {
             params.put(PARAM_RANGE, String.valueOf(range));
         }

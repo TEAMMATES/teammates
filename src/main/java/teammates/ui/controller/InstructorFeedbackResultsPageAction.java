@@ -97,14 +97,14 @@ public class InstructorFeedbackResultsPageAction extends Action {
             data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorFromSectionWithinRange(feedbackSessionName, courseId,
                                                                                   instructor.email,
-                                                                                  selectedSection, selectedSectionDetail,
+                                                                                  selectedSection,
                                                                                   DEFAULT_SECTION_QUERY_RANGE));
         } else if (Const.FeedbackSessionResults.RQG_SORT_TYPE.equals(sortType)
                 || Const.FeedbackSessionResults.RGQ_SORT_TYPE.equals(sortType)) {
             data.setBundle(logic
                     .getFeedbackSessionResultsForInstructorToSectionWithinRange(feedbackSessionName, courseId,
                                                                                 instructor.email,
-                                                                                selectedSection, selectedSectionDetail,
+                                                                                selectedSection,
                                                                                 DEFAULT_SECTION_QUERY_RANGE));
         }
 
