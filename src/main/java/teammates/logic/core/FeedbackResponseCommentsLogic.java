@@ -371,7 +371,7 @@ public final class FeedbackResponseCommentsLogic {
      * @param commentGiverType type of comment giver
      */
     private void verifyIsUserOfCourse(String courseId, String commentGiver, FeedbackParticipantType commentGiverType,
-                                      boolean isCommentFromFeedbackParticipant) throws EntityDoesNotExistException {
+            boolean isCommentFromFeedbackParticipant) throws EntityDoesNotExistException {
         if (isCommentFromFeedbackParticipant) {
             switch (commentGiverType) {
             case STUDENTS:

@@ -420,8 +420,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     }
 
     private void extractFeedbackParticipantCommentsData(FeedbackQuestionAttributes questionAttributes,
-                                                        int questionIndex, FeedbackResponseAttributes response,
-                                                        int responseIndex) {
+            int questionIndex, FeedbackResponseAttributes response, int responseIndex) {
         if (!questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             return;
         }

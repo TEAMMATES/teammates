@@ -50,79 +50,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testModifyData();
     }
 
-    private void testAddCommentsToQuestionsWithResponses() throws IOException {
-        ______TS("add new comments on questions with responses and verify add comments without responses action");
-
-        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageNoCommentsPage.html");
-
-        submitPage.addFeedbackResponseComment("-0-1-6", "New MCQ Comment 1");
-        submitPage.addFeedbackResponseComment("-0-1-10", "New MCQ Comment 2");
-        submitPage.addFeedbackResponseComment("-0-1-12", "New MCQ Comment 3");
-        submitPage.addFeedbackResponseComment("-0-1-16", "New MCQ Comment 4");
-        submitPage.addFeedbackResponseComment("-0-1-7", "New MCQ team Comment 1");
-        submitPage.addFeedbackResponseComment("-1-1-7", "New MCQ team Comment 2");
-
-        submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("21, 24, 25, 26, 27.");
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24, 25, 26, 27.");
-    }
-
-    private void testEditCommentsActionAfterAddingComments() throws IOException {
-        ______TS("edit comments on responses and verify added comments action");
-
-        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageAddedCommentOnResponses.html");
-
-        submitPage.editFeedbackResponseComment("-0-1-6-1", "Edited MCQ Comment 1");
-        submitPage.editFeedbackResponseComment("-0-1-10-1", "Edited MCQ Comment 2");
-        submitPage.editFeedbackResponseComment("-0-1-12-1", "Edited MCQ Comment 3");
-        submitPage.editFeedbackResponseComment("-0-1-16-1", "Edited MCQ Comment 4");
-        submitPage.editFeedbackResponseComment("-0-1-7-1", "Edited MCQ team Comment 1");
-        submitPage.editFeedbackResponseComment("-1-1-7-1", "Edited MCQ team Comment 2");
-
-        submitPage.submitWithoutConfirmationEmail();
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("21, 24, 25, 26, 27.");
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24, 25, 26, 27.");
-    }
-
-    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
-        ______TS("delete comments on responses and verify edited comments action");
-
-        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
-        submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEditedComments.html");
-
-        submitPage.deleteFeedbackResponseComment("-0-1-6-1");
-        submitPage.verifyRowMissing("-0-1-6-1");
-        submitPage.deleteFeedbackResponseComment("-0-1-10-1");
-        submitPage.verifyRowMissing("-0-1-10-1");
-        submitPage.deleteFeedbackResponseComment("-0-1-12-1");
-        submitPage.verifyRowMissing("-0-1-12-1");
-        submitPage.deleteFeedbackResponseComment("-0-1-16-1");
-        submitPage.verifyRowMissing("-0-1-16-1");
-        submitPage.deleteFeedbackResponseComment("-0-1-7-1");
-        submitPage.verifyRowMissing("-0-1-7-1");
-        submitPage.deleteFeedbackResponseComment("-1-1-7-1");
-        submitPage.verifyRowMissing("-1-1-7-1");
-    }
-
-    private void testLinks() {
-        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.loadStudentHomeTab();
-        submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.loadProfileTab();
-
-        submitPage.logout();
-        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentHomeNavLink")));
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentProfileNavLink")));
-    }
-
     private void testContent() throws Exception {
 
         ______TS("unreg student");
@@ -180,7 +107,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testAddCommentsToQuestionsWithoutResponses() {
+    private void testAddCommentsToQuestionsWithoutResponses() throws IOException {
         ______TS("add comments on questions without responses: no effect");
 
         logout();
@@ -199,6 +126,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 6, 7, 8, 9, "
                         + "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageNoCommentsPage.html");
     }
 
     private void testSubmitAction() throws Exception {
@@ -623,6 +551,66 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                    "SFSubmitUiT.charlie.d@gmail.tmt"));
     }
 
+    private void testAddCommentsToQuestionsWithResponses() throws IOException {
+        ______TS("add new comments on questions with responses and verify add comments without responses action");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.addFeedbackResponseComment("-0-1-6", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-0-1-10", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("-0-1-12", "New MCQ Comment 3");
+        submitPage.addFeedbackResponseComment("-0-1-16", "New MCQ Comment 4");
+        submitPage.addFeedbackResponseComment("-0-1-7", "New MCQ team Comment 1");
+        submitPage.addFeedbackResponseComment("-1-1-7", "New MCQ team Comment 2");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("21, 24, 25, 26, 27.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24, 25, 26, 27.");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageAddedCommentOnResponses.html");
+    }
+
+    private void testEditCommentsActionAfterAddingComments() throws IOException {
+        ______TS("edit comments on responses and verify added comments action");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.editFeedbackResponseComment("-0-1-6-1", "Edited MCQ Comment 1");
+        submitPage.editFeedbackResponseComment("-0-1-10-1", "Edited MCQ Comment 2");
+        submitPage.editFeedbackResponseComment("-0-1-12-1", "Edited MCQ Comment 3");
+        submitPage.editFeedbackResponseComment("-0-1-16-1", "Edited MCQ Comment 4");
+        submitPage.editFeedbackResponseComment("-0-1-7-1", "Edited MCQ team Comment 1");
+        submitPage.editFeedbackResponseComment("-1-1-7-1", "Edited MCQ team Comment 2");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("21, 24, 25, 26, 27.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24, 25, 26, 27.");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEditedComments.html");
+    }
+
+    private void testDeleteCommentsActionAfterEditingComments() {
+        ______TS("delete comments on responses and verify edited comments action");
+
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.deleteFeedbackResponseComment("-0-1-6-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-6-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-10-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-10-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-12-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-12-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-16-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-16-1");
+        submitPage.deleteFeedbackResponseComment("-0-1-7-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-7-1");
+        submitPage.deleteFeedbackResponseComment("-1-1-7-1");
+        submitPage.verifyRowDeletedSuccess("-1-1-7-1");
+    }
+
     private void testInputValidation() {
         ______TS("Test InputValidation lower than Min value");
 
@@ -733,6 +721,18 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24, 25, 26, 27.");
 
+    }
+
+    private void testLinks() {
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
+        submitPage.loadStudentHomeTab();
+        submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
+        submitPage.loadProfileTab();
+
+        submitPage.logout();
+        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
+        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentHomeNavLink")));
+        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentProfileNavLink")));
     }
 
     private void testResponsiveSubmission() {

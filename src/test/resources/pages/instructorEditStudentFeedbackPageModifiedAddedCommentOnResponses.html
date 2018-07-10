@@ -10,8 +10,13 @@
     <input name="courseid" type="hidden" value="IESFPTCourse">
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IESFPTCourseinstr">
-    <div id="statusMessagesToUser" style="display: none;">
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-success icon-success statusMessage">
+        All responses submitted successfully!
+      </div>
     </div>
+    <script defer="" src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">

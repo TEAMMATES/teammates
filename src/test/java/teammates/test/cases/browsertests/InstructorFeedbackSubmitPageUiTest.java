@@ -377,17 +377,17 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // mcq questions comments
         submitPage.deleteFeedbackResponseComment("-0-1-6-1");
-        submitPage.verifyRowMissing("-0-1-6-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-6-1");
         submitPage.deleteFeedbackResponseComment("-1-1-6-1");
-        submitPage.verifyRowMissing("-1-1-6-1");
+        submitPage.verifyRowDeletedSuccess("-1-1-6-1");
         submitPage.deleteFeedbackResponseComment("-2-1-6-1");
-        submitPage.verifyRowMissing("-2-1-6-1");
+        submitPage.verifyRowDeletedSuccess("-2-1-6-1");
         submitPage.deleteFeedbackResponseComment("-0-1-9-1");
-        submitPage.verifyRowMissing("-0-1-9-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-9-1");
         submitPage.deleteFeedbackResponseComment("-0-1-11-1");
-        submitPage.verifyRowMissing("-0-1-11-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-11-1");
         submitPage.deleteFeedbackResponseComment("-0-1-15-1");
-        submitPage.verifyRowMissing("-0-1-15-1");
+        submitPage.verifyRowDeletedSuccess("-0-1-15-1");
     }
 
     /**

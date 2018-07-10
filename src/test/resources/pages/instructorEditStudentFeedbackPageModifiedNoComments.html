@@ -10,8 +10,16 @@
     <input name="courseid" type="hidden" value="IESFPTCourse">
     <input name="token" type="hidden" value="${sessionToken}">
     <input name="user" type="hidden" value="IESFPTCourseinstr">
-    <div id="statusMessagesToUser" style="display: none;">
+    <div id="statusMessagesToUser">
+      <div class="overflow-auto alert alert-success icon-success statusMessage">
+        All responses submitted successfully!
+      </div>
+      <div class="overflow-auto alert alert-info icon-info statusMessage">
+        Note that some questions are yet to be answered. They are: 2, 3.
+      </div>
     </div>
+    <script defer="" src="/js/statusMessage.js" type="text/javascript">
+    </script>
     <div class="well well-plain" id="course1">
       <div class="panel-body">
         <div class="form-horizontal">
@@ -114,7 +122,7 @@
             <div class="col-sm-12">
               <div class="panel panel-default panel-body mce-content-body content-editor" contenteditable="true" data-is-session-open="true" data-length-text-id="responseLength-1-0" data-recommended-text="0" id="responsetext-1-0" name="responsetext-1-0" spellcheck="false" style="position: relative;">
                 <p>
-                  Good design
+                  Student 1 self feedback.
                 </p>
               </div>
               <input name="responsetext-1-0" type="hidden">
@@ -129,7 +137,7 @@
                 <div class="pull-right">
                   Response length:
                   <span id="responseLength-1-0" style="color: rgb(128, 128, 128);">
-                    2
+                    4
                   </span>
                   words
                 </div>
@@ -172,10 +180,10 @@
           <div class="evalueeForm-2 form-group margin-0" style="padding-left: 75px; padding-right:10px">
             <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
-                <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
-                  <option value="">
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
                   </option>
-                  <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+                  <option value="student1InIESFPTCourse@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -187,7 +195,7 @@
             </div>
             <div class="col-sm-12">
               <div class="col-sm-3 mobile-no-padding">
-                <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-2-0" onchange="validateNumScaleAnswer(2, 0)" step="0.5" type="number" value="4">
+                <input class="numScaleAnswerBox form-control col-sm-2" max="5" min="1" name="responsetext-2-0" onchange="validateNumScaleAnswer(2, 0)" step="0.5" type="number" value="">
                 <input name="numscalemin-2-0" type="hidden" value="1">
                 <input name="numscalemax-2-0" type="hidden" value="5">
                 <input name="numscalestep-2-0" type="hidden" value="0.5">
@@ -196,7 +204,6 @@
                 [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
               </div>
             </div>
-            <input name="responseid-2-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
           </div>
         </div>
       </div>
@@ -233,10 +240,10 @@
           <div class="evalueeForm-3 form-group margin-0" style="padding-left: 75px; padding-right:10px">
             <div class="col-sm-12 form-inline mobile-align-left" style="display:none">
               <label>
-                <select class="participantSelect middlealign form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
-                  <option value="">
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-3-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
                   </option>
-                  <option selected="" value="student1InIESFPTCourse@gmail.tmt">
+                  <option value="student1InIESFPTCourse@gmail.tmt">
                     Myself
                   </option>
                 </select>
@@ -257,7 +264,7 @@
                     <td>
                       <div class="radio">
                         <label class="bold-label">
-                          <input checked="" name="responsetext-3-0" type="radio" value="It's good">
+                          <input name="responsetext-3-0" type="radio" value="It's good">
                           It's good
                         </label>
                       </div>
@@ -304,7 +311,6 @@
                 </li>
               </ul>
             </div>
-            <input name="responseid-3-0" type="hidden" value="${question.id}%student1InIESFPTCourse@gmail.tmt%student1InIESFPTCourse@gmail.tmt">
           </div>
         </div>
       </div>

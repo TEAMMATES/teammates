@@ -950,9 +950,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return questionTable;
     }
 
-    private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags,
-                                                       Map<String, Boolean> isSortable,
-                                                       boolean isFeedbackParticipantCommentsOnResponseAllowed) {
+    private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags, Map<String, Boolean> isSortable,
+            boolean isFeedbackParticipantCommentsOnResponseAllowed) {
         ElementTag giverTeamElement =
                 new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none toggle-sort",
                         "style", "width: 10%; min-width: 67px;");
@@ -1538,12 +1537,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
 
-        FeedbackResponseCommentRow frc = new FeedbackResponseCommentRow(
-                                           frcAttributes, frcAttributes.commentGiver, giverName, recipientName,
-                                           getResponseCommentVisibilityString(frcAttributes, question),
-                                           getResponseCommentGiverNameVisibilityString(frcAttributes, question),
-                                           responseVisibilityMap, bundle.commentGiverEmailToNameTable,
-                                           bundle.getTimeZone());
+        FeedbackResponseCommentRow frc =
+                new FeedbackResponseCommentRow(frcAttributes, frcAttributes.commentGiver, giverName, recipientName,
+                        getResponseCommentVisibilityString(frcAttributes, question),
+                        getResponseCommentGiverNameVisibilityString(frcAttributes, question),
+                        responseVisibilityMap, bundle.commentGiverEmailToNameTable, bundle.getTimeZone());
         frc.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
 
         if (isInstructorAllowedToEditAndDeleteComment

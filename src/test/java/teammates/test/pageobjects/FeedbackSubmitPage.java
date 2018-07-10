@@ -297,7 +297,7 @@ public class FeedbackSubmitPage extends AppPage {
         waitForConfirmationModalAndClickOk();
     }
 
-    public void verifyRowMissing(String rowIdSuffix) {
+    public void verifyRowDeletedSuccess(String rowIdSuffix) {
         try {
             waitForAjaxLoaderGifToDisappear();
             browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));

@@ -294,8 +294,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return responses;
     }
 
-    private FeedbackResponseCommentRow getResponseCommentRowForResponse(
-            FeedbackQuestionAttributes questionAttributes,
+    private FeedbackResponseCommentRow getResponseCommentRowForResponse(FeedbackQuestionAttributes questionAttributes,
             String responseId, Map<String, String> commentGiverEmailToNameTable) {
         if (!bundle.commentsForResponses.containsKey(responseId)) {
             return null;
