@@ -259,7 +259,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
             return "";
         }
 
-        List<FeedbackResponseAttributes> allResponses = bundle.getActualResponses(question);
+        List<FeedbackResponseAttributes> allResponses = bundle.getActualUnsortedResponses(question);
 
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(allResponses);
 

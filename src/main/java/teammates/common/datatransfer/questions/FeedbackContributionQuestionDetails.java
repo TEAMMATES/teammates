@@ -176,7 +176,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
 
-        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponses(question);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualSortedResponses(question);
 
         //List of teams with at least one response
         List<String> teamNames = getTeamsWithAtLeastOneResponse(actualResponses, bundle);
@@ -235,7 +235,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
 
-        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponses(question);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualSortedResponses(question);
 
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -324,7 +324,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "";
         }
 
-        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponses(question);
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualSortedResponses(question);
 
         //List of teams visible to the instructor and in the selected section
         List<String> teamNames = getTeamNames(bundle);
@@ -440,7 +440,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
 
-        List<FeedbackResponseAttributes> responses = bundle.getActualResponses(question);
+        List<FeedbackResponseAttributes> responses = bundle.getActualSortedResponses(question);
 
         List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
 
@@ -463,7 +463,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
 
-        List<FeedbackResponseAttributes> responses = bundle.getActualResponses(question);
+        List<FeedbackResponseAttributes> responses = bundle.getActualSortedResponses(question);
 
         List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
 

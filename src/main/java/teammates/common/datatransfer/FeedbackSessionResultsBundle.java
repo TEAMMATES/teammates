@@ -1735,12 +1735,12 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Returns list of responses with identities of giver/recipients NOT hidden which is used for
+     * Returns list of sorted responses with identities of giver/recipients NOT hidden which is used for
      * anonymous result calculation.
      * @param question question whose responses are required
-     * @return List of responses
+     * @return list of responses
      */
-    public List<FeedbackResponseAttributes> getActualResponses(
+    public List<FeedbackResponseAttributes> getActualSortedResponses(
             FeedbackQuestionAttributes question) {
         String questionId = question.getId();
         List<FeedbackResponseAttributes> responses;
@@ -1750,5 +1750,19 @@ public class FeedbackSessionResultsBundle {
                        .collect(Collectors.toList());
         responses.sort(compareByGiverRecipientQuestion);
         return responses;
+    }
+
+    /**
+     * Returns list of unsorted responses with identities of giver/recipients NOT hidden which is used for
+     * anonymous result calculation.
+     * @param question question whose responses are required
+     * @return list of responses
+     */
+    public List<FeedbackResponseAttributes> getActualUnsortedResponses(
+            FeedbackQuestionAttributes question) {
+        String questionId = question.getId();
+        return actualResponses.stream()
+                            .filter(response -> response.feedbackQuestionId.equals(questionId))
+                            .collect(Collectors.toList());
     }
 }

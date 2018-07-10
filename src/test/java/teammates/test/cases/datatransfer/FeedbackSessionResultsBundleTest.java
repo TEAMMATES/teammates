@@ -21,10 +21,8 @@ import teammates.test.cases.BaseTestCase;
 public class FeedbackSessionResultsBundleTest extends BaseTestCase {
 
     @Test
-    public void testGetAllResponses() {
+    public void testGetActualResponses() {
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
-
-        ______TS("test getActualResponses() function");
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 
@@ -53,7 +51,7 @@ public class FeedbackSessionResultsBundleTest extends BaseTestCase {
                         new ArrayList<>(responseBundle.instructors.values())), null);
 
         FeedbackQuestionAttributes fqa = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        List<FeedbackResponseAttributes> allResponses = bundle.getActualResponses(fqa);
+        List<FeedbackResponseAttributes> allResponses = bundle.getActualUnsortedResponses(fqa);
         assertEquals(2, allResponses.size());
 
         List<String> allResponsesString = new ArrayList<>();
