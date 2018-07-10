@@ -512,7 +512,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
     }
 
-    private void setDescription(int row, int col, String description) {
+    public void setDescription(int row, int col, String description) {
         this.rubricDescriptions.get(row).set(col, description);
     }
 
@@ -1048,7 +1048,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    boolean hasAssignedWeights() {
+    public boolean hasAssignedWeights() {
         return hasAssignedWeights;
     }
 
