@@ -41,7 +41,7 @@ public class InstructorFeedbackResultsFilterPanel {
 
     private void initializeSectionDetails() {
         this.sectionDetails = new ArrayList<>();
-        sectionDetails.add("");
+        sectionDetails.add("Show response if either the giver or evaluee is in the selected section");
         sectionDetails.add("Show response if the giver is in the selected section");
         sectionDetails.add("Show response if the evaluee is in the selected section");
         sectionDetails.add("Show response only if both are in the selected section");
