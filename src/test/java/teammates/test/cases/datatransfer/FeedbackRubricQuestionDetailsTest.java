@@ -35,16 +35,20 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         requestParams.put("questiontype-1", new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "1" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, new String[] { "off" });
-        requestParams.put("responsetext-1-0", new String[] { "0-0,1-1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", new String[] { "subQn1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", new String[] { "subQn2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", new String[] { "choice" });
+
+        requestParams.put("responsetext-1-0", new String[] { "0-0,1-0" });
 
         FeedbackQuestionDetails rubricQuestionDetails =
                 FeedbackRubricQuestionDetails.createQuestionDetails(requestParams, FeedbackQuestionType.RUBRIC);
 
         FeedbackResponseDetails rubricResponseDetails = FeedbackResponseDetails.createResponseDetails(
-                        new String[] { "0-0,1-1" },
+                        new String[] { "0-0,1-0" },
                         FeedbackQuestionType.RUBRIC,
                         rubricQuestionDetails, requestParams, 1, 0);
 
@@ -53,7 +57,10 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
                 StudentAttributes.builder("test.course", "test", "test@gmail.com").build());
 
         assertTrue(result.contains("id=\"rubricResponseTable-1-0\""));
-        assertTrue(result.contains("id=\"rubricResponse-1-0\""));
+        assertTrue(result.contains("<th class=\"rubricCol-1-0\">"));
+        assertTrue(result.contains("<input class=\"overlay\" type=\"radio\"  id=\"rubricChoice-1-0-1-0\" "
+                + "name=\"rubricChoice-1-0-1\" value=\"1-0\" checked/>"));
+
     }
 
     @Test
@@ -65,6 +72,9 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", new String[] { "subQn1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", new String[] { "subQn2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", new String[] { "choice" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, new String[] { "off" });
 
         FeedbackQuestionDetails rubricQuestionDetails =
@@ -75,6 +85,6 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
                 StudentAttributes.builder("test.course", "test", "test@gmail.com").build());
 
         assertTrue(result.contains("id=\"rubricResponseTable-1-0\""));
-        assertTrue(result.contains("id=\"rubricResponse-1-0\""));
+        assertFalse(result.contains("checked"));
     }
 }

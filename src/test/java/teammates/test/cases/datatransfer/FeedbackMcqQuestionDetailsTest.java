@@ -420,29 +420,32 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     public void testCreateQuestionDetails_mcqTypeQuestion_createdSuccessfully() {
         HashMap<String, String[]> requestParameters = new HashMap<>();
 
-        requestParameters.put("questiontext", new String[] { "MCQ" });
-        requestParameters.put("mcqGeneratedOptions", new String[] {FeedbackParticipantType.NONE.toString()});
-        requestParameters.put("noofchoicecreated", new String[] { "1" });
-        requestParameters.put("mcqOption-0", new String[] { "mcq option" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MCQ question" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "mcq option" });
 
         FeedbackQuestionDetails feedbackQuestionDetails =
                 FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MCQ);
 
         assertEquals(feedbackQuestionDetails.getQuestionType(), FeedbackQuestionType.MCQ);
         assertTrue(feedbackQuestionDetails instanceof FeedbackMcqQuestionDetails);
-        assertEquals(feedbackQuestionDetails.getQuestionText(), "MCQ");
+        assertEquals("MCQ question", feedbackQuestionDetails.getQuestionText());
     }
 
     @Test
     public void testGetQuestionWithExistingResponseSubmissionFormHtml_responsePresent_htmlTagsPresent() {
         HashMap<String, String[]> requestParameters = new HashMap<>();
 
-        requestParameters.put("questiontext", new String[] { "MCQ" });
-        requestParameters.put("mcqGeneratedOptions", new String[] {FeedbackParticipantType.NONE.toString()});
-        requestParameters.put("noofchoicecreated", new String[] { "1" });
-        requestParameters.put("mcqOption-0", new String[] { "mcq option" });
-        requestParameters.put("questiontype-1", new String[] { "MCQ" });
-        requestParameters.put("responsetext-1-0", new String[] { "mcq option" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "mcq option" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", new String[] { "mcq option" });
 
         FeedbackQuestionDetails feedbackQuestionDetails =
                 FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MCQ);
@@ -464,12 +467,13 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     public void testGetQuestionWithoutExistingResponseSubmissionFormHtml_noResponse_htmlTagsPresent() {
         HashMap<String, String[]> requestParameters = new HashMap<>();
 
-        requestParameters.put("questiontext", new String[] { "MCQ" });
-        requestParameters.put("mcqGeneratedOptions", new String[] {FeedbackParticipantType.NONE.toString()});
-        requestParameters.put("noofchoicecreated", new String[] { "1" });
-        requestParameters.put("mcqOption-0", new String[] { "mcq option" });
-        requestParameters.put("questiontype-1", new String[] { "MCQ" });
-        requestParameters.put("responsetext-1-0", new String[] { "mcq option" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "mcq option" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", new String[] { "mcq option" });
 
         FeedbackQuestionDetails feedbackQuestionDetails =
                 FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MCQ);
@@ -485,11 +489,12 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     public void testGetQuestionAdditionalInfo_additionalInfoPresent_htmlTagsPresent() {
         HashMap<String, String[]> requestParameters = new HashMap<>();
 
-        requestParameters.put("questiontext", new String[] { "MCQ" });
-        requestParameters.put("mcqGeneratedOptions", new String[] {FeedbackParticipantType.NONE.toString()});
-        requestParameters.put("noofchoicecreated", new String[] { "1" });
-        requestParameters.put("mcqOption-0", new String[] { "mcq option" });
-        requestParameters.put("questiontype-1", new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "MCQ" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS,
+                new String[] {FeedbackParticipantType.NONE.toString()});
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "1" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "mcq option" });
+        requestParameters.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "MCQ" });
 
         FeedbackQuestionDetails feedbackQuestionDetails =
                 FeedbackQuestionDetails.createQuestionDetails(requestParameters, FeedbackQuestionType.MCQ);
