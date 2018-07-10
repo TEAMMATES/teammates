@@ -236,10 +236,6 @@ public class FeedbackResponseCommentRow {
         this.isEditDeleteEnabled = true;
     }
 
-    public void setVisibilityIconString(String visibilityIconString) {
-        this.visibilityIconString = visibilityIconString;
-    }
-
     public String getCommentGiverName() {
         return commentGiverName;
     }
