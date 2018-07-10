@@ -1779,6 +1779,7 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(userEmail);
         Assumption.assertNotNull(section);
+        Assumption.assertNotNull(sectionDetail);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
                                                                                      userEmail, section, sectionDetail);
