@@ -244,18 +244,18 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      * Statistics to student is only shown when visibility setting is permissive enough
      * i.e., if the ranks for all team members are in the results bundle.
      */
-    private String getStudentQuestionResultsStatisticsHtml(
-            String studentEmail, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
+    private String getStudentQuestionResultsStatisticsHtml(String studentEmail, FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
         // at least should be able to viewed by other students for team recipient
         if (question.recipientType.isTeam()
                     && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                                || !question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS))) {
+                    || !question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS))) {
             return "";
         }
         // at least should be able to viewed by own team members for non-team recipient
         if (!question.recipientType.isTeam()
                     && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                             || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
+                    || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
             return "";
         }
 
@@ -264,7 +264,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(allResponses);
 
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
-                                              || question.recipientType == FeedbackParticipantType.OWN_TEAM;
+                || question.recipientType == FeedbackParticipantType.OWN_TEAM;
 
         String currentUserTeam = bundle.roster.getStudentForEmail(studentEmail).getTeam();
         String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
@@ -319,11 +319,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         if (responses.isEmpty()) {
             return "";
-        } else if ("student".equals(view)) {
-            return getStudentQuestionResultsStatisticsHtml(studentEmail, question, bundle);
-        } else {
-            return getInstructorQuestionResultsStatisticsHtml(responses, bundle);
         }
+        if ("student".equals(view)) {
+            return getStudentQuestionResultsStatisticsHtml(studentEmail, question, bundle);
+        }
+        return getInstructorQuestionResultsStatisticsHtml(responses, bundle);
     }
 
     private String getInstructorQuestionResultsStatisticsHtml(

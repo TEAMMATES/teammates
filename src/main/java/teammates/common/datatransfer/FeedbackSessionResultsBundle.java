@@ -1740,8 +1740,7 @@ public class FeedbackSessionResultsBundle {
      * @param question question whose responses are required
      * @return list of responses
      */
-    public List<FeedbackResponseAttributes> getActualSortedResponses(
-            FeedbackQuestionAttributes question) {
+    public List<FeedbackResponseAttributes> getActualSortedResponses(FeedbackQuestionAttributes question) {
         String questionId = question.getId();
         List<FeedbackResponseAttributes> responses;
         //Get all actual responses for this question
@@ -1758,8 +1757,7 @@ public class FeedbackSessionResultsBundle {
      * @param question question whose responses are required
      * @return list of responses
      */
-    public List<FeedbackResponseAttributes> getActualUnsortedResponses(
-            FeedbackQuestionAttributes question) {
+    public List<FeedbackResponseAttributes> getActualUnsortedResponses(FeedbackQuestionAttributes question) {
         String questionId = question.getId();
         return actualResponses.stream()
                             .filter(response -> response.feedbackQuestionId.equals(questionId))
