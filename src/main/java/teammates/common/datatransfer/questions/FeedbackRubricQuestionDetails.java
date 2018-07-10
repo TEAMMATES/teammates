@@ -512,7 +512,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
     }
 
-    public void setDescription(int row, int col, String description) {
+    private void setDescription(int row, int col, String description) {
         this.rubricDescriptions.get(row).set(col, description);
     }
 

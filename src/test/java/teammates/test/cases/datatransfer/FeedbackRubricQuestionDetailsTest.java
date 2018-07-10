@@ -33,7 +33,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         HashMap<String, String[]> requestParams = new HashMap<>();
 
-        requestParams.put("questiontype-1", new String[] { "RUBRIC" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "1" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
@@ -58,8 +58,8 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(result.contains("id=\"rubricResponseTable-1-0\""));
         assertTrue(result.contains("<th class=\"rubricCol-1-0\">"));
-        assertTrue(result.contains("<input class=\"overlay\" type=\"radio\"  id=\"rubricChoice-1-0-1-0\" "
-                + "name=\"rubricChoice-1-0-1\" value=\"1-0\" checked/>"));
+        assertTrue(result.contains("<input class=\"overlay\" type=\"radio\"  id=\"rubricChoice-1-0-1-0\""
+                + " name=\"rubricChoice-1-0-1\" value=\"1-0\" checked/>"));
 
     }
 
@@ -68,7 +68,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         HashMap<String, String[]> requestParams = new HashMap<>();
 
-        requestParams.put("questiontype-1", new String[] { "RUBRIC" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
@@ -86,5 +86,27 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(result.contains("id=\"rubricResponseTable-1-0\""));
         assertFalse(result.contains("checked"));
+    }
+
+    @Test
+    public void testGetQuestionAdditionalInfo_additionalInfoPresent_htmlTagsPresent() {
+        HashMap<String, String[]> requestParams = new HashMap<>();
+
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "RUBRIC" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", new String[] { "subQn1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", new String[] { "subQn2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", new String[] { "choice" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, new String[] { "off" });
+
+        FeedbackQuestionDetails feedbackQuestionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParams, FeedbackQuestionType.RUBRIC);
+
+        String result = feedbackQuestionDetails.getQuestionAdditionalInfoHtml(1, "");
+        assertTrue(result.contains("[more]"));
+        assertTrue(result.contains("Rubric question sub-questions:\n"
+                + "<p>a) subQn1<br>b) subQn2<br></p>"));
     }
 }
