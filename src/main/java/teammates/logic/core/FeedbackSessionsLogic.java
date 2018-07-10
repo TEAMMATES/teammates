@@ -621,12 +621,12 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<>();
+
+        Map<String, String> params = initializeParamsWithSelectedSectionDetail(sectionDetail);
+
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
-        params.put(PARAM_IN_SECTION, "false");
-        params.put(PARAM_FROM_SECTION, "true");
-        params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_SECTION, section);
+        params.put(PARAM_SECTION_DETAIL, sectionDetail);
         if (range > 0) {
             params.put(PARAM_RANGE, String.valueOf(range));
         }
@@ -1580,6 +1580,10 @@ public final class FeedbackSessionsLogic {
         Map<String, String> params = new HashMap<>();
         // this happens when 'all' section is selected
         if (sectionDetail == null) {
+            // default for 'all' section selected
+            params.put(PARAM_IN_SECTION, "false");
+            params.put(PARAM_FROM_SECTION, "true");
+            params.put(PARAM_TO_SECTION, "false");
             return params;
         }
 
