@@ -490,17 +490,20 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .filter("receiverSection =", "None")
                     .list());
 
-        } else if (sectionDetail.contains("giver")) {
+        }
+        if (sectionDetail.contains("giver") || sectionDetail.contains("either")) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("giverSection =", section)
                     .list());
 
-        } else if (sectionDetail.contains("evaluee")) {
+        }
+        if (sectionDetail.contains("evaluee") || sectionDetail.contains("either")) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
                     .filter("receiverSection =", section)
                     .list());
+
         }
 
         feedbackResponses.addAll(load()
