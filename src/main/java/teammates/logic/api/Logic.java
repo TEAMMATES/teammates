@@ -1772,7 +1772,7 @@ public class Logic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(String feedbackSessionName,
                                                                                         String courseId,
                                                                                         String userEmail,
-                                                                                        String section, String sectionDetails)
+                                                                                        String section, String sectionDetail)
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
@@ -1823,7 +1823,7 @@ public class Logic {
         Assumption.assertNotNull(section);
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorToSection(feedbackSessionName, courseId,
-                                                                                     userEmail, section, sectionDetails);
+                                                                                     userEmail, section, sectionDetail);
     }
 
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {

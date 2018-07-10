@@ -701,7 +701,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSection(
             String feedbackSessionName, String courseId, String userEmail,
-            String section, String sectionDetails)
+            String section, String sectionDetail)
             throws EntityDoesNotExistException {
 
         CourseRoster roster = new CourseRoster(
@@ -757,7 +757,7 @@ public final class FeedbackSessionsLogic {
         params.put(PARAM_FROM_SECTION, "false");
         params.put(PARAM_TO_SECTION, "true");
         params.put(PARAM_SECTION, section);
-        params.put(PARAM_SECTION_DETAIL, sectionDetails);
+        params.put(PARAM_SECTION_DETAIL, sectionDetail);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
     }
