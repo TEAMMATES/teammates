@@ -323,6 +323,19 @@ public class Logic {
      * * All parameters are non-null.
      * @return null if not found.
      */
+    public InstructorAttributes getInstructorById(String courseId, String email) {
+
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(email);
+
+        return instructorsLogic.getInstructorById(courseId, email);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return null if not found.
+     */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
 
         Assumption.assertNotNull(googleId);
