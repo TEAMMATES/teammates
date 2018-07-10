@@ -13,7 +13,7 @@ import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
 /**
- * SUT: {@link FeedbackRubricQuestionDetails}
+ * SUT: {@link FeedbackRubricQuestionDetails}.
  */
 public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
@@ -34,7 +34,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         HashMap<String, String[]> requestParams = new HashMap<>();
 
         requestParams.put("questiontype-1", new String[] { "RUBRIC" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[]{ "rubricQuestion" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, new String[] { "off" });
