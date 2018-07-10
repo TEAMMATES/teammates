@@ -15,10 +15,9 @@ public class RecoveryCoursesTableRow {
     private List<ElementTag> actions;
 
     public RecoveryCoursesTableRow(String courseIdParam, String courseNameParam,
-                                 String createdAtDateStringParam, String createdAtDateStampParam,
-                                 String createdAtFullDateTimeStringParam, String deletedAtDateStringParam,
-                                 String deletedAtDateStampParam, String deletedAtFullDateTimeStringParam,
-                                 String href, List<ElementTag> actionsParam) {
+            String createdAtDateStringParam, String createdAtDateStampParam, String createdAtFullDateTimeStringParam,
+            String deletedAtDateStringParam, String deletedAtDateStampParam, String deletedAtFullDateTimeStringParam,
+            String href, List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
         this.createdAtDateString = createdAtDateStringParam;
