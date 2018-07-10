@@ -588,11 +588,9 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<>();
+        Map<String, String> params = initializeParamsWithSelectedSectionDetail(selectedSectionDetail);
+
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
-        params.put(PARAM_IN_SECTION, "true");
-        params.put(PARAM_FROM_SECTION, "false");
-        params.put(PARAM_TO_SECTION, "false");
         params.put(PARAM_QUESTION_ID, questionId);
         params.put(PARAM_SECTION, selectedSection);
         params.put(PARAM_SECTION_DETAIL, selectedSectionDetail);
@@ -707,7 +705,6 @@ public final class FeedbackSessionsLogic {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-        Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
         params.put(PARAM_IN_SECTION, "true");
         params.put(PARAM_FROM_SECTION, "false");
@@ -717,6 +714,7 @@ public final class FeedbackSessionsLogic {
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
                 courseId, userEmail, UserRole.INSTRUCTOR, roster, params);
     }
+        Map<String, String> params = initializeParamsWithSelectedSectionDetail(sectionDetail);
 
     /**
      * Gets results of  a feedback session to show to an instructor from a specific section.
@@ -753,9 +751,6 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
         Map<String, String> params = new HashMap<>();
         params.put(PARAM_IS_INCLUDE_RESPONSE_STATUS, "true");
-        params.put(PARAM_IN_SECTION, "false");
-        params.put(PARAM_FROM_SECTION, "false");
-        params.put(PARAM_TO_SECTION, "true");
         params.put(PARAM_SECTION, section);
         params.put(PARAM_SECTION_DETAIL, sectionDetail);
         return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
