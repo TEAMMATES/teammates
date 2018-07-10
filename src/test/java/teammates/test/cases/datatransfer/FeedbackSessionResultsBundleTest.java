@@ -50,6 +50,7 @@ public class FeedbackSessionResultsBundleTest extends BaseTestCase {
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                         new ArrayList<>(responseBundle.instructors.values())), null);
 
+        ______TS("Test question having responses");
         FeedbackQuestionAttributes fqa = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         List<FeedbackResponseAttributes> allResponses = bundle.getActualUnsortedResponses(fqa);
         assertEquals(2, allResponses.size());
@@ -58,5 +59,10 @@ public class FeedbackSessionResultsBundleTest extends BaseTestCase {
         allResponsesString.add(allResponses.get(0).toString());
         allResponsesString.add(allResponses.get(1).toString());
         assertTrue("Responses are missing", allResponsesString.containsAll(allExpectedResponses));
+
+        ______TS("Test question having no responses");
+        fqa = responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        allResponses = bundle.getActualUnsortedResponses(fqa);
+        assertEquals(0, allResponses.size());
     }
 }
