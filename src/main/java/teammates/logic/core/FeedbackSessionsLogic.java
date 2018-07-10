@@ -785,6 +785,10 @@ public final class FeedbackSessionsLogic {
             exportBuilder.append(String.format("Section Name,%s", SanitizationHelper.sanitizeForCsv(section)))
                          .append(System.lineSeparator());
         }
+        if (sectionDetail != null) {
+            exportBuilder.append(String.format("Section View Detail,%s", SanitizationHelper.sanitizeForCsv(sectionDetail)))
+                    .append(System.lineSeparator());
+        }
 
         exportBuilder.append(System.lineSeparator()).append(System.lineSeparator());
 
