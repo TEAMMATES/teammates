@@ -1852,7 +1852,9 @@ public final class FeedbackSessionsLogic {
         boolean isFromSection = Boolean.parseBoolean(params.get(PARAM_FROM_SECTION));
 
         if (params.get(PARAM_RANGE) == null) {
-            if (isInSection) {
+            if (isFromSection && isToSection) {
+                return frLogic.getFeedbackResponsesForSessionInGiverAndRecipientSection(feedbackSessionName, courseId, section);
+            } else if (isInSection) {
                 return frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
             } else if (isFromSection) {
                 return frLogic.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, section);

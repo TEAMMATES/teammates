@@ -91,6 +91,14 @@ public final class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInGiverAndRecipientSection(
+            String feedbackSessionName, String courseId, String section) {
+        if (section == null) {
+            return getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        }
+        return frDb.getFeedbackResponsesForSessionInGiverAndRecipientSection(feedbackSessionName, courseId, section);
+    }
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionFromSection(
             String feedbackSessionName, String courseId, String section) {
         if (section == null) {
