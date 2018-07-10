@@ -502,7 +502,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .filter("receiverSection =", section)
                     .list());
         }
-        // System.out.println("after sectionDetails feedbackresponse size: " + feedbackResponses.size());
 
         feedbackResponses.addAll(load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
