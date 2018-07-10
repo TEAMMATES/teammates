@@ -953,7 +953,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 if (answerString.isEmpty()) {
                     continue;
                 }
-                responseCountPerOption.put(answerString, responseCountPerOption.get(answerString) + 1);
+                responseCountPerOption.put(answerString, responseCountPerOption.getOrDefault(answerString, 0) + 1);
             }
 
             // restore other answer if any
