@@ -22,7 +22,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
     }
 
     @Test
-    public void testFeedbackResponseCommentActions() throws IOException {
+    public void feedbackResponseCommentActions() throws IOException {
 
         InstructorFeedbackResultsPage resultsPage;
 
