@@ -84,7 +84,6 @@ public class Browser {
             profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.download.folderList", 2);
             profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
-            profile.setPreference("intl.accept_languages", "en_US");
             return new FirefoxDriver(profile);
 
         } else if (TestProperties.BROWSER_CHROME.equals(browser)) {
