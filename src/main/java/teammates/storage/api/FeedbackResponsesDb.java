@@ -483,6 +483,13 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .filter("receiverSection =", section)
                     .list());
 
+            // show responses in section with giver but without recipient
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .filter("receiverSection =", "None")
+                    .list());
+
         } else if (sectionDetail.contains("giver")) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
@@ -496,12 +503,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
         }
         // System.out.println("after sectionDetails feedbackresponse size: " + feedbackResponses.size());
-
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .filter("receiverSection =", "None")
-                .list());
 
         feedbackResponses.addAll(load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
