@@ -638,8 +638,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         // Sort responses based on recipient team and recipient name.
         List<FeedbackResponseAttributes> responses = msqStats.getResponseAttributesSorted(unsortedResponses, bundle);
 
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-        int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
+        Map<String, Integer> answerFrequency = msqStats.collateAnswerFrequency(responses);
+        int numChoicesSelected = getNumberOfResponses(answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
         }
@@ -698,13 +698,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (responses.isEmpty()) {
             return "";
         }
-        Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-        int numChoicesSelected = getNumberOfResponses(responses, answerFrequency);
+
+        MSQStatistics msqStats = new MSQStatistics(this);
+        Map<String, Integer> answerFrequency = msqStats.collateAnswerFrequency(responses);
+        int numChoicesSelected = getNumberOfResponses(answerFrequency);
         if (numChoicesSelected == -1) {
             return "";
         }
         StringBuilder csv = new StringBuilder();
-        MSQStatistics msqStats = new MSQStatistics(this);
 
         csv.append(msqStats.getResponseSummaryStatsCsv(answerFrequency, numChoicesSelected));
 
@@ -874,75 +875,24 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Getting number of responses.
-     * @return -1 if there is no empty response else number of response.
+     * Returns number of non-empty responses.<br>
+     * <p>
+     * <em>Note:</em> Response can be empty when <b>'None of the above'</b> option is selected.
+     * We don't count responses that select 'None of the above' option.</p>
      */
-    private int getNumberOfResponses(
-            List<FeedbackResponseAttributes> responses, Map<String, Integer> answerFrequency) {
-        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
-
-        for (String option : msqChoices) {
-            answerFrequency.put(option, 0);
-        }
-
-        if (otherEnabled) {
-            answerFrequency.put("Other", 0);
-        }
-
+    private int getNumberOfResponses(Map<String, Integer> answerFrequency) {
         int numChoicesSelected = 0;
-        for (FeedbackResponseAttributes response : responses) {
-            List<String> answerStrings =
-                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).getAnswerStrings();
-            boolean isOtherOptionAnswer =
-                    ((FeedbackMsqResponseDetails) response.getResponseDetails()).isOtherOptionAnswer();
-            String otherAnswer = "";
 
-            if (isOtherOptionAnswer) {
-                answerFrequency.put("Other", answerFrequency.getOrDefault("Other", 0) + 1);
-
-                numChoicesSelected++;
-                // remove other answer temporarily to calculate stats for other options
-                otherAnswer = answerStrings.get(answerStrings.size() - 1);
-                answerStrings.remove(otherAnswer);
-            }
-
-            int numNonEmptyChoicesSelected = getNumberOfNonEmptyResponsesOfQuestion(answerStrings, answerFrequency);
-            if (numNonEmptyChoicesSelected > 0) {
-                isContainsNonEmptyResponse = true;
-                numChoicesSelected += numNonEmptyChoicesSelected;
-            }
-
-            // restore other answer if any
-            if (isOtherOptionAnswer) {
-                answerStrings.add(otherAnswer);
-            }
+        for (String choice : answerFrequency.keySet()) {
+            numChoicesSelected += answerFrequency.get(choice);
         }
 
-        if (!isContainsNonEmptyResponse) {
+        // we will only show stats if there is at least one nonempty response
+        if (numChoicesSelected == 0) {
             return -1;
         }
 
         return numChoicesSelected;
-    }
-
-    /**
-     * Returns the number of non-empty responses and updates the answer frequency for each option.<br>
-     * Response can be empty, when 'None of the above' option is selected. In such cases,
-     * no action is taken.
-     */
-    private int getNumberOfNonEmptyResponsesOfQuestion(List<String> answerStrings, Map<String,
-            Integer> answerFrequency) {
-        int numChoices = 0;
-        for (String answerString : answerStrings) {
-            if (answerString.isEmpty()) {
-                continue;
-            }
-
-            numChoices++;
-
-            answerFrequency.put(answerString, answerFrequency.getOrDefault(answerString, 0) + 1);
-        }
-        return numChoices;
     }
 
     private double divideOrReturnZero(double numerator, int denominator) {
@@ -950,12 +900,34 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Calculate the Per Recipient Statistics for MSQ questions.
+     * Calculate the Response Statistics for MSQ questions.
      */
     private static class MSQStatistics extends MultipleOptionStatistics {
 
         MSQStatistics(FeedbackMsqQuestionDetails msqDetails) {
             super(msqDetails);
+        }
+
+        /**
+         * Calculates the answer frequency for each option based on the received responses for a question.
+         * @param responses The list of response attributes.
+         * @return
+         */
+        private Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
+            Map<String, Integer> answerFrequency = new LinkedHashMap<>();
+
+            for (String option : choices) {
+                answerFrequency.put(option, 0);
+            }
+            if (otherEnabled) {
+                answerFrequency.put("Other", 0);
+            }
+
+            for (FeedbackResponseAttributes response : responses) {
+                FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetails();
+                answerFrequency = getNumberOfResponsesForEachResponse(responseDetails, answerFrequency);
+            }
+            return answerFrequency;
         }
 
         /**
