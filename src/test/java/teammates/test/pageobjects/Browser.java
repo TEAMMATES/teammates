@@ -94,7 +94,7 @@ public class Browser {
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--allow-file-access-from-files");
-            options.addArguments("--lang=en_US");
+            options.addArguments("--lang=en-us");
             return new ChromeDriver(options);
         }
         System.out.println("Using " + browser + " is not supported!");
