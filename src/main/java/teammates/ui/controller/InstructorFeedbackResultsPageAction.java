@@ -194,7 +194,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 // such as the display of warning messages
                 bundle.isComplete = true;
             } else {
-                // bundle for all questions, with a selected section
+                // bundle for all questions, with a selected section and selected section detail
+                // depending on the section detail, this function will filter accordingly
                 bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
                                                                                     instructor.email,
                                                                                     selectedSection, selectedSectionDetail);
