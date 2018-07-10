@@ -263,7 +263,7 @@ public class FeedbackResponseCommentRow {
      * Returns the type of people that can view the response comment.
      */
     private String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
-                                                FeedbackQuestionAttributes relatedQuestion) {
+            FeedbackQuestionAttributes relatedQuestion) {
         List<FeedbackParticipantType> showCommentTo;
         if (comment.isVisibilityFollowingFeedbackQuestion) {
             showCommentTo = relatedQuestion.showResponsesTo;
