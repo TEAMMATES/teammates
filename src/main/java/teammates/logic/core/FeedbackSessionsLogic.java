@@ -607,14 +607,14 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
 
         return getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-                feedbackSessionName, courseId, userEmail, null, range, viewType);
+                feedbackSessionName, courseId, userEmail, null, null, range, viewType);
     }
 
     /**
      * Gets results of a feedback session to show to an instructor in a section in an indicated range.
      */
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-            String feedbackSessionName, String courseId, String userEmail, String section,
+            String feedbackSessionName, String courseId, String userEmail, String section, String sectionDetail,
             int range, String viewType)
             throws EntityDoesNotExistException {
 
@@ -756,7 +756,7 @@ public final class FeedbackSessionsLogic {
 
         if (questionId == null) {
             results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
-                feedbackSessionName, courseId, userEmail, section,
+                feedbackSessionName, courseId, userEmail, section, sectionDetail,
                 indicatedRange, Const.FeedbackSessionResults.GRQ_SORT_TYPE);
         } else if (section == null) {
             results = getFeedbackSessionResultsForInstructorFromQuestion(
