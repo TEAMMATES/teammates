@@ -10,10 +10,12 @@ public final class FrontEndLibrary {
     public static final String BLANKET;
     public static final String BOOTBOX;
     public static final String BOOTSTRAP_CSS;
+    public static final String BOOTSTRAP_FORMS_LESS;
     public static final String BOOTSTRAP_THEME_CSS;
     public static final String BOOTSTRAP;
     public static final String D3;
     public static final String DATAMAPS;
+    public static final String ELASTICLUNR;
     public static final String HANDSONTABLE_CSS;
     public static final String HANDSONTABLE;
     public static final String JQUERY;
@@ -44,10 +46,12 @@ public final class FrontEndLibrary {
         BLANKET = getLibrarySource("blanket", "dist/qunit/blanket.min.js");
         BOOTBOX = getLibrarySource("bootbox", "bootbox.min.js");
         BOOTSTRAP_CSS = getLibrarySource("bootstrap", "dist/css/bootstrap.min.css");
+        BOOTSTRAP_FORMS_LESS = getLibrarySource("bootstrap", "less/forms.less");
         BOOTSTRAP_THEME_CSS = getLibrarySource("bootstrap", "dist/css/bootstrap-theme.min.css");
         BOOTSTRAP = getLibrarySource("bootstrap", "dist/js/bootstrap.min.js");
         D3 = getLibrarySource("d3", "d3.min.js");
         DATAMAPS = getLibrarySource("datamaps", "dist/datamaps.none.min.js");
+        ELASTICLUNR = getLibrarySource("elasticlunr", "elasticlunr.min.js");
         HANDSONTABLE_CSS = getLibrarySource("handsontable", "dist/handsontable.full.min.css");
         HANDSONTABLE = getLibrarySource("handsontable", "dist/handsontable.full.min.js");
         JQUERY = getLibrarySource("jquery", "dist/jquery.min.js");

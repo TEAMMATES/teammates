@@ -17,7 +17,7 @@
     <p>
       Browse questions by topic:
     </p>
-    <ul>
+    <ul id="topics">
       <li>
         <a href="#students">Students</a>
       </li>
@@ -31,12 +31,31 @@
         <a href="#questions">Questions</a>
       </li>
     </ul>
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control" placeholder="How can we help ?" id="searchQuery" autocomplete="off">
+            <span class="input-group-btn">
+              <button id="search" class="btn btn-default" type="submit" onclick="searchQuestions()">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+              <button id="reset" class="btn btn-default" type="submit" onclick="resetSearch()"><span class="glyphicon glyphicon-remove"></span></button>
+            </span>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="separate-content-holder">
-    <hr>
+  <div class="row margin-top-15px">
+    <div class="col-sm-12">
+      <h3 id="searchMetaData" class="text-color-primary"></h3>
+      <hr>
+    </div>
   </div>
-  <jsp:include page="partials/instructorHelpStudents.jsp"/>
-  <jsp:include page="partials/instructorHelpCourses.jsp"/>
-  <jsp:include page="partials/instructorHelpSessions.jsp"/>
-  <jsp:include page="partials/instructorHelpQuestions.jsp"/>
+  <div id="searchResults" class="panel-group margin-top-15px"></div>
+  <div id="allQuestions">
+    <jsp:include page="partials/instructorHelpStudents.jsp"/>
+    <jsp:include page="partials/instructorHelpCourses.jsp"/>
+    <jsp:include page="partials/instructorHelpSessions.jsp"/>
+    <jsp:include page="partials/instructorHelpQuestions.jsp"/>
+  </div>
 </t:helpPage>

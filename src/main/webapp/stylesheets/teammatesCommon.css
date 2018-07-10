@@ -144,6 +144,12 @@ div[class*="col-"][class*="col-no-padding"] {
     padding: 0;
 }
 
+.form-control-clear {
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
 .ordered-table {
     counter-reset: rownumber;
 }
@@ -235,6 +241,10 @@ Apply to thead to make headers not bold.
     -ms-transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
+}
+
+.height-45px {
+    height: 45px;
 }
 
 .height-fixed-md {
@@ -509,6 +519,10 @@ input.inline {
 .tool-tip-decorate {
     border-bottom: 1px dotted #808080;
     text-decoration: none;
+}
+
+.top-0px {
+    top: 0px;
 }
 
 .text-box-error {
