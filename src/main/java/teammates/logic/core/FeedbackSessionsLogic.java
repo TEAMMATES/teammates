@@ -1619,6 +1619,38 @@ public final class FeedbackSessionsLogic {
                         visibilityTable, responseStatus, roster, responseComments);
     }
 
+    private Map<String, String> initializeParamsWithSelectedSectionDetail(String sectionDetail) {
+
+        Map<String, String> params = new HashMap<>();
+        // this happens when 'all' section is selected
+        if (sectionDetail == null) {
+            return params;
+        }
+
+        if (sectionDetail.contains("either")) {
+            params.put(PARAM_IN_SECTION, "true");
+            params.put(PARAM_FROM_SECTION, "false");
+            params.put(PARAM_TO_SECTION, "false");
+
+        } else if (sectionDetail.contains("giver")) {
+            params.put(PARAM_IN_SECTION, "false");
+            params.put(PARAM_FROM_SECTION, "true");
+            params.put(PARAM_TO_SECTION, "false");
+
+        } else if (sectionDetail.contains("evaluee")) {
+            params.put(PARAM_IN_SECTION, "false");
+            params.put(PARAM_FROM_SECTION, "false");
+            params.put(PARAM_TO_SECTION, "true");
+
+        } else if (sectionDetail.contains("both")) {
+            params.put(PARAM_IN_SECTION, "false");
+            params.put(PARAM_FROM_SECTION, "true");
+            params.put(PARAM_TO_SECTION, "true");
+        }
+
+        return params;
+    }
+
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserWithParams(
             String feedbackSessionName, String courseId, String userEmail,
             UserRole role, CourseRoster roster, Map<String, String> params)
