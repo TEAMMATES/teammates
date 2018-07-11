@@ -37,10 +37,9 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseCommentRow getComment() {
         FeedbackResponseCommentRow frc =
                 new FeedbackResponseCommentRow(comment, comment.giverEmail, giverName, recipientName,
-                                               showCommentToString, showGiverNameToString,
-                                               getResponseVisibilities(), instructorEmailNameTable, sessionTimeZone);
+                        showCommentToString, showGiverNameToString, getResponseVisibilities(),
+                        instructorEmailNameTable, sessionTimeZone, question);
         frc.enableEditDelete();
-
         return frc;
     }
 

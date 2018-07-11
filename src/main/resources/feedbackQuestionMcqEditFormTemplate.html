@@ -1,8 +1,24 @@
 <div class="row">
+  <div class="col-sm-12 margin-bottom-7px">
+    <div class="col-sm-4 padding-0">
+      <input type="checkbox" class="nonDestructive" id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED}-${questionNumber}" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED}" ${mcqAssignWeightsCheckbox}>
+      <span data-toggle="tooltip" data-placement="top" data-original-title="${Const.Tooltips.FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS}"> Choices are weighted </span>
+    </div>
+    <div class="col-sm-2 padding-left-45px align-center">
+      Weights <span class="glyphicon glyphicon-arrow-down"></span>
+    </div>
+  </div>
   <br>
   <div class="col-sm-6">
     <div id="mcqChoiceTable-${questionNumber}">
-      ${mcqEditFormOptionFragments}
+      <div class="row">
+        <div class="col-sm-9" id="mcqChoices-${questionNumber}">
+          ${mcqEditFormOptionFragments}
+        </div>
+        <div class="col-sm-3" id="mcqWeights-${questionNumber}">
+          ${mcqEditFormWeightFragments}
+        </div>
+      </div>
       <div id="mcqAddOptionRow-${questionNumber}">
         <div colspan="2">
           <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink-${questionNumber}"
@@ -11,13 +27,20 @@
             </span> add more options
           </a>
 
-          <div class="checkbox">
-            <label class="bold-label">
-              <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}"
-                  id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}-${questionNumber}"
-                  ${checkedOtherOptionEnabled} onchange="toggleMcqOtherOptionEnabled(this, ${questionNumber})">
-              Add 'Other' option (Allows respondents to type in their own answer)
-            </label>
+          <div class="row">
+            <div class="checkbox col-sm-9 padding-left-35px">
+              <label class="bold-label">
+                <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}"
+                    id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}-${questionNumber}"
+                    ${checkedOtherOptionEnabled}>
+                Add 'Other' option (Allows respondents to type in their own answer)
+              </label>
+            </div>
+            <div class="col-sm-3">
+              <input type="number" class="form-control nonDestructive"
+                      value="${mcqOtherWeight}" id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT}-${questionNumber}"
+                      name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT}" step="0.01" min="0">
+            </div>
           </div>
         </div>
       </div>
