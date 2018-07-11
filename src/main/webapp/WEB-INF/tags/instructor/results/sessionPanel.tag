@@ -92,4 +92,5 @@
 
 <r:copyPasteModal courseId="${sessionPanel.courseId}"
     feedbackSession="${sessionPanel.feedbackSessionName}"
-    selectedSection="${sessionPanel.selectedSection}" />
+    selectedSection="${sessionPanel.selectedSection}"
+    selectedSectionDetail="${sessionPanel.selectedSectionDetail}"/>
