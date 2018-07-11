@@ -1,5 +1,8 @@
+/* global elasticlunr:true */
+
 const questionMap = {};
 let index = null;
+
 /**
  * Shows the panel specified by the URL hash,
  * e.g. "instructorHelp.jsp#question-essay".
@@ -33,30 +36,47 @@ function prepareQuestionsForSearch() {
     function addQuestionsForTopic(topic) {
         const topicContentElement = $(topic).next();
 
-        topicContentElement.find('.panel-group').each(function (idx, subTopic) {
+        topicContentElement.find('.panel-group').each((idx, subTopic) => {
             const subTopicText = $(subTopic).prev().text();
             const subTopicQuestions = $(subTopic).children();
 
-            let subTopicTags = subTopicText.split(' ').map(function (word) {
+            let subTopicTags = subTopicText.split(' ').map((word) => {
+                // ensure case insensitivity
+                const lowerCaseWord = word.toLowerCase();
+
                 // ignore 1 and 2 letter words which are probably articles and prepositions
-                if (word.length < 3) {
+                if (lowerCaseWord.length < 3) {
                     return '';
                 }
-                return elasticlunr.stemmer(word);
+                return elasticlunr.stemmer(lowerCaseWord);
             });
-            subTopicTags = subTopicTags.filter(function(v){return v !== '' });
+            subTopicTags = $.grep(subTopicTags, (v) => {
+                if (v !== '') {
+                    return true;
+                }
+                return false;
+            });
 
             for (let i = 0; i < subTopicQuestions.length; i += 1) {
                 const question = $(subTopicQuestions[i]);
                 const htmlId = question.attr('id');
-                const questionTags = subTopicTags.concat(htmlId.split('-'));
+                const tagsSeenSoFar = {};
+
+                let questionTags = subTopicTags.concat(htmlId.split('-'));
+                questionTags = $.grep(questionTags, (item) => {
+                    if (tagsSeenSoFar[item]) {
+                        return false;
+                    }
+                    tagsSeenSoFar[item] = true;
+                    return item;
+                });
 
                 questionMap[questionCount] = {
                     id: questionCount,
-                    htmlId: htmlId,
+                    htmlId,
                     title: question.find('.panel-title').text(),
                     body: question.find('.panel-body').text(),
-                    tags: questionTags
+                    tags: questionTags,
                 };
                 questionCount += 1;
             }
@@ -69,21 +89,21 @@ function prepareQuestionsForSearch() {
         index.addField('body');
         index.addField('tags');
         index.setRef('id');
-        $.each(questionMap, function (id, question) {
+        $.each(questionMap, (id, question) => {
             index.addDoc(question);
         });
     }
 
-    $('#topics li').each(function (idx, li) {
+    $.each($('#topics li'), (idx, li) => {
         const topicId = $(li).find('a').attr('href');
         addQuestionsForTopic(topicId);
     });
-    console.log(questionMap);
     buildIndex();
 }
 
 function searchQuestions() {
     const query = $('#searchQuery').val();
+
     $('#searchResults').empty();
     if (query === '') {
         $('#allQuestions').show();
@@ -92,24 +112,46 @@ function searchQuestions() {
     }
     const results = index.search(query, {
         fields: {
-            title: {boost: 4},
-            tags: {boost: 2},
-            body: {boost: 0.5}
+            title: { boost: 4 },
+            tags: { boost: 2 },
+            body: { boost: 0.5 },
         },
-        bool: "AND"
+        bool: 'AND',
     });
-    $.each(results, function(idx, result) {
-        const htmlId = questionMap[result.ref].htmlId;
+    $.each(results, (idx, result) => {
+        const { htmlId } = questionMap[result.ref];
         const questionPanel = $(`#${htmlId}`)[0];
         $('#searchResults').append(questionPanel.outerHTML);
     });
-    $('#searchMetaData').text(`${results.length} results found for "${query}"`);
+
+    // highlight matches for keyword in the search results
+    function highlightKeyword(keyword) {
+        const highlightRegex = new RegExp(keyword, 'g');
+        $('#searchResults').children().each(function () {
+            // highlight heading matches for query
+            $(this).find('.panel-heading').html(function () {
+                return $(this).html().replace(highlightRegex, `<span class='text-bold color-positive'>${keyword}</span>`);
+            });
+            // highlight body matches for query
+            $(this).find('.panel-body').html(function () {
+                return $(this).html().replace(highlightRegex, `<span class='text-bold color-positive'>${keyword}</span>`);
+            });
+        });
+    }
+
+    $.each(query.split(' '), (idx, keyword) => {
+        if (keyword.length > 2) {
+            highlightKeyword(keyword);
+        }
+    });
+
+    $('#searchMetaData').text(`${results.length} results found for '${query}'`);
     $('#allQuestions').hide();
 }
 
 function bindEnterKeyForSearchBox() {
-    $('#searchQuery').keypress(function(e){
-        if(e.keyCode === 13) {
+    $('#searchQuery').keypress((e) => {
+        if (e.keyCode === 13) {
             $('#search').click();
         }
     });

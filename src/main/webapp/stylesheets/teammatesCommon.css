@@ -145,9 +145,9 @@ div[class*="col-"][class*="col-no-padding"] {
 }
 
 .form-control-clear {
-  z-index: 10;
-  pointer-events: auto;
-  cursor: pointer;
+    z-index: 10;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .ordered-table {
@@ -522,7 +522,7 @@ input.inline {
 }
 
 .top-0px {
-    top: 0px;
+    top: 0;
 }
 
 .text-box-error {
