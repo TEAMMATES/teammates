@@ -1853,7 +1853,8 @@ public final class FeedbackSessionsLogic {
 
         if (params.get(PARAM_RANGE) == null) {
             if (isFromSection && isToSection) {
-                return frLogic.getFeedbackResponsesForSessionInGiverAndRecipientSection(feedbackSessionName, courseId, section);
+                return frLogic.getFeedbackResponsesForSessionInGiverAndRecipientSection(feedbackSessionName,
+                        courseId, section);
             } else if (isInSection) {
                 return frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
             } else if (isFromSection) {

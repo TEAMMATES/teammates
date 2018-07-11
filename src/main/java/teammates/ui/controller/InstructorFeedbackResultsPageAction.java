@@ -136,7 +136,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         switch (sortType) {
         case Const.FeedbackSessionResults.QUESTION_SORT_TYPE:
-            data.initForViewByQuestion(instructor, selectedSection, selectedSectionDetail, showStats, groupByTeam, isMissingResponsesShown);
+            data.initForViewByQuestion(instructor, selectedSection, selectedSectionDetail, showStats,
+                    groupByTeam, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
         case Const.FeedbackSessionResults.RGQ_SORT_TYPE:
@@ -175,7 +176,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private FeedbackSessionResultsBundle getBundleForQuestionView(
             String needAjax, String courseId, String feedbackSessionName, InstructorAttributes instructor,
-            InstructorFeedbackResultsPageData data, String selectedSection, String selectedSectionDetail, String sortType, String questionId)
+            InstructorFeedbackResultsPageData data, String selectedSection, String selectedSectionDetail,
+            String sortType, String questionId)
                     throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
         if (questionId == null) {
@@ -233,7 +235,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        selectedSection, selectedSectionDetail, null, isMissingResponsesShown, isStatsShown)));
+                                        selectedSection, selectedSectionDetail, null,
+                                        isMissingResponsesShown, isStatsShown)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

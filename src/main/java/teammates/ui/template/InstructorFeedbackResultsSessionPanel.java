@@ -68,6 +68,7 @@ public class InstructorFeedbackResultsSessionPanel {
     public String getSelectedSection() {
         return selectedSection;
     }
+
     public String getSelectedSectionDetail() {
         return selectedSectionDetail;
     }

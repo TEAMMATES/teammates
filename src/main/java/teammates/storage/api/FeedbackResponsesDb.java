@@ -194,7 +194,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
-        return makeAttributes(getFeedbackResponseEntitiesForSessionInGiverAndRecipientSection(feedbackSessionName, courseId, section));
+        return makeAttributes(getFeedbackResponseEntitiesForSessionInGiverAndRecipientSection(feedbackSessionName,
+                courseId, section));
     }
 
     /**
@@ -566,7 +567,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionInGiverAndRecipientSection(
             String feedbackSessionName, String courseId, String section) {
-        return getFeedbackResponseEntitiesForSessionInGiverAndRecipientSectionWithinRange(feedbackSessionName, courseId, section, -1);
+        return getFeedbackResponseEntitiesForSessionInGiverAndRecipientSectionWithinRange(feedbackSessionName, courseId,
+                section, -1);
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSection(

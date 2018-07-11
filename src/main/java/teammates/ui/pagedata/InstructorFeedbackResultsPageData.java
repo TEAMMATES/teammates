@@ -105,7 +105,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                       String groupByTeam, boolean isMissingResponsesShown) {
         this.viewType = InstructorFeedbackResultsPageViewType.QUESTION;
         this.sortType = InstructorFeedbackResultsPageViewType.QUESTION.toString();
-        initCommonVariables(instructor, selectedSection, selectedSectionDetail, showStats, groupByTeam, isMissingResponsesShown);
+        initCommonVariables(instructor, selectedSection, selectedSectionDetail, showStats,
+                groupByTeam, isMissingResponsesShown);
 
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap =
                 bundle.getQuestionResponseMap();
