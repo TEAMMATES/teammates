@@ -25,23 +25,18 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
         List<FeedbackQuestionAttributes> templateQuestions = logic.populateFeedbackSessionTemplateQuestions("TEAMEVALUATION",
                 courseId, feedbackSessionName, account.getEmail());
         try {
-            int index = 0;
-            String feedbackQuestionNum = getRequestParamValue(
-                    Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER + "-" + index);
 
-            while (feedbackQuestionNum != null) {
-                FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(
-                        Integer.parseInt(feedbackQuestionNum) - 1);
-                feedbackQuestion.questionNumber = -1;
-                logic.createFeedbackQuestion(feedbackQuestion);
+            String[] feedbackQuestionNumbers = getRequestParamValues(Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER);
 
-                index++;
+            if (feedbackQuestionNumbers.length > 0) {
+                for (String questionNumber: feedbackQuestionNumbers) {
 
-                feedbackQuestionNum = getRequestParamValue(
-                        Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER + "-" + index);
-            }
+                    FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(
+                            Integer.parseInt(questionNumber) - 1);
+                    feedbackQuestion.questionNumber = -1;
+                    logic.createFeedbackQuestion(feedbackQuestion);
+                }
 
-            if (index > 0) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
                         StatusMessageColor.SUCCESS));
             } else {

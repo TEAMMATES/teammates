@@ -1032,7 +1032,7 @@ function bindAddTemplateQnButton() {
                 return;
             }
             if ($this.hasClass('panel-selected')) {
-                $(questionNumInput).attr('name', `templatequestionnum-${index}`);
+                $(questionNumInput).attr('name', `templatequestionnum`);
                 index += 1;
                 hasPanelSelected = true;
             }
