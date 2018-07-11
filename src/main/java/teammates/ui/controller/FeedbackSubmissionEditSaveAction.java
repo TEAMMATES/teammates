@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -160,6 +161,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
             if (!emailSet.containsAll(responsesRecipients)) {
                 errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));
+            }
+
+            // Add responseRecipients in a set to check if there are duplicate responses.
+            Set<String> responsesRecipientsSet = new HashSet<>(responsesRecipients);
+
+            // If there are duplicate recipients for a response, trigger this error.
+            if (responsesRecipients.size() != responsesRecipientsSet.size()) {
+                errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
             }
 
             if (errors.isEmpty()) {
