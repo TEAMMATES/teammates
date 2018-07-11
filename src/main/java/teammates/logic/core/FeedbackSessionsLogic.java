@@ -733,7 +733,7 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         return getFeedbackSessionResultsForUserInSectionByQuestions(
                 feedbackSessionName, courseId, userEmail,
-                UserRole.STUDENT, null, null, roster);
+                UserRole.STUDENT, null, roster);
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(
@@ -1474,13 +1474,13 @@ public final class FeedbackSessionsLogic {
                 instructorsLogic.getInstructorsForCourse(courseId));
 
         return getFeedbackSessionResultsForUserInSectionByQuestions(
-                feedbackSessionName, courseId, userEmail, role, section, null, roster);
+                feedbackSessionName, courseId, userEmail, role, section, roster);
     }
 
     /* Get the feedback results for user in a section iterated by questions */
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForUserInSectionByQuestions(
             String feedbackSessionName, String courseId, String userEmail,
-            UserRole role, String section, String sectionDetails, CourseRoster roster)
+            UserRole role, String section, CourseRoster roster)
             throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(
@@ -1510,7 +1510,7 @@ public final class FeedbackSessionsLogic {
             List<FeedbackResponseAttributes> responsesForThisQn;
 
             responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                    question, userEmail, role, section, sectionDetails);
+                    question, userEmail, role, section, null);
 
             boolean hasResponses = !responsesForThisQn.isEmpty();
             if (hasResponses) {
