@@ -243,7 +243,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
                 null);
 
-        assertEquals(3, responses.size());
+        assertEquals(4, responses.size());
 
         ______TS("No responses as they are filtered out");
 
