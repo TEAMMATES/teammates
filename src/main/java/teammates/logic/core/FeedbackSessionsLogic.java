@@ -1768,7 +1768,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionResultsBundle getFeedbackSessionResultsForQuestionId(String feedbackSessionName,
                 String courseId, String userEmail, UserRole role, CourseRoster roster, FeedbackSessionAttributes session,
                 List<FeedbackQuestionAttributes> allQuestions, Map<String, FeedbackQuestionAttributes> relevantQuestions,
-                boolean isIncludeResponseStatus, String section, String sectionDetails, String questionId) {
+                boolean isIncludeResponseStatus, String section, String sectionDetail, String questionId) {
 
         List<FeedbackResponseAttributes> responses = new ArrayList<>();
         Map<String, String> emailNameTable = new HashMap<>();
@@ -1792,7 +1792,7 @@ public final class FeedbackSessionsLogic {
                 List<FeedbackResponseAttributes> responsesForThisQn;
 
                 responsesForThisQn = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                                                question, userEmail, UserRole.INSTRUCTOR, section, sectionDetails);
+                                                question, userEmail, UserRole.INSTRUCTOR, section, sectionDetail);
                 StudentAttributes student = getStudent(courseId, userEmail, role);
                 Set<String> studentsEmailInTeam = getTeammateEmails(courseId, student);
                 boolean hasResponses = !responsesForThisQn.isEmpty();

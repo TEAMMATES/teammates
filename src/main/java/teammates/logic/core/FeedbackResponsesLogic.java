@@ -226,7 +226,7 @@ public final class FeedbackResponsesLogic {
 
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForQuestionInSection(
             FeedbackQuestionAttributes question, String userEmail,
-            UserRole role, String section, String sectionDetails) {
+            UserRole role, String section, String sectionDetail) {
 
         List<FeedbackResponseAttributes> viewableResponses = new ArrayList<>();
 
@@ -254,7 +254,7 @@ public final class FeedbackResponsesLogic {
         case INSTRUCTOR:
             if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
                 addNewResponses(viewableResponses,
-                                getFeedbackResponsesForQuestionInSection(question.getId(), section, sectionDetails));
+                                getFeedbackResponsesForQuestionInSection(question.getId(), section, sectionDetail));
             }
             break;
         default:
