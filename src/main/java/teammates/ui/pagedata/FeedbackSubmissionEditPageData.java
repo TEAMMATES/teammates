@@ -307,7 +307,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
                         frcAttributes.commentGiver, "", "",
                         getResponseCommentVisibilityString(frcAttributes, questionAttributes),
                         getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
-                        getResponseVisibilityMap(questionAttributes), commentGiverEmailToNameTable, sessionTimeZone);
+                        getResponseVisibilityMap(questionAttributes), commentGiverEmailToNameTable, sessionTimeZone,
+                        questionAttributes);
                 frcRow.enableEditDelete();
                 return frcRow;
 

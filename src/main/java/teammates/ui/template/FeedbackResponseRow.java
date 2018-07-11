@@ -57,17 +57,7 @@ public class FeedbackResponseRow {
                 Map<String, String> commentGiverEmailToNameTable = results.commentGiverEmailToNameTable;
                 FeedbackResponseCommentRow responseCommentRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
-                        commentGiverEmailToNameTable, results.getTimeZone());
-                String whoCanSeeComment = null;
-                boolean isVisibilityIconShown = false;
-                if (results.feedbackSession.isPublished()) {
-                    isVisibilityIconShown = !frc.showCommentTo.isEmpty();
-
-                    if (isVisibilityIconShown) {
-                        whoCanSeeComment = getTypeOfPeopleCanViewComment(frc, question);
-                    }
-                }
-                responseCommentRow.setVisibilityIcon(isVisibilityIconShown, whoCanSeeComment);
+                        commentGiverEmailToNameTable, results.getTimeZone(), question);
                 boolean isInstructorGiver = results.roster.isInstructorOfCourse(giverEmail);
                 // Instructor cannot edit/delete feedback participant's comments from results page
                 if (isInstructorGiver) {
@@ -108,52 +98,4 @@ public class FeedbackResponseRow {
         return responseComments;
     }
 
-    /**
-     * Returns the type of people that can view the response comment.
-     */
-    public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
-                                                FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder(100);
-        List<FeedbackParticipantType> showCommentTo;
-        if (comment.isVisibilityFollowingFeedbackQuestion) {
-            showCommentTo = relatedQuestion.showResponsesTo;
-        } else {
-            showCommentTo = comment.showCommentTo;
-        }
-        for (int i = 0; i < showCommentTo.size(); i++) {
-            FeedbackParticipantType commentViewer = showCommentTo.get(i);
-            if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
-                peopleCanView.append("and ");
-            }
-
-            switch (commentViewer) {
-            case GIVER:
-                peopleCanView.append("response giver, ");
-                break;
-            case RECEIVER:
-                peopleCanView.append("response recipient, ");
-                break;
-            case OWN_TEAM:
-                peopleCanView.append("response giver's team, ");
-                break;
-            case RECEIVER_TEAM_MEMBERS:
-                peopleCanView.append("response recipient's team, ");
-                break;
-            case STUDENTS:
-                peopleCanView.append("other students in this course, ");
-                break;
-            case INSTRUCTORS:
-                peopleCanView.append("instructors, ");
-                break;
-            default:
-                break;
-            }
-        }
-        String peopleCanViewString = peopleCanView.toString();
-        return removeEndComma(peopleCanViewString);
-    }
-
-    private String removeEndComma(String str) {
-        return str.substring(0, str.length() - 2);
-    }
 }

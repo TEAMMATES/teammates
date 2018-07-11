@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -34,15 +35,13 @@ public class FeedbackResponseCommentRow {
     private Map<FeedbackParticipantType, Boolean> responseVisibilities;
     private Map<String, String> commentGiverEmailToNameTable;
 
-    private String whoCanSeeComment;
+    private String visibilityIconString;
     private ZoneId sessionTimeZone;
-
-    private boolean hasVisibilityIcon;
 
     private boolean isEditDeleteEnabled;
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                      Map<String, String> commentGiverEmailToNameTable, ZoneId sessionTimeZone) {
+            Map<String, String> commentGiverEmailToNameTable, ZoneId sessionTimeZone, FeedbackQuestionAttributes question) {
         this.commentGiverEmailToNameTable = commentGiverEmailToNameTable;
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
@@ -51,6 +50,7 @@ public class FeedbackResponseCommentRow {
         this.commentText = frc.commentText.getValue();
         this.commentGiverType = frc.commentGiverType;
         this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
+        this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
 
         //TODO TO REMOVE AFTER DATA MIGRATION
         this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(giverDisplay));
@@ -59,9 +59,9 @@ public class FeedbackResponseCommentRow {
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
-            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> commentGiverEmailToNameTable,
-            ZoneId sessionTimeZone) {
-        this(frc, giverDisplay, commentGiverEmailToNameTable, sessionTimeZone);
+            Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> commentGiverEmailNameTable,
+            ZoneId sessionTimeZone, FeedbackQuestionAttributes question) {
+        this(frc, giverDisplay, commentGiverEmailNameTable, sessionTimeZone, question);
         setDataForAddEditDelete(frc, giverName, recipientName,
                 showCommentToString, showGiverNameToString, responseVisibilities);
     }
@@ -150,16 +150,12 @@ public class FeedbackResponseCommentRow {
         return showGiverNameToString;
     }
 
-    public String getWhoCanSeeComment() {
-        return whoCanSeeComment;
-    }
-
     public String getCommentGiverType() {
         return commentGiverType.toSingularFormString();
     }
 
-    public boolean isWithVisibilityIcon() {
-        return hasVisibilityIcon;
+    public String getVisibilityIconString() {
+        return visibilityIconString;
     }
 
     public boolean isEditDeleteEnabled() {
@@ -254,17 +250,8 @@ public class FeedbackResponseCommentRow {
         this.isEditDeleteEnabled = true;
     }
 
-    public void setVisibilityIcon(boolean hasVisibilityIcon, String whoCanSeeComment) {
-        this.hasVisibilityIcon = hasVisibilityIcon;
-        this.whoCanSeeComment = whoCanSeeComment;
-    }
-
     public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
         this.commentGiverType = commentGiverType;
-    }
-
-    public void setCommentFromFeedbackParticipant(boolean isCommentFromFeedbackParticipant) {
-        this.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
     }
 
     public String getCommentGiverName() {
@@ -294,5 +281,58 @@ public class FeedbackResponseCommentRow {
                     ? ""
                     : "by " + SanitizationHelper.sanitizeForHtml(lastEditor) + " ")
                 + "at " + TimeHelper.formatDateTimeForDisplay(lastEditedAt, sessionTimeZone) + ")";
+    }
+
+    /**
+     * Returns the type of people that can view the response comment.
+     */
+    private String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
+            FeedbackQuestionAttributes relatedQuestion) {
+        List<FeedbackParticipantType> showCommentTo;
+        if (comment.isVisibilityFollowingFeedbackQuestion) {
+            showCommentTo = relatedQuestion.showResponsesTo;
+        } else {
+            showCommentTo = comment.showCommentTo;
+        }
+        if (showCommentTo == null || showCommentTo.isEmpty()) {
+            return "nobody";
+        }
+
+        StringBuilder peopleCanView = new StringBuilder(100);
+        for (int i = 0; i < showCommentTo.size(); i++) {
+            FeedbackParticipantType commentViewer = showCommentTo.get(i);
+            if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
+                peopleCanView.append("and ");
+            }
+
+            switch (commentViewer) {
+            case GIVER:
+                peopleCanView.append("response giver, ");
+                break;
+            case RECEIVER:
+                peopleCanView.append("response recipient, ");
+                break;
+            case OWN_TEAM:
+                peopleCanView.append("response giver's team, ");
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                peopleCanView.append("response recipient's team, ");
+                break;
+            case STUDENTS:
+                peopleCanView.append("other students in this course, ");
+                break;
+            case INSTRUCTORS:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
+            }
+        }
+        String peopleCanViewString = peopleCanView.toString();
+        return removeEndComma(peopleCanViewString);
+    }
+
+    private String removeEndComma(String str) {
+        return str.substring(0, str.length() - 2);
     }
 }
