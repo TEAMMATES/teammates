@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
@@ -84,13 +85,13 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     private String formatAdminDate(Instant instant) {
         return instant.atZone(Const.SystemParams.ADMIN_TIME_ZONE).toLocalDate()
-                .format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+                .format(DateTimeFormatter.ofPattern("dd/MM/yy", Locale.US));
     }
 
     private String formatActivityLogTimeTruncated(Instant instant, ZoneId zoneId) {
         // Some timings are adjusted slightly in the tests. Hence instead of testing for exact match,
         // we test matching up to the hour.
-        return DateTimeFormatter.ofPattern("dd/MM/yyyy HH").format(instant.atZone(zoneId));
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy HH", Locale.US).format(instant.atZone(zoneId));
     }
 
     private String getExpectedAjaxTimeString(Instant instant, ZoneId zoneId) {

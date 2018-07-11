@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -261,12 +262,12 @@ public class AdminActivityLogPageData extends PageData {
                 }
 
             } else if ("from".equals(label)) {
-                fromDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy"))
+                fromDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy", Locale.US))
                         .atStartOfDay(Const.SystemParams.ADMIN_TIME_ZONE).toInstant().toEpochMilli();
                 isFromDateSpecifiedInQuery = true;
 
             } else if ("to".equals(label)) {
-                toDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy"))
+                toDateValue = LocalDate.parse(values[0], DateTimeFormatter.ofPattern("dd/MM/yy", Locale.US))
                         .atTime(LocalTime.MAX).atZone(Const.SystemParams.ADMIN_TIME_ZONE).toInstant().toEpochMilli();
             } else {
                 q.add(label, values);

@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
@@ -51,7 +52,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     // 130 seconds is chosen so that it will be around 50 logs within 2 hours before now.
     private static final int LOG_MESSAGE_INTERVAL_MANY_LOGS = 130;
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.US);
 
     private static final Instant TODAY = Instant.now();
     private static final Instant YESTERDAY = TimeHelper.getInstantDaysOffsetFromNow(-1);
