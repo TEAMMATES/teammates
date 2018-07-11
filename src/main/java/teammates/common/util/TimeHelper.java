@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import teammates.common.exception.TeammatesException;
@@ -229,7 +230,7 @@ public final class TimeHelper {
         if (localDateTime.getHour() == 12 && localDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern, Locale.US);
         return localDateTime.format(formatter);
     }
 
@@ -338,7 +339,7 @@ public final class TimeHelper {
         if (zonedDateTime.getHour() == 12 && zonedDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern, Locale.US);
         return zonedDateTime.format(formatter);
     }
 
@@ -487,7 +488,7 @@ public final class TimeHelper {
      * @throws AssertionError if there is a parsing error
      */
     public static Instant parseInstant(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT, Locale.US);
         try {
             return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
         } catch (DateTimeParseException e) {
@@ -508,7 +509,7 @@ public final class TimeHelper {
             return null;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.US);
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException e) {
@@ -528,7 +529,7 @@ public final class TimeHelper {
             return null;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.US);
         try {
             return LocalDate.parse(dateString, formatter);
         } catch (DateTimeParseException e) {
