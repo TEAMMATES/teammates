@@ -185,4 +185,7 @@ public abstract class InstructorFeedbackAbstractAction extends Action {
         return courseInstructorMap;
     }
 
+    protected FeedbackSessionAttributes loadOldFeedbackSession(String feedbackSessionName, String courseId) {
+        return logic.getFeedbackSession(feedbackSessionName, courseId);
+    }
 }
