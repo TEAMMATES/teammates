@@ -39,6 +39,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private int numOfInstructors;
     private FeedbackSessionAttributes feedbackSession;
     private Map<String, String> resolvedTimeFields = new HashMap<>();
+    private Map<String, String> resetTimeFields = new HashMap<>();
 
     public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
         super(account, sessionToken);
@@ -387,7 +388,15 @@ public class InstructorFeedbackEditPageData extends PageData {
         resolvedTimeFields.put(fieldInputId, fieldInputValue);
     }
 
+    public void putResetTimeField(String fieldInputId, String fieldInputValue) {
+        resetTimeFields.put(fieldInputId, fieldInputValue);
+    }
+
     public Map<String, String> getResolvedTimeFields() {
         return resolvedTimeFields;
+    }
+
+    public Map<String, String> getResetTimeFields() {
+        return resetTimeFields;
     }
 }
