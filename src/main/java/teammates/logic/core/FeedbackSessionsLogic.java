@@ -797,7 +797,7 @@ public final class FeedbackSessionsLogic {
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : entrySet) {
             exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(
-                    results, entry, isMissingResponsesShown, isStatsShown, section, sectionDetail));
+                    results, entry, isMissingResponsesShown, isStatsShown, section));
         }
 
         return exportBuilder.toString();
@@ -806,7 +806,7 @@ public final class FeedbackSessionsLogic {
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
             FeedbackSessionResultsBundle fsrBundle,
             Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
-            boolean isMissingResponsesShown, boolean isStatsShown, String section, String sectionDetail) {
+            boolean isMissingResponsesShown, boolean isStatsShown, String section) {
 
         FeedbackQuestionAttributes question = entry.getKey();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
