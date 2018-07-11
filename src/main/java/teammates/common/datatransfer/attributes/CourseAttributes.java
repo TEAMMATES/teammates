@@ -107,10 +107,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.deletedAt = Instant.now();
     }
 
-    public void setDeletedAt(Instant deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
     public void resetDeletedAt() {
         this.deletedAt = null;
     }
