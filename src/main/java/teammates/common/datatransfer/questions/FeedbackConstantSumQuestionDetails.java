@@ -1,11 +1,13 @@
 package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -447,7 +449,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("#.##", decimalFormatSymbols);
 
         Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 
@@ -509,7 +512,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         List<String> options = constSumOptions;
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("#.##", decimalFormatSymbols);
 
         Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 

@@ -1,11 +1,13 @@
 package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -385,7 +387,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MCQ_EDIT_FORM_OPTIONFRAGMENT;
-        DecimalFormat weightFormat = new DecimalFormat("#.##");
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat weightFormat = new DecimalFormat("#.##", decimalFormatSymbols);
 
         // Create MCQ options
         for (int i = 0; i < numOfMcqChoices; i++) {
@@ -524,7 +527,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 hasAssignedWeights ? mcqStats.calculateWeightedPercentagePerOption(answerFrequency)
                 : new LinkedHashMap<>();
 
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("#.##", decimalFormatSymbols);
 
         for (String key : answerFrequency.keySet()) {
             int count = answerFrequency.get(key);
@@ -798,7 +802,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             Assumption.assertTrue("Weights should be enabled when calling the function", hasAssignedWeights);
             List<String> recipientStats = new ArrayList<>();
-            DecimalFormat df = new DecimalFormat("0.00");
+            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat df = new DecimalFormat("0.00", decimalFormatSymbols);
 
             String recipientName = bundle.getNameForEmail(recipientEmail);
             String recipientTeam = bundle.getTeamNameForEmail(recipientEmail);
@@ -880,7 +885,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             Map<String, Integer> answerFrequency = collateAnswerFrequency(responses);
 
             StringBuilder fragments = new StringBuilder();
-            DecimalFormat df = new DecimalFormat("#.##");
+            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat df = new DecimalFormat("#.##", decimalFormatSymbols);
 
             // If weights are assigned, CSV file should include 'weight' and 'average' column as well.
             if (hasAssignedWeights) {
@@ -928,7 +934,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
         public String getPerRecipientResponseStatsHeaderCsv() {
             StringBuilder header = new StringBuilder(100);
-            DecimalFormat df = new DecimalFormat("#.##");
+            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat df = new DecimalFormat("#.##", decimalFormatSymbols);
 
             header.append("Team, Recipient Name,");
 
@@ -993,7 +1000,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
          */
         public String getRecipientStatsHeaderHtml() {
             StringBuilder headerBuilder = new StringBuilder(100);
-            DecimalFormat df = new DecimalFormat("#.##");
+            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat df = new DecimalFormat("#.##", decimalFormatSymbols);
             StringBuilder choicesHtmlBuilder = new StringBuilder(100);
 
             for (int i = 0; i < mcqChoices.size(); i++) {
