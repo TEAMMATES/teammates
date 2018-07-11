@@ -453,12 +453,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
 
         assertEquals(responses.size(), 2);
 
         fq = getQuestionFromDatastore("qn3InSession1InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
 
         assertEquals(responses.size(), 1);
 
@@ -470,7 +472,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fr.recipient = student.email;
         frLogic.updateFeedbackResponse(fr);
 
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
 
         assertEquals(responses.size(), 1);
 
@@ -495,7 +498,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         frLogic.createFeedbackResponse(newResponse);
         student = dataBundle.students.get("student2InCourse1");
-        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT, null, null);
+        responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(fq, student.email, UserRole.STUDENT,
+                null, null);
         assertEquals(responses.size(), 4);
 
         ______TS("failure: GetViewableResponsesForQuestion invalid role");

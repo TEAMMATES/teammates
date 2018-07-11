@@ -240,7 +240,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
 
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1", null);
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
+                null);
 
         assertEquals(3, responses.size());
 
