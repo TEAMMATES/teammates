@@ -107,6 +107,10 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.deletedAt = Instant.now();
     }
 
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
     public void resetDeletedAt() {
         this.deletedAt = null;
     }
@@ -134,7 +138,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone().getId(), createdAt, null);
+        return new Course(getId(), getName(), getTimeZone().getId(), createdAt, deletedAt);
     }
 
     @Override
