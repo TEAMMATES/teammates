@@ -61,18 +61,33 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
             return;
         }
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(commentId);
+        if (frc == null) {
+            return;
+        }
         if (frc.isCommentFromFeedbackParticipant) {
             switch (frc.commentGiverType) {
             case INSTRUCTORS:
                 InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+                if (instructor == null) {
+                    throw new UnauthorizedAccessException("Comment [" + frc.getId()
+                            + "] not given by feedback participant.");
+                }
                 gateKeeper.verifyOwnership(frc, instructor.email);
                 break;
             case STUDENTS:
                 StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
+                if (student == null) {
+                    throw new UnauthorizedAccessException("Comment [" + frc.getId()
+                            + "] not given by feedback participant.");
+                }
                 gateKeeper.verifyOwnership(frc, student.email);
                 break;
             case TEAMS:
                 StudentAttributes studentOfTeam = logic.getStudentForGoogleId(courseId, account.googleId);
+                if (studentOfTeam == null) {
+                    throw new UnauthorizedAccessException("Comment [" + frc.getId()
+                            + "] not given by feedback participant.");
+                }
                 gateKeeper.verifyOwnership(frc, studentOfTeam.team);
                 break;
             default:

@@ -422,6 +422,17 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     }
 
+    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams,
+            InstructorAttributes instructor) {
+
+        ______TS("admin can access");
+
+        gaeSimulation.loginAsAdmin("admin.user");
+        //not checking for non-masquerade mode because admin may not be an instructor
+        verifyCanMasquerade(addUserIdToParams(instructor.googleId, submissionParams));
+
+    }
+
     protected void verifyAccessibleForAdminToMasqueradeAsStudent(String[] submissionParams) {
 
         ______TS("admin can access");
@@ -431,6 +442,16 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         gaeSimulation.loginAsAdmin("admin.user");
         //not checking for non-masquerade mode because admin may not be a student
         verifyCanMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
+
+    }
+
+    protected void verifyAccessibleForAdminToMasqueradeAsStudent(String[] submissionParams, StudentAttributes student) {
+
+        ______TS("admin can access");
+
+        gaeSimulation.loginAsAdmin("admin.user");
+        //not checking for non-masquerade mode because admin may not be a student
+        verifyCanMasquerade(addUserIdToParams(student.googleId, submissionParams));
 
     }
 
@@ -445,6 +466,17 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyRedirectToLoginOrUnauthorisedException(submissionParams);
         verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
+    }
+
+    protected void verifyUnaccessibleWithoutLogin(String[] submissionParams, InstructorAttributes instructor,
+            StudentAttributes student) {
+
+        ______TS("not-logged-in users cannot access");
+
+        gaeSimulation.logoutUser();
+        verifyRedirectToLoginOrUnauthorisedException(submissionParams);
+        verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(student.googleId, submissionParams));
+        verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(instructor.googleId, submissionParams));
     }
 
     private void verifyUnaccessibleWithoutLoginMasquerade(String... params) {
@@ -473,6 +505,20 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId, submissionParams));
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
+
+    }
+
+    protected void verifyUnaccessibleForUnregisteredUsers(String[] submissionParams, InstructorAttributes instructor,
+            StudentAttributes student) {
+
+        ______TS("non-registered users cannot access");
+
+        String unregUserId = "unreg.user";
+
+        gaeSimulation.loginUser(unregUserId);
+        verifyCannotAccess(submissionParams);
+        verifyCannotMasquerade(addUserIdToParams(student.googleId, submissionParams));
+        verifyCannotMasquerade(addUserIdToParams(instructor.googleId, submissionParams));
 
     }
 
@@ -576,6 +622,17 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
+
+    }
+
+    protected void verifyUnaccessibleForStudents(String[] submissionParams, InstructorAttributes instructor,
+            StudentAttributes student) {
+
+        ______TS("students cannot access");
+
+        gaeSimulation.loginAsStudent(student.googleId);
+        verifyCannotAccess(submissionParams);
+        verifyCannotMasquerade(addUserIdToParams(instructor.googleId, submissionParams));
 
     }
 

@@ -39,7 +39,7 @@
     </c:set>
   </c:when>
   <c:otherwise>
-    <c:set var="deleteLink"><%= Const.ActionURIs.STUDENT_FEEDBACK_RESPONSE_COMMENT_DELETE %>
+    <c:set var="deleteLink"><%= Const.ActionURIs.FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE %>
     </c:set>
   </c:otherwise>
 </c:choose>
