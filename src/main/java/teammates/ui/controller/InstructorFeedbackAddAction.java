@@ -103,7 +103,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbackAbstractActio
         }
 
         List<FeedbackQuestionAttributes> questions =
-                logic.getFeedbackSessionTemplateQuestions(sessionTemplateType, courseId, feedbackSessionName, creatorEmail);
+                logic.populateFeedbackSessionTemplateQuestions(sessionTemplateType, courseId, feedbackSessionName, creatorEmail);
 
         int questionNumber = 1;
         for (FeedbackQuestionAttributes fqa : questions) {

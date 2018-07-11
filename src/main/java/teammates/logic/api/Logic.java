@@ -1568,9 +1568,9 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(String templateType, String courseId,
-                                                                                String feedbackSessionName,
-                                                                                String creatorEmail) {
+    public List<FeedbackQuestionAttributes> populateFeedbackSessionTemplateQuestions(String templateType, String courseId,
+                                                                                     String feedbackSessionName,
+                                                                                     String creatorEmail) {
         Assumption.assertNotNull(templateType);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);

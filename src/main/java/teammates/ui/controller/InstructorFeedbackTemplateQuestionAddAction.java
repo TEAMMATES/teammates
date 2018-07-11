@@ -22,7 +22,7 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        List<FeedbackQuestionAttributes> templateQuestions = logic.getFeedbackSessionTemplateQuestions("TEAMEVALUATION",
+        List<FeedbackQuestionAttributes> templateQuestions = logic.populateFeedbackSessionTemplateQuestions("TEAMEVALUATION",
                 courseId, feedbackSessionName, account.getEmail());
         try {
             int index = 0;

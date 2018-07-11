@@ -35,7 +35,7 @@ public class InstructorFeedbackEditPageAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        List<FeedbackQuestionAttributes> templateQuestions = logic.getFeedbackSessionTemplateQuestions(
+        List<FeedbackQuestionAttributes> templateQuestions = logic.populateFeedbackSessionTemplateQuestions(
                 "TEAMEVALUATION", courseId, feedbackSessionName, account.getEmail());
 
         Map<String, Boolean> questionHasResponses = new HashMap<>();
