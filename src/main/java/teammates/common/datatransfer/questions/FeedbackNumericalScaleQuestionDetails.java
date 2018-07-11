@@ -2,10 +2,12 @@ package teammates.common.datatransfer.questions;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -211,6 +213,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMinimumFractionDigits(0);
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
+        df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
         StringBuilder fragmentHtml = new StringBuilder();
 
@@ -279,6 +282,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMinimumFractionDigits(0);
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
+        df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
         boolean isRecipientTypeGeneral = question.recipientType == FeedbackParticipantType.NONE;
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
@@ -479,6 +483,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMinimumFractionDigits(0);
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
+        df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
         String csvHeader = "Team, Recipient, Average, Minimum, Maximum"
                          + (showAvgExcludingSelf ? ", Average excluding self response" : "")
