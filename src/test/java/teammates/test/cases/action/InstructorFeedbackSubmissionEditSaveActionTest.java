@@ -537,6 +537,42 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient));
 
+        ______TS("Unsuccessful case: Modified response for a recipient who already has a response");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "150",
+
+                //Const sum question needs response to each recipient to sum up properly.
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-1", fr2.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr2.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr2.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr2.feedbackQuestionId,
+                // Give response to Team 1.1 from fr instead of Team 1.2 from fr2 to create a duplicate response.
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-1", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr2.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "50",
+        };
+
+        a = getAction(submissionParams);
+        r = getRedirectResult(a);
+
+        assertTrue(r.isError);
+        assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1), r.getStatusMessage());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
+                r.getDestinationWithParams());
+        // As existing responses are being modified, old responses will persist when error occurs.
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient));
+
         ______TS("Successful case: const sum: question skipped");
 
         submissionParams = new String[] {
