@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -335,7 +334,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     /**
-     * Test data removed due to {@link BackDoor#removeAndRestoreDataBundle(DataBundle)}.
+     * Test data removed due to {@link BackDoor#removeAndRestoreDataBundle(DataBundle)}}.
      */
     @AfterClass
     public void classTearDown() {
