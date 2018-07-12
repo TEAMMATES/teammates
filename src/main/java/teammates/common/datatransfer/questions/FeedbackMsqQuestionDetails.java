@@ -624,19 +624,17 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> unsortedResponses,
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
 
-        if ("student".equals(view) || unsortedResponses.isEmpty()) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
 
         MSQStatistics msqStats = new MSQStatistics(this);
-        // Sort responses based on recipient team and recipient name.
-        List<FeedbackResponseAttributes> responses = msqStats.getResponseAttributesSorted(unsortedResponses, bundle);
 
         Map<String, Integer> answerFrequency = msqStats.collateAnswerFrequency(responses);
         int numChoicesSelected = getNumberOfResponses(answerFrequency);
@@ -675,8 +673,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         // otherwise pass an empty string in it's place.
         String recipientStatsHtml = "";
         if (hasAssignedWeights) {
+            // Sort responses based on recipient team and recipient name.
+            List<FeedbackResponseAttributes> sortedResponses = msqStats.getResponseAttributesSorted(responses, bundle);
             String header = msqStats.getRecipientStatsHeaderHtml();
-            String body = msqStats.getPerRecipientStatsBodyHtml(responses, bundle);
+            String body = msqStats.getPerRecipientStatsBodyHtml(sortedResponses, bundle);
+
             // Reuse Mcq result template until there is any reason to use a separate template.
             recipientStatsHtml = Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
@@ -925,7 +926,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             for (FeedbackResponseAttributes response : responses) {
                 FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetails();
-                answerFrequency = getNumberOfResponsesForEachResponse(responseDetails, answerFrequency);
+                updateResponseCountPerOptionForResponse(responseDetails, answerFrequency);
             }
             return answerFrequency;
         }
@@ -933,7 +934,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Calculates the number of responses for each response attribute.
          */
-        private Map<String, Integer> getNumberOfResponsesForEachResponse(FeedbackMsqResponseDetails responseDetails,
+        private Map<String, Integer> updateResponseCountPerOptionForResponse(FeedbackMsqResponseDetails responseDetails,
                 Map<String, Integer> responseCountPerOption) {
             List<String> answerStrings = responseDetails.getAnswerStrings();
             boolean isOtherOptionAnswer = responseDetails.isOtherOptionAnswer();
@@ -985,7 +986,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 perRecipientResponse.computeIfPresent(response.recipient, (key, responseCountPerOption) -> {
                     // update responseCount here
                     FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
-                    return getNumberOfResponsesForEachResponse(frd, responseCountPerOption);
+                    updateResponseCountPerOptionForResponse(frd, responseCountPerOption);
+                    return responseCountPerOption;
                 });
             });
             return perRecipientResponse;

@@ -503,21 +503,19 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> unsortedResponses,
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             String studentEmail,
             FeedbackSessionResultsBundle bundle,
             String view) {
 
-        if ("student".equals(view) || unsortedResponses.isEmpty()) {
+        if ("student".equals(view) || responses.isEmpty()) {
             return "";
         }
 
         StringBuilder responseSummaryFragments = new StringBuilder();
 
         MCQStatistics mcqStats = new MCQStatistics(this);
-        // Sort the list of responseAttributes based on recipient team and recipient name.
-        List<FeedbackResponseAttributes> responses = mcqStats.getResponseAttributesSorted(unsortedResponses, bundle);
         Map<String, Integer> answerFrequency = mcqStats.collateAnswerFrequency(responses);
         // Do not calculate weighted percentage if weights are not enabled.
         Map<String, Double> weightedPercentagePerOption =
@@ -549,8 +547,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         // otherwise pass an empty string in it's place.
         String recipientStatsHtml = "";
         if (hasAssignedWeights) {
+            // Sort the list of responseAttributes based on recipient team and recipient name.
+            List<FeedbackResponseAttributes> sortedResponses = mcqStats.getResponseAttributesSorted(responses, bundle);
             String header = mcqStats.getRecipientStatsHeaderHtml();
-            String body = mcqStats.getPerRecipientStatsBodyHtml(responses, bundle);
+            String body = mcqStats.getPerRecipientStatsBodyHtml(sortedResponses, bundle);
+
             recipientStatsHtml = Templates.populateTemplate(
                     FormTemplates.MCQ_RESULT_RECIPIENT_STATS,
                     Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, header,
