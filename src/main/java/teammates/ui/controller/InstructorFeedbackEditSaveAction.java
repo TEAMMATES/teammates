@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,9 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
             logic.updateFeedbackSession(feedbackSession);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_EDITED, StatusMessageColor.SUCCESS));
             if (!feedbackEditSaveStatusMessages.isEmpty()) {
-                statusToUser.add(new StatusMessage(feedbackEditSaveStatusMessages, StatusMessageColor.WARNING));
+                statusToUser.add(new StatusMessage("The following values were found to be invalid and "
+                        + "the original values have been retained:<br>"
+                        + feedbackEditSaveStatusMessages, StatusMessageColor.WARNING));
             }
             statusToAdmin =
                     "Updated Feedback Session "
@@ -90,45 +94,48 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
         FeedbackSessionAttributes oldSession = loadOldFeedbackSession(feedbackSessionName, courseId);
         List<String> statusMessages = new ArrayList<>();
 
-        if (inputStartTimeLocal == null || inputEndTimeLocal == null || inputVisibleTimeLocal == null
-                || inputPublishTimeLocal == null) {
-            statusMessages.add(" The following values were found to be invalid and "
-                    + "the original values have been retained:");
-        }
-
         if (inputStartTimeLocal == null) {
             session.setStartTime(oldSession.getStartTime());
             statusMessages.add("\"Submission opening time\": "
                     + getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE));
+            addResetTimeFieldToDataIfRequired(session.getStartTimeLocal(), data,
+                    Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, Const.ParamsNames.FEEDBACK_SESSION_STARTTIME,
+                    session.getTimeZone());
         }
-        addResetTimeFieldToDataIfRequired(inputStartTimeLocal, session.getStartTimeLocal(), data,
-                Const.ParamsNames.FEEDBACK_SESSION_STARTDATE, Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
 
         if (inputEndTimeLocal == null) {
             session.setEndTime(oldSession.getEndTime());
             statusMessages.add("\"Submission closing time\": "
                     + getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE));
+            addResetTimeFieldToDataIfRequired(session.getEndTimeLocal(), data,
+                    Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, Const.ParamsNames.FEEDBACK_SESSION_ENDTIME,
+                    session.getTimeZone());
         }
-        addResetTimeFieldToDataIfRequired(inputEndTimeLocal, session.getEndTimeLocal(), data,
-                Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
 
-        if (inputVisibleTimeLocal == null) {
+        if (inputVisibleTimeLocal == null
+                && !getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON).equals("atopen")) {
             session.setSessionVisibleFromTime(oldSession.getSessionVisibleFromTime());
             statusMessages.add("\"Session visibility period\": "
                     + getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        }
-        addResetTimeFieldToDataIfRequired(inputVisibleTimeLocal, session.getSessionVisibleFromTimeLocal(), data,
-                Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME);
 
-        if (inputPublishTimeLocal == null) {
+            addResetTimeFieldToDataIfRequired(session.getSessionVisibleFromTimeLocal(), data,
+                    Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE, Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME,
+                    session.getTimeZone());
+        }
+
+        if (inputPublishTimeLocal == null
+                && !(getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON).equals("atvisible")
+                || getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON).equals("later"))) {
             session.setResultsVisibleFromTime(oldSession.getResultsVisibleFromTime());
             statusMessages.add("\"Responses visibility period\": "
                     + getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
+            addResetTimeFieldToDataIfRequired(session.getResultsVisibleFromTimeLocal(), data,
+                    Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME,
+                    session.getTimeZone());
         }
-        addResetTimeFieldToDataIfRequired(inputPublishTimeLocal, session.getResultsVisibleFromTimeLocal(), data,
-                Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME);
 
-        return StringHelper.toString(statusMessages, "<br>");
+        return statusMessages.isEmpty() ? StringHelper.toString(statusMessages)
+                : StringHelper.toString(statusMessages, "<br>");
     }
 
     private void addResolvedTimeFieldToDataIfRequired(LocalDateTime input, LocalDateTime resolved,
@@ -141,11 +148,21 @@ public class InstructorFeedbackEditSaveAction extends InstructorFeedbackAbstract
     }
 
     /**
-     * This function adds the original datetime to a map if the input datetime is invalid.
+     * This function adds the expected datetime to a map if the input datetime is invalid.
      */
-    private void addResetTimeFieldToDataIfRequired(LocalDateTime input, LocalDateTime reset,
-            InstructorFeedbackEditPageData data, String dateInputId, String timeInputId) {
-        if (input != null && input.isEqual(reset)) {
+    private void addResetTimeFieldToDataIfRequired(LocalDateTime reset,
+                                                   InstructorFeedbackEditPageData data,
+                                                   String dateInputId, String timeInputId,
+                                                   ZoneId sessionTimezone) {
+        Instant sessionInstant = TimeHelper.convertLocalDateTimeToInstant(reset, sessionTimezone);
+
+        // This covers the case of users transitioning from a non custom option and typed
+        // an invalid datetime in the custom datetime option
+        if (sessionInstant.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
+                || sessionInstant.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
+                || sessionInstant.equals(Const.TIME_REPRESENTS_LATER)) {
+            data.putResetTimeField(dateInputId, "");
+            data.putResetTimeField(timeInputId, String.valueOf(24));
             return;
         }
         data.putResetTimeField(dateInputId, TimeHelper.formatDateForSessionsForm(reset));
