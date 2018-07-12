@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -163,12 +164,20 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));
             }
 
-            // Add responseRecipients in a set to check if there are duplicate responses.
-            Set<String> responsesRecipientsSet = new HashSet<>(responsesRecipients);
-
-            // If there are duplicate recipients for a response, trigger this error.
-            if (responsesRecipients.size() != responsesRecipientsSet.size()) {
-                errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
+            // If there are duplicate values in recipient list (except empty strings),
+            // trigger this error.
+            for (String recipient : responsesRecipients) {
+                // If response for a recipient is left out, the recipient is then empty string,
+                // due to partial submission feature, there can be multiple recipient with no resposnes,
+                // in that case, there can be multiple empty strings which should not be counted.
+                if ("".equals(recipient)) {
+                    continue;
+                }
+                int frequency = Collections.frequency(responsesRecipients, recipient);
+                if (frequency > 1) {
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
+                    break;
+                }
             }
 
             if (errors.isEmpty()) {
