@@ -1049,8 +1049,9 @@ function bindAddTemplateQnButton() {
     });
 }
 
-let numPanelsSelected = 0;
 function bindAddTemplateQnEvents() {
+    let numPanelsSelected = 0;
+
     $('body').on('click', '#addTemplateQuestion', function (e) {
         const $heading = $(this).children('.panel-heading');
         const $bodyCollapse = $(this).children('.panel-collapse');
