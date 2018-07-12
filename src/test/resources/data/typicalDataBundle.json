@@ -136,12 +136,14 @@
   "courses": {
     "typicalCourse1": {
       "createdAt": "2012-04-01T23:58:00Z",
+      "deletedAt": null,
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
       "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse2": {
       "createdAt": "2012-04-01T23:59:00Z",
+      "deletedAt": null,
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
       "timeZone": "UTC"
@@ -168,6 +170,7 @@
     },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
+      "deletedAt": null,
       "id": "idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
