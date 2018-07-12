@@ -233,7 +233,7 @@
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorrole2forinstructor2" value="Manager">&nbsp;Manager: Can do everything except for deleting the course
+                          <input type="radio" name="instructorrole" id="instructorrole2forinstructor2" value="Manager">&nbsp;Manager: Can do everything except for deleting/restoring the course
                           <a href="javascript:;">
                             View Details
                           </a>
@@ -420,7 +420,7 @@
                             View Details
                           </a>
                           <br>
-                          <input type="radio" name="instructorrole" id="instructorrole2forinstructor1" value="Manager"> &nbsp;Manager: Can do everything except for deleting the course &nbsp;
+                          <input type="radio" name="instructorrole" id="instructorrole2forinstructor1" value="Manager"> &nbsp;Manager: Can do everything except for deleting/restoring the course &nbsp;
                           <a href="javascript:;">
                             View Details
                           </a>
@@ -448,7 +448,7 @@
                               </div>
                               <div class="panel-body">
                                 <div class="col-sm-3">
-                                  <input type="checkbox" name="canmodifycourse" value="true"> Edit/Delete Course
+                                  <input type="checkbox" name="canmodifycourse" value="true"> Edit/Delete/Restore Course
                                 </div>
                                 <div class="col-sm-3">
                                   <input type="checkbox" name="canmodifyinstructor" value="true"> Add/Edit/Delete Instructors
