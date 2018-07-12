@@ -932,9 +932,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         /**
-         * Calculates the number of responses for each response attribute.
+         * Updates the number of responses per option for each response in responseCountPerOption map.
          */
-        private Map<String, Integer> updateResponseCountPerOptionForResponse(FeedbackMsqResponseDetails responseDetails,
+        private void updateResponseCountPerOptionForResponse(FeedbackMsqResponseDetails responseDetails,
                 Map<String, Integer> responseCountPerOption) {
             List<String> answerStrings = responseDetails.getAnswerStrings();
             boolean isOtherOptionAnswer = responseDetails.isOtherOptionAnswer();
@@ -961,7 +961,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             if (isOtherOptionAnswer) {
                 answerStrings.add(otherAnswer);
             }
-            return responseCountPerOption;
         }
 
         /**
