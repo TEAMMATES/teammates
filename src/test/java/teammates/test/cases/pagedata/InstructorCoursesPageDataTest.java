@@ -40,6 +40,10 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
 
+        assertNotNull(pageData.getRecoveryCourses());
+        assertNotNull(pageData.getRecoveryCourses().getRows());
+        assertEquals(0, pageData.getRecoveryCourses().getRows().size());
+
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
 
@@ -61,6 +65,10 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses());
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
+
+        assertNotNull(pageData.getRecoveryCourses());
+        assertNotNull(pageData.getRecoveryCourses().getRows());
+        assertEquals(0, pageData.getRecoveryCourses().getRows().size());
 
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
@@ -86,6 +94,10 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(0, pageData.getArchivedCourses().getRows().size());
 
+        assertNotNull(pageData.getRecoveryCourses());
+        assertNotNull(pageData.getRecoveryCourses().getRows());
+        assertEquals(0, pageData.getRecoveryCourses().getRows().size());
+
         assertEquals("Id to show", pageData.getCourseIdToShow());
         assertEquals("Name to show", pageData.getCourseNameToShow());
 
@@ -109,6 +121,38 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getArchivedCourses());
         assertNotNull(pageData.getArchivedCourses().getRows());
         assertEquals(1, pageData.getArchivedCourses().getRows().size());
+
+        assertNotNull(pageData.getRecoveryCourses());
+        assertNotNull(pageData.getRecoveryCourses().getRows());
+        assertEquals(0, pageData.getRecoveryCourses().getRows().size());
+
+        assertEquals("", pageData.getCourseIdToShow());
+        assertEquals("", pageData.getCourseNameToShow());
+
+        ______TS("test 1 deleted course in Recycle Bin");
+        AccountAttributes instructorAccountWithOneDeletedCourse = dataBundle.accounts.get("instructor1OfCourse3");
+        pageData = new InstructorCoursesPageData(instructorAccountWithOneDeletedCourse, dummySessionToken);
+
+        activeCourses = new ArrayList<>();
+        archivedCourses = new ArrayList<>();
+        recoveryCourses.add(dataBundle.courses.get("typicalCourse3"));
+
+        instructorForCourses = new HashMap<>();
+        instructorForCourses.put("idOfTypicalCourse3", dataBundle.instructors.get("instructor1OfCourse3"));
+
+        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
+
+        assertNotNull(pageData.getActiveCourses());
+        assertNotNull(pageData.getActiveCourses().getRows());
+        assertEquals(0, pageData.getActiveCourses().getRows().size());
+
+        assertNotNull(pageData.getArchivedCourses());
+        assertNotNull(pageData.getArchivedCourses().getRows());
+        assertEquals(0, pageData.getArchivedCourses().getRows().size());
+
+        assertNotNull(pageData.getRecoveryCourses());
+        assertNotNull(pageData.getRecoveryCourses().getRows());
+        assertEquals(1, pageData.getRecoveryCourses().getRows().size());
 
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
