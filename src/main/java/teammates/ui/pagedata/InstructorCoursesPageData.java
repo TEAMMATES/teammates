@@ -194,7 +194,7 @@ public class InstructorCoursesPageData extends PageData {
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs course-delete-link "
-                            + "t_course_delete" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
+                            + "t_course_delete_permanently" + idx, "", deleteLink, Const.Tooltips.COURSE_DELETE,
                     !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", course.getId());
             deleteButton.setAttribute("style", "color: red");
