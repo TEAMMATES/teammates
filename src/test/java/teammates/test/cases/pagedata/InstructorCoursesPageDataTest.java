@@ -28,8 +28,9 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
                 new InstructorCoursesPageData(instructorAccountWithoutCourses, dummySessionToken);
         List<CourseAttributes> activeCourses = new ArrayList<>();
         List<CourseAttributes> archivedCourses = new ArrayList<>();
+        List<CourseAttributes> recoveryCourses = new ArrayList<>();
         Map<String, InstructorAttributes> instructorForCourses = new HashMap<>();
-        pageData.init(activeCourses, archivedCourses, instructorForCourses);
+        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());
@@ -51,7 +52,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         archivedCourses = new ArrayList<>();
         instructorForCourses = new HashMap<>();
         instructorForCourses.put("idOfTypicalCourse1", dataBundle.instructors.get("instructor1OfCourse1"));
-        pageData.init(activeCourses, archivedCourses, instructorForCourses);
+        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());
@@ -75,7 +76,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         instructorForCourses = new HashMap<>();
         instructorForCourses.put("idOfTypicalCourse1", dataBundle.instructors.get("instructor3OfCourse1"));
         instructorForCourses.put("idOfTypicalCourse2", dataBundle.instructors.get("instructor3OfCourse2"));
-        pageData.init(activeCourses, archivedCourses, instructorForCourses, "Id to show", "Name to show");
+        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses, "Id to show", "Name to show");
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());
@@ -99,7 +100,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         instructorForCourses = new HashMap<>();
         instructorForCourses.put("idOfArchivedCourse", dataBundle.instructors.get("instructorOfArchivedCourse"));
 
-        pageData.init(activeCourses, archivedCourses, instructorForCourses);
+        pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
 
         assertNotNull(pageData.getActiveCourses());
         assertNotNull(pageData.getActiveCourses().getRows());

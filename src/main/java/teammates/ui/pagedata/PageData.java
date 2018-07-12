@@ -366,6 +366,44 @@ public class PageData {
         return link;
     }
 
+    public String getInstructorCourseRestoreRecoveryCourseLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorCourseRestoreAllRecoveryCoursesLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorCourseDeleteRecoveryCourseLink(String courseId) {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
+    public String getInstructorCourseDeleteAllRecoveryCoursesLink() {
+        String link = Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL;
+        link = Url.addParamToUrl(link, Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
+        link = addUserIdToUrl(link);
+        link = addSessionTokenToUrl(link);
+
+        return link;
+    }
+
     public String getInstructorFeedbackSessionsLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE;
         link = addUserIdToUrl(link);
@@ -678,55 +716,6 @@ public class PageData {
                                                                                 String returnUrl,
                                                                                 InstructorAttributes instructor) {
         return new InstructorFeedbackSessionActions(this, session, returnUrl, instructor);
-    }
-
-    /**
-     * Returns the type of people that can view the response comment.
-     */
-    public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
-                                                FeedbackQuestionAttributes relatedQuestion) {
-        StringBuilder peopleCanView = new StringBuilder(100);
-        List<FeedbackParticipantType> showCommentTo;
-        if (comment.isVisibilityFollowingFeedbackQuestion) {
-            showCommentTo = relatedQuestion.showResponsesTo;
-        } else {
-            showCommentTo = comment.showCommentTo;
-        }
-        for (int i = 0; i < showCommentTo.size(); i++) {
-            FeedbackParticipantType commentViewer = showCommentTo.get(i);
-            if (i == showCommentTo.size() - 1 && showCommentTo.size() > 1) {
-                peopleCanView.append("and ");
-            }
-
-            switch (commentViewer) {
-            case GIVER:
-                peopleCanView.append("response giver, ");
-                break;
-            case RECEIVER:
-                peopleCanView.append("response recipient, ");
-                break;
-            case OWN_TEAM:
-                peopleCanView.append("response giver's team, ");
-                break;
-            case RECEIVER_TEAM_MEMBERS:
-                peopleCanView.append("response recipient's team, ");
-                break;
-            case STUDENTS:
-                peopleCanView.append("other students in this course, ");
-                break;
-            case INSTRUCTORS:
-                peopleCanView.append("instructors, ");
-                break;
-            default:
-                break;
-            }
-        }
-        String peopleCanViewString = peopleCanView.toString();
-        return removeEndComma(peopleCanViewString);
-    }
-
-    public String removeEndComma(String str) {
-        return str.substring(0, str.length() - 2);
     }
 
     private static boolean isTimeToBeSelected(LocalDateTime timeToShowAsSelected, int hourOfTheOption) {
