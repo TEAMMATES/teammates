@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -256,9 +257,13 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
             List<InstructorAttributes> instructorList) {
 
+        List<InstructorAttributes> courseNotDeletedInstructorList = instructorList.stream()
+                .filter(instructor -> !coursesLogic.getCourse(instructor.courseId).isCourseDeleted())
+                .collect(Collectors.toList());
+
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
-        for (InstructorAttributes instructor : instructorList) {
+        for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
             fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId));
         }
 
@@ -267,6 +272,9 @@ public final class FeedbackSessionsLogic {
 
     public List<FeedbackSessionAttributes> getFeedbackSessionListForInstructor(
             InstructorAttributes instructor) {
+        if (coursesLogic.getCourse(instructor.courseId).isCourseDeleted()) {
+            return null;
+        }
         return getFeedbackSessionsListForCourse(instructor.courseId);
     }
 
