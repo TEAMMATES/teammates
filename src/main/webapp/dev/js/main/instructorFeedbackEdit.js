@@ -310,7 +310,9 @@ function bindFeedbackSessionEditFormSubmission() {
                 clearStatusMessages();
             },
             success(result) {
-                const { statusMessagesToUser, resolvedTimeFields, hasError } = result;
+                const {
+                    statusMessagesToUser, resolvedTimeFields, resetTimeFields, hasError,
+                } = result;
 
                 for (let i = 0; i < statusMessagesToUser.length; i += 1) {
                     const statusMessageToUser = statusMessagesToUser[i];
@@ -322,6 +324,13 @@ function bindFeedbackSessionEditFormSubmission() {
                     const resolvedTimeInputId = resolvedTimeInputIds[i];
                     const resolvedTimeInputValue = resolvedTimeFields[resolvedTimeInputId];
                     $(`#${resolvedTimeInputId}`).val(resolvedTimeInputValue);
+                }
+
+                const resetTimeInputIds = Object.keys(resetTimeFields);
+                for (let i = 0; i < resetTimeInputIds.length; i += 1) {
+                    const resetTimeInputId = resetTimeInputIds[i];
+                    const resetTimeInputValue = resetTimeFields[resetTimeInputId];
+                    $(`#${resetTimeInputId}`).val(resetTimeInputValue);
                 }
 
                 removeLoadingIndicator($('#button_submit'), 'Save Changes');
