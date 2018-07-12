@@ -97,6 +97,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "button_sortid")
     private WebElement sortByIdIcon;
 
+    @FindBy(id = "resendPublishedEmailModal")
+    private WebElement resendPublishedEmailModal;
+
     private InstructorCopyFsToModal fsCopyToModal;
 
     public InstructorFeedbackSessionsPage(Browser browser) {
@@ -420,6 +423,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return getLinkAtTableRow("session-publish-for-test", sessionRowId);
     }
 
+    public WebElement getResendPublishedEmailLink(String courseId, String sessionName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+        return getLinkAtTableRow("session-resend-published-email-for-test", sessionRowId);
+    }
+
     public WebElement getUnpublishLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-unpublish-for-test", sessionRowId);
@@ -563,4 +571,32 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         executeScript("setIsSessionsAjaxSendingFalse();");
         executeScript("$('#ajaxForSessions').submit();");
     }
+
+    public boolean checkIfResendPublishedEmailButtonExists(String courseId, String sessionName) {
+        int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+        try {
+            getLinkAtTableRow("session-resend-published-email-for-test", sessionRowId);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public void clickResendPublishedEmailLink(String courseId, String evalName) {
+        click(getResendPublishedEmailLink(courseId, evalName));
+        waitForElementVisibility(resendPublishedEmailModal);
+    }
+
+    public void cancelResendPublishedEmailForm() {
+        cancelModalForm(resendPublishedEmailModal);
+    }
+
+    public void submitResendPublishedEmailForm() {
+        resendPublishedEmailModal.findElement(By.name("form_email_list")).submit();
+    }
+
+    public void fillResendPublishedEmailForm() {
+        checkCheckboxesInForm(resendPublishedEmailModal, "usersToEmail");
+    }
+
 }
