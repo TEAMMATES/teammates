@@ -83,6 +83,15 @@ public class InstructorCoursesPageData extends PageData {
         return recoveryCourses;
     }
 
+    public boolean isInstructorAllowedToModify() {
+        for (InstructorAttributes instructor : instructorsForCourses.values()) {
+            if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private ArchivedCoursesTable convertToArchivedCoursesTable(List<CourseAttributes> archivedCourses) {
         ArchivedCoursesTable archivedCoursesTable = new ArchivedCoursesTable();
 
@@ -187,8 +196,10 @@ public class InstructorCoursesPageData extends PageData {
             List<ElementTag> actionsParam = new ArrayList<>();
 
             String restoreLink = getInstructorCourseRestoreRecoveryCourseLink(course.getId());
+            Boolean hasRestorePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_course_restore" + idx, "",
-                    restoreLink, Const.Tooltips.COURSE_RESTORE, false);
+                    restoreLink, Const.Tooltips.COURSE_RESTORE, !hasRestorePermission);
 
             String deleteLink = getInstructorCourseDeleteRecoveryCourseLink(course.getId());
             Boolean hasDeletePermission = instructorsForCourses.get(course.getId()).isAllowedForPrivilege(
