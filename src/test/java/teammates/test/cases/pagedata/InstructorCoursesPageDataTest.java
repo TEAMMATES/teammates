@@ -47,6 +47,8 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
 
+        assertTrue(pageData.isInstructorAllowedToModify());
+
         ______TS("test 1 active course");
         AccountAttributes instructorAccountWithOneActiveCourse = dataBundle.accounts.get("instructor1OfCourse1");
         pageData = new InstructorCoursesPageData(instructorAccountWithOneActiveCourse, dummySessionToken);
@@ -72,6 +74,8 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
 
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
+
+        assertTrue(pageData.isInstructorAllowedToModify());
 
         ______TS("test 2 active courses");
         AccountAttributes instructorAccountWithTwoActiveCourses = dataBundle.accounts.get("instructor3");
@@ -101,6 +105,8 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertEquals("Id to show", pageData.getCourseIdToShow());
         assertEquals("Name to show", pageData.getCourseNameToShow());
 
+        assertTrue(pageData.isInstructorAllowedToModify());
+
         ______TS("test 1 archived course");
         AccountAttributes instructorAccountWithOneArchivedCourse = dataBundle.accounts.get("instructorOfArchivedCourse");
         pageData = new InstructorCoursesPageData(instructorAccountWithOneArchivedCourse, dummySessionToken);
@@ -129,8 +135,10 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
 
+        assertTrue(pageData.isInstructorAllowedToModify());
+
         ______TS("test 1 deleted course in Recycle Bin");
-        AccountAttributes instructorAccountWithOneDeletedCourse = dataBundle.accounts.get("instructor1OfCourse3");
+        AccountAttributes instructorAccountWithOneDeletedCourse = dataBundle.accounts.get("instructor2OfCourse3");
         pageData = new InstructorCoursesPageData(instructorAccountWithOneDeletedCourse, dummySessionToken);
 
         activeCourses = new ArrayList<>();
@@ -138,7 +146,7 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
         recoveryCourses.add(dataBundle.courses.get("typicalCourse3"));
 
         instructorForCourses = new HashMap<>();
-        instructorForCourses.put("idOfTypicalCourse3", dataBundle.instructors.get("instructor1OfCourse3"));
+        instructorForCourses.put("idOfTypicalCourse3", dataBundle.instructors.get("instructor2OfCourse3"));
 
         pageData.init(activeCourses, archivedCourses, recoveryCourses, instructorForCourses);
 
@@ -156,6 +164,8 @@ public class InstructorCoursesPageDataTest extends BaseTestCase {
 
         assertEquals("", pageData.getCourseIdToShow());
         assertEquals("", pageData.getCourseNameToShow());
+
+        assertFalse(pageData.isInstructorAllowedToModify());
 
     }
 }

@@ -42,6 +42,13 @@
       "email": "instr1@course3.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "instructor2OfCourse3": {
+      "googleId": "idOfInstructor2OfCourse3",
+      "name": "Instructor 2 of Course 3",
+      "isInstructor": true,
+      "email": "instr2@course3.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "instructor3": {
       "googleId": "idOfInstructor3",
       "name": "Instructor 3 of Course 1 and 2",
@@ -350,6 +357,30 @@
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
           "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor2OfCourse3": {
+      "googleId": "idOfInstructor2OfCourse3",
+      "courseId": "idOfTypicalCourse3",
+      "name": "Instructor2 Course3",
+      "email": "instructor2@course3.tmt",
+      "isArchived": false,
+      "role": "Manager",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": false,
           "canviewsessioninsection": true,
           "canmodifysession": true,
           "canmodifystudent": true,
