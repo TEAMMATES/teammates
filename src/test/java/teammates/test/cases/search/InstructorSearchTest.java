@@ -26,6 +26,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes ins2InCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
         InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
         InstructorAttributes ins1InCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
+        InstructorAttributes ins2InCourse3 = dataBundle.instructors.get("instructor2OfCourse3");
         InstructorAttributes insInArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
         InstructorAttributes insInUnregCourse = dataBundle.instructors.get("instructor5");
         InstructorAttributes ins1InTestingSanitizationCourse =
@@ -51,7 +52,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         ______TS("success: search for instructors in whole system; query string should be case-insensitive");
 
         results = instructorsDb.searchInstructorsInWholeSystem("InStRuCtOr2");
-        verifySearchResults(results, ins2InCourse1, ins2InCourse2);
+        verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3);
 
         ______TS("success: search for instructors in whole system; instructors in archived courses should be included");
 
@@ -121,7 +122,7 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         instructorsDb.deleteEntity(ins2InCourse1);
         results = instructorsDb.searchInstructorsInWholeSystem("instructor2");
-        verifySearchResults(results, ins2InCourse2);
+        verifySearchResults(results, ins2InCourse2, ins2InCourse3);
     }
 
     /*
