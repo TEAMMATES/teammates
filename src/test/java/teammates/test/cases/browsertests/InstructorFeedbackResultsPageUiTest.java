@@ -643,7 +643,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         addCommentToValidResponseAndVerify("-3-1-0");
 
         ______TS("GQR view: Typical case: edit an existing feedback response comment using comment modal");
-        editCommentOnResponseAndVerify("-2-1-0", "edited test comment");
+        editFirstCommentOnResponseAndVerify("-2-1-0", "edited test comment");
 
         ______TS("GQR view: Typical case: edit comment created by different instructors using comment modal");
 
@@ -651,7 +651,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(0, 1);
 
-        editCommentOnResponseAndVerify("-1-1-1", "Comment edited by different instructor");
+        editFirstCommentOnResponseAndVerify("-1-1-1", "Comment edited by different instructor");
 
         ______TS("GQR view: Typical case: delete existing feedback response comments using comment modal");
 
@@ -659,8 +659,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
 
-        deleteCommentAndVerify("-2-1-0");
-        deleteCommentAndVerify("-3-1-0");
+        deleteFirstCommentAndVerify("-2-1-0");
+        deleteFirstCommentAndVerify("-3-1-0");
     }
 
     @Test
@@ -681,7 +681,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         ______TS("Question view: Typical case: edit an existing feedback response comment using comment modal");
 
-        editCommentOnResponseAndVerify("-2-1-0", "edited test comment");
+        editFirstCommentOnResponseAndVerify("-2-1-0", "edited test comment");
 
         ______TS("Question view: Typical case: edit comment created by different instructors using comment modal");
 
@@ -689,7 +689,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(2);
 
-        editCommentOnResponseAndVerify("-1-1-0", "Comment edited by different instructor");
+        editFirstCommentOnResponseAndVerify("-1-1-0", "Comment edited by different instructor");
 
         ______TS("Question view: Typical case: delete existing feedback response comments using comment modal");
 
@@ -697,44 +697,46 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
-        deleteCommentAndVerify("-2-1-0");
-        deleteCommentAndVerify("-3-1-0");
+        deleteFirstCommentAndVerify("-2-1-0");
+        deleteFirstCommentAndVerify("-3-1-0");
     }
 
-    private void addCommentToEmptyResponseAndCheckStatusMessage(String commentId) {
-        resultsPage.clickCommentModalButton(commentId);
-        resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentId, "");
-        resultsPage.verifyCommentFormErrorMessage(commentId, Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
-        resultsPage.closeCommentModal(commentId);
+    private void addCommentToEmptyResponseAndCheckStatusMessage(String commentModelId) {
+        resultsPage.clickCommentModalButton(commentModelId);
+        resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentModelId, "");
+        resultsPage.verifyCommentFormErrorMessage(commentModelId, Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void addCommentToValidResponseAndVerify(String commentId) {
-        String editFormCommentId = commentId + "-1";
-        resultsPage.clickCommentModalButton(commentId);
-        resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentId, "test comment 1");
-        resultsPage.verifyCommentRowContent(editFormCommentId, "test comment 1", "Teammates Test");
-        resultsPage.isElementPresent(By.id("showResponseCommentAddForm" + commentId));
-        resultsPage.verifyContainsElement(By.id("visibility-options" + editFormCommentId));
-        resultsPage.closeCommentModal(commentId);
+    // Add first comment to response
+    private void addCommentToValidResponseAndVerify(String commentModelId) {
+        String commentId = commentModelId + "-1";
+        resultsPage.clickCommentModalButton(commentModelId);
+        resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentModelId,
+                "test comment 1");
+        resultsPage.verifyCommentRowContent(commentId, "test comment 1", "Teammates Test");
+        resultsPage.isElementPresent(By.id("showResponseCommentAddForm" + commentModelId));
+        resultsPage.verifyContainsElement(By.id("visibility-options" + commentId));
+        resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void editCommentOnResponseAndVerify(String commentId, String commentText) {
-        String editFormCommentId = commentId + "-1";
-        resultsPage.clickCommentModalButton(commentId);
-        resultsPage.editFeedbackResponseComment(editFormCommentId, commentText);
-        resultsPage.verifyCommentRowContent(editFormCommentId, commentText, "Teammates Test");
-        resultsPage.isElementPresent(By.id("showResponseCommentAddForm" + commentId));
-        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow" + editFormCommentId, 1);
-        resultsPage.closeCommentModal(commentId);
+    private void editFirstCommentOnResponseAndVerify(String commentModelId, String commentText) {
+        String commentId = commentModelId + "-1";
+        resultsPage.clickCommentModalButton(commentModelId);
+        resultsPage.editFeedbackResponseComment(commentId, commentText);
+        resultsPage.verifyCommentRowContent(commentId, commentText, "Teammates Test");
+        resultsPage.isElementPresent(By.id("showResponseCommentAddForm" + commentModelId));
+        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow" + commentId, 1);
+        resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void deleteCommentAndVerify(String commentId) {
-        String editFormCommentId = commentId + "-1";
-        resultsPage.clickCommentModalButton(commentId);
-        resultsPage.deleteFeedbackResponseCommentInModal(editFormCommentId);
-        resultsPage.verifyRowMissing(editFormCommentId);
-        resultsPage.isElementPresent(By.id("showResponseCommentAddForm" + commentId));
-        resultsPage.closeCommentModal(commentId);
+    private void deleteFirstCommentAndVerify(String commentModelId) {
+        String commentId = commentModelId + "-1";
+        resultsPage.clickCommentModalButton(commentModelId);
+        resultsPage.deleteFeedbackResponseCommentInModal(commentId);
+        resultsPage.verifyRowMissing(commentId);
+        resultsPage.isElementPresent(By.id("showResponseCommentAddForm" + commentModelId));
+        resultsPage.closeCommentModal(commentModelId);
     }
 
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
