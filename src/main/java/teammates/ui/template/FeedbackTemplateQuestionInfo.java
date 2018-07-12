@@ -1,5 +1,8 @@
 package teammates.ui.template;
 
+import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+
 import java.util.List;
 
 /**
@@ -65,6 +68,17 @@ public class FeedbackTemplateQuestionInfo {
             return "Ask each student to give <b>comments about other team members, in confidence</b>";
         default:
             return null;
+        }
+    }
+
+    public String getQuestionSpecificEditFormHtml() {
+
+        if (qnNumber == 1) {
+            FeedbackContributionQuestionDetails fcqd = new FeedbackContributionQuestionDetails();
+            return fcqd.getQuestionSpecificEditFormHtml(qnNumber);
+        } else {
+            FeedbackTextQuestionDetails ftq = new FeedbackTextQuestionDetails();
+            return ftq.getQuestionSpecificEditFormHtml(qnNumber);
         }
     }
 }

@@ -68,29 +68,7 @@
                             </div>
                           </div>
                           <br>
-                          <c:choose>
-                            <c:when test="${templateQn.qnType == 'Team contribution question'}">
-                              <div class="col-sm-6 row">
-                                <div class="form-inline col-sm-12" id="contrib_tooltipText-1" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer">
-                                  <input type="checkbox" name="isNotSureAllowedCheck" checked="" disabled="">
-                                  <span style="margin-left: 5px; font-weight: bold;">Allow response giver to select 'Not Sure' as the answer</span>
-                                </div>
-                              </div>
-                            </c:when>
-                            <c:otherwise>
-                            <div class="row">
-                              <div class="col-xs-12 question-recommended-length">
-                                [Optional]
-                                <span data-toggle="tooltip" data-placement="top" title="" data-original-title="The recommended length is shown to the respondent but not enforced" class="tool-tip-decorate">
-                                Recommended length
-                              </span>
-                                for the response:
-                                <input disabled="" type="number" class="form-control" name="recommendedlength" value="">
-                                words
-                              </div>
-                            </div>
-                            </c:otherwise>
-                          </c:choose>
+                          ${templateQn.questionSpecificEditFormHtml}
                         </div>
                       </div>
                       <br>
