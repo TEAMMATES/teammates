@@ -26,7 +26,7 @@ import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
-import teammates.ui.template.FeedbackTemplateQuestionDetails;
+import teammates.ui.template.FeedbackTemplateQuestionInfo;
 
 public class InstructorFeedbackEditPageData extends PageData {
 
@@ -39,7 +39,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private CourseDetailsBundle courseDetails;
     private int numOfInstructors;
     private FeedbackSessionAttributes feedbackSession;
-    private List<FeedbackTemplateQuestionDetails> templateQnForm;
+    private List<FeedbackTemplateQuestionInfo> templateQnForm;
     private Map<String, String> resolvedTimeFields = new HashMap<>();
 
     public InstructorFeedbackEditPageData(AccountAttributes account, String sessionToken) {
@@ -85,7 +85,7 @@ public class InstructorFeedbackEditPageData extends PageData {
             String questionText = fqa.getQuestionDetails().getQuestionText();
             String recipientFeedbackPath = fqa.getRecipientType().toDisplayRecipientName();
 
-            templateQnForm.add(new FeedbackTemplateQuestionDetails(fqa.getQuestionNumber(), questionTypeDisplayName,
+            templateQnForm.add(new FeedbackTemplateQuestionInfo(fqa.getQuestionNumber(), questionTypeDisplayName,
                     questionText, recipientFeedbackPath, getDropdownMenuLabel(fqa), fqa.getVisibilityMessage()));
         }
     }
@@ -375,7 +375,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         return previewForm;
     }
 
-    public List<FeedbackTemplateQuestionDetails> getTemplateQuestions() {
+    public List<FeedbackTemplateQuestionInfo> getTemplateQuestions() {
         return templateQnForm;
     }
 

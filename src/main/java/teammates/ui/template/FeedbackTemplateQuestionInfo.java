@@ -7,7 +7,7 @@ import java.util.List;
  * to generate necessary information to render the correct information for pages
  * like addTemplateQuestionModal.tag in the form of instructorHelpSessions.jsp
  */
-public class FeedbackTemplateQuestionDetails {
+public class FeedbackTemplateQuestionInfo {
 
     private int qnNumber;
     private String qnType;
@@ -16,8 +16,8 @@ public class FeedbackTemplateQuestionDetails {
     private String qnVisibilityOption;
     private List<String> qnVisibilityHints;
 
-    public FeedbackTemplateQuestionDetails(int qnNumber, String qnType, String qnText, String qnFeedbackPath,
-                                           String qnVisibilityOption, List<String> qnVisibilityHints) {
+    public FeedbackTemplateQuestionInfo(int qnNumber, String qnType, String qnText, String qnFeedbackPath,
+                                        String qnVisibilityOption, List<String> qnVisibilityHints) {
         this.qnNumber = qnNumber;
         this.qnType = qnType;
         this.qnText = qnText;
