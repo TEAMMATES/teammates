@@ -269,7 +269,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String currentUserTeam = bundle.roster.getStudentForEmail(studentEmail).getTeam();
         String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
         List<Integer> ranksReceived = recipientRanks.get(currentUserIdentifier);
-        //If response recipient is instructor, responses for current student/team will not exist.
+        // If response recipient is instructor, responses for current student/team will not exist.
         if (ranksReceived == null) {
             return "";
         }
