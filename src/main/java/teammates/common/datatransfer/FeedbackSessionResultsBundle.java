@@ -1735,18 +1735,13 @@ public class FeedbackSessionResultsBundle {
     }
 
     /**
-     * Returns list of sorted responses with identities of giver/recipients NOT hidden which is used for
-     * anonymous result calculation.
+     * Returns list of responses sorted by giverName > recipientName > qnNumber with identities
+     * of giver/recipients NOT hidden which is used for anonymous result calculation.
      * @param question question whose responses are required
      * @return list of responses
      */
-    public List<FeedbackResponseAttributes> getActualSortedResponses(FeedbackQuestionAttributes question) {
-        String questionId = question.getId();
-        List<FeedbackResponseAttributes> responses;
-        //Get all actual responses for this question
-        responses = actualResponses.stream()
-                       .filter(response -> response.feedbackQuestionId.equals(questionId))
-                       .collect(Collectors.toList());
+    public List<FeedbackResponseAttributes> getActualResponsesSortedByGqr(FeedbackQuestionAttributes question) {
+        List<FeedbackResponseAttributes> responses = getActualUnsortedResponses(question);
         responses.sort(compareByGiverRecipientQuestion);
         return responses;
     }
