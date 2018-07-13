@@ -870,6 +870,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             Select qnNumSelect = new Select(getSelectQuestionNumberDropdown(qnNumber));
             return Integer.parseInt(qnNumSelect.getFirstSelectedOption().getText().trim());
         }
+        //substring trims colon from the retrieved question number text
         String questionNumber = getSelectQuestionNumberStatic(qnNumber).getText();
         return Integer.parseInt(questionNumber.substring(0, questionNumber.length() - 1));
     }
