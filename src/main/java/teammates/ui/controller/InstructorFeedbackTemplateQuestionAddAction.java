@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.PageData;
@@ -35,11 +36,20 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
                             Integer.parseInt(questionNumber) - 1);
                     feedbackQuestion.questionNumber = -1;
                     logic.createFeedbackQuestion(feedbackQuestion);
+
+                    statusToAdmin = "Added Feedback Template Question for Feedback Session:<span class=\"bold\">("
+                            + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                            + feedbackQuestion.courseId + "]</span> created.<br>"
+                            + "<span class=\"bold\">"
+                            + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
+                            + ":</span> "
+                            + SanitizationHelper.sanitizeForHtml(feedbackQuestion.getQuestionDetails().getQuestionText());
                 }
 
                 statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
                         StatusMessageColor.SUCCESS));
             } else {
+                statusToAdmin = "";
                 statusToUser.add(new StatusMessage("No template questions are indicated to be added",
                         StatusMessageColor.DANGER));
                 isError = true;
