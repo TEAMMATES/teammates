@@ -238,6 +238,16 @@ public class InstructorFeedbackSessionsPageData extends PageData {
         return courseAttributes;
     }
 
+    public boolean isInstructorAllowedToModify() {
+        for (int i = 0; i < recoveryFsList.getRows().size(); i++) {
+            RecoveryFeedbackSessionsTableRow feedbackSession = recoveryFsList.getRows().get(i);
+            if (!instructorsForCourses.get(feedbackSession.getCourseId()).isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Creates a list of options (STANDARD and TEAMEVALUATION). If defaultSessionTemplateType is null,
      *     TEAMEVALUATION is selected by default.
@@ -353,8 +363,10 @@ public class InstructorFeedbackSessionsPageData extends PageData {
 
             String restoreLink = getInstructorFeedbackRestoreRecoverySessionLink(session.getCourseId(),
                     session.getSessionName());
+            Boolean hasRestorePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             ElementTag restoreButton = createButton("Restore", "btn btn-default btn-xs t_session_restore" + idx, "",
-                    restoreLink, Const.Tooltips.FEEDBACK_SESSION_RESTORE, false);
+                    restoreLink, Const.Tooltips.FEEDBACK_SESSION_RESTORE, !hasRestorePermission);
 
             String deleteLink = getInstructorFeedbackDeleteRecoverySessionLink(session.getCourseId(),
                     session.getSessionName());
