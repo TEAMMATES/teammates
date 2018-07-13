@@ -1,14 +1,16 @@
 <html>
 <head>
-<title>
-  Instructor Account Details [Administrator]
-</title>
-<link href="/favicon.png" rel="shortcut icon">
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
-<link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
+  <title>
+    Instructor Account Details [Administrator]
+  </title>
+  <link href="/favicon.png" rel="shortcut icon">
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+    script-src 'self' https://cdn.jsdelivr.com; style-src 'self' https://cdn.jsdelivr.com 'nonce-2726c7f26a'">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.1.1/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -142,7 +144,7 @@
       </div>
     </form>
   </div>
-  <div id="statusMessagesToUser" style="display: none;">
+  <div id="statusMessagesToUser" style="display: none;" nonce="2726c7f26a">
   </div>
   <div class="page-header">
     <h2>
@@ -158,52 +160,52 @@
     </div>
     <table class="table table-striped data-table">
       <thead>
-        <tr>
-          <th width="70%">
-            Course
-          </th>
-          <th>
-            Options
-          </th>
-        </tr>
+      <tr>
+        <th width="70%">
+          Course
+        </th>
+        <th>
+          Options
+        </th>
+      </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>
-            [AAMgtUiT.CS1101] Programming Methodology
-          </td>
-          <td>
-            <a class="btn btn-danger btn-sm" href="/admin/adminAccountDelete?instructorid=AAMgtUiT.instr2&courseid=AAMgtUiT.CS1101&token=${sessionToken}" id="instructor_AAMgtUiT.CS1101">
+      <tr>
+        <td>
+          [AAMgtUiT.CS1101] Programming Methodology
+        </td>
+        <td>
+          <a class="btn btn-danger btn-sm" href="/admin/adminAccountDelete?instructorid=AAMgtUiT.instr2&courseid=AAMgtUiT.CS1101&token=${sessionToken}" id="instructor_AAMgtUiT.CS1101">
               <span class="glyphicon glyphicon-trash">
               </span>
-              Remove From Course
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            [AAMgtUiT.CS2103] Software Engineering
-          </td>
-          <td>
-            <a class="btn btn-danger btn-sm" href="/admin/adminAccountDelete?instructorid=AAMgtUiT.instr2&courseid=AAMgtUiT.CS2103&token=${sessionToken}" id="instructor_AAMgtUiT.CS2103">
+            Remove From Course
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          [AAMgtUiT.CS2103] Software Engineering
+        </td>
+        <td>
+          <a class="btn btn-danger btn-sm" href="/admin/adminAccountDelete?instructorid=AAMgtUiT.instr2&courseid=AAMgtUiT.CS2103&token=${sessionToken}" id="instructor_AAMgtUiT.CS2103">
               <span class="glyphicon glyphicon-trash">
               </span>
-              Remove From Course
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            [AAMgtUiT.CS2104] Programming Language Concepts
-          </td>
-          <td>
-            <a class="btn btn-danger btn-sm" href="/admin/adminAccountDelete?instructorid=AAMgtUiT.instr2&courseid=AAMgtUiT.CS2104&token=${sessionToken}" id="instructor_AAMgtUiT.CS2104">
+            Remove From Course
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          [AAMgtUiT.CS2104] Programming Language Concepts
+        </td>
+        <td>
+          <a class="btn btn-danger btn-sm" href="/admin/adminAccountDelete?instructorid=AAMgtUiT.instr2&courseid=AAMgtUiT.CS2104&token=${sessionToken}" id="instructor_AAMgtUiT.CS2104">
               <span class="glyphicon glyphicon-trash">
               </span>
-              Remove From Course
-            </a>
-          </td>
-        </tr>
+            Remove From Course
+          </a>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -221,28 +223,28 @@
     </div>
     <table class="table table-striped data-table">
       <thead>
-        <tr>
-          <th width="70%">
-            Course
-          </th>
-          <th>
-            Options
-          </th>
-        </tr>
+      <tr>
+        <th width="70%">
+          Course
+        </th>
+        <th>
+          Options
+        </th>
+      </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>
-            [AAMgtUiT.CS1101] Programming Methodology
-          </td>
-          <td>
-            <a class="btn btn-danger btn-sm" href="/admin/adminAccountDelete?googleid=AAMgtUiT.instr2&courseid=AAMgtUiT.CS1101&token=${sessionToken}" id="student_AAMgtUiT.CS1101">
+      <tr>
+        <td>
+          [AAMgtUiT.CS1101] Programming Methodology
+        </td>
+        <td>
+          <a class="btn btn-danger btn-sm" href="/admin/adminAccountDelete?googleid=AAMgtUiT.instr2&courseid=AAMgtUiT.CS1101&token=${sessionToken}" id="student_AAMgtUiT.CS1101">
               <span class="glyphicon glyphicon-trash">
               </span>
-              Remove From Course
-            </a>
-          </td>
-        </tr>
+            Remove From Course
+          </a>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
