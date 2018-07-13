@@ -28,7 +28,7 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
 
             String[] feedbackQuestionNumbers = getRequestParamValues(Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER);
 
-            if (feedbackQuestionNumbers.length > 0) {
+            if (feedbackQuestionNumbers != null) {
                 for (String questionNumber: feedbackQuestionNumbers) {
 
                     FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(
