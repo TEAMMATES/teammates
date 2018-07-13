@@ -84,8 +84,10 @@ public class InstructorCoursesPageData extends PageData {
     }
 
     public boolean isInstructorAllowedToModify() {
-        for (InstructorAttributes instructor : instructorsForCourses.values()) {
-            if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
+        for (int i = 0; i < getRecoveryCourses().getRows().size(); i++) {
+            RecoveryCoursesTableRow course = getRecoveryCourses().getRows().get(i);
+            if (!instructorsForCourses.get(course.getCourseId())
+                    .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
                 return false;
             }
         }
