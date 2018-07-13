@@ -246,7 +246,7 @@ public class CourseEditInstructorPanel {
         permissionInputGroup.add(createCheckBox("Add/Edit/Delete Instructors",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
 
-        permissionInputGroup.add(createCheckBox("Create/Edit/Delete Sessions",
+        permissionInputGroup.add(createCheckBox("Create/Edit/Delete/Restore Sessions",
                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
 
         permissionInputGroup.add(createCheckBox("Enroll/Edit/Delete Students",

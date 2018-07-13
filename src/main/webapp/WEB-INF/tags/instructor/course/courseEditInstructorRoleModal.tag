@@ -26,7 +26,7 @@
 
           <div class="col-sm-6">
             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                value="true" checked disabled> Create/Edit/Delete Sessions
+                value="true" checked disabled> Create/Edit/Delete/Restore Sessions
           </div>
 
           <div class="col-sm-6">
