@@ -91,6 +91,42 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
                             + "|||/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
+        ______TS("Masquerade Mode (question 2)");
+
+        String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "2"
+        };
+        params = addUserIdToParams(instructor1ofCourse1.googleId, params);
+
+        action = getAction(params);
+        result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        false),
+                result.getDestinationWithParams());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
+                            + "instructorFeedbackTemplateQuestionAdd|||true|||"
+                            + "Instructor|||Instructor 1 of Course 1|||"
+                            + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                            + "Added Feedback Template Question for Feedback Session:<span class=\"bold\">"
+                            + "(First feedback session)</span> for Course "
+                            + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                            + " created.<br><span class=\"bold\">Essay question:</span> "
+                            + "Comments about your contribution (shown to other teammates)|||"
+                            + "/page/instructorFeedbackTemplateQuestionAdd";
+        AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, action.getLogMessage(), adminUserId);
+
     }
 
     protected String getPageResultDestination(
