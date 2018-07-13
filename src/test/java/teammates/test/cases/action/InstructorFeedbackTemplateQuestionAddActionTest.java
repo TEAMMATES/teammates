@@ -79,6 +79,24 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
                                     + "/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
+        ______TS("Invalid questionNumber passed in");
+
+        // use the same params initialized from the typical case
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "6");
+        verifyAssumptionFailure(params);
+
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "0");
+        verifyAssumptionFailure(params);
+
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "ABC");
+        try {
+            action = getAction(params);
+            action.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch (NumberFormatException e) {
+            ignoreExpectedException();
+        }
+
         ______TS("Error: No template question indicated");
 
         params = new String[] {

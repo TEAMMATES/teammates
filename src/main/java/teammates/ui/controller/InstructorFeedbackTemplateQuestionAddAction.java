@@ -5,6 +5,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
@@ -32,8 +33,11 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
             if (feedbackQuestionNumbers != null) {
                 for (String questionNumber: feedbackQuestionNumbers) {
 
-                    FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(
-                            Integer.parseInt(questionNumber) - 1);
+                    int questionNum = Integer.parseInt(questionNumber);
+                    // there are only 5 template questions being populated at the moment
+                    Assumption.assertTrue("Invalid question number", questionNum >= 1 && questionNum <= 5);
+
+                    FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(questionNum - 1);
                     feedbackQuestion.questionNumber = -1;
                     logic.createFeedbackQuestion(feedbackQuestion);
 
