@@ -1,7 +1,11 @@
 /* global elasticlunr:true */
 
 const questionMap = {};
+const numResultsPerPage = 5;
+
 let index = null;
+let curPage = 1;
+let numPages = 1;
 
 /**
  * Shows the panel specified by the URL hash,
@@ -101,12 +105,62 @@ function prepareQuestionsForSearch() {
     buildIndex();
 }
 
+function renderPage(page) {
+    if (page < 1 || page > numPages) {
+        return;
+    }
+    if (page === 'prev') {
+        renderPage(curPage - 1);
+        return;
+    }
+    if (page === 'next') {
+        renderPage(curPage + 1);
+        return;
+    }
+
+    curPage = page;
+    const pageNum = page;
+    const searchResultElements = $('#searchResults').children();
+    const pageElements = $(searchResultElements.slice((pageNum - 1)*numResultsPerPage,
+                                                     (pageNum - 1)*numResultsPerPage + numResultsPerPage));
+
+    // hide all search results by default
+    searchResultElements.each(function () {
+        $(this).hide();
+    });
+    // show search results belonging to current page
+    pageElements.each(function () {
+        $(this).show();
+    });
+    // render paging controls
+    $('#pagingControls').children().each((idx, button) => {
+        if (idx === pageNum) {
+            $(button).prop('disabled', true);
+        } else {
+            $(button).prop('disabled', false);
+        }
+    });
+    $('#prevPage').prop('disabled', false);
+    $('#nextPage').prop('disabled', false);
+
+    // disable prev and next buttons for first and last page respectively
+    if (pageNum === 1) {
+        $('#prevPage').prop('disabled', true);
+    }
+    if (pageNum === numPages) {
+        $('#nextPage').prop('disabled', true);
+    }
+}
+
 function searchQuestions() {
     const query = $('#searchQuery').val();
 
     $('#searchResults').empty();
+    $('#pagingControls').empty();
+    $('#pagingControls').removeClass('padding-15px margin-bottom-35px');
     if (query === '') {
         $('#allQuestions').show();
+        $('#pagingDivider').hide();
         $('#searchMetaData').text('');
         return;
     }
@@ -139,12 +193,36 @@ function searchQuestions() {
         });
     }
 
+    function initializePagingControls() {
+        const numResults = results.length;
+        numPages = Math.ceil(numResults/numResultsPerPage);
+
+        if (numPages < 2) {
+            return;
+        }
+
+        let buttonHtml = '<button type="button" class="btn btn-default" id="prevPage" onclick="renderPage(\'prev\')">'
+                         + '<span class="glyphicon glyphicon-chevron-left"></span>Previous</button>';
+        for (let i = 0; i < numPages; i += 1) {
+            buttonHtml += `<button type='button' class='btn btn-default' onclick='renderPage(${i + 1})'>${i + 1}</button>`;
+        }
+        buttonHtml += '<button type="button" class="btn btn-default" id="nextPage" onclick="renderPage(\'next\')">'
+                     + 'Next<span class="glyphicon glyphicon-chevron-right"></span></button>';
+        $('#pagingControls').html(buttonHtml);
+        $('#pagingControls').addClass('padding-15px margin-bottom-35px');
+    }
+
+    // highlight each keyword of query in search results
     $.each(query.split(' '), (idx, keyword) => {
         if (keyword.length > 2) {
             highlightKeyword(keyword);
         }
     });
 
+    initializePagingControls();
+    // render first page by default
+    renderPage(1);
+    $('#pagingDivider').show();
     $('#searchMetaData').text(`${results.length} results found for '${query}'`);
     $('#allQuestions').hide();
 }
@@ -161,6 +239,8 @@ function resetSearch() {
     $('#searchQuery').val('');
     $('#searchMetaData').text('');
     $('#searchResults').empty();
+    $('#pagingControls').empty();
+    $('#pagingDivider').hide();
     $('#allQuestions').show();
 }
 
@@ -174,3 +254,4 @@ $(document).ready(() => {
 
 window.searchQuestions = searchQuestions;
 window.resetSearch = resetSearch;
+window.renderPage = renderPage;
