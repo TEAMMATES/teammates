@@ -34,6 +34,13 @@
       "isInstructor": false,
       "email": "student2inCourse1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "student3InCourse1": {
+      "googleId": "student3InCourse1",
+      "name": "Student 3 in course 1",
+      "isInstructor": false,
+      "email": "student3inCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
@@ -130,6 +137,14 @@
       "name": "student2 In Course1</td></div>'\"",
       "comments": "comment for student2InCourse1</td></div>'\"",
       "team": "Team 1.1</td></div>'\""
+    },
+    "student3InCourse1": {
+      "googleId": "student3InCourse1",
+      "email": "student3InCourse1@gmail.tmt",
+      "course": "idOfCourse1",
+      "name": "student3 In Course1</td></div>'\"",
+      "comments": "comment for student3InCourse1</td></div>'\"",
+      "team": "Team 2.1</td></div>'\""
     }
   },
   "feedbackSessions": {
@@ -233,6 +248,28 @@
         "STUDENTS",
         "INSTRUCTORS"
       ]
+    },
+    "qn4InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "creatorEmail": "instructor1@course1.tmt",
+      "questionMetaData": {
+        "value": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What do you think is the other teams' best feature?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}"
+      },
+      "questionNumber": 4,
+      "questionType": "MCQ",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {
@@ -278,6 +315,19 @@
       "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      },
+      "giverSection": "Section A",
+      "recipientSection": "Section A"
+    },
+    "response1ForQ4": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "feedbackQuestionId": "4",
+      "feedbackQuestionType": "MCQ",
+      "giver": "Team 1.1</td></div>'\"",
+      "recipient": "Team 2.1</td></div>'\"",
+      "responseMetaData": {
+        "value": "{\"answer\":\"Algo\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
       },
       "giverSection": "Section A",
       "recipientSection": "Section A"
@@ -340,6 +390,24 @@
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": {
         "value": "Student 1 comment"
+      }
+    },
+    "comment1FromTeam1": {
+      "courseId": "idOfCourse1",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "4",
+      "commentGiver": "Team 1.1</td></div>'\"",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "commentGiverType": "TEAMS",
+      "feedbackResponseId": "4%Team 1.1</td></div>'\"%Team 2.1</td></div>'\"",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-03-01T23:59:00Z",
+      "commentText": {
+        "value": "Team 1 comment"
       }
     }
   },
