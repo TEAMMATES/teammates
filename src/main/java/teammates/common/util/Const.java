@@ -763,6 +763,7 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_RUBRIC_DESCRIPTION = "rubricDesc";
         public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED = "rubricAssignWeights";
         public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHT = "rubricWeight";
+        public static final String FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL = "rubricWeightForCell";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_ROWS = "rubricNumRows";
         public static final String FEEDBACK_QUESTION_RUBRIC_NUM_COLS = "rubricNumCols";
         public static final String FEEDBACK_QUESTION_RUBRIC_MOVE_COL_LEFT = "rubric-move-col-left";

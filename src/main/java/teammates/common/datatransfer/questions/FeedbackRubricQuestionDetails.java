@@ -32,6 +32,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     private boolean hasAssignedWeights;
     private List<Double> rubricWeights;
+    private List<List<Double>> rubricWeightsForEachCell;
     private int numOfRubricChoices;
     private List<String> rubricChoices;
     private int numOfRubricSubQuestions;
@@ -48,6 +49,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<>();
         this.initializeRubricDescriptions();
+        this.initializeRubricWeights();
     }
 
     public FeedbackRubricQuestionDetails(String questionText) {
@@ -60,6 +62,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<>();
         this.initializeRubricDescriptions();
+        this.initializeRubricWeights();
     }
 
     @Override
@@ -87,6 +90,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
         int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
         List<Double> rubricWeights = getRubricWeights(requestParameters, numOfRubricChoices, hasAssignedWeights);
+        List<List<Double>> rubricWeightsForEachCell = getRubricWeightsForEachCell(
+                requestParameters, numOfRubricChoices, numOfRubricSubQuestions, hasAssignedWeights, rubricWeights);
         List<String> rubricChoices = getRubricChoices(requestParameters, numOfRubricChoices);
         List<String> rubricSubQuestions = getSubQuestions(requestParameters, numOfRubricSubQuestions);
         List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters,
@@ -94,11 +99,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                                                               numOfRubricSubQuestions);
 
         // Set details
-        setRubricQuestionDetails(hasAssignedWeights, rubricWeights, rubricChoices, rubricSubQuestions, rubricDescriptions);
+        setRubricQuestionDetails(hasAssignedWeights, rubricWeights, rubricWeightsForEachCell,
+                rubricChoices, rubricSubQuestions, rubricDescriptions);
 
         if (!isValidDescriptionSize()) {
             // If description sizes are invalid, default to empty descriptions.
             initializeRubricDescriptions();
+        }
+        if (hasAssignedWeights && !isValidWeightSize()) {
+            // If weights are enabled, and weights sizes are invalid, default to empty weights.
+            initializeRubricWeights();
         }
 
         return true;
@@ -132,6 +142,63 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return rubricWeights;
+    }
+
+    private List<List<Double>> getRubricWeightsForEachCell(Map<String, String[]> requestParameters,
+            int numOfRubricChoices, int numOfRubricSubQuestions, boolean hasAssignedWeights, List<Double> rubricWeights) {
+        List<List<Double>> rubricWeightsForEachCell = new ArrayList<>();
+
+        if (!hasAssignedWeights) {
+            return rubricWeightsForEachCell;
+        }
+
+        int weightRows = -1;
+        for (int i = 0; i < numOfRubricSubQuestions; i++) {
+            String subQn = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
+            if (subQn == null) {
+                // No weights should be parsed for a null sub question.
+                continue;
+            }
+            boolean rowAdded = false;
+
+            for (int j = 0; j < numOfRubricChoices; j++) {
+                String choice = HttpRequestHelper.getValueFromParamMap(
+                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + j);
+                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-" + i + "-" + j;
+                String weight = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
+                if (weight != null && choice != null) {
+                    if (!rowAdded) {
+                        weightRows++;
+                        rubricWeightsForEachCell.add(new ArrayList<Double>());
+                        rowAdded = true;
+                    }
+                    try {
+                        rubricWeightsForEachCell.get(weightRows).add(Double.parseDouble(weight));
+                    } catch (NumberFormatException e) {
+                        log.warning("Failed to parse weight for rubric question " + weight);
+                    }
+                }
+            }
+        }
+
+        // If weights for each cell is not assigned, and rubricWeights is not empty,
+        // then, fill the rubricWeightsForEachCell list with rubricWeights values.
+        // Note that rubricWeights will not be empty if the question persists legacy data,
+        // that is rubricWeights will contain weights for each choices rather than each individual option,
+        // which is why in this case, we will fill each column of rubricWeightsForEachCell with each value of rubricWeights.
+        // e.g. weight of choice-0 == weight of cell-0-0, cell-1-0, cell-2-0 etc.
+        if (rubricWeightsForEachCell.isEmpty() && !rubricWeights.isEmpty()) {
+            initializeRubricWeights();
+            for (int i = 0; i < numOfRubricChoices; i++) {
+                double weight = rubricWeights.get(i);
+                for (int j = 0; j < numOfRubricSubQuestions; j++) {
+                    rubricWeightsForEachCell.get(j).set(i, weight);
+                }
+            }
+        }
+
+        return rubricWeightsForEachCell;
     }
 
     private List<String> getRubricChoices(Map<String, String[]> requestParameters, int numOfRubricChoices) {
@@ -196,13 +263,31 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return true;
     }
 
+    /**
+     * Checks if the dimensions of rubricWeightsForEachCell is valid according
+     * to numOfRubricSubQuestions and numOfRubricChoices.
+     */
+    private boolean isValidWeightSize() {
+        if (rubricWeightsForEachCell.size() != numOfRubricSubQuestions) {
+            return false;
+        }
+        for (int i = 0; i < rubricWeightsForEachCell.size(); i++) {
+            if (rubricWeightsForEachCell.get(i).size() != numOfRubricChoices) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void setRubricQuestionDetails(boolean hasAssignedWeights,
                                           List<Double> rubricWeights,
+                                          List<List<Double>> rubricWeightsForEachCell,
                                           List<String> rubricChoices,
                                           List<String> rubricSubQuestions,
                                           List<List<String>> rubricDescriptions) {
         this.hasAssignedWeights = hasAssignedWeights;
         this.rubricWeights = rubricWeights;
+        this.rubricWeightsForEachCell = rubricWeightsForEachCell;
         this.numOfRubricChoices = rubricChoices.size();
         this.rubricChoices = rubricChoices;
         this.numOfRubricSubQuestions = rubricSubQuestions.size();
@@ -509,6 +594,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 descList.add("");
             }
             rubricDescriptions.add(descList);
+        }
+    }
+
+    private void initializeRubricWeights() {
+        rubricWeightsForEachCell = new ArrayList<>();
+        for (int subQns = 0; subQns < numOfRubricSubQuestions; subQns++) {
+            List<Double> weightList = new ArrayList<>();
+            for (int ch = 0; ch < numOfRubricChoices; ch++) {
+                weightList.add(0.0);
+            }
+            rubricWeightsForEachCell.add(weightList);
         }
     }
 
