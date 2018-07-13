@@ -3,6 +3,7 @@ package teammates.test.cases.action;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackTemplateQuestionAddAction;
@@ -26,6 +27,12 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
     @Override
     @Test
     public void testExecuteAndPostProcess() {
+
+        ______TS("Not enough parameters");
+
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        verifyAssumptionFailure();
 
         ______TS("Typical case for question 1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
