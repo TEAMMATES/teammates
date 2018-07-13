@@ -1,10 +1,12 @@
 package teammates.test.cases.action;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackTemplateQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
@@ -17,6 +19,13 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
     @Override
     protected String getActionUri() {
         return Const.ActionURIs.INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD;
+    }
+
+    @AfterClass
+    public void classTearDown() {
+        // delete entire session to clean the database
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
     }
 
     @Override
