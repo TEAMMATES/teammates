@@ -70,6 +70,12 @@ function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
             header => student[header])));
 }
 
+function populateStatusIconToHandsontableData(studentsDataArray) {
+    studentsDataArray.forEach((row, index) => (studentsDataArray[index][0] =
+            "&#9989;"));
+    return studentsDataArray;
+}
+
 /**
  * Toggle the chevron image depending on the user's action.
  */
@@ -232,4 +238,5 @@ export {
     toggleStudentsPanel,
     showUpdateModalBox,
     getUpdatedStudentRows,
+    populateStatusIconToHandsontableData,
 };
