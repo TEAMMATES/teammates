@@ -63,6 +63,34 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
                                     + "/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
+        ______TS("Error: No template question indicated");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+        };
+
+        action = getAction(params);
+        result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        true),
+                result.getDestinationWithParams());
+
+        assertEquals("No template questions are indicated to be added", result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
+                            + "instructorFeedbackTemplateQuestionAdd|||true|||"
+                            + "Instructor|||Instructor 1 of Course 1|||"
+                            + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                            + "|||/page/instructorFeedbackTemplateQuestionAdd";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
     }
 
     protected String getPageResultDestination(
