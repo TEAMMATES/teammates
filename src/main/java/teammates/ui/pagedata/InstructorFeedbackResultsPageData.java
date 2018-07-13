@@ -1236,8 +1236,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
         FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
                 responseVisibilityMap, giverNameAndTeam, recipientNameAndTeam);
         responseRow.setAddCommentButton(addCommentForm);
-        responseRow.setResponseRecipientIndex(responseGiverRecipientList.indexOf(response.recipient));
-        responseRow.setResponseGiverIndex(responseGiverRecipientList.indexOf(response.giver));
+
+        int giverIndex = responseGiverRecipientList.indexOf(response.giver);
+        if (giverIndex == -1 && question.giverType == FeedbackParticipantType.TEAMS) {
+            giverIndex = responseGiverRecipientList.indexOf(response.giver + Const.TEAM_OF_EMAIL_OWNER);
+        }
+        int recipientIndex = responseGiverRecipientList.indexOf(response.recipient);
+        if (recipientIndex == -1 || giverIndex == -1) {
+            Assumption.fail("Response giver is not in the bundle.");
+        }
+        responseRow.setResponseRecipientIndex(recipientIndex);
+        responseRow.setResponseGiverIndex(giverIndex);
     }
 
     private void configureResponseRow(String giver, String recipient,
