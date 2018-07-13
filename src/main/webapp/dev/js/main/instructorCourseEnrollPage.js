@@ -21,6 +21,7 @@ import {
     toggleStudentsPanel,
     showUpdateModalBox,
     getUpdatedStudentRows,
+    populateStatusIconToHandsontableData,
 } from '../common/instructorEnroll';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
@@ -31,11 +32,11 @@ const dataHandsontable = new Handsontable(dataContainer, {
     manualColumnResize: true,
     manualRowResize: true,
     rowHeaders: true,
-    colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comments', 'Fill in the new email here'],
+    colHeaders: ['Status', 'Section', 'Team', 'Name', 'Email', 'Comments', 'Fill in the new email here'],
     columnSorting: true,
     sortIndicator: true,
     minRows: 20,
-    maxCols: 6,
+    maxCols: 7,
     stretchH: 'all',
 });
 
@@ -93,13 +94,12 @@ function updateExistingStudentsDataDump() {
 
 /**
  * Loads existing student data into the spreadsheet interface.
- * @returns {Promise} confirmation that existing students data has been loaded into the spreadsheet.
  */
 function loadExistingStudentsData(studentsData) {
-    return new Promise((resolve) => {
-        resolve(dataHandsontable.loadData(ajaxDataToHandsontableData(
-                studentsData, dataHandsontable.getColHeader())));
-    });
+    const studentDetailsEntries =
+            ajaxDataToHandsontableData(studentsData, dataHandsontable.getColHeader());
+    dataHandsontable.loadData(ajaxDataToHandsontableData(studentsData, dataHandsontable.getColHeader()));
+    dataHandsontable.loadData(populateStatusIconToHandsontableData(studentDetailsEntries));
 }
 
 /**
@@ -127,11 +127,14 @@ function getAjaxStudentList(displayIcon) {
 }
 
 /**
- * Updates settings of dataHandsontable so that the "Email" column is read-only.
+ * Updates settings of dataHandsontable.
+ * "Status" column shows status icon of student row entries.
+ * "Email" column is read-only.
  */
 function updateDataHandsontableSettings() {
     dataHandsontable.updateSettings({
         columns: [
+            { colHeader: 'Status', renderer: 'html' },
             { colHeader: 'Section' },
             { colHeader: 'Team' },
             { colHeader: 'Name' },
@@ -162,17 +165,15 @@ function expandCollapseExistingStudentsPanel() {
                     if (data.students.length === 0) {
                         displayNoExistingStudents(displayIcon);
                     } else {
-                        loadExistingStudentsData(data.students)
-                                .then(() => {
-                                    toggleStudentsPanel($panelHeading, panelCollapse,
+                        loadExistingStudentsData(data.students);
+                        toggleStudentsPanel($panelHeading, panelCollapse,
                                             displayIcon, toggleChevron, panelName);
 
-                                    // needed as the view is buggy after collapsing the panel
-                                    dataHandsontable.render();
+                        // needed as the view is buggy after collapsing the panel
+                        dataHandsontable.render();
 
-                                    // keep a copy of the current existing students data upon AJAX load
-                                    existingStudentsData = dataHandsontable.getData();
-                                });
+                        // keep a copy of the current existing students data upon AJAX load
+                        existingStudentsData = dataHandsontable.getData();
                     }
                 }).catch(() => {
                     displayErrorExecutingAjax(displayIcon);
