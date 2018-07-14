@@ -1,14 +1,14 @@
 package teammates.ui.template;
 
+import java.util.List;
+
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-
-import java.util.List;
 
 /**
  * This class uses the information from feedbackSessionTeamEvaluationTemplate.json
  * to generate necessary information to render the correct information for pages
- * like addTemplateQuestionModal.tag in the form of instructorHelpSessions.jsp
+ * like addTemplateQuestionModal.tag in the form of instructorHelpSessions.jsp.
  */
 public class FeedbackTemplateQuestionInfo {
 

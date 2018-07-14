@@ -31,7 +31,7 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
             String[] feedbackQuestionNumbers = getRequestParamValues(Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER);
 
             if (feedbackQuestionNumbers != null) {
-                for (String questionNumber: feedbackQuestionNumbers) {
+                for (String questionNumber : feedbackQuestionNumbers) {
 
                     int questionNum = Integer.parseInt(questionNumber);
                     // there are only 5 template questions being populated at the moment
