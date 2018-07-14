@@ -188,12 +188,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // that is rubricWeights will contain weights for each choices rather than each individual option,
         // which is why in this case, we will fill each column of rubricWeightsForEachCell with each value of rubricWeights.
         // e.g. weight of choice-0 == weight of cell-0-0, cell-1-0, cell-2-0 etc.
-        if (rubricWeightsForEachCell.isEmpty() && !rubricWeights.isEmpty()) {
-            initializeRubricWeights();
-            for (int i = 0; i < numOfRubricChoices; i++) {
-                double weight = rubricWeights.get(i);
-                for (int j = 0; j < numOfRubricSubQuestions; j++) {
-                    rubricWeightsForEachCell.get(j).set(i, weight);
+        if (rubricWeightsForEachCell.isEmpty() && !rubricWeights.isEmpty() && weightRows == -1) {
+            // If numberOfChoices is different than weight list, then some error has occurred,
+            // in that case, return an empty list to avoid IndexOutOfBoundException.
+            if (rubricWeights.size() != numOfRubricChoices) {
+                return rubricWeightsForEachCell;
+            }
+            for (int i = 0; i < numOfRubricSubQuestions; i++) {
+                boolean rowAdded = false;
+                for (int j = 0; j < numOfRubricChoices; j++) {
+                    double weight = rubricWeights.get(j);
+                    if (!rowAdded) {
+                        rubricWeightsForEachCell.add(new ArrayList<Double>());
+                        rowAdded = true;
+                    }
+                    rubricWeightsForEachCell.get(i).add(weight);
                 }
             }
         }
