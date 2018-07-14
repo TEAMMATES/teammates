@@ -159,16 +159,16 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
                      pageResult.getDestinationWithParams());
         assertTrue(pageResult.isError);
         assertEquals(getPopulatedEmptyStringErrorMessage(
-                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
                          FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                          FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH),
                      pageResult.getStatusMessage());
 
         expectedString =
                 teammatesLogMessage + "Servlet Action Failure : "
-                + "The field 'feedback session name' is empty. "
-                + "The value of a/an feedback session name should be no longer than 38 characters. "
-                + "It should not be empty.|||/page/instructorFeedbackCopy";
+                + "The field 'feedback session name' should not be empty. "
+                + "The value of 'feedback session name' field should be no longer than 38 characters."
+                + "|||/page/instructorFeedbackCopy";
         AssertHelper.assertLogMessageEquals(expectedString, a.getLogMessage());
 
         ______TS("Masquerade mode");

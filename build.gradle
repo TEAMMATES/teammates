@@ -13,10 +13,10 @@ apply plugin: "findbugs"
 apply plugin: "jacoco"
 
 def appengineVersion = "1.9.+"
-def checkstyleVersion = "8.8"
-def pmdVersion = "6.1.0"
+def checkstyleVersion = "8.10.1"
+def pmdVersion = "6.5.0"
 def findbugsVersion = "3.0.1"
-def jacocoVersion = "0.8.0"
+def jacocoVersion = "0.8.1"
 def guavaVersion = "22.0"
 
 buildscript {
@@ -68,17 +68,17 @@ dependencies {
 
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
                     "com.google.appengine.tools:appengine-gcs-client:0.7",
-                    "com.google.code.gson:gson:2.8.2",
+                    "com.google.code.gson:gson:2.8.5",
                     "com.google.guava:guava:${guavaVersion}",
                     objectify,
                     "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1",
                     "com.mailjet:mailjet-client:4.1.1",
-                    "com.sendgrid:sendgrid-java:4.1.2",
+                    "com.sendgrid:sendgrid-java:4.2.1",
                     "com.sun.jersey:jersey-client:1.19.4",
                     "com.sun.jersey:jersey-core:1.19.4",
                     "com.sun.jersey.contribs:jersey-multipart:1.19.4",
                     "org.apache.taglibs:taglibs-standard-impl:1.2.5",
-                    "org.jsoup:jsoup:1.11.2"
+                    "org.jsoup:jsoup:1.11.3"
 
     testAnnotationProcessor testng
 
@@ -94,7 +94,7 @@ dependencies {
                     // For supporting authorization code flow locally
                     "com.google.oauth-client:google-oauth-client-jetty:1.23.0",
                     // For using Gmail API
-                    "com.google.apis:google-api-services-gmail:v1-rev82-1.23.0"
+                    "com.google.apis:google-api-services-gmail:v1-rev91-1.23.0"
 
 }
 
