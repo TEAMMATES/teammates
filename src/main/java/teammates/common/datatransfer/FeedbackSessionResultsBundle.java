@@ -1753,9 +1753,8 @@ public class FeedbackSessionResultsBundle {
      * @return list of responses
      */
     public List<FeedbackResponseAttributes> getActualUnsortedResponses(FeedbackQuestionAttributes question) {
-        String questionId = question.getId();
         return actualResponses.stream()
-                            .filter(response -> response.feedbackQuestionId.equals(questionId))
+                            .filter(response -> response.feedbackQuestionId.equals(question.getId()))
                             .collect(Collectors.toList());
     }
 }
