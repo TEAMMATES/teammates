@@ -87,22 +87,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        ______TS("Unsuccessful case: not enough parameters");
-
-        verifyAssumptionFailure();
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-                Const.ParamsNames.USER_ID, instructor.googleId
-        };
-
-        verifyAssumptionFailure(submissionParams);
-
         ______TS("Typical successful case when feedback participant is an instructor");
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
@@ -133,15 +120,17 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 "First Session", "idOfCourse1", questionNumber);
 
         String giverEmail = "instructor1@course1.tmt";
-        String receiverEmail = "instructor1@course1.tmt";
+        String receiverEmail = "%GENERAL%";
         FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 dataBundle.feedbackResponseComments.get("comment1FromInstructor1");
-
-        return feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
-                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
+        FeedbackResponseCommentAttributes frc =
+                feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.courseId,
+                        feedbackResponseComment.createdAt, feedbackResponseComment.commentGiver);
+        frc.feedbackResponseId = feedbackResponse.getId();
+        return frc;
     }
 
     @Test

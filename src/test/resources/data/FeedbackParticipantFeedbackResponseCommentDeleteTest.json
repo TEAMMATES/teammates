@@ -182,7 +182,7 @@
       "questionNumber": 1,
       "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
-      "recipientType": "SELF",
+      "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS"
@@ -279,7 +279,7 @@
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "MCQ",
       "giver": "instructor1@course1.tmt",
-      "recipient": "instructor1@course1.tmt",
+      "recipient": "%GENERAL%",
       "responseMetaData": {
         "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
       }
@@ -290,7 +290,7 @@
       "feedbackQuestionId": "1",
       "feedbackQuestionType": "MCQ",
       "giver": "instructor2@course1.tmt",
-      "recipient": "instructor2@course1.tmt",
+      "recipient": "%GENERAL%",
       "responseMetaData": {
         "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
       }
@@ -342,7 +342,7 @@
       "giverSection": "None",
       "receiverSection": "None",
       "commentGiverType": "INSTRUCTORS",
-      "feedbackResponseId": "1%instructor1@course1.tmt%instructor1@course1.tmt",
+      "feedbackResponseId": "1%instructor1@course1.tmt%GENERAL",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": true,
@@ -362,7 +362,7 @@
       "giverSection": "None",
       "receiverSection": "None",
       "commentGiverType": "INSTRUCTORS",
-      "feedbackResponseId": "1%instructor2@course1.tmt%instructor2@course1.tmt",
+      "feedbackResponseId": "1%instructor2@course1.tmt%GENERAL",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": true,
