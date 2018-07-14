@@ -115,6 +115,28 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetMsqWeights_weightsDisabledValidWeights_weightListShouldBeEmpty() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        HashMap<String, String[]> requestParams = new HashMap<>();
+
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MSQ" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "msq question text" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS, new String[] { "NONE" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", new String[] { "Choice 1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", new String[] { "Choice 2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED, new String[] { "off" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", new String[] { "1.25" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", new String[] { "1.55" });
+
+        assertTrue(msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ));
+        assertFalse(msqDetails.hasAssignedWeights());
+        List<Double> weights = msqDetails.getMsqWeights();
+        // As weights are disabled, getMsqWeights should return an empty list.
+        assertEquals(0, weights.size());
+    }
+
+    @Test
     public void testGetMsqWeights_weightsEnabledValidChoicesAndWeights_weightsShouldHaveCorrectValues() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         HashMap<String, String[]> requestParams = new HashMap<>();
