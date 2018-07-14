@@ -916,6 +916,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         /**
          * Calculates the answer frequency for each option based on the received responses for a question.
+         * <p>
+         *   <strong>Note:</strong> Empty answers which denotes the <code>None of the above</code> option are ignored.
+         * </p>
          * @param responses The list of response attributes.
          */
         protected Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {

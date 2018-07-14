@@ -1,11 +1,15 @@
 package teammates.test.cases.browsertests;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
@@ -672,7 +676,16 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.clickAddQuestionButton();
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        assertNotNull(question);
+
+        // Check that weights have been added correctly
+        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) question.getQuestionDetails();
+        List<Double> msqWeights = questionDetails.getMsqWeights();
+        assertEquals(2, msqWeights.size());
+        assertEquals(1.0, msqWeights.get(0));
+        assertEquals(2.0, msqWeights.get(1));
+        assertEquals(3.0, questionDetails.getMsqOtherWeight());
 
         ______TS("MSQ: Add more weights");
         feedbackEditPage.clickEditQuestionButton(1);
@@ -683,6 +696,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillMsqWeightBox(1, 2, "4");
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // Check that weights have been added correctly
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        questionDetails = (FeedbackMsqQuestionDetails) question.getQuestionDetails();
+        msqWeights = questionDetails.getMsqWeights();
+        assertEquals(3, msqWeights.size());
+        assertEquals(4.0, msqWeights.get(2));
 
         ______TS("MSQ: Failed to add weight due to invalid choice value");
         feedbackEditPage.clickEditQuestionButton(1);
@@ -702,6 +722,13 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         // Check that the invalid choice and the corresponding weight cell is removed from the question.
         assertFalse(feedbackEditPage.isElementPresent("msqOption-3-1"));
         assertFalse(feedbackEditPage.isElementPresent("msqWeight-3-1"));
+
+        // Check that weight has not been added to the question.
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        questionDetails = (FeedbackMsqQuestionDetails) question.getQuestionDetails();
+        msqWeights = questionDetails.getMsqWeights();
+        // Size of weight list should remain 3 as weight has not been added.
+        assertEquals(3, msqWeights.size());
 
         // Delete the question.
         feedbackEditPage.clickDeleteQuestionLink(1);

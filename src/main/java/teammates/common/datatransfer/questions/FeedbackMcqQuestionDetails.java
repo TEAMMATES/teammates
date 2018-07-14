@@ -676,7 +676,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Class that contains methods which are used to calculate both MCQ and MSQ response statistics.
      */
-    public static abstract class MultipleOptionStatistics {
+    public abstract static class MultipleOptionStatistics {
         protected boolean hasAssignedWeights;
         protected List<String> choices;
         protected List<Double> weights;

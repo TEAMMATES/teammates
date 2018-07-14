@@ -1119,6 +1119,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(1.0, editedQuestionDetails.getMsqWeights().get(0));
         assertEquals(2.0, editedQuestionDetails.getMsqWeights().get(1));
         assertEquals(0.0, editedQuestionDetails.getMsqWeights().get(2));
+        assertEquals(5.0, editedQuestionDetails.getMsqOtherWeight());
 
         ______TS("MSQ: Failed to edit 'other' option weight when new weight is null: Exception thrown");
         // There is already responses for this question
