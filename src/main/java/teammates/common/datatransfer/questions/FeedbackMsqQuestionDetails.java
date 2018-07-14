@@ -906,15 +906,19 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private static class MSQStatistics extends MultipleOptionStatistics {
 
         MSQStatistics(FeedbackMsqQuestionDetails msqDetails) {
-            super(msqDetails);
+            this.choices = msqDetails.getMsqChoices();
+            this.numOfChoices = choices.size();
+            this.weights = msqDetails.getMsqWeights();
+            this.otherEnabled = msqDetails.getOtherEnabled();
+            this.hasAssignedWeights = msqDetails.hasAssignedWeights();
+            this.otherWeight = msqDetails.getMsqOtherWeight();
         }
 
         /**
          * Calculates the answer frequency for each option based on the received responses for a question.
          * @param responses The list of response attributes.
-         * @return
          */
-        private Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
+        protected Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
             Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
             for (String option : choices) {

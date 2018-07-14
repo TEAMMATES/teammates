@@ -676,31 +676,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Class that contains methods which are used to calculate both MCQ and MSQ response statistics.
      */
-    public static class MultipleOptionStatistics {
-        boolean hasAssignedWeights;
-        List<String> choices;
-        List<Double> weights;
-        double otherWeight;
-        boolean otherEnabled;
-        int numOfChoices;
+    public static abstract class MultipleOptionStatistics {
+        protected boolean hasAssignedWeights;
+        protected List<String> choices;
+        protected List<Double> weights;
+        protected double otherWeight;
+        protected boolean otherEnabled;
+        protected int numOfChoices;
 
-        public MultipleOptionStatistics(FeedbackMcqQuestionDetails questionDetails) {
-            this.choices = questionDetails.getMcqChoices();
-            this.numOfChoices = choices.size();
-            this.weights = questionDetails.getMcqWeights();
-            this.otherEnabled = questionDetails.getOtherEnabled();
-            this.hasAssignedWeights = questionDetails.hasAssignedWeights();
-            this.otherWeight = questionDetails.getMcqOtherWeight();
-        }
-
-        public MultipleOptionStatistics(FeedbackMsqQuestionDetails questionDetails) {
-            this.choices = questionDetails.getMsqChoices();
-            this.numOfChoices = choices.size();
-            this.weights = questionDetails.getMsqWeights();
-            this.otherEnabled = questionDetails.getOtherEnabled();
-            this.hasAssignedWeights = questionDetails.hasAssignedWeights();
-            this.otherWeight = questionDetails.getMsqOtherWeight();
-        }
+        /**
+         * Calculates the answer frequency for each option based on the received responses for a question.
+         */
+        protected abstract Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses);
 
         /**
          * Calculates the weighted percentage for each option.
@@ -920,13 +907,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private static class MCQStatistics extends MultipleOptionStatistics {
 
         MCQStatistics(FeedbackMcqQuestionDetails mcqDetails) {
-            super(mcqDetails);
+            this.choices = mcqDetails.getMcqChoices();
+            this.numOfChoices = choices.size();
+            this.weights = mcqDetails.getMcqWeights();
+            this.otherEnabled = mcqDetails.getOtherEnabled();
+            this.hasAssignedWeights = mcqDetails.hasAssignedWeights();
+            this.otherWeight = mcqDetails.getMcqOtherWeight();
         }
 
         /**
          * Calculates the answer frequency for each option based on the received responses.
          */
-        public Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
+        protected Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
             Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
             for (String option : choices) {
