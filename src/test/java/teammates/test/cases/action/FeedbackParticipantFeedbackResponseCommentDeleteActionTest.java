@@ -36,13 +36,11 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
     @Override
     @Test
     public void testExecuteAndPostProcess() {
-        testFailureCases();
-        testDeleteActionForInstructorAsFeedbackParticipant();
-        testDeleteActionForStudentAsFeedbackParticipant();
-        testDeleteActionForTeamAsFeedbackParticipant();
     }
 
-    private void testFailureCases() {
+    @Test
+    public void testFailureCases() {
+        prepareTestData();
         FeedbackResponseCommentAttributes feedbackResponseComment = getCommentFromInstructor1();
         assertNotNull("response comment not found", feedbackResponseComment);
 
@@ -79,7 +77,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         assertEquals("", result.getStatusMessage());
     }
 
-    private void testDeleteActionForInstructorAsFeedbackParticipant() {
+    @Test
+    public void testDeleteActionForInstructorAsFeedbackParticipant() {
+        prepareTestData();
         FeedbackResponseCommentAttributes feedbackResponseComment = getCommentFromInstructor1();
         assertNotNull("response comment not found", feedbackResponseComment);
 
@@ -143,7 +143,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
     }
 
-    private void testDeleteActionForStudentAsFeedbackParticipant() {
+    @Test
+    protected void testDeleteActionForStudentAsFeedbackParticipant() {
+        prepareTestData();
         ______TS("Typical successful case when feedback participant is a student");
 
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
@@ -182,7 +184,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         assertEquals("", result.getStatusMessage());
     }
 
-    private void testDeleteActionForTeamAsFeedbackParticipant() {
+    @Test
+    public void testDeleteActionForTeamAsFeedbackParticipant() {
+        prepareTestData();
         ______TS("Typical successful case when feedback participant is a team");
 
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
@@ -230,12 +234,11 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        testAccessControlsForCommentByInstructor();
-        testAccessControlsForCommentByStudent();
-        testAccessControlsForCommentByTeam();
     }
 
-    protected void testAccessControlsForCommentByInstructor() {
+    @Test
+    public void testAccessControlsForCommentByInstructor() {
+        prepareTestData();
         ______TS("Instructor as feedback participant");
         FeedbackResponseCommentAttributes comment = getCommentFromInstructor1();
 
@@ -272,7 +275,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         verifyCanAccess(submissionParamsForModeration);
     }
 
-    protected void testAccessControlsForCommentByStudent() {
+    @Test
+    public void testAccessControlsForCommentByStudent() {
+        prepareTestData();
         final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
@@ -325,7 +330,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         verifyCanAccess(submissionParamsForModeration);
     }
 
-    private void testAccessControlsForCommentByTeam() {
+    @Test
+    public void testAccessControlsForCommentByTeam() {
+        prepareTestData();
         final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
