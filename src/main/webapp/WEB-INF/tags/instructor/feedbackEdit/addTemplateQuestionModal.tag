@@ -112,7 +112,7 @@
         </form>
       </div>
       <div class="modal-footer margin-0">
-        <button type="button" class="btn btn-primary" id="button_add_submit" disabled>Add</button>
+        <button type="button" class="btn btn-primary" id="button_submit_add_template" disabled>Add</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
