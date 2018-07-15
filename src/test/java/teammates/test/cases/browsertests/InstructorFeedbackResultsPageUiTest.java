@@ -275,6 +275,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                            "Danny Engrid",
                            "Emily");
 
+        // TODO: Test sorting fully instead of partially.
         verifySortingOrder(By.id("button_sortToTeam"),
                 SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 1</td></div>'\""),
                 SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 2"),

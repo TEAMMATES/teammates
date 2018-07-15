@@ -32,14 +32,17 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
+        // TODO: `clickCommentModalButton` should wait for modal to open before returning
         resultsPage.clickCommentModalButton("-2-1-0");
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "");
+        // TODO: all instances of this should do an immediate check instead of waiting for the error message
         resultsPage.waitForCommentFormErrorMessageEquals("-2-1-0", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         resultsPage.closeCommentModal("-2-1-0");
 
         ______TS("Typical case: add new feedback response comments using comment modal in questions's view");
 
         resultsPage.clickCommentModalButton("-2-1-0");
+        // TODO: Wait for comment to be added before returning
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm-2-1-0", "test comment 1");
         // TODO: all instances of this should do an immediate check instead of waiting for the comment to be added.
         resultsPage.waitForFeedbackResponseCommentAdded("-2-1-0-1", "test comment 1", "Teammates Test");
@@ -79,7 +82,6 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.clickCommentModalButton("-3-1-0");
         resultsPage.deleteFeedbackResponseCommentInModal("-3-1-0-1");
         resultsPage.verifyRowMissing("-3-1-0-1");
-        resultsPage.isElementPresent(By.id("showResponseCommentAddForm-3-1-0"));
         resultsPage.closeCommentModal("-3-1-0");
 
         resultsPage.clickCommentModalButton("-2-1-0");
