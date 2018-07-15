@@ -217,9 +217,4 @@ public class InstructorFeedbackResultsResponseRow {
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return isFeedbackParticipantCommentsOnResponsesAllowed;
     }
-
-    public void setFeedbackParticipantCommentsOnResponsesAllowed(boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
-        this.isFeedbackParticipantCommentsOnResponsesAllowed = isFeedbackParticipantCommentsOnResponsesAllowed;
-    }
-
 }

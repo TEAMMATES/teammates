@@ -15,8 +15,8 @@
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 <c:set var="recipientType" value="${questionWithResponses.question.recipientType}"/>
-<c:set var="isCommentOnResponse" value="${not empty response.feedbackParticipantCommentOnResponse}"/>
-<c:set var="addOrEdit" value= "${isCommentOnResponse ? 'edit' : 'add'}"/>
+<c:set var="hasCommentOnResponse" value="${not empty response.feedbackParticipantCommentOnResponse}"/>
+<c:set var="addOrEdit" value= "${hasCommentOnResponse ? 'edit' : 'add'}"/>
 
 <c:choose>
   <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
@@ -66,7 +66,7 @@
         <br>
         <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
             style="${not empty response.feedbackParticipantCommentOnResponse ? 'margin-top:15px;': 'display:none'}">
-          <c:if test="${isCommentOnResponse}">
+          <c:if test="${hasCommentOnResponse}">
             <shared:feedbackResponseCommentRow frc="${response.feedbackParticipantCommentOnResponse}"
                 firstIndex="${responseRecipientIndex}" secondIndex="${responseGiverIndex}"
                 thirdIndex="${questionIndex}" frcIndex="1" moderatedPersonEmail="${moderatedPersonEmail}"
