@@ -821,7 +821,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public boolean isStaticQnNumberVisible(int qnNumber) {
         WebElement discardChangesButton =
-            browser.driver.findElement(
+                browser.driver.findElement(
                     By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC + "-" + qnNumber));
         return discardChangesButton.isDisplayed();
     }
