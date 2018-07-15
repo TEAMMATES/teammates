@@ -58,20 +58,9 @@ public class FeedbackResponseRow {
                 FeedbackResponseCommentRow responseCommentRow = new FeedbackResponseCommentRow(frc,
                         giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
                         commentGiverEmailToNameTable, results.getTimeZone(), question);
-                boolean isInstructorGiver = results.roster.isInstructorOfCourse(giverEmail);
                 // Instructor cannot edit/delete feedback participant's comments from results page
-                if (isInstructorGiver) {
-                    InstructorAttributes instructor = results.roster.getInstructorForEmail(giverEmail);
-                    boolean isCommentGiverInstructor = giverEmail.equals(instructor.email);
-                    boolean isAllowedToSubmitSessionsInBothSection =
-                            instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                                    && instructor.isAllowedForPrivilege(response.recipientSection,
-                                    response.feedbackSessionName,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-                    if (isCommentGiverInstructor || isAllowedToSubmitSessionsInBothSection) {
-                        responseCommentRow.enableEditDelete();
-                    }
+                if (!frc.isCommentFromFeedbackParticipant) {
+                    responseCommentRow.enableEditDelete();
                 }
                 this.responseComments.add(responseCommentRow);
             }
