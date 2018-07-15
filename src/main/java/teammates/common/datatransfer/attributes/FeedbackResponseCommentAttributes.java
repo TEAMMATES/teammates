@@ -46,7 +46,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public String receiverSection;
     // Determines the type of comment giver- instructor, student, or team
     public FeedbackParticipantType commentGiverType;
-    //  true if comment is given by response giver
+    // true if comment is given by response giver
     public boolean isCommentFromFeedbackParticipant;
 
     FeedbackResponseCommentAttributes() {

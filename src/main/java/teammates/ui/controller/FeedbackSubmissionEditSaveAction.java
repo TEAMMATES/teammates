@@ -295,12 +295,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     private void saveNewCommentsByFeedbackParticipant(List<FeedbackResponseCommentAttributes> commentsToSave)
             throws EntityDoesNotExistException {
         for (FeedbackResponseCommentAttributes frc : commentsToSave) {
-            // Here feedbackResponseId contains the recipient index, which was saved at the time of extracting comments.
-            // We use this to get response id for feedback response comment.
-            String responseRecipient = getRequestParamValue(frc.feedbackResponseId);
-            FeedbackResponseAttributes response = logic.getFeedbackResponse(frc.feedbackQuestionId,
-                    frc.commentGiver, responseRecipient);
-            frc.feedbackResponseId = response.getId();
             try {
                 logic.createFeedbackResponseComment(frc);
             } catch (InvalidParametersException e) {
@@ -463,11 +457,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         .build();
 
         if (commentId == null) {
-            // When adding new comments, it might be possible that response id is null (i.e. when response is added
-            // simultaneously), so we save response recipient index which helps later in retrieving saved
-            // response to get response id when writing this new comment to database.
+            // Format of response id is feedbackQuestionId%responseGiver%responseReceiver
             feedbackResponseComment.feedbackResponseId =
-                    Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndex + "-" + responseIndex;
+                    feedbackResponseComment.feedbackQuestionId + "%" + response.giver + "%" + response.recipient;
             commentsToSave.add(feedbackResponseComment);
         } else {
             feedbackResponseComment.setId(Long.parseLong(commentId));
