@@ -747,6 +747,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         return discardChangesButton.isDisplayed();
     }
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     public void clickEditSessionButton() {
         waitForElementVisibility(fsEditLink);
@@ -816,6 +817,20 @@ public class InstructorFeedbackEditPage extends AppPage {
     public String getVisibilityDropdownLabel(int qnNumber) {
         return browser.driver.findElement(By.cssSelector("#questionTable-" + qnNumber
                                                          + " .visibility-options-dropdown button")).getText().trim();
+    }
+
+    public boolean isStaticQnNumberVisible(int qnNumber) {
+        WebElement discardChangesButton =
+            browser.driver.findElement(
+                    By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC + "-" + qnNumber));
+        return discardChangesButton.isDisplayed();
+    }
+
+    public boolean isMenuQnNumberVisible(int qnNumber) {
+        WebElement discardChangesButton =
+                browser.driver.findElement(
+                        By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER + "-" + qnNumber));
+        return discardChangesButton.isDisplayed();
     }
 
     public String getVisibilityDropdownLabelForNewQuestion() {
