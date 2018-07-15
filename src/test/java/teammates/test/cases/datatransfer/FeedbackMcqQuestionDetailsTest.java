@@ -131,9 +131,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
         assertFalse(mcqDetails.hasAssignedWeights());
-        List<Double> weights = mcqDetails.getMcqWeights();
         // As weights are disabled, getMcqWeights should return an empty list.
-        assertEquals(0, weights.size());
+        assertTrue(mcqDetails.getMcqWeights().isEmpty());
     }
 
     @Test
