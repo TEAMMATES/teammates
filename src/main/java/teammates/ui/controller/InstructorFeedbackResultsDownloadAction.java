@@ -21,6 +21,8 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         boolean isStatsShown = getRequestParamAsBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String questionNumber = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        // Parameter is used to throw the exceeding range exception in test
+        String simulateExcessDataForTesting = getRequestParamValue("simulateExcessDataForTesting");
 
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -35,6 +37,10 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
         String fileName;
 
         try {
+            if ("true".equals(simulateExcessDataForTesting)) {
+                throw new ExceedingRangeException("This session has more responses than that can be downloaded at one go.");
+            }
+
             String questionName = "";
             if (questionNumber != null) {
                 questionName = "_question" + questionNumber;

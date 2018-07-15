@@ -83,6 +83,8 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionMcqEditFormTemplate.html");
             public static final String MCQ_EDIT_FORM_OPTIONFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMcqEditFormOptionFragment.html");
+            public static final String MCQ_EDIT_FORM_WEIGHTFRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMcqEditFormWeightFragment.html");
             public static final String MCQ_ADDITIONAL_INFO_FRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMcqAdditionalInfoFragment.html");
             public static final String MCQ_ADDITIONAL_INFO =
@@ -91,6 +93,14 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionMcqResultStatsTemplate.html");
             public static final String MCQ_RESULT_STATS_OPTIONFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMcqResultStatsOptionFragment.html");
+            public static final String MCQ_RESULT_RECIPIENT_STATS =
+                    FileHelper.readResourceFile("feedbackQuestionMcqResultRecipientStatsTemplate.html");
+            public static final String MCQ_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMcqResultRecipientStatsHeaderFragment.html");
+            public static final String MCQ_RESULT_RECIPIENT_STATS_BODY_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMcqResultRecipientStatsBodyFragment.html");
+            public static final String MCQ_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT =
+                    FileHelper.readResourceFile("feedbackQuestionMcqResultRecipientStatsBodyRowFragment.html");
 
             public static final String MSQ_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionMsqSubmissionFormTemplate.html");
@@ -260,6 +270,7 @@ public final class Templates {
             public static final String QUESTION_TYPE_NAME = "${questionTypeName}";
             public static final String COUNT = "${count}";
             public static final String PERCENTAGE = "${percentage}";
+            public static final String WEIGHTED_PERCENTAGE = "${weightedPercentage}";
             public static final String AVERAGE = "${Average}";
             public static final String MAX = "${Max}";
             public static final String MIN = "${Min}";
@@ -285,18 +296,31 @@ public final class Templates {
 
             // MCQ
             public static final String MCQ_CHOICE_VALUE = "${mcqChoiceValue}";
+            public static final String MCQ_WEIGHT = "${mcqWeight}";
+            public static final String MCQ_OTHER_WEIGHT = "${mcqOtherWeight}";
+            public static final String MCQ_ASSIGN_WEIGHT_CHECKBOX = "${mcqAssignWeightsCheckbox}";
             public static final String MCQ_OTHER_OPTION_ANSWER = "${mcqOtherOptionAnswer}";
             public static final String MCQ_CHECKED_GENERATED_OPTION = "${checkedGeneratedOptions}";
             public static final String MCQ_SUBMISSION_FORM_OPTION_FRAGMENTS = "${mcqSubmissionFormOptionFragments}";
             public static final String MCQ_PARAM_IS_OTHER_OPTION_ANSWER =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}";
             public static final String MCQ_EDIT_FORM_OPTION_FRAGMENTS = "${mcqEditFormOptionFragments}";
+            public static final String MCQ_EDIT_FORM_WEIGHT_FRAGMENTS = "${mcqEditFormWeightFragments}";
             public static final String MCQ_NUM_OF_MCQ_CHOICES = "${numOfMcqChoices}";
             public static final String MCQ_ADDITIONAL_INFO_FRAGMENTS = "${mcqAdditionalInfoFragments}";
             public static final String MCQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}";
+            public static final String MCQ_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}";
+            public static final String MCQ_PARAM_OTHER_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT}";
+            public static final String MCQ_PARAM_HAS_ASSIGN_WEIGHT =
+                    "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED}";
+            public static final String MCQ_TOOLTIPS_ASSIGN_WEIGHT =
+                    "${Const.Tooltips.FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS}";
             public static final String MCQ_PARAM_OTHER_OPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTION}";
             public static final String MCQ_PARAM_OTHER_OPTION_FLAG =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}";
+            public static final String MCQ_RECIPIENT_STAT_CELL = "${recipientStatCell}";
+            public static final String MCQ_RECIPIENT_STATS_HTML = "${perRecipientStatsHtml}";
+            public static final String MCQ_RECIPIENT_STAT_ROW = "${recipientStatRow}";
 
             // MSQ
             public static final String MSQ_CHOICE_VALUE = "${msqChoiceValue}";

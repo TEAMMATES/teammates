@@ -59,8 +59,12 @@
       "username": "95adityajain"
     },
     {
+      "multiple": true,
       "name": "Adrian Siwiec",
-      "username": "pierreSquared"
+      "username": "AdrianSiwiec"
+    },
+    {
+      "username": "ah91086"
     },
     {
       "name": "Ahsan Bagwan",
@@ -313,6 +317,9 @@
       "username": "clmcdonald"
     },
     {
+      "username": "cybersol795"
+    },
+    {
       "name": "Daniel Esponda",
       "username": "desponda"
     },
@@ -515,6 +522,7 @@
       "username": "theitrain"
     },
     {
+      "multiple": true,
       "name": "Jacob Li",
       "username": "jacoblipech"
     },
@@ -848,6 +856,7 @@
       "name": "Mohit Singh Kanwal"
     },
     {
+      "multiple": true,
       "name": "Mudit Gupta",
       "username": "mg14777"
     },
@@ -862,6 +871,11 @@
     {
       "name": "Naman Tiwari",
       "username": "Naman-sopho"
+    },
+    {
+      "multiple": true,
+      "name": "Nashmia Riaz",
+      "username": "nashmia-riaz"
     },
     {
       "name": "Nassim Bou Ghannam",
@@ -963,6 +977,10 @@
     {
       "name": "Paweł Bąk",
       "username": "baczus0"
+    },
+    {
+      "name": "Pedro Lara Benitez",
+      "username": "pedrolarben"
     },
     {
       "multiple": true,
@@ -1416,6 +1434,11 @@
       "username": "ihsavru"
     },
     {
+      "multiple": true,
+      "name": "Vaggelis Malandrakis",
+      "username": "Vaggelis-Malandrakis"
+    },
+    {
       "name": "Vaibhav Desai"
     },
     {
@@ -1491,6 +1514,10 @@
       "multiple": true,
       "name": "Yasiru Nilan",
       "username": "yasirunilan"
+    },
+    {
+      "name": "Yatri Patel",
+      "username": "yatri1609"
     },
     {
       "multiple": true,
