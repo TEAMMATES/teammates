@@ -45,7 +45,7 @@ public class BaseTestCase {
      */
     @BeforeSuite
     public void setLocale() {
-        Locale.setDefault(new Locale("en", "US"));
+        Locale.setDefault(Locale.US);
     }
 
     @BeforeClass
