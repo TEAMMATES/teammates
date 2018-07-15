@@ -303,15 +303,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseCommentAttributes> frcList = bundle.commentsForResponses.get(responseId);
         for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
             if (frcAttributes.isCommentFromFeedbackParticipant) {
-                FeedbackResponseCommentRow frcRow = new FeedbackResponseCommentRow(frcAttributes,
-                        frcAttributes.commentGiver, "", "",
-                        getResponseCommentVisibilityString(frcAttributes, questionAttributes),
-                        getResponseCommentGiverNameVisibilityString(frcAttributes, questionAttributes),
-                        getResponseVisibilityMap(questionAttributes), commentGiverEmailToNameTable, sessionTimeZone,
+                return new FeedbackResponseCommentRow(frcAttributes, commentGiverEmailToNameTable, sessionTimeZone,
                         questionAttributes);
-                frcRow.enableEditDelete();
-                return frcRow;
-
             }
         }
         return null;

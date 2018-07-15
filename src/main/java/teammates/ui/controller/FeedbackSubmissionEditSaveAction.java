@@ -297,16 +297,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         for (FeedbackResponseCommentAttributes frc : commentsToSave) {
             try {
                 logic.createFeedbackResponseComment(frc);
+                statusToAdmin += this.getClass().getName() + ":<br>"
+                        + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
+                        + "in course/feedback session: " + frc.courseId + "/"
+                        + frc.feedbackSessionName + "<br>"
+                        + "by: " + frc.commentGiver + " at "
+                        + frc.createdAt + "<br>"
+                        + "comment text: " + frc.commentText.getValue();
             } catch (InvalidParametersException e) {
                 setStatusForException(e);
             }
-            statusToAdmin += this.getClass().getName() + ":<br>"
-                    + "Adding comment to response: " + frc.feedbackResponseId + "<br>"
-                    + "in course/feedback session: " + frc.courseId + "/"
-                    + frc.feedbackSessionName + "<br>"
-                    + "by: " + frc.commentGiver + " at "
-                    + frc.createdAt + "<br>"
-                    + "comment text: " + frc.commentText.getValue();
         }
     }
 

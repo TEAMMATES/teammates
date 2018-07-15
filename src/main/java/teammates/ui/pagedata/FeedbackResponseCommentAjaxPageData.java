@@ -68,33 +68,6 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
         return commentId.split("-");
     }
 
-    public boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
-        switch (participantType) {
-        case GIVER:
-            return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
-        case INSTRUCTORS:
-            return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
-        case OWN_TEAM_MEMBERS:
-            return question.giverType != FeedbackParticipantType.INSTRUCTORS
-                   && question.giverType != FeedbackParticipantType.SELF
-                   && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-        case RECEIVER:
-            return question.recipientType != FeedbackParticipantType.SELF
-                   && question.recipientType != FeedbackParticipantType.NONE
-                   && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
-        case RECEIVER_TEAM_MEMBERS:
-            return question.recipientType != FeedbackParticipantType.INSTRUCTORS
-                    && question.recipientType != FeedbackParticipantType.SELF
-                    && question.recipientType != FeedbackParticipantType.NONE
-                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        case STUDENTS:
-            return question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
-        default:
-            Assumption.fail("Invalid participant type");
-            return false;
-        }
-    }
-
     public String createEditedCommentDetails(String giverName, String editorName) {
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverName);
         return "From: " + giverName + " ["

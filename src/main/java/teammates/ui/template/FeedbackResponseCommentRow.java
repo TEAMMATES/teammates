@@ -57,6 +57,30 @@ public class FeedbackResponseCommentRow {
         this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }
 
+    // For feedback participant comment
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
+            Map<String, String> commentGiverEmailToNameTable, ZoneId sessionTimeZone,
+            FeedbackQuestionAttributes question) {
+        this.commentGiverEmailToNameTable = commentGiverEmailToNameTable;
+        this.commentId = frc.getId();
+        this.sessionTimeZone = sessionTimeZone;
+        this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
+        this.commentText = frc.commentText.getValue();
+        this.commentGiverType = frc.commentGiverType;
+        this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
+        this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
+        this.courseId = frc.courseId;
+        this.feedbackSessionName = frc.feedbackSessionName;
+        this.feedbackResponseId = frc.feedbackResponseId;
+        this.isEditDeleteEnabled = true;
+
+        //TODO TO REMOVE AFTER DATA MIGRATION
+        this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(frc.commentGiver));
+        this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
+    }
+
+
+
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             String giverName, String recipientName, String showCommentToString, String showGiverNameToString,
             Map<FeedbackParticipantType, Boolean> responseVisibilities, Map<String, String> commentGiverEmailNameTable,
@@ -248,10 +272,6 @@ public class FeedbackResponseCommentRow {
 
     public void enableEditDelete() {
         this.isEditDeleteEnabled = true;
-    }
-
-    public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
-        this.commentGiverType = commentGiverType;
     }
 
     public String getCommentGiverName() {

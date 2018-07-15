@@ -809,6 +809,7 @@ public class PageData {
 
     /**
      * Builds template that will be used by respondents to add comments to their responses.
+     *
      * @param question question of response
      * @param responseId id of response
      * @param giverName name of person/team giving comment
@@ -853,6 +854,12 @@ public class PageData {
                 timezone);
     }
 
+    /**
+     * Returns map in which key is feedback participant and value determines whether response is visible to it.
+     *
+     * @param question question associated with response
+     * @return map of all feedback participants as keys
+     */
     public Map<FeedbackParticipantType, Boolean> getResponseVisibilityMap(FeedbackQuestionAttributes question) {
         Map<FeedbackParticipantType, Boolean> responseVisibilityMap = new HashMap<>();
 
@@ -873,7 +880,7 @@ public class PageData {
     }
 
     // TODO investigate and fix the differences between question.isResponseVisibleTo and this method
-    public boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
+    protected boolean isResponseVisibleTo(FeedbackParticipantType participantType, FeedbackQuestionAttributes question) {
         switch (participantType) {
         case GIVER:
             return question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
