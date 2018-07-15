@@ -1050,6 +1050,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         String prevGiver = "";
         List<String> responseGiverRecipientList = new ArrayList<>();
+        // TODO: Revamp implementation of comment indexes for Question View
         responseGiverRecipientList.add("Dummy Value");
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.isGiverVisible(response) || !bundle.isRecipientVisible(response)) {
@@ -1214,6 +1215,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         responseRow.setAddCommentButton(addCommentForm);
 
         int giverIndex = responseGiverRecipientList.indexOf(response.giver);
+        // For some type of questions like "TEXT" when response giver is a team, we save "student's Team" as response giver
+        // instead of team name.
         if (giverIndex == -1 && question.giverType == FeedbackParticipantType.TEAMS) {
             giverIndex = responseGiverRecipientList.indexOf(response.giver + Const.TEAM_OF_EMAIL_OWNER);
         }
