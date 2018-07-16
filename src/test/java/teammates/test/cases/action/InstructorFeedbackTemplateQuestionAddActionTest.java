@@ -52,7 +52,6 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
                 Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "1"
         };
 
-
         InstructorFeedbackTemplateQuestionAddAction action = getAction(params);
         RedirectResult result = getRedirectResult(action);
 
