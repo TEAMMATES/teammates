@@ -1031,7 +1031,6 @@ function bindAddTemplateQnButton() {
     $('#button_add_template_submit').click((e) => {
         e.preventDefault();
 
-        let index = 0;
         let hasPanelSelected = false;
 
         $('#addTemplateQuestion > .panel-heading').each(function () {
@@ -1041,8 +1040,7 @@ function bindAddTemplateQnButton() {
                 return;
             }
             if ($this.hasClass('panel-selected')) {
-                $(questionNumInput).attr('name', `templatequestionnum`);
-                index += 1;
+                $(questionNumInput).attr('name', 'templatequestionnum');
                 hasPanelSelected = true;
             }
         });
