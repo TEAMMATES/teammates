@@ -1737,6 +1737,7 @@ public class FeedbackSessionResultsBundle {
     /**
      * Returns list of responses sorted by giverName > recipientName > qnNumber with identities
      * of giver/recipients NOT hidden which is used for anonymous result calculation.
+     *
      * @param question question whose responses are required
      * @return list of responses
      */
@@ -1749,6 +1750,7 @@ public class FeedbackSessionResultsBundle {
     /**
      * Returns list of unsorted responses with identities of giver/recipients NOT hidden which is used for
      * anonymous result calculation.
+     *
      * @param question question whose responses are required
      * @return list of responses
      */

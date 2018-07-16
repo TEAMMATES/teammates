@@ -260,7 +260,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         }
 
         List<FeedbackResponseAttributes> allResponses = bundle.getActualUnsortedResponses(question);
-
         Map<String, List<Integer>> recipientRanks = generateOptionRanksMapping(allResponses);
 
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
@@ -268,13 +267,13 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
         String currentUserTeam = bundle.roster.getStudentForEmail(studentEmail).getTeam();
         String currentUserIdentifier = isRecipientTypeTeam ? currentUserTeam : studentEmail;
+
         List<Integer> ranksReceived = recipientRanks.get(currentUserIdentifier);
         // If response recipient is instructor, responses for current student/team will not exist.
         if (ranksReceived == null) {
             return "";
         }
 
-        StringBuilder fragments = new StringBuilder();
         Map<String, Integer> recipientOverallRank = generateNormalizedOverallRankMapping(recipientRanks);
 
         Map<String, List<Integer>> recipientRanksExcludingSelf = getRecipientRanksExcludingSelf(allResponses);
@@ -293,20 +292,20 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         String selfRank = recipientSelfRanks.containsKey(currentUserIdentifier)
                 ? Integer.toString(recipientSelfRanks.get(currentUserIdentifier)) : "-";
 
-        fragments.append(Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
+        String fragments = Templates.populateTemplate(FormTemplates.RANK_RESULT_STATS_RECIPIENTFRAGMENT,
                 Slots.RANK_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(name),
                 Slots.TEAM, SanitizationHelper.sanitizeForHtml(currentUserTeam),
                 Slots.RANK_RECIEVED, ranksReceivedAsString,
                 Slots.RANK_SELF, selfRank,
                 Slots.RANK_OVERALL, overallRank,
-                Slots.RANK_EXCLUDING_SELF_OVERALL, overallRankExceptSelf));
+                Slots.RANK_EXCLUDING_SELF_OVERALL, overallRankExceptSelf);
 
         String statsTitle = isRecipientTypeTeam ? "Summary of responses received by your team"
                 : "Summary of responses received by you";
         return Templates.populateTemplate(FormTemplates.RANK_RESULT_RECIPIENT_STATS,
                 Slots.SUMMARY_TITLE, statsTitle,
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
-                Slots.FRAGMENTS, fragments.toString());
+                Slots.FRAGMENTS, fragments);
     }
 
     @Override
