@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +131,20 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     continue;
                 }
 
-                responsesRecipients.add(response.recipient);
+                // If there are duplicate values in recipient list (except empty strings),
+                // trigger this error.
+                // Note: If response for a recipient is left out, the recipient is then empty string,
+                // due to partial submission feature, there can be multiple recipient with no resposnes,
+                // in that case, there can be multiple empty strings which should not be counted.
+                if ("".equals(response.recipient)) {
+                    responsesRecipients.add(response.recipient);
+                } else {
+                    if (responsesRecipients.contains(response.recipient)) {
+                        errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
+                    }
+                    responsesRecipients.add(response.recipient);
+                }
+
                 // if the answer is not empty but the recipient is empty
                 if (response.recipient.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
@@ -161,22 +173,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
 
             if (!emailSet.containsAll(responsesRecipients)) {
                 errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));
-            }
-
-            // If there are duplicate values in recipient list (except empty strings),
-            // trigger this error.
-            for (String recipient : responsesRecipients) {
-                // If response for a recipient is left out, the recipient is then empty string,
-                // due to partial submission feature, there can be multiple recipient with no resposnes,
-                // in that case, there can be multiple empty strings which should not be counted.
-                if ("".equals(recipient)) {
-                    continue;
-                }
-                int frequency = Collections.frequency(responsesRecipients, recipient);
-                if (frequency > 1) {
-                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
-                    break;
-                }
             }
 
             if (errors.isEmpty()) {
