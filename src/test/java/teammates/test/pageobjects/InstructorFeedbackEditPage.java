@@ -747,7 +747,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         return discardChangesButton.isDisplayed();
     }
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     public void clickEditSessionButton() {
         waitForElementVisibility(fsEditLink);
@@ -820,17 +819,24 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean isStaticQnNumberVisible(int qnNumber) {
-        WebElement discardChangesButton =
-                browser.driver.findElement(
-                    By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC + "-" + qnNumber));
-        return discardChangesButton.isDisplayed();
+        if (qnNumber != NEW_QUESTION_NUM) {
+            WebElement selectQuestionNumberStatic =
+                    browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC + "-" + qnNumber));
+            return selectQuestionNumberStatic.isDisplayed();
+        }
+        // new question form does not have static question number element
+        return false;
     }
 
     public boolean isMenuQnNumberVisible(int qnNumber) {
-        WebElement discardChangesButton =
-                browser.driver.findElement(
-                        By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER + "-" + qnNumber));
-        return discardChangesButton.isDisplayed();
+        if (qnNumber != NEW_QUESTION_NUM) {
+            WebElement selectQuestionNumberDropdown =
+                    browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER + "-" + qnNumber));
+            return selectQuestionNumberDropdown.isDisplayed();
+        }
+
+        WebElement retrievedQnTable = browser.driver.findElement(By.id("questionTable-" + qnNumber));
+        return retrievedQnTable.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER)).isDisplayed();
     }
 
     public String getVisibilityDropdownLabelForNewQuestion() {

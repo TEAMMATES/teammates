@@ -255,6 +255,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
+        assertTrue(feedbackEditPage.isMenuQnNumberVisible(-1));
+        assertFalse(feedbackEditPage.isStaticQnNumberVisible(-1));
         feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
                 "You can see your own feedback in the results page later on.");
         feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
