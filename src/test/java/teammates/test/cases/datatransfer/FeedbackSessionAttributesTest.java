@@ -57,6 +57,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(new Text(""), fsa.getInstructions());
         assertNotNull(fsa.getRespondingInstructorList());
         assertNotNull(fsa.getRespondingStudentList());
+        assertNull(fsa.getDeletedTime());
     }
 
     @Test
@@ -65,6 +66,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .builder("newFeedbackSessionName", "course", "email")
                 .withInstructions(new Text("default instructions"))
                 .withCreatedTime(Instant.now())
+                .withDeletedTime(null)
                 .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
@@ -80,6 +82,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.getCreatorEmail(), copy.getCreatorEmail());
         assertEquals(original.getInstructions(), copy.getInstructions());
         assertEquals(original.getCreatedTime(), copy.getCreatedTime());
+        assertEquals(original.getDeletedTime(), copy.getDeletedTime());
         assertEquals(original.getStartTime(), copy.getStartTime());
         assertEquals(original.getEndTime(), copy.getEndTime());
         assertEquals(original.getSessionVisibleFromTime(), copy.getSessionVisibleFromTime());
@@ -115,6 +118,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withStartTime(Instant.now())
                 .withEndTime(Instant.now())
                 .withCreatedTime(Instant.now())
+                .withDeletedTime(null)
                 .withResultsVisibleFromTime(Instant.now())
                 .withSessionVisibleFromTime(Instant.now())
                 .withGracePeriodMinutes(-100)
