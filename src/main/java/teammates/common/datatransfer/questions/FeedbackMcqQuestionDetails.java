@@ -532,8 +532,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             if ("Other".equals(key)) {
                 weightString = hasAssignedWeights ? StringHelper.toDecimalFormatString("#.##", mcqOtherWeight) : "-";
             } else {
-                weightString = hasAssignedWeights ?
-                        StringHelper.toDecimalFormatString("#.##", mcqWeights.get(mcqChoices.indexOf(key))) : "-";
+                weightString = hasAssignedWeights
+                        ? StringHelper.toDecimalFormatString("#.##", mcqWeights.get(mcqChoices.indexOf(key))) : "-";
             }
 
             responseSummaryFragments.append(Templates.populateTemplate(FormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
@@ -541,8 +541,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     Slots.MCQ_WEIGHT, weightString,
                     Slots.COUNT, Integer.toString(count),
                     Slots.PERCENTAGE, StringHelper.toDecimalFormatString("#.##", 100 * (double) count / responses.size()),
-                    Slots.WEIGHTED_PERCENTAGE, hasAssignedWeights ?
-                            StringHelper.toDecimalFormatString("#.##", weightedPercentagePerOption.get(key)) : "-"));
+                    Slots.WEIGHTED_PERCENTAGE, hasAssignedWeights
+                            ? StringHelper.toDecimalFormatString("#.##", weightedPercentagePerOption.get(key)) : "-"));
         }
 
         // If weights are assigned, create the per recipient statistics table,
