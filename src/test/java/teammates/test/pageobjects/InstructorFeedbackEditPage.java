@@ -824,7 +824,7 @@ public class InstructorFeedbackEditPage extends AppPage {
                     browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC + "-" + qnNumber));
             return selectQuestionNumberStatic.isDisplayed();
         }
-        // new question form does not have static question number element
+        //new question form does not have static question number element
         return false;
     }
 
