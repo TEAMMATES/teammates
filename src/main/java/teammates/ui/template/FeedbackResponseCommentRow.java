@@ -58,10 +58,8 @@ public class FeedbackResponseCommentRow {
     }
 
     // For feedback participant comment
-    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc,
-            Map<String, String> commentGiverEmailToNameTable, ZoneId sessionTimeZone,
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, ZoneId sessionTimeZone,
             FeedbackQuestionAttributes question) {
-        this.commentGiverEmailToNameTable = commentGiverEmailToNameTable;
         this.commentId = frc.getId();
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
@@ -73,13 +71,7 @@ public class FeedbackResponseCommentRow {
         this.feedbackSessionName = frc.feedbackSessionName;
         this.feedbackResponseId = frc.feedbackResponseId;
         this.isEditDeleteEnabled = true;
-
-        //TODO TO REMOVE AFTER DATA MIGRATION
-        this.commentGiverName = SanitizationHelper.desanitizeIfHtmlSanitized(getCommentGiverNameFromEmail(frc.commentGiver));
-        this.editedAt = getEditedAtText(frc.lastEditorEmail, frc.createdAt, frc.lastEditedAt);
     }
-
-
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
             String giverName, String recipientName, String showCommentToString, String showGiverNameToString,

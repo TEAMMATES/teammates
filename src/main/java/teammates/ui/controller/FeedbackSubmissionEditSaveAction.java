@@ -418,26 +418,21 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (!questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             return;
         }
+
+        String commentId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
+                + "-" + questionIndex + "-" + responseIndex);
+
         String commentText;
-        String commentId =
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID
-                                             + "-" + responseIndex + "-"
-                                             + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
-                                             + "-" + questionIndex + "-"
-                                             + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS);
         // comment id is null when adding new comments
         if (commentId == null) {
-            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                                              + "-" + responseIndex + "-"
-                                                              + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
-                                                              + "-" + questionIndex);
+            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-"
+                                                       + questionIndex + "-" + responseIndex);
+
         } else {
             commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT
-                                                       + "-" + responseIndex + "-"
-                                                       + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS
-                                                       + "-" + questionIndex + "-"
-                                                       + Const.INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS);
+                                                       + "-" + questionIndex + "-" + responseIndex);
         }
+
         if (commentText == null || commentText.isEmpty()) {
             return;
         }

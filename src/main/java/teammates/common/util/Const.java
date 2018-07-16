@@ -57,9 +57,6 @@ public final class Const {
     public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
-    // Used as giver index/frc index for feedback participant comments
-    public static final int INDEX_FOR_FEEDBACK_SUBMISSION_PAGE_COMMENTS = 1;
-
     // for course sorting in instructorHomePage
     public static final String SORT_BY_COURSE_ID = "id";
     public static final String SORT_BY_COURSE_NAME = "name";
@@ -793,6 +790,7 @@ public final class Const {
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
         public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
+        public static final String FEEDBACK_RESPONSE_COMMENT_ADD_TEXT = "responseCommentAddForm";
 
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";

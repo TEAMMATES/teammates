@@ -255,13 +255,12 @@ public class FeedbackSubmissionEditPageData extends PageData {
                                                 questionAttributes.courseId, numOfResponseBoxes,
                                                 existingResponse.getResponseDetails(), student);
 
-            Map<String, String> commentGiverEmailToNameTable = bundle.getRoster().getEmailToNameTableFromRoster();
             FeedbackSubmissionEditResponse response = new FeedbackSubmissionEditResponse(responseIndx,
                     true, recipientOptionsForQuestion, submissionFormHtml,
                     existingResponse.getId());
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
                 FeedbackResponseCommentRow responseCommentRow = getResponseCommentRowForResponse(questionAttributes,
-                        existingResponse.getId(), commentGiverEmailToNameTable);
+                        existingResponse.getId());
 
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentFormForAdding(
                         questionAttributes, existingResponse.getId(), "", "", sessionTimeZone, true);
@@ -295,7 +294,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
 
     private FeedbackResponseCommentRow getResponseCommentRowForResponse(FeedbackQuestionAttributes questionAttributes,
-            String responseId, Map<String, String> commentGiverEmailToNameTable) {
+            String responseId) {
         if (!bundle.commentsForResponses.containsKey(responseId)) {
             return null;
         }
@@ -303,8 +302,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         List<FeedbackResponseCommentAttributes> frcList = bundle.commentsForResponses.get(responseId);
         for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
             if (frcAttributes.isCommentFromFeedbackParticipant) {
-                return new FeedbackResponseCommentRow(frcAttributes, commentGiverEmailToNameTable, sessionTimeZone,
-                        questionAttributes);
+                return new FeedbackResponseCommentRow(frcAttributes, sessionTimeZone, questionAttributes);
             }
         }
         return null;

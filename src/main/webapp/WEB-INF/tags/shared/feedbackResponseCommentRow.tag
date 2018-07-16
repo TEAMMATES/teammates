@@ -11,12 +11,6 @@
 <%@ attribute name="fourthIndex" %>
 <%@ attribute name="frcIndex" %>
 <%@ attribute name="viewType" %>
-<%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean"%>
-<%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="submittable" %>
-<%@ attribute name="isPreview" %>
-<%@ attribute name="isModeration" %>
-
 <c:choose>
   <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty fourthIndex && not empty frcIndex}">
     <c:set var="divId" value="${fourthIndex}-${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
@@ -31,18 +25,7 @@
     <c:set var="divId" value="${frc.commentId}" />
   </c:otherwise>
 </c:choose>
-<c:choose>
-  <c:when test="${frc.commentGiverType eq 'instructor'}">
-    <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD %>
-    </c:set>
-    <c:set var="deleteLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>
-    </c:set>
-  </c:when>
-  <c:otherwise>
-    <c:set var="deleteLink"><%= Const.ActionURIs.FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE %>
-    </c:set>
-  </c:otherwise>
-</c:choose>
+
 <li class="list-group-item list-group-item-warning" id="responseCommentRow-${divId}">
   <div id="commentBar-${divId}" class="row">
     <div class="col-xs-10">
@@ -57,23 +40,15 @@
     </div>
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
-        <c:choose>
-          <c:when test="${frc.commentFromFeedbackParticipant}">
-            <div class="responseCommentDeleteForm pull-right float-right clearfix">
-          </c:when>
-          <c:otherwise>
-            <form class="responseCommentDeleteForm pull-right">
-          </c:otherwise>
-        </c:choose>
-          <a href="${frc.editDeleteEnabled ? deleteLink : 'javascript:;'}"
+        <form class="responseCommentDeleteForm pull-right">
+          <c:set var="deleteUri" value="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE %>" />
+          <a href="${frc.editDeleteEnabled ? deleteUri : 'javascript:;'}"
               type="button"
               id="commentdelete-${divId}"
               class="btn btn-default btn-xs icon-button<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
               data-toggle="tooltip"
               data-placement="top"
-              title="<%= Const.Tooltips.COMMENT_DELETE %>"
-             <c:if test="${not frc.editDeleteEnabled}">disabled</c:if>
-             <c:if test="${frc.commentFromFeedbackParticipant and (isPreview or (not submittable))}">disabled style="background: #66727A;" </c:if>>
+              title="<%= Const.Tooltips.COMMENT_DELETE %>">
             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
           </a>
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${firstIndex}">
@@ -83,28 +58,15 @@
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
           <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
-          <c:if test="${isModeration}">
-            <input name="<%= Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON %>" value="${moderatedPersonEmail}" type="hidden">
-          </c:if>
-        <c:choose>
-          <c:when test="${frc.commentFromFeedbackParticipant}">
-            </div>
-          </c:when>
-          <c:otherwise>
-            </form>
-          </c:otherwise>
-        </c:choose>
-        <a type="button"
-           id="commentedit-${divId}"
+        </form>
+        <a type="button" id="commentedit-${divId}"
             <c:choose>
               <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
                 class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
                 data-recipientindex="${firstIndex}" data-giverindex="${secondIndex}"
-                data-qnindex="${thirdIndex}"
-                <c:if test="${not empty frcIndex}">data-frcindex="${frcIndex}"</c:if>
+                data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
                 <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
                 <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>
-                <c:if test="${not isSessionOpenForSubmission && frc.commentFromFeedbackParticipant}">disabled</c:if>
               </c:when>
               <c:otherwise>
                 class="btn btn-default btn-xs icon-button pull-right<c:if test="${not frc.editDeleteEnabled}"> disabled</c:if>"
@@ -121,11 +83,8 @@
   <%-- Do not add whitespace between the opening and closing tags --%>
   <div id="plainCommentText-${divId}" style="margin-left: 15px;">${frc.commentText}</div>
   <c:if test="${frc.editDeleteEnabled}">
-    <c:if test="${frc.commentGiverType eq 'instructor'}">
-      <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %>
-      </c:set>
-    </c:if>
     <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
+    <c:set var="submitLink"><%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT %></c:set>
     <shared:feedbackResponseCommentForm fsIndex="${firstIndex}"
         secondIndex="${secondIndex}"
         thirdIndex="${thirdIndex}"
@@ -137,8 +96,6 @@
         formType="Edit"
         textAreaId="${textAreaId}"
         submitLink="${submitLink}"
-        buttonText="Save"
-        isModeration="${isModeration}"
-        moderatedPersonEmail="${moderatedPersonEmail}"/>
+        buttonText="Save" />
   </c:if>
 </li>

@@ -13,54 +13,32 @@
 <%@ attribute name="divId" required="true" %>
 <%@ attribute name="formType" required="true" %>
 <%@ attribute name="textAreaId" required="true" %>
-<%@ attribute name="submitLink" %>
+<%@ attribute name="submitLink" required="true" %>
 <%@ attribute name="buttonText" required="true" %>
 <%@ attribute name="viewType" %>
 <%@ attribute name="isOnQuestionsPage" %>
-<%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="isModeration" %>
-
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
-<c:choose>
-  <c:when test="${frc.commentFromFeedbackParticipant}">
-    <div class="responseComment${formType}Form"<c:if test="${isEditForm}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
-  </c:when>
-  <c:otherwise>
-    <form class="responseComment${formType}Form"<c:if test="${isEditForm}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
-  </c:otherwise>
-</c:choose>
-<div class="form-group form-inline">
-    <div class="form-group text-muted"<c:if test="${frc.commentFromFeedbackParticipant}"> style="margin-left:1em;"</c:if>>
-      <c:choose>
-        <c:when test="${frc.commentFromFeedbackParticipant}">
-          <p>
-            Your comment about the above response
-          </p>
-        </c:when>
-        <c:otherwise>
-          <p>
-            Giver: ${fn:escapeXml(frc.responseGiverName)}
-            <br>
-            Recipient: ${fn:escapeXml(frc.responseRecipientName)}
-          </p>
-            You may change comment's visibility using the visibility options on the right hand side.
-        </c:otherwise>
-      </c:choose>
+<form class="responseComment${formType}Form"<c:if test="${isEditForm}"> style="display: none;" id="responseCommentEditForm-${divId}"</c:if>>
+  <div class="form-group form-inline">
+    <div class="form-group text-muted">
+      <p>
+        Giver: ${fn:escapeXml(frc.responseGiverName)}
+        <br>
+        Recipient: ${fn:escapeXml(frc.responseRecipientName)}
+      </p>
+      You may change comment's visibility using the visibility options on the right hand side.
     </div>
-  <c:if test="${not frc.commentFromFeedbackParticipant}">
     <a id="frComment-visibility-options-trigger-${divId}"
-       class="btn btn-sm btn-info pull-right toggle-visib-${fn:toLowerCase(formType)}-form"
-       data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
-       data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
-       <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
-       <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
+        class="btn btn-sm btn-info pull-right toggle-visib-${fn:toLowerCase(formType)}-form"
+        data-recipientindex="${fsIndex}" data-giverindex="${secondIndex}"
+        data-qnindex="${thirdIndex}" data-frcindex="${frcIndex}"
+        <c:if test="${not empty fourthIndex}">data-sectionindex="${fourthIndex}"</c:if>
+        <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
       <span class="glyphicon glyphicon-eye-close"></span>
       Show Visibility Options
     </a>
-  </c:if>
   </div>
-<c:if test="${not frc.commentFromFeedbackParticipant}">
   <div id="visibility-options-${divId}" class="panel panel-default" style="display: none;">
     <div class="panel-heading">
       Visibility Options
@@ -213,20 +191,17 @@
       </tbody>
     </table>
   </div>
-</c:if>
   <div class="form-group">
     <div class="panel panel-default panel-body" id="${textAreaId}-${divId}">
       ${frc.commentText}
     </div>
+    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>-${divId}">
   </div>
   <div class="col-sm-offset-5">
     <a href="${submitLink}"
         type="button"
         class="btn btn-primary"
-        id="button_save_comment_for_${fn:toLowerCase(formType)}-${divId}"
-        <c:if test="${frc.commentFromFeedbackParticipant}">
-          style="display: none;"
-        </c:if>>
+        id="button_save_comment_for_${fn:toLowerCase(formType)}-${divId}">
       ${buttonText}
     </a>
     <c:if test="${empty isOnQuestionsPage && !isOnQuestionsPage}">
@@ -239,36 +214,17 @@
           <c:if test="${not empty viewType}">data-viewtype="${viewType}"</c:if>>
     </c:if>
   </div>
-<c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
-<c:if test="${not empty isOnQuestionsPage && isOnQuestionsPage}">
-  <input type="hidden" name="isOnQuestionsPage" value="${isOnQuestionsPage}">
-</c:if>
-<input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${fsIndex}">
-<c:choose>
-  <c:when test="${frc.commentFromFeedbackParticipant}">
-    <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>-${divId}" value="${frc.commentId}"></c:if>
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>-${divId}">
-    <c:if test="${isModeration}">
-      <input name="<%=Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON %>" value="${moderatedPersonEmail}" type="hidden">
-    </c:if>
-  </c:when>
-  <c:otherwise>
-    <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>">
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${fn:escapeXml(frc.feedbackResponseId)}">
-    <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
-    <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
-    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
-    <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>" value="${frc.showCommentToString}">
-    <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>" value="${frc.showGiverNameToString}">
-    <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
-  </c:otherwise>
-</c:choose>
-<c:choose>
-  <c:when test="${frc.commentFromFeedbackParticipant}">
-    </div>
-  </c:when>
-  <c:otherwise>
-    </form>
-  </c:otherwise>
-</c:choose>
+  <c:if test="${isEditForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}"></c:if>
+  <c:if test="${isAddForm}"><input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="${frc.questionId}"></c:if>
+  <c:if test="${not empty isOnQuestionsPage && isOnQuestionsPage}">
+    <input type="hidden" name="isOnQuestionsPage" value="${isOnQuestionsPage}">
+  </c:if>
+  <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_INDEX %>" value="${fsIndex}">
+  <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="${fn:escapeXml(frc.feedbackResponseId)}">
+  <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
+  <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
+  <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
+  <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>" value="${frc.showCommentToString}">
+  <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>" value="${frc.showGiverNameToString}">
+  <input type="hidden" name="<%= Const.ParamsNames.SESSION_TOKEN %>" value="${data.sessionToken}">
+</form>

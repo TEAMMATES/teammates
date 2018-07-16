@@ -7,9 +7,6 @@
 <%@ attribute name="questionWithResponses" type="teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses" required="true" %>
 <%@ attribute name="response" type="teammates.ui.template.FeedbackSubmissionEditResponse" required="true" %>
 <%@ attribute name="isSessionOpenForSubmission" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="questionIndex" type="java.lang.Integer" required="true" %>
-<%@ attribute name="responseGiverIndex" type="java.lang.Integer" required="true" %>
-<%@ attribute name="responseRecipientIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="moderatedPersonEmail" required="true" %>
 
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
@@ -17,6 +14,8 @@
 <c:set var="recipientType" value="${questionWithResponses.question.recipientType}"/>
 <c:set var="hasCommentOnResponse" value="${not empty response.feedbackParticipantCommentOnResponse}"/>
 <c:set var="addOrEdit" value= "${hasCommentOnResponse ? 'edit' : 'add'}"/>
+<c:set var="responseIndex" value="${response.responseIndx}"/>
+<c:set var="questionIndex" value="${questionWithResponses.question.qnIndx}"/>
 
 <c:choose>
   <c:when test="${isRecipientNameHidden}"><c:set var="divClassType" value="col-sm-12"/></c:when>
@@ -54,29 +53,26 @@
   <c:choose>
     <c:when test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
       <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-${addOrEdit}-form"
-              id="button_add_comment-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
-              data-recipientindex="${responseRecipientIndex}" data-giverindex="${responseGiverIndex}"
-              data-qnindex="${questionIndex}" data-toggle="tooltip" data-placement="top"
-              title="<%=Const.Tooltips.COMMENT_ADD%>"
-              <c:if test="${data.preview or (not data.submittable)}"> disabled style="background: #66727A;"</c:if>>
+              id="button_add_comment-${questionIndex}-${responseIndex}"
+              data-responseindex="${responseIndex}" data-qnindex="${questionIndex}" data-toggle="tooltip"
+              data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
+              <c:if test="${data.preview or (not data.submittable)}"> disabled </c:if>>
         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
       </button>
       <div class="${divClassType}">
           ${response.submissionFormHtml}
         <br>
-        <ul class="list-group" id="responseCommentTable-${responseRecipientIndex}-${responseGiverIndex}-${questionIndex}"
+        <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}"
             style="${not empty response.feedbackParticipantCommentOnResponse ? 'margin-top:15px;': 'display:none'}">
           <c:if test="${hasCommentOnResponse}">
-            <shared:feedbackResponseCommentRow frc="${response.feedbackParticipantCommentOnResponse}"
-                firstIndex="${responseRecipientIndex}" secondIndex="${responseGiverIndex}"
-                thirdIndex="${questionIndex}" frcIndex="1" moderatedPersonEmail="${moderatedPersonEmail}"
+            <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
+                responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}" moderatedPersonEmail="${moderatedPersonEmail}"
                 isSessionOpenForSubmission="${isSessionOpenForSubmission}" isPreview="${data.preview}"
                 submittable="${data.submittable}" isModeration="${data.moderation}"/>
           </c:if>
 
-          <shared:feedbackResponseCommentAdd frc="${response.feedbackResponseCommentAdd}" firstIndex="${responseRecipientIndex}"
-             secondIndex="${responseGiverIndex}" thirdIndex="${questionIndex}"
-             isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
+          <shared:feedbackResponseCommentAddFormForFeedbackParticipant frc="${response.feedbackResponseCommentAdd}" responseIndex="${response.responseIndx}"
+              qnIndex="${questionWithResponses.question.qnIndx}" isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
         </ul>
       </div>
     </c:when>

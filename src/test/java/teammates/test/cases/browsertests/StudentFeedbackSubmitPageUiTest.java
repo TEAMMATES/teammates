@@ -114,11 +114,11 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
-        submitPage.addFeedbackResponseComment("-0-1-6", "Comment without response");
-        submitPage.addFeedbackResponseComment("-1-1-7", "Comment without response");
-        submitPage.addFeedbackResponseComment("-0-1-10", "Comment without response");
-        submitPage.addFeedbackResponseComment("-0-1-12", "Comment without response");
-        submitPage.addFeedbackResponseComment("-0-1-16", "Comment without response");
+        submitPage.addFeedbackResponseComment("-6-0", "Comment without response");
+        submitPage.addFeedbackResponseComment("-7-1", "Comment without response");
+        submitPage.addFeedbackResponseComment("-10-0", "Comment without response");
+        submitPage.addFeedbackResponseComment("-12-0", "Comment without response");
+        submitPage.addFeedbackResponseComment("-16-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal(
@@ -557,12 +557,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
-        submitPage.addFeedbackResponseComment("-0-1-6", "New MCQ Comment 1");
-        submitPage.addFeedbackResponseComment("-0-1-10", "New MCQ Comment 2");
-        submitPage.addFeedbackResponseComment("-0-1-12", "New MCQ Comment 3");
-        submitPage.addFeedbackResponseComment("-0-1-16", "New MCQ Comment 4");
-        submitPage.addFeedbackResponseComment("-0-1-7", "New MCQ team Comment 1");
-        submitPage.addFeedbackResponseComment("-1-1-7", "New MCQ team Comment 2");
+        submitPage.addFeedbackResponseComment("-6-0", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-10-0", "New MCQ Comment 2");
+        submitPage.addFeedbackResponseComment("-12-0", "New MCQ Comment 3");
+        submitPage.addFeedbackResponseComment("-16-0", "New MCQ Comment 4");
+        submitPage.addFeedbackResponseComment("-7-0", "New MCQ team Comment 1");
+        submitPage.addFeedbackResponseComment("-7-1", "New MCQ team Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("21, 24, 25, 26, 27.");
@@ -577,12 +577,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
-        submitPage.editFeedbackResponseComment("-0-1-6-1", "Edited MCQ Comment 1");
-        submitPage.editFeedbackResponseComment("-0-1-10-1", "Edited MCQ Comment 2");
-        submitPage.editFeedbackResponseComment("-0-1-12-1", "Edited MCQ Comment 3");
-        submitPage.editFeedbackResponseComment("-0-1-16-1", "Edited MCQ Comment 4");
-        submitPage.editFeedbackResponseComment("-0-1-7-1", "Edited MCQ team Comment 1");
-        submitPage.editFeedbackResponseComment("-1-1-7-1", "Edited MCQ team Comment 2");
+        submitPage.editFeedbackResponseComment("-6-0", "Edited MCQ Comment 1");
+        submitPage.editFeedbackResponseComment("-10-0", "Edited MCQ Comment 2");
+        submitPage.editFeedbackResponseComment("-12-0", "Edited MCQ Comment 3");
+        submitPage.editFeedbackResponseComment("-16-0", "Edited MCQ Comment 4");
+        submitPage.editFeedbackResponseComment("-7-0", "Edited MCQ team Comment 1");
+        submitPage.editFeedbackResponseComment("-7-1", "Edited MCQ team Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("21, 24, 25, 26, 27.");
@@ -597,18 +597,18 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
-        submitPage.deleteFeedbackResponseComment("-0-1-6-1");
-        submitPage.verifyRowDeletedSuccess("-0-1-6-1");
-        submitPage.deleteFeedbackResponseComment("-0-1-10-1");
-        submitPage.verifyRowDeletedSuccess("-0-1-10-1");
-        submitPage.deleteFeedbackResponseComment("-0-1-12-1");
-        submitPage.verifyRowDeletedSuccess("-0-1-12-1");
-        submitPage.deleteFeedbackResponseComment("-0-1-16-1");
-        submitPage.verifyRowDeletedSuccess("-0-1-16-1");
-        submitPage.deleteFeedbackResponseComment("-0-1-7-1");
-        submitPage.verifyRowDeletedSuccess("-0-1-7-1");
-        submitPage.deleteFeedbackResponseComment("-1-1-7-1");
-        submitPage.verifyRowDeletedSuccess("-1-1-7-1");
+        submitPage.deleteFeedbackResponseComment("-6-0");
+        submitPage.verifyRowDeletedSuccess("-6-0");
+        submitPage.deleteFeedbackResponseComment("-10-0");
+        submitPage.verifyRowDeletedSuccess("-10-0");
+        submitPage.deleteFeedbackResponseComment("-12-0");
+        submitPage.verifyRowDeletedSuccess("-12-0");
+        submitPage.deleteFeedbackResponseComment("-16-0");
+        submitPage.verifyRowDeletedSuccess("-16-0");
+        submitPage.deleteFeedbackResponseComment("-7-0");
+        submitPage.verifyRowDeletedSuccess("-7-0");
+        submitPage.deleteFeedbackResponseComment("-7-1");
+        submitPage.verifyRowDeletedSuccess("-7-1");
     }
 
     private void testInputValidation() {

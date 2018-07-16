@@ -8,7 +8,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.FeedbackResponseCommentRow;

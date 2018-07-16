@@ -61,7 +61,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
 
-        submitPage.addFeedbackResponseComment("-0-1-3", "Comment without response");
+        submitPage.addFeedbackResponseComment("-3-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3.");
@@ -133,7 +133,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
 
-        submitPage.addFeedbackResponseComment("-0-1-3", "New MCQ Comment 1");
+        submitPage.addFeedbackResponseComment("-3-0", "New MCQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("");
@@ -148,7 +148,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
 
-        submitPage.editFeedbackResponseComment("-0-1-3-1", "Edited MCQ Comment 1");
+        submitPage.editFeedbackResponseComment("-3-0", "Edited MCQ Comment 1");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -162,8 +162,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
 
-        submitPage.deleteFeedbackResponseComment("-0-1-3-1");
-        submitPage.verifyRowDeletedSuccess("-0-1-3-1");
+        submitPage.deleteFeedbackResponseComment("-3-0");
+        submitPage.verifyRowDeletedSuccess("-0-3-0");
     }
 
     private void testDeleteResponse() {
