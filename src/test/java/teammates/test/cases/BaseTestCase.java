@@ -40,14 +40,6 @@ public class BaseTestCase {
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
-    /**
-     * Set the required locale for tests.
-     */
-    @BeforeSuite
-    public void setLocale() {
-        Locale.setDefault(Locale.US);
-    }
-
     @BeforeClass
     public void printTestClassHeader() {
         print("[============================="
