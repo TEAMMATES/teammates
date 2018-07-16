@@ -1028,7 +1028,7 @@ function bindCopyEvents() {
 }
 
 function bindAddTemplateQnButton() {
-    $('#button_submit_add_template').click((e) => {
+    $('#button_add_template_submit').click((e) => {
         e.preventDefault();
 
         let index = 0;
@@ -1078,7 +1078,7 @@ function bindAddTemplateQnEvents() {
             $bodyCollapse.collapse('toggle');
         }
 
-        const $button = $('#button_submit_add_template');
+        const $button = $('#button_add_template_submit');
 
         $button.prop('disabled', numPanelsSelected <= 0);
 
