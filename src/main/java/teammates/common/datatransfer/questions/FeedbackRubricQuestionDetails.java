@@ -49,7 +49,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<>();
         this.initializeRubricDescriptions();
-        this.initializeRubricWeights();
+        this.rubricWeightsForEachCell = new ArrayList<>();
     }
 
     public FeedbackRubricQuestionDetails(String questionText) {
@@ -62,7 +62,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<>();
         this.initializeRubricDescriptions();
-        this.initializeRubricWeights();
+        this.rubricWeightsForEachCell = new ArrayList<>();
     }
 
     @Override
@@ -104,10 +104,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         if (!isValidDescriptionSize()) {
             // If description sizes are invalid, default to empty descriptions.
             initializeRubricDescriptions();
-        }
-        if (hasAssignedWeights && !isValidWeightSize()) {
-            // If weights are enabled, and weights sizes are invalid, default to empty weights.
-            initializeRubricWeights();
         }
 
         return true;
@@ -1034,7 +1030,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // 2) At least 2 choices
         // 3) At least 1 sub-question
         // 4) Choices and sub-questions should not be empty
-        // 5) Choices must have corresponding weights if weights are assigned
+        // 5) Weights must be assigned to all cells if weights are assigned, which means
+        //    weight size should be equal to (numOfRubricChoices * numOfRubricSubQuestions).
 
         List<String> errors = new ArrayList<>();
 
@@ -1071,7 +1068,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
         }
 
-        if (hasAssignedWeights && rubricChoices.size() != rubricWeights.size()) {
+        if (hasAssignedWeights && !isValidWeightSize()) {
             errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
         }
 

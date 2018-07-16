@@ -819,8 +819,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-0-0", "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-0-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-1-0", "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-1-1", "3",
         };
 
         List<String> requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
@@ -891,8 +893,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
                 // This weight is removed so that rubricChoice-0 does not have a attached weight
-                // Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0", "-1",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1", "2",
+                // Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-0-0", "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "0-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "1-0", "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "1-1", "3",
         };
         requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(requestedParams, params);
