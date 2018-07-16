@@ -38,6 +38,13 @@ const dataHandsontable = new Handsontable(dataContainer, {
     minRows: 20,
     maxCols: 7,
     stretchH: 'all',
+    cells: function (row, col) {
+        let cellProperties = {};
+        if (col === 0) {
+            cellProperties.renderer = firstColRenderer; // uses function directly
+        }
+        return cellProperties;
+    }
 });
 
 const enrollContainer = document.getElementById('enrollSpreadsheet');
@@ -71,6 +78,12 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
 
 let existingStudentsData = null;
 
+function firstColRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.HtmlRenderer.apply(this, arguments);
+    td.style.background = '#F0F0F0';
+    td.innerHTML = '<div style="text-align:center">&#9989;</div>';
+}
+
 /**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
  * Pushes the output data into the textarea (used for form submission).
@@ -96,10 +109,7 @@ function updateExistingStudentsDataDump() {
  * Loads existing student data into the spreadsheet interface.
  */
 function loadExistingStudentsData(studentsData) {
-    const studentDetailsEntries =
-            ajaxDataToHandsontableData(studentsData, dataHandsontable.getColHeader());
     dataHandsontable.loadData(ajaxDataToHandsontableData(studentsData, dataHandsontable.getColHeader()));
-    dataHandsontable.loadData(populateStatusIconToHandsontableData(studentDetailsEntries));
 }
 
 /**
