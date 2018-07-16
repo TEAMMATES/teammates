@@ -1133,8 +1133,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             // <td> entries which display aggregate statistics
             cols.add(StringHelper.toDecimalFormatString("0.00", totalPerSubQuestion[subQuestion]));
-            cols.add(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
-                    : StringHelper.toDecimalFormatString("0.00", totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
+            cols.add(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00" : StringHelper.toDecimalFormatString("0.00",
+                    totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
 
             // Generate HTML for all <td> entries using template
             for (String col : cols) {
@@ -1183,8 +1183,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             // Append aggregate statistics
             csv.append(',').append(StringHelper.toDecimalFormatString("0.00", totalPerSubQuestion[subQuestion])).append(',')
-               .append(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
-                       : StringHelper.toDecimalFormatString("0.00", totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
+               .append(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00" : StringHelper.toDecimalFormatString("0.00",
+                       totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
                .append(System.lineSeparator());
 
             return csv.toString();
