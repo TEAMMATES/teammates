@@ -185,7 +185,7 @@ public final class StringHelper {
     public static String toDecimalFormatString(String pattern, double doubleVal) {
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
         DecimalFormat df = (DecimalFormat) nf;
-        df.applyPattern("0.###");
+        df.applyPattern(pattern);
         return df.format(doubleVal);
     }
 

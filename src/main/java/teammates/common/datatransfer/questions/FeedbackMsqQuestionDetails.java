@@ -1,13 +1,10 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -548,8 +545,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (numChoicesSelected == -1) {
             return "";
         }
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat df = new DecimalFormat("#.##", decimalFormatSymbols);
 
         StringBuilder fragments = new StringBuilder();
         answerFrequency.forEach((key, value) ->
@@ -557,7 +552,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                                 Slots.MSQ_CHOICE_VALUE, key,
                                 Slots.COUNT, value.toString(),
                                 Slots.PERCENTAGE,
-                                df.format(100 * divideOrReturnZero(value, numChoicesSelected)))));
+                                StringHelper.toDecimalFormatString("#.##",
+                                        100 * divideOrReturnZero(value, numChoicesSelected)))));
 
         return Templates.populateTemplate(FormTemplates.MSQ_RESULT_STATS, Slots.FRAGMENTS, fragments.toString());
     }
@@ -576,12 +572,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         if (numChoicesSelected == -1) {
             return "";
         }
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat df = new DecimalFormat("#.##", decimalFormatSymbols);
         StringBuilder fragments = new StringBuilder();
         answerFrequency.forEach((key, value) -> fragments.append(SanitizationHelper.sanitizeForCsv(key) + ','
                 + value.toString() + ','
-                + df.format(100 * divideOrReturnZero(value, numChoicesSelected))
+                + StringHelper.toDecimalFormatString("#.##", 100 * divideOrReturnZero(value, numChoicesSelected))
                 + System.lineSeparator()));
 
         return "Choice, Response Count, Percentage" + System.lineSeparator()
