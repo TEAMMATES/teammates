@@ -544,17 +544,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
     }
 
-    private void initializeRubricWeights() {
-        rubricWeightsForEachCell = new ArrayList<>();
-        for (int subQns = 0; subQns < numOfRubricSubQuestions; subQns++) {
-            List<Double> weightList = new ArrayList<>();
-            for (int ch = 0; ch < numOfRubricChoices; ch++) {
-                weightList.add(0.0);
-            }
-            rubricWeightsForEachCell.add(weightList);
-        }
-    }
-
     private void setDescription(int row, int col, String description) {
         this.rubricDescriptions.get(row).set(col, description);
     }
