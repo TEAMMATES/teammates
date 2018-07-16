@@ -34,7 +34,7 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
 
     @Override
     public String getAnswerString() {
-        return StringHelper.toDecimalFormatString(answer);
+        return StringHelper.toDecimalFormatString("0.###", answer);
     }
 
     @Override
