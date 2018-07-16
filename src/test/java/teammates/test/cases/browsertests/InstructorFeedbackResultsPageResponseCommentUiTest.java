@@ -2,7 +2,6 @@ package teammates.test.cases.browsertests;
 
 import java.io.IOException;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;

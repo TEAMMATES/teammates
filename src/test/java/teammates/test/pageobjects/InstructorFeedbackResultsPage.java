@@ -433,7 +433,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     /**
-     * Waits for the verification of new comment added (works on both modal and inline).
+     * Waits for the new comment to be added (works on both modal and inline).
      * Note: this only verifies the new comment text is added and only <strong>approximately</strong>
      * checks the state of the added comment based on implementation.
      */
