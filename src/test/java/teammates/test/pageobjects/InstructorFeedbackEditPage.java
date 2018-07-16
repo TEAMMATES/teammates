@@ -94,6 +94,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "button_submit_add")
     private WebElement addNewQuestionButton;
 
+    @FindBy(id = "button_add_template_modal")
+    private WebElement addTemplateModalLoadButton;
+
     @FindBy(id = "button_done_editing")
     private WebElement doneEditingButton;
 

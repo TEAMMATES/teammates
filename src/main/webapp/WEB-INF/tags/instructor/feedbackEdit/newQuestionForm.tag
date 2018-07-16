@@ -26,7 +26,7 @@
             Add New Question <span class="caret"></span>
           </button>
           <ul id="add-new-question-dropdown" class="dropdown-menu">
-            <li data-questiontype="TEMPLATE">
+            <li data-questiontype="TEMPLATE" id="button_add_template_modal">
               <a href="javascript:;"
                  data-fsname="${fqForm.feedbackSessionName}" data-courseid="${fqForm.courseId}"
                  data-target="#addTemplateQuestionModal" data-toggle="modal">
