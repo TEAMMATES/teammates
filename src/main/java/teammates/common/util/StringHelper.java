@@ -1,7 +1,7 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -183,8 +183,9 @@ public final class StringHelper {
     }
 
     public static String toDecimalFormatString(double doubleVal) {
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat df = new DecimalFormat("0.###", decimalFormatSymbols);
+        NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+        DecimalFormat df = (DecimalFormat) nf;
+        df.applyPattern("0.###");
         return df.format(doubleVal);
     }
 
