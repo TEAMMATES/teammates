@@ -265,7 +265,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void fillStepNumScaleBox(double step, int qnNumber) {
-        fillStepNumScaleBox(StringHelper.toDecimalFormatString(step), qnNumber);
+        fillStepNumScaleBox(StringHelper.toDecimalFormatString("0.###", step), qnNumber);
     }
 
     public void fillStepNumScaleBoxForNewQuestion(String step) {
