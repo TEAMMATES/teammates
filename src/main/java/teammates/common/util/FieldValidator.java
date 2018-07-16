@@ -700,6 +700,7 @@ public class FieldValidator {
 
     /**
      * Checks if comment giver type is either instructor, student or team.
+     *
      * @param commentGiverType comment giver type to be checked.
      * @return Error string if type is invalid, otherwise empty string.
      */
@@ -715,6 +716,7 @@ public class FieldValidator {
 
     /**
      * Checks if visibility of comment is following question when comment is from a feedback participant.
+     *
      * @param isCommentFromFeedbackParticipant true if comment is from feedback participant.
      * @param isVisibilityFollowingFeedbackQuestion true if visibility of comment follows question.
      * @return Error string if condition is not met, otherwise empty string.

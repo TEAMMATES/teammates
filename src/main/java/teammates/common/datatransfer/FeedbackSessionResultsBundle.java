@@ -1670,6 +1670,7 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Returns string of all instructor comments on a response appended to their names for csv.
+     *
      * @param response feedback response from which comments are taken
      * @return string of format ", name of instructor, comment"
      */
@@ -1690,6 +1691,7 @@ public class FeedbackSessionResultsBundle {
 
     /**
      * Returns string of comment by feedback participant on a response for csv.
+     *
      * @param response feedback response on which comment is given
      * @return comment by feedback participant in form of string
      */

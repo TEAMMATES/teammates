@@ -156,6 +156,7 @@ public class GateKeeper {
 
     /**
      * Verifies that comment is created by feedback participant.
+     *
      * @param frc comment to be accessed
      * @param feedbackParticipant email or team of feedback participant
      */

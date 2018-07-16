@@ -105,6 +105,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     /**
      * Converts comment text in form of string for csv i.e if it contains image, changes it into link.
+     *
      * @return Comment in form of string
      */
     public String convertCommentTextToStringForCsv() {
@@ -117,6 +118,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     /**
      * Converts comment text in form of string.
+     *
      * @return Comment in form of string
      */
     public String convertCommentTextToStringForHtml() {

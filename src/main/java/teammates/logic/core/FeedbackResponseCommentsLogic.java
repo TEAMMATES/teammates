@@ -366,6 +366,7 @@ public final class FeedbackResponseCommentsLogic {
 
     /**
      * Verifies if comment giver is registered user/team of course.
+     *
      * @param courseId id of course
      * @param commentGiver person/team who gave comment
      * @param commentGiverType type of comment giver

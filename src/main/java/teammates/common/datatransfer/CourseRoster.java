@@ -66,6 +66,7 @@ public class CourseRoster {
 
     /**
      * Returns a map of email mapped to name of instructors and students of the course.
+     *
      * @return Map in which key is email of student/instructor and value is name.
      */
     public Map<String, String> getEmailToNameTableFromRoster() {
