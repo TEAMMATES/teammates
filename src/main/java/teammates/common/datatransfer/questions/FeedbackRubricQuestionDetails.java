@@ -593,7 +593,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         boolean isExcludingSelfOptionAvailable =
                 recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
-
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
