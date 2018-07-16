@@ -1,13 +1,10 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -378,8 +375,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         String questionNumberString = Integer.toString(questionNumber);
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat weightFormat = new DecimalFormat("#.##", decimalFormatSymbols);
 
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
@@ -402,7 +397,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     Templates.populateTemplate(tableWeightFragmentTemplate,
                             Slots.QUESTION_INDEX, questionNumberString,
                             Slots.COL, Integer.toString(i),
-                            Slots.RUBRIC_WEIGHT, hasAssignedWeights ? weightFormat.format(rubricWeights.get(i)) : "0",
+                            Slots.RUBRIC_WEIGHT,
+                                hasAssignedWeights ? StringHelper.toDecimalFormatString("#.##", rubricWeights.get(i)) : "0",
                             Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
             tableWeightFragmentHtml.append(tableWeightCell).append(System.lineSeparator());
         }
@@ -564,12 +560,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     public String getRecipientStatsHeaderHtml() {
         StringBuilder headerBuilder = new StringBuilder(100);
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat dfWeight = new DecimalFormat("#.##", decimalFormatSymbols);
         StringBuilder choicesHtmlBuilder = new StringBuilder(100);
 
         for (int i = 0; i < rubricChoices.size(); i++) {
-            String weight = dfWeight.format(rubricWeights.get(i));
+            String weight = StringHelper.toDecimalFormatString("#.##", rubricWeights.get(i));
             String html = getRecipientStatsHeaderFragmentHtml(rubricChoices.get(i) + " (Weight: " + weight + ")");
             choicesHtmlBuilder.append(html);
         }
@@ -599,8 +593,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         boolean isExcludingSelfOptionAvailable =
                 recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat weightFormat = new DecimalFormat("#.##", decimalFormatSymbols);
 
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
@@ -610,7 +602,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String header = SanitizationHelper.sanitizeForHtml(rubricChoices.get(i))
                           + (fqd.hasAssignedWeights
                             ? "<span style=\"font-weight:normal;\"> (Weight: "
-                              + weightFormat.format(rubricWeights.get(i)) + ")</span>"
+                              + StringHelper.toDecimalFormatString("#.##", rubricWeights.get(i)) + ")</span>"
                             : "");
 
             String tableHeaderCell =
@@ -692,10 +684,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private StringBuilder getQuestionResultsStatisticsBodyHtml(FeedbackRubricQuestionDetails fqd,
                                                                int[][] responseFrequency, float[][] rubricStats) {
 
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat df = new DecimalFormat("#", decimalFormatSymbols);
-        DecimalFormat dfAverage = new DecimalFormat("0.00", decimalFormatSymbols);
-
         String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
 
@@ -707,7 +695,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             for (int j = 0; j < numOfRubricChoices; j++) {
                 String percentageFrequencyString = isSubQuestionRespondedTo
-                        ? df.format(rubricStats[i][j] * 100) + "%"
+                        ? StringHelper.toDecimalFormatString("#", rubricStats[i][j] * 100) + "%"
                         : STATISTICS_NO_VALUE_STRING;
                 String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
                         Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
@@ -718,7 +706,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
             if (fqd.hasAssignedWeights) {
                 String averageString = isSubQuestionRespondedTo
-                        ? dfAverage.format(rubricStats[i][numOfRubricChoices])
+                        ? StringHelper.toDecimalFormatString("0.00", rubricStats[i][numOfRubricChoices])
                         : STATISTICS_NO_VALUE_STRING;
                 String tableBodyAverageCell = Templates.populateTemplate(tableBodyFragmentTemplate,
                         Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, averageString);
@@ -785,15 +773,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         StringBuilder csv = new StringBuilder();
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat dfWeight = new DecimalFormat("#.##", decimalFormatSymbols);
 
         // table header
         for (int i = 0; i < rubricChoices.size(); i++) {
 
             String header = rubricChoices.get(i)
                           + (hasAssignedWeights
-                            ? " (Weight: " + dfWeight.format(rubricWeights.get(i)) + ")"
+                            ? " (Weight: " + StringHelper.toDecimalFormatString("#.##", rubricWeights.get(i)) + ")"
                             : "");
 
             csv.append(',').append(SanitizationHelper.sanitizeForCsv(header));
@@ -806,9 +792,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         csv.append(System.lineSeparator());
 
         // table body
-        DecimalFormat df = new DecimalFormat("#", decimalFormatSymbols);
-        DecimalFormat dfAverage = new DecimalFormat("0.00", decimalFormatSymbols);
-
         int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responses, this);
         float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(this,
                 responseFrequency);
@@ -819,14 +802,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
             for (int j = 0; j < rubricChoices.size(); j++) {
                 String percentageFrequencyString = isSubQuestionRespondedTo
-                                                 ? df.format(rubricStats[i][j] * 100) + "%"
+                                                 ? StringHelper.toDecimalFormatString("#", rubricStats[i][j] * 100) + "%"
                                                  : STATISTICS_NO_VALUE_STRING;
                 csv.append("," + percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
             }
 
             if (hasAssignedWeights) {
                 String averageString = isSubQuestionRespondedTo
-                                     ? dfAverage.format(rubricStats[i][rubricWeights.size()])
+                                     ? StringHelper.toDecimalFormatString("0.00", rubricStats[i][rubricWeights.size()])
                                      : STATISTICS_NO_VALUE_STRING;
                 csv.append(',').append(averageString);
             }
@@ -893,8 +876,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     public String getRecipientStatsCsvHeader() {
         StringBuilder header = new StringBuilder(100);
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat dfWeight = new DecimalFormat("#.##", decimalFormatSymbols);
         String headerFragment = "Team,Recipient Name,Recipient's Email,Sub Question,";
 
         header.append(headerFragment);
@@ -905,7 +886,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             rubricChoiceBuilder.append(rubricChoices.get(i));
 
             if (hasAssignedWeights) {
-                rubricChoiceBuilder.append(" (Weight: ").append(dfWeight.format(rubricWeights.get(i))).append(')');
+                rubricChoiceBuilder.append(" (Weight: ")
+                        .append(StringHelper.toDecimalFormatString("#.##", rubricWeights.get(i))).append(')');
             }
 
             header.append(SanitizationHelper.sanitizeForCsv(rubricChoiceBuilder.toString())).append(',');
@@ -1136,8 +1118,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
             String subQuestionString = SanitizationHelper.sanitizeForHtml(alphabeticalIndex + ") "
                     + getRubricSubQuestions().get(subQuestion));
-            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-            DecimalFormat df = new DecimalFormat("0.00", decimalFormatSymbols);
 
             List<String> cols = new ArrayList<>();
 
@@ -1152,9 +1132,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // <td> entries which display aggregate statistics
-            cols.add(df.format(totalPerSubQuestion[subQuestion]));
+            cols.add(StringHelper.toDecimalFormatString("0.00", totalPerSubQuestion[subQuestion]));
             cols.add(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
-                    : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
+                    : StringHelper.toDecimalFormatString("0.00", totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
 
             // Generate HTML for all <td> entries using template
             for (String col : cols) {
@@ -1189,8 +1169,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
             String subQuestionString = SanitizationHelper.sanitizeForCsv(alphabeticalIndex + ") "
                     + getRubricSubQuestions().get(subQuestion));
-            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-            DecimalFormat df = new DecimalFormat("0.00", decimalFormatSymbols);
 
             // Append recipient identification details and rubric subQuestion
             csv.append(recipientTeam).append(',')
@@ -1204,9 +1182,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // Append aggregate statistics
-            csv.append(',').append(df.format(totalPerSubQuestion[subQuestion])).append(',')
+            csv.append(',').append(StringHelper.toDecimalFormatString("0.00", totalPerSubQuestion[subQuestion])).append(',')
                .append(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
-                       : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
+                       : StringHelper.toDecimalFormatString("0.00", totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
                .append(System.lineSeparator());
 
             return csv.toString();
