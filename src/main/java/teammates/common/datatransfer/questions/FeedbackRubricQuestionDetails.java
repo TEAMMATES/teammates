@@ -89,9 +89,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
         int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
-        List<Double> rubricWeights = getRubricWeights(requestParameters, numOfRubricChoices, hasAssignedWeights);
         List<List<Double>> rubricWeightsForEachCell = getRubricWeightsForEachCell(
-                requestParameters, numOfRubricChoices, numOfRubricSubQuestions, hasAssignedWeights, rubricWeights);
+                requestParameters, numOfRubricChoices, numOfRubricSubQuestions, hasAssignedWeights);
         List<String> rubricChoices = getRubricChoices(requestParameters, numOfRubricChoices);
         List<String> rubricSubQuestions = getSubQuestions(requestParameters, numOfRubricSubQuestions);
         List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters,
@@ -99,7 +98,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                                                               numOfRubricSubQuestions);
 
         // Set details
-        setRubricQuestionDetails(hasAssignedWeights, rubricWeights, rubricWeightsForEachCell,
+        setRubricQuestionDetails(hasAssignedWeights, rubricWeightsForEachCell,
                 rubricChoices, rubricSubQuestions, rubricDescriptions);
 
         if (!isValidDescriptionSize()) {
@@ -114,38 +113,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return true;
     }
 
-    private List<Double> getRubricWeights(Map<String, String[]> requestParameters, int numOfRubricChoices,
-                                         boolean hasAssignedWeights) {
-        List<Double> rubricWeights = new ArrayList<>();
-
-        if (!hasAssignedWeights) {
-            return rubricWeights;
-        }
-
-        for (int i = 0; i < numOfRubricChoices; i++) {
-
-            String weight = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-" + i);
-            String choice = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
-
-            if (choice == null || weight == null) {
-                continue;
-            }
-
-            try {
-                rubricWeights.add(Double.parseDouble(weight));
-            } catch (NumberFormatException e) {
-                // Do not add weight to rubricWeights if the weight cannot be parsed
-                log.warning("Failed to parse weight for rubric question: " + weight);
-            }
-        }
-
-        return rubricWeights;
-    }
-
     private List<List<Double>> getRubricWeightsForEachCell(Map<String, String[]> requestParameters,
-            int numOfRubricChoices, int numOfRubricSubQuestions, boolean hasAssignedWeights, List<Double> rubricWeights) {
+            int numOfRubricChoices, int numOfRubricSubQuestions, boolean hasAssignedWeights) {
         List<List<Double>> rubricWeightsForEachCell = new ArrayList<>();
 
         if (!hasAssignedWeights) {
@@ -178,31 +147,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     } catch (NumberFormatException e) {
                         log.warning("Failed to parse weight for rubric question " + weight);
                     }
-                }
-            }
-        }
-
-        // If weights for each cell is not assigned, and rubricWeights is not empty,
-        // then, fill the rubricWeightsForEachCell list with rubricWeights values.
-        // Note that rubricWeights will not be empty if the question persists legacy data,
-        // that is rubricWeights will contain weights for each choices rather than each individual option,
-        // which is why in this case, we will fill each column of rubricWeightsForEachCell with each value of rubricWeights.
-        // e.g. weight of choice-0 == weight of cell-0-0, cell-1-0, cell-2-0 etc.
-        if (rubricWeightsForEachCell.isEmpty() && !rubricWeights.isEmpty() && weightRows == -1) {
-            // If numberOfChoices is different than weight list, then some error has occurred,
-            // in that case, return an empty list to avoid IndexOutOfBoundException.
-            if (rubricWeights.size() != numOfRubricChoices) {
-                return rubricWeightsForEachCell;
-            }
-            for (int i = 0; i < numOfRubricSubQuestions; i++) {
-                boolean rowAdded = false;
-                for (int j = 0; j < numOfRubricChoices; j++) {
-                    double weight = rubricWeights.get(j);
-                    if (!rowAdded) {
-                        rubricWeightsForEachCell.add(new ArrayList<Double>());
-                        rowAdded = true;
-                    }
-                    rubricWeightsForEachCell.get(i).add(weight);
                 }
             }
         }
@@ -289,13 +233,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private void setRubricQuestionDetails(boolean hasAssignedWeights,
-                                          List<Double> rubricWeights,
                                           List<List<Double>> rubricWeightsForEachCell,
                                           List<String> rubricChoices,
                                           List<String> rubricSubQuestions,
                                           List<List<String>> rubricDescriptions) {
         this.hasAssignedWeights = hasAssignedWeights;
-        this.rubricWeights = rubricWeights;
         this.rubricWeightsForEachCell = rubricWeightsForEachCell;
         this.numOfRubricChoices = rubricChoices.size();
         this.rubricChoices = rubricChoices;
@@ -1157,8 +1099,34 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return hasAssignedWeights;
     }
 
-    List<Double> getRubricWeights() {
-        return new ArrayList<>(rubricWeights);
+    List<List<Double>> getRubricWeights() {
+        // If weights are assigned, and rubricWeightsForEachCell is empty,
+        // that means the question contains legacy data, in which case, covert the legacy data into new format.
+        if (hasAssignedWeights && rubricWeightsForEachCell.isEmpty()) {
+            Assumption.assertFalse(rubricWeights.isEmpty());
+
+            // If numberOfChoices is different than weight list, then some error has occurred,
+            // in that case, return an empty list to avoid IndexOutOfBoundException.
+            if (rubricWeights.size() != numOfRubricChoices) {
+                return new ArrayList<>();
+            }
+            // Note that rubricWeights will not be empty if the question persists legacy data,
+            // that is rubricWeights will contain weights for each choices rather than each individual option,
+            // So in this case, we will fill each column of rubricWeightsForEachCell with each value of rubricWeights.
+            // e.g. weight of choice-0 == weight of cell-0-0, cell-1-0, cell-2-0 etc.
+            for (int i = 0; i < numOfRubricSubQuestions; i++) {
+                rubricWeightsForEachCell.add(new ArrayList<Double>());
+                for (int j = 0; j < numOfRubricChoices; j++) {
+                    rubricWeightsForEachCell.get(i).add(rubricWeights.get(j));
+                }
+            }
+            return new ArrayList<>(rubricWeightsForEachCell);
+        } else if (hasAssignedWeights && !rubricWeightsForEachCell.isEmpty()) {
+            // Data is already in new format, return the list.
+            return new ArrayList<>(rubricWeightsForEachCell);
+        }
+        // If weights are not assigned, return an empty list.
+        return new ArrayList<>();
     }
 
     public int getNumOfRubricChoices() {
