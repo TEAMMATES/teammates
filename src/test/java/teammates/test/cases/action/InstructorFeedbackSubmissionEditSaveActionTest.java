@@ -445,7 +445,8 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "3.5",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString("0.###", fqd.getStep())
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
+                    StringHelper.toDecimalFormatString("0.###", fqd.getStep())
         };
 
         a = getAction(submissionParams);
@@ -472,7 +473,8 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString("0.###", fqd.getStep())
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
+                    StringHelper.toDecimalFormatString("0.###", fqd.getStep())
         };
 
         a = getAction(submissionParams);
