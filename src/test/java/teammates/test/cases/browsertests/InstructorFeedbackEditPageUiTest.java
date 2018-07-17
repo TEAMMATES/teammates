@@ -336,6 +336,17 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 2));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackTemplateQuestionAddSuccess.html");
+
+        ______TS("add multiple template questions success");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.clickTemplateModalButton();
+
+        feedbackEditPage.clickTemplateQuestionModalCheckBox(2);
+        feedbackEditPage.clickTemplateQuestionModalCheckBox(3);
+        feedbackEditPage.clickAddTemplateQuestionButton();
+
+        assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 4));
     }
 
     private void testEditQuestionLink() {
