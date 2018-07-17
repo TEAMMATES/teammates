@@ -84,8 +84,6 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                       className + "add-eval-for-test",
                                       getInstructorFeedbackSessionsLink(courseId),
                                       Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
-        addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
-                       add, disabled, null);
 
         ElementTag archive = createButton("Archive",
                                           className + "archive-for-test",
