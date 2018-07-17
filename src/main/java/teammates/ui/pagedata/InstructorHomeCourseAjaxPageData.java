@@ -57,7 +57,6 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
     }
 
     private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId) {
-        String disabled = "disabled";
         String className = "btn-tm-actions course-";
 
         ElementTag students = new ElementTag("Students");
