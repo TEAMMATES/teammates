@@ -274,7 +274,6 @@ public class FeedbackResponseCommentRow {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverEmail)) {
             return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
         }
-        // When comment giver is a team
         if (commentGiverEmailToNameTable.get(giverEmail) == null) {
             return giverEmail;
         }
@@ -282,16 +281,14 @@ public class FeedbackResponseCommentRow {
     }
 
     private String getEditedAtText(String lastEditorEmail, Instant createdAt, Instant lastEditedAt) {
-        if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
+        if (lastEditedAt == null || lastEditedAt.equals(createdAt) || isCommentFromFeedbackParticipant) {
             return "";
         }
-        String lastEditor = commentGiverEmailToNameTable.get(lastEditorEmail) == null ? lastEditorEmail
-                                : commentGiverEmailToNameTable.get(lastEditorEmail);
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(commentGiverName);
         return "(last edited "
                 + (isGiverAnonymous
                     ? ""
-                    : "by " + SanitizationHelper.sanitizeForHtml(lastEditor) + " ")
+                    : "by " + SanitizationHelper.sanitizeForHtml(commentGiverEmailToNameTable.get(lastEditorEmail)) + " ")
                 + "at " + TimeHelper.formatDateTimeForDisplay(lastEditedAt, sessionTimeZone) + ")";
     }
 

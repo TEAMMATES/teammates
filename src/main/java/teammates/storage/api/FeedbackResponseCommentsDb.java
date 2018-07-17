@@ -440,7 +440,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             return getEntityQueryKeys(id);
         }
         return load()
-                .filter("courseId =", attributes.courseId)
                 .filter("feedbackResponseId =", attributes.feedbackResponseId)
                 .filter("createdAt =", TimeHelper.convertInstantToDate(attributes.createdAt))
                 .filter("giverEmail =", attributes.commentGiver)

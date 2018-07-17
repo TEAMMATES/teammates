@@ -265,6 +265,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             } else {
                 // TODO: Remove after Data Migration
                 comment.commentGiver = commentFromDb.commentGiver;
+                comment.commentGiverType = commentFromDb.commentGiverType;
             }
             List<FeedbackResponseCommentAttributes> commentList = bundle.comments.get(comment.feedbackResponseId);
             if (commentList == null) {

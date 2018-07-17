@@ -259,7 +259,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     true, recipientOptionsForQuestion, submissionFormHtml,
                     existingResponse.getId());
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
-                FeedbackResponseCommentRow responseCommentRow = getResponseCommentRowForResponse(questionAttributes,
+                FeedbackResponseCommentRow responseCommentRow = buildFeedbackParticipantResponseCommentRow(questionAttributes,
                         existingResponse.getId());
 
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentFormForAdding(
@@ -293,8 +293,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return responses;
     }
 
-    private FeedbackResponseCommentRow getResponseCommentRowForResponse(FeedbackQuestionAttributes questionAttributes,
-            String responseId) {
+    private FeedbackResponseCommentRow buildFeedbackParticipantResponseCommentRow(
+            FeedbackQuestionAttributes questionAttributes, String responseId) {
         if (!bundle.commentsForResponses.containsKey(responseId)) {
             return null;
         }

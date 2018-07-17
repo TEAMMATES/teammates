@@ -344,7 +344,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         + "comment text: " + feedbackResponseComment.commentText.getValue();
             } catch (InvalidParametersException e) {
                 setStatusForException(e);
-                isError = true;
             }
         }
     }
