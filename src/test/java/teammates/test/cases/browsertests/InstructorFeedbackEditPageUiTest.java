@@ -331,6 +331,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue("Can click after selecting a question",
                 feedbackEditPage.isAddTemplateQuestionButtonEnabled());
         feedbackEditPage.clickAddTemplateQuestionButton();
+
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 2));
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackTemplateQuestionAddSuccess.html");
     }
 
     private void testEditQuestionLink() {
