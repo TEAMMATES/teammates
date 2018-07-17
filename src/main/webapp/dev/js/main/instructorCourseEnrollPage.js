@@ -2,6 +2,7 @@
  * Holds Handsontable settings, reference and other information for the spreadsheet interface.
  */
 /* global Handsontable:false */
+
 import {
     prepareInstructorPages,
 } from '../common/instructor';
@@ -13,10 +14,8 @@ import {
 
 import {
     BootstrapContextualColors,
-} from '../common/const';
-
-import {
     ParamsNames,
+    Const,
 } from '../common/const';
 
 import {
@@ -32,6 +31,10 @@ import {
     getNewEmailList,
     firstColRenderer,
 } from '../common/instructorEnroll';
+
+import {
+    appendNewStatusMessage,
+} from '../common/statusMessage';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
 const dataHandsontable = new Handsontable(dataContainer, {
@@ -186,9 +189,31 @@ function processAjaxUpdateData() {
     getAjaxUpdateStudentList()
             .then((data) => {
                 console.log(data);
+                console.log(dataHandsontable.getData());
                 if (data.statusMessagesToUser.length === 1
                         && data.statusMessagesToUser[0].color === 'SUCCESS') {
+
                     $(`#button_updatestudents`).unbind('click').click();
+
+                } else if (data.statusMessagesToUser.length === 1
+                        && data.statusMessagesToUser[0].text === Const.StatusMessages.MASS_UPDATE_LINE_EMPTY) {
+
+                    appendNewStatusMessage(Const.StatusMessages.MASS_UPDATE_LINE_EMPTY,
+                            BootstrapContextualColors[data.statusMessagesToUser[0].color]);
+
+                } else {
+                    const oldEmailColumnIndex = 4;
+                    let errorMap = new Map();
+                    data.statusMessagesToUser.forEach(message => {
+                        const messageText = message.text.split(',');
+                        errorMap.set(messageText[0], messageText[1]);
+                    });
+
+                    dataHandsontable.getData().forEach((row, index) => {
+                        if (errorMap.has(row[oldEmailColumnIndex])) {
+                            console.log(errorMap.get(row[oldEmailColumnIndex]).concat('is in row').concat(String(index + 1)));
+                        }
+                    })
                 }
             }).catch((error) => console.log(error));
 }

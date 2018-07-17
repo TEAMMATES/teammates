@@ -1344,8 +1344,8 @@ public final class Const {
                 "If the student was created during the last few minutes, "
                 + "try again in a few more minutes as the student may still be being saved.";
 
-        public static final String STUDENT_UPDATE_CONFLICT = "If the student's email was edited during the last few minutes, " +
-                "refresh the page and check that the new email has been changed for the student.";
+        public static final String STUDENT_UPDATE_CONFLICT = "The student's email might have been edited during the last few minutes. " +
+                "Refresh the page and check that the new email has been changed for the student.";
         public static final String STUDENT_EDITED = "The student has been edited successfully.";
         public static final String STUDENT_EDITED_AND_EMAIL_SENT = STUDENT_EDITED
                 + " A summary of the course has been sent to the new email.";
