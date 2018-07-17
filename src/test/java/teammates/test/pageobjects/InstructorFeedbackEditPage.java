@@ -14,6 +14,7 @@ import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -819,13 +820,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public boolean isStaticQnNumberVisible(int qnNumber) {
-        if (qnNumber != NEW_QUESTION_NUM) {
+        try {
             WebElement selectQuestionNumberStatic =
                     browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC + "-" + qnNumber));
             return selectQuestionNumberStatic.isDisplayed();
+
+        } catch (NoSuchElementException nsee) {
+            // new question doesn't have static question part
+            return false;
         }
-        //new question form does not have static question number element
-        return false;
     }
 
     public boolean isMenuQnNumberVisible(int qnNumber) {
