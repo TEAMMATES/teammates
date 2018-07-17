@@ -10,6 +10,10 @@ public class InstructorCourseEnrollPageData extends PageData {
     private String enrollStudents;
     private boolean isOpenOrPublishedEmailSentForTheCourse;
 
+    public InstructorCourseEnrollPageData(AccountAttributes account, String sessionToken) {
+        super(account, sessionToken);
+    }
+
     public InstructorCourseEnrollPageData(AccountAttributes account, String sessionToken, String courseId,
             String enrollStudents, boolean isOpenOrPublishedEmailSentForTheCourse) {
         super(account, sessionToken);

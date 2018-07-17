@@ -24,7 +24,7 @@ import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 /**
  * Action: saving the list of edited students for a course of an instructor.
  */
-public class InstructorCourseEnrollUpdateAction extends Action {
+public class InstructorCourseEnrollAjaxUpdatePageAction extends Action {
 
     private static final Logger log = Logger.getLogger();
     private static final int SECTION_COLUMN_INDEX = 1;
@@ -40,7 +40,6 @@ public class InstructorCourseEnrollUpdateAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
         String updatedStudentsInfo = getRequestParamValue(Const.ParamsNames.STUDENTS_UPDATED_INFO).trim();
-        String sanitizedUpdatedStudentsInfo = SanitizationHelper.sanitizeForHtml(updatedStudentsInfo); // for admin message
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_UPDATED_INFO, updatedStudentsInfo);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -51,20 +50,20 @@ public class InstructorCourseEnrollUpdateAction extends Action {
 
         try {
             processUpdatedStudents(courseId, updatedStudentsInfo);
+            statusToUser.add(new StatusMessage("Success", StatusMessageColor.SUCCESS));
         } catch (EnrollException ee) {
-            setStatusForException(ee);
+            isError = true;
+            List<String> exceptionMessages = new ArrayList<>(Arrays.asList(ee.getMessage().split("<br>")));
+
+            for (String exceptionMessage : exceptionMessages) {
+                if (!exceptionMessage.equals("Please use the enroll page to edit multiple students")) {
+                    statusToUser.add(new StatusMessage(exceptionMessage, StatusMessageColor.DANGER));
+                    statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessage;
+                }
+            }
         }
-
-        statusToAdmin = "Students Updated in Course <span class=\"bold\">["
-                + courseId + "]:</span><br>" + sanitizedUpdatedStudentsInfo.replace("\n", "<br>");
-
         data.setStatusMessagesToUser(statusToUser);
         return createAjaxResult(data);
-        /*
-        RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE);
-        result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
-        return result;
-        */
     }
 
     private void processUpdatedStudents(String courseId, String updatedStudentsInfo)
@@ -83,13 +82,13 @@ public class InstructorCourseEnrollUpdateAction extends Action {
             Assumption.assertNotNull(line);
             String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
 
-            String[] columns = line.replace("|", "\t").split("\t", -1);
+            String[] columns = sanitizedLine.replace("|", "\t").split("\t", -1);
             String studentEmail = columns[OLD_EMAIL_COLUMN_INDEX];
             StudentAttributes student = logic.getStudentForEmail(courseId,
                     columns[OLD_EMAIL_COLUMN_INDEX]);
 
             if (student == null) {
-                invalidityInfo.add(enrollExceptionInfo(sanitizedLine, "Student not found."));
+                invalidityInfo.add(updateExceptionInfo(studentEmail, Const.StatusMessages.STUDENT_NOT_FOUND_FOR_UPDATE));
                 continue;
             }
 
@@ -141,26 +140,22 @@ public class InstructorCourseEnrollUpdateAction extends Action {
                 }
 
             } catch (EnrollException ee) {
-                invalidityInfo.add(enrollExceptionInfo(sanitizedLine, ee.getMessage()));
+                invalidityInfo.add(updateExceptionInfo(studentEmail, ee.getMessage()));
             } catch (InvalidParametersException ipe) {
-                invalidityInfo.add(enrollExceptionInfo(sanitizedLine, ipe.getMessage()));
+                invalidityInfo.add(updateExceptionInfo(studentEmail, ipe.getMessage()));
             }
         }
 
         if (!invalidityInfo.isEmpty()) {
             throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
         }
-
-        statusToUser.add(new StatusMessage(isSessionSummarySendEmail
-                ? Const.StatusMessages.STUDENT_UPDATED_AND_EMAIL_SENT
-                : Const.StatusMessages.STUDENT_UPDATED, StatusMessageColor.SUCCESS));
     }
 
     /**
      * Returns a {@code String} containing the enrollment exception information using the {@code errorMessage}
      * and the corresponding sanitized invalid {@code userInput}.
      */
-    private String enrollExceptionInfo(String userInput, String errorMessage) {
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, errorMessage);
+    private String updateExceptionInfo(String studentEmail, String errorMessage) {
+        return studentEmail.concat(",").concat(errorMessage);
     }
 }

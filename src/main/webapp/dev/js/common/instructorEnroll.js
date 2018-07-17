@@ -173,60 +173,6 @@ function getUpdatedStudentRows(dataSpreadsheetData, existingStudentsData) {
             .join('\n');
 }
 
-/**
- * Returns a list of new emails that would be updated.
- * @returns {string} list of new emails in separate lines.
- */
-function getNewEmailList(submitText) {
-    const newEmailColumnIndex = 5;
-    return submitText.split('\n')
-            .map(row => row.split('|'))
-            .filter(row => row[newEmailColumnIndex] !== '')
-            .map((row, index) => String(index + 1).concat('. ').concat(row[newEmailColumnIndex]))
-            .join('<br>');
-}
-
-/**
- * Displays the modal box when the user clicks the 'Update' button.
- * User is given an option to resend past session links to new emails if existing emails are being updated.
- */
-function showUpdateModalBox(submitText, event) {
-    event.preventDefault();
-    const isOpenOrPublishedEmailSentInThisCourse = $('#openorpublishedemailsent').val();
-    let newEmailList = '';
-    if (submitText !== '') {
-        newEmailList = getNewEmailList(submitText);
-    }
-
-    const yesCallback = function () {
-        $('[name=\'sessionsummarysendemail\']').val(true);
-        $('#button_updatestudents').unbind('click').click();
-    };
-    const noCallback = function () {
-        $('[name=\'sessionsummarysendemail\']').val(false);
-        $('#button_updatestudents').unbind('click').click();
-    };
-    const okCallback = function () {
-        $('[name=\'sessionsummarysendemail\']').val(false);
-        $('#button_updatestudents').unbind('click').click();
-    };
-
-    let messageText = `Updating any changes will result in some existing responses from this student to be deleted.
-    You may download the data before you make the changes.`;
-
-    if (newEmailList === '' || isOpenOrPublishedEmailSentInThisCourse === false) {
-        showModalConfirmation('Confirm update changes', messageText,
-                okCallback, null, null, null, BootstrapContextualColors.INFO);
-    } else {
-        messageText += `<br><br>Do you want to resend past session links of this course
-                        to the following ${newEmailList.split('<br>').length} new email(s)?<br>
-                        ${newEmailList}`;
-        showModalConfirmationWithCancel('Confirm update changes', messageText,
-                yesCallback, noCallback, null, 'Yes, save changes and resend links',
-                'No, just save the changes', 'Cancel', BootstrapContextualColors.INFO);
-    }
-}
-
 export {
     getUpdatedHeaderString,
     getUserDataRows,
@@ -236,7 +182,7 @@ export {
     displayErrorExecutingAjax,
     getSpreadsheetLength,
     toggleStudentsPanel,
-    showUpdateModalBox,
+    //showUpdateModalBox,
     getUpdatedStudentRows,
     populateStatusIconToHandsontableData,
 };

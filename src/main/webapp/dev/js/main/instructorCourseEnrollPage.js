@@ -7,6 +7,15 @@ import {
 } from '../common/instructor';
 
 import {
+    showModalConfirmation,
+    showModalConfirmationWithCancel,
+} from '../common/bootboxWrapper';
+
+import {
+    BootstrapContextualColors,
+} from '../common/const';
+
+import {
     ParamsNames,
 } from '../common/const';
 
@@ -19,7 +28,7 @@ import {
     displayErrorExecutingAjax,
     getSpreadsheetLength,
     toggleStudentsPanel,
-    showUpdateModalBox,
+    //showUpdateModalBox,
     getUpdatedStudentRows,
     populateStatusIconToHandsontableData,
 } from '../common/instructorEnroll';
@@ -101,6 +110,7 @@ function updateEnrollDataDump() {
  * The rows that are different would be marked as student entries to update in the 'massupdatestudents' textarea.
  */
 function updateExistingStudentsDataDump() {
+    console.log(getUpdatedStudentRows(dataHandsontable.getData(), existingStudentsData));
     $('#massupdatestudents').text(
             getUpdatedStudentRows(dataHandsontable.getData(), existingStudentsData));
 }
@@ -118,17 +128,96 @@ function loadExistingStudentsData(studentsData) {
  */
 function getAjaxStudentList(displayIcon) {
     return new Promise((resolve, reject) => {
+        console.log("Token 1: " + $(`input[name='token']`).val());
         const $spreadsheetForm = $('#student-data-spreadsheet-form');
         $.ajax({
             type: 'POST',
             url: '/page/instructorCourseEnrollAjaxPage',
-            cache: false,
+            cache: true,
             data: {
                 courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
                 user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
             },
             beforeSend() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
+            },
+        })
+                .done(resolve)
+                .fail(reject);
+    });
+}
+
+/**
+ * Displays the modal box when the user clicks the 'Update' button.
+ * User is given an option to resend past session links to new emails if existing emails are being updated.
+ */
+function showUpdateModalBox(submitText, event) {
+    event.preventDefault();
+    const isOpenOrPublishedEmailSentInThisCourse = $('#openorpublishedemailsent').val();
+    let newEmailList = '';
+    if (submitText !== '') {
+        newEmailList = getNewEmailList(submitText);
+    }
+
+    const yesCallback = function () {
+        $('[name=\'sessionsummarysendemail\']').val(true);
+        //$('#button_updatestudents').unbind('click').click();
+        getAjaxUpdateStudentList()
+                .then((data) => console.log(data))
+                .catch((error) => console.log(error));
+    };
+    const noCallback = function () {
+        $('[name=\'sessionsummarysendemail\']').val(false);
+        $('#button_updatestudents').unbind('click').click();
+    };
+    const okCallback = function () {
+        $('[name=\'sessionsummarysendemail\']').val(false);
+        //$('#button_updatestudents').unbind('click').click();
+        getAjaxUpdateStudentList()
+                .then((data) => console.log(data))
+                .catch((error) => console.log(error));
+    };
+
+    let messageText = `Updating any changes will result in some existing responses from this student to be deleted.
+    You may download the data before you make the changes.`;
+
+    if (newEmailList === '' || isOpenOrPublishedEmailSentInThisCourse === false) {
+        showModalConfirmation('Confirm update changes', messageText,
+                okCallback, null, null, null, BootstrapContextualColors.INFO);
+    } else {
+        messageText += `<br><br>Do you want to resend past session links of this course
+                        to the following ${newEmailList.split('<br>').length} new email(s)?<br>
+                        ${newEmailList}`;
+        showModalConfirmationWithCancel('Confirm update changes', messageText,
+                yesCallback, noCallback, null, 'Yes, save changes and resend links',
+                'No, just save the changes', 'Cancel', BootstrapContextualColors.INFO);
+    }
+}
+
+/**
+ * Returns a list of new emails that would be updated.
+ * @returns {string} list of new emails in separate lines.
+ */
+function getNewEmailList(submitText) {
+    const newEmailColumnIndex = 6;
+    return submitText.split('\n')
+            .map(row => row.split('|'))
+.filter(row => row[newEmailColumnIndex] !== '')
+.map((row, index) => String(index + 1).concat('. ').concat(row[newEmailColumnIndex]))
+.join('<br>');
+}
+
+function getAjaxUpdateStudentList() {
+    return new Promise((resolve, reject) => {
+        console.log("Token 2: " + $(`input[name='token']`).val());
+        const $spreadsheetForm = $('#student-data-spreadsheet-form');
+        $.ajax({
+            type: 'POST',
+            url: '/page/instructorCourseEnrollUpdate',
+            cache: true,
+            data: {
+                courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
+                massupdatestudents: $spreadsheetForm.find(`#massupdatestudents`).val(),
             },
         })
                 .done(resolve)
@@ -144,7 +233,7 @@ function getAjaxStudentList(displayIcon) {
 function updateDataHandsontableSettings() {
     dataHandsontable.updateSettings({
         columns: [
-            { colHeader: 'Status', renderer: 'html' },
+            { colHeader: 'Status', renderer: 'html' , readOnly: true},
             { colHeader: 'Section' },
             { colHeader: 'Team' },
             { colHeader: 'Name' },
@@ -153,6 +242,12 @@ function updateDataHandsontableSettings() {
             { colHeader: 'Fill in the new email here' },
         ],
     });
+}
+
+function firstColRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.HtmlRenderer.apply(this, arguments);
+    td.style.background = '#F0F0F0';
+    td.innerHTML = '<div style="text-align:center">&#9989;</div>';
 }
 
 /**
@@ -171,6 +266,7 @@ function expandCollapseExistingStudentsPanel() {
     if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
         getAjaxStudentList(displayIcon)
                 .then((data) => {
+                    console.log(data);
                     updateDataHandsontableSettings();
                     if (data.students.length === 0) {
                         displayNoExistingStudents(displayIcon);

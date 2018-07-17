@@ -945,6 +945,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD = "/page/instructorCourseStudentListDownload";
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE = "/page/instructorCourseEnrollAjaxPage";
+        public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_UPDATE_PAGE = "/page/instructorCourseEnrollAjaxUpdatePage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
         public static final String INSTRUCTOR_COURSE_ENROLL_UPDATE = "/page/instructorCourseEnrollUpdate";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
@@ -1343,6 +1344,8 @@ public final class Const {
                 "If the student was created during the last few minutes, "
                 + "try again in a few more minutes as the student may still be being saved.";
 
+        public static final String STUDENT_UPDATE_CONFLICT = "If the student's email was edited during the last few minutes, " +
+                "refresh the page and check that the new email has been changed for the student.";
         public static final String STUDENT_EDITED = "The student has been edited successfully.";
         public static final String STUDENT_EDITED_AND_EMAIL_SENT = STUDENT_EDITED
                 + " A summary of the course has been sent to the new email.";
@@ -1351,6 +1354,8 @@ public final class Const {
                 + " A summary of the course has been sent to the new email(s).";
         public static final String STUDENT_NOT_FOUND_FOR_EDIT =
                 "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
+        public static final String STUDENT_NOT_FOUND_FOR_UPDATE =
+                "The student you tried to edit does not exist. " + STUDENT_UPDATE_CONFLICT;
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENTS_DELETED = "All the students have been removed from the course";
         public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
