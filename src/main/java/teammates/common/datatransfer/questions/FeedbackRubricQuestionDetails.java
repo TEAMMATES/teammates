@@ -121,8 +121,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             String subQn = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
-            if (subQn == null) {
-                // No weights should be parsed for a null sub question.
+            if (subQn == null || subQn.trim().isEmpty()) {
+                // No weights should be parsed for a null or empty sub question.
                 continue;
             }
             boolean rowAdded = false;
@@ -1081,21 +1081,21 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    boolean hasAssignedWeights() {
+    public boolean hasAssignedWeights() {
         return hasAssignedWeights;
     }
 
-    List<List<Double>> getRubricWeights() {
+    public List<List<Double>> getRubricWeights() {
         // If weights are assigned, and rubricWeightsForEachCell is empty,
         // that means the question contains legacy data, in which case, covert the legacy data into new format.
         if (hasAssignedWeights && rubricWeightsForEachCell.isEmpty()) {
-            Assumption.assertFalse(rubricWeights.isEmpty());
-
             // If numberOfChoices is different than weight list, then some error has occurred,
             // in that case, return an empty list to avoid IndexOutOfBoundException.
-            if (rubricWeights.size() != numOfRubricChoices) {
+            // Also, if rubricWeights list is empty, return an empty list.
+            if (rubricWeights.size() != numOfRubricChoices || rubricWeights.isEmpty()) {
                 return new ArrayList<>();
             }
+
             // Note that rubricWeights will not be empty if the question persists legacy data,
             // that is rubricWeights will contain weights for each choices rather than each individual option,
             // So in this case, we will fill each column of rubricWeightsForEachCell with each value of rubricWeights.
