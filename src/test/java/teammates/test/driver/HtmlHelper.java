@@ -510,7 +510,7 @@ public final class HtmlHelper {
     public static String injectContextDependentValuesForTest(String content) {
         Instant now = Instant.now();
         return content
-                .replace("<!-- test.url -->", Config.APP_URL)
+                .replace("<!-- test.url -->", TestProperties.TEAMMATES_URL)
                 .replace("<!-- studentmotd.url -->", Config.STUDENT_MOTD_URL)
                 .replace("<!-- support.email -->", Config.SUPPORT_EMAIL)
                 .replace("<!-- version -->", TestProperties.TEAMMATES_VERSION)
