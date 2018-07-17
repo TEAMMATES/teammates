@@ -568,7 +568,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     }
 
     @Test
-    public void testExecuteAndPostProcess_responsesForDuplicateIdSubmitted_errorsThrown() {
+    public void testExecuteAndPostProcess_responsesForDuplicateIdSubmitted_errorReturned() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
@@ -589,8 +589,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
-
-        ______TS("Unsuccessful case: Modified response for a recipient who already has a response");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
