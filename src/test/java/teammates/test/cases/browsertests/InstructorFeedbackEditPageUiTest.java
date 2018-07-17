@@ -325,6 +325,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickTemplateQuestionPanel(5);
         feedbackEditPage.verifyHtmlPart(By.id("addTemplateQuestionModal"),
                 "/instructorFeedbackTemplateQuestionExpandedModal.html");
+
+        feedbackEditPage.clickTemplateQuestionModalCheckBox(1);
+
+        assertTrue("Can click after selecting a question",
+                feedbackEditPage.isAddTemplateQuestionButtonEnabled());
+        feedbackEditPage.clickAddTemplateQuestionButton();
     }
 
     private void testEditQuestionLink() {

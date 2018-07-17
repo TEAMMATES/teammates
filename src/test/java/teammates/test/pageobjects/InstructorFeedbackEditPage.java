@@ -1947,6 +1947,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(questionPanel);
     }
 
+    public void clickTemplateQuestionModalCheckBox(int questionNum) {
+        WebElement questionCheckBox = browser.driver.findElement(By.id("addTemplateQuestionModalForm"))
+                .findElement(By.id("addTemplateQuestion-" + questionNum))
+                .findElement(By.cssSelector("input"));
+
+        click(questionCheckBox);
+    }
+
     public void clickCopyTableAtRow(int rowIndex) {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                                       .findElements(By.tagName("tr"))
