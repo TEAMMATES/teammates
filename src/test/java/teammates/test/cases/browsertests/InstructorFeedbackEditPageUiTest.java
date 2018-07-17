@@ -89,6 +89,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testInputValidationForQuestion();
         testAddQuestionAction();
 
+        testAddTemplateQuestionLink();
+        testAddTemplateQuestionAction();
+
         testEditQuestionLink();
         testEditQuestionAction();
 
@@ -296,6 +299,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
         assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionAddSuccess.html");
+    }
+
+    private  void testAddTemplateQuestionLink() throws Exception {
+
+    }
+
+    private void testAddTemplateQuestionAction() throws Exception {
+
     }
 
     private void testEditQuestionLink() {
