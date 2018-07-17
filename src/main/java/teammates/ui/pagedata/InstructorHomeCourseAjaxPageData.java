@@ -69,8 +69,6 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                          className + "enroll-for-test",
                                          getInstructorCourseEnrollLink(courseId),
                                          Const.Tooltips.COURSE_ENROLL);
-        addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
-                       enroll, disabled, null);
 
         ElementTag view = createButton("View / Edit",
                                        className + "view-for-test",
@@ -101,7 +99,9 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                          Const.Tooltips.COURSE_DELETE);
         addAttributeIf(true, delete, "data-course-id", courseId);
 
-        students.addNestedElement(enroll);
+        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {
+            students.addNestedElement(enroll);
+        }
         students.addNestedElement(view);
 
         sessions.addNestedElement(add);
@@ -114,7 +114,10 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
             courses.addNestedElement(delete);
         }
 
-        return Arrays.asList(students, instructors, sessions, courses);
+        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+            return Arrays.asList(students, instructors, sessions, courses);
+        }
+        return Arrays.asList(students, instructors, courses);
     }
 
     private List<HomeFeedbackSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
