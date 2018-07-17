@@ -301,7 +301,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionAddSuccess.html");
     }
 
-    private  void testAddTemplateQuestionLink() throws Exception {
+    private void testAddTemplateQuestionLink() throws Exception {
 
         ______TS("add template question link");
 
