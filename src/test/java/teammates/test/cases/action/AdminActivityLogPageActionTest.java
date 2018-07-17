@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
@@ -17,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.TeammatesDateTimeFormatter;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
@@ -85,13 +84,13 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
 
     private String formatAdminDate(Instant instant) {
         return instant.atZone(Const.SystemParams.ADMIN_TIME_ZONE).toLocalDate()
-                .format(DateTimeFormatter.ofPattern("dd/MM/yy", Locale.US));
+                .format(TeammatesDateTimeFormatter.ofPattern("dd/MM/yy"));
     }
 
     private String formatActivityLogTimeTruncated(Instant instant, ZoneId zoneId) {
         // Some timings are adjusted slightly in the tests. Hence instead of testing for exact match,
         // we test matching up to the hour.
-        return DateTimeFormatter.ofPattern("dd/MM/yyyy HH", Locale.US).format(instant.atZone(zoneId));
+        return TeammatesDateTimeFormatter.ofPattern("dd/MM/yyyy HH").format(instant.atZone(zoneId));
     }
 
     private String getExpectedAjaxTimeString(Instant instant, ZoneId zoneId) {

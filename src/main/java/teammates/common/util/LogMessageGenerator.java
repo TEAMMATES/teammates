@@ -2,7 +2,6 @@ package teammates.common.util;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +20,7 @@ public class LogMessageGenerator {
     public static final String PATTERN_ACTION_NAME_GROUP = "actionName";
 
     private static final DateTimeFormatter FORMATTER =
-            DateTimeFormatter.ofPattern(Const.ActivityLog.TIME_FORMAT_LOGID, Locale.US);
+            TeammatesDateTimeFormatter.ofPattern(Const.ActivityLog.TIME_FORMAT_LOGID);
 
     /**
      * Generates the log message for an *Action.
