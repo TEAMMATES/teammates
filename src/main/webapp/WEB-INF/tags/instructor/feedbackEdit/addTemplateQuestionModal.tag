@@ -31,7 +31,7 @@
               </div>
               <div class="panel-collapse collapse">
                 <div class="panel-body">
-                  <div class="panel panel-primary" id="${templateQn.qnType}">
+                  <div class="panel panel-primary">
                     <div class="panel-heading">
                       <div class="row">
                         <div class="col-sm-7">
