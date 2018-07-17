@@ -303,6 +303,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private  void testAddTemplateQuestionLink() throws Exception {
 
+        ______TS("add template question link");
+
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.clickTemplateModalButton();
+
+        assertTrue(feedbackEditPage.verifyTemplateQuestionModalIsDisplayed());
+        assertFalse("Unable to submit when there is no question selected",
+                feedbackEditPage.isAddTemplateQuestionButtonEnabled());
     }
 
     private void testAddTemplateQuestionAction() throws Exception {
