@@ -6,7 +6,7 @@ import java.util.Locale;
 /**
  * DateTimeFormatter for TEAMMATES with default Locale.US settings.
  */
-public class TeammatesDateTimeFormatter {
+public final class TeammatesDateTimeFormatter {
 
     private TeammatesDateTimeFormatter() {
         // Utility class
