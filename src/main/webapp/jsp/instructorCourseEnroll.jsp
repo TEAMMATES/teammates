@@ -66,7 +66,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <button type="submit" class="btn btn-primary btn-md pull-right existing-students"
-                            id="button_updatestudents">
+                            id="button_updatestudents" formaction="${data.instructorCourseEnrollUpdateLink}">
                       Update
                   </button>
                 </div>

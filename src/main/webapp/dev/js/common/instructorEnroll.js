@@ -70,12 +70,6 @@ function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
             header => student[header])));
 }
 
-function populateStatusIconToHandsontableData(studentsDataArray) {
-    studentsDataArray.forEach((row, index) => (studentsDataArray[index][0] =
-            "&#9989;"));
-    return studentsDataArray;
-}
-
 /**
  * Toggle the chevron image depending on the user's action.
  */
@@ -173,6 +167,25 @@ function getUpdatedStudentRows(dataSpreadsheetData, existingStudentsData) {
             .join('\n');
 }
 
+/**
+ * Returns a list of new emails that would be updated.
+ * @returns {string} list of new emails in separate lines.
+ */
+function getNewEmailList(submitText) {
+    const newEmailColumnIndex = 6;
+    return submitText.split('\n')
+            .map(row => row.split('|'))
+            .filter(row => row[newEmailColumnIndex] !== '')
+            .map((row, index) => String(index + 1).concat('. ').concat(row[newEmailColumnIndex]))
+            .join('<br>');
+}
+
+function firstColRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.HtmlRenderer.apply(this, arguments);
+    td.style.background = '#F0F0F0';
+    td.innerHTML = '<div style="text-align:center">&#9989;</div>';
+}
+
 export {
     getUpdatedHeaderString,
     getUserDataRows,
@@ -182,7 +195,7 @@ export {
     displayErrorExecutingAjax,
     getSpreadsheetLength,
     toggleStudentsPanel,
-    //showUpdateModalBox,
     getUpdatedStudentRows,
-    populateStatusIconToHandsontableData,
+    getNewEmailList,
+    firstColRenderer,
 };

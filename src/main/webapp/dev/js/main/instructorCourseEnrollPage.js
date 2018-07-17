@@ -28,9 +28,9 @@ import {
     displayErrorExecutingAjax,
     getSpreadsheetLength,
     toggleStudentsPanel,
-    //showUpdateModalBox,
     getUpdatedStudentRows,
-    populateStatusIconToHandsontableData,
+    getNewEmailList,
+    firstColRenderer,
 } from '../common/instructorEnroll';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
@@ -87,12 +87,6 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
 
 let existingStudentsData = null;
 
-function firstColRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.HtmlRenderer.apply(this, arguments);
-    td.style.background = '#F0F0F0';
-    td.innerHTML = '<div style="text-align:center">&#9989;</div>';
-}
-
 /**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
  * Pushes the output data into the textarea (used for form submission).
@@ -133,7 +127,7 @@ function getAjaxStudentList(displayIcon) {
         $.ajax({
             type: 'POST',
             url: '/page/instructorCourseEnrollAjaxPage',
-            cache: true,
+            cache: false,
             data: {
                 courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
                 user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
@@ -161,21 +155,15 @@ function showUpdateModalBox(submitText, event) {
 
     const yesCallback = function () {
         $('[name=\'sessionsummarysendemail\']').val(true);
-        //$('#button_updatestudents').unbind('click').click();
-        getAjaxUpdateStudentList()
-                .then((data) => console.log(data))
-                .catch((error) => console.log(error));
+        processAjaxUpdateData();
     };
     const noCallback = function () {
         $('[name=\'sessionsummarysendemail\']').val(false);
-        $('#button_updatestudents').unbind('click').click();
+        processAjaxUpdateData();
     };
     const okCallback = function () {
         $('[name=\'sessionsummarysendemail\']').val(false);
-        //$('#button_updatestudents').unbind('click').click();
-        getAjaxUpdateStudentList()
-                .then((data) => console.log(data))
-                .catch((error) => console.log(error));
+        processAjaxUpdateData();
     };
 
     let messageText = `Updating any changes will result in some existing responses from this student to be deleted.
@@ -194,17 +182,15 @@ function showUpdateModalBox(submitText, event) {
     }
 }
 
-/**
- * Returns a list of new emails that would be updated.
- * @returns {string} list of new emails in separate lines.
- */
-function getNewEmailList(submitText) {
-    const newEmailColumnIndex = 6;
-    return submitText.split('\n')
-            .map(row => row.split('|'))
-.filter(row => row[newEmailColumnIndex] !== '')
-.map((row, index) => String(index + 1).concat('. ').concat(row[newEmailColumnIndex]))
-.join('<br>');
+function processAjaxUpdateData() {
+    getAjaxUpdateStudentList()
+            .then((data) => {
+                console.log(data);
+                if (data.statusMessagesToUser.length === 1
+                        && data.statusMessagesToUser[0].color === 'SUCCESS') {
+                    $(`#button_updatestudents`).unbind('click').click();
+                }
+            }).catch((error) => console.log(error));
 }
 
 function getAjaxUpdateStudentList() {
@@ -213,8 +199,8 @@ function getAjaxUpdateStudentList() {
         const $spreadsheetForm = $('#student-data-spreadsheet-form');
         $.ajax({
             type: 'POST',
-            url: '/page/instructorCourseEnrollUpdate',
-            cache: true,
+            url: '/page/instructorCourseEnrollAjaxUpdatePage',
+            cache: false,
             data: {
                 courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
                 massupdatestudents: $spreadsheetForm.find(`#massupdatestudents`).val(),
@@ -244,12 +230,6 @@ function updateDataHandsontableSettings() {
     });
 }
 
-function firstColRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.HtmlRenderer.apply(this, arguments);
-    td.style.background = '#F0F0F0';
-    td.innerHTML = '<div style="text-align:center">&#9989;</div>';
-}
-
 /**
  * Expands "Existing students" panel and loads existing students' data (if spreadsheet is not empty)
  * into the spreadsheet interface. Spreadsheet interface would be shown after expansion.
@@ -274,10 +254,8 @@ function expandCollapseExistingStudentsPanel() {
                         loadExistingStudentsData(data.students);
                         toggleStudentsPanel($panelHeading, panelCollapse,
                                             displayIcon, toggleChevron, panelName);
-
                         // needed as the view is buggy after collapsing the panel
                         dataHandsontable.render();
-
                         // keep a copy of the current existing students data upon AJAX load
                         existingStudentsData = dataHandsontable.getData();
                     }
