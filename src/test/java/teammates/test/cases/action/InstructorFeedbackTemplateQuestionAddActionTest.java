@@ -150,7 +150,7 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
                             + "instructorFeedbackTemplateQuestionAdd|||true|||"
-                            + "Instructor|||Instructor 1 of Course 1|||"
+                            + "Instructor(M)|||Instructor 1 of Course 1|||"
                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                             + "Added Feedback Template Question for Feedback Session:<span class=\"bold\">"
                             + "(First feedback session)</span> for Course "
