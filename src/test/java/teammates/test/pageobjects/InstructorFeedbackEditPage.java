@@ -1940,6 +1940,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(FeedbackSubmitPage.class);
     }
 
+    public void clickTemplateQuestionPanel(int questionNum) {
+        WebElement questionPanel = browser.driver.findElement(By.id("addTemplateQuestionModalForm"))
+                .findElement(By.id("addTemplateQuestion-" + questionNum));
+
+        click(questionPanel);
+    }
+
     public void clickCopyTableAtRow(int rowIndex) {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                                       .findElements(By.tagName("tr"))

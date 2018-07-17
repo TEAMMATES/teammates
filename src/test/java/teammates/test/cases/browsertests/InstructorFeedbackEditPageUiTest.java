@@ -315,6 +315,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testAddTemplateQuestionAction() throws Exception {
 
+        ______TS("add template question action success");
+
+        // check if each question panel is expandable
+        feedbackEditPage.clickTemplateQuestionPanel(1);
+        feedbackEditPage.clickTemplateQuestionPanel(2);
+        feedbackEditPage.clickTemplateQuestionPanel(3);
+        feedbackEditPage.clickTemplateQuestionPanel(4);
+        feedbackEditPage.clickTemplateQuestionPanel(5);
+        feedbackEditPage.verifyHtmlPart(By.id("addTemplateQuestionModal"),
+                "/instructorFeedbackTemplateQuestionExpandedModal.html");
     }
 
     private void testEditQuestionLink() {
