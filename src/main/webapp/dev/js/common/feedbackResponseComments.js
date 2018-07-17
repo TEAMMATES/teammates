@@ -165,13 +165,29 @@ function enableHoverToDisplayEditOptions() {
     });
 }
 
-function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
-    let id;
-    if (giverIndex === null && sectionIndex === undefined) {
-        id = `-${qnIndex}-${recipientIndex}`;
-    } else {
-        id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+function showResponseCommentAddFormForFeedbackParticipant(qnIndex, responseIndex) {
+    const id = `-${qnIndex}-${responseIndex}`;
+
+    $(`#responseCommentTable${id}`).show();
+    if ($(`#responseCommentTable${id} > li`).length <= 1) {
+        $(`#responseCommentTable${id}`).css('margin-top', '15px');
     }
+    $(`#showResponseCommentAddForm${id}`).show();
+
+    const responseCommentAddFormId = `responseCommentAddForm${id}`;
+    const responseCommentEditor = tinymce.get(responseCommentAddFormId);
+    if (responseCommentEditor === null) {
+        richTextEditorBuilder.initEditor(`#${responseCommentAddFormId}`, {
+            inline: true,
+        });
+    } else {
+        responseCommentEditor.setContent('');
+    }
+    $(`#responseCommentAddForm${id}`).focus();
+}
+
+function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
+    const id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     $(`#responseCommentTable${id}`).show();
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
@@ -193,13 +209,18 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     $(`#responseCommentAddForm${id}`).focus();
 }
 
-function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
-    let id;
-    if (giverIndex === null && sectionIndex === undefined) {
-        id = `-${qnIndex}-${recipientIndex}`;
-    } else {
-        id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
+function hideResponseCommentAddFormForFeedbackParticipant(qnIndex, responseIndex) {
+    const id = `-${qnIndex}-${responseIndex}`;
+    if ($(`#responseCommentTable${id} > li`).length <= 1) {
+        $(`#responseCommentTable${id}`).css('margin-top', '0');
+        $(`#responseCommentTable${id}`).hide();
     }
+    $(`#showResponseCommentAddForm${id}`).hide();
+    removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
+}
+
+function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, sectionIndex) {
+    const id = `${sectionIndex === undefined ? '' : `-${sectionIndex}`}-${recipientIndex}-${giverIndex}-${qnIndex}`;
 
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
         $(`#responseCommentTable${id}`).css('margin-top', '0');
@@ -211,12 +232,30 @@ function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
 }
 
+function showResponseCommentEditFormForFeedbackParticipant(qnIndex, responseIndex) {
+    const id = `-${qnIndex}-${responseIndex}`;
+    const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
+    $commentBar.hide();
+    $(`#plainCommentText${id}`).hide();
+    $(`#responseCommentEditForm${id} > div > textarea`).val($(`#plainCommentText${id}`).text());
+    $(`#responseCommentEditForm${id}`).show();
+    $(`#responseCommentEditForm${id} > div > textarea`).focus();
+    if (typeof richTextEditorBuilder !== 'undefined') {
+        if (tinymce.get(`responsecommenttext${id}`)) {
+            return;
+        }
+        /* eslint-disable camelcase */ // The property names are determined by external library (tinymce)
+        richTextEditorBuilder.initEditor(`#responsecommenttext${id}`, {
+            inline: true,
+        });
+        /* eslint-enable camelcase */
+    }
+}
+
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (giverIndex === null && commentIndex === undefined && sectionIndex === undefined && viewType === undefined) {
-        id = `-${qnIndex}-${recipientIndex}`;
-    } else if (sectionIndex !== undefined) {
+    if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else if (viewType === undefined) {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
@@ -281,12 +320,20 @@ function toggleVisibilityEditForm(recipientIndex, giverIndex, qnIndex, commentIn
     }
 }
 
+function hideResponseCommentEditFormForFeedbackParticipant(qnIndex, responseIndex) {
+    const id = `-${qnIndex}-${responseIndex}`;
+    const $commentBar = $(`#plainCommentText${id}`).parent().find(`#commentBar${id}`);
+    $commentBar.show();
+    $(`#plainCommentText${id}`).show();
+    $(`#responseCommentEditForm${id}`).hide();
+    tinymce.get(`responsecommenttext${id}`).setContent($(`#plainCommentText${id}`).text());
+    removeFormErrorMessage($(`#button_save_comment_for_edit${id}`));
+}
+
 function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex, sectionIndex, viewType) {
     let id;
 
-    if (giverIndex === null && commentIndex === undefined && sectionIndex === undefined && viewType === undefined) {
-        id = `-${qnIndex}-${recipientIndex}`;
-    } else if (sectionIndex !== undefined) {
+    if (sectionIndex !== undefined) {
         id = `-${sectionIndex}-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
     } else if (viewType === undefined) {
         id = `-${recipientIndex}-${giverIndex}-${qnIndex}-${commentIndex}`;
@@ -617,17 +664,17 @@ function registerResponseCommentsEventForFeedbackPage() {
             'div[class*="responseCommentDeleteForm"] > a[id^="commentdelete"]', deleteCommentHandlerForFeedbackPage);
     const clickHandlerMap = new Map();
     clickHandlerMap.set(
-            '.show-frc-add-form', [showResponseCommentAddForm,
-                ['responseindex', 'qnindex']]);
+            '.show-frc-add-form', [showResponseCommentAddFormForFeedbackParticipant,
+                ['qnindex', 'responseindex']]);
     clickHandlerMap.set(
-            '.show-frc-edit-form', [showResponseCommentEditForm,
-                ['responseindex', 'qnindex']]);
+            '.show-frc-edit-form', [showResponseCommentEditFormForFeedbackParticipant,
+                ['qnindex', 'responseindex']]);
     clickHandlerMap.set(
-            '.hide-frc-add-form', [hideResponseCommentAddForm,
-                ['responseindex', 'qnindex']]);
+            '.hide-frc-add-form', [hideResponseCommentAddFormForFeedbackParticipant,
+                ['qnindex', 'responseindex']]);
     clickHandlerMap.set(
-            '.hide-frc-edit-form', [hideResponseCommentEditForm,
-                ['responseindex', 'qnindex']]);
+            '.hide-frc-edit-form', [hideResponseCommentEditFormForFeedbackParticipant,
+                ['qnindex', 'responseindex']]);
 
     /* eslint-disable no-restricted-syntax */
     for (const [className, clickHandlerAndParams] of clickHandlerMap) {
@@ -635,7 +682,7 @@ function registerResponseCommentsEventForFeedbackPage() {
             const ev = $(e.currentTarget);
             const clickHandler = clickHandlerAndParams[0];
             const params = clickHandlerAndParams[1].map(paramName => ev.data(paramName));
-            clickHandler(params[0], null, params[1]);
+            clickHandler(params[0], params[1]);
         });
     }
     /* eslint-enable no-restricted-syntax */

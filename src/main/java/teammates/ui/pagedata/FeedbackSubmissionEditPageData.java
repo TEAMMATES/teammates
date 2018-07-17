@@ -259,8 +259,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     true, recipientOptionsForQuestion, submissionFormHtml,
                     existingResponse.getId());
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
-                FeedbackResponseCommentRow responseCommentRow = buildFeedbackParticipantResponseCommentRow(questionAttributes,
-                        existingResponse.getId());
+                FeedbackResponseCommentRow responseCommentRow =
+                        buildFeedbackParticipantResponseCommentRow(questionAttributes, existingResponse.getId());
 
                 FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentFormForAdding(
                         questionAttributes, existingResponse.getId(), "", "", sessionTimeZone, true);
