@@ -901,7 +901,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
-     * Calculate the Response Statistics for MSQ questions.
+     * Calculates the Response Statistics for MSQ questions.
      */
     private static class MSQStatistics extends MultipleOptionStatistics {
 

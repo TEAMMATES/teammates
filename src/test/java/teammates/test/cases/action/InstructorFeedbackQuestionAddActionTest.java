@@ -249,15 +249,15 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                                    + "instructorFeedbackQuestionAdd|||true|||"
-                                    + "Instructor|||Instructor 1 of Course 1|||"
-                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
-                                    + "(First feedback session)</span> for Course "
-                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
-                                    + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) "
-                                    + "question:</span> What do you like best about the class?"
-                                    + "|||/page/instructorFeedbackQuestionAdd";
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) "
+                + "question:</span> What do you like best about the class?"
+                + "|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("MSQ: Enabled other option with weights assigned");
@@ -292,14 +292,14 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                             + "instructorFeedbackQuestionAdd|||true|||"
-                             + "Instructor|||Instructor 1 of Course 1|||"
-                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
-                             + "(First feedback session)</span> for Course "
-                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
-                             + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> "
-                             + "What do you like best about the class?|||/page/instructorFeedbackQuestionAdd";
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> "
+                + "What do you like best about the class?|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("MSQ: Failure case: Number of choices is greater than number of corrosponding weights");
@@ -333,10 +333,10 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT, result.getStatusMessage());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                                    + "instructorFeedbackQuestionAdd|||true|||"
-                                    + "Instructor|||Instructor 1 of Course 1|||"
-                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                                    + "Unknown|||/page/instructorFeedbackQuestionAdd";
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Unknown|||/page/instructorFeedbackQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
     }
 
