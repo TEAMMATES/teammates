@@ -1033,7 +1033,7 @@ function bindAddTemplateQnButton() {
 
         let hasPanelSelected = false;
 
-        $('#addTemplateQuestion > .panel-heading').each(function () {
+        $('[id^="addTemplateQuestion-"] > .panel-heading').each(function () {
             const $this = $(this);
             const questionNumInput = $this.children('input:first');
             if (!questionNumInput.length) {
@@ -1059,7 +1059,7 @@ function bindAddTemplateQnButton() {
 function bindAddTemplateQnEvents() {
     let numPanelsSelected = 0;
 
-    $('body').on('click', '#addTemplateQuestion', function (e) {
+    $('[id^="addTemplateQuestion-"]').click(function (e) {
         const $heading = $(this).children('.panel-heading');
         const $bodyCollapse = $(this).children('.panel-collapse');
 

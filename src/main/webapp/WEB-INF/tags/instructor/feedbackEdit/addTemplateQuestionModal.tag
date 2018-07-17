@@ -20,7 +20,7 @@
               action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD %>">
 
           <c:forEach items="${data.templateQuestions}" var="templateQn">
-            <div class="panel panel-default" id="addTemplateQuestion">
+            <div class="panel panel-default" id="addTemplateQuestion-${templateQn.qnNumber}">
               <div class="panel-heading cursor-pointer">
                 <input type="hidden" value="${templateQn.qnNumber}">
                 <div class="panel-title">
