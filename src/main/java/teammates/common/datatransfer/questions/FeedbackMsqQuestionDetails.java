@@ -973,7 +973,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Returns a Map containing response counts for each option for every recipient.
          */
-        public Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
+        protected Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
                 List<FeedbackResponseAttributes> responses) {
             Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();
 
@@ -1041,42 +1041,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             return bodyBuilder.toString();
-        }
-
-        /**
-         * Returns the 'Per Recipient' stats body part for CSV files.
-         * @param responses The response attribute list should be sorted first before passing as an argument.
-         * @param bundle Feedback session results bundle
-         */
-        public String getPerRecipientResponseStatsBodyCsv(List<FeedbackResponseAttributes> responses,
-                FeedbackSessionResultsBundle bundle) {
-            StringBuilder bodyBuilder = new StringBuilder(100);
-            Map<String, Map<String, Integer>> perRecipientResponses = calculatePerRecipientResponseCount(responses);
-
-            for (Map.Entry<String, Map<String, Integer>> entry : perRecipientResponses.entrySet()) {
-                String recipient = entry.getKey();
-                Map<String, Integer> responsesForRecipient = entry.getValue();
-                String perRecipientStats = getPerRecipientResponseStatsBodyFragmentCsv(
-                        recipient, responsesForRecipient, bundle);
-                bodyBuilder.append(perRecipientStats);
-            }
-
-            return bodyBuilder.toString();
-
-        }
-
-        /**
-         * Returns a string containing a per recipient response stats for a single recipient.
-         */
-        private String getPerRecipientResponseStatsBodyFragmentCsv(String recipientEmail,
-                Map<String, Integer> recipientResponses, FeedbackSessionResultsBundle bundle) {
-            StringBuilder fragments = new StringBuilder(100);
-            List<String> statsForEachRecipient = generateStatisticsForEachRecipient(
-                    recipientEmail, recipientResponses, bundle);
-
-            // Add each column data in fragments
-            fragments.append(String.join(", ", statsForEachRecipient) + System.lineSeparator());
-            return fragments.toString();
         }
 
     }
