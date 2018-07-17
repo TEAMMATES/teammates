@@ -347,6 +347,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddTemplateQuestionButton();
 
         assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 4));
+
+        // revert back to state expected by tests after this by deleting newly added template questions
+        String questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 4).getId();
+        BackDoor.deleteFeedbackQuestion(questionId);
+        questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 3).getId();
+        BackDoor.deleteFeedbackQuestion(questionId);
+        questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 2).getId();
+        BackDoor.deleteFeedbackQuestion(questionId);
     }
 
     private void testEditQuestionLink() {
