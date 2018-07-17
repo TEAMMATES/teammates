@@ -99,8 +99,6 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
                                          className + "delete-for-test course-delete-link",
                                          getInstructorCourseDeleteLink(courseId, true),
                                          Const.Tooltips.COURSE_DELETE);
-        addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE),
-                       delete, disabled, null);
         addAttributeIf(true, delete, "data-course-id", courseId);
 
         students.addNestedElement(enroll);
@@ -112,7 +110,9 @@ public class InstructorHomeCourseAjaxPageData extends PageData {
 
         courses.addNestedElement(archive);
         courses.addNestedElement(edit);
-        courses.addNestedElement(delete);
+        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
+            courses.addNestedElement(delete);
+        }
 
         return Arrays.asList(students, instructors, sessions, courses);
     }
