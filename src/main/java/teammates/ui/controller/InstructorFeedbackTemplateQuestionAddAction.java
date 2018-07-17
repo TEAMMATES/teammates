@@ -24,40 +24,46 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
+        RedirectResult redirectResult = createRedirectResult(new PageData(account, sessionToken)
+                .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+
+        String[] feedbackQuestionNumbers = getRequestParamValues(Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER);
+
+        if (feedbackQuestionNumbers == null) {
+            statusToAdmin = "";
+            statusToUser.add(new StatusMessage("No template questions are indicated to be added",
+                    StatusMessageColor.DANGER));
+            isError = true;
+
+            return redirectResult;
+        }
+
         List<FeedbackQuestionAttributes> templateQuestions = logic.populateFeedbackSessionTemplateQuestions("TEAMEVALUATION",
                 courseId, feedbackSessionName, account.getEmail());
+
         try {
+            for (String questionNumber : feedbackQuestionNumbers) {
 
-            String[] feedbackQuestionNumbers = getRequestParamValues(Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER);
+                int questionNum = Integer.parseInt(questionNumber);
+                // there are only 5 template questions being populated at the moment
+                Assumption.assertTrue("Invalid question number", questionNum >= 1 && questionNum <= 5);
 
-            if (feedbackQuestionNumbers != null) {
-                for (String questionNumber : feedbackQuestionNumbers) {
+                FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(questionNum - 1);
+                feedbackQuestion.questionNumber = -1;
+                logic.createFeedbackQuestion(feedbackQuestion);
 
-                    int questionNum = Integer.parseInt(questionNumber);
-                    // there are only 5 template questions being populated at the moment
-                    Assumption.assertTrue("Invalid question number", questionNum >= 1 && questionNum <= 5);
-
-                    FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(questionNum - 1);
-                    feedbackQuestion.questionNumber = -1;
-                    logic.createFeedbackQuestion(feedbackQuestion);
-
-                    statusToAdmin = "Added Feedback Template Question for Feedback Session:<span class=\"bold\">("
-                            + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
-                            + feedbackQuestion.courseId + "]</span> created.<br>"
-                            + "<span class=\"bold\">"
-                            + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
-                            + ":</span> "
-                            + SanitizationHelper.sanitizeForHtml(feedbackQuestion.getQuestionDetails().getQuestionText());
-                }
-
-                statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
-                        StatusMessageColor.SUCCESS));
-            } else {
-                statusToAdmin = "";
-                statusToUser.add(new StatusMessage("No template questions are indicated to be added",
-                        StatusMessageColor.DANGER));
-                isError = true;
+                statusToAdmin = "Added Feedback Template Question for Feedback Session:<span class=\"bold\">("
+                        + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                        + feedbackQuestion.courseId + "]</span> created.<br>"
+                        + "<span class=\"bold\">"
+                        + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
+                        + ":</span> "
+                        + SanitizationHelper.sanitizeForHtml(feedbackQuestion.getQuestionDetails().getQuestionText());
             }
+
+            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
+                    StatusMessageColor.SUCCESS));
+
         } catch (InvalidParametersException e) {
             // This part is not tested because GateKeeper handles if this happens, would be
             // extremely difficult to replicate a situation whereby it gets past GateKeeper
@@ -66,7 +72,6 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
             isError = true;
         }
 
-        return createRedirectResult(new PageData(account, sessionToken)
-                .getInstructorFeedbackEditLink(courseId, feedbackSessionName));
+        return redirectResult;
     }
 }
