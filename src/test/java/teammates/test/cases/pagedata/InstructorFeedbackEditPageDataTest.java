@@ -64,7 +64,10 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        data.init(fs, questions, null, questionHasResponses, studentList, instructorList, instructor,
+        List<FeedbackQuestionAttributes> templateQuestions = new ArrayList<>();
+        templateQuestions.add(dataBundle.feedbackQuestions.get("templateQn1InSession1InCourse1"));
+
+        data.init(fs, questions, templateQuestions, questionHasResponses, studentList, instructorList, instructor,
                 true, instructorList.size(), courseDetails);
 
         // Test fs form
@@ -217,7 +220,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         instructor = getInstructorFromBundle("instructor1OfCourse1");
         courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        data.init(fs, questions, null, questionHasResponses, studentList, instructorList, instructor, true,
+        data.init(fs, questions, templateQuestions, questionHasResponses, studentList, instructorList, instructor, true,
                 instructorList.size(), courseDetails);
 
         fsForm = data.getFsForm();
