@@ -966,8 +966,8 @@
         "INSTRUCTORS"
       ]
     },
-    "templateQn1InSession1InCourse1": {
-      "feedbackSessionName": "First feedback session",
+    "templateQn1InSampleSession1InCourse1": {
+      "feedbackSessionName": "Sample feedback session",
       "courseId": "idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {

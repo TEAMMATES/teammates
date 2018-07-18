@@ -66,7 +66,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
         List<FeedbackQuestionAttributes> templateQuestions = new ArrayList<>();
-        templateQuestions.add(dataBundle.feedbackQuestions.get("templateQn1InSession1InCourse1"));
+        templateQuestions.add(dataBundle.feedbackQuestions.get("templateQn1InSampleSession1InCourse1"));
 
         data.init(fs, questions, templateQuestions, questionHasResponses, studentList, instructorList, instructor,
                 true, instructorList.size(), courseDetails);
@@ -124,7 +124,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         assertEquals(1, templateQnForm.size());
 
         FeedbackQuestionAttributes templateQuestion = dataBundle.feedbackQuestions
-                .get("templateQn1InSession1InCourse1");
+                .get("templateQn1InSampleSession1InCourse1");
         String questionTypeOfTemplateQuestion = templateQuestion.getQuestionDetails().getQuestionTypeDisplayName();
         String questionTextOfTemplateQuestion = templateQuestion.getQuestionDetails().getQuestionText();
 
