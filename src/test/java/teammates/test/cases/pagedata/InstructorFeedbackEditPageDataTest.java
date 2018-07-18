@@ -29,6 +29,7 @@ import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackSessionsForm;
+import teammates.ui.template.FeedbackTemplateQuestionInfo;
 
 /**
  * SUT: {@link InstructorFeedbackEditPageData}.
@@ -117,6 +118,10 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         assertTrue(additionalSettings.isSendClosingEmailChecked());
         assertTrue(additionalSettings.isSendOpeningEmailChecked());
         assertTrue(additionalSettings.isSendPublishedEmailChecked());
+
+        // test template question form
+        List<FeedbackTemplateQuestionInfo> templateQnForm = data.getTemplateQuestions();
+        assertEquals(1, templateQnForm.size());
 
         // test question edit forms
         List<FeedbackQuestionEditForm> questionForms = data.getQnForms();
