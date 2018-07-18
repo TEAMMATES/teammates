@@ -50,32 +50,16 @@
         <c:when test="${recipientType == 'TEAM'}"> (Team)</c:when>
       </c:choose>:
   </div>
+<c:if test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
+  <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-${addOrEdit}-form"
+  id="button_add_comment-${questionIndex}-${responseIndex}"
+  data-responseindex="${responseIndex}" data-qnindex="${questionIndex}" data-toggle="tooltip"
+  data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
+  <c:if test="${data.preview or (not data.submittable)}"> disabled </c:if>>
+  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+  </button>
+</c:if>
   <c:choose>
-    <c:when test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
-      <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-${addOrEdit}-form"
-              id="button_add_comment-${questionIndex}-${responseIndex}"
-              data-responseindex="${responseIndex}" data-qnindex="${questionIndex}" data-toggle="tooltip"
-              data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
-              <c:if test="${data.preview or (not data.submittable)}"> disabled </c:if>>
-        <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-      </button>
-      <div class="${divClassType}">
-          ${response.submissionFormHtml}
-        <br>
-        <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}"
-            style="${not empty response.feedbackParticipantCommentOnResponse ? 'margin-top:15px;': 'display:none'}">
-          <c:if test="${hasCommentOnResponse}">
-            <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
-                responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}" moderatedPersonEmail="${moderatedPersonEmail}"
-                isSessionOpenForSubmission="${isSessionOpenForSubmission}" isPreview="${data.preview}"
-                submittable="${data.submittable}" isModeration="${data.moderation}"/>
-          </c:if>
-
-          <shared:feedbackResponseCommentAddFormForFeedbackParticipant frc="${response.feedbackResponseCommentAdd}" responseIndex="${response.responseIndx}"
-              qnIndex="${questionWithResponses.question.qnIndx}" isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
-        </ul>
-      </div>
-    </c:when>
     <c:when test="${questionWithResponses.question.questionTypeConstsum}">
       ${response.submissionFormHtml}
     </c:when>
@@ -85,6 +69,24 @@
       </div>
     </c:otherwise>
   </c:choose>
+  <div class="col-sm-12">
+  <c:if test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
+    <br>
+    <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}"
+        style="${not empty response.feedbackParticipantCommentOnResponse ? 'margin-top:15px;': 'display:none'}">
+      <c:if test="${hasCommentOnResponse}">
+        <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
+            responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
+            moderatedPersonEmail="${moderatedPersonEmail}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
+            isPreview="${data.preview}" submittable="${data.submittable}" isModeration="${data.moderation}"/>
+      </c:if>
+
+      <shared:feedbackResponseCommentAddFormForFeedbackParticipant frc="${response.feedbackResponseCommentAdd}"
+          responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
+          isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
+    </ul>
+  </c:if>
+  </div>
   <c:if test="${response.existingResponse}">
     <input type="hidden"
            name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
