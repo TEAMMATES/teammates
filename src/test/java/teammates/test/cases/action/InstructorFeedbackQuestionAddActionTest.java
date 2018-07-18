@@ -819,7 +819,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-0-0", "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-0-0", "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-0-1", "2",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-1-0", "0",
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-1-1", "3",
