@@ -252,7 +252,7 @@ public class AdminActivityLogPageData extends PageData {
             String[] values = pair[1].split(",", -1);
             values = StringHelper.trim(values);
 
-            if(!label.equals("person")) {
+            if (!("person".equals(label))) {
                 values = StringHelper.toLowerCase(values);
             }
 
