@@ -132,6 +132,13 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         assertEquals(questionTypeOfTemplateQuestion, templateQnForm.get(0).getQnType());
         assertEquals(questionTextOfTemplateQuestion, templateQnForm.get(0).getQnText());
 
+        assertEquals("Giver's team members and Giver", templateQnForm.get(0).getQnFeedbackPath());
+        assertEquals("Shown anonymously to recipient and team members, visible to instructors",
+                templateQnForm.get(0).getQnVisibilityOption());
+        assertEquals(4, templateQnForm.get(0).getQnVisibilityHints().size());
+        assertEquals("Use <b>peer estimates</b> to determine the <b>work distribution percentage</b> "
+                + "among team members in <b>a team activity</b>", templateQnForm.get(0).getQnDescription());
+
         // test question edit forms
         List<FeedbackQuestionEditForm> questionForms = data.getQnForms();
         assertEquals(3, questionForms.size());
