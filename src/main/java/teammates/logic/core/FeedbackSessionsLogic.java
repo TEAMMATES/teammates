@@ -1527,11 +1527,13 @@ public final class FeedbackSessionsLogic {
     /**
      * Soft-deletes a specific feedback session to Recycle Bin.
      */
-    public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
+    public Instant moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = fsDb.getFeedbackSession(courseId, feedbackSessionName);
         feedbackSession.setDeletedTime();
         fsDb.updateFeedbackSession(feedbackSession);
+
+        return feedbackSession.getDeletedTime();
     }
 
     /**
