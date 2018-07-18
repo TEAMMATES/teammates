@@ -103,7 +103,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         ______TS("typical success case: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
-        RecoveryFeedbackSessionsTable recoveryFsTableModel  = data.getRecoveryFsList();
+        RecoveryFeedbackSessionsTable recoveryFsTableModel = data.getRecoveryFsList();
 
         List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
@@ -177,7 +177,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         ______TS("case with instructor with deleted session in course: session rows");
         fsTableModel = instructorDeletedSessionData.getFsList();
-        recoveryFsTableModel  = instructorDeletedSessionData.getRecoveryFsList();
+        recoveryFsTableModel = instructorDeletedSessionData.getRecoveryFsList();
 
         fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(1, fsRows.size());
@@ -455,7 +455,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
     }
 
     private List<FeedbackSessionAttributes>
-    getRecoveryFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
+            getRecoveryFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
         Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
 
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>(dataBundle.feedbackSessions.values());
