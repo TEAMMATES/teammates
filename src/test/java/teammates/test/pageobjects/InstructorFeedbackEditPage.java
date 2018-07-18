@@ -845,10 +845,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return addTemplateQuestionButton.isEnabled();
     }
 
-    public boolean verifyTemplateQuestionModalIsDisplayed() {
-        return addTemplateQuestionButton.isDisplayed();
-    }
-
     public void clickEditQuestionButton(int qnNumber) {
         WebElement qnEditLink = browser.driver.findElement(By.id("questionedittext-" + qnNumber));
         click(qnEditLink);

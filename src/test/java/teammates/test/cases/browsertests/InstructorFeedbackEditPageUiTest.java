@@ -308,7 +308,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.clickTemplateModalButton();
 
-        assertTrue(feedbackEditPage.verifyTemplateQuestionModalIsDisplayed());
         assertFalse("Unable to submit when there is no question selected",
                 feedbackEditPage.isAddTemplateQuestionButtonEnabled());
     }
