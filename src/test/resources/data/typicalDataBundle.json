@@ -372,7 +372,7 @@
       "name": "Instructor2 Course3",
       "email": "instructor2@course3.tmt",
       "isArchived": false,
-      "role": "Manager",
+      "role": "Custom",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
       "privileges": {
@@ -382,7 +382,7 @@
           "canmodifysessioncommentinsection": true,
           "canmodifycourse": false,
           "canviewsessioninsection": true,
-          "canmodifysession": true,
+          "canmodifysession": false,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
