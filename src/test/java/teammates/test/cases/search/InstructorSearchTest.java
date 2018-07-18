@@ -92,7 +92,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         ______TS("success: search for instructors in whole system; instructors should be searchable by their role");
 
         results = instructorsDb.searchInstructorsInWholeSystem("Custom");
-        verifySearchResults(results, helperInCourse1);
+        verifySearchResults(results, helperInCourse1, ins2InCourse3);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
 
