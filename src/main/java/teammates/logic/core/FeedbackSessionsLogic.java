@@ -1581,8 +1581,8 @@ public final class FeedbackSessionsLogic {
         // this happens when 'all' section is selected
         if (sectionDetail == null) {
             // default for 'all' section selected
-            params.put(PARAM_IN_SECTION, "false");
-            params.put(PARAM_FROM_SECTION, "true");
+            params.put(PARAM_IN_SECTION, "true");
+            params.put(PARAM_FROM_SECTION, "false");
             params.put(PARAM_TO_SECTION, "false");
             return params;
         }
