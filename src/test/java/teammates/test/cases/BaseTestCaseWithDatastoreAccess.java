@@ -45,7 +45,9 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
 
         Map<String, CourseAttributes> courses = data.courses;
         for (CourseAttributes course : courses.values()) {
-            verifyPresentInDatastore(course);
+            if (!course.isCourseDeleted()) {
+                verifyPresentInDatastore(course);
+            }
         }
 
         Map<String, StudentAttributes> students = data.students;
