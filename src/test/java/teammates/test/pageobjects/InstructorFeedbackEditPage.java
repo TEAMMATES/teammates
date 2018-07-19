@@ -743,6 +743,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         click(link);
     }
 
+    public void clickAddMsqOtherOptionCheckbox(int qnNumber) {
+        WebElement checkbox = browser.driver.findElement(By.id("msqOtherOptionFlag-" + qnNumber));
+        click(checkbox);
+    }
+
+    public boolean isMsqOtherOptionCheckboxChecked(int qnNumber) {
+        return browser.driver.findElement(By.id("msqOtherOptionFlag-" + qnNumber)).isSelected();
+    }
+
     public void clickDiscardChangesLinkForNewQuestion() {
         clickDiscardChangesLink(NEW_QUESTION_NUM);
     }
@@ -1436,6 +1445,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(optionBox, optionText);
     }
 
+    public boolean isMsqWeightBoxFocused(int qnNumber, int choiceIndex) {
+        WebElement weightBox = getMsqWeightBox(qnNumber, choiceIndex);
+        return weightBox.equals(browser.driver.switchTo().activeElement());
+    }
+
+    public boolean isMsqOtherWeightBoxFocused(int qnNumber) {
+        WebElement weightBox = getMsqOtherWeightBox(qnNumber);
+        return weightBox.equals(browser.driver.switchTo().activeElement());
+    }
+
     public void clickAddMoreMsqOptionLink(int qnIndex) {
         WebElement addMoreOptionLink = browser.driver.findElement(By.id("msqAddOptionLink-" + qnIndex));
         click(addMoreOptionLink);
@@ -1540,6 +1559,57 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void fillMsqOption(int qnNumber, int optionIndex, String optionText) {
         WebElement optionBox = browser.driver.findElement(By.id("msqOption-" + optionIndex + "-" + qnNumber));
         fillTextBox(optionBox, optionText);
+    }
+
+    public WebElement getMsqHasAssignWeightsCheckbox(int qnNumber) {
+        return browser.driver.findElement(By.id("msqHasAssignedWeights-" + qnNumber));
+    }
+
+    public void clickMsqHasAssignWeightsCheckbox(int qnNumber) {
+        WebElement msqAssignWeightCheckbox = getMsqHasAssignWeightsCheckbox(qnNumber);
+        click(msqAssignWeightCheckbox);
+    }
+
+    public void clickMsqAssignWeightCheckboxForNewQuestion() {
+        clickMsqHasAssignWeightsCheckbox(NEW_QUESTION_NUM);
+    }
+
+    public boolean isMsqHasAssignWeightCheckboxChecked(int qnNumber) {
+        WebElement checkbox = browser.driver.findElement(By.id("msqHasAssignedWeights-" + qnNumber));
+        return checkbox.isSelected();
+    }
+
+    /**
+     * Get the specified Msq weight WebElement.
+     * @param qnNumber Question number
+     * @param choiceIndex The index of the corresponding MSQ choice
+     * @return The MSQ weight WebElement for the specified choice.
+     */
+    public WebElement getMsqWeightBox(int qnNumber, int choiceIndex) {
+        String elementId = Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-" + choiceIndex + "-" + qnNumber;
+
+        return browser.driver.findElement(By.id(elementId));
+    }
+
+    /**
+     * Returns the whole MSQ weight column.
+     */
+    public WebElement getMsqWeightsColumn(int qnNumber) {
+        return browser.driver.findElement(By.id("msqWeights-" + qnNumber));
+    }
+
+    public WebElement getMsqOtherWeightBox(int qnNumber) {
+        return browser.driver.findElement(By.id("msqOtherWeight-" + qnNumber));
+    }
+
+    public void fillMsqWeightBox(int qnNumber, int choiceIndex, String value) {
+        WebElement weightBox = getMsqWeightBox(qnNumber, choiceIndex);
+        fillTextBox(weightBox, value);
+    }
+
+    public void fillMsqOtherWeightBox(int qnNumber, String value) {
+        WebElement otherWeightBox = getMsqOtherWeightBox(qnNumber);
+        fillTextBox(otherWeightBox, value);
     }
 
     public int getNumOfStudentsForFs() {
