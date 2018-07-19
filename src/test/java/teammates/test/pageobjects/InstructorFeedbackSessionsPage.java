@@ -408,7 +408,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         return getLinkAtTableRow("session-edit-for-test", sessionRowId);
     }
 
-    public WebElement getDeleteLink(String courseId, String sessionName) {
+    public WebElement getMoveToRecoveryLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return getLinkAtTableRow("session-delete", sessionRowId);
     }
@@ -563,8 +563,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(fsCopyButton);
     }
 
-    public InstructorFeedbackSessionsPage deleteSession(String courseId, String sessionName) {
-        click(getDeleteLink(courseId, sessionName));
+    public InstructorFeedbackSessionsPage moveSessionToRecovery(String courseId, String sessionName) {
+        click(getMoveToRecoveryLink(courseId, sessionName));
         waitForPageToLoad();
         return changePageType(InstructorFeedbackSessionsPage.class);
     }

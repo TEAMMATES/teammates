@@ -101,7 +101,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAddDeleteActions() throws Exception {
         testAddAction();
-        testDeleteAction();
+        testMoveToRecoveryAction();
     }
 
     @Test
@@ -109,6 +109,14 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         testRemindActions();
         testPublishAndResendLinkAction();
         testUnpublishAction();
+    }
+
+    @Test
+    public void testRecycleBinActions() {
+        // testRestoreAction();
+        // testRestoreAllAction();
+        // testDeleteAction();
+        // testDeleteAllAction();
     }
 
     @Test
@@ -580,13 +588,13 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.goToPreviousPage(InstructorFeedbackSessionsPage.class);
     }
 
-    private void testDeleteAction() throws Exception {
+    private void testMoveToRecoveryAction() throws Exception {
 
         String courseId = newSession.getCourseId();
         String sessionName = "Long Instruction Test ##";
 
         // refresh page
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions).deleteSession(courseId, sessionName);
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions).moveSessionToRecovery(courseId, sessionName);
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
                 .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
         assertNotNull("session should not have been deleted",
