@@ -347,6 +347,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickTemplateQuestionModalCheckBox(3);
         feedbackEditPage.clickAddTemplateQuestionButton();
 
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
+                Const.StatusMessages.FEEDBACK_QUESTION_ADDED_MULTIPLE);
         assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 4));
 
         // revert back to state expected by tests after this by deleting newly added template questions
