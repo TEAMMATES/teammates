@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
@@ -19,14 +20,69 @@ public class FeedbackTemplateQuestionInfo {
     private String qnVisibilityOption;
     private List<String> qnVisibilityHints;
 
-    public FeedbackTemplateQuestionInfo(int qnNumber, String qnType, String qnText, String qnFeedbackPath,
-                                        String qnVisibilityOption, List<String> qnVisibilityHints) {
-        this.qnNumber = qnNumber;
-        this.qnType = qnType;
-        this.qnText = qnText;
-        this.qnFeedbackPath = qnFeedbackPath;
-        this.qnVisibilityOption = qnVisibilityOption;
-        this.qnVisibilityHints = qnVisibilityHints;
+    public FeedbackTemplateQuestionInfo() {
+        // attributes to be built by Builder
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * A Builder class for {@link FeedbackTemplateQuestionInfo}.
+     */
+    public static class Builder {
+        private final FeedbackTemplateQuestionInfo feedbackTemplateQuestionInfo;
+
+        public Builder() {
+            feedbackTemplateQuestionInfo = new FeedbackTemplateQuestionInfo();
+        }
+
+        public Builder withFeedbackQuestionNumber(int questionNumber) {
+            if (questionNumber > 0) {
+                feedbackTemplateQuestionInfo.qnNumber = questionNumber;
+            }
+            return this;
+        }
+
+        public Builder withFeedbackQuestionType(String questionType) {
+            if (questionType != null) {
+                feedbackTemplateQuestionInfo.qnType = questionType;
+            }
+            return this;
+        }
+
+        public Builder withFeedbackQuestionText(String questionText) {
+            if (questionText != null) {
+                feedbackTemplateQuestionInfo.qnText = questionText;
+            }
+            return this;
+        }
+
+        public Builder withFeedbackQuestionFeedbackPath(String feedbackQuestionFeedbackPath) {
+            if (feedbackQuestionFeedbackPath != null) {
+                feedbackTemplateQuestionInfo.qnFeedbackPath = feedbackQuestionFeedbackPath;
+            }
+            return this;
+        }
+
+        public Builder withFeedbackQuestionVisibilityOption(String feedbackQuestionVisibilityOption) {
+            if (feedbackQuestionVisibilityOption != null) {
+                feedbackTemplateQuestionInfo.qnVisibilityOption = feedbackQuestionVisibilityOption;
+            }
+            return this;
+        }
+
+        public Builder withFeedbackQuestionVisibilityHints(List<String> questionVisibilityHints) {
+            feedbackTemplateQuestionInfo.qnVisibilityHints =
+                    questionVisibilityHints == null ? new ArrayList<>()
+                            : new ArrayList<>(questionVisibilityHints);
+            return this;
+        }
+
+        public FeedbackTemplateQuestionInfo build() {
+            return feedbackTemplateQuestionInfo;
+        }
     }
 
     public int getQnNumber() {

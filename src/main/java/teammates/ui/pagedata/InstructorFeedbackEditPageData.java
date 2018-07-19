@@ -85,8 +85,14 @@ public class InstructorFeedbackEditPageData extends PageData {
             String questionText = fqa.getQuestionDetails().getQuestionText();
             String recipientFeedbackPath = fqa.getRecipientType().toDisplayRecipientName();
 
-            templateQnForm.add(new FeedbackTemplateQuestionInfo(fqa.getQuestionNumber(), questionTypeDisplayName,
-                    questionText, recipientFeedbackPath, getDropdownMenuLabel(fqa), fqa.getVisibilityMessage()));
+            templateQnForm.add(FeedbackTemplateQuestionInfo.builder()
+                    .withFeedbackQuestionNumber(fqa.getQuestionNumber())
+                    .withFeedbackQuestionType(questionTypeDisplayName)
+                    .withFeedbackQuestionText(questionText)
+                    .withFeedbackQuestionFeedbackPath(recipientFeedbackPath)
+                    .withFeedbackQuestionVisibilityOption(getDropdownMenuLabel(fqa))
+                    .withFeedbackQuestionVisibilityHints(fqa.getVisibilityMessage())
+                    .build());
         }
     }
 
