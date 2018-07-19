@@ -1,6 +1,7 @@
 package teammates.test.cases.action;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -9,6 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
@@ -615,7 +617,8 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         RedirectResult r = getRedirectResult(a);
 
         assertTrue(r.isError);
-        assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1), r.getStatusMessage());
+        assertTrue(
+                r.getStatusMessage().contains(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1)));
         assertEquals(
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "FSQTT.idOfInstructor1OfCourse1"),
@@ -623,6 +626,26 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         // As existing responses are being modified, old responses will persist when error occurs.
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient));
+
+        // Check that the responses have not been modified for response fr.
+        FeedbackConstantSumResponseDetails frBeforeEdit = (FeedbackConstantSumResponseDetails) fr.getResponseDetails();
+        List<Integer> answersBeforeEdit = frBeforeEdit.getAnswerList();
+
+        FeedbackResponseAttributes frModified =  dataBundle.feedbackResponses.get("response1ForQ2S4C1");
+        frModified = frDb.getFeedbackResponse(fq.getId(), frModified.giver, frModified.recipient);
+        FeedbackConstantSumResponseDetails frAfterEdit = (FeedbackConstantSumResponseDetails) frModified.getResponseDetails();
+        List<Integer> answersAfterEdit = frAfterEdit.getAnswerList();
+        assertEquals(answersBeforeEdit, answersAfterEdit);
+
+        // Check that the responses have not been modified for response fr2.
+        frBeforeEdit = (FeedbackConstantSumResponseDetails) fr2.getResponseDetails();
+        answersBeforeEdit = frBeforeEdit.getAnswerList();
+
+        frModified =  dataBundle.feedbackResponses.get("response2ForQ2S4C1");
+        frModified = frDb.getFeedbackResponse(fq.getId(), frModified.giver, frModified.recipient);
+        frAfterEdit = (FeedbackConstantSumResponseDetails) frModified.getResponseDetails();
+        answersAfterEdit = frAfterEdit.getAnswerList();
+        assertEquals(answersBeforeEdit, answersAfterEdit);
     }
 
     @Test

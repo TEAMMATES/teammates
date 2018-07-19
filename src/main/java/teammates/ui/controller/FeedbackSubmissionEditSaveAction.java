@@ -31,6 +31,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.pagedata.FeedbackSubmissionEditPageData;
 
@@ -136,14 +137,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 // Note: If response for a recipient is left out, the recipient is then empty string,
                 // due to partial submission feature, there can be multiple recipient with no resposnes,
                 // in that case, there can be multiple empty strings which should not be counted.
-                if ("".equals(response.recipient)) {
-                    responsesRecipients.add(response.recipient);
-                } else {
-                    if (responsesRecipients.contains(response.recipient)) {
-                        errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
-                    }
-                    responsesRecipients.add(response.recipient);
+                if (!StringHelper.isEmpty(response.recipient) && responsesRecipients.contains(response.recipient)) {
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, questionIndx));
+                    continue;
                 }
+                responsesRecipients.add(response.recipient);
 
                 // if the answer is not empty but the recipient is empty
                 if (response.recipient.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
