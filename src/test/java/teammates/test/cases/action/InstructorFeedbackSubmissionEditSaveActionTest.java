@@ -631,9 +631,10 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         FeedbackConstantSumResponseDetails frBeforeEdit = (FeedbackConstantSumResponseDetails) fr.getResponseDetails();
         List<Integer> answersBeforeEdit = frBeforeEdit.getAnswerList();
 
-        FeedbackResponseAttributes frModified =  dataBundle.feedbackResponses.get("response1ForQ2S4C1");
+        FeedbackResponseAttributes frModified = dataBundle.feedbackResponses.get("response1ForQ2S4C1");
         frModified = frDb.getFeedbackResponse(fq.getId(), frModified.giver, frModified.recipient);
-        FeedbackConstantSumResponseDetails frAfterEdit = (FeedbackConstantSumResponseDetails) frModified.getResponseDetails();
+        FeedbackConstantSumResponseDetails frAfterEdit =
+                (FeedbackConstantSumResponseDetails) frModified.getResponseDetails();
         List<Integer> answersAfterEdit = frAfterEdit.getAnswerList();
         assertEquals(answersBeforeEdit, answersAfterEdit);
 
@@ -641,7 +642,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         frBeforeEdit = (FeedbackConstantSumResponseDetails) fr2.getResponseDetails();
         answersBeforeEdit = frBeforeEdit.getAnswerList();
 
-        frModified =  dataBundle.feedbackResponses.get("response2ForQ2S4C1");
+        frModified = dataBundle.feedbackResponses.get("response2ForQ2S4C1");
         frModified = frDb.getFeedbackResponse(fq.getId(), frModified.giver, frModified.recipient);
         frAfterEdit = (FeedbackConstantSumResponseDetails) frModified.getResponseDetails();
         answersAfterEdit = frAfterEdit.getAnswerList();
