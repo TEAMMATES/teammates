@@ -45,7 +45,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(2);
 
-        editCommentAndVisibilityAndVerify("-1-1-0", "Comment edited by different instructor");
+        editFirstCommentAndVisibilityAndVerify("-1-1-0", "Comment edited by different instructor");
 
         ______TS("Question view: Typical case: delete existing feedback response comments using comment modal");
 
@@ -62,7 +62,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
-        addEditDeleteComment("-2-1-0");
+        addEditAndDeleteTypicalCommentAndVerify("-2-1-0");
     }
 
     @Test
@@ -106,7 +106,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
 
-        addEditDeleteComment("-2-0-0");
+        addEditAndDeleteTypicalCommentAndVerify("-2-0-0");
     }
 
     @Test
@@ -226,7 +226,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void editCommentAndVisibilityAndVerify(String commentModelId, String commentText) {
+    private void editFirstCommentAndVisibilityAndVerify(String commentModelId, String commentText) {
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal(commentId, commentText);
@@ -243,7 +243,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void addEditDeleteComment(String commentModelId) {
+    private void addEditAndDeleteTypicalCommentAndVerify(String commentModelId) {
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentModelId,

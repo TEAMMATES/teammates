@@ -1049,7 +1049,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<String> possibleReceiversWithoutResponsesForGiver = new ArrayList<>();
 
         String prevGiver = "";
-        Map<String, Integer> responseGiverRecipientMap = new HashMap<>();
+        Map<String, Integer> responseGiverRecipientIndex = new HashMap<>();
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.isGiverVisible(response) || !bundle.isRecipientVisible(response)) {
                 possibleGiversWithoutResponses.clear();
@@ -1088,13 +1088,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        moderationButton);
             configureResponseRow(prevGiver, response.recipient, responseRow);
             if (question.getQuestionDetails().isCommentsOnResponsesAllowed()) {
-                if (responseGiverRecipientMap.get(response.giver) == null) {
-                    responseGiverRecipientMap.put(response.giver, responseGiverRecipientMap.size() + 1);
-                }
-                if (responseGiverRecipientMap.get(response.recipient) == null) {
-                    responseGiverRecipientMap.put(response.recipient, responseGiverRecipientMap.size() + 1);
-                }
-                addCommentsToResponseRow(response, question, responseRow, responseGiverRecipientMap);
+                responseGiverRecipientIndex.putIfAbsent(response.giver, responseGiverRecipientIndex.size() + 1);
+                responseGiverRecipientIndex.putIfAbsent(response.recipient, responseGiverRecipientIndex.size() + 1);
+                addCommentsToResponseRow(question, response, responseRow, responseGiverRecipientIndex);
             } else {
                 responseRow.setCommentsOnResponsesAllowed(false);
             }
@@ -1161,11 +1157,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (isFirstGroupedByGiver && question.getQuestionDetails().isCommentsOnResponsesAllowed()) {
                 List<String> responseGiverRecipientList = new ArrayList<>(bundle.emailNameTable.keySet());
                 Collections.sort(responseGiverRecipientList);
-                Map<String, Integer> responseGiverRecipientMap = new HashMap<>();
+                Map<String, Integer> responseGiverRecipientIndex = new HashMap<>();
                 for (int i = 0; i < responseGiverRecipientList.size(); i++) {
-                    responseGiverRecipientMap.put(responseGiverRecipientList.get(i), i);
+                    responseGiverRecipientIndex.put(responseGiverRecipientList.get(i), i);
                 }
-                addCommentsToResponseRow(response, question, responseRow, responseGiverRecipientMap);
+                addCommentsToResponseRow(question, response, responseRow, responseGiverRecipientIndex);
             } else {
                 responseRow.setCommentsOnResponsesAllowed(false);
             }
@@ -1200,11 +1196,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * @param response response whose comments are to be added in responseRow
      * @param question question associated with response
      * @param responseRow response row of response
-     * @param responseGiverRecipientMap map in which key is both response recipient and response giver
+     * @param responseGiverRecipientIndex map in which key is both response recipient and response giver
      *                                  and value is unique index.
      */
-    private void addCommentsToResponseRow(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-            InstructorFeedbackResultsResponseRow responseRow, Map<String, Integer> responseGiverRecipientMap) {
+    private void addCommentsToResponseRow(FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
+            InstructorFeedbackResultsResponseRow responseRow, Map<String, Integer> responseGiverRecipientIndex) {
         responseRow.setCommentsOnResponsesAllowed(true);
         String giverNameAndTeam = bundle.getNameForEmail(response.giver);
         String recipientNameAndTeam = bundle.getNameForEmail(response.recipient);
@@ -1226,18 +1222,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
         responseRow.setAddCommentButton(addCommentForm);
 
         int giverIndex = 0;
-        if (responseGiverRecipientMap.containsKey(response.giver)) {
-            giverIndex = responseGiverRecipientMap.get(response.giver);
+        if (responseGiverRecipientIndex.containsKey(response.giver)) {
+            giverIndex = responseGiverRecipientIndex.get(response.giver);
         } else if (question.giverType == FeedbackParticipantType.TEAMS
-                && responseGiverRecipientMap.containsKey(response.giver + Const.TEAM_OF_EMAIL_OWNER)) {
+                && responseGiverRecipientIndex.containsKey(response.giver + Const.TEAM_OF_EMAIL_OWNER)) {
             // Legacy data has "student's Team" as response giver when response giver is a team
-            giverIndex = responseGiverRecipientMap.get(response.giver + Const.TEAM_OF_EMAIL_OWNER);
+            giverIndex = responseGiverRecipientIndex.get(response.giver + Const.TEAM_OF_EMAIL_OWNER);
         } else {
             Assumption.fail("Response giver is not in the bundle.");
         }
         int recipientIndex = 0;
-        if (responseGiverRecipientMap.containsKey(response.recipient)) {
-            recipientIndex = responseGiverRecipientMap.get(response.recipient);
+        if (responseGiverRecipientIndex.containsKey(response.recipient)) {
+            recipientIndex = responseGiverRecipientIndex.get(response.recipient);
         } else {
             Assumption.fail("Response recipient is not in the bundle.");
         }
