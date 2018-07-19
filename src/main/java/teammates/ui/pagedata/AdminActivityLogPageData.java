@@ -252,6 +252,7 @@ public class AdminActivityLogPageData extends PageData {
             String[] values = pair[1].split(",", -1);
             values = StringHelper.trim(values);
 
+            // GoogleID is case-sensitive and hence not converted to lower case
             if (!("person".equals(label))) {
                 values = StringHelper.toLowerCase(values);
             }
