@@ -61,7 +61,9 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
                         + SanitizationHelper.sanitizeForHtml(feedbackQuestion.getQuestionDetails().getQuestionText());
             }
 
-            statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
+            statusToUser.add(feedbackQuestionNumbers.length == 1
+                    ? new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, StatusMessageColor.SUCCESS)
+                    : new StatusMessage(Const.StatusMessages.FEEDBACK_QUESTION_ADDED_MULTIPLE,
                     StatusMessageColor.SUCCESS));
 
         } catch (InvalidParametersException e) {
