@@ -2,7 +2,6 @@ package teammates.test.cases.browsertests;
 
 import java.time.ZoneId;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
