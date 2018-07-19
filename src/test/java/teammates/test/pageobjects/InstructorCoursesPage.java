@@ -57,6 +57,12 @@ public class InstructorCoursesPage extends AppPage {
         return this;
     }
 
+    public InstructorCoursesPage deleteCourse(String courseId) {
+        click(getDeleteLink(courseId));
+        waitForPageToLoad();
+        return this;
+    }
+
     public InstructorCoursesPage archiveCourse(String courseId) {
         click(getArchiveLink(courseId));
         waitForPageToLoad();
