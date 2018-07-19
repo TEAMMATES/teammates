@@ -741,7 +741,7 @@
       "courseId": "FSQTT.idOfTypicalCourse1",
       "creatorEmail": "instructor1@course1.tmt",
       "questionMetaData": {
-        "value": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true}"
+        "value": "{\"msqChoices\":[\"Pizza\",\"Pasta\",\"Chicken rice\"],\"questionText\":\"Choose all the food you like\",\"questionType\":\"MSQ\",\"otherEnabled\":true,\"hasAssignedWeights\":true,\"msqWeights\":[1.0,2.0,0.0],\"msqOtherWeight\":3.0}"
       },
       "questionNumber": 3,
       "questionType": "MSQ",
