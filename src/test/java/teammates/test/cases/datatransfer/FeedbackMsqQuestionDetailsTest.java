@@ -272,8 +272,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", new String[] { "2.57" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", new String[] { "1.12" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG, new String[] { "on" });
-        // The following line is commented out to create the situation for the test,
-        // Where otherWeight is null, as the otherWeight parameter is missing from the requestParams.
+        // The following line is commented out, so otherWeight parameter is missing from the requestParams.
         // requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT, new String[] { "" });
 
         msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ);
@@ -310,7 +309,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", new String[] { "Choice 2" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED, new String[] { "on" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", new String[] { "1.22" });
-        // Following msqWeight-1 is commented out, so the number of Weights can become 1 whereas numOfChoices is 2.
+        // The following msqWeight-1 is commented out, so the number of Weights can become 1 whereas numOfChoices is 2.
         // requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", new String[] { "1.55" });
 
         assertTrue(msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ));
