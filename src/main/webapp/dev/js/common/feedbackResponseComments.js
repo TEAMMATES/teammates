@@ -137,6 +137,7 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
 
 function deleteCommentRow(submitButton) {
     const deletedCommentRow = submitButton.closest('li');
+    deletedCommentRow.parent().parent().hide();
     const frCommentList = submitButton.closest('.comments');
     deletedCommentRow.remove();
     frCommentList.parent().find('div.delete_error_msg').remove();
@@ -168,10 +169,9 @@ function enableHoverToDisplayEditOptions() {
 function showResponseCommentAddFormForFeedbackParticipant(qnIndex, responseIndex) {
     const id = `-${qnIndex}-${responseIndex}`;
 
+    $(`#button_add_comment${id}`).parent().hide();
     $(`#responseCommentTable${id}`).show();
-    if ($(`#responseCommentTable${id} > li`).length <= 1) {
-        $(`#responseCommentTable${id}`).css('margin-top', '15px');
-    }
+    $(`#responseCommentTable${id}`).parent().show();
     $(`#showResponseCommentAddForm${id}`).show();
 
     const responseCommentAddFormId = `responseCommentAddForm${id}`;
@@ -211,9 +211,10 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndex, section
 
 function hideResponseCommentAddFormForFeedbackParticipant(qnIndex, responseIndex) {
     const id = `-${qnIndex}-${responseIndex}`;
+    $(`#button_add_comment${id}`).parent().show();
     if ($(`#responseCommentTable${id} > li`).length <= 1) {
         $(`#responseCommentTable${id}`).css('margin-top', '0');
-        $(`#responseCommentTable${id}`).hide();
+        $(`#responseCommentTable${id}`).parent().hide();
     }
     $(`#showResponseCommentAddForm${id}`).hide();
     removeFormErrorMessage($(`#button_save_comment_for_add${id}`));
@@ -623,13 +624,10 @@ function registerResponseCommentCheckboxEvent() {
     });
 }
 
-function changeAddButtonFunctionAndDeleteComment(submitButton) {
+function deleteCommentRowAndShowAddCommentButton(submitButton) {
     const commentId = submitButton.attr('id').replace('commentdelete', '');
-    const addButtonId = `button_add_comment${commentId}`;
     deleteCommentRow(submitButton);
-    const addButton = document.getElementById(addButtonId);
-    addButton.classList.remove('show-frc-edit-form');
-    addButton.classList.add('show-frc-add-form');
+    $(`#button_add_comment${commentId}`).parent().show();
 }
 
 const deleteCommentHandlerForFeedbackPage = (e) => {
@@ -652,7 +650,7 @@ const deleteCommentHandlerForFeedbackPage = (e) => {
                 if (data.isError) {
                     showErrorMessage(data.errorMessage, submitButton);
                 } else {
-                    changeAddButtonFunctionAndDeleteComment(submitButton);
+                    deleteCommentRowAndShowAddCommentButton(submitButton);
                 }
             },
         });

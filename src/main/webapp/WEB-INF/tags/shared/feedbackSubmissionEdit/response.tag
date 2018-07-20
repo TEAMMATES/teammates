@@ -13,7 +13,6 @@
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 <c:set var="recipientType" value="${questionWithResponses.question.recipientType}"/>
 <c:set var="hasCommentOnResponse" value="${not empty response.feedbackParticipantCommentOnResponse}"/>
-<c:set var="addOrEdit" value= "${hasCommentOnResponse ? 'edit' : 'add'}"/>
 <c:set var="responseIndex" value="${response.responseIndx}"/>
 <c:set var="questionIndex" value="${questionWithResponses.question.qnIndx}"/>
 
@@ -29,7 +28,7 @@
 </c:if>
 
 <br>
-<div class="evalueeForm-${questionWithResponses.question.qnIndx} form-group margin-0" style="padding-left: 75px; padding-right:10px">
+<div class="evalueeForm-${questionWithResponses.question.qnIndx} form-group margin-0" style="padding-left: 75px">
   <div ${isNumResponsesMax ? 'class="col-sm-12 form-inline mobile-align-left"' : 'class="col-sm-5 form-inline mobile-align-left"'}
       ${isRecipientNameHidden ?  'style="display:none"' : 'style="text-align:left"'}>
 
@@ -50,15 +49,6 @@
         <c:when test="${recipientType == 'TEAM'}"> (Team)</c:when>
       </c:choose>:
   </div>
-<c:if test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
-  <button type="button" class="btn btn-default btn-xs icon-button pull-right show-frc-${addOrEdit}-form"
-  id="button_add_comment-${questionIndex}-${responseIndex}"
-  data-responseindex="${responseIndex}" data-qnindex="${questionIndex}" data-toggle="tooltip"
-  data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
-  <c:if test="${data.preview or (not data.submittable)}"> disabled </c:if>>
-  <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-  </button>
-</c:if>
   <c:choose>
     <c:when test="${questionWithResponses.question.questionTypeConstsum}">
       ${response.submissionFormHtml}
@@ -69,11 +59,22 @@
       </div>
     </c:otherwise>
   </c:choose>
-  <div class="col-sm-12">
   <c:if test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
+    <div class="col-sm-12" <c:if test="${hasCommentOnResponse}">style="display: none"</c:if>>
+      <br>
+      <button type="button" class="btn-link show-frc-add-form"
+              id="button_add_comment-${questionIndex}-${responseIndex}"
+              data-responseindex="${responseIndex}" data-qnindex="${questionIndex}" data-toggle="tooltip"
+              data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD_FOR_FEEDBACK_PARTICIPANT%>"
+          <c:if test="${data.preview or (not data.submittable)}"> disabled </c:if>>
+        Want to add comment to your response? Click here.
+      </button>
+    </div>
+  </c:if>
+  <c:if test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
+    <div class="col-sm-12" <c:if test="${not hasCommentOnResponse}">style="display: none"</c:if>>
     <br>
-    <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}"
-        style="${not empty response.feedbackParticipantCommentOnResponse ? 'margin-top:15px;': 'display:none'}">
+    <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}">
       <c:if test="${hasCommentOnResponse}">
         <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
             responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
@@ -85,8 +86,8 @@
           responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
           isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
     </ul>
-  </c:if>
   </div>
+  </c:if>
   <c:if test="${response.existingResponse}">
     <input type="hidden"
            name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
