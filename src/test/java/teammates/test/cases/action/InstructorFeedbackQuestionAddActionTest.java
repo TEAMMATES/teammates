@@ -197,6 +197,150 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
+    public void testExecuteAndPostProcessMsqWeights() {
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] requiredParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MSQ",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What do you like best about the class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_DESCRIPTION, "more details",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS, FeedbackParticipantType.NONE.toString()
+        };
+        ______TS("MSQ options with weights assigned");
+
+        String[] params = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "The Content",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "The Teacher",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", "The Team members",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-2", "3",
+        };
+        List<String> requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+        InstructorFeedbackQuestionAddAction action = getAction(requestedParams.toArray(new String[0]));
+        RedirectResult result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        false),
+                result.getDestinationWithParams());
+
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) "
+                + "question:</span> What do you like best about the class?"
+                + "|||/page/instructorFeedbackQuestionAdd";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("MSQ: Enabled other option with weights assigned");
+
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "The content",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "Teaching style",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT, "3"
+        };
+        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+        action = getAction(requestedParams.toArray(new String[0]));
+        result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        false),
+                result.getDestinationWithParams());
+
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                + "(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> "
+                + "What do you like best about the class?|||/page/instructorFeedbackQuestionAdd";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+
+        ______TS("MSQ: Failure case: Number of choices is greater than number of corrosponding weights");
+
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED, "on",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", "The Content",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-0", "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", "The Teacher",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-2", "The Team members",
+                // This weight is removed, so that choice-2 does not have a assigned weight.
+                // Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-2", "3",
+        };
+        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
+        Collections.addAll(requestedParams, params);
+        action = getAction(requestedParams.toArray(new String[0]));
+        result = getRedirectResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
+                        instructor1ofCourse1.courseId,
+                        "First+feedback+session",
+                        instructor1ofCourse1.googleId,
+                        true),
+                result.getDestinationWithParams());
+
+        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT, result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                + "instructorFeedbackQuestionAdd|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||"
+                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Unknown|||/page/instructorFeedbackQuestionAdd";
+        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+    }
+
+    @Test
     public void testExecuteAndPostProcessMcq() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
