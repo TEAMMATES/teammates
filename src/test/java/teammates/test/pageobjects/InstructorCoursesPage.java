@@ -60,12 +60,6 @@ public class InstructorCoursesPage extends AppPage {
         return this;
     }
 
-    public InstructorCoursesPage deleteCourse(String courseId) {
-        click(getDeleteLink(courseId));
-        waitForPageToLoad();
-        return this;
-    }
-
     public InstructorCoursesPage archiveCourse(String courseId) {
         click(getArchiveLink(courseId));
         waitForPageToLoad();
@@ -74,6 +68,12 @@ public class InstructorCoursesPage extends AppPage {
 
     public InstructorCoursesPage unarchiveCourse(String courseId) {
         click(getUnarchiveLink(courseId));
+        waitForPageToLoad();
+        return this;
+    }
+
+    public InstructorCoursesPage moveCourseToRecovery(String courseId) {
+        click(getMoveToRecoveryLink(courseId));
         waitForPageToLoad();
         return this;
     }

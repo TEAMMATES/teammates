@@ -291,7 +291,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
 
         assertFalse(validCourse.isCourseDeleted());
 
-        coursesPage.getMoveToRecoveryLink(courseId).click();
+        coursesPage.moveCourseToRecovery(courseId);
         validCourse.setDeletedAt();
         assertNotNull(BackDoor.getCourse(courseId));
         assertTrue(validCourse.isCourseDeleted());
