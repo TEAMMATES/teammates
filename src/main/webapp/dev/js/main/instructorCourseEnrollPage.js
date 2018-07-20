@@ -10,6 +10,7 @@ import {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
+    showModalPasteBox,
 } from './instructorCourseEnrollHelper';
 
 const container = document.getElementById('spreadsheet');
@@ -37,6 +38,13 @@ const handsontable = new Handsontable(container, {
         'remove_row',
         'undo',
         'redo',
+        {
+            key: 'paste',
+            name: 'Paste',
+            callback: function() {
+                showModalPasteBox();
+            }
+        },
         'make_read_only',
         'alignment',
     ],
