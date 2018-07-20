@@ -138,7 +138,8 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question",
                 Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "either"
         };
 
         ______TS("Failure case: no params");
@@ -375,7 +376,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", ajaxResult.getStatusMessage());
         assertFalse(ajaxResult.isError);
 
-        ______TS("Typical case: view HTML table section 1");
+        ______TS("Typical case: view HTML table either giver or recipient in section 1");
         action = getAction(paramsNeedHtmlTableSectionOne);
         ajaxResult = getAjaxResult(action);
 
