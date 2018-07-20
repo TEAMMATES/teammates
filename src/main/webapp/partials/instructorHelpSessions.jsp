@@ -1773,7 +1773,7 @@
                       <td>10 Mar 2018</td>
                       <td class="align-center no-print">
                         <button href="#" class="btn btn-default btn-xs" type="button">Restore</button>
-                        <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button>
+                        <button href="#" class="btn btn-default btn-xs color-negative" type="button">Delete Permanently</button>
                       </td>
                     </tr>
                   </table>
@@ -1850,7 +1850,7 @@
                       <td>10 Mar 2018</td>
                       <td class="align-center no-print">
                         <button href="#" class="btn btn-default btn-xs" type="button">Restore</button>
-                        <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button>
+                        <button href="#" class="btn btn-default btn-xs color-negative" type="button">Delete Permanently</button>
                       </td>
                     </tr>
                   </table>
@@ -1872,7 +1872,7 @@
         <div class="panel-body">
           <p>
             To permanently delete a feedback session, first <a class="collapse-link" data-target="#session-view-deleted-body" href="#session-view-deleted">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
-            Then, click on the <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button> button corresponding to the session you want to delete.
+            Then, click on the <button href="#" class="btn btn-default btn-xs color-negative" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
           </p>
           <div class="bs-example">
             <h2 class="text-muted">
@@ -1926,7 +1926,7 @@
                       <td>10 Mar 2018</td>
                       <td class="align-center no-print">
                         <button href="#" class="btn btn-default btn-xs" type="button">Restore</button>
-                        <button href="#" class="btn btn-default btn-xs" type="button" style="color: #E74C3C">Delete Permanently</button>
+                        <button href="#" class="btn btn-default btn-xs color-negative" type="button">Delete Permanently</button>
                       </td>
                     </tr>
                   </table>
@@ -1948,7 +1948,8 @@
         <div class="panel-body">
           <p>
             First <a class="collapse-link" data-target="#session-view-deleted-body" href="#session-view-deleted">view the session</a> and check for sessions in Recycle Bin.<br>
-            To restore all sessions, click on the <a class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-ok"></span><strong> Restore All</strong></a> button in <b>Deleted feedback sessions</b> heading; to delete all sessions, click on the <a class="btn btn-default btn-xs color-negative" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-remove"></span><strong> Delete All</strong></a> button in <b>Deleted feedback sessions</b> heading.
+            To restore all sessions, click on the <a class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-ok"></span><strong> Restore All</strong></a> button in <b>Deleted feedback sessions</b> heading;
+            to delete all sessions, click on the <a class="btn btn-default btn-xs color-negative" data-toggle="tooltip" data-placement="top"><span class="glyphicon glyphicon-remove"></span><strong> Delete All</strong></a> button in <b>Deleted feedback sessions</b> heading.
           </p>
           <div class="bs-example">
             <h2 class="text-muted">
