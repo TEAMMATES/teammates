@@ -2,6 +2,7 @@ package teammates.test.cases;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,15 +22,17 @@ public class BaseTestCaseWithMinimalGaeEnvironment extends BaseTestCase {
     private LocalServiceTestHelper helper = new LocalServiceTestHelper();
 
     /**
-     * Sets the environment of SystemProperty based on the URL.
+     * Sets the environment of SystemProperty based on the URL and default locale required for tests.
      */
     @BeforeSuite
-    public void setUpEnvironment() throws MalformedURLException {
+    public void setUpEnvironmentAndLocale() throws MalformedURLException {
         if (new URL(TestProperties.TEAMMATES_URL).getHost().contains(".appspot.com")) {
             SystemProperty.environment.set(SystemProperty.Environment.Value.Production);
         } else {
             SystemProperty.environment.set(SystemProperty.Environment.Value.Development);
         }
+
+        Locale.setDefault(new Locale("en", "US"));
     }
 
     @BeforeClass
