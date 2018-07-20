@@ -1131,7 +1131,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             List<FeedbackResponseCommentRow> comments =
                     buildResponseComments(giverName, recipientName, question, response);
             if (!comments.isEmpty()) {
-                responseRow.setInstructorCommentsOnResponses(comments);
+                responseRow.setAllCommentsOnResponse(comments);
             }
 
             boolean isInstructorCommentsOnResponsesAllowed =
