@@ -15,7 +15,6 @@ import {
 
 const container = document.getElementById('spreadsheet');
 
-
 const handsontable = new Handsontable(container, {
     height: 500,
     autoWrapRow: true,
@@ -41,9 +40,9 @@ const handsontable = new Handsontable(container, {
         {
             key: 'paste',
             name: 'Paste',
-            callback: function() {
+            callback: () => {
                 showModalPasteBox();
-            }
+            },
         },
         'make_read_only',
         'alignment',
