@@ -255,6 +255,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("TEXT");
         assertTrue(feedbackEditPage.verifyNewEssayQuestionFormIsDisplayed());
+        assertTrue(feedbackEditPage.isMenuQnNumberVisible(-1));
+        assertFalse(feedbackEditPage.isStaticQnNumberVisible(-1));
         feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
                 "You can see your own feedback in the results page later on.");
         feedbackEditPage.verifyVisibilityMessageContainsForNewQuestion(
@@ -301,9 +303,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private void testEditQuestionLink() {
 
         ______TS("edit question link");
-
+        assertTrue(feedbackEditPage.isStaticQnNumberVisible(1));
+        assertFalse(feedbackEditPage.isMenuQnNumberVisible(1));
         feedbackEditPage.clickEditQuestionButton(1);
         assertTrue(feedbackEditPage.isQuestionEnabled(1));
+        assertFalse(feedbackEditPage.isStaticQnNumberVisible(1));
+        assertTrue(feedbackEditPage.isMenuQnNumberVisible(1));
+
     }
 
     private void testEditQuestionAction() throws Exception {
@@ -502,8 +508,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testEditQuestionNumberAction() throws MaximumRetriesExceededException {
         ______TS("edit question number success");
-
+        assertTrue(feedbackEditPage.isStaticQnNumberVisible(2));
+        assertFalse(feedbackEditPage.isMenuQnNumberVisible(2));
         feedbackEditPage.clickEditQuestionButton(2);
+        assertTrue(feedbackEditPage.isMenuQnNumberVisible(2));
+        assertFalse(feedbackEditPage.isStaticQnNumberVisible(2));
         feedbackEditPage.selectQuestionNumber(2, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
@@ -525,8 +534,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickEditQuestionButton(1);
         assertTrue(feedbackEditPage.isQuestionEnabled(1));
+        assertTrue(feedbackEditPage.isMenuQnNumberVisible(1));
+        assertFalse(feedbackEditPage.isStaticQnNumberVisible(1));
         feedbackEditPage.clickEditQuestionButton(2);
         assertTrue(feedbackEditPage.isQuestionEnabled(2));
+        assertTrue(feedbackEditPage.isMenuQnNumberVisible(2));
+        assertFalse(feedbackEditPage.isStaticQnNumberVisible(2));
 
         // fix inconsistent state
         secondQuestion.questionNumber = originalSecondQuestionNumber;

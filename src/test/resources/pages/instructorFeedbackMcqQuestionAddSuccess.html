@@ -721,8 +721,11 @@
             <span>
               <strong>
                 Question
+                <span id="questionnum-static-1">
+                  1:
+                </span>
               </strong>
-              <select class="questionNumber nonDestructive text-primary" disabled="" id="questionnum-1" name="questionnum">
+              <select class="questionNumber nonDestructive text-primary" disabled="" id="questionnum-1" name="questionnum" style="display: none;">
                 <option value="1">
                   1
                 </option>
@@ -1524,35 +1527,58 @@
             </div>
             <div id="msqForm">
               <div class="row">
+                <div class="col-sm-12 margin-bottom-7px">
+                  <div class="col-sm-4 padding-0">
+                    <input class="nonDestructive" id="msqHasAssignedWeights--1" name="msqHasAssignedWeights" type="checkbox">
+                    <span class="tool-tip-decorate" data-original-title="Assign weights to the choices for calculating statistics." data-placement="top" data-toggle="tooltip">
+                      Choices are weighted
+                    </span>
+                  </div>
+                  <div class="col-sm-2 padding-left-7px align-center">
+                    Weights
+                  </div>
+                </div>
                 <br>
                 <div class="col-sm-6">
                   <div id="msqChoiceTable--1">
-                    <div class="margin-bottom-7px" id="msqOptionRow-0--1">
-                      <div class="input-group width-100-pc">
-                        <span class="input-group-addon">
-                          <input class="disabled_radio" disabled="" type="checkbox">
-                        </span>
-                        <input class="form-control" disabled="" id="msqOption-0--1" name="msqOption-0" type="text" value="">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(0,-1)" style="display:none" tabindex="-1" type="button">
-                            <span class="glyphicon glyphicon-remove">
+                    <div class="row">
+                      <div class="col-sm-9" id="msqChoices--1">
+                        <div class="margin-bottom-7px" id="msqOptionRow-0--1">
+                          <div class="input-group width-100-pc">
+                            <span class="input-group-addon">
+                              <input class="disabled_radio" disabled="" type="checkbox">
                             </span>
-                          </button>
-                        </span>
+                            <input class="form-control" disabled="" id="msqOption-0--1" name="msqOption-0" type="text" value="">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(0,-1)" style="display:none" tabindex="-1" type="button">
+                                <span class="glyphicon glyphicon-remove">
+                                </span>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="margin-bottom-7px" id="msqOptionRow-1--1">
+                          <div class="input-group width-100-pc">
+                            <span class="input-group-addon">
+                              <input class="disabled_radio" disabled="" type="checkbox">
+                            </span>
+                            <input class="form-control" disabled="" id="msqOption-1--1" name="msqOption-1" type="text" value="">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(1,-1)" style="display:none" tabindex="-1" type="button">
+                                <span class="glyphicon glyphicon-remove">
+                                </span>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="margin-bottom-7px" id="msqOptionRow-1--1">
-                      <div class="input-group width-100-pc">
-                        <span class="input-group-addon">
-                          <input class="disabled_radio" disabled="" type="checkbox">
-                        </span>
-                        <input class="form-control" disabled="" id="msqOption-1--1" name="msqOption-1" type="text" value="">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default removeOptionLink" id="msqRemoveOptionLink" onclick="removeMsqOption(1,-1)" style="display:none" tabindex="-1" type="button">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </button>
-                        </span>
+                      <div class="col-sm-2 padding-0" id="msqWeights--1">
+                        <div class="margin-bottom-7px">
+                          <input class="form-control nonDestructive" id="msqWeight-0--1" min="0" name="msqWeight-0" step="0.01" type="number" value="0">
+                        </div>
+                        <div class="margin-bottom-7px">
+                          <input class="form-control nonDestructive" id="msqWeight-1--1" min="0" name="msqWeight-1" step="0.01" type="number" value="0">
+                        </div>
                       </div>
                     </div>
                     <div id="msqAddOptionRow--1">
@@ -1562,11 +1588,16 @@
                           </span>
                           add more options
                         </a>
-                        <div class="checkbox">
-                          <label class="bold-label">
-                            <input id="msqOtherOptionFlag--1" name="msqOtherOptionFlag" onchange="toggleMsqOtherOptionEnabled(this, -1)" type="checkbox">
-                            Add 'Other' option (Allows respondents to type in their own answer)
-                          </label>
+                        <div class="row">
+                          <div class="checkbox col-sm-9 padding-left-35px">
+                            <label class="bold-label">
+                              <input id="msqOtherOptionFlag--1" name="msqOtherOptionFlag" type="checkbox">
+                              Add 'Other' option (Allows respondents to type in their own answer)
+                            </label>
+                          </div>
+                          <div class="col-sm-2 padding-0">
+                            <input class="form-control nonDestructive" id="msqOtherWeight--1" min="0" name="msqOtherWeight" step="0.01" type="number" value="0">
+                          </div>
                         </div>
                       </div>
                     </div>

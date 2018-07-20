@@ -412,6 +412,8 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
+        public static final String FEEDBACK_QUESTION_MSQ_ASSIGN_WEIGHTS =
+                "Assign weights to the choices for calculating statistics.";
         public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS =
                 "Assign weights to the columns for calculating statistics.";
         public static final String FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS =
@@ -515,6 +517,9 @@ public final class Const {
                 "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 2.";
         public static final String MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES =
                 "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 1.";
+        public static final String MSQ_ERROR_INVALID_WEIGHT =
+                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
+                + " must be valid numbers with precision up to 2 decimal places.";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -706,6 +711,7 @@ public final class Const {
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
+        public static final String FEEDBACK_QUESTION_NUMBER_STATIC = "questionnum-static";
         public static final String FEEDBACK_QUESTION_TEXT = "questiontext";
         public static final String FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH = "recommendedlength";
         public static final String FEEDBACK_QUESTION_DESCRIPTION = "questiondescription";
@@ -726,6 +732,9 @@ public final class Const {
         public static final String FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES = "msqMinSelectableChoices";
         public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MAX_SELECTABLE_CHOICES = "msqEnableMaxSelectableChoices";
         public static final String FEEDBACK_QUESTION_MSQ_ENABLE_MIN_SELECTABLE_CHOICES = "msqEnableMinSelectableChoices";
+        public static final String FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED = "msqHasAssignedWeights";
+        public static final String FEEDBACK_QUESTION_MSQ_WEIGHT = "msqWeight";
+        public static final String FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT = "msqOtherWeight";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
