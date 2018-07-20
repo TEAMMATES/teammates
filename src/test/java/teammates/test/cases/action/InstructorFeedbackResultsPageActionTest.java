@@ -76,7 +76,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1"
         };
-        String[] paramsSectionOneByQuestion = {
+        String[] paramsWithoutSectionDetail = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
@@ -263,6 +263,9 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
                 result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
+
+        ______TS("Failure case: No section detail selected");
+        verifyAssumptionFailure(paramsWithoutSectionDetail);
 
         ______TS("Typical case: view section 1 sortType GRQ");
         action = getAction(paramsSectionOneByGrq);
