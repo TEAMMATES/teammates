@@ -429,11 +429,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String tableBodyFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_BODY_FRAGMENT;
         String tableBodyTemplate = FormTemplates.RUBRIC_EDIT_FORM_BODY;
         String tableWeightFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
+        List<List<Double>> weights = new ArrayList<>();
 
         if (hasAssignedWeights && rubricWeightsForEachCell.isEmpty()) {
-            // Convert the legacy data into new format.
-            getRubricWeights();
+            // This will convert the legacy data into new format, also will populate rubricWeightsForEachCell list.
+            weights = getRubricWeights();
         }
+
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for (int i = 0; i < numOfRubricChoices; i++) {
@@ -444,7 +446,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 Slots.COL, Integer.toString(i),
                                 Slots.ROW, Integer.toString(j),
                                 Slots.RUBRIC_WEIGHT,
-                                hasAssignedWeights ? weightFormat.format(rubricWeightsForEachCell.get(j).get(i)) : "0",
+                                hasAssignedWeights ? weightFormat.format(weights.get(j).get(i)) : "0",
                                 Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL);
 
                 String tableBodyCell =
