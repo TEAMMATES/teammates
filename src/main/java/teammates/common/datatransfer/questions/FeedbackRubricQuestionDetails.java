@@ -423,35 +423,38 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableHeaderFragmentHtml.append(tableHeaderCell).append(System.lineSeparator());
         }
 
-        // Create rubric weights row
-        StringBuilder tableWeightFragmentHtml = new StringBuilder();
-        String tableWeightFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
-        for (int i = 0; i < numOfRubricChoices; i++) {
-            String tableWeightCell =
-                    Templates.populateTemplate(tableWeightFragmentTemplate,
-                            Slots.QUESTION_INDEX, questionNumberString,
-                            Slots.COL, Integer.toString(i),
-                            Slots.RUBRIC_WEIGHT, hasAssignedWeights ? weightFormat.format(rubricWeights.get(i)) : "0",
-                            Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
-            tableWeightFragmentHtml.append(tableWeightCell).append(System.lineSeparator());
-        }
-
         // Create table body
         StringBuilder tableBodyHtml = new StringBuilder();
 
         String tableBodyFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_BODY_FRAGMENT;
         String tableBodyTemplate = FormTemplates.RUBRIC_EDIT_FORM_BODY;
+        String tableWeightFragmentTemplate = FormTemplates.RUBRIC_EDIT_FORM_WEIGHT_FRAGMENT;
 
+        if (hasAssignedWeights && rubricWeightsForEachCell.isEmpty()) {
+            // Convert the legacy data into new format.
+            getRubricWeights();
+        }
         for (int j = 0; j < numOfRubricSubQuestions; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for (int i = 0; i < numOfRubricChoices; i++) {
+                // Create rubric weight cell
+                String tableWeightCell =
+                        Templates.populateTemplate(tableWeightFragmentTemplate,
+                                Slots.QUESTION_INDEX, questionNumberString,
+                                Slots.COL, Integer.toString(i),
+                                Slots.ROW, Integer.toString(j),
+                                Slots.RUBRIC_WEIGHT,
+                                hasAssignedWeights ? weightFormat.format(rubricWeightsForEachCell.get(j).get(i)) : "0",
+                                Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL);
+
                 String tableBodyCell =
                         Templates.populateTemplate(tableBodyFragmentTemplate,
                                 Slots.QUESTION_INDEX, questionNumberString,
                                 Slots.COL, Integer.toString(i),
                                 Slots.ROW, Integer.toString(j),
                                 Slots.DESCRIPTION, SanitizationHelper.sanitizeForHtml(this.getDescription(j, i)),
-                                Slots.RUBRIC_PARAM_DESCRIPTION, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION);
+                                Slots.RUBRIC_PARAM_DESCRIPTION, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION,
+                                Slots.RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML, tableWeightCell);
                 tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
             }
 
@@ -490,7 +493,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.CURRENT_ROWS, Integer.toString(this.numOfRubricSubQuestions),
                 Slots.CURRENT_COLS, Integer.toString(this.numOfRubricChoices),
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
-                Slots.RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML, tableWeightFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString(),
                 Slots.RUBRIC_PARAM_NUM_ROWS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS,
                 Slots.RUBRIC_PARAM_NUM_COLS, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS,

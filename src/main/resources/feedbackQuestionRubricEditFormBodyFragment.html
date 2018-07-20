@@ -1,3 +1,6 @@
 <td class="align-center rubricCol-${questionIndex}-${col}">
   <textarea class="form-control nonDestructive" rows="3" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${questionIndex}-${row}-${col}" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}">${description}</textarea>
+  <div class="rubricWeights-${questionIndex}">
+    ${tableWeightRowFragmentHtml}
+  </div>
 </td>

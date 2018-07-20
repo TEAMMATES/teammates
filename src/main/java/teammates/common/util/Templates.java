@@ -530,7 +530,7 @@ public final class Templates {
             public static final String RUBRIC_PARAM_SUB_QUESTION =
                     "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}";
             public static final String RUBRIC_PARAM_DESCRIPTION = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}";
-            public static final String RUBRIC_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT}";
+            public static final String RUBRIC_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL}";
             public static final String RUBRIC_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}";
             public static final String RUBRIC_TABLE_OPTIONS = "${tableOptionsHtml}";
             public static final String RUBRIC_TABLE_OPTIONS_FRAGMENT = "${rubricColumnOptionsFragments}";
