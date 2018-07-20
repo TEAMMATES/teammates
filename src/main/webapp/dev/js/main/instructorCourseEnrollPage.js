@@ -1,6 +1,7 @@
 /**
  * Holds Handsontable settings, reference and other information for the spreadsheet interface.
  */
+/* global Handsontable:false */
 import {
     prepareInstructorPages,
 } from '../common/instructor';
@@ -13,7 +14,7 @@ import {
 
 const container = document.getElementById('spreadsheet');
 
-/* global Handsontable:false */
+
 const handsontable = new Handsontable(container, {
     height: 500,
     autoWrapRow: true,
