@@ -1193,8 +1193,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     /**
      * Adds comments associated with response and response giver/recipient index to response row.
      *
-     * @param response response whose comments are to be added in responseRow
      * @param question question associated with response
+     * @param response response whose comments are to be added in responseRow
      * @param responseRow response row of response
      * @param responseGiverRecipientIndex map in which key is both response recipient and response giver
      *                                  and value is unique index.
