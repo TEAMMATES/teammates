@@ -39,9 +39,8 @@ import {
 } from '../common/ui';
 
 import {
-    enableHoverToDisplayEditOptions,
     registerResponseCommentsEventForFeedbackPage,
-} from '../common/feedbackResponseComments';
+} from '../common/feedbackParticipantComments';
 
 const FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 const FEEDBACK_RESPONSE_TEXT = 'responsetext';
@@ -1411,8 +1410,6 @@ $(document).ready(() => {
     bindLinksInUnregisteredPage('[data-unreg].navLinks');
 
     registerResponseCommentsEventForFeedbackPage();
-
-    enableHoverToDisplayEditOptions();
 });
 
 window.validateNumScaleAnswer = validateNumScaleAnswer;

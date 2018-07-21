@@ -12,7 +12,7 @@
 <c:set var="isNumResponsesMax" value="${questionWithResponses.numOfResponseBoxes eq questionWithResponses.maxResponsesPossible}"/>
 <c:set var="isRecipientNameHidden" value="${questionWithResponses.question.recipientNameHidden}"/>
 <c:set var="recipientType" value="${questionWithResponses.question.recipientType}"/>
-<c:set var="hasCommentOnResponse" value="${not empty response.feedbackParticipantCommentOnResponse}"/>
+<c:set var="hasFeedbackParticipantCommentOnResponse" value="${not empty response.feedbackParticipantCommentOnResponse}"/>
 <c:set var="responseIndex" value="${response.responseIndx}"/>
 <c:set var="questionIndex" value="${questionWithResponses.question.qnIndx}"/>
 
@@ -60,7 +60,7 @@
     </c:otherwise>
   </c:choose>
   <c:if test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
-    <div class="col-sm-12" <c:if test="${hasCommentOnResponse}">style="display: none"</c:if>>
+    <div class="col-sm-12" <c:if test="${hasFeedbackParticipantCommentOnResponse}">style="display: none"</c:if>>
       <br>
       <button type="button" class="btn-link show-frc-add-form"
               id="button_add_comment-${questionIndex}-${responseIndex}"
@@ -70,12 +70,10 @@
         Want to add comment to your response? Click here.
       </button>
     </div>
-  </c:if>
-  <c:if test="${questionWithResponses.feedbackParticipantCommentsOnResponsesAllowed}">
-    <div class="col-sm-12" <c:if test="${not hasCommentOnResponse}">style="display: none"</c:if>>
+    <div class="col-sm-12" <c:if test="${not hasFeedbackParticipantCommentOnResponse}">style="display: none"</c:if>>
     <br>
     <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}">
-      <c:if test="${hasCommentOnResponse}">
+      <c:if test="${hasFeedbackParticipantCommentOnResponse}">
         <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
             responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
             moderatedPersonEmail="${moderatedPersonEmail}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
