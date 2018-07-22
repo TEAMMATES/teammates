@@ -9,6 +9,7 @@
 <%@ attribute name="responseRow" type="teammates.ui.template.InstructorFeedbackResultsResponseRow" required="true" %>
 <%@ attribute name="questionIndex" type="java.lang.Integer"%>
 <%@ attribute name="responseIndex" type="java.lang.Integer"%>
+
 <tr <c:forEach items="${responseRow.rowAttributes.attributes}" var="attr">${attr.key}="${attr.value}"</c:forEach>>
   <c:if test="${responseRow.giverDisplayed}">
     <c:if test="${responseRow.giverProfilePictureAColumn}">
