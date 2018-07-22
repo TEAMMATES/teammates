@@ -34,7 +34,7 @@
     <div class="row">
       <div class="col-sm-6 col-sm-offset-3">
         <div class="input-group input-group-lg">
-            <input type="text" class="form-control" placeholder="How can we help ?" id="searchQuery" autocomplete="off">
+            <input type="text" class="form-control" placeholder="How can we help?" id="searchQuery" autocomplete="off">
             <span class="input-group-btn">
               <button id="search" class="btn btn-default" type="submit" onclick="searchQuestions()">
                 <span class="glyphicon glyphicon-search"></span>

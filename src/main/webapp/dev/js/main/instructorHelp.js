@@ -54,8 +54,8 @@ function prepareQuestionsForSearch() {
                 }
                 return elasticlunr.stemmer(lowerCaseWord);
             });
-            subTopicTags = $.grep(subTopicTags, (v) => {
-                if (v !== '') {
+            subTopicTags = $.grep(subTopicTags, (tag) => {
+                if (tag !== '') {
                     return true;
                 }
                 return false;
@@ -121,8 +121,8 @@ function renderPage(page) {
     curPage = page;
     const pageNum = page;
     const searchResultElements = $('#searchResults').children();
-    const pageElements = $(searchResultElements.slice((pageNum - 1)*numResultsPerPage,
-                                                     (pageNum - 1)*numResultsPerPage + numResultsPerPage));
+    const pageElements = $(searchResultElements.slice((pageNum - 1) * numResultsPerPage,
+            (pageNum - 1) * numResultsPerPage + numResultsPerPage));
 
     // hide all search results by default
     searchResultElements.each(function () {
@@ -180,22 +180,23 @@ function searchQuestions() {
 
     // highlight matches for keyword in the search results
     function highlightKeyword(keyword) {
-        const highlightRegex = new RegExp(keyword, 'g');
+        const highlightRegex = new RegExp(keyword, 'gi');
+
+        function highlighter(match) {
+            return `<span class="highlight">${match}</span>`;
+        }
+
         $('#searchResults').children().each(function () {
-            // highlight heading matches for query
-            $(this).find('.panel-heading').html(function () {
-                return $(this).html().replace(highlightRegex, `<span class='text-bold color-positive'>${keyword}</span>`);
-            });
-            // highlight body matches for query
-            $(this).find('.panel-body').html(function () {
-                return $(this).html().replace(highlightRegex, `<span class='text-bold color-positive'>${keyword}</span>`);
+            // highlight heading and body matches for query
+            $(this).find('.panel-heading, .panel-body').html(function () {
+                return $(this).html().replace(highlightRegex, highlighter);
             });
         });
     }
 
     function initializePagingControls() {
         const numResults = results.length;
-        numPages = Math.ceil(numResults/numResultsPerPage);
+        numPages = Math.ceil(numResults / numResultsPerPage);
 
         if (numPages < 2) {
             return;
