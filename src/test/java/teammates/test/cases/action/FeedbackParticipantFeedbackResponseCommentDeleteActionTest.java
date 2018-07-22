@@ -244,8 +244,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         verifyUnaccessibleWithoutLogin(submissionParams, instructor1InCourse1, student);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams, instructor1InCourse1, student);
-        verifyUnaccessibleForStudents(submissionParams, instructor1InCourse1, student);
 
         InstructorAttributes differentInstructorInSameCourse = dataBundle.instructors.get("instructor2InCourse1");
         gaeSimulation.loginAsInstructor(differentInstructorInSameCourse.googleId);
@@ -296,7 +294,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         verifyUnaccessibleWithoutLogin(submissionParams, instructor, student1InCourse1);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams, instructor, student1InCourse1);
 
         ______TS("Different student of same course cannot delete comment");
 
@@ -351,7 +348,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         verifyUnaccessibleWithoutLogin(submissionParams, instructor, student1InCourse1);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams, instructor, student1InCourse1);
 
         ______TS("Different student of different team and same course cannot delete comment");
 

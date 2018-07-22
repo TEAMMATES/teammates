@@ -508,20 +508,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
 
     }
 
-    protected void verifyUnaccessibleForUnregisteredUsers(String[] submissionParams, InstructorAttributes instructor,
-            StudentAttributes student) {
-
-        ______TS("non-registered users cannot access");
-
-        String unregUserId = "unreg.user";
-
-        gaeSimulation.loginUser(unregUserId);
-        verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(student.googleId, submissionParams));
-        verifyCannotMasquerade(addUserIdToParams(instructor.googleId, submissionParams));
-
-    }
-
     protected void verifyUnaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) {
 
         ______TS("without Modify-Course privilege cannot access");
@@ -622,17 +608,6 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         verifyCannotAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId, submissionParams));
-
-    }
-
-    protected void verifyUnaccessibleForStudents(String[] submissionParams, InstructorAttributes instructor,
-            StudentAttributes student) {
-
-        ______TS("students cannot access");
-
-        gaeSimulation.loginAsStudent(student.googleId);
-        verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(instructor.googleId, submissionParams));
 
     }
 
