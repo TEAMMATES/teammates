@@ -42,7 +42,6 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
                         showCommentToString, showGiverNameToString, getResponseVisibilities(),
                         commentGiverNameToEmailTable, sessionTimeZone, question);
         frc.enableEditDelete();
-
         return frc;
     }
 

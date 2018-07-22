@@ -1106,14 +1106,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                 question, response);
             boolean isFeedbackParticipantCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
-            InstructorFeedbackResultsResponseRow responseRow = new InstructorFeedbackResultsResponseRow(
-                                                                       bundle.getGiverNameForResponse(response),
-                                                                       bundle.getTeamNameForEmail(response.giver),
-                                                                       bundle.getRecipientNameForResponse(response),
-                                                                       bundle.getTeamNameForEmail(response.recipient),
-                                                                       bundle.getResponseAnswerHtml(response, question),
-                                                                       moderationButton,
-                                                                       isFeedbackParticipantCommentsOnResponsesAllowed);
+            InstructorFeedbackResultsResponseRow responseRow =
+                    new InstructorFeedbackResultsResponseRow(bundle.getGiverNameForResponse(response),
+                            bundle.getTeamNameForEmail(response.giver), bundle.getRecipientNameForResponse(response),
+                            bundle.getTeamNameForEmail(response.recipient), bundle.getResponseAnswerHtml(response, question),
+                            moderationButton, isFeedbackParticipantCommentsOnResponsesAllowed);
             if (isFeedbackParticipantCommentsOnResponsesAllowed) {
                 String comment = getFeedbackParticipantCommentText(response);
                 responseRow.setFeedbackParticipantComment(comment);
@@ -1207,12 +1204,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     question.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
 
             InstructorFeedbackResultsResponseRow responseRow =
-                    new InstructorFeedbackResultsResponseRow(
-                            bundle.getGiverNameForResponse(response),
-                            bundle.getTeamNameForEmail(response.giver),
-                            bundle.getRecipientNameForResponse(response),
-                            bundle.getTeamNameForEmail(response.recipient),
-                            bundle.getResponseAnswerHtml(response, question),
+                    new InstructorFeedbackResultsResponseRow(bundle.getGiverNameForResponse(response),
+                            bundle.getTeamNameForEmail(response.giver), bundle.getRecipientNameForResponse(response),
+                            bundle.getTeamNameForEmail(response.recipient), bundle.getResponseAnswerHtml(response, question),
                             moderationButton, isFeedbackParticipantCommentsOnResponsesAllowed);
 
             if (isFeedbackParticipantCommentsOnResponsesAllowed) {

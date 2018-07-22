@@ -39,19 +39,17 @@ public class InstructorFeedbackResultsResponseRow {
     private boolean isInstructorCommentsOnResponsesAllowed;
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
-                                        String recipientDisplayableIdentifier, String recipientTeam,
-                                        String displayableResponse,
-                                        InstructorFeedbackResultsModerationButton moderationButton,
-                                        boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
+            String recipientDisplayableIdentifier, String recipientTeam, String displayableResponse,
+            InstructorFeedbackResultsModerationButton moderationButton,
+            boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
                 displayableResponse, moderationButton, false, isFeedbackParticipantCommentsOnResponsesAllowed);
     }
 
     public InstructorFeedbackResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
-                                        String recipientDisplayableIdentifier, String recipientTeam,
-                                        String displayableResponse,
-                                        InstructorFeedbackResultsModerationButton moderationButton, boolean isRowGrey,
-                                        boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
+            String recipientDisplayableIdentifier, String recipientTeam, String displayableResponse,
+            InstructorFeedbackResultsModerationButton moderationButton, boolean isRowGrey,
+            boolean isFeedbackParticipantCommentsOnResponsesAllowed) {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
         this.giverTeam = giverTeam;
 

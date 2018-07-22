@@ -60,7 +60,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         course = coursesDb.getCourse(comment.courseId);
         relatedInstructors = new ArrayList<>();
         relatedStudents = new ArrayList<>();
-        setCommentGiveNameAndDisplayedName();
+        setCommentGiverNameAndDisplayedName();
 
         // prepare the response giver name and recipient name
         Set<String> addedEmailSet = new HashSet<>();
@@ -376,7 +376,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 ? name : Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
     }
 
-    private void setCommentGiveNameAndDisplayedName() {
+    private void setCommentGiverNameAndDisplayedName() {
         switch (comment.commentGiverType) {
         case INSTRUCTORS:
             InstructorAttributes instructor =

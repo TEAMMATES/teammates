@@ -249,11 +249,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
                                                            questionAttributes.getId(), existingResponse.recipient);
 
-            String submissionFormHtml = questionAttributes.getQuestionDetails()
-                                            .getQuestionWithExistingResponseSubmissionFormHtml(
-                                                isSessionOpenForSubmission, qnIndx, responseIndx,
-                                                questionAttributes.courseId, numOfResponseBoxes,
-                                                existingResponse.getResponseDetails(), student);
+            String submissionFormHtml =
+                    questionAttributes.getQuestionDetails().getQuestionWithExistingResponseSubmissionFormHtml(
+                            isSessionOpenForSubmission, qnIndx, responseIndx, questionAttributes.courseId,
+                            numOfResponseBoxes, existingResponse.getResponseDetails(), student);
 
             FeedbackSubmissionEditResponse response = new FeedbackSubmissionEditResponse(responseIndx,
                     true, recipientOptionsForQuestion, submissionFormHtml,
@@ -262,8 +261,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
                 FeedbackResponseCommentRow responseCommentRow =
                         buildFeedbackParticipantResponseCommentRow(questionAttributes, existingResponse.getId());
 
-                FeedbackResponseCommentRow frcForAdding = buildFeedbackResponseCommentFormForAdding(
-                        questionAttributes, existingResponse.getId(), "", "", sessionTimeZone, true);
+                FeedbackResponseCommentRow frcForAdding =
+                        buildFeedbackResponseCommentFormForAdding(questionAttributes, existingResponse.getId(),
+                                "", "", sessionTimeZone, true);
 
                 response.setFeedbackParticipantCommentOnResponse(responseCommentRow);
                 response.setFeedbackResponseCommentAdd(frcForAdding);

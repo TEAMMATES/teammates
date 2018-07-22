@@ -69,5 +69,4 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
     protected RedirectResult createSpecificRedirectResult() {
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
-
 }
