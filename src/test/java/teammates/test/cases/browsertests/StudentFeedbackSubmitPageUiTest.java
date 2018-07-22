@@ -50,6 +50,18 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testModifyData();
     }
 
+    private void testLinks() {
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
+        submitPage.loadStudentHomeTab();
+        submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
+        submitPage.loadProfileTab();
+
+        submitPage.logout();
+        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
+        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentHomeNavLink")));
+        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentProfileNavLink")));
+    }
+
     private void testContent() throws Exception {
 
         ______TS("unreg student");
@@ -116,9 +128,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.addFeedbackResponseComment("-6-0", "Comment without response");
         submitPage.addFeedbackResponseComment("-7-1", "Comment without response");
-        submitPage.addFeedbackResponseComment("-10-0", "Comment without response");
-        submitPage.addFeedbackResponseComment("-12-0", "Comment without response");
-        submitPage.addFeedbackResponseComment("-16-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal(
@@ -558,10 +567,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         submitPage.addFeedbackResponseComment("-6-0", "New MCQ Comment 1");
-        submitPage.addFeedbackResponseComment("-10-0", "New MCQ Comment 2");
-        submitPage.addFeedbackResponseComment("-12-0", "New MCQ Comment 3");
-        submitPage.addFeedbackResponseComment("-16-0", "New MCQ Comment 4");
-        submitPage.addFeedbackResponseComment("-7-0", "New MCQ team Comment 1");
         submitPage.addFeedbackResponseComment("-7-1", "New MCQ team Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
@@ -578,10 +583,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         submitPage.editFeedbackResponseComment("-6-0", "Edited MCQ Comment 1");
-        submitPage.editFeedbackResponseComment("-10-0", "Edited MCQ Comment 2");
-        submitPage.editFeedbackResponseComment("-12-0", "Edited MCQ Comment 3");
-        submitPage.editFeedbackResponseComment("-16-0", "Edited MCQ Comment 4");
-        submitPage.editFeedbackResponseComment("-7-0", "Edited MCQ team Comment 1");
         submitPage.editFeedbackResponseComment("-7-1", "Edited MCQ team Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
@@ -599,14 +600,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.deleteFeedbackResponseComment("-6-0");
         submitPage.verifyRowDeletedSuccess("-6-0");
-        submitPage.deleteFeedbackResponseComment("-10-0");
-        submitPage.verifyRowDeletedSuccess("-10-0");
-        submitPage.deleteFeedbackResponseComment("-12-0");
-        submitPage.verifyRowDeletedSuccess("-12-0");
-        submitPage.deleteFeedbackResponseComment("-16-0");
-        submitPage.verifyRowDeletedSuccess("-16-0");
-        submitPage.deleteFeedbackResponseComment("-7-0");
-        submitPage.verifyRowDeletedSuccess("-7-0");
         submitPage.deleteFeedbackResponseComment("-7-1");
         submitPage.verifyRowDeletedSuccess("-7-1");
     }
@@ -721,18 +714,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24, 25, 26, 27.");
 
-    }
-
-    private void testLinks() {
-        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.loadStudentHomeTab();
-        submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
-        submitPage.loadProfileTab();
-
-        submitPage.logout();
-        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentHomeNavLink")));
-        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentProfileNavLink")));
     }
 
     private void testResponsiveSubmission() {

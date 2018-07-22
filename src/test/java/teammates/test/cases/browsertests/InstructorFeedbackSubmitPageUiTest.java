@@ -82,7 +82,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
     }
 
-    private void testAddCommentsToQuestionsWithoutResponses() {
+    private void testAddCommentsToQuestionsWithoutResponses() throws IOException {
         ______TS("add comments on questions without responses: no effect");
 
         logout();
@@ -95,6 +95,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "
                         + "11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageNoComments.html");
     }
 
     private void testSubmitAction() throws Exception {
@@ -335,18 +339,18 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageNoComments.html");
 
         submitPage.addFeedbackResponseComment("-6-0", "New MCQ Comment 1");
         submitPage.addFeedbackResponseComment("-6-1", "New MCQ Comment 2");
-        submitPage.addFeedbackResponseComment("-6-2", "New MCQ Comment 3");
-        submitPage.addFeedbackResponseComment("-9-0", "New MCQ Comment 4");
-        submitPage.addFeedbackResponseComment("-11-0", "New MCQ Comment 5");
-        submitPage.addFeedbackResponseComment("-15-0", "New MCQ Comment 6");
+        submitPage.addFeedbackResponseComment("-9-0", "New MCQ Comment 3");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24.");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAddedCommentOnResponses.html");
     }
 
     private void testEditCommentsActionAfterAddingComments() throws IOException {
@@ -354,18 +358,18 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAddedCommentOnResponses.html");
 
         submitPage.editFeedbackResponseComment("-6-0", "Edited MCQ Comment 1");
         submitPage.editFeedbackResponseComment("-6-1", "Edited MCQ Comment 2");
-        submitPage.editFeedbackResponseComment("-6-2", "Edited MCQ Comment 3");
-        submitPage.editFeedbackResponseComment("-9-0", "Edited MCQ Comment 4");
-        submitPage.editFeedbackResponseComment("-11-0", "Edited MCQ Comment 5");
-        submitPage.editFeedbackResponseComment("-15-0", "Edited MCQ Comment 6");
+        submitPage.editFeedbackResponseComment("-9-0", "Edited MCQ Comment 3");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24.");
+
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditedComments.html");
     }
 
     private void testDeleteCommentsActionAfterEditingComments() throws IOException {
@@ -373,21 +377,14 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditedComments.html");
 
         // mcq questions comments
         submitPage.deleteFeedbackResponseComment("-6-0");
         submitPage.verifyRowDeletedSuccess("-6-0");
         submitPage.deleteFeedbackResponseComment("-6-1");
         submitPage.verifyRowDeletedSuccess("-6-1");
-        submitPage.deleteFeedbackResponseComment("-6-2");
-        submitPage.verifyRowDeletedSuccess("-6-2");
         submitPage.deleteFeedbackResponseComment("-9-0");
         submitPage.verifyRowDeletedSuccess("-9-0");
-        submitPage.deleteFeedbackResponseComment("-11-0");
-        submitPage.verifyRowDeletedSuccess("-11-0");
-        submitPage.deleteFeedbackResponseComment("-15-0");
-        submitPage.verifyRowDeletedSuccess("-15-0");
     }
 
     /**
