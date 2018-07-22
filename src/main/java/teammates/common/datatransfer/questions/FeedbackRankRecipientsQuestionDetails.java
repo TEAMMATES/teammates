@@ -246,13 +246,13 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
      */
     private String getStudentQuestionResultsStatisticsHtml(String studentEmail, FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        // at least should be able to viewed by other students for team recipient
+        // at least should be able to be viewed by other students for team recipient
         if (question.recipientType.isTeam()
                     && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                     || !question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS))) {
             return "";
         }
-        // at least should be able to viewed by own team members for non-team recipient
+        // at least should be able to be viewed by own team members for non-team recipient
         if (!question.recipientType.isTeam()
                     && (!question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                     || !question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
