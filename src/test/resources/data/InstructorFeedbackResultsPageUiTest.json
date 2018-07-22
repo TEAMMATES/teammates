@@ -1834,6 +1834,24 @@
       },
       "lastEditorEmail": "CFResultsUiT.instr2@gmail.tmt",
       "lastEditedAt": "2012-04-02T23:59:00Z"
+    },
+    "comment1OnResponse6": {
+      "courseId": "CFResultsUiT.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "7",
+      "commentGiver": "CFResultsUiT.alice.b@gmail.tmt",
+      "commentGiverType": "STUDENTS",
+      "giverSection": "Section A",
+      "receiverSection": "Section A",
+      "feedbackResponseId": "7%CFResultsUiT.alice.b@gmail.tmt%CFResultsUiT.alice.b@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2012-04-02T23:59:00Z",
+      "commentText": {
+        "value": "Comment by Alice."
+      }
     }
   },
   "profiles": {}
