@@ -1,51 +1,81 @@
-import {
-    showModalAlert,
-} from '../common/bootboxWrapper';
-
-import {
-    BootstrapContextualColors,
-} from '../common/const';
-
+/**
+ * Holds Handsontable settings, reference and other information for the spreadsheet interface.
+ */
 import {
     prepareInstructorPages,
 } from '../common/instructor';
 
-function isUserTyping(str) {
-    return str.indexOf('\t') === -1 && str.indexOf('|') === -1;
-}
+import {
+    getUpdatedHeaderString,
+    getUserDataRows,
+    getUpdatedData,
+} from './instructorCourseEnrollHelper';
 
-window.isUserTyping = isUserTyping;
+const container = document.getElementById('spreadsheet');
 
-const loadUpFunction = function () {
-    const typingErrMsg = 'Please use | character ( shift+\\ ) to seperate fields, or copy from your existing spreadsheet.';
-    let notified = false;
+/* global Handsontable:false */
+const handsontable = new Handsontable(container, {
+    height: 500,
+    autoWrapRow: true,
+    preventOverflow: 'horizontal',
+    manualColumnResize: true,
+    manualRowResize: true,
+    manualColumnMove: true,
+    rowHeaders: true,
+    colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comments'],
+    columnSorting: true,
+    sortIndicator: true,
+    minRows: 20,
+    maxCols: 5,
+    maxRows: 100,
+    stretchH: 'all',
+    minSpareRows: 1,
+    contextMenu: [
+        'row_above',
+        'row_below',
+        'remove_row',
+        'undo',
+        'redo',
+        'make_read_only',
+        'alignment',
+    ],
+});
 
-    const ENTER_KEYCODE = 13;
-    let enrolTextbox = $('#enrollstudents');
-    if (enrolTextbox.length) {
-        [enrolTextbox] = enrolTextbox;
-        $(enrolTextbox).keydown((e) => {
-            const keycode = e.which || e.keyCode;
-            if (keycode === ENTER_KEYCODE) {
-                if (isUserTyping(e.currentTarget.value) && !notified) {
-                    notified = true;
-                    showModalAlert('Invalid separator', typingErrMsg, null, BootstrapContextualColors.WARNING);
-                }
-            }
-        });
-    }
-};
-
-if (window.addEventListener) {
-    window.addEventListener('load', loadUpFunction);
-} else {
-    window.attachEvent('load', loadUpFunction);
+/**
+ * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
+ *
+ * Pushes the output data into the textarea (used for form submission).
+ */
+function updateDataDump() {
+    const spreadsheetData = handsontable.getData();
+    const dataPushToTextarea = getUpdatedHeaderString(handsontable.getColHeader());
+    const userDataRows = getUserDataRows(spreadsheetData);
+    $('#enrollstudents').text(userDataRows === ''
+            ? '' : dataPushToTextarea + userDataRows); // only pushes header string if userDataRows is not empty
 }
 
 $(document).ready(() => {
     prepareInstructorPages();
-});
 
-export {
-    isUserTyping,
-};
+    if ($('#enrollstudents').val()) {
+        const allData = $('#enrollstudents').val().split('\n'); // data in the table including column headers (string format)
+
+        const columnHeaders = allData[0].split('|');
+        handsontable.updateSettings({
+            colHeaders: columnHeaders,
+        });
+
+        const spreadsheetDataRows = allData.slice(1);
+        if (spreadsheetDataRows.length > 0) {
+            const data = getUpdatedData(spreadsheetDataRows);
+            handsontable.loadData(data); // Reset all cells in the grid to contain data from the data array
+        }
+    }
+
+    $('#addEmptyRows').click(() => {
+        const emptyRowsCount = $('#number-of-rows').val();
+        handsontable.alter('insert_row', null, emptyRowsCount);
+    });
+
+    $('#student-data-spreadsheet-form').submit(updateDataDump);
+});

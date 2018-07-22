@@ -473,31 +473,127 @@ function prepareConstSumQuestions() {
     for (let i = 0; i < constSumQuestionNums.length; i += 1) {
         const qnNum = constSumQuestionNums[i];
 
+        // Check if feedback session is open or under preview mode
         if (!$('#response_submit_button').is(':disabled')
             || isPreview()) {
+            // Add elements for displaying instructions to Constant Sum questions
+            $(`.constraints-${qnNum}`).each(function () {
+                $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>'
+                        + `<p class="text-color-blue padding-left-35px" id="constSumInstruction-${qnNum}"></p>`
+                        + '<hr class="margin-top-0 border-top-dark-gray">');
+            });
+
+            // Add elements for displaying messages/errors based on user input
+            $(`.evalueeForm-${qnNum}`).each(function (responseIndx) {
+                $(this).after(`<div id="constSumInputAlert-${qnNum}-${responseIndx}" style="display:none">`
+                        + `<p class="text-color-green padding-left-35px" id="constSumMessage-${qnNum}-${responseIndx}"></p>`
+                        + '<hr class="margin-top-0 border-top-dark-gray">');
+            });
+
+            // Check if points are distributed among recipients or options
             if ($(`#constSumToRecipients-${qnNum}`).val() === 'true') {
                 let numResponses = $(`[name="questionresponsetotal-${qnNum}"]`).val();
                 numResponses = parseInt(numResponses, 10);
+                /*
+                 * Only display the last alert block since points
+                 * are distributed among recipients
+                 */
+                $(`#constSumInputAlert-${qnNum}-${numResponses - 1}`).show();
+            } else {
+                /*
+                 * Display alert block for each recipient
+                 * since each recipient has its own set of options
+                 */
+                $(`[id^="constSumInputAlert-${qnNum}-"]`).show();
 
-                $(`#constSumInfo-${qnNum}-${numResponses - 1}`).show();
+                // Add further indentation to options for better layout if recipient name is visible
+                if ($(`.evalueeLabel-${qnNum}`).length) {
+                    $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('padding-left-55px');
+                    $(`[id^="constSumSubmissionFormOptionFragment-${qnNum}"]`).addClass('margin-top-15px');
+                }
             }
         } else {
-            $(`[id^="constSumInfo-${qnNum}-"]`).hide();
+            $(`[id^="constSumInputAlert-${qnNum}-"]`).hide();
         }
     }
 }
 
-function updateConstSumMessageQn(qnNum) {
+/**
+ * Display instructions to be followed while distributing points
+ * Instructions can also be seen as the constraints that
+ * must be satisfied for arriving at a valid distribution
+ * @param qnNum - question number
+ */
+function updateConstSumQnInstructions(qnNum) {
     let numOptions = 0;
     let points = parseInt($(`#constSumPoints-${qnNum}`).val(), 10);
+
+    const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
+
+    // Boolean value stating the type of CONSTSUM question (among recipients or options)
+    const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
+    /*
+     * Boolean value stating whether total points to be distributed
+     * is equal to the value of variable `points` or `points`x no. of options
+     */
+    const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
+    /*
+     * Boolean value which is true when all recipients/options can not be given
+     * the same amount of points. This variable is being used mainly for backward compatibility
+     */
+    const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
+
+    if (distributeToRecipients) {
+        numOptions = numRecipients;
+    } else {
+        numOptions = parseInt($(`#constSumNumOption-${qnNum}`).val(), 10);
+    }
+
+    if (pointsPerOption) {
+        points *= numOptions;
+    }
+
+    // Specifies whether points need to be distributed unevenly among recipients/options
+    const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
+    // Specifies whether all recipients/options should be allocated different points
+    const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION;
+    // Specifies whether at least one allocation must differ from the rest
+    const forceSomeUnevenDistribution = constSumDistributePointsOptionSelected
+            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMSOMEUNEVENDISTRIBUTION;
+
+    const instructionElement = $(`#constSumInstruction-${qnNum}`);
+    let instruction = '';
+    const infoIcon = '<span class="glyphicon glyphicon-info-sign padding-right-10px"></span>';
+
+    instruction += `${infoIcon} Total points distributed should add up to ${points}.<br>`;
+
+    if (forceSomeUnevenDistribution) {
+        instruction += `${infoIcon} At least one ${distributeToRecipients ? 'recipient' : 'option'} `
+                + 'should be allocated different number of points.<br>';
+    } else if (forceUnevenDistribution || forceAllUnevenDistribution) {
+        /*
+         * All points need to be different. forceUnevenDistribution is used to check the same for older versions which
+         * did not contain the feature "some receive different points". In such versions forceUnevenDistribution will
+         * be true for questions where "all receive different points" is selected.
+         */
+        instruction += `${infoIcon} Every ${distributeToRecipients ? 'recipient' : 'option'} `
+                + 'should be allocated different number of points.<br>';
+    }
+    instructionElement.html(instruction);
+}
+
+function updateConstSumQnMessages(qnNum) {
+    let numOptions = 0;
+    let points = parseInt($(`#constSumPoints-${qnNum}`).val(), 10);
+
+    // For explanations on the following variables refer to `updateConstSumQnInstructions`
     const numRecipients = parseInt($(`[name="questionresponsetotal-${qnNum}"]`).val(), 10);
     const distributeToRecipients = $(`#constSumToRecipients-${qnNum}`).val() === 'true';
     const pointsPerOption = $(`#constSumPointsPerOption-${qnNum}`).val() === 'true';
     const forceUnevenDistribution = $(`#constSumUnevenDistribution-${qnNum}`).val() === 'true';
 
     const constSumDistributePointsOptionSelected = $(`#constSumDistributePointsOptions-${qnNum}`).val();
-    const allowEvenDistribution = constSumDistributePointsOptionSelected
-            === ParamsNames.FEEDBACK_QUESTION_CONSTSUMNOUNEVENDISTRIBUTION;
     const forceAllUnevenDistribution = constSumDistributePointsOptionSelected
             === ParamsNames.FEEDBACK_QUESTION_CONSTSUMALLUNEVENDISTRIBUTION;
     const forceSomeUnevenDistribution = constSumDistributePointsOptionSelected
@@ -517,34 +613,30 @@ function updateConstSumMessageQn(qnNum) {
     let remainingPoints = points;
     let allUnique = true;
     let allSame = true;
-    let allNotNumbers = true;
+    let allInputsEmpty = true;
     let answerSet = {};
+    let repeatedPoints = [];
 
     function fillWithZeroIfEmpty(inputFieldElement) {
         if (Number.isNaN(parseInt(inputFieldElement.val(), 10))) {
             inputFieldElement.val(0);
         }
     }
-
+    /*
+     * Checks current input provided by user
+     * and updates error/success messages based on constraints
+     */
     function checkAndDisplayMessage(messageElement) {
         let message = '';
+        const approvedIcon = '<span class="glyphicon glyphicon-ok padding-right-10px"></span>';
+        const errorIcon = '<span class="glyphicon glyphicon-remove padding-right-10px"></span>';
 
-        if (allNotNumbers) {
-            message = `Please distribute ${points} points among the above `
-                    + `${distributeToRecipients ? 'recipients' : 'options'}.`;
-            messageElement.addClass('text-color-blue');
-            messageElement.removeClass('text-color-red');
-            messageElement.removeClass('text-color-green');
-        } else if (remainingPoints === 0) {
-            if (allowEvenDistribution || !forceUnevenDistribution
-                    || (forceUnevenDistribution && !forceSomeUnevenDistribution && allUnique)
-                    || (forceAllUnevenDistribution && allUnique)
-                    || (forceSomeUnevenDistribution && !allSame)) {
-                message = 'All points distributed!';
-                messageElement.addClass('text-color-green');
-                messageElement.removeClass('text-color-red');
-                messageElement.removeClass('text-color-blue');
+        let allChecksPassed = true;
 
+        // Check if at least one input box is filled before displaying messages
+        if (!allInputsEmpty) {
+            if (remainingPoints === 0) {
+                message += `<span class='text-color-green'> ${approvedIcon} All points distributed!</span><br>`;
                 /*
                  * Once all the points are distributed,
                  * look for empty Input fields and fill them with 0.
@@ -561,39 +653,54 @@ function updateConstSumMessageQn(qnNum) {
                         fillWithZeroIfEmpty($inputFieldElement);
                     }
                 }
+            } else if (remainingPoints > 0) {
+                message += `<span class='text-color-red'> ${errorIcon} Actual total is ${sum}! Distribute the remaining `
+                        + `${remainingPoints} points.</span><br>`;
+                allChecksPassed = false;
+            } else {
+                message += `<span class='text-color-red'> ${errorIcon} Actual total is ${sum}! Remove the extra `
+                        + `${-remainingPoints} points allocated.</span><br>`;
+                allChecksPassed = false;
             }
-        } else if (remainingPoints > 0) {
-            message = `${remainingPoints} points left to distribute.`;
-            messageElement.addClass('text-color-red');
-            messageElement.removeClass('text-color-green');
-            messageElement.removeClass('text-color-blue');
+
+            if (forceSomeUnevenDistribution) {
+                if (allSame && numOptions !== 1) {
+                    message += `<span class='text-color-red'> ${errorIcon} All `
+                            + `${distributeToRecipients ? 'recipients' : 'options'} `
+                            + `are given ${repeatedPoints[0]} points. Please allocate different points `
+                            + `to at least one ${distributeToRecipients ? 'recipient' : 'option'}.</span><br>`;
+                    allChecksPassed = false;
+                } else {
+                    message += `<span class='text-color-green'> ${approvedIcon} At least one `
+                            + `${distributeToRecipients ? 'recipient' : 'option'} `
+                            + 'has been allocated different number of points.</span><br>';
+                }
+            } else if (forceUnevenDistribution || forceAllUnevenDistribution) {
+                if (allUnique) {
+                    message += `<span class='text-color-green'> ${approvedIcon} `
+                            + 'All allocated points are different!</span><br>';
+                } else {
+                    message += `<span class='text-color-red'> ${errorIcon} Multiple `
+                            + `${distributeToRecipients ? 'recipients' : 'options'} `
+                            + `are given same points! eg. ${repeatedPoints[0]}.</span><br>`;
+                    allChecksPassed = false;
+                }
+            }
+        }
+
+        if (allChecksPassed) {
+            messageElement.addClass('text-color-green');
+            messageElement.removeClass('text-color-red');
         } else {
-            message = `Over allocated ${-remainingPoints} points.`;
-            messageElement.addClass('text-color-red');
-            messageElement.removeClass('text-color-green');
-            messageElement.removeClass('text-color-blue');
-        }
-
-        if (!allNotNumbers && forceSomeUnevenDistribution && allSame && numOptions !== 1) {
-            message += ' Different amount of points should be given to some options.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
         }
-
-        if (!allNotNumbers && ((forceUnevenDistribution && !forceSomeUnevenDistribution) || forceAllUnevenDistribution)
-                && !allUnique) {
-            message += ' The same amount of points should not be given multiple times.';
-            messageElement.addClass('text-color-red');
-            messageElement.removeClass('text-color-green');
-        }
-
-        messageElement.text(message);
+        messageElement.html(message);
     }
-
     function updateSumBasedOn(ptsAllocatedParam) {
         let pointsAllocated = ptsAllocatedParam;
         if (isNumber(pointsAllocated)) {
-            allNotNumbers = false;
+            allInputsEmpty = false;
         } else {
             pointsAllocated = 0;
         }
@@ -602,6 +709,7 @@ function updateConstSumMessageQn(qnNum) {
 
         if (pointsAllocated in answerSet) {
             allUnique = false;
+            repeatedPoints.push(pointsAllocated);
         } else if (Object.keys(answerSet).length !== 0) {
             allSame = false;
         }
@@ -624,12 +732,13 @@ function updateConstSumMessageQn(qnNum) {
     } else {
         for (let j = 0; j < numRecipients; j += 1) {
             sum = 0;
-            allNotNumbers = true;
+            allInputsEmpty = true;
             answerSet = {};
             allUnique = true;
             remainingPoints = points;
+            repeatedPoints = [];
 
-            const $constSumMsgElement = $(`#constSumMessage-${qnNum}-${j}`);
+            const $constSumMessageElement = $(`#constSumMessage-${qnNum}-${j}`);
 
             for (let k = 0; k < numOptions; k += 1) {
                 const ptsAllocated = parseInt($(`#${FEEDBACK_RESPONSE_TEXT}-${qnNum}-${j}-${k}`).val(), 10);
@@ -639,7 +748,7 @@ function updateConstSumMessageQn(qnNum) {
 
             remainingPoints = points - sum;
 
-            checkAndDisplayMessage($constSumMsgElement);
+            checkAndDisplayMessage($constSumMessageElement);
         }
     }
 }
@@ -649,7 +758,8 @@ function updateConstSumMessages() {
 
     for (let i = 0; i < constSumQuestionNums.length; i += 1) {
         const qnNum = constSumQuestionNums[i];
-        updateConstSumMessageQn(qnNum);
+        updateConstSumQnInstructions(qnNum);
+        updateConstSumQnMessages(qnNum);
     }
 }
 
@@ -1297,5 +1407,5 @@ $(document).ready(() => {
 });
 
 window.validateNumScaleAnswer = validateNumScaleAnswer;
-window.updateConstSumMessageQn = updateConstSumMessageQn;
+window.updateConstSumQnMessages = updateConstSumQnMessages;
 window.updateRankMessageQn = updateRankMessageQn;
