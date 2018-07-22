@@ -104,6 +104,15 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testCreateFeedbackResponseComment_invalidVisibilitySettings_exceptionShouldBeThrown() {
+        FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
+        frComment.isCommentFromFeedbackParticipant = true;
+        frComment.isVisibilityFollowingFeedbackQuestion = false;
+        verifyExceptionThrownFromCreateFrComment(frComment, "Comment by feedback participant not following "
+                + "visibility setting of the question.");
+    }
+
+    @Test
     public void testGetFeedbackResponseComments() {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         List<FeedbackResponseCommentAttributes> expectedFrComments = new ArrayList<>();
@@ -301,7 +310,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         try {
             frcLogic.createFeedbackResponseComment(frComment);
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException | InvalidParametersException e){
+        } catch (EntityDoesNotExistException | InvalidParametersException e) {
             assertEquals(expectedMessage, e.getMessage());
         }
     }

@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -265,6 +266,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         frcaExpected.courseId = "";
         frcaExpected.feedbackSessionName = "%asdt";
         frcaExpected.commentGiver = "test-no-at-funny.com";
+        frcaExpected.commentGiverType = FeedbackParticipantType.NONE;
 
         try {
             frcDb.updateFeedbackResponseComment(frcaExpected);
