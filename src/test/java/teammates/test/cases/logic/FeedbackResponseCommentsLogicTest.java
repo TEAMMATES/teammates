@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -93,6 +94,13 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         //delete afterwards
         frcLogic.deleteFeedbackResponseComment(frComment);
+    }
+
+    @Test
+    public void testCreateFeedbackResponseComment_invalidCommentGiverType_exceptionShouldBeThrown() {
+        FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
+        frComment.commentGiverType = FeedbackParticipantType.SELF;
+        verifyExceptionThrownFromCreateFrComment(frComment, "Invalid comment giver type: " + FeedbackParticipantType.SELF);
     }
 
     @Test
@@ -289,12 +297,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     }
 
     private void verifyExceptionThrownFromCreateFrComment(
-            FeedbackResponseCommentAttributes frComment, String expectedMessage)
-            throws InvalidParametersException {
+            FeedbackResponseCommentAttributes frComment, String expectedMessage) {
         try {
             frcLogic.createFeedbackResponseComment(frComment);
             signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException | InvalidParametersException e){
             assertEquals(expectedMessage, e.getMessage());
         }
     }
