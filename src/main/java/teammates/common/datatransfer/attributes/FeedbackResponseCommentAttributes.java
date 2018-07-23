@@ -132,7 +132,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     // Converts image in comment text to link.
     private void convertImageToLinkInComment(StringBuilder comment, String htmlText) {
         if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
-            comment.append("Images Link: ");
+            comment.append(" Images Link: ");
             Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
             for (Element element : ele) {
                 comment.append(element.absUrl("src") + ' ');

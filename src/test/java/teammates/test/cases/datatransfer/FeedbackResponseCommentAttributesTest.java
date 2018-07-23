@@ -95,4 +95,24 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                     feedbackAttributes.isVisibilityFollowingFeedbackQuestion);
         }
     }
+
+    @Test
+    public void testConvertCommentTextToStringForCsv() {
+        Text text = new Text("aaa , bb\"b, c\"\"cc <image src=\"http://test.com/test.png\"></image> hello");
+        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
+                .builder("course", "name", "email", text)
+                .build();
+        String commentText = feedbackAttributes.convertCommentTextToStringForCsv();
+        assertEquals("\"aaa , bb\"\"b, c\"\"\"\"cc hello Images Link: http://test.com/test.png \"", commentText);
+    }
+
+    @Test
+    public void testConvertCommentTextToStringForHtml() {
+        Text text = new Text("<script>alert('injected');</script> <image src=\"http://test.com/test.png\"></image> hello");
+        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
+                .builder("course", "name", "email", text)
+                .build();
+        String commentText = feedbackAttributes.convertCommentTextToStringForHtml();
+        assertEquals("hello Images Link: http:&#x2f;&#x2f;test.com&#x2f;test.png ", commentText);
+    }
 }
