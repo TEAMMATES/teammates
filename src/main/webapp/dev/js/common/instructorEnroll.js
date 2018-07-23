@@ -1,12 +1,3 @@
-import {
-    showModalConfirmation,
-    showModalConfirmationWithCancel,
-} from '../common/bootboxWrapper';
-
-import {
-    BootstrapContextualColors,
-} from '../common/const';
-
 /**
  * Retrieves updated column header order and generates a header string.
  *
@@ -147,6 +138,19 @@ function displayErrorExecutingAjax(displayIcon) {
 }
 
 /**
+ * Displays a message informing the user that an error surfaced during the AJAX update request.
+ * @param displayIcon
+ */
+function displayErrorExecutingAjaxUpdate(displayIcon) {
+    const warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
+    const errorMsg = `
+        <strong style="margin-left: 1em; margin-right: 1em;">
+            [ Failed to update. Check your internet connection. ]
+        </strong>`;
+    displayIcon.html(warningSign + errorMsg);
+}
+
+/**
  * Returns the length of the current spreadsheet. Rows with all null values are filtered.
  * @returns {int} length of current spreadsheet
  */
@@ -157,7 +161,7 @@ function getSpreadsheetLength(dataHandsontable) {
 }
 
 /**
- * Returns the row entries that are different from the initial row entries loaded by the AJAX action.
+ * Returns the row entries that are different from the latest existing copy of students' data.
  * @returns {string} updated student row entries
  */
 function getUpdatedStudentRows(dataSpreadsheetData, existingStudentsData) {
@@ -172,18 +176,12 @@ function getUpdatedStudentRows(dataSpreadsheetData, existingStudentsData) {
  * @returns {string} list of new emails in separate lines.
  */
 function getNewEmailList(submitText) {
-    const newEmailColumnIndex = 6;
+    const newEmailColumnIndex = 5;
     return submitText.split('\n')
             .map(row => row.split('|'))
             .filter(row => row[newEmailColumnIndex] !== '')
             .map((row, index) => String(index + 1).concat('. ').concat(row[newEmailColumnIndex]))
             .join('<br>');
-}
-
-function firstColRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.HtmlRenderer.apply(this, arguments);
-    td.style.background = '#F0F0F0';
-    td.innerHTML = '<div style="text-align:center">&#9989;</div>';
 }
 
 export {
@@ -193,9 +191,9 @@ export {
     ajaxDataToHandsontableData,
     displayNoExistingStudents,
     displayErrorExecutingAjax,
+    displayErrorExecutingAjaxUpdate,
     getSpreadsheetLength,
     toggleStudentsPanel,
     getUpdatedStudentRows,
     getNewEmailList,
-    firstColRenderer,
 };
