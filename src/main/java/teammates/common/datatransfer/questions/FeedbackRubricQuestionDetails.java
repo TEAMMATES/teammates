@@ -130,7 +130,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             for (int j = 0; j < numOfRubricChoices; j++) {
                 String choice = HttpRequestHelper.getValueFromParamMap(
                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + j);
-                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL + "-" + i + "-" + j;
+                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-" + i + "-" + j;
                 String weight = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
                 if (weight != null && choice != null) {
                     if (!rowAdded) {
@@ -447,7 +447,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 Slots.ROW, Integer.toString(j),
                                 Slots.RUBRIC_WEIGHT,
                                 hasAssignedWeights ? weightFormat.format(weights.get(j).get(i)) : "0",
-                                Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT_FOR_CELL);
+                                Slots.RUBRIC_PARAM_WEIGHT, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT);
 
                 String tableBodyCell =
                         Templates.populateTemplate(tableBodyFragmentTemplate,
