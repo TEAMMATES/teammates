@@ -190,7 +190,7 @@
   },
   "students": {
     "alice.tmms@SHomeUiT.CS2104": {
-      "googleId": "${value.injected.in.testfile}",
+      "googleId": "",
       "email": "${value.injected.in.testfile}",
       "course": "SHomeUiT.CS2104",
       "name": "Amy Betsy</option></td></div>'\"",

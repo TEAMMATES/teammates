@@ -71,8 +71,7 @@ public final class BackDoor {
     public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
 
         // The data associated with the test accounts have to be removed when the test ends because
-        // the test accounts are shared across tests. In particular, the courses of test student1 account is not the same as
-        // `StudentHomePageUiTest` so it has to be cleared before running that test.
+        // the test accounts are shared across tests.
 
         // Test data is never cleared after test in order to save datastore costs as we already remove and restore the data
         // bundle when the test runs. This raises the question of why we do not remove the data bundle when the class
@@ -85,13 +84,11 @@ public final class BackDoor {
         // it helps to have the associated data in the datastore to debug the failure.
 
         // This means that removing the data bundle on startup is not always sufficient because a test only knows how
-        // to remove its associated data. This is the reason why `StudentHomePageUiTest` would fail if we don't remove the
-        // data bundle in this test.
+        // to remove its associated data.
         // Extending removeDataBundle to remove data outside its associated data would introduce unnecessary complications
         // like extra costs and now knowing exactly how much data to remove.
 
-        // Hence, since the account of user being logged in is shared in this test and `StudentHomepageUiTest` we need to
-        // explicitly remove the data bundle in both tests to avoid instability of tests.
+        // Hence, we need to explicitly remove the data bundle in tests to avoid instability of tests.
         // The problem of shared data of the same account being used in tests is hence being resolved preventing test data
         // from this test affecting the subsequent run tests.
 

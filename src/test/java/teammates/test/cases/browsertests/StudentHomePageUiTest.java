@@ -29,8 +29,10 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         String student1Email = student1GoogleId + "@gmail.com";
         testData.accounts.get("alice.tmms").googleId = student1GoogleId;
         testData.accounts.get("alice.tmms").email = student1Email;
-        testData.students.get("alice.tmms@SHomeUiT.CS2104").googleId = student1GoogleId;
+
+        // This student's name is Amy Betsy and has a registered account but yet to join course
         testData.students.get("alice.tmms@SHomeUiT.CS2104").email = student1Email;
+
         testData.students.get("alice.tmms@SHomeUiT.CS1101").googleId = student1GoogleId;
         testData.students.get("alice.tmms@SHomeUiT.CS1101").email = student1Email;
         testData.students.get("alice.tmms@SHomeUiT.CS4215").googleId = student1GoogleId;
@@ -198,6 +200,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
     }
 
+    /**
+     * Test data removed due to {@link BackDoor#removeAndRestoreDataBundle(DataBundle)}}.
+     */
     @AfterClass
     public void classTearDown() {
         BackDoor.removeDataBundle(testData);
