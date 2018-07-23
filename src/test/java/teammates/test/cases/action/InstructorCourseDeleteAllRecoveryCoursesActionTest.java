@@ -29,15 +29,15 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
     public void testExecuteAndPostProcess() throws Exception {
 
         ______TS("Typical case, delete all courses from Recycle Bin, without privilege");
+
         InstructorAttributes instructor2OfCourse3 = typicalBundle.instructors.get("instructor2OfCourse3");
         String instructor2Id = instructor2OfCourse3.googleId;
-
         gaeSimulation.loginAsInstructor(instructor2Id);
-
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
-        InstructorCourseDeleteAllRecoveryCoursesAction deleteAllAction = getAction();
+        InstructorCourseDeleteAllRecoveryCoursesAction deleteAllAction;
 
         try {
+            deleteAllAction = getAction();
             getRedirectResult(deleteAllAction);
         } catch (UnauthorizedAccessException e) {
             assertEquals("Course [idOfTypicalCourse3] is not accessible to instructor [instructor2@course3.tmt] "
@@ -52,12 +52,12 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
 
         ______TS("Typical case, delete all courses from Recycle Bin, with privilege");
+
         InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
         String instructor1Id = instructor1OfCourse3.googleId;
-
         gaeSimulation.loginAsInstructor(instructor1Id);
-
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
+
         deleteAllAction = getAction();
         RedirectResult redirectResult = getRedirectResult(deleteAllAction);
 
@@ -66,9 +66,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("All courses have been permanently deleted.", redirectResult.getStatusMessage());
-
         assertFalse(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
-
         String expectedLogMessage = "TEAMMATESLOG|||instructorRecoveryDeleteAllCourses|||"
                 + "instructorRecoveryDeleteAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
                 + "idOfInstructor1OfCourse3|||instr1@course3.tmt|||All courses deleted|||"

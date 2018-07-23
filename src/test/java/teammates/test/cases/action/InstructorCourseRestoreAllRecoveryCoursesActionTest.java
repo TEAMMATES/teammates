@@ -26,13 +26,14 @@ public class InstructorCourseRestoreAllRecoveryCoursesActionTest extends BaseAct
     @Override
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
-        String instructor1Id = instructor1OfCourse3.googleId;
-
-        gaeSimulation.loginAsInstructor(instructor1Id);
 
         ______TS("Typical case, restore all courses from Recycle Bin, with privilege");
+
+        InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
+        String instructor1Id = instructor1OfCourse3.googleId;
+        gaeSimulation.loginAsInstructor(instructor1Id);
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
+
         InstructorCourseRestoreAllRecoveryCoursesAction restoreAllAction = getAction();
         RedirectResult redirectResult = getRedirectResult(restoreAllAction);
 
@@ -41,11 +42,9 @@ public class InstructorCourseRestoreAllRecoveryCoursesActionTest extends BaseAct
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("All courses have been restored.", redirectResult.getStatusMessage());
-
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructor1Id);
         assertEquals(2, courseList.size());
         assertEquals(instructor1OfCourse3.courseId, courseList.get(1).getId());
-
         String expectedLogMessage = "TEAMMATESLOG|||instructorRecoveryRestoreAllCourses|||"
                 + "instructorRecoveryRestoreAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
                 + "idOfInstructor1OfCourse3|||instr1@course3.tmt|||All courses restored|||"
@@ -53,15 +52,14 @@ public class InstructorCourseRestoreAllRecoveryCoursesActionTest extends BaseAct
         AssertHelper.assertLogMessageEquals(expectedLogMessage, restoreAllAction.getLogMessage());
 
         ______TS("Typical case, restore all courses from Recycle Bin, without privilege");
+
         InstructorAttributes instructor2OfCourse3 = typicalBundle.instructors.get("instructor2OfCourse3");
         String instructor2Id = instructor2OfCourse3.googleId;
-
         gaeSimulation.loginAsInstructor(instructor2Id);
-
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
-        restoreAllAction = getAction();
 
         try {
+            restoreAllAction = getAction();
             getRedirectResult(restoreAllAction);
         } catch (UnauthorizedAccessException e) {
             assertEquals("Course [idOfTypicalCourse3] is not accessible to instructor [instructor2@course3.tmt] "

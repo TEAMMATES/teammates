@@ -288,11 +288,11 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("move course to Recycle Bin action success");
 
         String courseId = "CCAddUiTest.course1";
-
         assertFalse(validCourse.isCourseDeleted());
 
         coursesPage.moveCourseToRecovery(courseId);
         validCourse.setDeletedAt();
+
         assertNotNull(BackDoor.getCourse(courseId));
         assertTrue(validCourse.isCourseDeleted());
         coursesPage.verifyHtmlMainContent("/instructorCoursesMoveToRecoverySuccessful.html");
@@ -303,11 +303,11 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("restore action success");
 
         String courseId = "CCAddUiTest.course1";
-
         assertTrue(validCourse.isCourseDeleted());
 
         coursesPage.restoreCourse(courseId);
         validCourse.resetDeletedAt();
+
         assertNotNull(BackDoor.getCourse(courseId));
         assertFalse(validCourse.isCourseDeleted());
         coursesPage.verifyHtmlMainContent("/instructorCoursesRestoreSuccessful.html");
@@ -318,12 +318,12 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("restore all action success");
 
         CourseAttributes courseCS2105 = testData.courses.get("CS2105");
-
         assertTrue(courseCS2105.isCourseDeleted());
 
         coursesPage.restoreAllCourses();
-        assertNotNull(BackDoor.getCourse(courseCS2105.getId()));
         courseCS2105.resetDeletedAt();
+
+        assertNotNull(BackDoor.getCourse(courseCS2105.getId()));
         assertFalse(courseCS2105.isCourseDeleted());
         coursesPage.verifyHtmlMainContent("/instructorCoursesRestoreAllSuccessful.html");
     }
@@ -403,16 +403,17 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         coursesPage.verifyHtmlMainContent("/otherInstructorCoursesMultipleRecoveryCourses.html");
 
         CourseAttributes courseCS2106 = testData.courses.get("CS2106");
-
         assertTrue(courseCS2106.isCourseDeleted());
 
         // Delete and cancel
         coursesPage.deleteCourseAndCancel(courseCS2106.getId());
+
         assertNotNull(BackDoor.getCourse(courseCS2106.getId()));
 
         // Delete and confirm
         coursesPage = getCoursesPage();
         coursesPage.deleteCourseAndConfirm(courseCS2106.getId());
+
         assertNull(BackDoor.getCourse(courseCS2106.getId()));
         coursesPage.verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
     }
@@ -422,16 +423,17 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         ______TS("delete all action success");
 
         CourseAttributes courseCS2107 = testData.courses.get("CS2107");
-
         assertTrue(courseCS2107.isCourseDeleted());
 
         // Delete all and cancel
         coursesPage.deleteAllCoursesAndCancel();
+
         assertNotNull(BackDoor.getCourse(courseCS2107.getId()));
 
         // Delete all and confirm
         coursesPage = getCoursesPage();
         coursesPage.deleteAllCoursesAndConfirm();
+
         assertNull(BackDoor.getCourse(courseCS2107.getId()));
         coursesPage.verifyHtmlMainContent("/instructorCoursesDeleteAllSuccessful.html");
     }
