@@ -164,7 +164,6 @@ function expandCollapseNewStudentsPanel() {
 
     if (toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron)) { // if panel is expanded
         $('.enroll-students-spreadsheet-buttons').show();
-
     } else {
         $('.enroll-students-spreadsheet-buttons').hide();
     }
