@@ -52,7 +52,7 @@
     </div>
   </div>
   <div id="searchResults" class="panel-group margin-top-15px"></div>
-  <div id="pagingDivider" class="separate-content-holder" style="display:none">
+  <div id="pagingDivider" class="separate-content-holder" style="display: none;">
     <hr>
   </div>
   <div class="row">
@@ -60,7 +60,7 @@
       <div class="btn-group" id="pagingControls"></div>
     </div>
   </div>
-  <div id="allQuestions">
+  <div id="allQuestions" style="display: block;">
     <jsp:include page="partials/instructorHelpStudents.jsp"/>
     <jsp:include page="partials/instructorHelpCourses.jsp"/>
     <jsp:include page="partials/instructorHelpSessions.jsp"/>

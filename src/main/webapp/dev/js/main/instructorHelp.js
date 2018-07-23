@@ -241,6 +241,7 @@ function resetSearch() {
     $('#searchMetaData').text('');
     $('#searchResults').empty();
     $('#pagingControls').empty();
+    $('#pagingControls').removeClass('padding-15px margin-bottom-35px');
     $('#pagingDivider').hide();
     $('#allQuestions').show();
 }

@@ -14,12 +14,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.AdminHomePage;
-import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.Browser;
-import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.HomePage;
-import teammates.test.pageobjects.LoginPage;
+import teammates.test.pageobjects.*;
 
 /**
  * Base class for all browser tests.
@@ -155,6 +150,14 @@ public abstract class BaseUiTestCase extends BaseTestCaseWithBackDoorApiAccess {
      */
     protected HomePage getHomePage() {
         return AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
+    }
+
+    /**
+     * Navigates to application's help page for instructors
+     * and gives {@Link InstructorHelpPage} instance based on it.
+     */
+    protected InstructorHelpPage getInstructorHelpPage() {
+        return AppPage.getNewPageInstance(browser, createUrl("/instructorHelp.jsp"), InstructorHelpPage.class);
     }
 
     /**
