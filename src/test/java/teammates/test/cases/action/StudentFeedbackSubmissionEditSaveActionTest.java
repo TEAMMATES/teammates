@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.NullPostParameterException;
@@ -1019,6 +1020,92 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)",
                      redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
+    }
+
+    @Test
+    public void testExecuteAndPostProcess_responsesForDuplicateIdSubmitted_errorReturned() {
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 4);
+        assertNotNull("Feedback question not found in database", fq);
+
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ4S4C1");
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
+        assertNotNull("Feedback response not found in database", fr);
+
+        FeedbackResponseAttributes fr2 = dataBundle.feedbackResponses.get("response2ForQ4S4C1");
+        // necessary to get the correct responseId
+        fr2 = frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient);
+        assertNotNull("Feedback response not found in database", fr2);
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "50",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "50",
+
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-1", fr2.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr2.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr2.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr2.feedbackQuestionId,
+                // Give response to Student 1 from fr instead of Student 2 from fr2 to create a duplicate response.
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-1", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr2.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "40",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "60",
+        };
+
+        StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(a);
+
+        assertTrue(r.isError);
+        assertTrue(
+                r.getStatusMessage().contains(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1)));
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FSQTT.student1InCourse1",
+                        "FSQTT.idOfTypicalCourse1",
+                        "CONSTSUM+Session"),
+                r.getDestinationWithParams());
+
+        // As existing responses are being modified, old responses will persist when error occurs.
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient));
+
+        // Check that the responses have not been modified for response fr.
+        FeedbackConstantSumResponseDetails frBeforeEdit = (FeedbackConstantSumResponseDetails) fr.getResponseDetails();
+        List<Integer> answersBeforeEdit = frBeforeEdit.getAnswerList();
+
+        FeedbackResponseAttributes frModified = dataBundle.feedbackResponses.get("response1ForQ4S4C1");
+        frModified = frDb.getFeedbackResponse(fq.getId(), frModified.giver, frModified.recipient);
+        FeedbackConstantSumResponseDetails frAfterEdit =
+                (FeedbackConstantSumResponseDetails) frModified.getResponseDetails();
+        List<Integer> answersAfterEdit = frAfterEdit.getAnswerList();
+        assertEquals(answersBeforeEdit, answersAfterEdit);
+
+        // Check that the responses have not been modified for response fr2.
+        frBeforeEdit = (FeedbackConstantSumResponseDetails) fr2.getResponseDetails();
+        answersBeforeEdit = frBeforeEdit.getAnswerList();
+
+        frModified = dataBundle.feedbackResponses.get("response2ForQ4S4C1");
+        frModified = frDb.getFeedbackResponse(fq.getId(), frModified.giver, frModified.recipient);
+        frAfterEdit = (FeedbackConstantSumResponseDetails) frModified.getResponseDetails();
+        answersAfterEdit = frAfterEdit.getAnswerList();
+        assertEquals(answersBeforeEdit, answersAfterEdit);
     }
 
     @Test
