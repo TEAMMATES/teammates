@@ -44,7 +44,7 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
         } catch (JoinCourseException | InvalidParametersException e) {
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());
-            log.info(e.getMessage());
+            log.severe(e.getMessage());
         }
 
         // When instructor is added by admin and only sample course
@@ -58,7 +58,7 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
                     logic.updateCourse(course.getId(), course.getName(), timeZone);
                 } catch (InvalidParametersException e) {
                     setStatusForException(e, e.getMessage());
-                    log.info(e.getMessage());
+                    log.severe(e.getMessage());
                 }
                 List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(course.getId());
                 for (FeedbackSessionAttributes session : sessions) {
