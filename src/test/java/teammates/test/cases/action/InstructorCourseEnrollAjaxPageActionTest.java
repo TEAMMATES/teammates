@@ -34,11 +34,11 @@ public class InstructorCourseEnrollAjaxPageActionTest extends BaseActionTest {
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COURSE_INDEX, "1",
-                Const.ParamsNames.USER_ID, instructor.googleId
         };
         InstructorCourseEnrollAjaxPageAction action = getAction(submissionParams);
-        AjaxResult ar = getAjaxResult(action);
-        InstructorCourseEnrollAjaxPageData pageData = (InstructorCourseEnrollAjaxPageData) ar.data;
+        AjaxResult ajaxResult = getAjaxResult(action);
+        assertNotNull(ajaxResult);
+        InstructorCourseEnrollAjaxPageData pageData = (InstructorCourseEnrollAjaxPageData) ajaxResult.data;
 
         String expectedString = "Section 1|Team 1.1</td></div>'\"|student1 In Course1</td></div>'\""
                 + "|student1InCourse1@gmail.tmt|comment for student1InCourse1</td></div>'\""
