@@ -130,31 +130,32 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 1");
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "test comment 2");
-        resultsPage.waitForFeedbackResponseCommentAdded("-0-1-0-1-1", "test comment 1", "Teammates Test");
-        resultsPage.waitForFeedbackResponseCommentAdded("-0-1-0-1-2", "test comment 2", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-1-0-1-1", "test comment 1", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-1-0-1-2", "test comment 2", "Teammates Test");
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
-        resultsPage.waitForFeedbackResponseCommentAdded("-0-0-1-1-1", "test comment 1", "Teammates Test");
-        resultsPage.waitForFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-0-1-1-1", "test comment 1", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
 
         resultsPage.loadResultSectionPanel(1, 2);
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1-1", "test comment 3");
-        resultsPage.waitForFeedbackResponseCommentAdded("-1-1-1-1-1", "test comment 3", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-1-1-1-1-1", "test comment 3", "Teammates Test");
 
         ______TS("RGQ view: Typical case: edit existing feedback response comment");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-1-1-1-1", "edited test comment");
-        resultsPage.waitForFeedbackResponseCommentAdded("-1-1-1-1-1", "edited test comment", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-1-1-1-1-1",
+                "edited test comment", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditComment.html");
 
         ______TS("RGQ view: Typical case: edit comment created by different instructor");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-1-0-1-1-1", "Comment edited by different instructor");
-        resultsPage.waitForFeedbackResponseCommentAdded("-1-0-1-1-1",
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-1-0-1-1-1",
                 "Comment edited by different instructor", "Teammates Test");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsEditCommentByDifferentInstructor.html");
 
@@ -166,17 +167,18 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
-        resultsPage.waitForFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
 
         ______TS("RGQ view: Typical case: add edit and delete successively");
 
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-0-1-1", "successive action comment");
-        resultsPage.waitForFeedbackResponseCommentAdded("-0-1-0-1-3", "successive action comment", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-1-0-1-3",
+                "successive action comment", "Teammates Test");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal("-0-1-0-1-3", "edited successive action comment");
-        resultsPage.waitForFeedbackResponseCommentAdded("-0-1-0-1-3", "edited successive action comment",
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-1-0-1-3", "edited successive action comment",
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-0-1-3", 1);
 
@@ -186,7 +188,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.loadResultSectionPanel(0, 1);
-        resultsPage.waitForFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded("-0-0-1-1-2", "test comment 2", "Teammates Test");
         resultsPage.verifyRowMissing("-0-0-1-1-3");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
     }
@@ -217,7 +219,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentModelId,
                 "test comment 1");
         // TODO: all instances of this should do an immediate check instead of waiting for the comment to be added.
-        resultsPage.waitForFeedbackResponseCommentAdded(commentId, "test comment 1", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded(commentId, "test comment 1", "Teammates Test");
         resultsPage.closeCommentModal(commentModelId);
     }
 
@@ -225,7 +227,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal(commentId, commentText);
-        resultsPage.waitForFeedbackResponseCommentAdded(commentId, commentText, "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded(commentId, commentText, "Teammates Test");
         resultsPage.closeCommentModal(commentModelId);
     }
 
@@ -233,7 +235,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal(commentId, commentText);
-        resultsPage.waitForFeedbackResponseCommentAdded(commentId, commentText, "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded(commentId, commentText, "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow" + commentId, 1);
         resultsPage.closeCommentModal(commentModelId);
     }
@@ -251,10 +253,10 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentModelId,
                 "successive action comment");
-        resultsPage.waitForFeedbackResponseCommentAdded(commentId, "successive action comment", "Teammates Test");
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded(commentId, "successive action comment", "Teammates Test");
 
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal(commentId, "edited successive action comment");
-        resultsPage.waitForFeedbackResponseCommentAdded(commentId, "edited successive action comment",
+        resultsPage.waitAndVerifyForFeedbackResponseCommentAdded(commentId, "edited successive action comment",
                 "Teammates Test");
         resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow" + commentId, 1);
 
