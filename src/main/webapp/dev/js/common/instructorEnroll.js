@@ -65,7 +65,7 @@ function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
  * Toggle the chevron image depending on the user's action.
  */
 function toggleChevronImage(panelCollapse, toggleChevron) {
-    if ($(panelCollapse[0]).hasClass('checked')) { // panel is shown
+    if (panelCollapse.hasClass('in')) { // panel is shown
         $(toggleChevron).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
     } else {
         $(toggleChevron).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
@@ -76,29 +76,30 @@ function toggleChevronImage(panelCollapse, toggleChevron) {
  * Expands panel, showing the spreadsheet interface.
  */
 function expandStudentsPanel(panelCollapse) {
-    $(panelCollapse[0]).collapse('show');
-    $(panelCollapse[0]).addClass('checked');
+    panelCollapse.collapse('show');
 }
 
 /**
  * Collapses panel, hiding the spreadsheet interface.
  */
 function collapseStudentsPanel(panelCollapse) {
-    $(panelCollapse[0]).collapse('hide');
-    $(panelCollapse[0]).removeClass('checked');
+    panelCollapse.collapse('hide');
 }
 
 /**
  * Expands/Collapses the panel depending on the current state of the panel.
  */
 function toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron) {
+    let isPanelExpanded = false;
     displayIcon.html('');
-    if ($(panelCollapse[0]).hasClass('checked')) { // panel is shown
+    if (panelCollapse.hasClass('in')) { // panel is shown
         collapseStudentsPanel(panelCollapse);
     } else {
         expandStudentsPanel(panelCollapse);
+        isPanelExpanded = true;
     }
     toggleChevronImage(panelCollapse, toggleChevron);
+    return isPanelExpanded;
 }
 
 /**

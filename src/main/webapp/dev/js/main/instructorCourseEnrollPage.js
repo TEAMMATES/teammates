@@ -162,14 +162,13 @@ function expandCollapseNewStudentsPanel() {
     const displayIcon = $panelHeading.children('.display-icon');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
-    toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron);
-    enrollHandsontable.render();
-
-    if ($(panelCollapse[0]).hasClass('checked')) { // if panel is shown
+    if (toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron)) { // if panel is expanded
         $('.enroll-students-spreadsheet-buttons').show();
+
     } else {
         $('.enroll-students-spreadsheet-buttons').hide();
     }
+    enrollHandsontable.render();
 }
 
 $(document).ready(() => {
