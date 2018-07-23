@@ -56,7 +56,8 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
 
         InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
         InstructorAttributes newInstructor = InstructorAttributes
-                .builder(instructor1OfCourse3.getGoogleId(), "icdat.owncourse", "Instructor1 Course3", "instructor1@course3.tmt")
+                .builder(instructor1OfCourse3.getGoogleId(), "icdat.owncourse", "Instructor1 Course3",
+                        "instructor1@course3.tmt")
                 .build();
         gaeSimulation.loginAsInstructor(instructor1OfCourse3.googleId);
         instructorList.remove(instructor2OfCourse3);
