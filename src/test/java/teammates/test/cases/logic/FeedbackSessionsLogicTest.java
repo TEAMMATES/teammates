@@ -23,6 +23,7 @@ import teammates.common.datatransfer.FeedbackSessionStats;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -35,8 +36,10 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TimeHelperExtension;
 
@@ -47,6 +50,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -506,6 +510,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
 
+        // Comment on response 1 of question 1
+        List<FeedbackResponseCommentAttributes> frcList =
+                actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(1, frcList.size());
+
+        String expectedCommentString = getCommentFromDatastore("comment1FromT1C1ToR1Q1S1C1", dataBundle).toString();
+        assertEquals(expectedCommentString, frcList.get(0).toString());
+
         // Question 2
         expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse1");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
@@ -517,6 +529,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
+
+        // Comment on response 1 of question 2
+        frcList = actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(0, frcList.size());
 
         // Question for students to instructors
         expectedQuestion = getQuestionFromDatastore("qn5InSession1InCourse1");
@@ -608,6 +624,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
         assertEquals(1, actualResponses.size());
         AssertHelper.assertContains(actualResponses, expectedResponsesString);
+
+        // Comment on response 1 of question 1
+        List<FeedbackResponseCommentAttributes> frcList =
+                actual.commentsForResponses.get(actual.questionResponseBundle.get(expectedQuestion).get(0).getId());
+        assertEquals(1, frcList.size());
+
+        String expectedCommentString = getCommentFromDatastore("comment1FromT1C1ToR1Q1S1C2", dataBundle).toString();
+        assertEquals(expectedCommentString, frcList.get(0).toString());
 
         // Question 2
         expectedQuestion = getQuestionFromDatastore("qn2InSession1InCourse2");
@@ -1943,6 +1967,22 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         return frLogic.getFeedbackResponse(questionId,
                 response.giver, response.recipient);
+    }
+
+    private FeedbackResponseCommentAttributes getCommentFromDatastore(String jsonId, DataBundle bundle) {
+        FeedbackResponseCommentAttributes comment = bundle.feedbackResponseComments.get(jsonId);
+        String questionId = null;
+        try {
+            int qnNumber = Integer.parseInt(comment.feedbackQuestionId);
+            questionId = fqLogic.getFeedbackQuestion(
+                    comment.feedbackSessionName, comment.courseId,
+                    qnNumber).getId();
+        } catch (NumberFormatException e) {
+            questionId = comment.feedbackQuestionId;
+        }
+        comment.feedbackResponseId.replaceFirst(comment.feedbackQuestionId, questionId);
+
+        return frcLogic.getFeedbackResponseComment(comment.feedbackResponseId, comment.commentGiver, comment.createdAt);
     }
 
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
