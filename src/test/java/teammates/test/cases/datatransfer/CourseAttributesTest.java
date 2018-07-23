@@ -20,7 +20,7 @@ public class CourseAttributesTest extends BaseTestCase {
     private String validId = "validId";
     private ZoneId validTimeZone = ZoneId.of("UTC");
     private Instant validCreatedAt = Instant.ofEpochMilli(98765);
-    private Instant validDeletedAt = Instant.ofEpochMilli(99999);
+    private Instant validDeletedAt = validCreatedAt.plusSeconds(1000);
 
     @Test
     public void testStandardBuilder() {

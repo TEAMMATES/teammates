@@ -118,7 +118,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
         CourseAttributes c = createNewCourse();
         List<String> courseIds = new ArrayList<>();
 
-        ______TS("Success: get existent courses");
+        ______TS("Success: get an existent course");
 
         courseIds.add(c.getId());
         List<CourseAttributes> retrieved = coursesDb.getCourses(courseIds);

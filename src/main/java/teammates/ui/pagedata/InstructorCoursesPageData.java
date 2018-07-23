@@ -84,14 +84,9 @@ public class InstructorCoursesPageData extends PageData {
     }
 
     public boolean isInstructorAllowedToModify() {
-        for (int i = 0; i < getRecoveryCourses().getRows().size(); i++) {
-            RecoveryCoursesTableRow course = getRecoveryCourses().getRows().get(i);
-            if (!instructorsForCourses.get(course.getCourseId())
-                    .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
-                return false;
-            }
-        }
-        return true;
+        return getRecoveryCourses().getRows().stream()
+                .allMatch(course -> instructorsForCourses.get(course.getCourseId())
+                        .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
     }
 
     private ArchivedCoursesTable convertToArchivedCoursesTable(List<CourseAttributes> archivedCourses) {

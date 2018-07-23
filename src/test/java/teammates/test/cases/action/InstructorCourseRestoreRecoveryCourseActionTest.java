@@ -47,8 +47,7 @@ public class InstructorCourseRestoreRecoveryCourseActionTest extends BaseActionT
                 getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse3"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("The course idOfTypicalCourse3 has been restored.",
-                redirectResult.getStatusMessage());
+        assertEquals("The course idOfTypicalCourse3 has been restored.", redirectResult.getStatusMessage());
 
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructor1Id);
         assertEquals(2, courseList.size());
@@ -71,6 +70,9 @@ public class InstructorCourseRestoreRecoveryCourseActionTest extends BaseActionT
         };
 
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
+        courseList = CoursesLogic.inst().getCoursesForInstructor(instructor2Id);
+        assertEquals(1, courseList.size());
+
         restoreAction = getAction(submissionParams);
 
         try {
@@ -80,7 +82,6 @@ public class InstructorCourseRestoreRecoveryCourseActionTest extends BaseActionT
                     + "for privilege [canmodifycourse]", e.getMessage());
         }
 
-        courseList = CoursesLogic.inst().getCoursesForInstructor(instructor2Id);
         assertEquals(1, courseList.size());
         assertEquals(instructor2OfCourse3.courseId, courseList.get(0).getId());
 

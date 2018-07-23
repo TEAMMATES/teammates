@@ -65,8 +65,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
                 getPageResultDestination(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, false, "idOfInstructor1OfCourse3"),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("All courses have been permanently deleted.",
-                redirectResult.getStatusMessage());
+        assertEquals("All courses have been permanently deleted.", redirectResult.getStatusMessage());
 
         assertFalse(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
 

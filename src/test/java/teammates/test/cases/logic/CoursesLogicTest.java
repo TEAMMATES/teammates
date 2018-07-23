@@ -181,7 +181,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         assertNotNull(course);
 
-        ______TS("boundary: instructor without any courses");
+        ______TS("boundary: instructor without any deleted courses");
 
         instructor = dataBundle.instructors.get("instructor5");
 
