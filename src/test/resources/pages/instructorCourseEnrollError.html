@@ -30,7 +30,6 @@
       <form action="/page/instructorCourseEnrollSave?courseid=CCEnrollUiT.CS2104&user=CCEnrollUiT.teammates.test" class="form-horizontal" id="student-spreadsheet-form" method="post" role="form">
         <input name="token" type="hidden" value="${sessionToken}">
         <input name="courseid" type="hidden" value="CCEnrollUiT.CS2104">
-        <input name="user" type="hidden" value="CCEnrollUiT.teammates.test">
         <div class="col-md-12">
           <div id="statusMessagesToUser">
             <div class="overflow-auto alert alert-danger icon-danger statusMessage">
@@ -95,7 +94,7 @@
                 <span class="glyphicon glyphicon-chevron-down">
                 </span>
               </div>
-              <div class="display-icon pull-right">
+              <div class="display-status pull-right">
               </div>
               <strong>
                 Existing students
@@ -113,13 +112,13 @@
                   <span class="glyphicon glyphicon-chevron-up">
                   </span>
                 </div>
-                <div class="display-icon pull-right">
+                <div class="display-status pull-right">
                 </div>
                 <strong>
                   New students
                 </strong>
               </div>
-              <div class="panel-collapse checked collapse in" style="height: auto;">
+              <div class="panel-collapse collapse in" style="height: auto;">
                 <div class="panel-body padding-0">
                 </div>
               </div>
