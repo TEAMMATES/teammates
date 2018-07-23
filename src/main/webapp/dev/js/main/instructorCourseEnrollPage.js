@@ -2,7 +2,6 @@
  * Holds Handsontable settings, reference and other information for the spreadsheet interface.
  */
 /* global Handsontable:false */
-
 import {
     prepareInstructorPages,
 } from '../common/instructor';
@@ -25,15 +24,16 @@ import {
     getUpdatedData,
     displayNoExistingStudents,
     displayErrorExecutingAjax,
+    displayErrorExecutingAjaxUpdate,
     getSpreadsheetLength,
     toggleStudentsPanel,
     getUpdatedStudentRows,
     getNewEmailList,
-    firstColRenderer,
 } from '../common/instructorEnroll';
 
 import {
     appendNewStatusMessage,
+    clearStatusMessages
 } from '../common/statusMessage';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
@@ -44,19 +44,21 @@ const dataHandsontable = new Handsontable(dataContainer, {
     manualColumnResize: true,
     manualRowResize: true,
     rowHeaders: true,
-    colHeaders: ['Status', 'Section', 'Team', 'Name', 'Email', 'Comments', 'Fill in the new email here'],
+    colHeaders: ['Section', 'Team', 'Name', 'Email', 'Comments', 'Fill in the new email here'],
     columnSorting: true,
     sortIndicator: true,
     minRows: 20,
-    maxCols: 7,
+    maxCols: 6,
     stretchH: 'all',
-    cells: function (row, col) {
-        let cellProperties = {};
-        if (col === 0) {
-            cellProperties.renderer = firstColRenderer; // uses function directly
-        }
-        return cellProperties;
-    }
+});
+
+dataHandsontable.addHook('beforeColumnSort', function () {
+    dataHandsontable.loadData(existingStudentsData); // load latest existing copy of the data
+});
+
+dataHandsontable.addHook('afterColumnSort', function () {
+    updateDataHandsontableCellSettings(resetDefaultViewRenderer);
+    existingStudentsData = dataHandsontable.getData();
 });
 
 const enrollContainer = document.getElementById('enrollSpreadsheet');
@@ -89,6 +91,8 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
 });
 
 let existingStudentsData = null;
+let errorMessagesMap = new Map();
+let successfulMessagesMap = new Map();
 
 /**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
@@ -103,11 +107,10 @@ function updateEnrollDataDump() {
 }
 
 /**
- * Compares the current data in dataHandsontable with the data that is loaded from the initial AJAX request.
+ * Compares the current updated data in dataHandsontable with the latest valid copy of existing students' data.
  * The rows that are different would be marked as student entries to update in the 'massupdatestudents' textarea.
  */
 function updateExistingStudentsDataDump() {
-    console.log(getUpdatedStudentRows(dataHandsontable.getData(), existingStudentsData));
     $('#massupdatestudents').text(
             getUpdatedStudentRows(dataHandsontable.getData(), existingStudentsData));
 }
@@ -125,7 +128,6 @@ function loadExistingStudentsData(studentsData) {
  */
 function getAjaxStudentList(displayIcon) {
     return new Promise((resolve, reject) => {
-        console.log("Token 1: " + $(`input[name='token']`).val());
         const $spreadsheetForm = $('#student-data-spreadsheet-form');
         $.ajax({
             type: 'POST',
@@ -137,6 +139,27 @@ function getAjaxStudentList(displayIcon) {
             },
             beforeSend() {
                 displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
+            },
+        })
+                .done(resolve)
+                .fail(reject);
+    });
+}
+
+/**
+ * Updates list of student data through an AJAX request.
+ * @returns {Promise} the state of the result from the AJAX request
+ */
+function getAjaxUpdateStudentList() {
+    return new Promise((resolve, reject) => {
+        const $spreadsheetForm = $('#student-data-spreadsheet-form');
+        $.ajax({
+            type: 'POST',
+            url: '/page/instructorCourseEnrollAjaxUpdatePage',
+            cache: false,
+            data: {
+                courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
+                massupdatestudents: $spreadsheetForm.find(`#massupdatestudents`).val(),
             },
         })
                 .done(resolve)
@@ -185,66 +208,122 @@ function showUpdateModalBox(submitText, event) {
     }
 }
 
+/**
+ * Function that does post-processing after submitting an AJAX request to update students.
+ */
 function processAjaxUpdateData() {
     getAjaxUpdateStudentList()
             .then((data) => {
-                console.log(data);
-                console.log(dataHandsontable.getData());
                 if (data.statusMessagesToUser.length === 1
-                        && data.statusMessagesToUser[0].color === 'SUCCESS') {
-
-                    $(`#button_updatestudents`).unbind('click').click();
-
-                } else if (data.statusMessagesToUser.length === 1
                         && data.statusMessagesToUser[0].text === Const.StatusMessages.MASS_UPDATE_LINE_EMPTY) {
-
+                    clearStatusMessages();
                     appendNewStatusMessage(Const.StatusMessages.MASS_UPDATE_LINE_EMPTY,
                             BootstrapContextualColors[data.statusMessagesToUser[0].color]);
+                } else { // successful update of students
+                    clearStatusMessages();
+                    updateDataHandsontableCellSettings(resetDefaultViewRenderer);
+                    const oldEmailColumnIndex = 3;
 
-                } else {
-                    const oldEmailColumnIndex = 4;
-                    let errorMap = new Map();
-                    data.statusMessagesToUser.forEach(message => {
-                        const messageText = message.text.split(',');
-                        errorMap.set(messageText[0], messageText[1]);
-                    });
-
-                    dataHandsontable.getData().forEach((row, index) => {
-                        if (errorMap.has(row[oldEmailColumnIndex])) {
-                            console.log(errorMap.get(row[oldEmailColumnIndex]).concat('is in row').concat(String(index + 1)));
+                    // Updates any error or successful messages to process later
+                    if (!jQuery.isEmptyObject(data.errorUpdatedLines)) {
+                        for (let k of Object.keys(data.errorUpdatedLines)) {
+                            errorMessagesMap.set(k, data.errorUpdatedLines[k]);
                         }
-                    })
+                    }
+                    if (!jQuery.isEmptyObject(data.successfulUpdatedLines)) {
+                        for (let k of Object.keys(data.successfulUpdatedLines)) {
+                            successfulMessagesMap.set(k, data.successfulUpdatedLines[k]);
+                        }
+                    }
+                    // Updates current existing students' spreadsheet data to reflect the changes user updated
+                    dataHandsontable.loadData(dataHandsontable.getData().map((row, index) => {
+
+                        // Maps the row index to the corresponding error message
+                        if (errorMessagesMap.has(row[oldEmailColumnIndex])) {
+                            errorMessagesMap.set(index, errorMessagesMap.get(row[oldEmailColumnIndex]));
+                        }
+
+                        if (successfulMessagesMap.size !== 0
+                                && successfulMessagesMap.has(row[oldEmailColumnIndex])) {
+
+                            // Replaces the old row in existing students' data with the updated student row (verified in backend)
+                            existingStudentsData[index] = successfulMessagesMap.get(row[oldEmailColumnIndex]).split('|');
+                            existingStudentsData[index].push(null);
+
+                            // Maps the row index to the corresponding success message
+                            successfulMessagesMap.set(index,
+                                    JSON.parse($('[name=\'sessionsummarysendemail\']').val())
+                                            ? "Student successfully updated. Past session links have been sent to the new email."
+                                            : "Student successfully updated.");
+                            return successfulMessagesMap.get(row[oldEmailColumnIndex]).split('|');
+                        } else { // Returns the  existing row if the student data entry is not successful/have no changes
+                            return row;
+                        }
+                    }));
+                    updateDataHandsontableCellSettings(statusMessageRowsRenderer);
                 }
-            }).catch((error) => console.log(error));
+            }).catch(() => {
+                const $panelHeading = $('#existing-data-spreadsheet');
+                const displayIcon = $panelHeading.children('.display-icon');
+                displayErrorExecutingAjaxUpdate(displayIcon);
+            });
 }
 
-function getAjaxUpdateStudentList() {
-    return new Promise((resolve, reject) => {
-        console.log("Token 2: " + $(`input[name='token']`).val());
-        const $spreadsheetForm = $('#student-data-spreadsheet-form');
-        $.ajax({
-            type: 'POST',
-            url: '/page/instructorCourseEnrollAjaxUpdatePage',
-            cache: false,
-            data: {
-                courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
-                massupdatestudents: $spreadsheetForm.find(`#massupdatestudents`).val(),
-            },
-        })
-                .done(resolve)
-                .fail(reject);
+/**
+ * Function to update the datahandsontable cell settings according to a custom renderer.
+ */
+function updateDataHandsontableCellSettings(targetRenderer) {
+    dataHandsontable.updateSettings({
+        cells: function (row) {
+            let cellProperties = {};
+            cellProperties.renderer = targetRenderer; // uses function directly
+            return cellProperties;
+        }
+    });
+}
+
+/**
+ * Custom renderer to reset any cell styles and tooltips in the current Handsontable instance.
+ */
+function resetDefaultViewRenderer(instance, td) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    $(td).tooltip('destroy');
+    td.style.background = '#FFFFFF';
+}
+
+/**
+ * Custom renderer to update the rows of the Handsontable instance to the respective cell styles and tooltips.
+ */
+function statusMessageRowsRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    let title = '';
+
+    if (errorMessagesMap.has(row)) {
+        td.style.background = '#ff6666';
+        title = errorMessagesMap.get(row);
+    } else if (successfulMessagesMap.has(row)) {
+        td.style.background = '#7CFC00';
+        title = successfulMessagesMap.get(row);
+    } else {
+        td.style.background = '#FFFFFF';
+        return;
+    }
+    $(td).tooltip({
+            trigger: 'hover active',
+            title: title,
+            placement: 'auto',
+            container: 'body',
+            template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
     });
 }
 
 /**
  * Updates settings of dataHandsontable.
- * "Status" column shows status icon of student row entries.
  * "Email" column is read-only.
  */
-function updateDataHandsontableSettings() {
+function updateDataHandsontableColumnHeaders() {
     dataHandsontable.updateSettings({
         columns: [
-            { colHeader: 'Status', renderer: 'html' , readOnly: true},
             { colHeader: 'Section' },
             { colHeader: 'Team' },
             { colHeader: 'Name' },
@@ -271,8 +350,7 @@ function expandCollapseExistingStudentsPanel() {
     if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
         getAjaxStudentList(displayIcon)
                 .then((data) => {
-                    console.log(data);
-                    updateDataHandsontableSettings();
+                    updateDataHandsontableColumnHeaders();
                     if (data.students.length === 0) {
                         displayNoExistingStudents(displayIcon);
                     } else {
@@ -339,5 +417,7 @@ $(document).ready(() => {
     $('#button_updatestudents').bind('click', (event) => {
         updateExistingStudentsDataDump();
         showUpdateModalBox($('#massupdatestudents').text(), event);
+        errorMessagesMap.clear();
+        successfulMessagesMap.clear();
     });
 });
