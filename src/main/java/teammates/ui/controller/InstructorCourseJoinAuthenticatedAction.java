@@ -58,7 +58,7 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
                     logic.updateCourse(course.getId(), course.getName(), timeZone);
                 } catch (InvalidParametersException e) {
                     setStatusForException(e, e.getMessage());
-                    log.severe(e.getMessage());
+                    log.info(e.getMessage());
                 }
                 List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(course.getId());
                 for (FeedbackSessionAttributes session : sessions) {
@@ -67,7 +67,7 @@ public class InstructorCourseJoinAuthenticatedAction extends CourseJoinAuthentic
                         logic.updateFeedbackSession(session);
                     } catch (InvalidParametersException e) {
                         setStatusForException(e, e.getMessage());
-                        log.info(e.getMessage());
+                        log.severe(e.getMessage());
                     }
                 }
             }
