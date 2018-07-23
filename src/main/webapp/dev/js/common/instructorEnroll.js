@@ -35,11 +35,11 @@ function getUserDataRows(spreadsheetData) {
 }
 
 /**
- * Pushes data from spreadsheetDataRows into an array.
+ * Converts spreadsheetDataRows to a suitable format required by Handsontable.
  * Facilitates the function loadData for the Handsontable instance.
  * @returns {Array} updated data
  */
-function getUpdatedData(spreadsheetDataRows) {
+function spreadsheetDataRowsToHandsontableData(spreadsheetDataRows) {
     return spreadsheetDataRows.map(row => row.split('|'));
 }
 
@@ -139,7 +139,7 @@ function getSpreadsheetLength(dataHandsontable) {
 export {
     getUpdatedHeaderString,
     getUserDataRows,
-    getUpdatedData,
+    spreadsheetDataRowsToHandsontableData,
     ajaxDataToHandsontableData,
     displayNoExistingStudents,
     displayErrorExecutingAjax,

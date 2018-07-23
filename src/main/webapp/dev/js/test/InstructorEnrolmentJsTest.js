@@ -1,7 +1,7 @@
 import {
     getUpdatedHeaderString,
     getUserDataRows,
-    getUpdatedData,
+    spreadsheetDataRowsToHandsontableData,
     ajaxDataToHandsontableData,
 } from '../common/instructorEnroll';
 
@@ -32,7 +32,7 @@ QUnit.test('getUserDataRows(spreadsheetData)', (assert) => {
     assert.equal(getUserDataRows(spreadsheetData), expectedUserDataRows, 'Correct user data string generated');
 });
 
-QUnit.test('getUpdatedData(spreadsheetDataRows)', (assert) => {
+QUnit.test('spreadsheetDataRowsToHandsontableData(spreadsheetDataRows)', (assert) => {
     assert.expect(1);
     const spreadsheetDataRows = ['Section1|Team1|Name1|Email1|Comments1',
         '|Team2|Name2|Email2|Comments2',
@@ -48,7 +48,7 @@ QUnit.test('getUpdatedData(spreadsheetDataRows)', (assert) => {
         ['Section5', 'Team5', 'Name5', '', 'Comments5'],
         ['Section6', 'Team6', 'Name6', 'Email6', '']];
 
-    const data = getUpdatedData(spreadsheetDataRows);
+    const data = spreadsheetDataRowsToHandsontableData(spreadsheetDataRows);
     assert.deepEqual(data, expectedData, 'Data successfully updated');
 });
 

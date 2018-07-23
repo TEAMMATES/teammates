@@ -14,7 +14,7 @@ import {
     getUpdatedHeaderString,
     getUserDataRows,
     ajaxDataToHandsontableData,
-    getUpdatedData,
+    spreadsheetDataRowsToHandsontableData,
     displayNoExistingStudents,
     displayErrorExecutingAjax,
     getSpreadsheetLength,
@@ -186,8 +186,10 @@ $(document).ready(() => {
         });
 
         const spreadsheetDataRows = allData.slice(1);
+        console.log(spreadsheetDataRows);
         if (spreadsheetDataRows.length > 0) {
-            const data = getUpdatedData(spreadsheetDataRows);
+            const data = spreadsheetDataRowsToHandsontableData(spreadsheetDataRows);
+            console.log(data);
             enrollHandsontable.loadData(data); // Reset all cells in the grid to contain data from the data array
         }
     }
