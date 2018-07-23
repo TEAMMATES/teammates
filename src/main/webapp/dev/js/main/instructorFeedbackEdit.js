@@ -72,6 +72,7 @@ import {
     bindMsqEvents,
     removeMsqOption,
     toggleMsqGeneratedOptions,
+    toggleMsqHasAssignedWeights,
     toggleMsqMaxSelectableChoices,
     toggleMsqMinSelectableChoices,
     toggleMsqOtherOptionEnabled,
@@ -250,6 +251,15 @@ function checkEditFeedbackSession(form) {
     return true;
 }
 
+function duplicateQuestion(questionNum) {
+    if (questionNum === NEW_QUESTION) {
+        window.location.reload();
+        return false;
+    }
+    $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('duplicate');
+    $(`#form_editquestion-${questionNum}`).submit();
+    return false;
+}
 /**
  * Disables the editing of feedback session details.
  */
@@ -355,13 +365,14 @@ function disableQuestion(questionNum) {
     const $currentQuestionTable = $(`#questionTable-${questionNum}`);
 
     $currentQuestionTable.find('text,button,textarea,select,input').prop('disabled', true);
-
+    $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).hide();
+    $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).show();
     $currentQuestionTable.find('[id^="mcqAddOptionLink-"]').hide();
     $currentQuestionTable.find('[id^="msqAddOptionLink-"]').hide();
     $currentQuestionTable.find('.removeOptionLink').hide();
 
     /* Check whether generate options for students/instructors/teams is selected
-       If so, hide 'add Other option' and the mcq weight checkbox for mcq questions */
+       If so, hide 'add Other option' and weight checkbox for mcq and msq questions */
     if ($currentQuestionTable.find(`#generateMcqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
         // Hide the enclosing parent div to hide the weight checkbox and 'Choices are weighted' label.
@@ -369,14 +380,20 @@ function disableQuestion(questionNum) {
         $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).hide();
     } else if ($currentQuestionTable.find(`#generateMsqOptionsCheckbox-${questionNum}`).prop('checked')) {
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').hide();
+        // Hide the enclosing parent div to hide the weight checkbox and 'Choices are weighted' label.
+        $currentQuestionTable.find(`#msqHasAssignedWeights-${questionNum}`).parent().hide();
+        $currentQuestionTable.find(`#msqOtherWeight-${questionNum}`).hide();
     } else {
         $currentQuestionTable.find(`#mcqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         $currentQuestionTable.find(`#msqOtherOptionFlag-${questionNum}`).closest('.checkbox').show();
         // Shows the enclosing parent div to show the weight checkbox and 'Choices are weighted' label.
+        $currentQuestionTable.find(`#msqHasAssignedWeights-${questionNum}`).parent().show();
+        $currentQuestionTable.find(`#msqOtherWeight-${questionNum}`).show();
         $currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`).parent().show();
         $currentQuestionTable.find(`#mcqOtherWeight-${questionNum}`).show();
     }
     toggleMcqHasAssignedWeights($currentQuestionTable.find(`#mcqHasAssignedWeights-${questionNum}`), questionNum);
+    toggleMsqHasAssignedWeights($currentQuestionTable.find(`#msqHasAssignedWeights-${questionNum}`), questionNum);
 
     $currentQuestionTable.find(`#rubricAddChoiceLink-${questionNum}`).hide();
     $currentQuestionTable.find(`#rubricAddSubQuestionLink-${questionNum}`).hide();
@@ -471,6 +488,8 @@ function enableQuestion(questionNum) {
             .not('.disabled_radio')
             .prop('disabled', false);
 
+    $currentQuestionTable.find(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).hide();
+
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
 
@@ -506,6 +525,7 @@ function enableQuestion(questionNum) {
         setContribQnVisibilityFormat(questionNum);
     }
 
+    $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTEXT}-${questionNum}`).hide();
     $(`#${ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT}-${questionNum}`).show();
     $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).show();
@@ -580,6 +600,7 @@ function enableNewQuestion() {
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMsqGeneratedOptions($(`#generateMsqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
+    toggleMsqHasAssignedWeights($(`#msqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
 
     toggleConstSumDistributePointsOptions($(`#constSum_UnevenDistribution-${NEW_QUESTION}`), NEW_QUESTION);
 
@@ -680,8 +701,10 @@ function restoreOriginal(questionNum) {
         $(`#${ParamsNames.FEEDBACK_QUESTION_DISCARDCHANGES}-${questionNum}`).hide();
         $(`#${ParamsNames.FEEDBACK_QUESTION_EDITTYPE}-${questionNum}`).val('');
         $(`#button_question_submit-${questionNum}`).hide();
-        $(`#questionnum-${questionNum}`).val(questionNum);
-        $(`#questionnum-${questionNum}`).prop('disabled', true);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).val(questionNum);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).prop('disabled', true);
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER}-${questionNum}`).hide();
+        $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBER_STATIC}-${questionNum}`).show();
     }
 
     // re-attach events for form elements
@@ -1237,6 +1260,10 @@ $(document).ready(() => {
     $(document).on('change', '.participantSelect', (e) => {
         matchVisibilityOptionToFeedbackPath(e.currentTarget);
         getVisibilityMessage(e.currentTarget);
+    });
+
+    $(document).on('click', '.btn-duplicate-qn', (e) => {
+        duplicateQuestion($(e.currentTarget).data('qnnumber'));
     });
 
     $(document).on('click', '.btn-discard-changes', (e) => {
