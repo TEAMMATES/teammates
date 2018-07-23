@@ -12,7 +12,7 @@ function getUpdatedHeaderString(handsontableColHeader) {
 }
 
 /**
- * Retrieves user data rows rows in the spreadsheet interface and transforms it into a string.
+ * Retrieves user data rows in the spreadsheet interface and transforms it into a string.
  *
  * Null value from cell is changed to empty string after .join(). Filters empty rows in the process.
  *
