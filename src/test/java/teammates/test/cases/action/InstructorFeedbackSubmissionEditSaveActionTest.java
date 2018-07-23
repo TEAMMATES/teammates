@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
@@ -673,7 +672,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         fs.setEndTime(Instant.now());
         fsDb.updateFeedbackSession(fs);
     }
-
 
     @Test
     public void testSaveAndUpdateFeedbackParticipantCommentsOnResponse() {

@@ -39,7 +39,6 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TimeHelperExtension;
 
