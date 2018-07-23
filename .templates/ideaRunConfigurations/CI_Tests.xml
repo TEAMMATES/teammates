@@ -7,8 +7,8 @@
       </pattern>
     </extension>
     <module name="" />
-    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+    <option name="ALTERNATIVE_JRE_PATH" />
     <option name="SUITE_NAME" value="$PROJECT_DIR$/src/test/testng-ci.xml" />
     <option name="PACKAGE_NAME" value="" />
     <option name="MAIN_CLASS_NAME" value="" />
@@ -25,7 +25,7 @@
     <option name="TEST_SEARCH_SCOPE">
       <value defaultName="wholeProject" />
     </option>
-    <option name="USE_DEFAULT_REPORTERS" value="false" />
+    <option name="USE_DEFAULT_REPORTERS" value="true" />
     <option name="PROPERTIES_FILE" value="" />
     <envs />
     <properties />
