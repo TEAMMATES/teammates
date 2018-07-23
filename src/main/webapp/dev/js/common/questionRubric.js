@@ -14,8 +14,8 @@ function getRubricChoiceElem(questionNum, col) {
     return $(`#rubricChoice-${questionNum}-${col}`);
 }
 
-function getRubricWeightElem(questionNum, col) {
-    return $(`#rubricWeight-${questionNum}-${col}`);
+function getRubricWeightElem(questionNum, row, col) {
+    return $(`#rubricWeight-${questionNum}-${row}-${col}`);
 }
 
 function getRubricDescElem(questionNum, row, col) {
@@ -32,7 +32,7 @@ function swapRubricCol(questionNum, firstColIndex, secondColIndex) {
             return getRubricChoiceElem(questionNum, col);
         }
         if (type === WEIGHT) {
-            return getRubricWeightElem(questionNum, col);
+            return getRubricWeightElem(questionNum, row, col);
         }
         if (type === DESC) {
             return getRubricDescElem(questionNum, row, col);
