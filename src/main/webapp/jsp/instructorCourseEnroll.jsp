@@ -43,7 +43,7 @@
               <div class="pull-right margin-left-7px">
                 <span class="glyphicon glyphicon-chevron-down"></span>
               </div>
-              <div class='display-icon pull-right'></div>
+              <div class="display-status pull-right"></div>
               <strong>Existing students</strong>
             </div>
             <div class="panel-collapse collapse">
@@ -58,7 +58,7 @@
                 <div class="pull-right margin-left-7px">
                   <span class="glyphicon glyphicon-chevron-down"></span>
                 </div>
-                <div class='display-icon pull-right'></div>
+                <div class='display-status pull-right'></div>
                 <strong>New students</strong>
               </div>
               <div class="panel-collapse collapse">

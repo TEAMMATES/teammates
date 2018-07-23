@@ -105,25 +105,21 @@ function toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleCh
 /**
  * Displays a message informing the user that there are no existing students in the course.
  */
-function displayNoExistingStudents(displayIcon) {
-    const statusMsg = `
-        <strong style="margin-left: 1em; margin-right: 1em;">
-            [ No existing students in course. ]
-        </strong>`;
-    displayIcon.html(statusMsg);
+function displayNoExistingStudents(displayStatus) {
+    displayStatus.html('<div class="ajax-error-message">' +
+            '<strong>[ No existing students in course. ]</strong>' +
+            '</div>');
 }
 
 /**
  * Displays a message informing the user that an error surfaced during the AJAX request.
  * @param displayIcon
  */
-function displayErrorExecutingAjax(displayIcon) {
-    const warningSign = '<span class="glyphicon glyphicon-warning-sign"></span>';
-    const errorMsg = `
-        <strong style="margin-left: 1em; margin-right: 1em;">
-            [ Failed to load. Click here to retry. ]
-        </strong>`;
-    displayIcon.html(warningSign + errorMsg);
+function displayErrorExecutingAjax(displayStatus) {
+    displayStatus.html('<div class="ajax-error-message">' +
+            '<span class="glyphicon glyphicon-warning-sign"></span>' +
+            ' <strong>[ Failed to load. Click here to retry. ]</strong>' +
+            '</div>');
 }
 
 /**

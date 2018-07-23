@@ -91,7 +91,7 @@ function loadExistingStudentsData(studentsData) {
  * Gets list of student data through an AJAX request.
  * @returns {Promise} the state of the result from the AJAX request
  */
-function getAjaxStudentList(displayIcon) {
+function getAjaxStudentList(displayStatus) {
     return new Promise((resolve, reject) => {
         const $spreadsheetForm = $('#student-spreadsheet-form');
         $.ajax({
@@ -103,7 +103,7 @@ function getAjaxStudentList(displayIcon) {
                 user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
             },
             beforeSend() {
-                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
+                displayStatus.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
             },
         })
                 .done(resolve)
@@ -115,9 +115,9 @@ function getAjaxStudentList(displayIcon) {
  * Handles how the panels are displayed, including rendering the spreadsheet interface.
  */
 function adjustStudentsPanelView($panelHeading, panelCollapse,
-        displayIcon, toggleChevron) {
+        displayStatus, toggleChevron) {
     toggleStudentsPanel($panelHeading, panelCollapse,
-            displayIcon, toggleChevron);
+            displayStatus, toggleChevron);
     dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
 }
 
@@ -129,26 +129,26 @@ function adjustStudentsPanelView($panelHeading, panelCollapse,
 function expandCollapseExistingStudentsPanel() {
     const $panelHeading = $(this);
     const panelCollapse = $panelHeading.parent().children('.panel-collapse');
-    const displayIcon = $panelHeading.children('.display-icon');
+    const displayStatus = $panelHeading.children('.display-status');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
     // perform AJAX only if existing students' spreadsheet is empty
     if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
-        getAjaxStudentList(displayIcon)
+        getAjaxStudentList(displayStatus)
                 .then((data) => {
                     if (data.students.length === 0) {
-                        displayNoExistingStudents(displayIcon);
+                        displayNoExistingStudents(displayStatus);
                     } else {
                         loadExistingStudentsData(data.students);
                         adjustStudentsPanelView($panelHeading, panelCollapse,
-                                displayIcon, toggleChevron);
+                                displayStatus, toggleChevron);
                     }
                 }).catch(() => {
-                    displayErrorExecutingAjax(displayIcon);
+                    displayErrorExecutingAjax(displayStatus);
                 });
     } else {
         adjustStudentsPanelView($panelHeading, panelCollapse,
-                displayIcon, toggleChevron);
+                displayStatus, toggleChevron);
     }
 }
 
@@ -159,10 +159,10 @@ function expandCollapseExistingStudentsPanel() {
 function expandCollapseNewStudentsPanel() {
     const $panelHeading = $(this);
     const panelCollapse = $panelHeading.parent().children('.panel-collapse');
-    const displayIcon = $panelHeading.children('.display-icon');
+    const displayStatus = $panelHeading.children('.display-icon');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
-    if (toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron)) { // if panel is expanded
+    if (toggleStudentsPanel($panelHeading, panelCollapse, displayStatus, toggleChevron)) { // if panel is expanded
         $('.enroll-students-spreadsheet-buttons').show();
     } else {
         $('.enroll-students-spreadsheet-buttons').hide();
@@ -186,10 +186,8 @@ $(document).ready(() => {
         });
 
         const spreadsheetDataRows = allData.slice(1);
-        console.log(spreadsheetDataRows);
         if (spreadsheetDataRows.length > 0) {
             const data = spreadsheetDataRowsToHandsontableData(spreadsheetDataRows);
-            console.log(data);
             enrollHandsontable.loadData(data); // Reset all cells in the grid to contain data from the data array
         }
     }
