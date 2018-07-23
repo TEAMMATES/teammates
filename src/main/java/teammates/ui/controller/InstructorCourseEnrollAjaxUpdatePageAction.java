@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -27,12 +28,14 @@ import teammates.ui.pagedata.InstructorCourseEnrollPageData;
 public class InstructorCourseEnrollAjaxUpdatePageAction extends Action {
 
     private static final Logger log = Logger.getLogger();
-    private static final int SECTION_COLUMN_INDEX = 1;
-    private static final int TEAM_COLUMN_INDEX = 2;
-    private static final int NAME_COLUMN_INDEX = 3;
-    private static final int OLD_EMAIL_COLUMN_INDEX = 4;
-    private static final int COMMENTS_COLUMN_INDEX = 5;
-    private static final int NEW_EMAIL_COLUMN_INDEX = 6;
+    private static final int SECTION_COLUMN_INDEX = 0;
+    private static final int TEAM_COLUMN_INDEX = 1;
+    private static final int NAME_COLUMN_INDEX = 2;
+    private static final int OLD_EMAIL_COLUMN_INDEX = 3;
+    private static final int COMMENTS_COLUMN_INDEX = 4;
+    private static final int NEW_EMAIL_COLUMN_INDEX = 5;
+    private static HashMap<String, String> successfulUpdatedLines;
+    private static HashMap<String, String> errorUpdatedLines;
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -47,20 +50,30 @@ public class InstructorCourseEnrollAjaxUpdatePageAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
 
         InstructorCourseEnrollPageData data = new InstructorCourseEnrollPageData(account, sessionToken);
+        successfulUpdatedLines = new HashMap<>();
+        errorUpdatedLines = new HashMap<>();
 
         try {
             processUpdatedStudents(courseId, updatedStudentsInfo);
-            statusToUser.add(new StatusMessage("Success", StatusMessageColor.SUCCESS));
+            data.setSuccessfulUpdatedLines(successfulUpdatedLines);
         } catch (EnrollException ee) {
             isError = true;
             List<String> exceptionMessages = new ArrayList<>(Arrays.asList(ee.getMessage().split("<br>")));
 
             for (String exceptionMessage : exceptionMessages) {
+                if (exceptionMessage.equals(Const.StatusMessages.MASS_UPDATE_LINE_EMPTY)) {
+                    statusToUser.add(new StatusMessage(
+                            Const.StatusMessages.MASS_UPDATE_LINE_EMPTY, StatusMessageColor.DANGER));
+                    break;
+                }
                 if (!exceptionMessage.equals("Please use the enroll page to edit multiple students")) {
-                    statusToUser.add(new StatusMessage(exceptionMessage, StatusMessageColor.DANGER));
-                    statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + exceptionMessage;
+                    errorUpdatedLines.put(exceptionMessage.split(",")[0],
+                            exceptionMessage.split(",")[1]);
+                    statusToAdmin += Const.ACTION_RESULT_FAILURE + " : " + exceptionMessage + "\n";
                 }
             }
+            data.setSuccessfulUpdatedLines(successfulUpdatedLines);
+            data.setErrorUpdatedLines(errorUpdatedLines);
         }
         data.setStatusMessagesToUser(statusToUser);
         return createAjaxResult(data);
@@ -138,6 +151,7 @@ public class InstructorCourseEnrollAjaxUpdatePageAction extends Action {
                         }
                     }
                 }
+                successfulUpdatedLines.put(studentEmail, student.toEnrollmentString()); // to be processed for front-end spreadsheet data
 
             } catch (EnrollException ee) {
                 invalidityInfo.add(updateExceptionInfo(studentEmail, ee.getMessage()));
