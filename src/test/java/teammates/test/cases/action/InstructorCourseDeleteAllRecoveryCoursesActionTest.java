@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseDeleteAllRecoveryCoursesAction;
 import teammates.ui.controller.RedirectResult;
@@ -51,12 +52,43 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         assertEquals(instructor2OfCourse3.courseId, courseList.get(0).getId());
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
 
-        ______TS("Typical case, delete all courses from Recycle Bin, with privilege");
+        ______TS("Typical case, delete all courses from Recycling Bin, with privilege for only some courses");
 
         InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
+        InstructorAttributes newInstructor = InstructorAttributes
+                .builder(instructor1OfCourse3.getGoogleId(), "icdat.owncourse", "Instructor1 Course3", "instructor1@course3.tmt")
+                .build();
+        gaeSimulation.loginAsInstructor(instructor1OfCourse3.googleId);
+        instructorList.remove(instructor2OfCourse3);
+        instructorList.add(instructor1OfCourse3);
+        instructorList.add(newInstructor);
+        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorList);
+        assertEquals(1, courseList.size());
+        CoursesLogic.inst().moveCourseToRecovery("icdat.owncourse");
+        courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        assertEquals(2, courseList.size());
+        newInstructor.privileges.updatePrivilege("canmodifycourse", false);
+        InstructorsLogic.inst().updateInstructorByGoogleId(instructor1OfCourse3.getGoogleId(), newInstructor);
+
+        try {
+            deleteAllAction = getAction();
+            getRedirectResult(deleteAllAction);
+        } catch (UnauthorizedAccessException e) {
+            assertEquals("Course [icdat.owncourse] is not accessible to instructor [instructor1@course3.tmt] "
+                    + "for privilege [canmodifycourse]", e.getMessage());
+        }
+
+        courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        assertEquals(2, courseList.size());
+        assertTrue(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
+        assertTrue(CoursesLogic.inst().isCoursePresent(newInstructor.courseId));
+
+        ______TS("Typical case, delete all courses from Recycle Bin, with privilege");
+
         String instructor1Id = instructor1OfCourse3.googleId;
         gaeSimulation.loginAsInstructor(instructor1Id);
-        assertTrue(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
+        newInstructor.privileges.updatePrivilege("canmodifycourse", true);
+        InstructorsLogic.inst().updateInstructorByGoogleId(instructor1OfCourse3.getGoogleId(), newInstructor);
 
         deleteAllAction = getAction();
         RedirectResult redirectResult = getRedirectResult(deleteAllAction);
@@ -67,6 +99,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         assertFalse(redirectResult.isError);
         assertEquals("All courses have been permanently deleted.", redirectResult.getStatusMessage());
         assertFalse(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
+        assertFalse(CoursesLogic.inst().isCoursePresent("icdat.owncourse"));
         String expectedLogMessage = "TEAMMATESLOG|||instructorRecoveryDeleteAllCourses|||"
                 + "instructorRecoveryDeleteAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
                 + "idOfInstructor1OfCourse3|||instr1@course3.tmt|||All courses deleted|||"
