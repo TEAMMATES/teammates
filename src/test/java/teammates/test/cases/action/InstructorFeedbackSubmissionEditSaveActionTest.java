@@ -571,13 +571,73 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
 
     @Test
     public void testExecuteAndPostProcess_responsesForDuplicateIdSubmitted_errorReturned() {
-        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        ______TS("Test backend integrity for new responses");
+        DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreDataBundle(dataBundle);
-
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 2);
+
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First Session", "IFSubmitUiT.CS2104", 20);
         assertNotNull("Feedback question not found in database", fq);
+
+        InstructorAttributes instructor = dataBundle.instructors.get("IFSubmitUiT.instr");
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "3",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, "IFSubmitUiT.CS2104",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "Team 1</td></div>'\"",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "130",
+
+                //Const sum question needs response to each recipient to sum up properly.
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "3",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, "IFSubmitUiT.CS2104",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-1", "Team 2",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "130",
+
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "3",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, "IFSubmitUiT.CS2104",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
+                // Give feedback to Team 1 instead of Team 3 to create a duplicate ID.
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-2", "Team 1</td></div>'\"",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-2", "40",
+
+        };
+
+        InstructorFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(a);
+
+        assertTrue(r.isError);
+        assertTrue(
+                r.getStatusMessage().contains(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1)));
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "IFSubmitUiT.instr"),
+                r.getDestinationWithParams());
+        // As existing responses are being modified, old responses will persist when error occurs.
+        assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, "Team 1</td></div>'\""));
+        assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, "Team 2"));
+        assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, "Team 3"));
+
+        ______TS("Test backend integrity for existing responses");
+        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+
+        fqDb = new FeedbackQuestionsDb();
+        frDb = new FeedbackResponsesDb();
+        fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 2);
+        assertNotNull("Feedback question not found in database", fq);
+
+        InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
 
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ2S4C1");
         // necessary to get the correct responseId
@@ -589,10 +649,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         fr2 = frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient);
         assertNotNull("Feedback response not found in database", fr2);
 
-        InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
-
-        String[] submissionParams = new String[] {
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -613,8 +670,8 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "50",
         };
 
-        InstructorFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
-        RedirectResult r = getRedirectResult(a);
+        a = getAction(submissionParams);
+        r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertTrue(

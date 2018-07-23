@@ -1024,8 +1024,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
     @Test
     public void testExecuteAndPostProcess_responsesForDuplicateIdSubmitted_errorReturned() {
-
-        ______TS("Test backend integrity for existing responses");
         DataBundle dataBundle = loadDataBundle("/FeedbackMcqQuestionUiTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
@@ -1035,6 +1033,48 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("MCQ Weight Session", "FMcqQnUiT.CS2104", 1);
         assertNotNull("Feedback question not found in database", fq);
 
+        ______TS("Test backend integrity for new resposnes");
+
+        StudentAttributes student2InCourse1 = dataBundle.students.get("student2.tmms@FMcqQnUiT.CS2104");
+        gaeSimulation.loginAsStudent(student2InCourse1.googleId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "MCQ Weight Session",
+                Const.ParamsNames.COURSE_ID, "FMcqQnUiT.CS2104",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "student1InCourse1@gmail.tmt",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "MCQ",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Content",
+
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "MCQ Weight Session",
+                Const.ParamsNames.COURSE_ID, "FMcqQnUiT.CS2104",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-1", "student1InCourse1@gmail.tmt",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "MCQ",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "Teaching style"
+        };
+
+        StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(a);
+
+        assertTrue(r.isError);
+        assertTrue(
+                r.getStatusMessage().contains(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1)));
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FMcqQnUiT.student2",
+                        "FMcqQnUiT.CS2104",
+                        "MCQ+Weight+Session"),
+                r.getDestinationWithParams());
+
+        // As existing responses are being modified, old responses will persist when error occurs.
+        assertNull(frDb.getFeedbackResponse(fq.getId(), "student2InCourse1@gmail.tmt", "student1InCourse1@gmail.tmt"));
+        assertNull(frDb.getFeedbackResponse(fq.getId(), "student2InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt"));
+
+        ______TS("Test backend integrity for existing responses");
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S2");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
@@ -1048,7 +1088,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1.tmms@FMcqQnUiT.CS2104");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
-        String[] submissionParams = new String[] {
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -1068,8 +1108,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         };
 
-        StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
-        RedirectResult r = getRedirectResult(a);
+        a = getAction(submissionParams);
+        r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertTrue(
@@ -1107,47 +1147,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         frAfterEdit = (FeedbackMcqResponseDetails) frModified.getResponseDetails();
         answersAfterEdit = frAfterEdit.getAnswerString();
         assertEquals(answersBeforeEdit, answersAfterEdit);
-
-        ______TS("Test backend integrity for new resposnes");
-
-        StudentAttributes student2InCourse1 = dataBundle.students.get("student2.tmms@FMcqQnUiT.CS2104");
-        gaeSimulation.loginAsStudent(student2InCourse1.googleId);
-
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "MCQ Weight Session",
-                Const.ParamsNames.COURSE_ID, "FMcqQnUiT.CS2104",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "student1InCourse1@gmail.tmt",
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "MCQ",
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Content",
-
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "MCQ Weight Session",
-                Const.ParamsNames.COURSE_ID, "FMcqQnUiT.CS2104",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-1", "student1InCourse1@gmail.tmt",
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "MCQ",
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "Teaching style"
-        };
-
-        a = getAction(submissionParams);
-        r = getRedirectResult(a);
-
-        assertTrue(r.isError);
-        assertTrue(
-                r.getStatusMessage().contains(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1)));
-        assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-                        r.isError,
-                        "FMcqQnUiT.student2",
-                        "FMcqQnUiT.CS2104",
-                        "MCQ+Weight+Session"),
-                r.getDestinationWithParams());
-
-        // As existing responses are being modified, old responses will persist when error occurs.
-        assertNull(frDb.getFeedbackResponse(fq.getId(), "student2InCourse1@gmail.tmt", "student1InCourse1@gmail.tmt"));
-        assertNull(frDb.getFeedbackResponse(fq.getId(), "student2InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt"));
     }
 
     @Test
