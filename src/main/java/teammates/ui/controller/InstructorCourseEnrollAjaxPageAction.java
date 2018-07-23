@@ -17,9 +17,6 @@ public class InstructorCourseEnrollAjaxPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
 
-        String user = getRequestParamValue(Const.ParamsNames.USER_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.USER_ID, user);
-
         gateKeeper.verifyInstructorPrivileges(account);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -28,7 +25,7 @@ public class InstructorCourseEnrollAjaxPageAction extends Action {
         gateKeeper.verifyAccessible(instructor, course);
 
         InstructorCourseEnrollAjaxPageData data = new InstructorCourseEnrollAjaxPageData(
-                logic.getAccount(user), sessionToken, logic.getStudentsForCourse(courseId));
+                account, sessionToken, logic.getStudentsForCourse(courseId));
 
         return createAjaxResult(data);
     }

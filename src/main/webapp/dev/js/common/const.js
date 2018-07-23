@@ -44,7 +44,6 @@ const ParamsNames = {
     COPIED_FEEDBACK_SESSION_NAME: 'copiedfsname',
 
     COURSE_ID: 'courseid',
-    USER_ID: 'user',
     COURSE_NAME: 'coursename',
     COURSE_TIME_ZONE: 'coursetimezone',
 
