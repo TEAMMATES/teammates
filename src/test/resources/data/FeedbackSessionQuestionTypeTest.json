@@ -868,28 +868,6 @@
         "INSTRUCTORS"
       ]
     },
-    "qn4InSession4InCourse1": {
-      "feedbackSessionName": "CONSTSUM Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"Give points to each team member based on the following factors.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Creativity\",\"Implementation skills\"]}"
-      },
-      "questionNumber": 4,
-      "questionType": "CONSTSUM",
-      "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-      "numberOfEntitiesToGiveFeedbackTo": 4,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
-    },
     "qn1InSession5InCourse1": {
       "feedbackSessionName": "CONTRIB Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1394,50 +1372,6 @@
       "recipient": "student5InCourse1@gmail.tmt",
       "responseMetaData": {
         "value": "{\"answers\":[10],\"questionType\":\"CONSTSUM\"}"
-      }
-    },
-    "response1ForQ4S4C1": {
-      "feedbackSessionName": "CONSTSUM Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "feedbackQuestionId": "4",
-      "feedbackQuestionType": "CONSTSUM",
-      "giver": "student1InCourse1@gmail.tmt",
-      "recipient": "student1InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[40,60],\"questionType\":\"CONSTSUM\"}"
-      }
-    },
-    "response2ForQ4S4C1": {
-      "feedbackSessionName": "CONSTSUM Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "feedbackQuestionId": "4",
-      "feedbackQuestionType": "CONSTSUM",
-      "giver": "student1InCourse1@gmail.tmt",
-      "recipient": "student2InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[30,70],\"questionType\":\"CONSTSUM\"}"
-      }
-    },
-    "response3ForQ4S4C1": {
-      "feedbackSessionName": "CONSTSUM Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "feedbackQuestionId": "4",
-      "feedbackQuestionType": "CONSTSUM",
-      "giver": "student1InCourse1@gmail.tmt",
-      "recipient": "student3InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[80,20],\"questionType\":\"CONSTSUM\"}"
-      }
-    },
-    "response4ForQ4S4C1": {
-      "feedbackSessionName": "CONSTSUM Session",
-      "courseId": "FSQTT.idOfTypicalCourse1",
-      "feedbackQuestionId": "4",
-      "feedbackQuestionType": "CONSTSUM",
-      "giver": "student1InCourse1@gmail.tmt",
-      "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": {
-        "value": "{\"answers\":[50,50],\"questionType\":\"CONSTSUM\"}"
       }
     },
     "response1ForQ1S5C1": {
