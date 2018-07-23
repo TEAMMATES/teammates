@@ -2,8 +2,12 @@ package teammates.test.cases.browsertests;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import teammates.test.pageobjects.InstructorHelpPage;
 
+/**
+ * SUT: {@link InstructorHelpPage}.
+ */
 public class InstructorHelpPageUiTest extends BaseUiTestCase {
     private InstructorHelpPage helpPage;
 
@@ -22,7 +26,7 @@ public class InstructorHelpPageUiTest extends BaseUiTestCase {
         testSearch();
     }
 
-    public void testSearch() throws Exception{
+    private void testSearch() throws Exception {
 
         ______TS("content: default help page");
 
