@@ -902,6 +902,11 @@ Prevents content overflow in navbar. */
     display: none;
 }
 
+.ajax-error-message {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
 #omni-comment-dropdown-trigger {
     color: #898989;
     padding-bottom: 20px;
