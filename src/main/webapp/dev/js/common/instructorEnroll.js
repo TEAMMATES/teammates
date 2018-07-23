@@ -64,8 +64,8 @@ function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
 /**
  * Toggle the chevron image depending on the user's action.
  */
-function toggleChevronImage(panelCollapse, toggleChevron) {
-    if (panelCollapse.hasClass('in')) { // panel is shown
+function toggleChevronImage(isExpanded, toggleChevron) {
+    if (isExpanded) { // panel is shown
         $(toggleChevron).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
     } else {
         $(toggleChevron).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
@@ -98,7 +98,7 @@ function toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleCh
         expandStudentsPanel(panelCollapse);
         isPanelExpanded = true;
     }
-    toggleChevronImage(panelCollapse, toggleChevron);
+    toggleChevronImage(isPanelExpanded, toggleChevron);
     return isPanelExpanded;
 }
 
