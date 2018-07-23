@@ -161,7 +161,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_DELETE,
                         ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
-                        ActionURIs.INSTRUCTOR_COURSE_ENROLL_UPDATE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE,
@@ -947,7 +946,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE = "/page/instructorCourseEnrollAjaxPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_UPDATE_PAGE = "/page/instructorCourseEnrollAjaxUpdatePage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
-        public static final String INSTRUCTOR_COURSE_ENROLL_UPDATE = "/page/instructorCourseEnrollUpdate";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
