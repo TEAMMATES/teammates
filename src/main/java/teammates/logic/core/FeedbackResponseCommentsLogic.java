@@ -404,7 +404,7 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             default:
-                throw new EntityDoesNotExistException("Unknown giver type :" + commentGiverType);
+                throw new EntityDoesNotExistException("Unknown giver type: " + commentGiverType);
             }
         } else {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, commentGiver);

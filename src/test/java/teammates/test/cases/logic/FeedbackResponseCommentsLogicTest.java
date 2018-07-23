@@ -100,7 +100,16 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testCreateFeedbackResponseComment_invalidCommentGiverType_exceptionShouldBeThrown() {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         frComment.commentGiverType = FeedbackParticipantType.SELF;
-        verifyExceptionThrownFromCreateFrComment(frComment, "Invalid comment giver type: " + FeedbackParticipantType.SELF);
+        frComment.isCommentFromFeedbackParticipant = true;
+        verifyExceptionThrownFromCreateFrComment(frComment, "Unknown giver type: " + FeedbackParticipantType.SELF);
+    }
+
+    public void testCreateFeedbackResponseComment_unknownFeedbackParticipant_exceptionShouldBeThrown() {
+        FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
+        frComment.commentGiverType = FeedbackParticipantType.STUDENTS;
+        frComment.isCommentFromFeedbackParticipant = true;
+        frComment.commentGiver = "XYZ";
+        verifyExceptionThrownFromCreateFrComment(frComment, "User XYZ is not a registered student for course idOfTypicalCourse1.");
     }
 
     @Test
