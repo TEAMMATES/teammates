@@ -119,10 +119,10 @@ function renderPage(page) {
     }
 
     curPage = page;
-    const pageNum = page;
+
     const searchResultElements = $('#searchResults').children();
-    const pageElements = $(searchResultElements.slice((pageNum - 1) * numResultsPerPage,
-            (pageNum - 1) * numResultsPerPage + numResultsPerPage));
+    const pageElements = $(searchResultElements.slice((curPage - 1) * numResultsPerPage,
+            (curPage - 1) * numResultsPerPage + numResultsPerPage));
 
     // hide all search results by default
     searchResultElements.each(function () {
@@ -134,20 +134,49 @@ function renderPage(page) {
     });
     // render paging controls
     $('#pagingControls').children().each((idx, button) => {
-        if (idx === pageNum) {
-            $(button).prop('disabled', true);
-        } else {
+        let pageNum = $(button).text();
+
+        // previous and next buttons should always be visible and enabled
+        if (pageNum === 'Prev' || pageNum === 'Next') {
+            $(button).removeClass('hidden-xs');
             $(button).prop('disabled', false);
+        } else if (pageNum === '...') { // remove redundant ellipses
+            $(button).remove();
+        } else {
+            pageNum = parseInt(pageNum, 10);
+            if (pageNum === curPage) { // disable current page button
+                $(button).removeClass('hidden-xs');
+                $(button).prop('disabled', true);
+            } else if (
+                pageNum === 1
+                || pageNum === numPages
+                || pageNum === curPage - 1
+                || pageNum === curPage + 1
+            ) {
+                $(button).removeClass('hidden-xs');
+                $(button).prop('disabled', false);
+
+                // add ellipses for small screen instead of showing all buttons
+                if ((pageNum === curPage - 1) && (curPage - 2 > 1)) {
+                    $(button).before('<button type="button" class="btn visible-xs" disabled>...</button>');
+                }
+                if ((pageNum === curPage + 1) && (curPage + 2 < numPages)) {
+                    $(button).after('<button type="button" class="btn visible-xs" disabled>...</button>');
+                }
+            } else { // enable all other buttons
+                $(button).addClass('hidden-xs');
+                $(button).prop('disabled', false);
+            }
         }
     });
     $('#prevPage').prop('disabled', false);
     $('#nextPage').prop('disabled', false);
 
     // disable prev and next buttons for first and last page respectively
-    if (pageNum === 1) {
+    if (curPage === 1) {
         $('#prevPage').prop('disabled', true);
     }
-    if (pageNum === numPages) {
+    if (curPage === numPages) {
         $('#nextPage').prop('disabled', true);
     }
 }
@@ -203,7 +232,7 @@ function searchQuestions() {
         }
 
         let buttonHtml = '<button type="button" class="btn btn-default" id="prevPage" onclick="renderPage(\'prev\')">'
-                         + '<span class="glyphicon glyphicon-chevron-left"></span>Previous</button>';
+                         + '<span class="glyphicon glyphicon-chevron-left"></span>Prev</button>';
         for (let i = 0; i < numPages; i += 1) {
             buttonHtml += `<button type='button' class='btn btn-default' onclick='renderPage(${i + 1})'>${i + 1}</button>`;
         }
