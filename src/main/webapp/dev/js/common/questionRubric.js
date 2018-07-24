@@ -197,6 +197,14 @@ function addRubricRow(questionNum) {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
 
+    // Disallow non-numeric entries in each weight cell.
+    for (let cols = 0; cols < numberOfCols; cols += 1) {
+        if (!$(`.rubricCol-${questionNum}-${cols}`).length) {
+            continue;
+        }
+        disallowNonNumericEntries($(`#rubricWeight-${questionNum}-${newRowNumber - 1}-${cols}`), true, true);
+    }
+
     // Hide weight cells if weights are not assigned, show otherwise.
     toggleAssignWeightsRow($(`#rubricAssignWeights-${questionNum}`));
 }
