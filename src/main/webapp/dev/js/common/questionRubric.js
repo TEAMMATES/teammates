@@ -147,11 +147,21 @@ function addRubricRow(questionNum) {
         if (!$(`.rubricCol-${questionNum}-${cols}`).length) {
             continue;
         }
+
+        // Create rubric weight cell
+        const rubricWeightFragment =
+            `<div class="rubricWeights-${questionNum}">
+                <input type="number" class="form-control nonDestructive margin-top-10px" value="0"
+                        id="rubricWeight-${questionNum}-${newRowNumber - 1}-${cols}"
+                        name="rubricWeight-${newRowNumber - 1}-${cols}" step="0.01" required>
+            </div>`;
+
         const rubricRowFragment =
             `<td class="align-center rubricCol-${questionNum}-${cols}">
-                <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${newRowNumber - 1}-${cols}"
-                        name="rubricDesc-${newRowNumber - 1}-${cols}"></textarea>
-            </td>`;
+                 <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${newRowNumber - 1}-${cols}"
+                         name="rubricDesc-${newRowNumber - 1}-${cols}"></textarea>
+                 ${rubricWeightFragment}
+             </td>`;
         rubricRowBodyFragments += rubricRowFragment;
     }
 
@@ -184,6 +194,9 @@ function addRubricRow(questionNum) {
     if ($(questionId).attr('editStatus') === 'hasResponses') {
         $(questionId).attr('editStatus', 'mustDeleteResponses');
     }
+
+    // Hide weight cells if weights are not assigned, show otherwise.
+    toggleAssignWeightsRow($(`#rubricAssignWeights-${questionNum}`));
 }
 
 function addRubricCol(questionNum) {
@@ -206,35 +219,33 @@ function addRubricCol(questionNum) {
     const lastTh = $(`#rubricEditTable-${questionNum}`).find('tr:first').children().last();
     $(rubricHeaderFragment).insertAfter(lastTh);
 
-    // Insert weight <th>
-    const rubricWeightFragment =
-        `<th class="rubricCol-${questionNum}-${newColNumber - 1}">
-            <input type="number" class="form-control nonDestructive" value="0"
-                    id="rubricWeight-${questionNum}-${newColNumber - 1}"
-                    name="rubricWeight-${newColNumber - 1}" step="0.01" required>
-        </th>`;
-
-    // Insert after last <th>
-    const lastWeightCell = $(`#rubricWeights-${questionNum} th:last`);
-    $(rubricWeightFragment).insertAfter(lastWeightCell);
-
-    disallowNonNumericEntries($(`#rubricWeight-${questionNum}-${newColNumber - 1}`), true, true);
-
-    // Create numberOfRows of <td>'s
+    // Create numberOfRows of <td>'s to insert rubric description and weight cells.
     for (let rows = 0; rows < numberOfRows; rows += 1) {
         if (!$(`#rubricRow-${questionNum}-${rows}`).length) {
             continue;
         }
+
+        // Create rubric weight cell
+        const rubricWeightFragment =
+            `<div class="rubricWeights-${questionNum}">
+                <input type="number" class="form-control nonDestructive margin-top-10px" value="0"
+                        id="rubricWeight-${questionNum}-${rows}-${newColNumber - 1}"
+                        name="rubricWeight-${rows}-${newColNumber - 1}" step="0.01" required>
+             </div>`;
+
         // Insert body <td>'s
         const rubricRowFragment =
             `<td class="align-center rubricCol-${questionNum}-${newColNumber - 1}">
-                <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${rows}-${newColNumber - 1}"
-                        name="rubricDesc-${rows}-${newColNumber - 1}"></textarea>
-            </td>`;
+                 <textarea class="form-control" rows="3" id="rubricDesc-${questionNum}-${rows}-${newColNumber - 1}"
+                         name="rubricDesc-${rows}-${newColNumber - 1}"></textarea>
+                 ${rubricWeightFragment}
+             </td>`;
 
         // Insert after previous <td>
         const lastTd = $(`#rubricRow-${questionNum}-${rows} td:last`);
         $(rubricRowFragment).insertAfter(lastTd);
+
+        disallowNonNumericEntries($(`#rubricWeight-${questionNum}-${rows}-${newColNumber - 1}`), true, true);
     }
 
     // Add options row at the end
@@ -284,6 +295,8 @@ function addRubricCol(questionNum) {
     }
 
     disableCornerMoveRubricColumnButtons(questionNum);
+    // Hide weight cells if weights are not assigned, show otherwise.
+    toggleAssignWeightsRow($(`#rubricAssignWeights-${questionNum}`));
 }
 
 function removeRubricRow(index, questionNum) {
