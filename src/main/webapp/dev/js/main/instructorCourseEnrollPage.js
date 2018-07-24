@@ -100,7 +100,6 @@ function getAjaxStudentList(displayStatus) {
             cache: false,
             data: {
                 courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
-                user: $spreadsheetForm.children(`input[name="${ParamsNames.USER_ID}"]`).val(),
             },
             beforeSend() {
                 displayStatus.html('<img height="25" width="25" src="/images/ajax-preload.gif">');

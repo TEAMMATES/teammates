@@ -66,7 +66,6 @@ public class InstructorCourseEnrollAjaxPageActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COURSE_INDEX, "1",
-                Const.ParamsNames.USER_ID, instructor.googleId
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
