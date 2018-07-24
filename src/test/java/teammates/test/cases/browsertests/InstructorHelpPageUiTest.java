@@ -40,7 +40,7 @@ public class InstructorHelpPageUiTest extends BaseUiTestCase {
 
         ______TS("search for single keyword");
 
-        String searchContent = "adding";
+        String searchContent = "course";
         helpPage.inputSearchQuery(searchContent);
         helpPage.clickSearchButton();
         helpPage.verifyHtmlMainContent("/instructorHelpPageSearchSingleKeyword.html");
