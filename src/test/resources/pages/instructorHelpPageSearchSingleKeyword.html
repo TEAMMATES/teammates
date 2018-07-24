@@ -12556,13 +12556,12 @@
   </div>
   <div class="row">
     <div class="col-sm-12 align-center">
-      <div class="btn-group padding-15px margin-bottom-35px" id="pagingControls">
+      <div class="btn-group btn-group-sm padding-15px margin-bottom-35px" id="pagingControls">
         <button class="btn btn-default" disabled="" id="prevPage" onclick="renderPage('prev')" type="button">
           <span class="glyphicon glyphicon-chevron-left">
           </span>
-          Prev
         </button>
-        <button class="btn btn-default" disabled="" onclick="renderPage(1)" type="button">
+        <button class="btn btn-primary" disabled="" onclick="renderPage(1)" type="button">
           1
         </button>
         <button class="btn btn-default" onclick="renderPage(2)" type="button">
@@ -12590,7 +12589,6 @@
           8
         </button>
         <button class="btn btn-default" id="nextPage" onclick="renderPage('next')" type="button">
-          Next
           <span class="glyphicon glyphicon-chevron-right">
           </span>
         </button>
@@ -19682,6 +19680,12 @@
                   above
                 </a>
                 for details.
+              </p>
+              <p>
+                <strong>
+                  Note:
+                </strong>
+                Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer, if 'Minimum number of options a respondent is allowed to select' option is not selected. The result statistics do not contain 'None of the above' responses, as statistics is not calculated for this option.
               </p>
             </div>
           </div>
