@@ -37,10 +37,33 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
         };
-        String[] paramsNormalWithinSection = {
+        String[] paramsNormalInSection = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.SECTION_NAME, "Section 1"
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL,
+                "Show response if either the giver or evaluee is in the selected section"
+        };
+        String[] paramsNormalFromGiverSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL,
+                "Show response if the giver is in the selected section"
+        };
+        String[] paramsNormalToRecipientSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL,
+                "Show response if the evaluee is in the selected section"
+        };
+        String[] paramsNormalBothGiverAndRecipientInSection = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.SECTION_NAME, "Section 1",
+                Const.ParamsNames.SECTION_NAME_DETAIL,
+                "Show response only if both are in the selected section"
         };
 
         String[] paramsWithLargeData = {
@@ -103,18 +126,61 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
         removeAndRestoreTypicalDataBundle();
 
-        ______TS("Typical case: results within section downloadable");
+        ______TS("Typical case: results downloadable showing section from giver or recipient");
 
-        action = getAction(paramsNormalWithinSection);
+        action = getAction(paramsNormalInSection);
         result = getFileDownloadResult(action);
 
         expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 
-        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1";
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if either the giver or evaluee is in the selected section";
         assertEquals(expectedFileName, result.getFileName());
-        verifyFileContentForSession1InCourse1WithinSection1(result.getFileContent(), session);
+        verifyFileContentForSession1InCourse1InSection1(result.getFileContent(), session);
+
+        ______TS("Typical case: results downloadable showing section from giver");
+
+        action = getAction(paramsNormalFromGiverSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if the giver is in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        verifyFileContentForSession1InCourse1FromSection1(result.getFileContent(), session);
+
+        ______TS("Typical case: results downloadable showing section to recipient");
+
+        action = getAction(paramsNormalToRecipientSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response if the evaluee is in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        verifyFileContentForSession1InCourse1ToSection1(result.getFileContent(), session);
+
+        ______TS("Typical case: results downloadable showing section from both giver and recipient");
+
+        action = getAction(paramsNormalBothGiverAndRecipientInSection);
+        result = getFileDownloadResult(action);
+
+        expectedDestination = getPageResultDestination("filedownload", false, "idOfInstructor1OfCourse1");
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+
+        expectedFileName = session.getCourseId() + "_" + session.getFeedbackSessionName() + "_Section 1"
+                + "_Show response only if both are in the selected section";
+        assertEquals(expectedFileName, result.getFileName());
+        verifyFileContentForSession1InCourse1BothToAndFromSection1(result.getFileContent(), session);
 
         ______TS("Mock case to throw ExceedingRangeException: data is too large to be downloaded in one go");
 
@@ -326,8 +392,8 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
 
     }
 
-    private void verifyFileContentForSession1InCourse1WithinSection1(String fileContent,
-                                                                     FeedbackSessionAttributes session) {
+    private void verifyFileContentForSession1InCourse1InSection1(String fileContent,
+                                                                 FeedbackSessionAttributes session) {
         /*
         full testing of file content is
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
@@ -338,44 +404,114 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
                 "Section Name,\"Section 1\"",
+                "Section View Detail,\"Show response if either the giver or evaluee is in the selected section\"",
                 "",
                 "",
                 "Question 1,\"What is the best selling point of your product?\"",
                 "",
                 "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
                 "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\""
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "",
+                "",
+                "Question 2,\"Rate 1 other student's product\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Response from student 2 to student 5.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 5 to student 2.\"",
+                ""
                 // CHECKSTYLE.ON:LineLength
         };
 
         assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
-
     }
 
-    private void verifyFileContentForQuestion2Session1InCourse1(String fileContent,
-            FeedbackSessionAttributes session) {
-        /*
-        full testing of file content is
-        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
-        */
+    private void verifyFileContentForSession1InCourse1FromSection1(String fileContent,
+                                                                   FeedbackSessionAttributes session) {
 
         String[] expected = {
                 // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
                 "Course,\"" + session.getCourseId() + "\"",
                 "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "Section Name,\"Section 1\"",
+                "Section View Detail,\"Show response if the giver is in the selected section\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 "",
                 "",
                 "Question 2,\"Rate 1 other student's product\"",
                 "",
-                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment",
-                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 1 to student 2.\"",
-                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Response from student 2 to student 1.\",Instructor1 Course1,\"Instructor 1 comment to student 1 self feedback Question 2\"",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Response from student 2 to student 5.\"",
                 "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
-                "",
-                "",
                 ""
                 // CHECKSTYLE.ON:LineLength
         };
+
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
+    }
+
+    private void verifyFileContentForSession1InCourse1ToSection1(String fileContent,
+                                                                 FeedbackSessionAttributes session) {
+
+        String[] expected = {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "Section Name,\"Section 1\"",
+                "Section View Detail,\"Show response if the evaluee is in the selected section\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "",
+                "",
+                "Question 2,\"Rate 1 other student's product\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
+                "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 5 to student 2.\"",
+                ""
+                // CHECKSTYLE.ON:LineLength
+        };
+
+        assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
+    }
+
+    private void verifyFileContentForSession1InCourse1BothToAndFromSection1(String fileContent,
+                                                                            FeedbackSessionAttributes session) {
+        String[] expected = {
+                // CHECKSTYLE.OFF:LineLength csv lines can exceed character limit
+                "Course,\"" + session.getCourseId() + "\"",
+                "Session Name,\"" + session.getFeedbackSessionName() + "\"",
+                "Section Name,\"Section 1\"",
+                "Section View Detail,\"Show response only if both are in the selected section\"",
+                "",
+                "",
+                "Question 1,\"What is the best selling point of your product?\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
+                "\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
+                "",
+                "",
+                "Question 2,\"Rate 1 other student's product\"",
+                "",
+                "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
+                "\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Response from student 3 \"\"to\"\" student 2. Multiline test.\"",
+                ""
+                // CHECKSTYLE.ON:LineLength
+        };
+
         assertTrue(fileContent.startsWith(StringUtils.join(expected, System.lineSeparator())));
     }
 
