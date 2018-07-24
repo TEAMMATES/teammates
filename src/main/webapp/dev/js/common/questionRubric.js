@@ -374,12 +374,10 @@ function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
  * @param checkbox the "Choices are weighted" checkbox
  */
 function toggleAssignWeightsRow($checkbox) {
-    const $weightsRow = $checkbox.closest('form').find('tr[id^="rubricWeights"]');
-    const $weightsRowFirstCell = $weightsRow.find('th').first();
+    const $weightsRow = $checkbox.closest('form').find('td > div[class^="rubricWeights"]');
 
     if ($checkbox.prop('checked')) {
         $weightsRow.show();
-        $weightsRowFirstCell.html('Weights <span class="glyphicon glyphicon-arrow-right"></span>');
         setRequiredAttributeToRubricWeights($weightsRow, true);
     } else {
         setRequiredAttributeToRubricWeights($weightsRow, false);
