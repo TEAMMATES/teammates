@@ -869,11 +869,16 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         /*** Test result bundle for instructor1 within a section ***/
 
+        ______TS("standard case to view by Section A with default section detail");
+
         results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
                 session.getFeedbackSessionName(),
-                session.getCourseId(), instructor.email, "Section A", null);
+                session.getCourseId(), instructor.email, "Section A",
+                "Show response if either the giver or evaluee is in the selected section");
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
+        // after filtering by section, the number of responses seen by instructor will differ.
+        // Responses viewed by instructor after filtering: q2r1-3, q3r1, q4r2-3, q5r1
         assertEquals(7, results.responses.size());
         //Instructor should still see all questions
         assertEquals(8, results.questions.size());
@@ -921,6 +926,39 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(7, results.visibilityTable.size());
         // TODO: test student2 too.
+
+        ______TS("standard case to view by receiver in Section A");
+
+        results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email, "Section A",
+                "Show response if the evaluee is in the selected section");
+
+        // Responses viewed by instructor after filtering: q1r1, q2r1, q4r3
+        assertEquals(3, results.responses.size());
+        assertEquals(8, results.questions.size());
+
+        ______TS("standard case to view by giver in Section A");
+
+        results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email, "Section A",
+                "Show response if the giver is in the selected section");
+
+        // Responses viewed by instructor after filtering: q2r1-3, q3r1, q4r2-3, q5r1
+        assertEquals(7, results.responses.size());
+        assertEquals(8, results.questions.size());
+
+        ______TS("standard case to view by both giver and receiver in Section A");
+
+        results = fsLogic.getFeedbackSessionResultsForInstructorInSection(
+                session.getFeedbackSessionName(),
+                session.getCourseId(), instructor.email, "Section A",
+                "Show response only if both are in the selected section");
+
+        // Responses viewed by instructor after filtering: q2r1, q2r3, q3r1, q4r3
+        assertEquals(4, results.responses.size());
+        assertEquals(8, results.questions.size());
 
         ______TS("failure: no session");
 
