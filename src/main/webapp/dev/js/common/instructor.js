@@ -311,7 +311,7 @@ function bindDeleteButtons() {
         const feedbackSessionName = $button.data('fsname');
 
         const messageText = `Are you sure you want to delete the feedback session ${feedbackSessionName} in ${courseId}? `
-                + 'This action can be reverted by going to the "sessions" tab and restoring the desired session(s).';
+                + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
         const okCallback = function () {
             window.location = $button.attr('href');
         };
@@ -327,7 +327,7 @@ function bindCourseMoveToRecoveryLinks() {
 
         const $clickedLink = $(event.currentTarget);
         const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
-                + 'This action can be reverted by going to the "courses" tab and restoring the desired course(s).';
+                + 'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };

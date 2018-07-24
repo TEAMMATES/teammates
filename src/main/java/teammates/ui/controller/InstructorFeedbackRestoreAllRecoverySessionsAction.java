@@ -36,7 +36,7 @@ public class InstructorFeedbackRestoreAllRecoverySessionsAction extends Action {
             logic.restoreAllFeedbackSessionsFromRecovery(instructorList);
             String statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ALL_RESTORED;
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
-            statusToAdmin = "All sessions restored";
+            statusToAdmin = "All sessions in Recycle Bin restored";
         } catch (Exception e) {
             setStatusForException(e);
         }

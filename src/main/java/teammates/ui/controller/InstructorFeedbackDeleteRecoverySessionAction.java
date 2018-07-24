@@ -13,22 +13,22 @@ public class InstructorFeedbackDeleteRecoverySessionAction extends Action {
     @Override
     public ActionResult execute() {
 
-        String idOfCourseToRestore = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, idOfCourseToRestore);
+        String idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, idOfCourseToDelete);
 
-        String nameOfSessionToRestore = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, nameOfSessionToRestore);
+        String nameOfSessionToDelete = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, nameOfSessionToDelete);
 
-        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, account.googleId),
-                logic.getFeedbackSession(nameOfSessionToRestore, idOfCourseToRestore),
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId),
+                logic.getFeedbackSession(nameOfSessionToDelete, idOfCourseToDelete),
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
-            logic.deleteFeedbackSession(nameOfSessionToRestore, idOfCourseToRestore);
+            logic.deleteFeedbackSession(nameOfSessionToDelete, idOfCourseToDelete);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_DELETED, StatusMessageColor.SUCCESS));
-            statusToAdmin = "Feedback Session <span class=\"bold\">[" + nameOfSessionToRestore + "]</span> "
-                    + "from Course: <span class=\"bold\">[" + idOfCourseToRestore + " permanently deleted.";
+            statusToAdmin = "Feedback Session <span class=\"bold\">[" + nameOfSessionToDelete + "]</span> "
+                    + "from Course: <span class=\"bold\">[" + idOfCourseToDelete + " permanently deleted.";
         } catch (Exception e) {
             setStatusForException(e);
         }

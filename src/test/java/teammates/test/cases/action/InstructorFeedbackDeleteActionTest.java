@@ -72,11 +72,6 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
 
-        //delete the previous entity
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.getSessionName(), fs.getCourseId());
-
-        //recreate the entity
-        FeedbackSessionsLogic.inst().createFeedbackSession(fs);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

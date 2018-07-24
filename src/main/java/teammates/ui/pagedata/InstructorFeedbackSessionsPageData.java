@@ -239,14 +239,9 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     }
 
     public boolean isInstructorAllowedToModify() {
-        for (int i = 0; i < recoveryFsList.getRows().size(); i++) {
-            RecoveryFeedbackSessionsTableRow feedbackSession = recoveryFsList.getRows().get(i);
-            if (!instructorsForCourses.get(feedbackSession.getCourseId())
-                    .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                return false;
-            }
-        }
-        return true;
+        return getRecoveryFsList().getRows().stream()
+                .allMatch(session -> instructorsForCourses.get(session.getCourseId())
+                        .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
     }
 
     /**

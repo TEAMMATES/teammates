@@ -35,7 +35,7 @@ public class InstructorFeedbackDeleteAllRecoverySessionsAction extends Action {
             logic.deleteAllFeedbackSessions(instructorList);
             String statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ALL_DELETED;
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
-            statusToAdmin = "All sessions deleted";
+            statusToAdmin = "All sessions in Recycle Bin deleted";
         } catch (Exception e) {
             setStatusForException(e);
         }

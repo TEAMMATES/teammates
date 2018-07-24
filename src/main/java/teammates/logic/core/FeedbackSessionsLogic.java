@@ -1544,12 +1544,6 @@ public final class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(feedbackSession);
     }
 
-    private void restoreFeedbackSessionFromRecovery(FeedbackSessionAttributes feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        feedbackSession.resetDeletedTime();
-        fsDb.updateFeedbackSession(feedbackSession);
-    }
-
     /**
      * Restores all feedback sessions from Recycle Bin to feedback sessions table.
      */
@@ -1559,7 +1553,7 @@ public final class FeedbackSessionsLogic {
 
         List<FeedbackSessionAttributes> feedbackSessionsList = getRecoveryFeedbackSessionsListForInstructors(instructorList);
         for (FeedbackSessionAttributes session : feedbackSessionsList) {
-            restoreFeedbackSessionFromRecovery(session);
+            restoreFeedbackSessionFromRecovery(session.getFeedbackSessionName(), session.getCourseId());
         }
     }
 
@@ -2145,14 +2139,12 @@ public final class FeedbackSessionsLogic {
         return fsDetails;
     }
 
-    private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
-            String courseId) {
+    private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(String courseId) {
 
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
-    private List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForCourse(
-            String courseId) {
+    private List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForCourse(String courseId) {
 
         return fsDb.getRecoveryFeedbackSessionsForCourse(courseId);
     }

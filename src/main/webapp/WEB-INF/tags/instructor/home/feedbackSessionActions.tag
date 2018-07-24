@@ -4,6 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
+
 <a class="btn btn-default btn-xs btn-tm-actions session-edit-for-test margin-bottom-7px<c:if test="${not actions.allowedToEdit}"> disabled</c:if>"
     href="${actions.allowedToEdit ? actions.editLink : 'javascript:;'}"
     title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
@@ -68,17 +69,17 @@
         <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" showTooltip="false"/>
       </li>
       <c:if test="${actions.allowedToResendPublishedEmail}">
-      <li>
-        <a href="javascript:;"
-            data-actionlink="${actions.sessionResendPublishedEmailPageLink}"
-            class="session-resend-published-email-for-test"
-            data-courseid="${actions.courseId}"
-            data-fsname="${actions.fsName}"
-            data-toggle="modal"
-            data-target="#resendPublishedEmailModal">
-          Resend link to view results
-        </a>
-      </li>
+        <li>
+          <a href="javascript:;"
+              data-actionlink="${actions.sessionResendPublishedEmailPageLink}"
+              class="session-resend-published-email-for-test"
+              data-courseid="${actions.courseId}"
+              data-fsname="${actions.fsName}"
+              data-toggle="modal"
+              data-target="#resendPublishedEmailModal">
+            Resend link to view results
+          </a>
+        </li>
       </c:if>
       <li>
         <a>
