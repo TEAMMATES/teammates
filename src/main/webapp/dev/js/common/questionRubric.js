@@ -135,6 +135,35 @@ function disableCornerMoveRubricColumnButtons(questionNum) {
     enableMoveRightOfSecondLastCol(questionNum);
 }
 
+/**
+ * Sets the 'required' attribute in weight cells.
+ */
+function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
+    const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
+
+    $weightCells.each(function () {
+        $(this).prop('required', isRequired);
+    });
+}
+
+/**
+ * Shows the weight row and makes weight cells required if the "Choices are weighted" checkbox is checked,
+ * otherwise hides the weight row and removes the 'required' field from all weight cells.
+ *
+ * @param checkbox the "Choices are weighted" checkbox
+ */
+function toggleAssignWeightsRow($checkbox) {
+    const $weightsRow = $checkbox.closest('form').find('td > div[class^="rubricWeights"]');
+
+    if ($checkbox.prop('checked')) {
+        $weightsRow.show();
+        setRequiredAttributeToRubricWeights($weightsRow, true);
+    } else {
+        setRequiredAttributeToRubricWeights($weightsRow, false);
+        $weightsRow.hide();
+    }
+}
+
 function addRubricRow(questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
@@ -376,35 +405,6 @@ function highlightRubricCol(index, questionNum, highlight) {
         $rubricCol.addClass('cell-selected-negative');
     } else {
         $rubricCol.removeClass('cell-selected-negative');
-    }
-}
-
-/**
- * Sets the 'required' attribute in weight cells.
- */
-function setRequiredAttributeToRubricWeights($weightRow, isRequired) {
-    const $weightCells = $weightRow.find('input[id^="rubricWeight"]');
-
-    $weightCells.each(function () {
-        $(this).prop('required', isRequired);
-    });
-}
-
-/**
- * Shows the weight row and makes weight cells required if the "Choices are weighted" checkbox is checked,
- * otherwise hides the weight row and removes the 'required' field from all weight cells.
- *
- * @param checkbox the "Choices are weighted" checkbox
- */
-function toggleAssignWeightsRow($checkbox) {
-    const $weightsRow = $checkbox.closest('form').find('td > div[class^="rubricWeights"]');
-
-    if ($checkbox.prop('checked')) {
-        $weightsRow.show();
-        setRequiredAttributeToRubricWeights($weightsRow, true);
-    } else {
-        setRequiredAttributeToRubricWeights($weightsRow, false);
-        $weightsRow.hide();
     }
 }
 
