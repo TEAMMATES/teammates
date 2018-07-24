@@ -123,6 +123,17 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     /**
      * Returns null if no matching objects.
      */
+    public InstructorAttributes getInstructorById(String courseId, String email) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        return makeAttributesOrNull(getInstructorEntityById(courseId, email),
+                "Trying to get non-existent Instructor: " + courseId + "/" + email);
+    }
+
+    /**
+     * Returns null if no matching objects.
+     */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -308,6 +319,10 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                 .filter("courseId =", courseId)
                 .filter("email =", email)
                 .first().now();
+    }
+
+    private Instructor getInstructorEntityById(String courseId, String email) {
+        return load().id(email + '%' + courseId).now();
     }
 
     private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {

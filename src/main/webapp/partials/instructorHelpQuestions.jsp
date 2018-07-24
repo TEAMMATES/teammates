@@ -1962,6 +1962,11 @@
                               <br> The setup and result statistics is similar to the single answer version. See
                               <a class="collapse-link" data-target="#question-mcq-body" href="#question-mcq">above</a> for details.
                             </p>
+                            <p>
+                              <strong>Note:</strong> Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer,
+                              if 'Minimum number of options a respondent is allowed to select' option is not selected. The result statistics do not contain
+                              'None of the above' responses, as statistics is not calculated for this option.
+                            </p>
                           </div>
                         </div>
                       </div>
