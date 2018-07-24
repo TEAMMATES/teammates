@@ -53,7 +53,9 @@ function swapRubricCol(questionNum, firstColIndex, secondColIndex) {
     swapValues(CHOICE);
 
     // swap rubric weights
-    swapValues(WEIGHT);
+    for (let row = 0; row < numberOfRows; row += 1) {
+        swapValues(WEIGHT, row);
+    }
 
     // swap options filled
     for (let row = 0; row < numberOfRows; row += 1) {
