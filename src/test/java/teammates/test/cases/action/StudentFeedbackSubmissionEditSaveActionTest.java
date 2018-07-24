@@ -1023,7 +1023,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
 
     @Test
-    public void testExecuteAndPostProcess_responsesForDuplicateIdSubmitted_errorReturned() {
+    public void testExecuteAndPostProcess_newResponseSubmittedForDuplicateId_errorReturned() {
         DataBundle dataBundle = loadDataBundle("/FeedbackMcqQuestionUiTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
@@ -1032,8 +1032,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("MCQ Weight Session", "FMcqQnUiT.CS2104", 1);
         assertNotNull("Feedback question not found in database", fq);
-
-        ______TS("Test backend integrity for new resposnes");
 
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2.tmms@FMcqQnUiT.CS2104");
         gaeSimulation.loginAsStudent(student2InCourse1.googleId);
@@ -1070,11 +1068,22 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         "MCQ+Weight+Session"),
                 r.getDestinationWithParams());
 
-        // As existing responses are being modified, old responses will persist when error occurs.
+        // Check that invalid responses have not been added to the database.
         assertNull(frDb.getFeedbackResponse(fq.getId(), "student2InCourse1@gmail.tmt", "student1InCourse1@gmail.tmt"));
         assertNull(frDb.getFeedbackResponse(fq.getId(), "student2InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt"));
+    }
 
-        ______TS("Test backend integrity for existing responses");
+    @Test
+    public void testExecuteAndPostProcess_existingResponseModifiedForDuplicateId_errorReturned() {
+        DataBundle dataBundle = loadDataBundle("/FeedbackMcqQuestionUiTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("MCQ Weight Session", "FMcqQnUiT.CS2104", 1);
+        assertNotNull("Feedback question not found in database", fq);
+
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S2");
         // necessary to get the correct responseId
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
@@ -1088,7 +1097,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1.tmms@FMcqQnUiT.CS2104");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -1108,8 +1117,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         };
 
-        a = getAction(submissionParams);
-        r = getRedirectResult(a);
+        StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertTrue(

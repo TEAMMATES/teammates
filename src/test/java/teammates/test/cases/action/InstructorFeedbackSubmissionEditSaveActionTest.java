@@ -570,8 +570,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     }
 
     @Test
-    public void testExecuteAndPostProcess_responsesForDuplicateIdSubmitted_errorReturned() {
-        ______TS("Test backend integrity for new responses");
+    public void testExecuteAndPostProcess_newResponseSubmittedForDuplicateId_errorReturned() {
         DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreDataBundle(dataBundle);
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -622,18 +621,21 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 getPageResultDestination(
                         Const.ActionURIs.INSTRUCTOR_HOME_PAGE, r.isError, "IFSubmitUiT.instr"),
                 r.getDestinationWithParams());
-        // As existing responses are being modified, old responses will persist when error occurs.
+        // Check that invalid responses have not been added to the database.
         assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, "Team 1</td></div>'\""));
         assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, "Team 2"));
         assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, "Team 3"));
+    }
 
-        ______TS("Test backend integrity for existing responses");
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+    @Test
+    public void testExecuteAndPostProcess_existingResponseModifiedForDuplicateId_errorReturned() {
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
-        fqDb = new FeedbackQuestionsDb();
-        frDb = new FeedbackResponsesDb();
-        fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 2);
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
 
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -649,7 +651,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         fr2 = frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient);
         assertNotNull("Feedback response not found in database", fr2);
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -670,8 +672,8 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "50",
         };
 
-        a = getAction(submissionParams);
-        r = getRedirectResult(a);
+        InstructorFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(a);
 
         assertTrue(r.isError);
         assertTrue(
