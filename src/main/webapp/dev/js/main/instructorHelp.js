@@ -34,6 +34,12 @@ function bindPanelCollapseLinksAndAnchor() {
     });
 }
 
+/**
+ * Constructs a hashmap of questions and utilizes it to
+ * build an index for search. Each question also has associated
+ * tags which are obtained from stemming and sub-categories allocated
+ * to different questions.
+ */
 function prepareQuestionsForSearch() {
     let questionCount = 0;
 
@@ -105,6 +111,13 @@ function prepareQuestionsForSearch() {
     buildIndex();
 }
 
+/**
+ * Renders the search results of the specified page and
+ * re-initializes the pagination toolbar to highlight the new page.
+ * For Previous and Next buttons the function is simply called recursively
+ * after incrementing the page counter.
+ * @param page current page to be rendered
+ */
 function renderPage(page) {
     if (page < 1 || page > numPages) {
         return;
@@ -118,6 +131,8 @@ function renderPage(page) {
         return;
     }
 
+    // remove currently highlighted page before changing current page
+    $(`#pagingControls > button:contains(${curPage})`).removeClass('btn-primary').addClass('btn-default');
     curPage = page;
 
     const searchResultElements = $('#searchResults').children();
@@ -137,15 +152,16 @@ function renderPage(page) {
         let pageNum = $(button).text();
 
         // previous and next buttons should always be visible and enabled
-        if (pageNum === 'Prev' || pageNum === 'Next') {
+        if ($(button).attr('id') === 'prevPage' || $(button).attr('id') === 'nextPage') {
             $(button).removeClass('hidden-xs');
             $(button).prop('disabled', false);
         } else if (pageNum === '...') { // remove redundant ellipses
             $(button).remove();
         } else {
             pageNum = parseInt(pageNum, 10);
-            if (pageNum === curPage) { // disable current page button
-                $(button).removeClass('hidden-xs');
+            if (pageNum === curPage) { // disable current page button and highlight it
+                $(button).removeClass('btn-default hidden-xs');
+                $(button).addClass('btn-primary');
                 $(button).prop('disabled', true);
             } else if (
                 pageNum === 1
@@ -169,8 +185,6 @@ function renderPage(page) {
             }
         }
     });
-    $('#prevPage').prop('disabled', false);
-    $('#nextPage').prop('disabled', false);
 
     // disable prev and next buttons for first and last page respectively
     if (curPage === 1) {
@@ -181,6 +195,9 @@ function renderPage(page) {
     }
 }
 
+/**
+ * Searches for the query specified in the search box
+ */
 function searchQuestions() {
     const query = $('#searchQuery').val();
 
@@ -193,6 +210,8 @@ function searchQuestions() {
         $('#searchMetaData').text('');
         return;
     }
+    // different fields are given a boost value to specify their relative importance
+    // for details refer to elasticlunr documentation
     const results = index.search(query, {
         fields: {
             title: { boost: 4 },
@@ -201,6 +220,7 @@ function searchQuestions() {
         },
         bool: 'AND',
     });
+    // add relevant panels to search results
     $.each(results, (idx, result) => {
         const { htmlId } = questionMap[result.ref];
         const questionPanel = $(`#${htmlId}`)[0];
@@ -232,12 +252,12 @@ function searchQuestions() {
         }
 
         let buttonHtml = '<button type="button" class="btn btn-default" id="prevPage" onclick="renderPage(\'prev\')">'
-                         + '<span class="glyphicon glyphicon-chevron-left"></span>Prev</button>';
+                         + '<span class="glyphicon glyphicon-chevron-left"></span></button>';
         for (let i = 0; i < numPages; i += 1) {
             buttonHtml += `<button type='button' class='btn btn-default' onclick='renderPage(${i + 1})'>${i + 1}</button>`;
         }
         buttonHtml += '<button type="button" class="btn btn-default" id="nextPage" onclick="renderPage(\'next\')">'
-                     + 'Next<span class="glyphicon glyphicon-chevron-right"></span></button>';
+                     + '<span class="glyphicon glyphicon-chevron-right"></span></button>';
         $('#pagingControls').html(buttonHtml);
         $('#pagingControls').addClass('padding-15px margin-bottom-35px');
     }
@@ -257,6 +277,9 @@ function searchQuestions() {
     $('#allQuestions').hide();
 }
 
+/**
+ * Simulates clicking of search button on pressing Enter key.
+ */
 function bindEnterKeyForSearchBox() {
     $('#searchQuery').keypress((e) => {
         if (e.keyCode === 13) {
@@ -265,6 +288,9 @@ function bindEnterKeyForSearchBox() {
     });
 }
 
+/**
+ * Resets the page to default version and clears the search box.
+ */
 function resetSearch() {
     $('#searchQuery').val('');
     $('#searchMetaData').text('');

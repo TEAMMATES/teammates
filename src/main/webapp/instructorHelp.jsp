@@ -57,7 +57,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 align-center">
-      <div class="btn-group" id="pagingControls"></div>
+      <div class="btn-group btn-group-sm" id="pagingControls"></div>
     </div>
   </div>
   <div id="allQuestions" style="display: block;">
