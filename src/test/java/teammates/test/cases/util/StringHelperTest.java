@@ -433,6 +433,13 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testToLowerCase() {
+        String[] input = {"thisIsInCamelCase", "anotherInCamelCase", "googleId", "", "alreadylowercase", "ALLUPPERCASE"};
+        String[] expected = {"thisisincamelcase", "anotherincamelcase", "googleid", "", "alreadylowercase", "alluppercase"};
+        assertArrayEquals(expected, StringHelper.toLowerCase(input));
+    }
+
+    @Test
     public void testRemoveNonAscii() {
         assertEquals("Hello world!", StringHelper.removeNonAscii("Hello world!"));
 
