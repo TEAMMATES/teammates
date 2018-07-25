@@ -227,10 +227,10 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Check if the weight cells added by 'Add Column' button are 'required' or not.
         feedbackEditPage.clickAddRubricColLink(questionNum);
-        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 1,  4);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 1, 4);
         feedbackEditPage.clickAddQuestionButton();
         assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 1, 4));
-        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0", 1,  4);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0", 1, 4);
 
         // Check if the weight cells added by 'Add Row' button are 'required' or not.
         feedbackEditPage.clickAddRubricRowLink(questionNum);
