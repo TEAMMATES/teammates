@@ -500,6 +500,12 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .filter("receiverSection =", "None")
                     .list());
 
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", "None")
+                    .filter("receiverSection =", section)
+                    .list());
+
         }
         if (sectionDetail.contains("giver") || sectionDetail.contains("either")) {
             feedbackResponses.addAll(load()
@@ -508,6 +514,13 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
 
         }
+        if (sectionDetail.contains("either")) {
+            feedbackResponses.removeAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .filter("receiverSection =", section)
+                    .list());
+        }
         if (sectionDetail.contains("evaluee") || sectionDetail.contains("either")) {
             feedbackResponses.addAll(load()
                     .filter("feedbackQuestionId =", feedbackQuestionId)
@@ -515,12 +528,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .list());
 
         }
-
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", "None")
-                .filter("receiverSection =", section)
-                .list());
 
         return feedbackResponses;
     }
