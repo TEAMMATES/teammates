@@ -8,8 +8,6 @@
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
 <%@ attribute name="formType" required="true" %>
 <%@ attribute name="textAreaId" required="true" %>
-<%@ attribute name="moderatedPersonEmail" %>
-<%@ attribute name="isModeration" %>
 
 <c:set var="isEditForm" value="${formType eq 'Edit'}" />
 <c:set var="isAddForm" value="${formType eq 'Add'}" />
@@ -35,8 +33,5 @@
   </div>
   <c:if test="${isEditForm}">
     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>-${divId}" value="${frc.commentId}">
-  </c:if>
-  <c:if test="${isModeration}">
-    <input name="<%=Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON %>" value="${moderatedPersonEmail}" type="hidden">
   </c:if>
 </div>

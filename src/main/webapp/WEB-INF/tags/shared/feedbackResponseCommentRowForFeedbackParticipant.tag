@@ -70,7 +70,6 @@
   <c:if test="${frc.editDeleteEnabled}">
     <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %></c:set>
     <shared:feedbackResponseCommentFormForFeedbackParticipant responseIndex="${responseIndex}" qnIndex="${qnIndex}"
-        frc="${frc}" formType="Edit" textAreaId="${textAreaId}" isModeration="${isModeration}"
-        moderatedPersonEmail="${moderatedPersonEmail}"/>
+        frc="${frc}" formType="Edit" textAreaId="${textAreaId}"/>
   </c:if>
 </li>

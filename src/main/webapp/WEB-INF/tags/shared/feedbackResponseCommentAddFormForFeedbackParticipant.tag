@@ -14,6 +14,5 @@
     id="showResponseCommentAddForm-${divId}" style="display: none;">
   <c:set var="textAreaId"><%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_FORM%></c:set>
   <shared:feedbackResponseCommentFormForFeedbackParticipant responseIndex="${responseIndex}"
-      qnIndex="${qnIndex}" frc="${frc}" formType="Add" textAreaId="${textAreaId}"
-      isModeration="${isModeration}" moderatedPersonEmail="${moderatedPersonEmail}"/>
+      qnIndex="${qnIndex}" frc="${frc}" formType="Add" textAreaId="${textAreaId}"/>
 </li>
