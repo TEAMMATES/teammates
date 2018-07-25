@@ -596,6 +596,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions).moveSessionToRecovery(courseId, sessionName);
         newSession.setDeletedTime();
+
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
                 .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
         assertNotNull("session should not have been deleted",
@@ -610,9 +611,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String instructorId = testData.accounts.get("instructorWithCS2105").googleId;
         feedbackPage = getFeedbackPageForInstructor(instructorId);
         feedbackPage.verifyHtmlMainContent("/instructorOfCS2105WithMultipleRecoverySessions.html");
-
         FeedbackSessionAttributes session1OfCS2105 = testData.feedbackSessions.get("session1OfCS2105");
-
         assertTrue(session1OfCS2105.isSessionDeleted());
 
         feedbackPage = getFeedbackPageForInstructor(instructorId);
@@ -631,7 +630,6 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
 
         FeedbackSessionAttributes session2OfCS2105 = testData.feedbackSessions.get("session2OfCS2105");
         FeedbackSessionAttributes session3OfCS2105 = testData.feedbackSessions.get("session3OfCS2105");
-
         assertTrue(session2OfCS2105.isSessionDeleted());
         assertTrue(session3OfCS2105.isSessionDeleted());
 
@@ -656,19 +654,19 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String instructorId = testData.accounts.get("instructorWithCS2106").googleId;
         feedbackPage = getFeedbackPageForInstructor(instructorId);
         feedbackPage.verifyHtmlMainContent("/instructorOfCS2106WithMultipleRecoverySessions.html");
-
         FeedbackSessionAttributes session1OfCS2106 = testData.feedbackSessions.get("session1OfCS2106");
-
         assertTrue(session1OfCS2106.isSessionDeleted());
 
         // Delete and cancel
         feedbackPage.deleteSessionAndCancel(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName());
+
         assertNotNull(BackDoor.getFeedbackSession(session1OfCS2106.getCourseId(),
                 session1OfCS2106.getFeedbackSessionName()));
 
         // Delete and confirm
         feedbackPage = getFeedbackPageForInstructor(instructorId);
         feedbackPage.deleteSessionAndConfirm(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName());
+
         assertNull(BackDoor.getFeedbackSession(session1OfCS2106.getCourseId(), session1OfCS2106.getFeedbackSessionName()));
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackDeleteSuccessful.html");
 
@@ -677,15 +675,14 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     private void testDeleteAllAction() throws Exception {
 
         String instructorId = testData.accounts.get("instructorWithCS2106").googleId;
-
         FeedbackSessionAttributes session2OfCS2106 = testData.feedbackSessions.get("session2OfCS2106");
         FeedbackSessionAttributes session3OfCS2106 = testData.feedbackSessions.get("session3OfCS2106");
-
         assertTrue(session2OfCS2106.isSessionDeleted());
         assertTrue(session3OfCS2106.isSessionDeleted());
 
         // Delete all and cancel
         feedbackPage.deleteAllSessionsAndCancel();
+
         assertNotNull(BackDoor.getFeedbackSession(session2OfCS2106.getCourseId(),
                 session2OfCS2106.getFeedbackSessionName()));
         assertNotNull(BackDoor.getFeedbackSession(session3OfCS2106.getCourseId(),
@@ -694,6 +691,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         // Delete all and confirm
         feedbackPage = getFeedbackPageForInstructor(instructorId);
         feedbackPage.deleteAllSessionsAndConfirm();
+
         assertNull(BackDoor.getFeedbackSession(session2OfCS2106.getCourseId(), session2OfCS2106.getFeedbackSessionName()));
         assertNull(BackDoor.getFeedbackSession(session3OfCS2106.getCourseId(), session3OfCS2106.getFeedbackSessionName()));
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackDeleteAllSuccessful.html");

@@ -173,7 +173,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         instructorDeletedSessionData.initWithoutDefaultFormValues(coursesWithDeletedSession, null, fsList,
                 recoveryFsList, deletedSessionInstructorMap, null);
 
-        assertTrue(instructorDeletedSessionData.isInstructorAllowedToModify());
+        assertFalse(instructorDeletedSessionData.isInstructorAllowedToModify());
 
         ______TS("case with instructor with deleted session in course: session rows");
         fsTableModel = instructorDeletedSessionData.getFsList();
@@ -182,7 +182,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(1, fsRows.size());
         recoveryFsRows = recoveryFsTableModel.getRows();
-        assertEquals(1, recoveryFsRows.size());
+        assertEquals(2, recoveryFsRows.size());
 
         firstFsName = "First feedback session";
         assertEquals(firstFsName, fsRows.get(0).getName());

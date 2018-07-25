@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.InstructorFeedbackDeleteRecoverySessionAction;
 import teammates.ui.controller.RedirectResult;
@@ -30,40 +29,42 @@ public class InstructorFeedbackDeleteRecoverySessionActionTest extends BaseActio
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session2InCourse3");
 
         ______TS("Typical case, delete 1 session from Recycle Bin, without privilege");
+
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
-
         InstructorAttributes instructor2OfCourse3 = typicalBundle.instructors.get("instructor2OfCourse3");
         gaeSimulation.loginAsInstructor(instructor2OfCourse3.googleId);
+        List<FeedbackSessionAttributes> existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
+        assertEquals(1, existingFsList.size());
+        List<FeedbackSessionAttributes> recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
+        assertEquals(1, recoveryFsList.size());
 
-        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
-        assertTrue(fs.isSessionDeleted());
-
-        InstructorFeedbackDeleteRecoverySessionAction a = getAction(submissionParams);
+        InstructorFeedbackDeleteRecoverySessionAction deleteAction = getAction(submissionParams);
         try {
-            getRedirectResult(a);
+            getRedirectResult(deleteAction);
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [Second feedback session] is not accessible to instructor "
                     + "[instructor2@course3.tmt] for privilege [canmodifysession]", e.getMessage());
         }
 
-        List<FeedbackSessionAttributes> existingFsList = FeedbackSessionsLogic.inst()
-                .getFeedbackSessionsForCourse(fs.getCourseId());
+        existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, existingFsList.size());
-        List<FeedbackSessionAttributes> recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
+        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, recoveryFsList.size());
 
         ______TS("Typical case, delete 1 session from Recycle Bin, with privilege");
+
         InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
         gaeSimulation.loginAsInstructor(instructor1OfCourse3.googleId);
+        existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
+        assertEquals(1, existingFsList.size());
+        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
+        assertEquals(1, recoveryFsList.size());
 
-        assertNotNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
-        assertTrue(fs.isSessionDeleted());
-
-        a = getAction(submissionParams);
-        RedirectResult r = getRedirectResult(a);
+        deleteAction = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(deleteAction);
 
         assertNull(fsDb.getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName()));
         assertEquals(
@@ -74,7 +75,6 @@ public class InstructorFeedbackDeleteRecoverySessionActionTest extends BaseActio
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
-
         existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, existingFsList.size());
         recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());

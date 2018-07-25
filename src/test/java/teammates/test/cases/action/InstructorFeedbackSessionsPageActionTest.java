@@ -2,6 +2,7 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
@@ -62,6 +63,8 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
 
         ______TS("Typical case, 1 course with 1 existing session & 1 deleted session");
         String instructorIdWithDeletedSession = typicalBundle.instructors.get("instructor1OfCourse3").googleId;
+        CourseAttributes typicalCourse3 = typicalBundle.courses.get("typicalCourse3");
+        CoursesLogic.inst().restoreCourseFromRecovery(typicalCourse3.getId());
 
         gaeSimulation.loginAsInstructor(instructorIdWithDeletedSession);
         a = getAction(submissionParams);
@@ -75,9 +78,9 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
 
         pageData = (InstructorFeedbackSessionsPageData) r.data;
         assertEquals(instructorIdWithDeletedSession, pageData.account.googleId);
-        assertEquals(1, pageData.getNewFsForm().getCourses().size());
+        assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(1, pageData.getFsList().getExistingFeedbackSessions().size());
-        assertEquals(1, pageData.getRecoveryFsList().getRows().size());
+        assertEquals(2, pageData.getRecoveryFsList().getRows().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
         assertNull(pageData.getNewFsForm().getCourseId());
 
