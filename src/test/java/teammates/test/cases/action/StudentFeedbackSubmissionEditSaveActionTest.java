@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.NullPostParameterException;
@@ -1019,6 +1020,142 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)",
                      redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
+    }
+
+    @Test
+    public void testExecuteAndPostProcess_newResponseSubmittedForDuplicateRecipient_errorReturned() {
+        DataBundle dataBundle = loadDataBundle("/FeedbackMcqQuestionUiTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("MCQ Weight Session", "FMcqQnUiT.CS2104", 1);
+        assertNotNull("Feedback question not found in database", fq);
+
+        StudentAttributes student2InCourse1 = dataBundle.students.get("student2.tmms@FMcqQnUiT.CS2104");
+        gaeSimulation.loginAsStudent(student2InCourse1.googleId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "MCQ Weight Session",
+                Const.ParamsNames.COURSE_ID, "FMcqQnUiT.CS2104",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "student1InCourse1@gmail.tmt",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "MCQ",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Content",
+
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "MCQ Weight Session",
+                Const.ParamsNames.COURSE_ID, "FMcqQnUiT.CS2104",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-1", "student1InCourse1@gmail.tmt",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "MCQ",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "Teaching style"
+        };
+
+        StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(a);
+
+        assertTrue(r.isError);
+        assertTrue(
+                r.getStatusMessage().contains(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1)));
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FMcqQnUiT.student2",
+                        "FMcqQnUiT.CS2104",
+                        "MCQ+Weight+Session"),
+                r.getDestinationWithParams());
+
+        // Check that invalid responses have not been added to the database.
+        assertNull(frDb.getFeedbackResponse(fq.getId(), "student2InCourse1@gmail.tmt", "student1InCourse1@gmail.tmt"));
+        assertNull(frDb.getFeedbackResponse(fq.getId(), "student2InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt"));
+    }
+
+    @Test
+    public void testExecuteAndPostProcess_existingResponseModifiedForDuplicateRecipient_errorReturned() {
+        DataBundle dataBundle = loadDataBundle("/FeedbackMcqQuestionUiTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("MCQ Weight Session", "FMcqQnUiT.CS2104", 1);
+        assertNotNull("Feedback question not found in database", fq);
+
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S2");
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
+        assertNotNull("Feedback response not found in database", fr);
+
+        FeedbackResponseAttributes fr2 = dataBundle.feedbackResponses.get("response2ForQ1S2");
+        // necessary to get the correct responseId
+        fr2 = frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient);
+        assertNotNull("Feedback response not found in database", fr2);
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1.tmms@FMcqQnUiT.CS2104");
+        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "2",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Content",
+
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-1", fr2.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr2.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr2.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr2.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-1", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr2.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-1", "Teaching style"
+
+        };
+
+        StudentFeedbackSubmissionEditSaveAction a = getAction(submissionParams);
+        RedirectResult r = getRedirectResult(a);
+
+        assertTrue(r.isError);
+        assertTrue(
+                r.getStatusMessage().contains(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_DUPLICATE_RECIPIENT, 1)));
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+                        r.isError,
+                        "FMcqQnUiT.student1",
+                        "FMcqQnUiT.CS2104",
+                        "MCQ+Weight+Session"),
+                r.getDestinationWithParams());
+
+        // As existing responses are being modified, old responses will persist when error occurs.
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient));
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr2.giver, fr2.recipient));
+
+        // Check that the responses have not been modified for response fr.
+        FeedbackMcqResponseDetails frBeforeEdit = (FeedbackMcqResponseDetails) fr.getResponseDetails();
+        String answersBeforeEdit = frBeforeEdit.getAnswerString();
+
+        FeedbackResponseAttributes frModified = dataBundle.feedbackResponses.get("response1ForQ1S2");
+        frModified = frDb.getFeedbackResponse(fq.getId(), frModified.giver, frModified.recipient);
+        FeedbackMcqResponseDetails frAfterEdit =
+                (FeedbackMcqResponseDetails) frModified.getResponseDetails();
+        String answersAfterEdit = frAfterEdit.getAnswerString();
+        assertEquals(answersBeforeEdit, answersAfterEdit);
+
+        // Check that the responses have not been modified for response fr2.
+        frBeforeEdit = (FeedbackMcqResponseDetails) fr2.getResponseDetails();
+        answersBeforeEdit = frBeforeEdit.getAnswerString();
+
+        frModified = dataBundle.feedbackResponses.get("response2ForQ1S2");
+        frModified = frDb.getFeedbackResponse(fq.getId(), frModified.giver, frModified.recipient);
+        frAfterEdit = (FeedbackMcqResponseDetails) frModified.getResponseDetails();
+        answersAfterEdit = frAfterEdit.getAnswerString();
+        assertEquals(answersBeforeEdit, answersAfterEdit);
     }
 
     @Test
