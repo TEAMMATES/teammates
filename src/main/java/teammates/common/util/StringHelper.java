@@ -506,6 +506,15 @@ public final class StringHelper {
     }
 
     /**
+     * Returns a String array after converting them to lower case.
+     */
+    public static String[] toLowerCase(String[] stringsToConvertToLowerCase) {
+        return Arrays.stream(stringsToConvertToLowerCase)
+                .map(s -> s.toLowerCase())
+                .toArray(size -> new String[size]);
+    }
+
+    /**
      * Returns text with all non-ASCII characters removed.
      */
     public static String removeNonAscii(String text) {
