@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -11,17 +12,21 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
  *      specifically for feedback response comments.
  */
 public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTestCase {
-    private InstructorFeedbackResultsPage resultsPage;
 
     @Override
     protected void prepareTestData() {
+        // see prepareData()
+    }
+
+    @BeforeMethod
+    public void prepareData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageResponseCommentUiTest.json");
         removeAndRestoreDataBundle(testData);
     }
 
     @Test
     public void testFeedbackResponseCommentActionsForQuestionsView() {
-        prepareTestData();
+        InstructorFeedbackResultsPage resultsPage;
 
         ______TS("Question view: Failure case: add an empty feedback response comment using comment modal");
 
@@ -29,16 +34,16 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
-        addEmptyCommentToResponseAndCheckStatusMessage("-2-1-1");
+        addEmptyCommentToResponseAndCheckStatusMessage("-2-1-1", resultsPage);
 
         ______TS("Question view: Typical case: add new feedback response comments using comment modal");
 
-        addCommentToValidResponseAndVerify("-2-1-1");
-        addCommentToValidResponseAndVerify("-3-1-1");
+        addCommentToValidResponseAndVerify("-2-1-1", resultsPage);
+        addCommentToValidResponseAndVerify("-3-1-1", resultsPage);
 
         ______TS("Question view: Typical case: edit an existing feedback response comment using comment modal");
 
-        editFirstCommentOnResponseAndVerify("-2-1-1", "edited test comment");
+        editFirstCommentOnResponseAndVerify("-2-1-1", "edited test comment", resultsPage);
 
         ______TS("Question view: Typical case: edit comment created by different instructors using comment modal");
 
@@ -46,7 +51,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(2);
 
-        editFirstCommentAndVisibilityAndVerify("-1-1-2", "Comment edited by different instructor");
+        editFirstCommentAndVisibilityAndVerify("-1-1-2", "Comment edited by different instructor",
+                resultsPage);
 
         ______TS("Question view: Typical case: delete existing feedback response comments using comment modal");
 
@@ -54,8 +60,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
-        deleteFirstCommentAndVerify("-2-1-1");
-        deleteFirstCommentAndVerify("-3-1-1");
+        deleteFirstCommentAndVerify("-2-1-1", resultsPage);
+        deleteFirstCommentAndVerify("-3-1-1", resultsPage);
 
         ______TS("Question view: Typical case: add edit and delete successively");
 
@@ -63,12 +69,12 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByQuestion();
         resultsPage.loadResultQuestionPanel(1);
 
-        addEditAndDeleteTypicalCommentAndVerify("-2-1-1");
+        addEditAndDeleteTypicalCommentAndVerify("-2-1-1", resultsPage);
     }
 
     @Test
     public void testFeedbackResponseCommentActionsForGqrView() {
-        prepareTestData();
+        InstructorFeedbackResultsPage resultsPage;
 
         resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
 
@@ -76,14 +82,14 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
-        addEmptyCommentToResponseAndCheckStatusMessage("-2-0-1");
+        addEmptyCommentToResponseAndCheckStatusMessage("-2-0-1", resultsPage);
 
         ______TS("GQR view: Typical case: add new feedback response comments using comment modal");
-        addCommentToValidResponseAndVerify("-2-0-1");
-        addCommentToValidResponseAndVerify("-9-0-1");
+        addCommentToValidResponseAndVerify("-2-0-1", resultsPage);
+        addCommentToValidResponseAndVerify("-9-0-1", resultsPage);
 
         ______TS("GQR view: Typical case: edit an existing feedback response comment using comment modal");
-        editFirstCommentOnResponseAndVerify("-2-0-1", "edited test comment");
+        editFirstCommentOnResponseAndVerify("-2-0-1", "edited test comment", resultsPage);
 
         ______TS("GQR view: Typical case: edit comment created by different instructors using comment modal");
 
@@ -91,7 +97,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(0, 1);
 
-        editFirstCommentOnResponseAndVerify("-2-0-1", "Comment edited by different instructor");
+        editFirstCommentOnResponseAndVerify("-2-0-1", "Comment edited by different instructor",
+                resultsPage);
 
         ______TS("GQR view: Typical case: delete existing feedback response comments using comment modal");
 
@@ -99,8 +106,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
 
-        deleteFirstCommentAndVerify("-2-0-1");
-        deleteFirstCommentAndVerify("-9-0-1");
+        deleteFirstCommentAndVerify("-2-0-1", resultsPage);
+        deleteFirstCommentAndVerify("-9-0-1", resultsPage);
 
         ______TS("GQR view: Typical case: add edit and delete successively");
 
@@ -108,12 +115,12 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.loadResultSectionPanel(1, 2);
 
-        addEditAndDeleteTypicalCommentAndVerify("-2-0-1");
+        addEditAndDeleteTypicalCommentAndVerify("-2-0-1", resultsPage);
     }
 
     @Test
     public void testFeedbackResponseCommentActionsForRgqView() throws Exception {
-        prepareTestData();
+        InstructorFeedbackResultsPage resultsPage;
 
         resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
 
@@ -201,7 +208,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         return loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
     }
 
-    private void addEmptyCommentToResponseAndCheckStatusMessage(String commentModelId) {
+    private void addEmptyCommentToResponseAndCheckStatusMessage(String commentModelId,
+            InstructorFeedbackResultsPage resultsPage) {
         // TODO: `clickCommentModalButton` should wait for modal to open before returning
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentModelId, "");
@@ -212,7 +220,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
     }
 
     // Add first comment to response
-    private void addCommentToValidResponseAndVerify(String commentModelId) {
+    private void addCommentToValidResponseAndVerify(String commentModelId, InstructorFeedbackResultsPage resultsPage) {
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         // TODO: Wait for comment to be added before returning
@@ -223,7 +231,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void editFirstCommentOnResponseAndVerify(String commentModelId, String commentText) {
+    private void editFirstCommentOnResponseAndVerify(String commentModelId, String commentText,
+            InstructorFeedbackResultsPage resultsPage) {
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal(commentId, commentText);
@@ -231,7 +240,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void editFirstCommentAndVisibilityAndVerify(String commentModelId, String commentText) {
+    private void editFirstCommentAndVisibilityAndVerify(String commentModelId, String commentText,
+            InstructorFeedbackResultsPage resultsPage) {
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.editFeedbackResponseCommentInOpenedCommentModal(commentId, commentText);
@@ -240,7 +250,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void deleteFirstCommentAndVerify(String commentModelId) {
+    private void deleteFirstCommentAndVerify(String commentModelId, InstructorFeedbackResultsPage resultsPage) {
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.deleteFeedbackResponseCommentInModal(commentId);
@@ -248,7 +258,8 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         resultsPage.closeCommentModal(commentModelId);
     }
 
-    private void addEditAndDeleteTypicalCommentAndVerify(String commentModelId) {
+    private void addEditAndDeleteTypicalCommentAndVerify(String commentModelId,
+            InstructorFeedbackResultsPage resultsPage) {
         String commentId = commentModelId + "-1";
         resultsPage.clickCommentModalButton(commentModelId);
         resultsPage.addFeedbackResponseCommentInCommentModal("showResponseCommentAddForm" + commentModelId,
