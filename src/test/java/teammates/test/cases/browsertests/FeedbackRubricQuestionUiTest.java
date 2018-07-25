@@ -17,6 +17,9 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  *      specifically for rubric questions.
  */
 public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
+
+    private static final int NEW_QUESTION_INDEX = -1;
+
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;
@@ -531,6 +534,67 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 "Too little choices for Rubric question. Minimum number of options is: 2");
+    }
+
+    @Test
+    public void testRubricWeightsFeature_shouldToggleStateCorrectly() {
+
+        ______TS("Rubric: Weight cells are visible when assigneWeights checkbox is clicked?");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RUBRIC");
+
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+        // Check if the weight cells are visible or not.
+        assertTrue(feedbackEditPage.getRubricWeightBox(NEW_QUESTION_INDEX, 0, 0).isDisplayed());
+        assertTrue(feedbackEditPage.getRubricWeightBox(NEW_QUESTION_INDEX, 0, 1).isDisplayed());
+        assertTrue(feedbackEditPage.getRubricWeightBox(NEW_QUESTION_INDEX, 1, 0).isDisplayed());
+        assertTrue(feedbackEditPage.getRubricWeightBox(NEW_QUESTION_INDEX, 1, 1).isDisplayed());
+
+        // Uncheck checkboxes for consistency among other tests,
+        // otherwise these settings will persist after cancelling the question form
+        // Uncheck the 'Choices are weighted' checkbox.
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+        // Check weight cells are hidden when checkbox is unchecked.
+        assertFalse(feedbackEditPage.getRubricWeightBox(NEW_QUESTION_INDEX, 0, 0).isDisplayed());
+        assertFalse(feedbackEditPage.getRubricWeightBox(NEW_QUESTION_INDEX, 0, 1).isDisplayed());
+        assertFalse(feedbackEditPage.getRubricWeightBox(NEW_QUESTION_INDEX, 1, 0).isDisplayed());
+        assertFalse(feedbackEditPage.getRubricWeightBox(NEW_QUESTION_INDEX, 1, 1).isDisplayed());
+
+        // Cancel question
+        feedbackEditPage.clickDiscardChangesLinkForNewQuestion();
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+    }
+
+    @Test
+    public void testRubricWeightsFeature_shouldHaveCorrectDefaultValue() throws Exception {
+
+        ______TS("Rubric: Check default weight values");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RUBRIC");
+        feedbackEditPage.fillQuestionTextBox("Rubric weight feature", NEW_QUESTION_INDEX);
+        feedbackEditPage.fillQuestionDescription("More details", NEW_QUESTION_INDEX);
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+
+        // Fill choices and check corresponding weight values
+        feedbackEditPage.verifyFieldValue("rubricWeight--1-0-0", "0");
+        feedbackEditPage.verifyFieldValue("rubricWeight--1-0-1", "0");
+        feedbackEditPage.verifyFieldValue("rubricWeight--1-0-2", "0");
+        feedbackEditPage.verifyFieldValue("rubricWeight--1-0-3", "0");
+        feedbackEditPage.verifyFieldValue("rubricWeight--1-1-0", "0");
+        feedbackEditPage.verifyFieldValue("rubricWeight--1-1-1", "0");
+        feedbackEditPage.verifyFieldValue("rubricWeight--1-1-2", "0");
+        feedbackEditPage.verifyFieldValue("rubricWeight--1-1-3", "0");
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
+
+        // verify html page
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionWeightAddSuccess.html");
+
+        // Delete the question
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
