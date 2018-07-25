@@ -69,24 +69,21 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
             case INSTRUCTORS:
                 InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 if (instructor == null) {
-                    throw new UnauthorizedAccessException("Comment [" + frc.getId()
-                            + "] not given by feedback participant.");
+                    throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
                 }
                 gateKeeper.verifyOwnership(frc, instructor.email);
                 break;
             case STUDENTS:
-                StudentAttributes student = logic.getStudentForGoogleId(courseId, account.googleId);
+                StudentAttributes student = getStudent();
                 if (student == null) {
-                    throw new UnauthorizedAccessException("Comment [" + frc.getId()
-                            + "] not given by feedback participant.");
+                    throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
                 }
                 gateKeeper.verifyOwnership(frc, student.email);
                 break;
             case TEAMS:
-                StudentAttributes studentOfTeam = logic.getStudentForGoogleId(courseId, account.googleId);
+                StudentAttributes studentOfTeam = getStudent();
                 if (studentOfTeam == null) {
-                    throw new UnauthorizedAccessException("Comment [" + frc.getId()
-                            + "] not given by feedback participant.");
+                    throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
                 }
                 gateKeeper.verifyOwnership(frc, studentOfTeam.team);
                 break;
@@ -103,5 +100,12 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
         statusToAdmin += "FeedbackParticipantFeedbackResponseCommentDeleteAction:<br>"
                 + "Deleting feedback response comment: " + commentId + "<br>"
                 + "in course/feedback session: " + courseId + "/" + feedbackSessionName + "<br>";
+    }
+
+    private StudentAttributes getStudent() {
+        if (student == null) {
+            student = logic.getStudentForGoogleId(courseId, account.googleId);
+        }
+        return student;
     }
 }

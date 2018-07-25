@@ -33,7 +33,7 @@ public class InstructorFeedbackResultsResponseRow {
     private InstructorFeedbackResultsModerationButton moderationButton;
     private FeedbackResponseCommentRow addCommentButton;
 
-    private List<FeedbackResponseCommentRow> allCommentsOnResponse;
+    private List<FeedbackResponseCommentRow> instructorComments;
     private int responseRecipientIndex;
     private int responseGiverIndex;
     private boolean isInstructorCommentsOnResponsesAllowed;
@@ -180,12 +180,12 @@ public class InstructorFeedbackResultsResponseRow {
         this.addCommentButton = addCommentButton;
     }
 
-    public List<FeedbackResponseCommentRow> getAllCommentsOnResponse() {
-        return allCommentsOnResponse;
+    public List<FeedbackResponseCommentRow> getInstructorComments() {
+        return instructorComments;
     }
 
-    public void setAllCommentsOnResponse(List<FeedbackResponseCommentRow> allCommentsOnResponse) {
-        this.allCommentsOnResponse = allCommentsOnResponse;
+    public void setInstructorComments(List<FeedbackResponseCommentRow> instructorComments) {
+        this.instructorComments = instructorComments;
     }
 
     public int getResponseRecipientIndex() {

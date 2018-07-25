@@ -31,11 +31,11 @@
     <div class="col-xs-2">
       <c:if test="${frc.editDeleteEnabled}">
         <div class="responseCommentDeleteForm pull-right float-right clearfix">
-        <a href="${frc.editDeleteEnabled ? deleteLink : 'javascript:;'}"
+        <a href="${deleteLink}"
            type="button"
            id="commentdelete-${divId}"
            class="btn btn-default btn-xs icon-button
-           <c:if test="${not frc.editDeleteEnabled or isPreview or (not submittable)}">disabled</c:if>"
+           <c:if test="${isPreview or (not submittable)}">disabled</c:if>"
            data-toggle="tooltip"
            data-placement="top"
            title="<%= Const.Tooltips.COMMENT_DELETE %>">
@@ -55,7 +55,7 @@
         <a type="button"
            id="commentedit-${divId}"
                 class="btn btn-default btn-xs icon-button pull-right show-frc-edit-form
-                <c:if test="${not frc.editDeleteEnabled or not isSessionOpenForSubmission}"> disabled</c:if>"
+                <c:if test="${not isSessionOpenForSubmission}"> disabled</c:if>"
                 data-responseindex="${responseIndex}" data-qnindex="${qnIndex}"
            data-toggle="tooltip"
            data-placement="top"

@@ -489,7 +489,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             giverName = bundle.appendTeamNameToName(giverName, giverTeam);
             recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
 
-            List<FeedbackResponseCommentRow> comments = buildResponseComments(giverName, recipientName, question, response);
+            List<FeedbackResponseCommentRow> instructorComments =
+                    buildInstructorComments(giverName, recipientName, question, response);
             boolean isAllowedToSubmitSessionsInBothSection =
                     instructor.isAllowedForPrivilege(response.giverSection,
                                                      response.feedbackSessionName,
@@ -507,7 +508,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsResponsePanel responsePanel =
                     new InstructorFeedbackResultsResponsePanel(
                             question, response, questionText, sectionId, additionalInfoText, null,
-                            displayableResponse, comments, isAllowedToSubmitSessionsInBothSection,
+                            displayableResponse, instructorComments, isAllowedToSubmitSessionsInBothSection,
                             isInstructorCommentsOnResponsesAllowed);
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
             if (isInstructorCommentsOnResponsesAllowed) {
@@ -964,18 +965,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag recipientElement =
                 new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none toggle-sort",
                         "style", "width: 10%; min-width: 90px;");
-        ElementTag responseElement;
-        ElementTag columnElement = new ElementTag();
-        if (isFeedbackParticipantCommentsOnResponseAllowed) {
-            responseElement =
-                    new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
-                            "style", "width: 25%; min-width: 95px;");
-            columnElement = new ElementTag("Comments", "style", "width: 20%; min-width: 95px;");
-        } else {
-            responseElement =
+        ElementTag responseElement =
                     new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none toggle-sort",
                             "style", "width: 45%; min-width: 95px;");
-        }
+
         ElementTag actionElement = new ElementTag("Actions", "class", "action-header",
                                                   "style", "width: 15%; min-width: 75px;");
 
@@ -984,8 +977,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(recipientTeamElement);
         columnTags.add(recipientElement);
         columnTags.add(responseElement);
+
+        ElementTag commentElement;
         if (isFeedbackParticipantCommentsOnResponseAllowed) {
-            columnTags.add(columnElement);
+            commentElement = new ElementTag("Comments", "style", "width: 20%; min-width: 95px;");
+            responseElement.setAttribute("width", "25%");
+            columnTags.add(commentElement);
+            isSortable.put(commentElement.getContent(), false);
         }
         columnTags.add(actionElement);
 
@@ -993,7 +991,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         isSortable.put(giverTeamElement.getContent(), true);
         isSortable.put(recipientElement.getContent(), true);
         isSortable.put(responseElement.getContent(), true);
-        isSortable.put(columnElement.getContent(), false);
         isSortable.put(actionElement.getContent(), false);
     }
 
@@ -1126,9 +1123,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             recipientName = bundle.appendTeamNameToName(recipientName, recipientTeam);
 
             List<FeedbackResponseCommentRow> comments =
-                    buildResponseComments(giverName, recipientName, question, response);
+                    buildInstructorComments(giverName, recipientName, question, response);
             if (!comments.isEmpty()) {
-                responseRow.setAllCommentsOnResponse(comments);
+                responseRow.setInstructorComments(comments);
             }
 
             boolean isInstructorCommentsOnResponsesAllowed =
@@ -1481,16 +1478,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 "btn-primary btn-block");
     }
 
-    private List<FeedbackResponseCommentRow> buildResponseComments(String giverName, String recipientName,
+    private List<FeedbackResponseCommentRow> buildInstructorComments(String giverName, String recipientName,
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response) {
-        List<FeedbackResponseCommentRow> comments = new ArrayList<>();
+        List<FeedbackResponseCommentRow> instructorComments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
         if (frcAttributesList != null) {
             for (FeedbackResponseCommentAttributes frcAttributes : frcAttributesList) {
-                comments.add(buildResponseComment(giverName, recipientName, question, response, frcAttributes));
+                if (!frcAttributes.isCommentFromFeedbackParticipant) {
+                    instructorComments.add(buildResponseComment(giverName, recipientName, question,
+                            response, frcAttributes));
+                }
             }
         }
-        return comments;
+        return instructorComments;
     }
 
     private String getFeedbackParticipantCommentText(FeedbackResponseAttributes response) {

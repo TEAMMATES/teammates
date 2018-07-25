@@ -424,7 +424,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String commentText;
         // comment id is null when adding new comments
         if (commentId == null) {
-            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-"
+            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_FORM + "-"
                                                        + questionIndex + "-" + responseIndex);
 
         } else {
@@ -447,8 +447,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         .withShowCommentTo(questionAttributes.showResponsesTo)
                         .withShowGiverNameTo(questionAttributes.showGiverNameTo)
                         .withFeedbackQuestionId(questionAttributes.getFeedbackQuestionId())
-                        .withCommentGiverType(questionAttributes.giverType)
                         .build();
+
+        if (questionAttributes.giverType == FeedbackParticipantType.SELF) {
+            feedbackResponseComment.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+        } else {
+            feedbackResponseComment.commentGiverType = questionAttributes.giverType;
+        }
 
         if (commentId == null) {
             // Format of response id is feedbackQuestionId%responseGiver%responseReceiver

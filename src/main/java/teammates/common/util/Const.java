@@ -792,7 +792,7 @@ public final class Const {
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
         public static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "responsecommenttext";
-        public static final String FEEDBACK_RESPONSE_COMMENT_ADD_TEXT = "responseCommentAddForm";
+        public static final String FEEDBACK_RESPONSE_COMMENT_ADD_FORM = "responseCommentAddForm";
 
         public static final String FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON = "fruploaddownloadbtn";
         public static final String FEEDBACK_RESULTS_SORTTYPE = "frsorttype";
