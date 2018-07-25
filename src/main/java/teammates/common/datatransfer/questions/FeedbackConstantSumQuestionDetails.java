@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -447,8 +446,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
-        DecimalFormat df = new DecimalFormat("#.##");
-
         Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 
         Map<String, String> identifierMap = new HashMap<>();
@@ -475,14 +472,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                         Slots.TEAM, SanitizationHelper.sanitizeForHtml(teamName),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_TOTAL_POINTS, Integer.toString(total),
-                        Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
+                        Slots.CONSTSUM_AVERAGE_POINTS, StringHelper.toDecimalFormatString("#.##", average)));
             } else {
 
                 fragments.append(Templates.populateTemplate(FormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                         Slots.CONSTSUM_OPTION_VALUE, SanitizationHelper.sanitizeForHtml(option),
                         Slots.CONSTSUM_POINTS_RECEIVED, pointsReceived,
                         Slots.CONSTSUM_TOTAL_POINTS, Integer.toString(total),
-                        Slots.CONSTSUM_AVERAGE_POINTS, df.format(average)));
+                        Slots.CONSTSUM_AVERAGE_POINTS, StringHelper.toDecimalFormatString("#.##", average)));
             }
         });
 
@@ -508,8 +505,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         StringBuilder fragments = new StringBuilder();
         List<String> options = constSumOptions;
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
-
-        DecimalFormat df = new DecimalFormat("#.##");
 
         Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 
@@ -538,8 +533,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             double total = computeTotal(points);
 
             fragments.append(option)
-                    .append(',').append(df.format(average))
-                    .append(',').append(df.format(total))
+                    .append(',').append(StringHelper.toDecimalFormatString("#.##", average))
+                    .append(',').append(StringHelper.toDecimalFormatString("#.##", total))
                     .append(',').append(StringHelper.join(",", points))
                     .append(System.lineSeparator());
 

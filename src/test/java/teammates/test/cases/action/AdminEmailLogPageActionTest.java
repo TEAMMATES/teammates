@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.TeammatesDateTimeFormatter;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.FileHelper;
 import teammates.test.driver.TestProperties;
@@ -51,7 +52,7 @@ public class AdminEmailLogPageActionTest extends BaseActionTest {
     // 130 seconds is chosen so that it will be around 50 logs within 2 hours before now.
     private static final int LOG_MESSAGE_INTERVAL_MANY_LOGS = 130;
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = TeammatesDateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private static final Instant TODAY = Instant.now();
     private static final Instant YESTERDAY = TimeHelper.getInstantDaysOffsetFromNow(-1);

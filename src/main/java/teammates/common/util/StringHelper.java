@@ -1,10 +1,12 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -180,8 +182,10 @@ public final class StringHelper {
                 .collect(Collectors.joining(delimiter));
     }
 
-    public static String toDecimalFormatString(double doubleVal) {
-        DecimalFormat df = new DecimalFormat("0.###");
+    public static String toDecimalFormatString(String pattern, double doubleVal) {
+        NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+        DecimalFormat df = (DecimalFormat) nf;
+        df.applyPattern(pattern);
         return df.format(doubleVal);
     }
 
