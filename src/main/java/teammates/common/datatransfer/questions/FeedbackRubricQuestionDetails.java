@@ -935,7 +935,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
         String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
-        String instructorComment = fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes);
+        String instructorComment = fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
         StringBuilder detailedResponsesRow = new StringBuilder(100);
         for (int i = 0; i < frd.answer.size(); i++) {

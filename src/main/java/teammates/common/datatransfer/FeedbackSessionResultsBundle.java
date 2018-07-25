@@ -1675,7 +1675,7 @@ public class FeedbackSessionResultsBundle {
      * @param response feedback response from which comments are taken
      * @return string of format ", name of instructor, comment"
      */
-    public String getCsvDetailedInstructorFeedbackResponseCommentsRow(FeedbackResponseAttributes response) {
+    public String getCsvDetailedInstructorFeedbackResponseComments(FeedbackResponseAttributes response) {
         if (!this.responseComments.containsKey(response.getId())) {
             return "";
         }

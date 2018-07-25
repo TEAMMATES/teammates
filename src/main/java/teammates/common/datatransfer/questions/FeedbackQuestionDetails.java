@@ -119,7 +119,7 @@ public abstract class FeedbackQuestionDetails {
         // Appends instructor comments if comments exists on response
         if (isInstructorCommentsOnResponsesAllowed()) {
             String instructorComments =
-                    fsrBundle.getCsvDetailedInstructorFeedbackResponseCommentsRow(feedbackResponseAttributes);
+                    fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);
             detailedResponseRow.append(instructorComments);
         }
         return detailedResponseRow.append(System.lineSeparator()).toString();
