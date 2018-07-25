@@ -570,7 +570,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     }
 
     @Test
-    public void testExecuteAndPostProcess_newResponseSubmittedForDuplicateId_errorReturned() {
+    public void testExecuteAndPostProcess_newResponseSubmittedForDuplicateRecipient_errorReturned() {
         DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreDataBundle(dataBundle);
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -628,7 +628,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     }
 
     @Test
-    public void testExecuteAndPostProcess_existingResponseModifiedForDuplicateId_errorReturned() {
+    public void testExecuteAndPostProcess_existingResponseModifiedForDuplicateRecipient_errorReturned() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
