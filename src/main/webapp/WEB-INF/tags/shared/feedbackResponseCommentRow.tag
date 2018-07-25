@@ -31,14 +31,7 @@
   <div id="commentBar-${divId}" class="row">
     <div class="col-xs-10">
     <span class="text-muted">
-      <c:choose>
-        <c:when test="${frc.commentFromFeedbackParticipant}">
-          Comment from response giver.
-        </c:when>
-        <c:otherwise>
-          From: ${fn:escapeXml(frc.commentGiverName)} [${frc.createdAt}] ${frc.editedAt}
-        </c:otherwise>
-      </c:choose>
+      From: ${fn:escapeXml(frc.commentGiverName)} [${frc.createdAt}] ${frc.editedAt}
     </span>
     <span class="glyphicon glyphicon-eye-open"
         data-toggle="tooltip"
