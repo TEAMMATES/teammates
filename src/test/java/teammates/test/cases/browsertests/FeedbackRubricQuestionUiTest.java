@@ -218,18 +218,27 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.fillQuestionTextBoxForNewQuestion("empty weight test");
         feedbackEditPage.fillQuestionDescriptionForNewQuestion("more details");
         feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
-        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 3);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 0, 3);
         feedbackEditPage.clickAddQuestionButton();
         // Checks if the empty weight box is focused after clicking on 'Save question' button.
         // If it is, that means the front-end validation works and the question is not submitted.
-        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 3));
-        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0", 3);
+        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 0, 3));
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0", 0, 3);
 
         // Check if the weight cells added by 'Add Column' button are 'required' or not.
         feedbackEditPage.clickAddRubricColLink(questionNum);
-        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 4);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", 1,  4);
         feedbackEditPage.clickAddQuestionButton();
-        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 4));
+        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, 1, 4));
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0", 1,  4);
+
+        // Check if the weight cells added by 'Add Row' button are 'required' or not.
+        feedbackEditPage.clickAddRubricRowLink(questionNum);
+        subQuestionIndex++;
+        feedbackEditPage.fillRubricSubQuestionBox("New Sub question", questionNum, subQuestionIndex);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("", subQuestionIndex, 1);
+        feedbackEditPage.clickAddQuestionButton();
+        assertTrue(feedbackEditPage.isRubricWeightBoxFocused(questionNum, subQuestionIndex, 1));
 
         // Check if the 'required' attribute is removed and the question is successfully added or not,
         // after the checkbox is unchecked.
@@ -339,7 +348,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
         // Edit the weight of the first choice
         feedbackEditPage.clickAssignWeightsCheckbox(1);
-        feedbackEditPage.fillRubricWeightBox("2.25", 1, 0);
+        feedbackEditPage.fillRubricWeightBox("2.25", 1, 0, 0);
 
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditWeightSuccess.html");
@@ -383,11 +392,12 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddRubricRowLink(1); // new row index 2
         feedbackEditPage.fillRubricSubQuestionBox("SubQn 2", 1, 2);
 
-        col0 = new String[] {"Col 0 Choice", "0.10", "Col 0, SubQn 0", "Col 0, SubQn 1", "Col 0, SubQn 2"};
-        col1 = new String[] {"Col 1 Choice", "0.20", "Col 1, SubQn 0", "Col 1, SubQn 1", "Col 1, SubQn 2"};
-        col2 = new String[] {"Col 2 Choice", "0.30", "Col 2, SubQn 0", "Col 2, SubQn 1", "Col 2, SubQn 2"};
-        col3 = new String[] {"Col 3 Choice", "0.40", "Col 3, SubQn 0", "Col 3, SubQn 1", "Col 3, SubQn 2"};
-        String[] col5 = new String[] {"Col 5 Choice", "0.50", "Col 5, SubQn 0", "Col 5, SubQn 1", "Col 5, SubQn 2"};
+        col0 = new String[] {"Col 0 Choice", "Col 0, SubQn 0", "0.10", "Col 0, SubQn 1", "0.10", "Col 0, SubQn 2", "0.10"};
+        col1 = new String[] {"Col 1 Choice", "Col 1, SubQn 0", "0.20", "Col 1, SubQn 1", "0.20", "Col 1, SubQn 2", "0.20"};
+        col2 = new String[] {"Col 2 Choice", "Col 2, SubQn 0", "0.30", "Col 2, SubQn 1", "0.30", "Col 2, SubQn 2", "0.30"};
+        col3 = new String[] {"Col 3 Choice", "Col 3, SubQn 0", "0.40", "Col 3, SubQn 1", "0.40", "Col 3, SubQn 2", "0.40"};
+        String[] col5 =
+                new String[] {"Col 5 Choice", "Col 5, SubQn 0", "0.50", "Col 5, SubQn 1", "0.50", "Col 5, SubQn 2", "0.50"};
         int[] colIndexes = {0, 1, 2, 3, 5};
 
         feedbackEditPage.fillAllRubricColumns(1, colIndexes, col0, col1, col2, col3, col5);
