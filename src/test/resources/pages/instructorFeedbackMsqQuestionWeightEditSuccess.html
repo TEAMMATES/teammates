@@ -20,13 +20,13 @@
               </span>
               Save
             </button>
-            <a class="btn btn-primary btn-sm" data-course-id="FRubricQnUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FRubricQnUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=FRubricQnUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
+            <a class="btn btn-primary btn-sm" data-course-id="FMsqQnUiT.CS2104" data-feedback-session-name="First Session" data-original-title="Delete the feedback session" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackDelete?courseid=FMsqQnUiT.CS2104&fsname=First+Session&next=%2Fpage%2FinstructorFeedbackSessionsPage&user=FMsqQnUiT.instructor&token=${sessionToken}" id="fsDeleteLink" title="">
               <span class="glyphicon glyphicon-trash">
               </span>
               Delete
             </a>
             <span class="tool-tip-decorate" data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
-              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=FRubricQnUiT.instructor" data-courseid="FRubricQnUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="javascript:;" id="button_fscopy">
+              <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=FMsqQnUiT.instructor" data-courseid="FMsqQnUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="javascript:;" id="button_fscopy">
                 <span class="glyphicon glyphicon-file">
                 </span>
                 Copy
@@ -48,7 +48,7 @@
                 </h5>
                 <div class="col-sm-10 col-md-8">
                   <h5 class="form-control-static font-weight-normal">
-                    FRubricQnUiT.CS2104
+                    FMsqQnUiT.CS2104
                   </h5>
                 </div>
               </div>
@@ -664,15 +664,15 @@
         </div>
       </div>
       <input disabled="" name="fsname" type="hidden" value="First Session">
-      <input disabled="" name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
-      <input disabled="" name="user" type="hidden" value="FRubricQnUiT.instructor">
+      <input disabled="" name="courseid" type="hidden" value="FMsqQnUiT.CS2104">
+      <input disabled="" name="user" type="hidden" value="FMsqQnUiT.instructor">
       <input disabled="" name="token" type="hidden" value="${sessionToken}">
     </form>
   </div>
   <br>
   <div id="statusMessagesToUser">
     <div class="overflow-auto alert alert-success icon-success statusMessage">
-      The question has been added to this feedback session.
+      The changes to the question have been updated.
     </div>
   </div>
   <script defer="" src="/js/statusMessage.js" type="text/javascript">
@@ -702,7 +702,7 @@
               Cancel
             </button>
             <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy">
-            <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+            <input name="user" type="hidden" value="FMsqQnUiT.instructor">
           </div>
         </form>
       </div>
@@ -710,8 +710,8 @@
   </div>
   <br>
   <input id="num-questions" type="hidden" value="1">
-  <input id="num-students" type="hidden" value="3">
-  <input id="num-teams" type="hidden" value="2">
+  <input id="num-students" type="hidden" value="7">
+  <input id="num-teams" type="hidden" value="4">
   <input id="num-instructors" type="hidden" value="1">
   <form action="/page/instructorFeedbackQuestionEdit" class="form-horizontal form_question tally-checkboxes" data-qnnumber="1" id="form_editquestion-1" method="post" name="form_editquestions" role="form">
     <div class="panel panel-primary questionTable" id="questionTable-1">
@@ -730,7 +730,7 @@
                   1
                 </option>
               </select>
-               Rubric question
+               Multiple-choice (multiple answers) question
             </span>
           </div>
           <div class="col-sm-5 mobile-margin-top-10px">
@@ -776,7 +776,7 @@
             </h5>
             <div class="col-sm-10">
               <textarea class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" data-placement="top" data-toggle="tooltip" disabled="" id="questiontext-1" name="questiontext" placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;" rows="2" tabindex="9" title="">
-                RUBRIC qn
+                MSQ weight feature
               </textarea>
             </div>
           </div>
@@ -791,214 +791,141 @@
             <div class="col-sm-10">
               <div class="well panel panel-default panel-body question-description mce-content-body content-editor" data-original-title="Please enter the description of the question." data-placeholder="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;" data-placement="top" data-toggle="tooltip" id="questiondescription-1" spellcheck="false" tabindex="9" title="">
                 <p>
-                  more details
+                  More details
                 </p>
               </div>
               <input name="questiondescription-1" type="hidden">
               <input disabled="" name="questiondescription" type="hidden">
             </div>
             <div class="row">
-              <div class="col-sm-4">
-                <input class="nonDestructive" disabled="" id="rubricAssignWeights-1" name="rubricAssignWeights" type="checkbox">
-                <span class="tool-tip-decorate" data-original-title="Assign weights to the columns for calculating statistics." data-placement="top" data-toggle="tooltip">
-                  Choices are weighted
-                </span>
+              <div class="col-sm-12 margin-bottom-7px">
+                <div class="col-sm-4 padding-0">
+                  <input checked="" class="nonDestructive" disabled="" id="msqHasAssignedWeights-1" name="msqHasAssignedWeights" type="checkbox">
+                  <span class="tool-tip-decorate" data-original-title="Assign weights to the choices for calculating statistics." data-placement="top" data-toggle="tooltip">
+                    Choices are weighted
+                  </span>
+                </div>
+                <div class="col-sm-2 padding-left-7px align-center">
+                  Weights
+                </div>
               </div>
               <br>
-              <div class="col-sm-12 table-responsive">
-                <table class="table table-bordered margin-0" id="rubricEditTable-1">
-                  <thead>
-                    <tr>
-                      <th style="text-align:center; vertical-align:middle;">
-                        Choices
-                        <span class="glyphicon glyphicon-arrow-right">
+              <div class="col-sm-6">
+                <div id="msqChoiceTable-1">
+                  <div class="row">
+                    <div class="col-sm-9" id="msqChoices-1">
+                      <div class="margin-bottom-7px" id="msqOptionRow-0-1">
+                        <div class="input-group width-100-pc">
+                          <span class="input-group-addon">
+                            <input class="disabled_radio" disabled="" type="checkbox">
+                          </span>
+                          <input class="form-control" disabled="" id="msqOption-0-1" name="msqOption-0" type="text" value="Choice 1">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default removeOptionLink" disabled="" id="msqRemoveOptionLink" onclick="removeMsqOption(0,1)" style="display:none" tabindex="-1" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="margin-bottom-7px" id="msqOptionRow-1-1">
+                        <div class="input-group width-100-pc">
+                          <span class="input-group-addon">
+                            <input class="disabled_radio" disabled="" type="checkbox">
+                          </span>
+                          <input class="form-control" disabled="" id="msqOption-1-1" name="msqOption-1" type="text" value="Choice 2">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default removeOptionLink" disabled="" id="msqRemoveOptionLink" onclick="removeMsqOption(1,1)" style="display:none" tabindex="-1" type="button">
+                              <span class="glyphicon glyphicon-remove">
+                              </span>
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-2 padding-0" id="msqWeights-1">
+                      <div class="margin-bottom-7px">
+                        <input class="form-control nonDestructive" disabled="" id="msqWeight-0-1" min="0" name="msqWeight-0" required="" step="0.01" type="number" value="1.55">
+                      </div>
+                      <div class="margin-bottom-7px">
+                        <input class="form-control nonDestructive" disabled="" id="msqWeight-1-1" min="0" name="msqWeight-1" required="" step="0.01" type="number" value="2.77">
+                      </div>
+                    </div>
+                  </div>
+                  <div id="msqAddOptionRow-1">
+                    <div colspan="2">
+                      <a class="btn btn-primary btn-xs addOptionLink" id="msqAddOptionLink-1" onclick="addMsqOption(1)" style="display:none">
+                        <span class="glyphicon glyphicon-plus">
                         </span>
-                      </th>
-                      <th class="rubricCol-1-0">
-                        <input class="form-control" disabled="" id="rubricChoice-1-0" name="rubricChoice-0" type="text" value="Strongly Disagree">
-                      </th>
-                      <th class="rubricCol-1-1">
-                        <input class="form-control" disabled="" id="rubricChoice-1-1" name="rubricChoice-1" type="text" value="Disagree">
-                      </th>
-                      <th class="rubricCol-1-2">
-                        <input class="form-control" disabled="" id="rubricChoice-1-2" name="rubricChoice-2" type="text" value="Agree">
-                      </th>
-                      <th class="rubricCol-1-3">
-                        <input class="form-control" disabled="" id="rubricChoice-1-3" name="rubricChoice-3" type="text" value="Strongly Agree">
-                      </th>
-                    </tr>
-                    <tr id="rubricWeights-1" style="display: none;">
-                      <th style="text-align:center; vertical-align:middle;">
-                      </th>
-                      <th class="rubricCol-1-0">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-0" name="rubricWeight-0" step="0.01" type="number" value="0">
-                      </th>
-                      <th class="rubricCol-1-1">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-1" name="rubricWeight-1" step="0.01" type="number" value="0">
-                      </th>
-                      <th class="rubricCol-1-2">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-2" name="rubricWeight-2" step="0.01" type="number" value="0">
-                      </th>
-                      <th class="rubricCol-1-3">
-                        <input class="form-control nonDestructive" disabled="" id="rubricWeight-1-3" name="rubricWeight-3" step="0.01" type="number" value="0">
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr id="rubricRow-1-0">
-                      <td>
-                        <div class="col-sm-12 input-group">
-                          <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-0" onclick="removeRubricRow(0,1)" onmouseout="highlightRubricRow(0, 1, false)" onmouseover="highlightRubricRow(0, 1, true)" style="display: none;">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </span>
-                          <textarea class="form-control" disabled="" id="rubricSubQn-1-0" name="rubricSubQn-0" required="" rows="3">
-                            This student participates well in online discussions.
-                          </textarea>
+                        add more options
+                      </a>
+                      <div class="row">
+                        <div class="checkbox col-sm-9 padding-left-35px">
+                          <label class="bold-label">
+                            <input checked="" disabled="" id="msqOtherOptionFlag-1" name="msqOtherOptionFlag" type="checkbox">
+                            Add 'Other' option (Allows respondents to type in their own answer)
+                          </label>
                         </div>
-                      </td>
-                      <td class="align-center rubricCol-1-0">
-                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-0" name="rubricDesc-0-0" rows="3">
-                          Rarely or never responds.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol-1-1">
-                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-1" name="rubricDesc-0-1" rows="3">
-                          Occasionally responds, but never initiates discussions.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol-1-2">
-                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-2" name="rubricDesc-0-2" rows="3">
-                          Takes part in discussions and sometimes initiates discussions.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol-1-3">
-                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-0-3" name="rubricDesc-0-3" rows="3">
-                          Initiates discussions frequently, and engages the team.
-                        </textarea>
-                      </td>
-                    </tr>
-                    <tr id="rubricRow-1-1">
-                      <td>
-                        <div class="col-sm-12 input-group">
-                          <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-1" onclick="removeRubricRow(1,1)" onmouseout="highlightRubricRow(1, 1, false)" onmouseover="highlightRubricRow(1, 1, true)" style="display: none;">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </span>
-                          <textarea class="form-control" disabled="" id="rubricSubQn-1-1" name="rubricSubQn-1" required="" rows="3">
-                            This student completes assigned tasks on time.
-                          </textarea>
+                        <div class="col-sm-2 padding-0">
+                          <input class="form-control nonDestructive" disabled="" id="msqOtherWeight-1" min="0" name="msqOtherWeight" required="" step="0.01" type="number" value="3.66">
                         </div>
-                      </td>
-                      <td class="align-center rubricCol-1-0">
-                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-0" name="rubricDesc-1-0" rows="3">
-                          Rarely or never completes tasks.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol-1-1">
-                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-1" name="rubricDesc-1-1" rows="3">
-                          Often misses deadlines.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol-1-2">
-                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-2" name="rubricDesc-1-2" rows="3">
-                          Occasionally misses deadlines.
-                        </textarea>
-                      </td>
-                      <td class="align-center rubricCol-1-3">
-                        <textarea class="form-control nonDestructive" disabled="" id="rubricDesc-1-1-3" name="rubricDesc-1-3" rows="3">
-                          Tasks are always completed before the deadline.
-                        </textarea>
-                      </td>
-                    </tr>
-                    <tr class="rubricRemoveChoiceLink-1" id="rubric-options-row-1" style="display: none;">
-                      <td>
-                      </td>
-                      <td class="align-center rubricCol-1-0" data-col="0">
-                        <div class="btn-group">
-                          <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-left-1-0" title="" type="button">
-                            <span class="glyphicon glyphicon-arrow-left">
-                            </span>
-                          </button>
-                          <button class="btn btn-default" disabled="" id="rubricRemoveChoiceLink-1-0" onclick="removeRubricCol(0, 1)" onmouseout="highlightRubricCol(0, 1, false)" onmouseover="highlightRubricCol(0, 1, true)" type="button">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </button>
-                          <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-right-1-0" title="" type="button">
-                            <span class="glyphicon glyphicon-arrow-right">
-                            </span>
-                          </button>
-                        </div>
-                      </td>
-                      <td class="align-center rubricCol-1-1" data-col="1">
-                        <div class="btn-group">
-                          <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-left-1-1" title="" type="button">
-                            <span class="glyphicon glyphicon-arrow-left">
-                            </span>
-                          </button>
-                          <button class="btn btn-default" disabled="" id="rubricRemoveChoiceLink-1-1" onclick="removeRubricCol(1, 1)" onmouseout="highlightRubricCol(1, 1, false)" onmouseover="highlightRubricCol(1, 1, true)" type="button">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </button>
-                          <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-right-1-1" title="" type="button">
-                            <span class="glyphicon glyphicon-arrow-right">
-                            </span>
-                          </button>
-                        </div>
-                      </td>
-                      <td class="align-center rubricCol-1-2" data-col="2">
-                        <div class="btn-group">
-                          <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-left-1-2" title="" type="button">
-                            <span class="glyphicon glyphicon-arrow-left">
-                            </span>
-                          </button>
-                          <button class="btn btn-default" disabled="" id="rubricRemoveChoiceLink-1-2" onclick="removeRubricCol(2, 1)" onmouseout="highlightRubricCol(2, 1, false)" onmouseover="highlightRubricCol(2, 1, true)" type="button">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </button>
-                          <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-right-1-2" title="" type="button">
-                            <span class="glyphicon glyphicon-arrow-right">
-                            </span>
-                          </button>
-                        </div>
-                      </td>
-                      <td class="align-center rubricCol-1-3" data-col="3">
-                        <div class="btn-group">
-                          <button class="btn btn-default" data-original-title="Move column left" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-left-1-3" title="" type="button">
-                            <span class="glyphicon glyphicon-arrow-left">
-                            </span>
-                          </button>
-                          <button class="btn btn-default" disabled="" id="rubricRemoveChoiceLink-1-3" onclick="removeRubricCol(3, 1)" onmouseout="highlightRubricCol(3, 1, false)" onmouseover="highlightRubricCol(3, 1, true)" type="button">
-                            <span class="glyphicon glyphicon-remove">
-                            </span>
-                          </button>
-                          <button class="btn btn-default" data-original-title="Move column right" data-placement="top" data-toggle="tooltip" disabled="" id="rubric-move-col-right-1-3" title="" type="button">
-                            <span class="glyphicon glyphicon-arrow-right">
-                            </span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <input disabled="" id="noofchoicecreated-1" name="noofchoicecreated" type="hidden" value="2">
               </div>
-              <input disabled="" id="rubricNumRows-1" name="rubricNumRows" type="hidden" value="2">
-              <input disabled="" id="rubricNumCols-1" name="rubricNumCols" type="hidden" value="4">
-            </div>
-            <div class="row">
-              <div class="col-sm-6 align-left">
-                <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-1" onclick="addRubricRow(1)" style="display: none;">
-                  <span class="glyphicon glyphicon-arrow-down">
-                  </span>
-                  add row
-                </a>
-              </div>
-              <div class="col-sm-6 align-right">
-                <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-1" onclick="addRubricCol(1)" style="display: none;">
-                  add column
-                  <span class="glyphicon glyphicon-arrow-right">
-                  </span>
-                </a>
+              <div class="col-sm-6 row">
+                <div class="col-md-8 margin-bottom-7px">
+                  <div class="checkbox">
+                    <label class="bold-label">
+                      <input disabled="" id="generateMsqOptionsCheckbox-1" onchange="toggleMsqGeneratedOptions(this,1)" type="checkbox">
+                      Or, generate options from the list of all
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-4 margin-bottom-7px">
+                  <select class="form-control" disabled="" id="msqGenerateForSelect-1" onchange="changeMsqGenerateFor(1)">
+                    <option value="STUDENTS">
+                      students
+                    </option>
+                    <option value="STUDENTS_EXCLUDING_SELF">
+                      students (excluding self)
+                    </option>
+                    <option value="TEAMS">
+                      teams
+                    </option>
+                    <option value="TEAMS_EXCLUDING_SELF">
+                      teams (excluding self)
+                    </option>
+                    <option value="INSTRUCTORS">
+                      instructors
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-9 margin-bottom-7px">
+                  <div class="checkbox">
+                    <label class="bold-label">
+                      <input disabled="" id="msqEnableMaxSelectableChoices-1" name="msqEnableMaxSelectableChoices" type="checkbox">
+                      Maximum number of options a respondent is allowed to select
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <input class="form-control" disabled="" id="msqMaxSelectableChoices-1" min="2" name="msqMaxSelectableChoices" required="" type="number" value="2">
+                </div>
+                <div class="col-md-9 margin-bottom-7px">
+                  <div class="checkbox">
+                    <label class="bold-label">
+                      <input disabled="" id="msqEnableMinSelectableChoices-1" name="msqEnableMinSelectableChoices" type="checkbox">
+                      Minimum number of options a respondent is allowed to select
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <input class="form-control" disabled="" id="msqMinSelectableChoices-1" min="1" name="msqMinSelectableChoices" required="" type="number" value="1">
+                </div>
+                <input disabled="" id="msqGeneratedOptions-1" name="msqGeneratedOptions" type="hidden" value="NONE">
               </div>
               <br>
             </div>
@@ -1338,15 +1265,15 @@
       </div>
     </div>
     <input name="fsname" type="hidden" value="First Session">
-    <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+    <input name="courseid" type="hidden" value="FMsqQnUiT.CS2104">
     <input name="questionid" type="hidden" value="${question.id}">
     <input name="questionnum" type="hidden" value="1">
-    <input name="questiontype" type="hidden" value="RUBRIC">
+    <input name="questiontype" type="hidden" value="MSQ">
     <input id="questionedittype-1" name="questionedittype" type="hidden" value="edit">
     <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
-    <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+    <input name="user" type="hidden" value="FMsqQnUiT.instructor">
     <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <br>
@@ -1418,10 +1345,10 @@
             <i class="glyphicon glyphicon-info-sign">
             </i>
           </a>
-          <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=FRubricQnUiT.instructor" data-courseid="FRubricQnUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
+          <a class="btn btn-primary margin-bottom-7px" data-actionlink="/page/instructorFeedbackQuestionCopyPage?user=FMsqQnUiT.instructor" data-courseid="FMsqQnUiT.CS2104" data-fsname="First Session" data-target="#copyModal" data-toggle="modal" id="button_copy">
             Copy Question
           </a>
-          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbackSessionsPage?user=FRubricQnUiT.instructor&courseid=FRubricQnUiT.CS2104&fsname=First+Session" id="button_done_editing">
+          <a class="btn btn-primary margin-bottom-7px" href="/page/instructorFeedbackSessionsPage?user=FMsqQnUiT.instructor&courseid=FMsqQnUiT.CS2104&fsname=First+Session" id="button_done_editing">
             Done Editing
           </a>
         </div>
@@ -2580,11 +2507,11 @@
     <input name="questionnum" type="hidden" value="2">
     <input id="questiontype" name="questiontype" type="hidden">
     <input name="fsname" type="hidden" value="First Session">
-    <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+    <input name="courseid" type="hidden" value="FMsqQnUiT.CS2104">
     <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS">
     <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS">
-    <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+    <input name="user" type="hidden" value="FMsqQnUiT.instructor">
     <input name="token" type="hidden" value="${sessionToken}">
   </form>
   <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
@@ -2606,8 +2533,8 @@
         <div class="modal-body">
           <form action="/page/instructorFeedbackQuestionCopy" class="form" id="copyModalForm" method="post" role="form">
             <input name="fsname" type="hidden" value="First Session">
-            <input name="user" type="hidden" value="FRubricQnUiT.instructor">
-            <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+            <input name="user" type="hidden" value="FMsqQnUiT.instructor">
+            <input name="courseid" type="hidden" value="FMsqQnUiT.CS2104">
             <input name="token" type="hidden" value="${sessionToken}">
           </form>
           <div id="question-copy-modal-status">
@@ -2637,23 +2564,35 @@
         <form action="/page/instructorFeedbackPreviewAsStudent" class="form_preview" method="post" name="form_previewasstudent" target="_blank">
           <div class="col-sm-6">
             <select class="form-control margin-bottom-7px" name="previewas">
+              <option value="charlie.d.tmms@gmail.tmt">
+                [Team 1] Charlie Davis
+              </option>
+              <option value="danny.e.tmms@gmail.tmt">
+                [Team 1] Danny Engrid
+              </option>
+              <option value="francis.g.tmms@gmail.tmt">
+                [Team 2] Francis Gabriel
+              </option>
+              <option value="gene.h.tmms@gmail.tmt">
+                [Team 3] Gene Hudson
+              </option>
+              <option value="hugh.i.tmms@gmail.tmt">
+                [Team 3] Hugh Ivanov
+              </option>
               <option value="alice.b.tmms@gmail.tmt">
-                [Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"] Alice Betsy&lt;/option&gt;&lt;/td&gt;&lt;/div&gt;'"
+                [Team &lt;/option&gt;&lt;option value="dump"&gt;1'] Alice Betsy&lt;/td&gt;&lt;/div&gt;'"
               </option>
               <option value="benny.c.tmms@gmail.tmt">
-                [Team 1&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"] Benny Charles
-              </option>
-              <option value="colin.d.tmms@gmail.tmt">
-                [Team 2&lt;/option&gt;&lt;option value="dump"&gt;&lt;/td&gt;&lt;td&gt;'"] Colin Daniels
+                [Team &lt;/option&gt;&lt;option value="dump"&gt;1'] Benny Charles
               </option>
             </select>
           </div>
           <input name="fsname" type="hidden" value="First Session">
-          <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+          <input name="courseid" type="hidden" value="FMsqQnUiT.CS2104">
           <div class="col-sm-6">
             <input class="btn btn-primary" id="button_preview_student" type="submit" value="Preview as Student">
           </div>
-          <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+          <input name="user" type="hidden" value="FMsqQnUiT.instructor">
         </form>
       </div>
       <div class="col-xs-12 col-md-5 row tablet-margin-top-10px" data-original-title="View how this session would look like to an instructor who is submitting feedback.<br>Only instructors with submit privileges are included in the list." data-placement="top" data-toggle="tooltip" title="">
@@ -2666,11 +2605,11 @@
             </select>
           </div>
           <input name="fsname" type="hidden" value="First Session">
-          <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104">
+          <input name="courseid" type="hidden" value="FMsqQnUiT.CS2104">
           <div class="col-sm-6">
             <input class="btn btn-primary" id="button_preview_instructor" type="submit" value="Preview as Instructor">
           </div>
-          <input name="user" type="hidden" value="FRubricQnUiT.instructor">
+          <input name="user" type="hidden" value="FMsqQnUiT.instructor">
         </form>
       </div>
     </div>
