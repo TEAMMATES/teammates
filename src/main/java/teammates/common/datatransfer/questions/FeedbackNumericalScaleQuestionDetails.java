@@ -95,7 +95,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 Slots.MIN_SCALE, Integer.toString(minScale),
                 Slots.MAX_SCALE, Integer.toString(maxScale),
-                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.STEP, StringHelper.toDecimalFormatString(step, "0.###"),
                 Slots.EXISTING_ANSWER, numscaleResponseDetails.getAnswerString(),
                 Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringSubmit(),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -115,7 +115,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
                 Slots.MIN_SCALE, Integer.toString(minScale),
                 Slots.MAX_SCALE, Integer.toString(maxScale),
-                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.STEP, StringHelper.toDecimalFormatString(step, "0.###"),
                 Slots.EXISTING_ANSWER, "",
                 Slots.POSSIBLE_VALUES_STRING, getPossibleValuesStringSubmit(),
                 Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
@@ -131,7 +131,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
                 Slots.MIN_SCALE, Integer.toString(minScale),
                 Slots.MAX_SCALE, Integer.toString(maxScale),
-                Slots.STEP, StringHelper.toDecimalFormatString(step),
+                Slots.STEP, StringHelper.toDecimalFormatString(step, "0.###"),
                 Slots.POSSIBLE_VALUES, getPossibleValuesStringEdit(),
                 Slots.NUMSCALE_MIN, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN,
                 Slots.NUMSCALE_MAX, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX,
@@ -693,17 +693,17 @@ public class FeedbackNumericalScaleQuestionDetails extends
         StringBuilder possibleValuesString = new StringBuilder();
         if (possibleValuesCount > 6) {
             possibleValuesString
-                .append(StringHelper.toDecimalFormatString(minScale)).append(", ")
-                .append(StringHelper.toDecimalFormatString(minScale + step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(minScale + 2 * step)).append(", ..., ")
-                .append(StringHelper.toDecimalFormatString(maxScale - 2 * step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(maxScale - step)).append(", ")
-                .append(StringHelper.toDecimalFormatString(maxScale));
+                .append(StringHelper.toDecimalFormatString(minScale, "0.###")).append(", ")
+                .append(StringHelper.toDecimalFormatString(minScale + step, "0.###")).append(", ")
+                .append(StringHelper.toDecimalFormatString(minScale + 2 * step, "0.###")).append(", ..., ")
+                .append(StringHelper.toDecimalFormatString(maxScale - 2 * step, "0.###")).append(", ")
+                .append(StringHelper.toDecimalFormatString(maxScale - step, "0.###")).append(", ")
+                .append(StringHelper.toDecimalFormatString(maxScale, "0.###"));
         } else {
             possibleValuesString.append(Integer.toString(minScale));
             cur = minScale + step;
             while (maxScale - cur >= -1e-9) {
-                possibleValuesString.append(", ").append(StringHelper.toDecimalFormatString(cur));
+                possibleValuesString.append(", ").append(StringHelper.toDecimalFormatString(cur, "0.###"));
                 cur += step;
             }
         }
