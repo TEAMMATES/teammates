@@ -2,7 +2,6 @@
 <%@ tag description="instructorFeedbacks - feedback sessions 'template question' modal" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-
 <%@ attribute name="feedbackSessionName" required="true"%>
 <%@ attribute name="courseId" required="true"%>
 
@@ -18,7 +17,6 @@
       <div class="modal-body">
         <form class="form" id="addTemplateQuestionModalForm" role="form" method="post"
               action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_TEMPLATE_QUESTION_ADD %>">
-
           <c:forEach items="${data.templateQuestions}" var="templateQn">
             <div class="panel panel-default" id="addTemplateQuestion-${templateQn.qnNumber}">
               <div class="panel-heading cursor-pointer">
@@ -104,7 +102,6 @@
               </div>
             </div>
           </c:forEach>
-
           <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${feedbackSessionName}">
           <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.account.googleId}">
           <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${courseId}">
