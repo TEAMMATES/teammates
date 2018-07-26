@@ -527,8 +527,8 @@
       "course": "idOfTypicalCourse1",
       "name": "student2 In Course1",
       "comments": "",
-      "team": "Team 1.1</td></div>'\"",
-      "section": "Section 1"
+      "team": "Team 1.2</td></div>'\"",
+      "section": "Section 2"
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
@@ -554,7 +554,7 @@
       "course": "idOfTypicalCourse1",
       "name": "student5 In Course1",
       "comments": "",
-      "team": "Team 1.2",
+      "team": "Team 1.2</td></div>'\"",
       "section": "Section 2"
     },
     "student1InCourse2": {
@@ -1245,8 +1245,8 @@
       "responseMetaData": {
         "value": "I'm cool'"
       },
-      "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "giverSection": "Section 2",
+      "recipientSection": "Section 2"
     },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
@@ -1254,25 +1254,25 @@
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1@gmail.tmt",
-      "recipient": "student5InCourse1@gmail.tmt",
+      "recipient": "student1InCourse1@gmail.tmt",
       "responseMetaData": {
-        "value": "Response from student 2 to student 5."
+        "value": "Response from student 2 to student 1."
       },
-      "giverSection": "Section 1",
-      "recipientSection": "Section 2"
+      "giverSection": "Section 2",
+      "recipientSection": "Section 1"
     },
     "response2ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
       "feedbackQuestionType": "TEXT",
-      "giver": "student5InCourse1@gmail.tmt",
+      "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "responseMetaData": {
-        "value": "Response from student 5 to student 2."
+        "value": "Response from student 1 to student 2."
       },
-      "giverSection": "Section 2",
-      "recipientSection": "Section 1"
+      "giverSection": "Section 1",
+      "recipientSection": "Section 2"
     },
     "response3ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
@@ -1285,7 +1285,7 @@
         "value": "Response from student 3 \"to\" student 2.\r\nMultiline test."
       },
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 2"
     },
     "response1ForQ3S1C1": {
       "feedbackSessionName": "First feedback session",
@@ -1363,7 +1363,7 @@
         "value": "Response from student 4 to team member (student 2)."
       },
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 2"
     },
     "response2ForQ2S2C1": {
       "feedbackSessionName": "Second feedback session",
