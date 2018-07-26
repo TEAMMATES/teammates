@@ -2653,6 +2653,62 @@
       </div>
     </div>
   </div>
+  <div class="panel panel-info">
+    <div class="panel-heading ajax_auto" data-target="#panelBodyCollapse-15" id="panelHeading-15" style="cursor: pointer;">
+      <form action="/page/instructorFeedbackResultsPage" class="seeMoreForm-16" id="seeMore-16" style="display:none;">
+        <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+        <input name="fsname" type="hidden" value="Student Session">
+        <input name="user" type="hidden" value="FRankUiT.instructor">
+        <input name="frgroupbyteam" type="hidden" value="on">
+        <input name="frsorttype" type="hidden" value="question">
+        <input id="showStats-16" name="frshowstats" type="hidden" value="on">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="frgroupbysection" type="hidden" value="All">
+      </form>
+      <div class="display-icon pull-right">
+        <span class="glyphicon glyphicon-chevron-down pull-right">
+        </span>
+      </div>
+      <form action="/page/instructorFeedbackResultsDownload" class="inline" method="post">
+        <div class="inline" id="DownloadQuestion-16">
+          <input class="btn-link text-bold padding-0 color-inherit" data-original-title="Download Question Results" data-toggle="tooltip" id="button_download-16" name="fruploaddownloadbtn" title="" type="submit" value="Question 16:">
+        </div>
+        <input name="user" type="hidden" value="FRankUiT.instructor">
+        <input name="fsname" type="hidden" value="Student Session">
+        <input name="courseid" type="hidden" value="FRankUiT.CS4221">
+        <input name="sectionname" type="hidden" value="All">
+        <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
+        <input name="frindicatemissingresponses" type="hidden" value="true">
+        <input name="questionid" type="hidden" value="${question.id}">
+        <input name="questionnum" type="hidden" value="16">
+      </form>
+      <div class="inline panel-heading-text">
+        <span class="text-preserve-space">
+          Rank other teams 
+          <span style=" white-space: normal;">
+            <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-16-" onclick="toggleAdditionalQuestionInfo('16-')">
+              [more]
+            </a>
+            <br>
+            <span id="questionAdditionalInfo-16-" style="display:none;">
+              Rank (recipients) question
+              <br>
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="panel-collapse collapse" id="panelBodyCollapse-15">
+      <div class="panel-body padding-0" id="questionBody-14">
+        <div class="col-sm-12 no-response">
+          <i class="text-muted">
+            There are no responses for this question or you may not have the permission to see the response
+          </i>
+        </div>
+      </div>
+    </div>
+  </div>
   <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -2694,7 +2750,7 @@
     </div>
   </div>
   <div class="panel panel-default">
-    <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-15" id="panelHeading-15" style="cursor: pointer;">
+    <div class="panel-heading ajax-response-auto" data-target="#panelBodyCollapse-16" id="panelHeading-16" style="cursor: pointer;">
       <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
         <input name="courseid" type="hidden" value="FRankUiT.CS4221">
         <input name="fsname" type="hidden" value="Student Session">
@@ -2707,7 +2763,7 @@
       </div>
       Participants who have not responded to any question
     </div>
-    <div class="panel-collapse collapse" id="panelBodyCollapse-15">
+    <div class="panel-collapse collapse" id="panelBodyCollapse-16">
     </div>
   </div>
 </div>
