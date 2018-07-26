@@ -438,14 +438,17 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("success: GetViewableResponsesForQuestionInSection - instructor");
 
+        // other more in-dept sectionDetail types are tested in FeedbackResponsesDbTest.java
         fq = getQuestionFromDatastore("qn2InSession1InCourse1");
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                fq, instructor.email, UserRole.INSTRUCTOR, "Section 1", null);
+                fq, instructor.email, UserRole.INSTRUCTOR, "Section 1",
+                "Show response if either the giver or evaluee is in the selected section");
 
         assertEquals(responses.size(), 3);
 
         responses = frLogic.getViewableFeedbackResponsesForQuestionInSection(
-                fq, instructor.email, UserRole.INSTRUCTOR, "Section 2", null);
+                fq, instructor.email, UserRole.INSTRUCTOR, "Section 2",
+                "Show response only if both are in the selected section");
 
         assertEquals(responses.size(), 0);
 
@@ -562,7 +565,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fq.recipientType = FeedbackParticipantType.STUDENTS;
         fr.recipient = student.email;
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
-        assertTrue(frLogic.isNameVisibleToUser(fq, fr, student2.email, UserRole.STUDENT, false, roster));
+        assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student5.email, UserRole.STUDENT, false, roster));
 
         ______TS("test anonymous team recipients");
