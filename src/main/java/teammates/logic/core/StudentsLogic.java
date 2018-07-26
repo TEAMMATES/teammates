@@ -658,7 +658,7 @@ public final class StudentsLogic {
     }
 
     /**
-     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo}
+     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo}.
      */
     private String duplicateEmailInfo(String duplicateEmailInfo) {
         return Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\"";
