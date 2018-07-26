@@ -12,7 +12,7 @@ import teammates.ui.controller.InstructorFeedbackTemplateQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
 
 /**
- * SUT: {@link teammates.ui.controller.InstructorFeedbackTemplateQuestionAddAction}.
+ * SUT: {@link InstructorFeedbackTemplateQuestionAddAction}.
  */
 public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionTest {
 
