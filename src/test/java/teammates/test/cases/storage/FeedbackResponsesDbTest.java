@@ -243,25 +243,25 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
                 "Show response if either the giver or evaluee is in the selected section");
         // responses include same questionId from different sessions in typicalDataBundle.json
-        assertEquals(4, responses.size());
+        assertEquals(3, responses.size());
 
         ______TS("Responses filtered by both giver and recipient from section");
 
         responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1",
                 "Show response only if both are in the selected section");
-        assertEquals(3, responses.size());
+        assertEquals(2, responses.size());
 
-        ______TS("No response after filtering by giver from section");
+        ______TS("Show response after filtering by giver from section");
 
         responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2",
                 "Show response if the giver is in the selected section");
-        assertEquals(0, responses.size());
+        assertEquals(1, responses.size());
 
         ______TS("Show response after filtering by recipient from section");
 
         responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 2",
                 "Show response if the evaluee is in the selected section");
-        assertEquals(1, responses.size());
+        assertEquals(2, responses.size());
 
         ______TS("null params");
 
@@ -657,7 +657,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
 
-        assertEquals(5, responses.size());
+        assertEquals(4, responses.size());
 
         ______TS("null params");
 
@@ -697,7 +697,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
 
-        assertEquals(0, responses.size());
+        assertEquals(2, responses.size());
 
         ______TS("null params");
 
@@ -742,7 +742,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         List<FeedbackResponseAttributes> responses =
                 frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
 
-        assertEquals(5, responses.size());
+        assertEquals(2, responses.size());
 
         ______TS("null params");
 
