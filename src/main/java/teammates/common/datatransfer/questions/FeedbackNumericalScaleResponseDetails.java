@@ -1,7 +1,7 @@
 package teammates.common.datatransfer.questions;
 
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
+import teammates.common.util.TeammatesDecimalFormat;
 
 public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetails {
 
@@ -34,7 +34,7 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
 
     @Override
     public String getAnswerString() {
-        return StringHelper.toDecimalFormatString(answer, "0.###");
+        return TeammatesDecimalFormat.format(answer, "0.###");
     }
 
     @Override

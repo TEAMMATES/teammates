@@ -26,7 +26,7 @@ import com.google.appengine.api.datastore.Text;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.TeammatesDecimalFormat;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.TestProperties;
 import teammates.test.driver.TimeHelperExtension;
@@ -266,7 +266,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void fillStepNumScaleBox(double step, int qnNumber) {
-        fillStepNumScaleBox(StringHelper.toDecimalFormatString(step, "0.###"), qnNumber);
+        fillStepNumScaleBox(TeammatesDecimalFormat.format(step, "0.###"), qnNumber);
     }
 
     public void fillStepNumScaleBoxForNewQuestion(String step) {

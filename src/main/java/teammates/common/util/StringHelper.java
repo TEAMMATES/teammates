@@ -1,12 +1,9 @@
 package teammates.common.util;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -180,13 +177,6 @@ public final class StringHelper {
         return list.stream()
                 .map(s -> s.toString())
                 .collect(Collectors.joining(delimiter));
-    }
-
-    public static String toDecimalFormatString(double doubleVal, String pattern) {
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-        DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
-        decimalFormat.applyPattern(pattern);
-        return decimalFormat.format(doubleVal);
     }
 
     @Deprecated

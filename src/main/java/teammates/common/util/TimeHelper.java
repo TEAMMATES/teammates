@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.mockito.cglib.core.Local;
-
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
 

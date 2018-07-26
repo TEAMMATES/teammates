@@ -19,7 +19,7 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
+import teammates.common.util.TeammatesDecimalFormat;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
@@ -606,7 +606,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "1",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.getStep(), "0.###")
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
+                        TeammatesDecimalFormat.format(fqd.getStep(), "0.###")
         };
 
         a = getAction(submissionParams);
@@ -637,7 +638,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.getStep(), "0.###")
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
+                        TeammatesDecimalFormat.format(fqd.getStep(), "0.###")
         };
 
         a = getAction(submissionParams);
@@ -951,7 +953,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
-                        StringHelper.toDecimalFormatString(fqd.getStep(), "0.###"),
+                        TeammatesDecimalFormat.format(fqd.getStep(), "0.###"),
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "on",
 
                 Const.ParamsNames.REGKEY, studentKey,
@@ -999,7 +1001,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.getMinScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.getMaxScale()),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0",
-                        StringHelper.toDecimalFormatString(fqd.getStep(), "0.###"),
+                        TeammatesDecimalFormat.format(fqd.getStep(), "0.###"),
 
                 Const.ParamsNames.REGKEY, studentKey,
                 Const.ParamsNames.STUDENT_EMAIL, unregisteredStudent.email
