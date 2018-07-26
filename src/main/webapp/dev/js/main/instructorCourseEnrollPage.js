@@ -158,6 +158,27 @@ function getAjaxStudentList(displayStatus) {
 }
 
 /**
+ * Gets enroll status through an AJAX request.
+ * @returns {Promise} the state of the result from the AJAX request
+ */
+function getAjaxEnrollStatus() {
+    return new Promise((resolve, reject) => {
+        const $spreadsheetForm = $('#student-spreadsheet-form');
+        $.ajax({
+            type: 'POST',
+            url: '/page/instructorCourseEnrollAjaxEnrollStatusPage',
+            cache: false,
+            data: {
+                courseid: $spreadsheetForm.children(`input[name='${ParamsNames.COURSE_ID}']`).val(),
+                enrollstudents: $spreadsheetForm.find('#enrollstudents').val(),
+            },
+        })
+                .done(resolve)
+                .fail(reject);
+    });
+}
+
+/**
  * Handles how the panels are displayed, including rendering the spreadsheet interface.
  */
 function adjustStudentsPanelView($panelHeading, panelCollapse,
