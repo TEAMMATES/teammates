@@ -7,7 +7,9 @@ import {
 } from '../common/instructor';
 
 import {
+    BootstrapContextualColors
     ParamsNames,
+    Const,
 } from '../common/const';
 
 import {
@@ -20,6 +22,11 @@ import {
     getSpreadsheetLength,
     toggleStudentsPanel,
 } from '../common/instructorEnroll';
+
+import {
+    appendNewStatusMessage,
+    clearStatusMessages,
+} from '../common/statusMessage';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
 const dataHandsontable = new Handsontable(dataContainer, {
@@ -209,6 +216,41 @@ function addEnrollErrorMessages(enrollErrorLines) {
         }
     });
 }
+
+/**
+ * Triggers an AJAX request to retrieve the enroll status.
+ * Does the necessary post processing after the state of the AJAX request is returned.
+ */
+function triggerAndProcessAjaxEnrollStatusAction(event) {
+    getAjaxEnrollStatus(event)
+            .then((data) => {
+                if (data.statusMessagesToUser.length === 1
+                    && data.statusMessagesToUser[0].color === 'SUCCESS') {
+                    $('#student-spreadsheet-form').unbind('submit').submit();
+                } else {
+                    clearStatusMessages();
+                    updateEnrollHandsontableCellSettings(resetDefaultViewRenderer);
+
+                    if (data.statusMessagesToUser.length === 1
+                            && data.statusMessagesToUser[0].text === Const.StatusMessages.ENROLL_LINE_EMPTY) {
+                        appendNewStatusMessage(Const.StatusMessages.ENROLL_LINE_EMPTY,
+                                BootstrapContextualColors[data.statusMessagesToUser[0].color]);
+                    } else if (data.statusMessagesToUser.length === 1
+                            && data.statusMessagesToUser[0].text === Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED) {
+                        appendNewStatusMessage(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED,
+                                BootstrapContextualColors[data.statusMessagesToUser[0].color]);
+                    } else {
+                        addEnrollErrorMessages(data.enrollErrorLines);
+                        updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
+                    }
+                }
+            }).catch(() => {
+                clearStatusMessages();
+                appendNewStatusMessage('Failed to enroll students. Check your internet connectivity.',
+                    BootstrapContextualColors.DANGER);
+            });
+}
+
 /**
  * Expands "Existing students" panel and loads existing students' data (if spreadsheet is not empty)
  * into the spreadsheet interface. Spreadsheet interface would be shown after expansion.
@@ -285,5 +327,10 @@ $(document).ready(() => {
         enrollHandsontable.alter('insert_row', null, emptyRowsCount);
     });
 
-    $('#student-spreadsheet-form').submit(updateDataDump);
+    $('#student-spreadsheet-form').submit((event) => {
+        event.preventDefault();
+        enrollErrorMessagesMap.clear();
+        updateDataDump();
+        triggerAndProcessAjaxEnrollStatusAction(event);
+    });
 });
