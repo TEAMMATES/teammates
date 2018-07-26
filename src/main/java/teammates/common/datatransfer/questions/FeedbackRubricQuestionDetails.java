@@ -217,15 +217,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * to numOfRubricSubQuestions and numOfRubricChoices.
      */
     private boolean isValidWeightSize() {
+        boolean isValid = true;
         if (rubricWeightsForEachCell.size() != numOfRubricSubQuestions) {
-            return false;
+            return !isValid;
         }
-        for (int i = 0; i < rubricWeightsForEachCell.size(); i++) {
-            if (rubricWeightsForEachCell.get(i).size() != numOfRubricChoices) {
-                return false;
-            }
-        }
-        return true;
+        isValid = rubricWeightsForEachCell.stream().allMatch(x -> x.size() == numOfRubricChoices);
+        return isValid;
     }
 
     private void setRubricQuestionDetails(boolean hasAssignedWeights,
