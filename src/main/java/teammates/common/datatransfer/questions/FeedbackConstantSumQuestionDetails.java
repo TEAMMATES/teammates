@@ -507,7 +507,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         List<String> options = constSumOptions;
         Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
 
-
         Map<String, List<Integer>> sortedOptionPoints = new TreeMap<>();
 
         Map<String, String> identifierMap = new HashMap<>();

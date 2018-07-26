@@ -284,7 +284,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setRoundingMode(RoundingMode.DOWN);
         df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 
-
         boolean isRecipientTypeGeneral = question.recipientType == FeedbackParticipantType.NONE;
         boolean isRecipientTypeTeam = question.recipientType == FeedbackParticipantType.TEAMS
                                       || question.recipientType == FeedbackParticipantType.OWN_TEAM;
