@@ -437,7 +437,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
      * Note: this only verifies the new comment text is added and only <strong>approximately</strong>
      * checks the state of the added comment based on implementation.
      */
-    public void waitForFeedbackResponseCommentAdded(String commentRowIdSuffix, String commentText, String giverName) {
+    public void waitAndVerifyForFeedbackResponseCommentAdded(String commentRowIdSuffix, String commentText,
+            String giverName) {
         waitForCommentRowContentEquals(commentRowIdSuffix, commentText, giverName);
         // Checks approximately that the added comment is constructed correctly
         assertTrue(isElementPresent(By.id("responseCommentEditForm" + commentRowIdSuffix)));
