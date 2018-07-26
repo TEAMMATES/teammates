@@ -32,7 +32,7 @@
         <strong>100</strong> students into one course, divide students into sections containing no more than
         <strong>100</strong> students.
       </div>
-      <form id="student-spreadsheet-form" action="${data.instructorCourseEnrollSaveLink}" method="post"
+      <form id="student-spreadsheet-form" method="post"
             class="form-horizontal" role="form">
         <input type="hidden" name="${SESSION_TOKEN}" value="${data.sessionToken}">
         <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
@@ -82,7 +82,8 @@
               </div>
               <div class="col-md-6">
                 <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
-                        class="btn btn-primary btn-md pull-right">
+                        class="btn btn-primary btn-md pull-right"
+                        formaction="${data.instructorCourseEnrollSaveLink}">
                   Enroll students
                 </button>
               </div>
