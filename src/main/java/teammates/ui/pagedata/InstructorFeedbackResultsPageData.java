@@ -25,6 +25,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.storage.entity.FeedbackResponseComment;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseCommentRow;
@@ -491,6 +492,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
             List<FeedbackResponseCommentRow> instructorComments =
                     buildInstructorComments(giverName, recipientName, question, response);
+            FeedbackResponseCommentRow feedbackParticipantComment =
+                    buildFeedbackParticipantCommentRow(question, response);
+
             boolean isAllowedToSubmitSessionsInBothSection =
                     instructor.isAllowedForPrivilege(response.giverSection,
                                                      response.feedbackSessionName,
@@ -498,8 +502,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     && instructor.isAllowedForPrivilege(response.recipientSection,
                                                         response.feedbackSessionName,
                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-            boolean isInstructorCommentsOnResponsesAllowed = question.getQuestionDetails()
-                    .isInstructorCommentsOnResponsesAllowed();
+
             Matcher matcher = sectionIdPattern.matcher(additionalInfoId);
             if (matcher.find()) {
                 sectionId = Integer.parseInt(matcher.group(1));
@@ -508,10 +511,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsResponsePanel responsePanel =
                     new InstructorFeedbackResultsResponsePanel(
                             question, response, questionText, sectionId, additionalInfoText, null,
-                            displayableResponse, instructorComments, isAllowedToSubmitSessionsInBothSection,
-                            isInstructorCommentsOnResponsesAllowed);
+                            displayableResponse, instructorComments, isAllowedToSubmitSessionsInBothSection);
             responsePanel.setCommentsIndexes(recipientIndex, giverIndex, responseIndex + 1);
-            if (isInstructorCommentsOnResponsesAllowed) {
+            if (question.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+                responsePanel.setFeedbackParticipantComment(feedbackParticipantComment);
+            }
+            if (question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed()) {
                 FeedbackResponseCommentRow frcForAdding =
                         buildFeedbackResponseCommentFormForAdding(question, response.getId(), giverName,
                                 recipientName, bundle.getTimeZone(), false);
@@ -523,6 +528,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         return responsePanels;
+    }
+
+    private FeedbackResponseCommentRow buildFeedbackParticipantCommentRow(FeedbackQuestionAttributes question,
+            FeedbackResponseAttributes response) {
+        List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
+        if (frcAttributesList != null) {
+            for (FeedbackResponseCommentAttributes frcAttributes : frcAttributesList) {
+                if (frcAttributes.isCommentFromFeedbackParticipant) {
+                    return buildResponseComment("", "", question, response, frcAttributes);
+                }
+            }
+        }
+        return null;
     }
 
     private InstructorFeedbackResultsGroupByQuestionPanel buildGroupByQuestionPanel(

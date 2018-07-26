@@ -20,7 +20,7 @@
   <div id="commentBar-${divId}" class="row">
     <div class="col-xs-10">
     <span class="text-muted">
-          Your comment about the feedback.
+          Comment by response giver.
     </span>
       <span class="glyphicon glyphicon-eye-open"
             data-toggle="tooltip"
