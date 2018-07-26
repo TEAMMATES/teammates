@@ -3552,6 +3552,164 @@
     </div>
     <br>
     <br>
+    <input name="questiontype-14" type="hidden" value="RANK_RECIPIENTS">
+    <input name="questionid-14" type="hidden" value="${question.id}">
+    <input name="questionresponsetotal-14" type="hidden" value="2">
+    <div class="form-horizontal">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Question 14:
+          <br>
+          <span class="text-preserve-space">
+            Rank other teams
+          </span>
+        </div>
+        <div class="panel-body">
+          <p class="text-muted">
+            Only the following persons can see your responses:
+          </p>
+          <ul class="text-muted">
+            <li class="unordered">
+              The receiving teams can see your response, and your name.
+            </li>
+            <li class="unordered">
+              Instructors in this course can see your response, the name of the recipient, and your name.
+            </li>
+            <li class="unordered">
+              Other students in the course can see your response, but not the name of the recipient, or your name.
+            </li>
+          </ul>
+          <div class="constraints-14">
+          </div>
+          <div class="evalueeLabel-14 form-inline mobile-align-left">
+            <label for="input" style="text-indent: 24px">
+              <span class="tool-tip-decorate" data-original-title="The party being evaluated or given feedback to" data-placement="top" data-toggle="tooltip" title="">
+                Evaluee/Recipient
+              </span>
+            </label>
+          </div>
+          <br>
+          <p class="text-warning">
+            Please note that you are submitting this response on behalf of your team.
+          </p>
+          <br>
+          <div class="evalueeForm-14 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-0" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option value="Team 2">
+                    Team 2
+                  </option>
+                  <option style="display: none;" value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
+                  Team 2
+                </span>
+              </label>
+              (Team):
+            </div>
+            <div class="col-sm-9">
+              <div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" style="display:none">
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-14-0-0" name="responsetext-14-0" onchange="updateRankMessageQn('14')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" id="rankInfo-14-0" style="display:none">
+                  <div class="col-sm-2" style="display:none">
+                  </div>
+                  <div class="col-sm-3">
+                    <hr class="margin-top-0">
+                    <p class="text-color-blue" id="rankMessage-14-0">
+                    </p>
+                    <hr>
+                  </div>
+                </div>
+                <input id="rankToRecipients-14" type="hidden" value="true">
+                <input id="rankNumOptions-14" type="hidden" value="0">
+                <input id="rankAreDuplicatesAllowed-14" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-14" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-14" type="hidden" value="">
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="evalueeForm-14 form-group margin-0" style="padding-left: 75px">
+            <div class="col-sm-12 form-inline mobile-align-left" style="text-align:left">
+              <label>
+                <select class="participantSelect middlealign newResponse form-control" name="responserecipient-14-1" style="display:none;max-width:125px">
+                  <option selected="" value="">
+                  </option>
+                  <option style="display: none;" value="Team 2">
+                    Team 2
+                  </option>
+                  <option value="Team 3">
+                    Team 3
+                  </option>
+                </select>
+                <span>
+                  Team 3
+                </span>
+              </label>
+              (Team):
+            </div>
+            <div class="col-sm-9">
+              <div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" style="display:none">
+                  </label>
+                  <div class="col-sm-3">
+                    <select class="form-control" id="responsetext-14-1-0" name="responsetext-14-1" onchange="updateRankMessageQn('14')">
+                      <option selected="" value="">
+                      </option>
+                      <option value="1">
+                        1
+                      </option>
+                      <option value="2">
+                        2
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" id="rankInfo-14-1" style="">
+                  <div class="col-sm-2" style="display:none">
+                  </div>
+                  <div class="col-sm-3">
+                    <hr class="margin-top-0">
+                    <p class="text-color-blue" id="rankMessage-14-1">
+                      Please rank the above recipients.
+                    </p>
+                    <hr>
+                  </div>
+                </div>
+                <input id="rankToRecipients-14" type="hidden" value="true">
+                <input id="rankNumOptions-14" type="hidden" value="0">
+                <input id="rankAreDuplicatesAllowed-14" type="hidden" value="false">
+                <input disabled="" id="minOptionsToBeRanked-14" type="hidden" value="">
+                <input disabled="" id="maxOptionsToBeRanked-14" type="hidden" value="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
     <div class="bold align-center">
       <input name="sendsubmissionemail" type="checkbox">
       Send me a confirmation email
