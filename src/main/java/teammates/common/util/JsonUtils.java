@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -80,7 +81,7 @@ public final class JsonUtils {
 
         @Override
         public synchronized JsonElement serialize(Instant instant, Type type, JsonSerializationContext context) {
-            return new JsonPrimitive(DateTimeFormatter.ISO_INSTANT.format(instant));
+            return new JsonPrimitive(DateTimeFormatter.ISO_INSTANT.withLocale(Locale.US).format(instant));
         }
 
         @Override

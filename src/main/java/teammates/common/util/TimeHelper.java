@@ -17,7 +17,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import org.mockito.cglib.core.Local;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
@@ -229,7 +232,7 @@ public final class TimeHelper {
         if (localDateTime.getHour() == 12 && localDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
+        DateTimeFormatter formatter = TeammatesDateTimeFormatter.ofPattern(processedPattern);
         return localDateTime.format(formatter);
     }
 
@@ -338,7 +341,7 @@ public final class TimeHelper {
         if (zonedDateTime.getHour() == 12 && zonedDateTime.getMinute() == 0) {
             processedPattern = pattern.replace("a", "'NOON'");
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(processedPattern);
+        DateTimeFormatter formatter = TeammatesDateTimeFormatter.ofPattern(processedPattern);
         return zonedDateTime.format(formatter);
     }
 
@@ -409,7 +412,7 @@ public final class TimeHelper {
      * @return the formatted datetime ISO8601 stamp in UTC
      */
     public static String formatDateTimeToIso8601Utc(Instant instant) {
-        return instant == null ? null : DateTimeFormatter.ISO_INSTANT.format(instant);
+        return instant == null ? null : DateTimeFormatter.ISO_INSTANT.withLocale(Locale.US).format(instant);
     }
 
     /**
@@ -487,7 +490,7 @@ public final class TimeHelper {
      * @throws AssertionError if there is a parsing error
      */
     public static Instant parseInstant(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
+        DateTimeFormatter formatter = TeammatesDateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
         try {
             return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
         } catch (DateTimeParseException e) {
@@ -508,7 +511,7 @@ public final class TimeHelper {
             return null;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = TeammatesDateTimeFormatter.ofPattern(pattern);
         try {
             return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException e) {
@@ -528,7 +531,7 @@ public final class TimeHelper {
             return null;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        DateTimeFormatter formatter = TeammatesDateTimeFormatter.ofPattern(pattern);
         try {
             return LocalDate.parse(dateString, formatter);
         } catch (DateTimeParseException e) {

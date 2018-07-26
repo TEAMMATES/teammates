@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.TeammatesDateTimeFormatter;
 import teammates.common.util.TimeHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
@@ -721,7 +722,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy");
+        DateTimeFormatter formatter = TeammatesDateTimeFormatter.ofPattern("EEE MMM dd yyyy");
 
         ______TS("validate visible date range before editing start date");
 
