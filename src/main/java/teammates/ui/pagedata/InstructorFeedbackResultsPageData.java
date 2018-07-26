@@ -1,5 +1,6 @@
 package teammates.ui.pagedata;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1133,12 +1134,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setFeedbackParticipantComment(comment);
             }
             configureResponseRow(prevGiver, response.recipient, responseRow);
-            if (question.getQuestionDetails().isCommentsOnResponsesAllowed()) {
+            if (question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed()) {
                 responseGiverRecipientIndex.putIfAbsent(response.giver, responseGiverRecipientIndex.size() + 1);
                 responseGiverRecipientIndex.putIfAbsent(response.recipient, responseGiverRecipientIndex.size() + 1);
                 addCommentsToResponseRow(question, response, responseRow, responseGiverRecipientIndex);
             } else {
-                responseRow.setCommentsOnResponsesAllowed(false);
+                responseRow.setInstructorCommentsOnResponsesAllowed(false);
             }
 
             responseRows.add(responseRow);
@@ -1204,7 +1205,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             configureResponseRow(response.giver, response.recipient, responseRow);
 
-            if (isFirstGroupedByGiver && question.getQuestionDetails().isCommentsOnResponsesAllowed()) {
+            if (isFirstGroupedByGiver && question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed()) {
                 List<String> responseGiverRecipientList = new ArrayList<>(bundle.emailNameTable.keySet());
                 Collections.sort(responseGiverRecipientList);
                 Map<String, Integer> responseGiverRecipientIndex = new HashMap<>();
@@ -1213,7 +1214,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 }
                 addCommentsToResponseRow(question, response, responseRow, responseGiverRecipientIndex);
             } else {
-                responseRow.setCommentsOnResponsesAllowed(false);
+                responseRow.setInstructorCommentsOnResponsesAllowed(false);
             }
 
             responseRows.add(responseRow);
@@ -1251,7 +1252,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
     private void addCommentsToResponseRow(FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             InstructorFeedbackResultsResponseRow responseRow, Map<String, Integer> responseGiverRecipientIndex) {
-        responseRow.setCommentsOnResponsesAllowed(true);
+        responseRow.setInstructorCommentsOnResponsesAllowed(true);
         String giverNameAndTeam = bundle.getNameForEmail(response.giver);
         String recipientNameAndTeam = bundle.getNameForEmail(response.recipient);
 
@@ -1261,14 +1262,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         giverNameAndTeam = bundle.appendTeamNameToName(giverNameAndTeam, giverTeam);
         recipientNameAndTeam = bundle.appendTeamNameToName(recipientNameAndTeam, recipientTeam);
 
-        List<FeedbackResponseCommentRow> comments =
-                buildResponseComments(giverNameAndTeam, recipientNameAndTeam, question, response);
-        if (!comments.isEmpty()) {
-            responseRow.setCommentsOnResponses(comments);
+        List<FeedbackResponseCommentRow> instructorComments =
+                buildInstructorComments(giverNameAndTeam, recipientNameAndTeam, question, response);
+        if (!instructorComments.isEmpty()) {
+            responseRow.setInstructorComments(instructorComments);
         }
-        Map<FeedbackParticipantType, Boolean> responseVisibilityMap = getResponseVisibilityMap(question);
-        FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentAddForm(question, response,
-                responseVisibilityMap, giverNameAndTeam, recipientNameAndTeam);
+        FeedbackResponseCommentRow addCommentForm = buildFeedbackResponseCommentFormForAdding(question, response.getId(),
+                giverNameAndTeam, recipientNameAndTeam, bundle.getTimeZone(), false);
         responseRow.setAddCommentButton(addCommentForm);
 
         int giverIndex = 0;
