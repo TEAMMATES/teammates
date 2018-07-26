@@ -80,7 +80,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         // Submit
         submitPage.clickSubmitButton();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13, 14.");
 
         FeedbackQuestionAttributes fq1 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
         assertNotNull(BackDoor.getFeedbackResponse(fq1.getId(),
