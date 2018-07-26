@@ -1050,9 +1050,6 @@ function bindAddTemplateQnButton() {
         $('[id^="addTemplateQuestion-"] > .panel-heading').each(function () {
             const $this = $(this);
             const questionNumInput = $this.children('input:first');
-            if (!questionNumInput.length) {
-                return;
-            }
             if ($this.hasClass('panel-selected')) {
                 $(questionNumInput).attr('name', 'templatequestionnum');
                 hasPanelSelected = true;

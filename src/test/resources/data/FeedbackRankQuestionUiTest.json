@@ -913,6 +913,32 @@
         "RECEIVER",
         "INSTRUCTORS"
       ]
+    },
+    "studentQuestions16": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "creatorEmail": "instructor@email.com",
+      "questionMetaData": {
+        "value": "{\"areDuplicatesAllowed\":false,\"questionText\":\"Rank other teams\",\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "questionNumber": 16,
+      "questionType": "RANK_RECIPIENTS",
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -1070,6 +1096,58 @@
         "value": "{\"answers\":[5,4,3,2,1,6,7,8,9,10,11,12,13,14],\"questionType\":\"RANK_OPTIONS\"}"
       },
       "giverSection": "None",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn16.1": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "16",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "recipient": "TEAM 2",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn16.2": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "16",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "recipient": "TEAM 3",
+      "responseMetaData": {
+        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 2"
+    },
+    "feedbackResponseForStudentSessionQn16.3": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "16",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "TEAM 2",
+      "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "responseMetaData": {
+        "value": "{\"answer\":1,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
+    "feedbackResponseForStudentSessionQn16.4": {
+      "feedbackSessionName": "Student Session",
+      "courseId": "FRankUiT.CS4221",
+      "feedbackQuestionId": "16",
+      "feedbackQuestionType": "RANK_RECIPIENTS",
+      "giver": "TEAM 3",
+      "recipient": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "responseMetaData": {
+        "value": "{\"answer\":2,\"questionType\":\"RANK_RECIPIENTS\"}"
+      },
+      "giverSection": "Section 2",
       "recipientSection": "Section 1"
     }
   },
