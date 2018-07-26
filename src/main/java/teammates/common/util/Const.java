@@ -953,6 +953,8 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE_ALL = "/page/instructorCourseStudentDeleteAll";
         public static final String INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD = "/page/instructorCourseStudentListDownload";
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
+        public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_ENROLL_STATUS_PAGE =
+                "/page/instructorCourseEnrollAjaxEnrollStatusPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE = "/page/instructorCourseEnrollAjaxPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
