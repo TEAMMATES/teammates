@@ -319,6 +319,22 @@ public final class StudentsLogic {
         return new CourseEnrollmentResult(returnList, enrollmentList);
     }
 
+    public void verifyEnrollStatus(String enrollLines, String courseId)
+            throws EntityDoesNotExistException, EnrollException {
+        if (!coursesLogic.isCoursePresent(courseId)) {
+            throw new EntityDoesNotExistException("Course does not exist :"
+                    + courseId);
+        }
+
+        if (enrollLines.isEmpty()) {
+            throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
+        }
+
+        List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
+        verifyIsWithinSizeLimitPerEnrollment(studentList);
+        validateSectionsAndTeams(studentList, courseId);
+    }
+
     private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
         if (students.size() > Const.SIZE_LIMIT_PER_ENROLLMENT) {
             throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
