@@ -1,6 +1,5 @@
 package teammates.ui.pagedata;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,7 +26,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.ui.datatransfer.InstructorFeedbackResultsPageViewType;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseCommentRow;
