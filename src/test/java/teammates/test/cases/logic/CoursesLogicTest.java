@@ -422,7 +422,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         assertEquals(2, teams.size());
         assertEquals("Team 1.1</td></div>'\"", teams.get(0).name);
-        assertEquals("Team 1.2", teams.get(1).name);
+        assertEquals("Team 1.2</td></div>'\"", teams.get(1).name);
 
         ______TS("course without students");
 
@@ -657,10 +657,10 @@ public class CoursesLogicTest extends BaseLogicTest {
                 "",
                 "Section,Team,Full Name,Last Name,Status,Email",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student1 In Course1</td></div>'\"\"\",\"Course1</td></div>'\"\"\",\"Joined\",\"student1InCourse1@gmail.tmt\"",
-                "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"",
                 "\"Section 1\",\"Team 1.1</td></div>'\"\"\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"",
-                "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
+                "\"Section 2\",\"Team 1.2</td></div>'\"\"\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"",
+                "\"Section 2\",\"Team 1.2</td></div>'\"\"\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"",
                 ""
                 // CHECKSTYLE.ON:LineLength
         };

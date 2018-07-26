@@ -56,7 +56,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                        + "Section 2 \t Team 1.3\tstudent1 In Course1</td></div>'\"\tstudent1InCourse1@gmail.tmt\t"
                        + "New comment added" + System.lineSeparator()
                        // An existing student with no modification
-                       + "Section 1 \t Team 1.1</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t"
+                       + "Section 2 \t Team 1.2</td></div>'\"\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t"
                        + System.lineSeparator()
                        // An existing student, now with extra spaces, should cause no modification
                        + "Section 1 \t Team   1.1</td></div>'\"\tstudent3  In   Course1  \tstudent3InCourse1@gmail.tmt\t";
