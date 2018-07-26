@@ -7,7 +7,7 @@ import {
 } from '../common/instructor';
 
 import {
-    BootstrapContextualColors
+    BootstrapContextualColors,
     ParamsNames,
     Const,
 } from '../common/const';
@@ -123,6 +123,10 @@ function statusMessageRowsRenderer(instance, td, row) {
     });
 }
 
+enrollHandsontable.addHook('beforeColumnSort', () => {
+    updateEnrollHandsontableCellSettings(resetDefaultViewRenderer);
+});
+
 /**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
  * Pushes the output data into the textarea (used for form submission).
@@ -204,7 +208,7 @@ function addEnrollErrorMessages(enrollErrorLines) {
     // Updates any error messages to process later
     if (!jQuery.isEmptyObject(enrollErrorLines)) {
         Object.keys(enrollErrorLines).forEach(key => (
-                enrollErrorMessagesMap.set(key, enrollErrorLines[key])
+            enrollErrorMessagesMap.set(key, enrollErrorLines[key])
         ));
     }
 
@@ -226,7 +230,7 @@ function triggerAndProcessAjaxEnrollStatusAction(event) {
             .then((data) => {
                 if (data.statusMessagesToUser.length === 1
                     && data.statusMessagesToUser[0].color === 'SUCCESS') {
-                    $('#student-spreadsheet-form').unbind('submit').submit();
+                    $('#button_enroll').unbind('click').click();
                 } else {
                     clearStatusMessages();
                     updateEnrollHandsontableCellSettings(resetDefaultViewRenderer);
@@ -247,7 +251,7 @@ function triggerAndProcessAjaxEnrollStatusAction(event) {
             }).catch(() => {
                 clearStatusMessages();
                 appendNewStatusMessage('Failed to enroll students. Check your internet connectivity.',
-                    BootstrapContextualColors.DANGER);
+                        BootstrapContextualColors.DANGER);
             });
 }
 
@@ -327,7 +331,7 @@ $(document).ready(() => {
         enrollHandsontable.alter('insert_row', null, emptyRowsCount);
     });
 
-    $('#student-spreadsheet-form').submit((event) => {
+    $('#button_enroll').bind('click', (event) => {
         event.preventDefault();
         enrollErrorMessagesMap.clear();
         updateDataDump();
