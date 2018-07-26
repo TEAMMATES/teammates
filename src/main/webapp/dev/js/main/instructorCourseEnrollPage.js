@@ -68,6 +68,53 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
 });
 
 /**
+ * Function to update the enrollHandsontable cell settings according to a custom renderer.
+ */
+function updateEnrollHandsontableCellSettings(targetRenderer) {
+    enrollHandsontable.updateSettings({
+        cells: () => {
+            const cellProperties = {};
+            cellProperties.renderer = targetRenderer; // uses function directly
+            return cellProperties;
+        },
+    });
+}
+
+/**
+ * Custom renderer to reset any cell styles and tooltips in the current Handsontable instance.
+ */
+/* eslint-disable prefer-rest-params */
+function resetDefaultViewRenderer(instance, td) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    $(td).tooltip('destroy');
+    td.style.background = '#FFFFFF';
+}
+
+/**
+ * Custom renderer to update the rows of the Handsontable instance to the respective cell styles and tooltips.
+ */
+function statusMessageRowsRenderer(instance, td, row) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    let text = '';
+
+    if (enrollErrorMessagesMap.has(row)) {
+        td.style.background = '#ff6666';
+        text = enrollErrorMessagesMap.get(row);
+    } else {
+        td.style.background = '#FFFFFF';
+        return;
+    }
+    $(td).tooltip({
+        trigger: 'hover active',
+        title: text,
+        placement: 'auto',
+        container: 'body',
+        template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow">'
+        + '</div><div class="tooltip-inner"></div></div>',
+    });
+}
+
+/**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
  * Pushes the output data into the textarea (used for form submission).
  */
