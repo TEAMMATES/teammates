@@ -1,8 +1,12 @@
 package teammates.test.cases.browsertests;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -43,6 +47,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
 
     @Test
     public void allTests() throws Exception {
+        testRubricWeightsFeature();
         testEditPage();
         testInstructorSubmitPage();
         testStudentSubmitPage();
@@ -536,8 +541,13 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 "Too little choices for Rubric question. Minimum number of options is: 2");
     }
 
-    @Test
-    public void testRubricWeightsFeature_shouldToggleStateCorrectly() {
+    private void testRubricWeightsFeature() throws Exception {
+        testRubricWeightsFeature_shouldToggleStateCorrectly();
+        testRubricWeightsFeature_shouldHaveCorrectDefaultValue();
+        testRubricWeightsFeature_shouldAddWeightsCorrectly();
+    }
+
+    private void testRubricWeightsFeature_shouldToggleStateCorrectly() {
 
         ______TS("Rubric: Weight cells are visible when assigneWeights checkbox is clicked?");
         feedbackEditPage.clickAddQuestionButton();
@@ -565,8 +575,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
-    @Test
-    public void testRubricWeightsFeature_shouldHaveCorrectDefaultValue() throws Exception {
+    private void testRubricWeightsFeature_shouldHaveCorrectDefaultValue() throws Exception {
 
         ______TS("Rubric: Check default weight values");
         feedbackEditPage.clickAddQuestionButton();
@@ -595,6 +604,124 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         // Delete the question
         feedbackEditPage.clickDeleteQuestionLink(1);
         feedbackEditPage.waitForConfirmationModalAndClickOk();
+    }
+
+    private void testRubricWeightsFeature_shouldAddWeightsCorrectly() throws Exception {
+        ______TS("Success: Add weights for default subQuestions and choices");
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.selectNewQuestionTypeAndWaitForNewQuestionPanelReady("RUBRIC");
+        feedbackEditPage.fillQuestionTextBox("Rubric weight feature", NEW_QUESTION_INDEX);
+        feedbackEditPage.fillQuestionDescription("More details", NEW_QUESTION_INDEX);
+        feedbackEditPage.clickAssignWeightsCheckboxForNewQuestion();
+
+        // Fill existing weight cells.
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0.1", 0, 0);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0.2", 0, 1);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0.3", 0, 2);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0.4", 0, 3);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0.1", 1, 0);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0.2", 1, 1);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0.3", 1, 2);
+        feedbackEditPage.fillRubricWeightBoxForNewQuestion("0.4", 1, 3);
+
+        feedbackEditPage.clickAddQuestionButton();
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
+        FeedbackQuestionAttributes question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        assertNotNull(question);
+
+        // Check that weights have been added correctly
+        FeedbackRubricQuestionDetails questionDetails = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
+        List<List<Double>> weights = questionDetails.getRubricWeights();
+        // Weight list should contain 2 list (one for each subquestion) containing 4 weights each.
+        assertEquals(2, weights.size());
+        assertEquals(4, weights.get(0).size());
+        assertEquals(4, weights.get(1).size());
+        // Check weight values for one subquestion as both subquestions have same weights.
+        assertEquals(0.1, weights.get(0).get(0));
+        assertEquals(0.2, weights.get(0).get(1));
+        assertEquals(0.3, weights.get(0).get(2));
+        assertEquals(0.4, weights.get(0).get(3));
+
+        ______TS("Success: Add weights for subquestion added by 'Add Row' button");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddRubricRowLink(1);
+        feedbackEditPage.fillRubricSubQuestionBox("New(2) sub question", 1, 2);
+
+        // Fill weight cells added with the new sub question
+        feedbackEditPage.fillRubricWeightBox("0.5", 1, 2, 0);
+        feedbackEditPage.fillRubricWeightBox("0.4", 1, 2, 1);
+        feedbackEditPage.fillRubricWeightBox("0.3", 1, 2, 2);
+        feedbackEditPage.fillRubricWeightBox("0.2", 1, 2, 3);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // Check that weights have been added successfully
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        questionDetails = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
+        weights = questionDetails.getRubricWeights();
+        assertEquals(3, weights.size());
+        assertEquals(4, weights.get(2).size());
+        // Check weights for each cell
+        assertEquals(0.5, weights.get(2).get(0));
+        assertEquals(0.4, weights.get(2).get(1));
+        assertEquals(0.3, weights.get(2).get(2));
+        assertEquals(0.2, weights.get(2).get(3));
+
+        ______TS("Success: Add weights for subquestion added by 'Add Column' button");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddRubricColLink(1);
+        feedbackEditPage.fillRubricChoiceBox("New(4) choice", 1, 4);
+
+        // Fill weight cells added with the new sub question
+        feedbackEditPage.fillRubricWeightBox("1.0", 1, 0, 4);
+        feedbackEditPage.fillRubricWeightBox("1.5", 1, 1, 4);
+        feedbackEditPage.fillRubricWeightBox("2.0", 1, 2, 4);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
+
+        // Check that weights have been added successfully
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        questionDetails = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
+        weights = questionDetails.getRubricWeights();
+        // All subquestions should have 5 cells attached after adding an additional column.
+        assertEquals(3, weights.size());
+        assertEquals(5, weights.get(0).size());
+        assertEquals(5, weights.get(1).size());
+        assertEquals(5, weights.get(2).size());
+        // Check weights for each cell
+        assertEquals(1.0, weights.get(0).get(4));
+        assertEquals(1.5, weights.get(1).get(4));
+        assertEquals(2.0, weights.get(2).get(4));
+
+        ______TS("Failure: Add weights for empty sub question");
+        feedbackEditPage.clickEditQuestionButton(1);
+        feedbackEditPage.clickAddRubricRowLink(1);
+        feedbackEditPage.fillRubricSubQuestionBox("                      ", 1, 3); // Empty sub question
+
+        // Fill weight cells added with the new sub question
+        feedbackEditPage.fillRubricWeightBox("0", 1, 3, 0);
+        feedbackEditPage.fillRubricWeightBox("1", 1, 3, 1);
+        feedbackEditPage.fillRubricWeightBox("2", 1, 3, 2);
+        feedbackEditPage.fillRubricWeightBox("3", 1, 3, 3);
+        feedbackEditPage.fillRubricWeightBox("4", 1, 3, 4);
+
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.FeedbackQuestion.RUBRIC_ERROR_EMPTY_SUB_QUESTION,
+                Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
+
+        // Check that weights for empty sub question have not been added.
+        question = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1);
+        questionDetails = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
+        weights = questionDetails.getRubricWeights();
+        // The size of the weight list should remain same if adding weights for empty sub question fails.
+        assertEquals(3, weights.size());
+
+        // Delete the question
+        feedbackEditPage.clickDeleteQuestionLink(1);
+        feedbackEditPage.waitForConfirmationModalAndClickOk();
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
