@@ -119,6 +119,52 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
     }
 
     @Test
+    public void testFeedbackResponseCommentActionsForRqgView() {
+        InstructorFeedbackResultsPage resultsPage;
+
+        resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
+
+        ______TS("RQG view: Failure case: add empty feedback response comment using comment modal");
+
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.loadResultSectionPanel(1, 2);
+        addEmptyCommentToResponseAndCheckStatusMessage("-0-8-1", resultsPage);
+
+        ______TS("RQG view: Typical case: add new feedback response comments using comment modal");
+        addCommentToValidResponseAndVerify("-0-8-1", resultsPage);
+        addCommentToValidResponseAndVerify("-0-0-7", resultsPage);
+
+        ______TS("RQG view: Typical case: edit an existing feedback response comment using comment modal");
+        editFirstCommentOnResponseAndVerify("-0-8-1", "edited test comment", resultsPage);
+
+        ______TS("RQG view: Typical case: edit comment created by different instructors using comment modal");
+
+        resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr2", "Open Session");
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.loadResultSectionPanel(0, 1);
+
+        editFirstCommentOnResponseAndVerify("-0-8-1", "Comment edited by different instructor",
+                resultsPage);
+
+        ______TS("RQG view: Typical case: delete existing feedback response comments using comment modal");
+
+        resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.loadResultSectionPanel(1, 2);
+
+        deleteFirstCommentAndVerify("-0-8-1", resultsPage);
+        deleteFirstCommentAndVerify("-0-0-7", resultsPage);
+
+        ______TS("RQG view: Typical case: add edit and delete successively");
+
+        resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.loadResultSectionPanel(1, 2);
+
+        addEditAndDeleteTypicalCommentAndVerify("-0-8-1", resultsPage);
+    }
+
+    @Test
     public void testFeedbackResponseCommentActionsForRgqView() throws Exception {
         InstructorFeedbackResultsPage resultsPage;
 
