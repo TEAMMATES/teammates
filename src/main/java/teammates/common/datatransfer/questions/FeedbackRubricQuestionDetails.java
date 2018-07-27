@@ -695,7 +695,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 Slots.TABLE_HEADER_ROW_FRAGMENT_HTML, tableHeaderFragmentHtml.toString(),
                 Slots.TABLE_BODY_HTML, tableBodyHtml.toString(),
                 Slots.TABLE_BODY_EXCLUDING_SELF_HTML, tableBodyExcludingSelfHtml.toString(),
+                Slots.RUBRIC_WEIGHTED_PERCENTAGE_AVAILABLE, hasAssignedWeights ? "" : "hidden",
+                Slots.RUBRIC_WEIGHTED_PERCENTAGE_COL_WIDTH, hasAssignedWeights && isExcludingSelfOptionAvailable ? "2" : "6",
                 Slots.EXCLUDING_SELF_OPTION_VISIBLE, isExcludingSelfOptionAvailable ? "" : "hidden",
+                Slots.EXCLUDING_SELF_COL_WIDTH, isExcludingSelfOptionAvailable && hasAssignedWeights ? "4" : "6",
                 Slots.RUBRIC_RECIPIENT_STATS_HTML, recipientStatsHtml);
     }
 

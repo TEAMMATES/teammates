@@ -1,15 +1,22 @@
 <div class="panel-body rubricStatistics">
   <div class="row">
-    <div class="col-sm-8 text-color-gray">
+    <div class="col-sm-6 text-color-gray">
       <strong>
         ${statsTitle}
       </strong>
     </div>
-    <div class="col-sm-4 text-right ${isExcludingSelfOptionAvailable}">
+    <div class="col-sm-${col-for-excluding-self} text-right ${isExcludingSelfOptionAvailable}">
       <input type="checkbox" class="excluding-self-response-checkbox" onClick="toggleExcludingSelfResultsForRubricStatistics(this)">
       <span class="text-nowrap tool-tip-decorate" title="Excludes giver's responses to himself/herself from Statistics"
           data-placement="top" data-toggle="tooltip">
         Exclude self evaluation
+      </span>
+    </div>
+    <div class="col-sm-${col-for-weighted-percentage} text-right ${isWeightedPercentageAvailable}">
+      <input type="checkbox" class="rubric-weighted-percentage-checkbox" onClick="toggleWeightedPercentageForRubricStatistics(this)">
+      <span class="text-nowrap tool-tip-decorate" title="Shows the weighted percentage for each choice of each sub-question"
+          data-placement="top" data-toggle="tooltip">
+        Weighted Percentage
       </span>
     </div>
   </div>
