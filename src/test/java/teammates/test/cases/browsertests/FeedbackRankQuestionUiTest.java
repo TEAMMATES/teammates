@@ -358,7 +358,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         qnNumber = 16;
         assertEquals("Every recipient should be allocated a different rank.\n"
                     + "At least 2 recipients should be ranked.\n"
-                    + "At most 4 recipients should be ranked.",
+                    + "At most 3 recipients should be ranked.",
                     submitPage.getRankInstruction(qnNumber));
 
         ______TS("Rank : test messages for min/max recipients to be ranked");
@@ -407,7 +407,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     + "At most 2 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
 
-        // Question with same min and max options to be ranked restriction
+        // Question with same min and max recipients to be ranked restriction
         qnNumber = 14;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("All allocated ranks are different.\n"
@@ -439,36 +439,42 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     + "At most 3 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
 
-        // Question with different min and max options to be ranked restriction
+        // Question with different min and max recipients to be ranked restriction
         qnNumber = 16;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("All allocated ranks are different.\n"
                     + "You need to rank at least 2 recipients. You have ranked 1 recipients so far.\n"
-                    + "At most 4 recipients have been ranked.",
+                    + "At most 3 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
 
         submitPage.selectResponseTextDropdown(qnNumber, 1, 0, "2");
         assertEquals("All allocated ranks are different.\n"
                     + "At least 2 recipients have been ranked.\n"
-                    + "At most 4 recipients have been ranked.",
+                    + "At most 3 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
 
         submitPage.selectResponseTextDropdown(qnNumber, 2, 0, "3");
         assertEquals("All allocated ranks are different.\n"
                     + "At least 2 recipients have been ranked.\n"
-                    + "At most 4 recipients have been ranked.",
+                    + "At most 3 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
 
         submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
         assertEquals("Multiple recipients are given the same rank! eg. 3.\n"
                     + "At least 2 recipients have been ranked.\n"
-                    + "At most 4 recipients have been ranked.",
+                    + "You can rank at most 3 recipients. You have ranked 1 extra recipients.",
                     submitPage.getRankMessage(qnNumber, 3));
 
         submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "4");
         assertEquals("All allocated ranks are different.\n"
                     + "At least 2 recipients have been ranked.\n"
-                    + "At most 4 recipients have been ranked.",
+                    + "You can rank at most 3 recipients. You have ranked 1 extra recipients.",
+                    submitPage.getRankMessage(qnNumber, 3));
+
+        submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "");
+        assertEquals("All allocated ranks are different.\n"
+                    + "At least 2 recipients have been ranked.\n"
+                    + "At most 3 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
 
         ______TS("Rank : student results");

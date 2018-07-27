@@ -970,7 +970,7 @@
       "courseId": "FRankUiT.CS4221",
       "creatorEmail": "instructor@email.com",
       "questionMetaData": {
-        "value": "{\"areDuplicatesAllowed\":false,\"minOptionsToBeRanked\":2,\"maxOptionsToBeRanked\":4,\"questionText\":\"Rank the recipients based on skills. Most skilled recipient should be allocated rank 1.\",\"questionType\":\"RANK_RECIPIENTS\"}"
+        "value": "{\"areDuplicatesAllowed\":false,\"minOptionsToBeRanked\":2,\"maxOptionsToBeRanked\":3,\"questionText\":\"Rank the recipients based on skills. Most skilled recipient should be allocated rank 1.\",\"questionType\":\"RANK_RECIPIENTS\"}"
       },
       "questionNumber": 17,
       "questionType": "RANK_RECIPIENTS",
