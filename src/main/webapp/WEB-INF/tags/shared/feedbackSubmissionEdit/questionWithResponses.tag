@@ -22,7 +22,7 @@
 <div class="form-horizontal">
   <div class="panel panel-primary"<c:if test="${questionWithResponses.question.moderatedQuestion}"> id="moderated-question"</c:if>>
 
-    <div class="panel-heading">
+    <div class="panel-heading text-wrap">
       Question ${isShowRealQuestionNumber ? questionWithResponses.question.questionNumber : questionWithResponses.question.qnIndx}:
       <br>
       <%-- Note: When an element has class text-preserve-space, do not insert HTML spaces --%>
