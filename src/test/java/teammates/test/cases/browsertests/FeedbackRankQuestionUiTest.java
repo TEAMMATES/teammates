@@ -120,7 +120,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         // Submit
         submitPage.clickSubmitButton();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16.");
 
         FeedbackQuestionAttributes fq1 = BackDoor.getFeedbackQuestion("FRankUiT.CS4221", "Student Session", 1);
         assertNotNull(BackDoor.getFeedbackResponse(fq1.getId(),
@@ -355,7 +355,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     submitPage.getRankInstruction(qnNumber));
 
         // Question with different min and max options to be ranked restriction
-        qnNumber = 15;
+        qnNumber = 16;
         assertEquals("Every recipient should be allocated a different rank.\n"
                     + "At least 2 recipients should be ranked.\n"
                     + "At most 4 recipients should be ranked.",
@@ -442,7 +442,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     submitPage.getRankMessage(qnNumber, 3));
 
         // Question with different min and max options to be ranked restriction
-        qnNumber = 15;
+        qnNumber = 16;
         submitPage.selectResponseTextDropdown(qnNumber, 0, 0, "1");
         assertEquals("All allocated ranks are different.\n"
                     + "You need to rank at least 2 recipients. You have ranked 1 recipients so far.\n"
