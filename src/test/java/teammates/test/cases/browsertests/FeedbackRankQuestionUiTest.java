@@ -361,7 +361,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     + "At most 4 recipients should be ranked.",
                     submitPage.getRankInstruction(qnNumber));
 
-
         ______TS("Rank : test messages for min/max recipients to be ranked");
 
         // Question with only min recipients to be ranked restriction
@@ -428,7 +427,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     + "At most 3 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
 
-
         submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "4");
         assertEquals("All allocated ranks are different.\n"
                     + "At least 3 recipients have been ranked.\n"
@@ -460,8 +458,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     + "At least 2 recipients have been ranked.\n"
                     + "At most 4 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
-
-
+        
         submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
         assertEquals("Multiple recipients are given the same rank! eg. 3.\n"
                     + "At least 2 recipients have been ranked.\n"
