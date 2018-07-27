@@ -89,9 +89,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testInputValidationForQuestion();
         testAddQuestionAction();
 
-        testAddTemplateQuestionLink();
-        testAddTemplateQuestionAction();
-
         testEditQuestionLink();
         testEditQuestionAction();
 
@@ -114,6 +111,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditNonExistentQuestion();
 
         testResponseRate();
+
+        testAddTemplateQuestionLink();
+        testAddTemplateQuestionAction();
     }
 
     private void testContent() throws Exception {
@@ -307,6 +307,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("add template question link");
 
+        feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.clickTemplateModalButton();
 
@@ -348,14 +349,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_QUESTION_ADDED_MULTIPLE);
         assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 4));
-
-        // revert back to state expected by tests after this by deleting newly added template questions
-        String questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 4).getId();
-        BackDoor.deleteFeedbackQuestion(questionId);
-        questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 3).getId();
-        BackDoor.deleteFeedbackQuestion(questionId);
-        questionId = getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 2).getId();
-        BackDoor.deleteFeedbackQuestion(questionId);
     }
 
     private void testEditQuestionLink() {
@@ -1114,11 +1107,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
         feedbacksPage.verifyResponseValue("0 / 1", courseId, feedbackSessionName);
-
-        // Delete the question
-        feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.clickDeleteQuestionLink(1);
-        feedbackEditPage.waitForConfirmationModalAndClickOk();
     }
 
     private InstructorFeedbackSessionsPage navigateToInstructorFeedbackSessionsPage() {
