@@ -1293,7 +1293,7 @@ public final class Const {
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_DELETED = "The course %s has been deleted.";
         public static final String COURSE_EMPTY =
-                "You have not created any courses yet. Use the form above to create a course.";
+                "You do not seem to have any courses. Use the form above to create a course.";
         public static final String COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS =
                 "You have not created any courses yet, or you have no active courses. Go <a href=\""
                 + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create or unarchive a course.";
