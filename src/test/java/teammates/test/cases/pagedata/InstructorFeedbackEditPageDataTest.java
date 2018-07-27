@@ -123,17 +123,12 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
 
         // test template question form
         List<FeedbackTemplateQuestionInfo> templateQnForm = data.getTemplateQuestions();
+
         assertEquals(5, templateQnForm.size());
-
-        FeedbackQuestionAttributes templateQuestion = dataBundle.feedbackQuestions
-                .get("templateQn1InSampleSession1InCourse1");
-        String questionTypeOfTemplateQuestion = templateQuestion.getQuestionDetails().getQuestionTypeDisplayName();
-        String questionTextOfTemplateQuestion = templateQuestion.getQuestionDetails().getQuestionText();
-
         assertEquals(1, templateQnForm.get(0).getQnNumber());
-        assertEquals(questionTypeOfTemplateQuestion, templateQnForm.get(0).getQnType());
-        assertEquals(questionTextOfTemplateQuestion, templateQnForm.get(0).getQnText());
-
+        assertEquals("Team contribution question", templateQnForm.get(0).getQnType());
+        assertEquals("Your estimate of how much each team member has contributed.",
+                templateQnForm.get(0).getQnText());
         assertEquals("Giver's team members and Giver", templateQnForm.get(0).getQnFeedbackPath());
         assertEquals("Shown anonymously to recipient and team members, visible to instructors",
                 templateQnForm.get(0).getQnVisibilityOption());
