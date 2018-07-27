@@ -1299,6 +1299,10 @@ Default to alert color for visibility titles used within an alert context.
 /////////////////////// Modal Dialogs //////////////////////
 ///////////////////////////////////////////////////////// */
 
+.horizontal-scrollbar {
+    overflow: scroll;
+}
+
 .modal-header {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
