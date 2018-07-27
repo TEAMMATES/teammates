@@ -458,7 +458,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
                     + "At least 2 recipients have been ranked.\n"
                     + "At most 4 recipients have been ranked.",
                     submitPage.getRankMessage(qnNumber, 3));
-        
+
         submitPage.selectResponseTextDropdown(qnNumber, 3, 0, "3");
         assertEquals("Multiple recipients are given the same rank! eg. 3.\n"
                     + "At least 2 recipients have been ranked.\n"
@@ -476,7 +476,6 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         StudentFeedbackResultsPage studentResultsPage =
                 loginToStudentFeedbackResultsPage("alice.tmms@FRankUiT.CS4221", "student");
         studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRank.html");
-
     }
 
     @Test

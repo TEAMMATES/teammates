@@ -479,8 +479,7 @@ function prepareConstSumQuestions() {
             // Add elements for displaying instructions to Constant Sum questions
             $(`.constraints-${qnNum}`).each(function () {
                 $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>'
-                        + `<p class="text-color-blue padding-left-35px" id="constSumInstruction-${qnNum}"></p>`
-                        + '<hr class="margin-top-0 border-top-dark-gray">');
+                        + `<p class="text-color-blue padding-left-35px" id="constSumInstruction-${qnNum}"></p>`);
             });
 
             // Add elements for displaying messages/errors based on user input
@@ -1233,8 +1232,7 @@ function prepareRankQuestions() {
                 // Add elements for displaying instructions to rank questions
                 $(`.constraints-${qnNum}`).each(function () {
                     $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>'
-                            + `<p class="text-color-blue padding-left-35px" id="rankInstruction-${qnNum}"></p>`
-                            + '<hr class="margin-top-0 border-top-dark-gray">');
+                            + `<p class="text-color-blue padding-left-35px" id="rankInstruction-${qnNum}"></p>`);
                 });
 
                 // Add elements for displaying messages/errors based on user input
