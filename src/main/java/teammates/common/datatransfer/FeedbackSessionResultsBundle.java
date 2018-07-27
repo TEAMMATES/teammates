@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -1731,5 +1732,31 @@ public class FeedbackSessionResultsBundle {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns list of responses sorted by giverName > recipientName > qnNumber with identities
+     * of giver/recipients NOT hidden which is used for anonymous result calculation.
+     *
+     * @param question question whose responses are required
+     * @return list of responses
+     */
+    public List<FeedbackResponseAttributes> getActualResponsesSortedByGqr(FeedbackQuestionAttributes question) {
+        List<FeedbackResponseAttributes> responses = getActualUnsortedResponses(question);
+        responses.sort(compareByGiverRecipientQuestion);
+        return responses;
+    }
+
+    /**
+     * Returns list of unsorted responses with identities of giver/recipients NOT hidden which is used for
+     * anonymous result calculation.
+     *
+     * @param question question whose responses are required
+     * @return list of responses
+     */
+    public List<FeedbackResponseAttributes> getActualUnsortedResponses(FeedbackQuestionAttributes question) {
+        return actualResponses.stream()
+                            .filter(response -> response.feedbackQuestionId.equals(question.getId()))
+                            .collect(Collectors.toList());
     }
 }

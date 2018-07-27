@@ -59,8 +59,12 @@
       "username": "95adityajain"
     },
     {
+      "multiple": true,
       "name": "Adrian Siwiec",
       "username": "AdrianSiwiec"
+    },
+    {
+      "username": "ah91086"
     },
     {
       "name": "Ahsan Bagwan",
@@ -311,6 +315,9 @@
     {
       "name": "Connor McDonald",
       "username": "clmcdonald"
+    },
+    {
+      "username": "cybersol795"
     },
     {
       "name": "Daniel Esponda",
@@ -849,6 +856,7 @@
       "name": "Mohit Singh Kanwal"
     },
     {
+      "multiple": true,
       "name": "Mudit Gupta",
       "username": "mg14777"
     },
@@ -1426,6 +1434,7 @@
       "username": "ihsavru"
     },
     {
+      "multiple": true,
       "name": "Vaggelis Malandrakis",
       "username": "Vaggelis-Malandrakis"
     },
