@@ -867,7 +867,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickTemplateModalButton() {
-        scrollElementToCenterAndClick(addTemplateModalLoadButton);
+        addTemplateModalLoadButton.click();
     }
 
     public void clickAddTemplateQuestionButton() {
