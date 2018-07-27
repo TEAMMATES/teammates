@@ -1766,6 +1766,19 @@ public class InstructorFeedbackEditPage extends AppPage {
                 distributePointsFor);
     }
 
+    public void dragAndDropConstSumOption(int qnNumber, int sourceIndex, int targetIndex) {
+        WebElement draggedOptionElement = browser.driver.findElement(By.xpath("//div[@id='constSumOptionRow-"
+                + sourceIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+        WebElement targetElement = browser.driver.findElement(By.xpath("//div[@id='constSumOptionRow-"
+                + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+
+        Actions builder = new Actions(browser.driver);
+        builder.clickAndHold(draggedOptionElement).perform();
+        builder.moveToElement(targetElement, 0, 10).perform(); // drag option 10 units below target
+        builder.moveToElement(targetElement).perform(); // drag option to target
+        builder.moveToElement(targetElement, 0, -10).release().perform(); // drag option 10 units above target and release
+    }
+
     public void clickAssignWeightsCheckbox(int qnIndex) {
         By by = By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED + getIdSuffix(qnIndex));
         WebElement assignWeightsCheckbox = browser.driver.findElement(by);
@@ -1815,6 +1828,19 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void fillRankOptionForNewQuestion(int optionIndex, String optionText) {
         fillRankOption(NEW_QUESTION_NUM, optionIndex, optionText);
+    }
+
+    public void dragAndDropRankOption(int qnNumber, int sourceIndex, int targetIndex) {
+        WebElement draggedOptionElement = browser.driver.findElement(By.xpath("//div[@id='rankOptionRow-"
+                + sourceIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+        WebElement targetElement = browser.driver.findElement(By.xpath("//div[@id='rankOptionRow-"
+                + targetIndex + "-" + qnNumber + "']//span[@class='glyphicon glyphicon-resize-vertical']"));
+
+        Actions builder = new Actions(browser.driver);
+        builder.clickAndHold(draggedOptionElement).perform();
+        builder.moveToElement(targetElement, 0, 10).perform(); // drag option 10 units below target
+        builder.moveToElement(targetElement).perform(); // drag option to target
+        builder.moveToElement(targetElement, 0, -10).release().perform(); // drag option 10 units above target and release
     }
 
     public void tickDuplicatesAllowedCheckbox(int qnIndex) {
@@ -1878,9 +1904,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public int getNumOfOptionsInRankOptions(int qnIndex) {
         if (isRankOptionsQuestion(qnIndex)) {
-            WebElement rankOptionsTable = browser.driver.findElement(By.id("rankOptionTable-" + qnIndex));
+            WebElement rankOptionsTableRows = browser.driver.findElement(By.id("rankOptionRows-" + qnIndex));
             List<WebElement> optionInputFields =
-                    rankOptionsTable.findElements(By.cssSelector("input[id^='rankOption-']"));
+                    rankOptionsTableRows.findElements(By.cssSelector("div[id^='rankOptionRow-']"));
             return optionInputFields.size();
         }
 

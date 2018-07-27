@@ -43,6 +43,7 @@ import {
     bindConstSumOptionsRadioButtons,
     changeConstSumDistributePointsFor,
     hideConstSumOptionTable,
+    makeConstSumOptionsReorderable,
     removeConstSumOption,
     showConstSumOptionTable,
     toggleConstSumDistributePointsOptions,
@@ -90,6 +91,7 @@ import {
     bindRankEvents,
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
+    makeRankOptionsReorderable,
     removeRankOption,
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
@@ -601,6 +603,8 @@ function enableNewQuestion() {
 
     makeMcqOptionsReorderable(NEW_QUESTION);
     makeMsqOptionsReorderable(NEW_QUESTION);
+    makeConstSumOptionsReorderable(NEW_QUESTION);
+    makeRankOptionsReorderable(NEW_QUESTION);
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
@@ -1250,10 +1254,15 @@ function makeQuestionOptionsReorderable() {
     const numQuestions = $('.questionTable').length;
     for (let i = 1; i <= numQuestions; i += 1) {
         const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
+
         if (qnType === 'MCQ') {
             makeMcqOptionsReorderable(i);
         } else if (qnType === 'MSQ') {
             makeMsqOptionsReorderable(i);
+        } else if (qnType === 'CONSTSUM') {
+            makeConstSumOptionsReorderable(i);
+        } else if (qnType === 'RANK_OPTIONS') {
+            makeRankOptionsReorderable(i);
         }
     }
 }
