@@ -90,7 +90,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
 
         // This is the full HTML verification for Instructor Course Enroll Results Page, the rest can all be verifyMainHtml
-        resultsPage.verifyHtml("/instructorCourseEnrollSecondPageResult.html");
+        resultsPage.verifyHtml("/instructorCourseEnrollFirstPageResult.html");
 
         // Check 'Edit' link
         enrollPage = resultsPage.clickEditLink();
@@ -171,7 +171,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
                 + "|Team 11|No Section 2|no.section.two@gmail.tmt|";
 
         resultsPage = enrollPage.enroll(enrollString);
-        resultsPage.verifyHtmlMainContent("/instructorCourseEnrollFirstPageResult.html");
+        resultsPage.verifyHtmlMainContent("/instructorCourseEnrollSecondPageResult.html");
 
         // Check 'Edit' link
         enrollPage = resultsPage.clickEditLink();
