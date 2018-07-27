@@ -21,6 +21,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.test.cases.BaseTestCaseWithMinimalGaeEnvironment;
 import teammates.ui.pagedata.InstructorFeedbackEditPageData;
 import teammates.ui.template.FeedbackQuestionEditForm;
@@ -65,8 +66,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
         InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
 
-        List<FeedbackQuestionAttributes> templateQuestions = new ArrayList<>();
-        templateQuestions.add(dataBundle.feedbackQuestions.get("templateQn1InSampleSession1InCourse1"));
+        List<FeedbackQuestionAttributes> templateQuestions = FeedbackQuestionsLogic.inst()
+                .getFeedbackSessionTemplateQuestions("TEAMEVALUATION", "typicalCourse1",
+                        "session1InCourse1", "instructor1OfCourse1");
 
         data.init(fs, questions, templateQuestions, questionHasResponses, studentList, instructorList, instructor,
                 true, instructorList.size(), courseDetails);
@@ -121,7 +123,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCaseWithMinimalG
 
         // test template question form
         List<FeedbackTemplateQuestionInfo> templateQnForm = data.getTemplateQuestions();
-        assertEquals(1, templateQnForm.size());
+        assertEquals(5, templateQnForm.size());
 
         FeedbackQuestionAttributes templateQuestion = dataBundle.feedbackQuestions
                 .get("templateQn1InSampleSession1InCourse1");

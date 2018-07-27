@@ -966,32 +966,6 @@
         "INSTRUCTORS"
       ]
     },
-    "templateQn1InSampleSession1InCourse1": {
-      "feedbackSessionName": "Sample feedback session",
-      "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": {
-        "value": "{\"questionText\":\"Your estimate of how much each team member has contributed.\",\"questionType\":\"CONTRIB\"}"
-      },
-      "questionNumber": 1,
-      "questionType": "CONTRIB",
-      "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "RECEIVER_TEAM_MEMBERS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER",
-        "INSTRUCTORS"
-      ]
-    },
     "team.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
