@@ -591,12 +591,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     public String getRecipientStatsHeaderHtml() {
         StringBuilder headerBuilder = new StringBuilder(100);
-        DecimalFormat dfWeight = new DecimalFormat("#.##");
         StringBuilder choicesHtmlBuilder = new StringBuilder(100);
 
         for (int i = 0; i < rubricChoices.size(); i++) {
-            String weight = dfWeight.format(rubricWeights.get(i));
-            String html = getRecipientStatsHeaderFragmentHtml(rubricChoices.get(i) + " (Weight: " + weight + ")");
+            String html = getRecipientStatsHeaderFragmentHtml(rubricChoices.get(i));
             choicesHtmlBuilder.append(html);
         }
 
@@ -1167,6 +1165,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] numOfResponsesPerSubQuestionPerChoice;
         double[] totalPerSubQuestion;
         int[] respondentsPerSubQuestion;
+        List<List<Double>> rubricWeightsForEachCell;
 
         RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
             this.recipientEmail = recipientEmail;
@@ -1175,6 +1174,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
             totalPerSubQuestion = new double[getNumOfRubricSubQuestions()];
             respondentsPerSubQuestion = new int[getNumOfRubricSubQuestions()];
+            this.rubricWeightsForEachCell = getRubricWeights();
         }
 
         public void addResponseToRecipientStats(FeedbackResponseAttributes response) {
@@ -1189,7 +1189,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
                 if (choice >= 0) {
                     ++numOfResponsesPerSubQuestionPerChoice[i][choice];
-                    totalPerSubQuestion[i] += getRubricWeights().get(i).get(choice);
+                    totalPerSubQuestion[i] += rubricWeightsForEachCell.get(i).get(choice);
                     respondentsPerSubQuestion[i]++;
                 }
             }
@@ -1214,9 +1214,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             cols.add(recipientName);
             cols.add(subQuestionString);
 
-            // <td> entries which display number of responses per subQuestion per rubric choice
+            // <td> entries which display number of responses per subQuestion per rubric choice,
+            // and the corresponding weight of that choice of the specific sub-question.
             for (int i = 0; i < getNumOfRubricChoices(); i++) {
-                cols.add(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]));
+                String responseFrequencyAndWeight = Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i])
+                        + " [" + df.format(rubricWeightsForEachCell.get(subQuestion).get(i)) + "]";
+                cols.add(responseFrequencyAndWeight);
             }
 
             // <td> entries which display aggregate statistics
