@@ -1232,16 +1232,16 @@ function prepareRankQuestions() {
             if (!areDuplicateRanksAllowed || isMinOptionsToBeRankedEnabled(qnNum) || isMaxOptionsToBeRankedEnabled(qnNum)) {
                 // Add elements for displaying instructions to rank questions
                 $(`.constraints-${qnNum}`).each(function () {
-                    $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>' +
-                            `<p class="text-color-blue padding-left-35px" id="rankInstruction-${qnNum}"></p>` +
-                            '<hr class="margin-top-0 border-top-dark-gray">');
+                    $(this).prepend('<p class="text-color-blue align-left text-bold">Note:</p>'
+                            + `<p class="text-color-blue padding-left-35px" id="rankInstruction-${qnNum}"></p>`
+                            + '<hr class="margin-top-0 border-top-dark-gray">');
                 });
 
                 // Add elements for displaying messages/errors based on user input
                 $(`.evalueeForm-${qnNum}`).each(function (responseIndx) {
-                    $(this).after(`<div id="rankInputAlert-${qnNum}-${responseIndx}" style="display:none">` +
-                            `<p class="text-color-green padding-left-35px" id="rankMessage-${qnNum}-${responseIndx}"></p>` +
-                            '<hr class="margin-top-0 border-top-dark-gray">');
+                    $(this).after(`<div id="rankInputAlert-${qnNum}-${responseIndx}" style="display:none">`
+                            + `<p class="text-color-green padding-left-35px" id="rankMessage-${qnNum}-${responseIndx}"></p>`
+                            + '<hr class="margin-top-0 border-top-dark-gray">');
                 });
             }
 
