@@ -870,6 +870,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         addTemplateModalLoadButton.click();
     }
 
+    public boolean isTemplateQuestionPanelExpanded(int qnNumber) {
+        // need to wait for the panel to be fully expanded before checking the class
+        waitForPageToLoad();
+        return browser.driver.findElement(By.id("addTemplateQuestion-" + qnNumber))
+                .findElement(By.className("in")).isDisplayed();
+    }
+
     public void clickAddTemplateQuestionButton() {
         click(addTemplateQuestionButton);
     }

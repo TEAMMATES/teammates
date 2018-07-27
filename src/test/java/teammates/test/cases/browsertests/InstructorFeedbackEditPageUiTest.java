@@ -323,12 +323,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         // check if each question panel is expandable
         feedbackEditPage.clickTemplateQuestionPanel(1);
-        feedbackEditPage.clickTemplateQuestionPanel(2);
-        feedbackEditPage.clickTemplateQuestionPanel(3);
-        feedbackEditPage.clickTemplateQuestionPanel(4);
-        feedbackEditPage.clickTemplateQuestionPanel(5);
-        feedbackEditPage.verifyHtmlPart(By.id("addTemplateQuestionModal"),
-                "/instructorFeedbackTemplateQuestionExpandedModal.html");
+        assertTrue(feedbackEditPage.isTemplateQuestionPanelExpanded(1));
 
         feedbackEditPage.clickTemplateQuestionModalCheckBox(1);
 
