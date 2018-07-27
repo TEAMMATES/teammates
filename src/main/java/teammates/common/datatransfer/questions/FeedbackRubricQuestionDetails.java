@@ -625,18 +625,12 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         boolean isExcludingSelfOptionAvailable =
                 recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
-        DecimalFormat weightFormat = new DecimalFormat("#.##");
-
         // Create table row header fragments
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for (int i = 0; i < numOfRubricChoices; i++) {
 
-            String header = SanitizationHelper.sanitizeForHtml(rubricChoices.get(i))
-                          + (fqd.hasAssignedWeights
-                            ? "<span style=\"font-weight:normal;\"> (Weight: "
-                              + weightFormat.format(rubricWeights.get(i)) + ")</span>"
-                            : "");
+            String header = SanitizationHelper.sanitizeForHtml(rubricChoices.get(i));
 
             String tableHeaderCell =
                     Templates.populateTemplate(tableHeaderFragmentTemplate, Slots.RUBRIC_CHOICE_VALUE, header);
@@ -719,23 +713,32 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         DecimalFormat df = new DecimalFormat("#");
         DecimalFormat dfAverage = new DecimalFormat("0.00");
+        DecimalFormat weightFormat = new DecimalFormat("#.##");
 
         String tableBodyFragmentTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
         String tableBodyTemplate = FormTemplates.RUBRIC_RESULT_STATS_BODY;
 
         StringBuilder tableBodyHtml = new StringBuilder();
 
+        // This will convert the legacy data into new format if there is legacy data for this question,
+        // and will also populate rubricWeightsForEachCell list if it is empty.
+        List<List<Double>> weights = getRubricWeights();
+
         for (int i = 0; i < numOfRubricSubQuestions; i++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             boolean isSubQuestionRespondedTo = responseFrequency[i][numOfRubricChoices] > 0;
 
             for (int j = 0; j < numOfRubricChoices; j++) {
-                String percentageFrequencyString = isSubQuestionRespondedTo
-                        ? df.format(rubricStats[i][j] * 100) + "%"
-                        : STATISTICS_NO_VALUE_STRING;
+                StringBuilder percentageFrequencyString = new StringBuilder();
+                // Add percentage Frequency, response frequency and if weights are assigned, then add weights.
+                percentageFrequencyString
+                        .append((isSubQuestionRespondedTo
+                                        ? df.format(rubricStats[i][j] * 100) + "%" : STATISTICS_NO_VALUE_STRING)
+                                + " (" + responseFrequency[i][j] + ") "
+                                + (hasAssignedWeights ? " [" + weightFormat.format(weights.get(i).get(j)) + "]" : ""));
+
                 String tableBodyCell = Templates.populateTemplate(tableBodyFragmentTemplate,
-                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE,
-                        percentageFrequencyString + " (" + responseFrequency[i][j] + ")");
+                        Slots.RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE, percentageFrequencyString.toString());
                 tableBodyFragmentHtml.append(tableBodyCell).append(System.lineSeparator());
 
             }
