@@ -231,14 +231,53 @@ function searchQuestions() {
     function highlightKeyword(keyword) {
         const highlightRegex = new RegExp(keyword, 'gi');
 
-        function highlighter(match) {
-            return `<span class="highlight">${match}</span>`;
+        function highlighter(elem) {
+            const childTextElements = $(elem).contents().filter(function () {
+                // recursively search and highlight matches for element node
+                if (this.nodeType === 1) {
+                    highlighter(this);
+                }
+                // keep text nodes for processing
+                return this.nodeType === 3;
+            });
+
+            // highlights a match found
+            function highlightMatch(match, nextTextElem) {
+                const highlightWrapper = document.createElement('span');
+                highlightWrapper.className = 'highlight';
+                highlightWrapper.textContent = match;
+                nextTextElem.parentNode.insertBefore(highlightWrapper, nextTextElem);
+            }
+
+            // search for query matches in text nodes and highlight them
+            function searchAndHighlightMatches(textElem) {
+                let textToSearch = textElem;
+                for (;;) {
+                    const matchPos = textToSearch.data.search(highlightRegex);
+                    // stop if no further matches are found
+                    if (matchPos === -1) {
+                        break;
+                    }
+                    const match = textToSearch.data.substr(matchPos, keyword.length);
+                    // remaining text corpus after current match that needs to be searched further
+                    const nextTextElem = textToSearch.splitText(matchPos);
+
+                    nextTextElem.data = nextTextElem.data.substr(match.length);
+                    highlightMatch(match, nextTextElem);
+                    textToSearch = nextTextElem;
+                }
+            }
+
+            // iterate through each text node and highlight matches
+            childTextElements.each(function () {
+                searchAndHighlightMatches(this);
+            });
         }
 
         $('#searchResults').children().each(function () {
             // highlight heading and body matches for query
-            $(this).find('.panel-heading, .panel-body').html(function () {
-                return $(this).html().replace(highlightRegex, highlighter);
+            $(this).find('.panel-heading, .panel-body').each(function () {
+                highlighter(this);
             });
         });
     }
