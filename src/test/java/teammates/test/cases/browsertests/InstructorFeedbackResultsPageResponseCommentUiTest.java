@@ -65,10 +65,6 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         ______TS("Question view: Typical case: add edit and delete successively");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
-        resultsPage.displayByQuestion();
-        resultsPage.loadResultQuestionPanel(1);
-
         addEditAndDeleteTypicalCommentAndVerify("-2-1-1", resultsPage);
     }
 
@@ -111,10 +107,6 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
 
         ______TS("GQR view: Typical case: add edit and delete successively");
 
-        resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
-        resultsPage.displayByGiverQuestionRecipient();
-        resultsPage.loadResultSectionPanel(1, 2);
-
         addEditAndDeleteTypicalCommentAndVerify("-2-0-1", resultsPage);
     }
 
@@ -156,10 +148,6 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseUiTe
         deleteFirstCommentAndVerify("-0-0-7", resultsPage);
 
         ______TS("RQG view: Typical case: add edit and delete successively");
-
-        resultsPage = loginToInstructorFeedbackResultsPage("IFRResponseCommentUiT.instr", "Open Session");
-        resultsPage.displayByRecipientQuestionGiver();
-        resultsPage.loadResultSectionPanel(1, 2);
 
         addEditAndDeleteTypicalCommentAndVerify("-0-8-1", resultsPage);
     }
