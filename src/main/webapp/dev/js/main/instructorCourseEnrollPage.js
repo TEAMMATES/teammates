@@ -10,7 +10,7 @@ import {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
-    showModalPasteBox,
+    showPasteModalBox,
 } from './instructorCourseEnrollHelper';
 
 const container = document.getElementById('spreadsheet');
@@ -41,7 +41,7 @@ const handsontable = new Handsontable(container, {
             key: 'paste',
             name: 'Paste',
             callback: () => {
-                showModalPasteBox();
+                showPasteModalBox();
             },
         },
         'make_read_only',
