@@ -52,7 +52,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         assertEquals(instructor2OfCourse3.courseId, courseList.get(0).getId());
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
 
-        ______TS("Typical case, delete all courses from Recycling Bin, with privilege for only some courses");
+        ______TS("Typical case, delete all courses from Recycle Bin, with privilege for only some courses");
 
         InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
         InstructorAttributes newInstructor = InstructorAttributes
