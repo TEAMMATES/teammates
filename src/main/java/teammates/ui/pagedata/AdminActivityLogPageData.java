@@ -152,7 +152,7 @@ public class AdminActivityLogPageData extends PageData {
         filterQuery = query.trim();
 
         try {
-            q = parseQuery(filterQuery.toLowerCase());
+            q = parseQuery(filterQuery);
         } catch (ParseException | InvalidParametersException e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
@@ -236,7 +236,7 @@ public class AdminActivityLogPageData extends PageData {
             return q;
         }
 
-        String[] tokens = query.replaceAll(" and ", "|")
+        String[] tokens = query.replaceAll(" \\b(?i)(and)\\b ", "|")
                                .replaceAll(", ", ",")
                                .replaceAll(": ", ":")
                                .split("\\|", -1);
@@ -248,9 +248,14 @@ public class AdminActivityLogPageData extends PageData {
                 throw new InvalidParametersException("Invalid format");
             }
 
+            String label = pair[0].trim().toLowerCase();
             String[] values = pair[1].split(",", -1);
             values = StringHelper.trim(values);
-            String label = pair[0].trim();
+
+            // GoogleID is case-sensitive and hence not converted to lower case
+            if (!("person".equals(label))) {
+                values = StringHelper.toLowerCase(values);
+            }
 
             if ("version".equals(label)) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
