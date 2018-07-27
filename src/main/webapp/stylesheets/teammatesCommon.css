@@ -933,6 +933,11 @@ Prevents content overflow in navbar. */
     min-width: 280px;
 }
 
+.text-wrap {
+    overflow-wrap: break-word;
+    table-layout:fixed;
+}
+
 .tt-dropdown-menu {
     background-color: #FFF;
     border: 1px solid #CCC;
