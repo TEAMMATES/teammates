@@ -274,11 +274,9 @@ function searchQuestions() {
             });
         }
 
-        $('#searchResults').children().each(function () {
+        $('#searchResults').find('.panel.panel-default').each(function () {
             // highlight heading and body matches for query
-            $(this).find('.panel-heading, .panel-body').each(function () {
-                highlighter(this);
-            });
+            highlighter(this);
         });
     }
 

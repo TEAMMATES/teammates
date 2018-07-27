@@ -74,6 +74,7 @@ public class InstructorHelpPageUiTest extends BaseUiTestCase {
         helpPage.inputSearchQuery(searchContent);
         helpPage.clickSearchButton();
         assertEquals("", helpPage.getSearchResults());
+
     }
 
 }
