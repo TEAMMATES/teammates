@@ -2044,8 +2044,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void clickTemplateQuestionPanel(int questionNum) {
-        WebElement questionPanel = browser.driver.findElement(By.id("addTemplateQuestionModalForm"))
-                .findElement(By.id("addTemplateQuestion-" + questionNum));
+        WebElement questionPanel = browser.driver.findElement(By.id("addTemplateQuestion-" + questionNum))
+                .findElement(By.className("panel-title"));
 
         click(questionPanel);
     }
