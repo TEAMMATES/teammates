@@ -509,12 +509,9 @@ public final class Templates {
             public static final String TABLE_BODY_HTML = "${tableBodyHtml}";
             public static final String TABLE_BODY_EXCLUDING_SELF_HTML = "${tableBodyExcludingSelfHtml}";
             public static final String EXCLUDING_SELF_OPTION_VISIBLE = "${isExcludingSelfOptionAvailable}";
-            public static final String EXCLUDING_SELF_COL_WIDTH = "${col-for-excluding-self}";
             public static final String SUB_QUESTION = "${subQuestion}";
             public static final String ROW = "${row}";
             public static final String COL = "${col}";
-            public static final String RUBRIC_WEIGHTED_PERCENTAGE_AVAILABLE = "${isWeightedPercentageAvailable}";
-            public static final String RUBRIC_WEIGHTED_PERCENTAGE_COL_WIDTH = "${col-for-weighted-percentage}";
             public static final String RUBRIC_PERCENTAGE_FREQUENCY_OR_AVERAGE = "${percentageFrequencyOrAverage}";
             public static final String CHECK_ASSIGN_WEIGHTS = "${checkAssignWeights}";
             public static final String RUBRIC_WEIGHT = "${rubricWeight}";
