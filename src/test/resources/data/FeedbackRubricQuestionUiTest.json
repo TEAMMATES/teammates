@@ -536,6 +536,32 @@
       },
       "giverSection": "None",
       "recipientSection": "None"
+    },
+    "feedbackResponseForThirdSessionQn1.1": {
+      "feedbackSessionName": "Third Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "alice.b.tmms@gmail.tmt",
+      "recipient": "alice.b.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\": [0,0],\"questionType\": \"RUBRIC\"}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
+    },
+    "feedbackResponseForThirdSessionQn1.2": {
+      "feedbackSessionName": "Third Session",
+      "courseId": "FRubricQnUiT.CS2104",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "RUBRIC",
+      "giver": "benny.c.tmms@gmail.tmt",
+      "recipient": "benny.c.tmms@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\": [1,0],\"questionType\": \"RUBRIC\"}"
+      },
+      "giverSection": "None",
+      "recipientSection": "None"
     }
   },
   "feedbackResponseComments": {},

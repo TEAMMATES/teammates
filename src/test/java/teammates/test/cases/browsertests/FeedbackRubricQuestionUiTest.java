@@ -71,7 +71,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     private void testInstructorResultsPage() throws Exception {
-        ______TS("test rubric question instructor results page");
+        ______TS("test instructor results page for rubric question with weights attached");
 
         // Question view
         InstructorFeedbackResultsPage instructorResultsPage =
@@ -108,6 +108,16 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
         instructorResultsPage.loadResultSectionPanel(0, 1);
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
 
+        ______TS("Test instructor result page for Rubric question without weights attached");
+
+        // Question view
+        instructorResultsPage =
+                loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession3",
+                                                                 false, "question");
+        instructorResultsPage.clickShowStats();
+        instructorResultsPage.loadResultQuestionPanel(1);
+        instructorResultsPage.verifyHtmlMainContent(
+                "/instructorFeedbackResultsPageRubricQuestionViewWithoutWeightsAttached.html");
     }
 
     private void testInstructorSubmitPage() {
