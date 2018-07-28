@@ -4788,7 +4788,6 @@
                                                     <th class="rubricCol-1-3">
                                                       <input type="text" class="form-control" value="Strongly Agree" id="rubricChoice-1-3" name="rubricChoice-3" disabled="">
                                                     </th>
-                                
                                                   </tr>
                                                 </thead>
                                                 <tbody>
@@ -4825,7 +4824,6 @@
                                                         <input type="number" class="form-control nonDestructive margin-top-10px" value="3" id="rubricWeight-1-0-3" name="rubricWeight-0-3" step="0.01" disabled="" required="">
                                                       </div>
                                                     </td>
-                                
                                                   </tr>
                                                   <tr id="rubricRow-1-1">
                                                     <td>
@@ -4860,9 +4858,7 @@
                                                         <input type="number" class="form-control nonDestructive margin-top-10px" value="2" id="rubricWeight-1-1-3" name="rubricWeight-1-3" step="0.01" disabled="" required="">
                                                       </div>
                                                     </td>
-                                
                                                   </tr>
-                                
                                                   <tr id="rubric-options-row-1" class="rubricRemoveChoiceLink-1" style="display: none;">
                                                     <td></td>
                                                     <td class="align-center rubricCol-1-0" data-col="0">
@@ -4917,8 +4913,6 @@
                                                         </button>
                                                       </div>
                                                     </td>
-                                
-                                
                                                   </tr>
                                                 </tbody>
                                               </table>
@@ -4940,7 +4934,6 @@
                                             <br>
                                           </div></div>
                                         </div>
-                                
                                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                                           <div class="margin-bottom-7px">
                                             <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
@@ -5201,7 +5194,7 @@
                                 has three parts <strong>Percentage (Response count) [Weight of the choice]</strong>. Each of the parts are explained below:
                                 <ul>
                                   <li>
-                                    Percentage: Shows the percentage of how often this choice is selected out of all responses for this sub-question. 
+                                    Percentage: Shows the percentage of how often this choice is selected out of all responses for this sub-question.
                                   </li>
                                   <li>
                                     Response count: Shows the number of times this choice is selected
@@ -5216,7 +5209,7 @@
                               <p>
                                 <strong>Per Recipient Statistics:</strong> This table is only shown to the questions which have weights assigned.
                                 Similar to the Response summary table, each choice of each sub-question in this table is divided into two parts,
-                                which are <strong>Response Count [Weight of the choice]</strong>. Based on the weight assigned to the choice and 
+                                which are <strong>Response Count [Weight of the choice]</strong>. Based on the weight assigned to the choice and
                                 the response count of that choice, total and average points for the sub-question is calculated for each recipient.
                               </p>
                               <div class="bs-example">
@@ -5241,7 +5234,6 @@
                                       </div>
                                       <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
                                         <div class="panel-body padding-0" id="questionBody-0">
-                                  
                                           <div class="resultStatistics">
                                             <div class="panel-body rubricStatistics">
                                               <div class="row">
@@ -5278,7 +5270,6 @@
                                                         <th>
                                                           <p>Average</p>
                                                         </th>
-                                  
                                                       </tr>
                                                     </thead>
                                                     <tbody class="table-body-including-self">
@@ -5301,7 +5292,6 @@
                                                         <td>
                                                           1.00
                                                         </td>
-                                  
                                                       </tr>
                                                       <tr>
                                                         <td>
@@ -5322,13 +5312,9 @@
                                                         <td>
                                                           1.50
                                                         </td>
-                                  
                                                       </tr>
-                                  
                                                     </tbody>
                                                     <tbody class="table-body-excluding-self hidden">
-                                  
-                                  
                                                     </tbody>
                                                   </table>
                                                 </div>
