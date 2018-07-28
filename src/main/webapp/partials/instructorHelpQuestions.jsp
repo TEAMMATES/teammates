@@ -5198,7 +5198,7 @@
                               </p>
                               <p>
                                 <strong>Response Summary Table:</strong> Each choice cell of each sub-question in the Response summary table
-                                is has three parts <strong>Percentage (Response count) [Weight of the choice]</strong>. Each of the parts are explained below:
+                                has three parts <strong>Percentage (Response count) [Weight of the choice]</strong>. Each of the parts are explained below:
                                 <ul>
                                   <li>
                                     Percentage: Shows the percentage of how often this choice is selected out of all responses for this sub-question. 
@@ -5210,6 +5210,8 @@
                                     Weight of the choice: Shows the weight attached with this choice of this sub-question.
                                   </li>
                                 </ul>
+                                If weights are assigned to the question, then based on the weight of each choice and the response count of that choice,
+                                the overall average score of the sub-question is calculated.
                               </p>
                               <p>
                                 <strong>Per Recipient Statistics:</strong> This table is only shown to the questions which have weights assigned.

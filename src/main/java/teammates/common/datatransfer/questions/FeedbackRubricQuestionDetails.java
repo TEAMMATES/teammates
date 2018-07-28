@@ -1021,7 +1021,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // 4) Choices and sub-questions should not be empty
         // 5) Weights must be assigned to all cells if weights are assigned, which means
         //    weight size should be equal to (numOfRubricChoices * numOfRubricSubQuestions).
-        // 6) Weights should not be negative.
 
         List<String> errors = new ArrayList<>();
 
@@ -1062,20 +1061,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // trigger this error.
         if (hasAssignedWeights && !isValidWeightSize()) {
             errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
-        }
-
-        // If weights are assigned, but any of the weight values is negative,
-        // trigger this error.
-        if (hasAssignedWeights && isValidWeightSize() && !rubricWeightsForEachCell.isEmpty()) {
-            outer:
-                for (int i = 0; i < numOfRubricSubQuestions; i++) {
-                    for (int j = 0; j < numOfRubricChoices; j++) {
-                        if (rubricWeightsForEachCell.get(i).get(j) < 0) {
-                            errors.add(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT);
-                            break outer;
-                        }
-                    }
-                }
         }
 
         return errors;
