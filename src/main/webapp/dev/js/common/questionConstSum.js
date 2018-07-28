@@ -117,33 +117,10 @@ function changeConstSumDistributePointsFor(questionNum) {
             $(`#constSumDistributePointsSelect-${questionNum}`).prop('value'));
 }
 
-/**
- * Enables options for distribute points question to be reordered through a drag and drop mechanism.
- * Binds an update event to the option elements which is triggered whenever the order of
- * elements changes. The event handler updates the ids of elements to match the new order.
- */
-function makeConstSumOptionsReorderable(questionNum) {
-    $(`#constSumChoices-${questionNum}`).sortable({
-        cursor: 'move',
-        update() {
-            $(this).children().each(function (index) {
-                $(this).attr('id', `constSumOptionRow-${index}-${questionNum}`);
-                $(this).find('input[id^="constSumOption-"]').attr({
-                    name: `constSumOption-${index}`,
-                    id: `constSumOption-${index}-${questionNum}`,
-                });
-                $(this).find('button[id="constSumRemoveOptionLink"]')
-                        .attr('onclick', `removeConstSumOption(${index},${questionNum})`);
-            });
-        },
-    });
-}
-
 export {
     addConstSumOption,
     bindConstSumOptionsRadioButtons,
     hideConstSumOptionTable,
-    makeConstSumOptionsReorderable,
     removeConstSumOption,
     showConstSumOptionTable,
     toggleConstSumOptionsRadioButton,

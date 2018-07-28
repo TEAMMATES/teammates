@@ -43,7 +43,6 @@ import {
     bindConstSumOptionsRadioButtons,
     changeConstSumDistributePointsFor,
     hideConstSumOptionTable,
-    makeConstSumOptionsReorderable,
     removeConstSumOption,
     showConstSumOptionTable,
     toggleConstSumDistributePointsOptions,
@@ -61,7 +60,6 @@ import {
     addMcqOption,
     bindMcqHasAssignedWeightsCheckbox,
     bindMcqOtherOptionEnabled,
-    makeMcqOptionsReorderable,
     removeMcqOption,
     toggleMcqHasAssignedWeights,
     toggleMcqGeneratedOptions,
@@ -72,7 +70,6 @@ import {
 import {
     addMsqOption,
     bindMsqEvents,
-    makeMsqOptionsReorderable,
     removeMsqOption,
     toggleMsqGeneratedOptions,
     toggleMsqHasAssignedWeights,
@@ -91,7 +88,6 @@ import {
     bindRankEvents,
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
-    makeRankOptionsReorderable,
     removeRankOption,
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,
@@ -545,6 +541,51 @@ function enableQuestion(questionNum) {
 }
 
 /**
+ * Sets up the sortable question options grid. Binds an update event to the option elements
+ * which is triggered whenever the order of elements changes. The event handler updates the
+ * ids of elements to match the new order.
+ * @param qnType type of question
+ * @param questionNum question number
+ */
+function initializeSortableQuestionGrid(qnType, questionNum) {
+    $(`#${qnType}Choices-${questionNum}`).sortable({
+        cursor: 'move',
+        update() {
+            $(this).children().each(function (index) {
+                $(this).attr('id', `${qnType}OptionRow-${index}-${questionNum}`);
+                $(this).find(`input[id^="${qnType}Option-"]`).attr({
+                    name: `${qnType}Option-${index}`,
+                    id: `${qnType}Option-${index}-${questionNum}`,
+                });
+                $(this).find(`button[id="${qnType}RemoveOptionLink"]`).attr('onclick',
+                        `remove${qnType.charAt(0).toUpperCase()}${qnType.slice(1)}Option(${index},${questionNum})`);
+            });
+        },
+    });
+}
+
+/**
+ * Enables options of different question types
+ * to be reordered using a drag and drog mechanism
+ */
+function makeQuestionOptionsReorderable() {
+    const numQuestions = $('.questionTable').length;
+    for (let i = 1; i <= numQuestions; i += 1) {
+        const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
+
+        if (qnType === 'MCQ') {
+            initializeSortableQuestionGrid('mcq', i);
+        } else if (qnType === 'MSQ') {
+            initializeSortableQuestionGrid('msq', i);
+        } else if (qnType === 'CONSTSUM') {
+            initializeSortableQuestionGrid('constSum', i);
+        } else if (qnType === 'RANK_OPTIONS') {
+            initializeSortableQuestionGrid('rank', i);
+        }
+    }
+}
+
+/**
  *Enables editing of question fields and enables the "save changes" button for
  * the given question number, while hiding the edit link. Does the opposite for all other questions.
  * @param questionNum
@@ -601,10 +642,10 @@ function enableNewQuestion() {
 
     toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    makeMcqOptionsReorderable(NEW_QUESTION);
-    makeMsqOptionsReorderable(NEW_QUESTION);
-    makeConstSumOptionsReorderable(NEW_QUESTION);
-    makeRankOptionsReorderable(NEW_QUESTION);
+    initializeSortableQuestionGrid('mcq', NEW_QUESTION);
+    initializeSortableQuestionGrid('msq', NEW_QUESTION);
+    initializeSortableQuestionGrid('constSum', NEW_QUESTION);
+    initializeSortableQuestionGrid('rank', NEW_QUESTION);
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
@@ -1244,27 +1285,6 @@ function setTooltipTriggerOnFeedbackPathMenuOptions() {
     $('.dropdown-submenu').hover(function () {
         $(this).children('.dropdown-menu').tooltip('toggle');
     });
-}
-
-/**
- * Enables options of different question types
- * to be reordered using a drag and drog mechanism
- */
-function makeQuestionOptionsReorderable() {
-    const numQuestions = $('.questionTable').length;
-    for (let i = 1; i <= numQuestions; i += 1) {
-        const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
-
-        if (qnType === 'MCQ') {
-            makeMcqOptionsReorderable(i);
-        } else if (qnType === 'MSQ') {
-            makeMsqOptionsReorderable(i);
-        } else if (qnType === 'CONSTSUM') {
-            makeConstSumOptionsReorderable(i);
-        } else if (qnType === 'RANK_OPTIONS') {
-            makeRankOptionsReorderable(i);
-        }
-    }
 }
 
 $(document).ready(() => {

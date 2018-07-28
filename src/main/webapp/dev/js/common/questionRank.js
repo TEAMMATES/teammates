@@ -207,28 +207,6 @@ function removeRankOption(index, questionNum) {
     adjustMinMaxOptionsToBeRanked(questionNum);
 }
 
-/**
- * Enables options for rank questions to be reordered through a drag and drop mechanism.
- * Binds an update event to the option elements which is triggered whenever the order of
- * elements changes. The event handler updates the ids of elements to match the new order.
- */
-function makeRankOptionsReorderable(questionNum) {
-    $(`#rankChoices-${questionNum}`).sortable({
-        cursor: 'move',
-        update() {
-            $(this).children().each(function (index) {
-                $(this).attr('id', `rankOptionRow-${index}-${questionNum}`);
-                $(this).find('input[id^="rankOption-"]').attr({
-                    name: `rankOption-${index}`,
-                    id: `rankOption-${index}-${questionNum}`,
-                });
-                $(this).find('button[id="rankRemoveOptionLink"]')
-                        .attr('onclick', `removeRankOption(${index},${questionNum})`);
-            });
-        },
-    });
-}
-
 function bindRankEvents() {
     $(document).on('change', 'input[name="minOptionsToBeRanked"],input[name="minRecipientsToBeRanked"]', (e) => {
         const questionNum = $(e.currentTarget).closest('form').attr('data-qnnumber');
@@ -289,7 +267,6 @@ export {
     bindRankEvents,
     hideInvalidRankRecipientFeedbackPaths,
     hideRankOptionTable,
-    makeRankOptionsReorderable,
     removeRankOption,
     showRankOptionTable,
     toggleMaxOptionsToBeRanked,

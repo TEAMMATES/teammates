@@ -24,6 +24,7 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
+    private static final String QN_TYPE = "rank";
 
     private InstructorFeedbackEditPage feedbackEditPage;
 
@@ -639,7 +640,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("Rank options: reorder existing options");
 
-        feedbackEditPage.dragAndDropRankOption(NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
         feedbackEditPage.clickAddQuestionButton();
         JSONObject rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                                         .questionMetaData.getValue());
@@ -651,7 +652,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddMoreRankOptionLink(1);
         feedbackEditPage.fillRankOption(1, 4, "New Choice");
-        feedbackEditPage.dragAndDropRankOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());
@@ -663,7 +664,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickRemoveRankOptionLink(1, 2);
         feedbackEditPage.fillRankOption(1, 1, "Old Choice");
-        feedbackEditPage.dragAndDropRankOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());
@@ -678,8 +679,8 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMoreRankOptionLink(1);
         feedbackEditPage.fillRankOption(1, 4, "New Choice");
         feedbackEditPage.fillRankOption(1, 5, "Newer Choice");
-        feedbackEditPage.dragAndDropRankOption(1, 5, 0);
-        feedbackEditPage.dragAndDropRankOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());

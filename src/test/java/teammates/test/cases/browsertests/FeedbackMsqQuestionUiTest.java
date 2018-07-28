@@ -24,6 +24,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
+    private static final String QN_TYPE = "msq";
 
     private InstructorFeedbackEditPage feedbackEditPage;
 
@@ -532,7 +533,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
 
         ______TS("MSQ: reorder existing options");
 
-        feedbackEditPage.dragAndDropMsqOption(NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
         feedbackEditPage.clickAddQuestionButton();
         JSONObject msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                 .questionMetaData.getValue());
@@ -544,7 +545,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddMoreMsqOptionLink(1);
         feedbackEditPage.fillMsqOption(1, 4, "New Choice");
-        feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                 .questionMetaData.getValue());
@@ -556,7 +557,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickRemoveMsqOptionLink(2, 1);
         feedbackEditPage.fillMsqOption(1, 1, "Old Choice");
-        feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                 .questionMetaData.getValue());
@@ -571,8 +572,8 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickAddMoreMsqOptionLink(1);
         feedbackEditPage.fillMsqOption(1, 4, "New Choice");
         feedbackEditPage.fillMsqOption(1, 5, "Newer Choice");
-        feedbackEditPage.dragAndDropMsqOption(1, 5, 0);
-        feedbackEditPage.dragAndDropMsqOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                 .questionMetaData.getValue());

@@ -17,6 +17,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
+    private static final String QN_TYPE = "constSum";
 
     private InstructorFeedbackEditPage feedbackEditPage;
 
@@ -277,7 +278,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
 
         ______TS("CONSTSUM: reorder existing options");
 
-        feedbackEditPage.dragAndDropConstSumOption(NEW_QUESTION_INDEX, 2, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
         feedbackEditPage.clickAddQuestionButton();
         JSONObject constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                                     .questionMetaData.getValue());
@@ -289,7 +290,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickAddMoreConstSumOptionLink(1);
         feedbackEditPage.fillConstSumOption(4, "New Choice", 1);
-        feedbackEditPage.dragAndDropConstSumOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());
@@ -301,7 +302,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickEditQuestionButton(1);
         feedbackEditPage.clickRemoveConstSumOptionLink(2, 1);
         feedbackEditPage.fillConstSumOption(1, "Old Choice", 1);
-        feedbackEditPage.dragAndDropConstSumOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());
@@ -316,8 +317,8 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
         feedbackEditPage.clickAddMoreConstSumOptionLink(1);
         feedbackEditPage.fillConstSumOption(4, "New Choice", 1);
         feedbackEditPage.fillConstSumOption(5, "Newer Choice", 1);
-        feedbackEditPage.dragAndDropConstSumOption(1, 5, 0);
-        feedbackEditPage.dragAndDropConstSumOption(1, 4, 1);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 5, 0);
+        feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         constSumQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
                                                             .questionMetaData.getValue());
