@@ -56,10 +56,10 @@ function getUpdatedData(spreadsheetDataRows) {
 }
 
 /**
- * Function to show modal box when user clicks on the 'paste' option in the Handsontable context menu.
+ * Shows modal box when user clicks on the 'paste' option in the Handsontable context menu.
  */
 function showPasteModalBox() {
-    const messageText = 'Pasting data through the context menu is not supported due to security complications. '
+    const messageText = 'Pasting data through the context menu is not supported due to browser restrictions. '
             + 'Please use <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to paste your data instead.';
 
     const okCallback = () => {};
