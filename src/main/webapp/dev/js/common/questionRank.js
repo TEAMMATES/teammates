@@ -19,7 +19,7 @@ function isMaxOptionsToBeRankedEnabled(qnNumber) {
 function getNumOfRankOptions(qnNumber) {
     if (isRankOptionsQuestion(qnNumber)) {
         // for rank options question, return number of options
-        return $(`#rankOptionRows-${qnNumber}`).children().length;
+        return $(`#rankChoices-${qnNumber}`).children().length;
     }
 
     // for rank recipients question, compute the number of recipients
@@ -164,9 +164,9 @@ function addRankOption(questionNum) {
             </span>
         </div>
     </div>
-    `).appendTo($(`#rankOptionRows-${questionNum}`));
+    `).appendTo($(`#rankChoices-${questionNum}`));
 
-    $(`#rankOptionRows-${questionNum}`).sortable('refresh');
+    $(`#rankChoices-${questionNum}`).sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -188,11 +188,11 @@ function hideRankOptionTable(questionNum) {
 function removeRankOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const $rankOptionRows = $(`#rankOptionRows-${questionNum}`);
+    const $rankChoices = $(`#rankChoices-${questionNum}`);
     const $thisRow = $(`#rankOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table has
-    const numberOfOptions = $rankOptionRows.children('div').length;
+    const numberOfOptions = $rankChoices.children('div').length;
 
     if (numberOfOptions <= 2) {
         $thisRow.find('input').val('');
@@ -213,7 +213,7 @@ function removeRankOption(index, questionNum) {
  * elements changes. The event handler updates the ids of elements to match the new order.
  */
 function makeRankOptionsReorderable(questionNum) {
-    $(`#rankOptionRows-${questionNum}`).sortable({
+    $(`#rankChoices-${questionNum}`).sortable({
         cursor: 'move',
         update() {
             $(this).children().each(function (index) {

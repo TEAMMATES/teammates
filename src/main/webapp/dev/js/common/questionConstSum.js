@@ -38,9 +38,9 @@ function addConstSumOption(questionNum) {
             </span>
         </div>
     </div>
-    `).appendTo($(`#constSumOptionRows-${questionNum}`));
+    `).appendTo($(`#constSumChoices-${questionNum}`));
 
-    $(`#constSumOptionRows-${questionNum}`).sortable('refresh');
+    $(`#constSumChoices-${questionNum}`).sortable('refresh');
 
     $(`#${ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED}-${questionNum}`).val(curNumberOfChoiceCreated + 1);
 
@@ -60,11 +60,11 @@ function hideConstSumOptionTable(questionNum) {
 function removeConstSumOption(index, questionNum) {
     const questionId = `#form_editquestion-${questionNum}`;
 
-    const $constSumOptionRows = $(`#constSumOptionRows-${questionNum}`);
+    const $constSumChoices = $(`#constSumChoices-${questionNum}`);
     const $thisRow = $(`#constSumOptionRow-${index}-${questionNum}`);
 
     // count number of child rows the table has
-    const numberOfOptions = $constSumOptionRows.children('div').length;
+    const numberOfOptions = $constSumChoices.children('div').length;
 
     if (numberOfOptions <= 1) {
         $thisRow.find('input').val('');
@@ -123,7 +123,7 @@ function changeConstSumDistributePointsFor(questionNum) {
  * elements changes. The event handler updates the ids of elements to match the new order.
  */
 function makeConstSumOptionsReorderable(questionNum) {
-    $(`#constSumOptionRows-${questionNum}`).sortable({
+    $(`#constSumChoices-${questionNum}`).sortable({
         cursor: 'move',
         update() {
             $(this).children().each(function (index) {

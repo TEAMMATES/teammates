@@ -1904,7 +1904,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public int getNumOfOptionsInRankOptions(int qnIndex) {
         if (isRankOptionsQuestion(qnIndex)) {
-            WebElement rankOptionsTableRows = browser.driver.findElement(By.id("rankOptionRows-" + qnIndex));
+            WebElement rankOptionsTableRows = browser.driver.findElement(By.id("rankChoices-" + qnIndex));
             List<WebElement> optionInputFields =
                     rankOptionsTableRows.findElements(By.cssSelector("div[id^='rankOptionRow-']"));
             return optionInputFields.size();
