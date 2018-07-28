@@ -368,9 +368,8 @@ public class InstructorFeedbackSessionsPageData extends PageData {
                     session.getSessionName());
             Boolean hasDeletePermission = instructorsForCourses.get(session.getCourseId()).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs "
-                            + "t_session_delete" + idx, "fsDeleteLink", deleteLink, Const.Tooltips.FEEDBACK_SESSION_DELETE,
-                    !hasDeletePermission);
+            ElementTag deleteButton = createButton("Delete Permanently", "btn btn-default btn-xs t_session_delete"
+                    + idx, "fsDeleteLink", deleteLink, Const.Tooltips.FEEDBACK_SESSION_DELETE, !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", session.getCourseId());
             deleteButton.setAttribute("data-feedback-session-name", session.getSessionName());
             deleteButton.setAttribute("style", "color: red");
@@ -396,7 +395,7 @@ public class InstructorFeedbackSessionsPageData extends PageData {
     }
 
     private ElementTag createButton(String content, String buttonClass, String id, String href, String title,
-                                    boolean isDisabled) {
+            boolean isDisabled) {
         ElementTag button = new ElementTag(content);
 
         button.setAttribute("class", buttonClass);

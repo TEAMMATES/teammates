@@ -15,10 +15,9 @@ public class RecoveryFeedbackSessionsTableRow {
     private List<ElementTag> actions;
 
     public RecoveryFeedbackSessionsTableRow(String courseIdParam, String sessionNameParam,
-                                   String createdTimeDateStringParam, String createdTimeDateStampParam,
-                                   String createdTimeFullDateTimeStringParam, String deletedTimeDateStringParam,
-                                   String deletedTimeDateStampParam, String deletedTimeFullDateTimeStringParam,
-                                   String href, List<ElementTag> actionsParam) {
+            String createdTimeDateStringParam, String createdTimeDateStampParam, String createdTimeFullDateTimeStringParam,
+            String deletedTimeDateStringParam, String deletedTimeDateStampParam, String deletedTimeFullDateTimeStringParam,
+            String href, List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.sessionName = sessionNameParam;
         this.createdTimeDateString = createdTimeDateStringParam;
