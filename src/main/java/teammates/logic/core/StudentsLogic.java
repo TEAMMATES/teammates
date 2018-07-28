@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
@@ -319,6 +320,22 @@ public final class StudentsLogic {
         return new CourseEnrollmentResult(returnList, enrollmentList);
     }
 
+    public void verifyEnrollStatus(String enrollLines, String courseId)
+            throws EntityDoesNotExistException, EnrollException {
+        if (!coursesLogic.isCoursePresent(courseId)) {
+            throw new EntityDoesNotExistException("Course does not exist :"
+                    + courseId);
+        }
+
+        if (enrollLines.isEmpty()) {
+            throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
+        }
+
+        List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
+        verifyIsWithinSizeLimitPerEnrollment(studentList);
+        validateSectionsAndTeams(studentList, courseId);
+    }
+
     private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
         if (students.size() > Const.SIZE_LIMIT_PER_ENROLLMENT) {
             throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
@@ -578,7 +595,7 @@ public final class StudentsLogic {
         StudentAttributesFactory saf = new StudentAttributesFactory(linesArray[0]);
 
         for (int i = 1; i < linesArray.length; i++) {
-            String line = linesArray[i];
+            String line = linesArray[i].trim(); // trim the line feed
             String sanitizedLine = SanitizationHelper.sanitizeForHtml(line);
             if (StringHelper.isWhiteSpace(line)) {
                 continue;
@@ -592,9 +609,19 @@ public final class StudentsLogic {
 
                 int duplicateEmailIndex = getDuplicateEmailIndex(student.email, studentList);
                 if (duplicateEmailIndex != -1) {
-                    invalidityInfo.add(duplicateEmailInfo(sanitizedLine, linesArray[duplicateEmailIndex + 1]));
+                    // if student is valid then this is the only exception message added,
+                    // thus require the sanitizedLine to be prepended
+                    if (invalidityInfo.isEmpty() || student.isValid()) {
+                        invalidityInfo.add(sanitizedLine.concat("##").concat(
+                                duplicateEmailInfo(linesArray[duplicateEmailIndex + 1].trim())));
+                    } else {
+                        // Append this duplicate email message to the latest student error message
+                        invalidityInfo.set(invalidityInfo.size() - 1,
+                                invalidityInfo.get(invalidityInfo.size() - 1).concat("\n"
+                                        + duplicateEmailInfo(linesArray[duplicateEmailIndex + 1].trim())));
+                    }
                 }
-
+                validateSectionsAndTeams(Arrays.asList(student), courseId);
                 studentList.add(student);
             } catch (EnrollException e) {
                 invalidityInfo.add(enrollExceptionInfo(sanitizedLine, e.getMessage()));
@@ -613,9 +640,8 @@ public final class StudentsLogic {
      * and the corresponding sanitized invalid {@code userInput}.
      */
     private String invalidStudentInfo(String userInput, StudentAttributes student) {
-        String info = StringHelper.toString(SanitizationHelper.sanitizeForHtml(student.getInvalidityInfo()),
-                "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ");
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
+        String info = StringHelper.toString(student.getInvalidityInfo());
+        return userInput.concat("##").concat(info);
     }
 
     /**
@@ -632,14 +658,10 @@ public final class StudentsLogic {
     }
 
     /**
-     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo} and
-     * the corresponding sanitized invalid {@code userInput}.
+     * Returns a {@code String} containing the duplicate email information in {@code duplicateEmailInfo}.
      */
-    private String duplicateEmailInfo(String userInput, String duplicateEmailInfo) {
-        String info =
-                Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\""
-                + "<br>" + Const.StatusMessages.ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " ";
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, info);
+    private String duplicateEmailInfo(String duplicateEmailInfo) {
+        return Const.StatusMessages.DUPLICATE_EMAIL_INFO + " \"" + duplicateEmailInfo + "\"";
     }
 
     /**
@@ -647,7 +669,7 @@ public final class StudentsLogic {
      * and the corresponding sanitized invalid {@code userInput}.
      */
     private String enrollExceptionInfo(String userInput, String errorMessage) {
-        return String.format(Const.StatusMessages.ENROLL_LINES_PROBLEM, userInput, errorMessage);
+        return userInput.concat("##").concat(errorMessage);
     }
 
     private boolean isInEnrollList(StudentAttributes student,

@@ -1,5 +1,8 @@
 package teammates.ui.pagedata;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 
 /**
@@ -8,6 +11,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 public class InstructorCourseEnrollPageData extends PageData {
     private String courseId;
     private String enrollStudents;
+    private Map<String, String> enrollErrorLines = new HashMap<>();
 
     public InstructorCourseEnrollPageData(AccountAttributes account, String sessionToken, String courseId,
             String enrollStudents) {
@@ -26,5 +30,13 @@ public class InstructorCourseEnrollPageData extends PageData {
 
     public String getInstructorCourseEnrollSaveLink() {
         return getInstructorCourseEnrollSaveLink(courseId);
+    }
+
+    public Map<String, String> getEnrollErrorLines() {
+        return enrollErrorLines;
+    }
+
+    public void setEnrollErrorLines(Map<String, String> enrollErrorLines) {
+        this.enrollErrorLines = enrollErrorLines;
     }
 }

@@ -993,7 +993,18 @@ public class Logic {
         Assumption.assertNotNull(enrollLines);
 
         return studentsLogic.enrollStudents(enrollLines.trim(), courseId);
+    }
 
+    /**
+     * Checks if the enroll data submitted is valid.
+     */
+    public void verifyEnrollStatus(String enrollLines, String courseId)
+            throws EnrollException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(enrollLines);
+
+        studentsLogic.verifyEnrollStatus(enrollLines.trim(), courseId);
     }
 
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
