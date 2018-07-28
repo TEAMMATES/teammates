@@ -152,11 +152,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 );
     }
 
-    @Override
-    public List<String> getInstructions() {
-        return null;
-    }
-
     private String getSubmissionOptionsHtmlForRankingRecipients(int totalNumRecipients, int rankGiven) {
 
         StringBuilder result = new StringBuilder(100);

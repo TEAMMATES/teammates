@@ -48,14 +48,6 @@
           <li class="unordered">${line}</li>
         </c:forEach>
       </ul>
-      <c:if test="${not empty questionWithResponses.question.instructions}">
-        <p class="text-muted">Instructions:</p>
-        <ul class="text-muted">
-          <c:forEach items="${questionWithResponses.question.instructions}" var="instruction">
-            <li class="unordered">${instruction}</li>
-          </c:forEach>
-        </ul>
-      </c:if>
       <div class="constraints-${questionWithResponses.question.qnIndx}">
         <hr class="margin-top-0 border-top-dark-gray">
       </div>

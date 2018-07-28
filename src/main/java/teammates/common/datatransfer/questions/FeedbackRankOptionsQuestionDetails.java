@@ -43,11 +43,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public List<String> getInstructions() {
-        return null;
-    }
-
-    @Override
     public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                           FeedbackQuestionType questionType) {
         super.extractQuestionDetails(requestParameters, questionType);
