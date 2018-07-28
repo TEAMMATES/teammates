@@ -40,9 +40,7 @@ const handsontable = new Handsontable(container, {
         {
             key: 'paste',
             name: 'Paste',
-            callback: () => {
-                showPasteModalBox();
-            },
+            callback: showPasteModalBox,
         },
         'make_read_only',
         'alignment',
