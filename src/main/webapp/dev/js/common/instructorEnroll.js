@@ -64,7 +64,8 @@ function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
 /**
  * Expands/Collapses the panel depending on the current state of the panel.
  */
-function toggleStudentsPanel(panelCollapse, displayIcon, toggleChevron) {
+function toggleStudentsPanel(panelHeading, panelCollapse) {
+    const toggleChevron = panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
     if (panelCollapse.hasClass('in')) { // panel is shown
         panelCollapse.collapse('hide');
         toggleChevron.addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');

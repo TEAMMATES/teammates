@@ -111,9 +111,8 @@ function getAjaxStudentList(ajaxPreloadImage) {
 /**
  * Handles how the panels are displayed, including rendering the spreadsheet interface.
  */
-function adjustStudentsPanelView(panelHeading, panelCollapse,
-        displayStatus, toggleChevron) {
-    toggleStudentsPanel(panelCollapse, displayStatus, toggleChevron);
+function adjustStudentsPanelView(panelHeading, panelCollapse) {
+    toggleStudentsPanel(panelHeading, panelCollapse);
     dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
 }
 
@@ -126,8 +125,6 @@ function expandCollapseExistingStudentsPanel() {
     const panelHeading = $(this);
     const panelCollapse = panelHeading.parent().children('.panel-collapse');
     const displayStatus = panelHeading.children('.display-status');
-    const toggleChevron = panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
-
     const ajaxPreloadImage = displayStatus.children('#ajax-preload-image');
     const ajaxStatusMessage = displayStatus.children('.ajax-status-message');
     ajaxStatusMessage.hide(); // hide any status message from the previous state
@@ -142,8 +139,7 @@ function expandCollapseExistingStudentsPanel() {
                         ajaxStatusMessage.text('No existing students in course.');
                     } else {
                         loadExistingStudentsData(data.students);
-                        adjustStudentsPanelView(panelHeading, panelCollapse,
-                                displayStatus, toggleChevron);
+                        adjustStudentsPanelView(panelHeading, panelCollapse);
                     }
                 }).catch(() => {
                     ajaxPreloadImage.hide();
@@ -151,8 +147,7 @@ function expandCollapseExistingStudentsPanel() {
                     ajaxStatusMessage.text('Failed to load. Click here to retry.');
                 });
     } else {
-        adjustStudentsPanelView(panelHeading, panelCollapse,
-                displayStatus, toggleChevron);
+        adjustStudentsPanelView(panelHeading, panelCollapse);
     }
 }
 
@@ -163,10 +158,8 @@ function expandCollapseExistingStudentsPanel() {
 function expandCollapseNewStudentsPanel() {
     const panelHeading = $(this);
     const panelCollapse = panelHeading.parent().children('.panel-collapse');
-    const displayStatus = panelHeading.children('.display-icon');
-    const toggleChevron = panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
-    if (toggleStudentsPanel(panelCollapse, displayStatus, toggleChevron)) { // if panel is shown
+    if (toggleStudentsPanel(panelHeading, panelCollapse)) { // if panel is shown
         $('.enroll-students-spreadsheet-buttons').show();
     } else {
         $('.enroll-students-spreadsheet-buttons').hide();
