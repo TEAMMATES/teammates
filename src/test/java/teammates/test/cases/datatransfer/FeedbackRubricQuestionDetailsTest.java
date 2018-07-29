@@ -39,7 +39,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", new String[] { "1.50" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-1", new String[] { "2.50" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-0", new String[] { "1.00" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "1-1", new String[] { "2.00" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-1", new String[] { "2.00" });
 
         assertTrue(rubricDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.RUBRIC));
         assertTrue(rubricDetails.hasAssignedWeights());
@@ -63,7 +63,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", new String[] { "1.50" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-1", new String[] { "2.50" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-0", new String[] { "1.00" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "1-1", new String[] { "2.00" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-1", new String[] { "2.00" });
 
         assertTrue(rubricDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.RUBRIC));
         assertTrue(rubricDetails.hasAssignedWeights());
@@ -249,41 +249,5 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         assertTrue(rubricDetails.hasAssignedWeights());
         List<String> errors = rubricDetails.validateQuestionDetails(dummySessionToken);
         assertEquals(0, errors.size());
-    }
-
-    /**
-     * Checks if the getRubricWeights method returns the correct list if weights are assigned,
-     * and rubricWeightsForEachCell is not empty.
-     * <p>
-     * The test which tests if legacy data is correctly converted or not if rubricWeightsForEachCell is empty,
-     * can be found in {@link InstructorFeedbackQuestionEditActionTest} file under the test name,
-     * testGetRubricWeights_rubricWeightsForEachCellEmpty_legacyDataWillBeConvertedToNewFormat().</p>
-     */
-    @Test
-    public void testGetRubricWeights_rubricWeightsForEachCellNotEmpty_shouldHaveCorrectValues() {
-        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        HashMap<String, String[]> requestParams = new HashMap<>();
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "Rubric question text" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, new String[] { "on" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-0", new String[] {"SubQn-1"});
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-1", new String[] {"SubQn-2"});
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-0", new String[] {" Choice-1"});
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-1", new String[] {"Choice-2"});
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", new String[] { "1.50" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-1", new String[] { "2.50" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-0", new String[] { "1.00" });
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-1", new String[] { "2.00" });
-
-        assertTrue(rubricDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.RUBRIC));
-        assertTrue(rubricDetails.hasAssignedWeights());
-        // RubricWeightsForEachCell list is not empty, so the values should be [[1.50, 2.50], [1.00, 2.00]].
-        List<List<Double>> weights = rubricDetails.getRubricWeights();
-        assertEquals(1.50, weights.get(0).get(0));
-        assertEquals(2.50, weights.get(0).get(1));
-        assertEquals(1.00, weights.get(1).get(0));
-        assertEquals(2.00, weights.get(1).get(1));
     }
 }

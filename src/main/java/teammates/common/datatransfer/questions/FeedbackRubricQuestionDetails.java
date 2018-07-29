@@ -831,8 +831,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int[][] responseFrequency = RubricStatistics.calculateResponseFrequency(responses, this);
         float[][] rubricStats = RubricStatistics.calculatePercentageFrequencyAndAverage(this,
                 responseFrequency);
-        // This will convert the legacy data into new format if there is legacy data for this question,
-        // and will also populate rubricWeightsForEachCell list if it is empty.
         List<List<Double>> weights = getRubricWeights();
 
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
@@ -1094,16 +1092,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             if (rubricWeights.size() != numOfRubricChoices || rubricWeights.isEmpty()) {
                 return new ArrayList<>();
             }
+            List<List<Double>> weights = new ArrayList<>();
 
-            // Fill each column of rubricWeightsForEachCell with each value of rubricWeights.
-            // e.g. weight of choice-0 == weight of cell-0-0, cell-1-0, cell-2-0 etc.
             for (int i = 0; i < numOfRubricSubQuestions; i++) {
-                rubricWeightsForEachCell.add(new ArrayList<Double>());
+                weights.add(new ArrayList<Double>());
                 for (int j = 0; j < numOfRubricChoices; j++) {
-                    rubricWeightsForEachCell.get(i).add(rubricWeights.get(j));
+                    weights.get(i).add(rubricWeights.get(j));
                 }
             }
-            return rubricWeightsForEachCell;
+
+            return weights;
         } else if (hasAssignedWeights && !rubricWeightsForEachCell.isEmpty()) {
             // Data is already in new format, return the list.
             return rubricWeightsForEachCell;
@@ -1149,6 +1147,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<List<Double>> rubricWeightsForEachCell;
 
         RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
+            Assumption.assertTrue(hasAssignedWeights);
             this.recipientEmail = recipientEmail;
             this.recipientName = recipientName;
             this.recipientTeam = recipientTeam;
