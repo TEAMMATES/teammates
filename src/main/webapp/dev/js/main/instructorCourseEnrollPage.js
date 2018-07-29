@@ -124,26 +124,26 @@ function adjustStudentsPanelView(panelHeading, panelCollapse) {
 function expandCollapseExistingStudentsPanel() {
     const panelHeading = $(this);
     const panelCollapse = panelHeading.parent().children('.panel-collapse');
-    const displayStatus = panelHeading.children('.display-status');
-    const ajaxPreloadImage = displayStatus.children('#ajax-preload-image');
-    const ajaxStatusMessage = displayStatus.children('.ajax-status-message');
+
+    const ajaxPreloadImage = panelHeading.parent().find('#ajax-preload-image');
+    const ajaxStatusMessage = panelHeading.parent().find('.ajax-status-message');
     ajaxStatusMessage.hide(); // hide any status message from the previous state
 
     // perform AJAX only if existing students' spreadsheet is empty
     if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
         getAjaxStudentList(ajaxPreloadImage)
                 .then((data) => {
-                    ajaxPreloadImage.hide();
+                    ajaxPreloadImage.toggle();
                     if (data.students.length === 0) {
-                        ajaxStatusMessage.show();
+                        ajaxStatusMessage.toggle();
                         ajaxStatusMessage.text('No existing students in course.');
                     } else {
                         loadExistingStudentsData(data.students);
                         adjustStudentsPanelView(panelHeading, panelCollapse);
                     }
                 }).catch(() => {
-                    ajaxPreloadImage.hide();
-                    ajaxStatusMessage.show();
+                    ajaxPreloadImage.toggle();
+                    ajaxStatusMessage.toggle();
                     ajaxStatusMessage.text('Failed to load. Click here to retry.');
                 });
     } else {
@@ -159,11 +159,8 @@ function expandCollapseNewStudentsPanel() {
     const panelHeading = $(this);
     const panelCollapse = panelHeading.parent().children('.panel-collapse');
 
-    if (toggleStudentsPanel(panelHeading, panelCollapse)) { // if panel is shown
-        $('.enroll-students-spreadsheet-buttons').show();
-    } else {
-        $('.enroll-students-spreadsheet-buttons').hide();
-    }
+    toggleStudentsPanel(panelHeading, panelCollapse);
+    $('.enroll-students-spreadsheet-buttons').toggle();
     enrollHandsontable.render();
 }
 
