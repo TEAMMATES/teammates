@@ -311,12 +311,14 @@ function bindDeleteButtons() {
         const feedbackSessionName = $button.data('fsname');
 
         const messageText = `Are you want to delete the feedback session ${feedbackSessionName} in ${courseId}?`;
+        const okButtonText = 'Yes';
+        const cancelButtonText = 'No, cancel the operation';
         const okCallback = function () {
             window.location = $button.attr('href');
         };
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.DANGER);
+            okButtonText, cancelButtonText, BootstrapContextualColors.DANGER);
     });
 }
 
