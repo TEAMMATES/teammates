@@ -284,7 +284,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
         while (responseIndx < numOfResponseBoxes) {
             List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
-                                                            questionAttributes.getId(),numOfResponseBoxes,
+                                                            questionAttributes.getId(), numOfResponseBoxes,
                                                             null);
 
             String submissionFormHtml = questionAttributes.getQuestionDetails()
