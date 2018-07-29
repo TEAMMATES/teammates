@@ -1316,18 +1316,16 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
         const e1Attributes = e1.text.split(':');
         const e2Attributes = e2.text.split(':');
 
-        const numberPattern = /\d+/;
+        const e1SectionVal = e1Attributes[0];
+        const e2SectionVal = e2Attributes[0];
 
-        const e1SectionVal = parseInt(e1Attributes[0].match(numberPattern), 10);
-        const e2SectionVal = parseInt(e2Attributes[0].match(numberPattern), 10);
-
-        const e1TeamVal = parseInt(e1Attributes[1].match(numberPattern), 10);
-        const e2TeamVal = parseInt(e2Attributes[1].match(numberPattern), 10);
+        const e1TeamVal = e1Attributes[1];
+        const e2TeamVal = e2Attributes[1];
 
         const e1Name = e1Attributes[nameIndx];
         const e2Name = e2Attributes[nameIndx];
 
-        // order based on numeric value of section followed by team and name
+        // sort based on lexicographical ordering of section followed by team and name
         if (e1SectionVal > e2SectionVal) {
             return 1;
         } else if (e1SectionVal < e2SectionVal) {
