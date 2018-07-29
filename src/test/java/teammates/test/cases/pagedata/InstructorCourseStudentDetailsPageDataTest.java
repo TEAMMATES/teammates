@@ -17,7 +17,6 @@ import teammates.ui.template.StudentProfile;
  */
 public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
 
-    private static final String GOOGLE_ID = "valid.googleId";
     private StudentAttributes inputStudent;
     private StudentProfileAttributes inputStudentProfile;
     private String pictureUrl;
@@ -92,7 +91,6 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
 
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, GOOGLE_ID);
         this.courseDetailsLink = link;
 
         inputStudent = StudentAttributes
@@ -104,6 +102,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     }
 
     private void createStudentProfile(String email, String pictureKey) {
+        String googleId = "valid.googleId";
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "Singaporean";
@@ -115,10 +114,10 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         } else {
             this.pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
                             + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
-                            + Const.ParamsNames.USER_ID + "=" + GOOGLE_ID;
+                            + Const.ParamsNames.USER_ID + "=null";
         }
 
-        inputStudentProfile = StudentProfileAttributes.builder(GOOGLE_ID)
+        inputStudentProfile = StudentProfileAttributes.builder(googleId)
                 .withShortName(shortName)
                 .withEmail(email)
                 .withInstitute(institute)
@@ -132,7 +131,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private InstructorCourseStudentDetailsPageData createData() {
         createCommonData();
 
-        return new InstructorCourseStudentDetailsPageData(AccountAttributes.builder().withGoogleId(GOOGLE_ID).build(),
+        return new InstructorCourseStudentDetailsPageData(AccountAttributes.builder().build(),
                 dummySessionToken, inputStudent, inputStudentProfile, hasSection);
     }
 
