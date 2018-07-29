@@ -111,7 +111,7 @@ function getAjaxStudentList(ajaxPreloadImage) {
 /**
  * Handles how the panels are displayed, including rendering the spreadsheet interface.
  */
-function adjustStudentsPanelView($panelHeading, panelCollapse,
+function adjustStudentsPanelView(panelHeading, panelCollapse,
         displayStatus, toggleChevron) {
     toggleStudentsPanel(panelCollapse, displayStatus, toggleChevron);
     dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
@@ -123,10 +123,10 @@ function adjustStudentsPanelView($panelHeading, panelCollapse,
  * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
  */
 function expandCollapseExistingStudentsPanel() {
-    const $panelHeading = $(this);
-    const panelCollapse = $panelHeading.parent().children('.panel-collapse');
-    const displayStatus = $panelHeading.children('.display-status');
-    const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+    const panelHeading = $(this);
+    const panelCollapse = panelHeading.parent().children('.panel-collapse');
+    const displayStatus = panelHeading.children('.display-status');
+    const toggleChevron = panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
     const ajaxPreloadImage = displayStatus.children('#ajax-preload-image');
     const ajaxStatusMessage = displayStatus.children('.ajax-status-message');
@@ -142,7 +142,7 @@ function expandCollapseExistingStudentsPanel() {
                         ajaxStatusMessage.text('No existing students in course.');
                     } else {
                         loadExistingStudentsData(data.students);
-                        adjustStudentsPanelView($panelHeading, panelCollapse,
+                        adjustStudentsPanelView(panelHeading, panelCollapse,
                                 displayStatus, toggleChevron);
                     }
                 }).catch(() => {
@@ -151,7 +151,7 @@ function expandCollapseExistingStudentsPanel() {
                     ajaxStatusMessage.text('Failed to load. Click here to retry.');
                 });
     } else {
-        adjustStudentsPanelView($panelHeading, panelCollapse,
+        adjustStudentsPanelView(panelHeading, panelCollapse,
                 displayStatus, toggleChevron);
     }
 }
@@ -161,10 +161,10 @@ function expandCollapseExistingStudentsPanel() {
  * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
  */
 function expandCollapseNewStudentsPanel() {
-    const $panelHeading = $(this);
-    const panelCollapse = $panelHeading.parent().children('.panel-collapse');
-    const displayStatus = $panelHeading.children('.display-icon');
-    const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
+    const panelHeading = $(this);
+    const panelCollapse = panelHeading.parent().children('.panel-collapse');
+    const displayStatus = panelHeading.children('.display-icon');
+    const toggleChevron = panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
     if (toggleStudentsPanel(panelCollapse, displayStatus, toggleChevron)) { // if panel is shown
         $('.enroll-students-spreadsheet-buttons').show();
