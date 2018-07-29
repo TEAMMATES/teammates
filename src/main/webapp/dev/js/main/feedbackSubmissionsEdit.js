@@ -1298,12 +1298,14 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
     function nameComparator(e1, e2) {
         const e1Name = e1.text;
         const e2Name = e2.text;
+
+        let result = 0;
         if (e1Name > e2Name) {
-            return 1;
+            result = 1;
         } else if (e1Name < e2Name) {
-            return -1;
+            result = -1;
         }
-        return 0;
+        return result;
     }
 
     function sectionTeamComparator(e1, e2) {
@@ -1326,20 +1328,21 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
         const e2Name = e2Attributes[nameIndx];
 
         // sort based on lexicographical ordering of section followed by team and name
+        let result = 0;
         if (e1SectionVal > e2SectionVal) {
-            return 1;
+            result = 1;
         } else if (e1SectionVal < e2SectionVal) {
-            return -1;
+            result = -1;
         } else if (e1TeamVal > e2TeamVal) {
-            return 1;
+            result = 1;
         } else if (e1TeamVal < e2TeamVal) {
-            return -1;
+            result = -1;
         } else if (e1Name > e2Name) {
-            return 1;
+            result = 1;
         } else if (e1Name < e2Name) {
-            return -1;
+            result = -1;
         }
-        return 0;
+        return result;
     }
 
     for (let i = 0; i < numResponses; i += 1) {
