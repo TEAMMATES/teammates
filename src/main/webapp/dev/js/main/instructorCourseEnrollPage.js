@@ -128,7 +128,6 @@ function adjustStudentsPanelView(panelHeading, panelCollapse, isDataHandsontable
  * students' data into the spreadsheet interface (if spreadsheet is not empty).
  * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
  */
-
 function studentsPanelClickHandler(currentSpreadsheet) {
     const panelHeading = $(currentSpreadsheet.currentTarget);
     const panelCollapse = panelHeading.parent().children('.panel-collapse');
