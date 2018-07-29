@@ -17,6 +17,7 @@ import {
     spreadsheetDataRowsToHandsontableData,
     getSpreadsheetLength,
     toggleStudentsPanel,
+    showPasteModalBox,
 } from '../common/instructorEnroll';
 
 const dataContainer = document.getElementById('existingDataSpreadsheet');
@@ -39,6 +40,7 @@ const dataHandsontable = new Handsontable(dataContainer, {
 const enrollContainer = document.getElementById('enrollSpreadsheet');
 const enrollHandsontable = new Handsontable(enrollContainer, {
     className: 'enroll-handsontable',
+const handsontable = new Handsontable(container, {
     height: 500,
     autoWrapRow: true,
     preventOverflow: 'horizontal',
@@ -60,6 +62,11 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
         'remove_row',
         'undo',
         'redo',
+        {
+            key: 'paste',
+            name: 'Paste',
+            callback: showPasteModalBox,
+        },
         'make_read_only',
         'alignment',
     ],
