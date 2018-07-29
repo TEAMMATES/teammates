@@ -547,7 +547,7 @@ function enableQuestion(questionNum) {
  * @param qnType type of question
  * @param questionNum question number
  */
-function initializeSortableQuestionGrid(qnType, questionNum) {
+function setupSortableQuestionOptionsGrid(qnType, questionNum) {
     $(`#${qnType}Choices-${questionNum}`).sortable({
         cursor: 'move',
         update() {
@@ -574,13 +574,13 @@ function makeQuestionOptionsReorderable() {
         const qnType = $(`input[name='questionnum'][value='${i}']`).siblings('input[name="questiontype"]').val();
 
         if (qnType === 'MCQ') {
-            initializeSortableQuestionGrid('mcq', i);
+            setupSortableQuestionOptionsGrid('mcq', i);
         } else if (qnType === 'MSQ') {
-            initializeSortableQuestionGrid('msq', i);
+            setupSortableQuestionOptionsGrid('msq', i);
         } else if (qnType === 'CONSTSUM') {
-            initializeSortableQuestionGrid('constSum', i);
+            setupSortableQuestionOptionsGrid('constSum', i);
         } else if (qnType === 'RANK_OPTIONS') {
-            initializeSortableQuestionGrid('rank', i);
+            setupSortableQuestionOptionsGrid('rank', i);
         }
     }
 }
@@ -642,10 +642,10 @@ function enableNewQuestion() {
 
     toggleAssignWeightsRow($newQuestionTable.find(`#rubricAssignWeights-${NEW_QUESTION}`));
 
-    initializeSortableQuestionGrid('mcq', NEW_QUESTION);
-    initializeSortableQuestionGrid('msq', NEW_QUESTION);
-    initializeSortableQuestionGrid('constSum', NEW_QUESTION);
-    initializeSortableQuestionGrid('rank', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('mcq', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('msq', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('constSum', NEW_QUESTION);
+    setupSortableQuestionOptionsGrid('rank', NEW_QUESTION);
 
     toggleMcqGeneratedOptions($(`#generateMcqOptionsCheckbox-${NEW_QUESTION}`), NEW_QUESTION);
     toggleMcqHasAssignedWeights($(`#mcqHasAssignedWeights-${NEW_QUESTION}`), NEW_QUESTION);
