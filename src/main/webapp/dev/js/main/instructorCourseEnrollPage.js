@@ -137,7 +137,7 @@ function adjustStudentsPanelView(panelHeading, panelCollapse, isDataHandsontable
 function studentsPanelClickHandler(currentSpreadsheet) {
     const panelHeading = $(currentSpreadsheet.currentTarget);
     const panelCollapse = panelHeading.parent().children('.panel-collapse');
-    const isExistingStudentsPanel = panelCollapse.find('#enrollSpreadsheet').length === 1;
+    const isExistingStudentsPanel = panelCollapse.find('#existingDataSpreadsheet').length === 1;
 
     if (isExistingStudentsPanel) { // Existing students' panel
         const ajaxPreloadImage = panelHeading.find('#ajax-preload-image');
