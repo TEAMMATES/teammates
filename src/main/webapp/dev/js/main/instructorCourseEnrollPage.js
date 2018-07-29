@@ -15,8 +15,6 @@ import {
     getUserDataRows,
     ajaxDataToHandsontableData,
     spreadsheetDataRowsToHandsontableData,
-    displayNoExistingStudents,
-    displayErrorExecutingAjax,
     getSpreadsheetLength,
     toggleStudentsPanel,
 } from '../common/instructorEnroll';
@@ -91,7 +89,7 @@ function loadExistingStudentsData(studentsData) {
  * Gets list of student data through an AJAX request.
  * @returns {Promise} the state of the result from the AJAX request
  */
-function getAjaxStudentList(displayStatus) {
+function getAjaxStudentList(ajaxPreloadImage) {
     return new Promise((resolve, reject) => {
         const $spreadsheetForm = $('#student-spreadsheet-form');
         $.ajax({
@@ -102,7 +100,7 @@ function getAjaxStudentList(displayStatus) {
                 courseid: $spreadsheetForm.children(`input[name="${ParamsNames.COURSE_ID}"]`).val(),
             },
             beforeSend() {
-                displayStatus.html('<img height="25" width="25" src="/images/ajax-preload.gif">');
+                ajaxPreloadImage.show();
             },
         })
                 .done(resolve)
@@ -131,19 +129,27 @@ function expandCollapseExistingStudentsPanel() {
     const displayStatus = $panelHeading.children('.display-status');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
+    const ajaxPreloadImage = displayStatus.children('#ajax-preload-image');
+    const ajaxStatusMessage = displayStatus.children('.ajax-status-message');
+    ajaxStatusMessage.hide(); // hide any status message from the previous state
+
     // perform AJAX only if existing students' spreadsheet is empty
     if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
-        getAjaxStudentList(displayStatus)
+        getAjaxStudentList(ajaxPreloadImage)
                 .then((data) => {
+                    ajaxPreloadImage.hide();
                     if (data.students.length === 0) {
-                        displayNoExistingStudents(displayStatus);
+                        ajaxStatusMessage.show();
+                        ajaxStatusMessage.text('No existing students in course.');
                     } else {
                         loadExistingStudentsData(data.students);
                         adjustStudentsPanelView($panelHeading, panelCollapse,
                                 displayStatus, toggleChevron);
                     }
                 }).catch(() => {
-                    displayErrorExecutingAjax(displayStatus);
+                    ajaxPreloadImage.hide();
+                    ajaxStatusMessage.show();
+                    ajaxStatusMessage.text('Failed to load. Click here to retry.');
                 });
     } else {
         adjustStudentsPanelView($panelHeading, panelCollapse,
