@@ -34,6 +34,7 @@ import {
     bindUncommonSettingsEvents,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
+    setupSessionVisibilityInfoModal,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
 } from '../common/instructorFeedbacks';
@@ -1212,6 +1213,8 @@ function readyFeedbackEditPage() {
     formatQuestionNumbers();
 
     setupFsCopyModal();
+
+    setupSessionVisibilityInfoModal();
 
     bindAssignWeightsCheckboxes();
     bindMcqHasAssignedWeightsCheckbox();

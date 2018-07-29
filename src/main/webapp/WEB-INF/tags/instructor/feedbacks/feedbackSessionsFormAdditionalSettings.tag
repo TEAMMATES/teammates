@@ -11,11 +11,14 @@
     <div class="row">
       <div class="col-xs-12 col-md-6">
         <div class="row">
-          <div class="col-xs-12"
+          <div class="col-xs-5"
               title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLELABEL %>"
               data-toggle="tooltip"
               data-placement="top">
             <label class="label-control">Make session visible </label>
+          </div>
+          <div class="col-xs-7 text-color-primary" id="sessionVisibleCustomInfo">
+            <span class="glyphicon glyphicon-info-sign cursor-pointer"></span>
           </div>
         </div>
         <div class="row radio">
