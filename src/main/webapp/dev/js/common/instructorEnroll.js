@@ -70,10 +70,9 @@ function toggleStudentsPanel(panelHeading, panelCollapse) {
         panelCollapse.collapse('hide');
         toggleChevron.addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
         return false;
-    } else {
-        panelCollapse.collapse('show');
-        toggleChevron.addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
     }
+    panelCollapse.collapse('show');
+    toggleChevron.addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
     return true;
 }
 
