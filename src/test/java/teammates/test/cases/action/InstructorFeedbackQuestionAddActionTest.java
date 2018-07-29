@@ -1038,43 +1038,9 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
                 // This weight is removed so that rubricChoice-0 does not have a attached weight
                 // Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", "-1",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "0-1", "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "1-0", "0",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "1-1", "3",
-        };
-        requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
-        Collections.addAll(requestedParams, params);
-
-        action = getAction(requestedParams.toArray(new String[0]));
-        result = getRedirectResult(action);
-
-        assertEquals(
-                getPageResultDestination(
-                        Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE,
-                        instructor1ofCourse1.courseId,
-                        "First+feedback+session",
-                        instructor1ofCourse1.googleId,
-                        true),
-                result.getDestinationWithParams());
-
-        assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, result.getStatusMessage());
-
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
-                + "instructorFeedbackQuestionAdd|||true|||"
-                + "Instructor|||Instructor 1 of Course 1|||"
-                + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Unknown|||/page/instructorFeedbackQuestionAdd";
-        AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
-
-        ______TS("Failure case: Negative weights attached");
-
-        params = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED, "on",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-0", "-1",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "0-1", "2",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "1-0", "0",
-                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "1-1", "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-0-1", "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-0", "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-1-1", "3",
         };
         requestedParams = new ArrayList<>(Arrays.asList(requiredParams));
         Collections.addAll(requestedParams, params);
