@@ -130,6 +130,7 @@ public class FeedbackTemplateQuestionInfo {
     public String getQuestionSpecificEditFormHtml() {
 
         if (qnNumber == 1) {
+            // question 1 is Contribution type and the others are Essay type question
             FeedbackContributionQuestionDetails fcqd = new FeedbackContributionQuestionDetails();
             return fcqd.getQuestionSpecificEditFormHtml(qnNumber);
         } else {
