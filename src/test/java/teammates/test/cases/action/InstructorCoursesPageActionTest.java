@@ -91,7 +91,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         assertEquals(
                 getPageResultDestination(Const.ViewURIs.INSTRUCTOR_COURSES, false, "idOfInstructor1OfCourse1"),
                 r.getDestinationWithParams());
-        assertEquals("You have not created any courses yet. Use the form above to create a course.", r.getStatusMessage());
+        assertEquals("You do not seem to have any courses. Use the form above to create a course.", r.getStatusMessage());
         assertFalse(r.isError);
 
         pageData = (InstructorCoursesPageData) r.data;
