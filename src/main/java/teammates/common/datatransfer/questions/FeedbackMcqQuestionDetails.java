@@ -960,6 +960,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Calculates the answer frequency for each option based on the received responses.
          */
+        @Override
         protected Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
             Map<String, Integer> answerFrequency = new LinkedHashMap<>();
 
@@ -986,6 +987,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         /**
          * Returns a Map containing response counts for each option for every recipient.
          */
+        @Override
         protected Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
                 List<FeedbackResponseAttributes> responses) {
             Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();

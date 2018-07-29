@@ -20,6 +20,7 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.Priority;
 
@@ -164,7 +165,7 @@ public class AccountsLogicTest extends BaseLogicTest {
             accountsLogic.updateAccount(expectedAccount);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
+            AssertHelper.assertContains(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, edne.getMessage());
         }
 
         ______TS("test downgradeInstructorToStudentCascade");

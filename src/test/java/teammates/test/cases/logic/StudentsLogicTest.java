@@ -38,7 +38,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.api.StudentsDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.driver.TimeHelperExtension;
@@ -336,7 +336,7 @@ public class StudentsLogicTest extends BaseLogicTest {
             studentsLogic.updateStudentCascadeWithoutDocument("non-existent@email", student4InCourse1);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
-            assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT
+            assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT_STUDENT
                     + student4InCourse1.course + "/" + "non-existent@email",
                     e.getMessage());
         }
