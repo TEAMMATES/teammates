@@ -103,27 +103,36 @@ function setupSessionVisibilityInfoModal() {
     <p>
         This option allows you to select when you want the questions
         for the feedback session to be visible to users who need to participate.<br><br>
-        <label>Note:</label> Users cannot submit their responses until the submissions
-        opening time set using this option.
+        <label>Note:</label> Users cannot submit their responses until the submission
+        opening time.
     </p>
     `;
 
     const atOptionInfo = `
     <p>
-        <label>At:</label> Select this option to enter in a custom date and time for which
-        the feedback session will become visible. Note that you can make
-        a session visible before it is open for submissions so that users can preview the questions.
+        <label>At:</label> Select this option to enter in a specific date and time when
+        the feedback session will become visible. Note that you can make a session visible
+        before it is open for submissions so that users can preview the questions.
     </p>
     `;
 
     const openTimeOptionInfo = `
     <p>
         <label>Submission opening time:</label> Select this option to have the feedback
-        session become visible when it is open for submissions as set before.
+        session become visible when it is open for submissions.
     </p>
     `;
 
-    const modalText = `${generalInfo}<br>${atOptionInfo}<br>${openTimeOptionInfo}`;
+    const modalText = `
+    ${generalInfo}<br>
+    <label>Options:</label><br>
+    <div>
+        <ul>
+            <li>${atOptionInfo}</li>
+            <li>${openTimeOptionInfo}</li>
+        </ul>
+    </div>
+    `;
     $('#sessionVisibleCustomInfo').on('click', () => {
         showModalAlert('Session Visibility Options', modalText);
     });
