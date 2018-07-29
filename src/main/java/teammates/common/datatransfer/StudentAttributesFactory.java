@@ -108,11 +108,7 @@ public class StudentAttributesFactory {
         /* Since the migration to spreadsheet interfaces, section header index will always be present.
         Therefore, if the user chooses not to include a section entry in the student row during enrollment,
         we treat it that the student has no section. */
-        if (columns[sectionColumnIndex].isEmpty()) {
-            hasSection = false;
-        }
-
-        if (hasSection && columns.length > sectionColumnIndex) {
+        if (hasSection && columns.length > sectionColumnIndex && !columns[sectionColumnIndex].isEmpty()) {
             paramSection = StringHelper.removeExtraSpace(columns[sectionColumnIndex]);
         } else {
             paramSection = Const.DEFAULT_SECTION;
