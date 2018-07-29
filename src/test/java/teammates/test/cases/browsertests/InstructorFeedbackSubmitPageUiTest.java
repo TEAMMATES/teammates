@@ -394,8 +394,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Check if options augmented with section and team info are sorted
         List<String> expectedAugmentedRecipients = Arrays.asList("",
                 "None: Team 1</td></div>'\": Alice Betsy</option></td></div>'\"",
-                "None: Team 1</td></div>'\": Benny Charles", "Section 1: Team 2: Charlie Davis",
-                "Section 1: Team 2: Danny Engrid", "Section 1: New Team: Extra guy", "Section 2: Team 3: Emily");
+                "None: Team 1</td></div>'\": Benny Charles", "Section 1: New Team: Extra guy",
+                "Section 1: Team 2: Charlie Davis", "Section 1: Team 2: Danny Engrid", "Section 2: Team 3: Emily");
         List<String> actualAugmentedRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
         assertTrue(expectedAugmentedRecipients.equals(actualAugmentedRecipients));
 
