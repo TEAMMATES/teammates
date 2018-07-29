@@ -46,6 +46,19 @@ public class InstructorFeedbackEditPageData extends PageData {
         super(account, sessionToken);
     }
 
+    /**
+     * Initializes EditPageData.
+     * @param feedbackSession         session in the course that the user is accessing
+     * @param questions               existing list of questions in the feedback session
+     * @param templateQuestions       list of template questions from feedbackSessionTeamEvaluationTemplate.json
+     * @param questionHasResponses    a map of questionIds to indicate if a question has response
+     * @param studentList             a list of students in the course
+     * @param instructorList          a list of instructors in the course
+     * @param instructor              the current instructor logged in
+     * @param shouldLoadInEditMode    true or false depending on if the session is editable
+     * @param numOfInstructors        number of instructors in the course
+     * @param courseDetails           course details of the selected course
+     */
     public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
                      List<FeedbackQuestionAttributes> templateQuestions, Map<String, Boolean> questionHasResponses,
                      List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
