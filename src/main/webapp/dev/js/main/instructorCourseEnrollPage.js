@@ -1,6 +1,7 @@
 /**
  * Holds Handsontable settings, reference and other information for the spreadsheet interface.
  */
+/* global Handsontable:false */
 import {
     prepareInstructorPages,
 } from '../common/instructor';
@@ -9,11 +10,11 @@ import {
     getUpdatedHeaderString,
     getUserDataRows,
     getUpdatedData,
+    showPasteModalBox,
 } from './instructorCourseEnrollHelper';
 
 const container = document.getElementById('spreadsheet');
 
-/* global Handsontable:false */
 const handsontable = new Handsontable(container, {
     height: 500,
     autoWrapRow: true,
@@ -36,6 +37,11 @@ const handsontable = new Handsontable(container, {
         'remove_row',
         'undo',
         'redo',
+        {
+            key: 'paste',
+            name: 'Paste',
+            callback: showPasteModalBox,
+        },
         'make_read_only',
         'alignment',
     ],
