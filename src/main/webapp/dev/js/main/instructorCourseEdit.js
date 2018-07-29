@@ -436,6 +436,16 @@ function editCourse() {
     $(`#${ParamsNames.COURSE_TIME_ZONE}`).prop('disabled', false);
     $('#auto-detect-time-zone').prop('disabled', false);
     $('#courseEditLink').hide();
+    $('#cancelEditCourseLink').show();
+}
+
+function cancelEditingCourse() {
+    $(`#${ParamsNames.COURSE_NAME}`).prop('disabled', true);
+    $(`#${ParamsNames.COURSE_TIME_ZONE}`).prop('disabled', true);
+    $('#auto-detect-time-zone').prop('disabled', true);
+    $('#courseEditLink').show();
+    $('#cancelEditCourseLink').hide();
+    $('#btnSaveCourse').hide();
 }
 
 let instructorSize;
@@ -507,6 +517,8 @@ $(document).ready(() => {
         checkTheRoleThatApplies(i + 1);
     }
 
+    $('a[id^="cancelEditCourseLink"]').hide();
+    $('a[id^="cancelEditCourseLink"]').click(cancelEditingCourse);
     $('#courseEditLink').click(editCourse);
     $('a[id^="instrCancelLink"]').hide();
     $('a[id^="instrCancelLink"]').click(function () {
