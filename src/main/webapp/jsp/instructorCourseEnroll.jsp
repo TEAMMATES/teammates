@@ -43,7 +43,10 @@
               <div class="pull-right margin-left-7px">
                 <span class="glyphicon glyphicon-chevron-down"></span>
               </div>
-              <div class="display-status pull-right"></div>
+              <div class="display-status pull-right">
+                <img id="ajax-preload-image" height="25" width="25" src="/images/ajax-preload.gif">
+                <div class="ajax-status-message"></div>
+              </div>
               <strong>Existing students</strong>
             </div>
             <div class="panel-collapse collapse">

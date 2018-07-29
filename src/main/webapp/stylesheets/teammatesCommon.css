@@ -902,7 +902,13 @@ Prevents content overflow in navbar. */
     display: none;
 }
 
-.ajax-error-message {
+#ajax-preload-image {
+    display: none;
+}
+
+.ajax-status-message {
+    display: none;
+    font-weight: bold;
     margin-left: 1em;
     margin-right: 1em;
 }
