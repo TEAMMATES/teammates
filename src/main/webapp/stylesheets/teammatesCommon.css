@@ -935,7 +935,7 @@ Prevents content overflow in navbar. */
 
 .text-wrap {
     overflow-wrap: break-word;
-    table-layout:fixed;
+    table-layout: fixed;
 }
 
 .tt-dropdown-menu {
