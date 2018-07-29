@@ -1010,7 +1010,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
                 newSession.getGracePeriodMinutes());
         feedbackPage.waitForTextsForAllStatusMessagesToUserEquals(
                 getPopulatedEmptyStringErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING_FOR_SESSION_NAME,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                         FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH));
         assertTrue(feedbackPage.isVisible(By.id("timeFramePanel")));

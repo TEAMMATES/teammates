@@ -492,7 +492,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     private CourseStudent getCourseStudentEntityForEmail(String courseId, String email) {
-        return getCourseStudentForEmailQuery(courseId, email).first().now();
+        return load().id(email + '%' + courseId).now();
     }
 
     private CourseStudent getCourseStudentEntityForRegistrationKey(String registrationKey) {
