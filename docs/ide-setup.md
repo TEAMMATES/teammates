@@ -1,4 +1,4 @@
-# Using an IDE
+# Set up an IDE
 
 - [Eclipse IDE](#eclipse-ide)
 - [IntelliJ IDEA](#intellij-idea)
@@ -21,7 +21,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 
    ![eclipsesetupguide-2.png](images/eclipsesetupguide-2.png)
 
-1. In Eclipse, do the following works before importing the project:
+1. Before importing the project into Eclipse, do the following:
    * Google Cloud Tools: Go to `Eclipse → Preferences → Google Cloud Tools` and fill the `SDK location` box with the directory of your installed Google Cloud SDK.
 
      ![eclipsesetupguide-3.png](images/eclipsesetupguide-3.png)
@@ -34,7 +34,7 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 
 ### Project Setup
 
-1. Run this command to get necessary configuration files for Eclipse:
+1. Run this command to get the necessary configuration files for Eclipse:
 
    ```sh
    ./gradlew setupEclipse
@@ -42,18 +42,18 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 
    **Verification:** The folder `.launches` and files `.classpath`, `.project` should be added to the project root directory.
 
-1. Import the project to your Eclipse instance.
+1. Import the project into your Eclipse instance.
    * Go to `File → Import...`.
-   * Select `Existing Gradle Project` under `Gradle`. Click `Next >`.
-   * Set the `Project root directory` to the location where the repo is cloned. Click `Next >`.
+   * Under `Gradle`, select `Existing Gradle Project`. Click `Next >`.
+   * Set the `Project root directory` to the location where the repository is cloned. Click `Next >`.
    * If necessary, tick `Override workspace settings` and choose `Gradle wrapper`. Click `Finish`.
 
    After importing the project, you may see many errors/warnings on your marker tab.
-   You need not be alarmed as these will be resolved in the next step.
+   These will be resolved in the next step.
 
 1. Configure the following project-specific settings (all can be found in `Project → Properties → ...`, except for the HTML, CSS and XML settings which can be found in `Eclipse → Preferences → ...`):
    * Text encoding: `UTF-8` is used for text encoding.
-     Configure for all the languages used in TEAMMATES in `Eclipse → Preferences → ...`. Change to `UTF-8` if it is not the default value.
+     Configure for all the languages used in TEAMMATES in `Eclipse → Preferences → ...`. Change the encoding to `UTF-8` if it is not the default value.
      * General: `General → Workspace → Text file encoding`.
      * HTML: `Web → HTML Files → Encoding`. Alternatively, tick `Use workspace encoding`.
      * CSS: `Web → CSS Files → Encoding`.
@@ -81,13 +81,13 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon or 
 
    * Validation: Go to `Validation → ...`
      * Disable validation for HTML, JSP, and XML: Uncheck the `Build` option for `HTML Syntax Validator`, `JSP Content Validator`, `JSP Syntax Validator`, `XML Schema Validator`, and `XML Validator`.
-     * Disable validation for JavaScript and JSON files in `node_modules` folder: Click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`. Similarly for `JSON Validator`.
+     * Disable validation for JavaScript and JSON files in `node_modules` folder: Click the `...` settings button for `JavaScript Validation` → if `Exclude Group` is not already in the list then click `Add Exclude Group...` → `Exclude Group` → `Add Rule...` → `Folder or file name` → `Next` → `Browse Folder...` → navigate to the `node_modules` folder and confirm → `Finish`. The steps for disabling the `JSON Validator`are similar.
 
 1. `Refresh` and `Clean` the project for all changes to take effect. Ensure that there are no errors. Warnings are generally fine and can be ignored.
 
    ![eclipsesetupguide-8.png](images/eclipsesetupguide-8.png)
 
-   > If you are using Eclipse Neon, you will find that all declarations of `import` and `export` in JavaScript files are marked as errors. This is fine and is not a cause of concern.
+   > If you are using Eclipse Neon, you will find that all declarations of `import` and `export` in JavaScript files are marked as errors. This is fine and is not a cause for concern.
 
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
 
@@ -106,9 +106,9 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 
 1. You need a Java 8 SDK with the name `1.8` defined in IntelliJ IDEA as follows:
 
-   * Click `Configure → Project Defaults → Project Structure` (or `File → Project Structure` if a project is currently open).
+   * Click `Configure → Project Defaults → Project Structure` (or `File → Project Structure` if a project is open).
      Select SDKs in Platform Settings and check if there is an SDK named `1.8` with a JDK home path pointing to a JDK 8 path.
-     Otherwise add a new SDK using JDK 8 with a name of `1.8`.
+     Otherwise, add a new SDK using JDK 8 with a name of `1.8`.
      ![intellijsetupguide-1.png](images/intellijsetupguide-1.png)
 
 1. You need the [Google Cloud Tools](https://cloud.google.com/tools/intellij/docs/quickstart-IDEA#install) plugin installed and configured:
@@ -116,14 +116,14 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
    ![intellijsetupguide-2.png](images/intellijsetupguide-2.png)
    * During installation, you may encounter a prompt to disable the obsolete `Google App Engine Integration` plugin. Answer `Yes`.
    * After installation, restart IntelliJ IDEA and configure the plugin.
-     Click `Configure → Settings/Preferences` (or `IntelliJ IDEA → Preferences` if a project is currently open),
+     Click `Configure → Settings/Preferences` (or `IntelliJ IDEA → Preferences` if a project is open),
      go to `Other Settings → Google → Cloud SDK`, and select your Google Cloud SDK directory.
      ![intellijsetupguide-3.png](images/intellijsetupguide-3.png)
 
 ### Project Setup
 
 1. Import the project as a Gradle project as follows:
-   1. Click `Import Project` (or `File → New → Project from Existing Sources...` if a project is currently open).
+   1. Click `Import Project` (or `File → New → Project from Existing Sources...` if a project is open).
    1. Select the local repository folder and click `Open`.
    1. Select `Import project from external model` and then `Gradle`.
    1. Click `Next`.
@@ -136,17 +136,17 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
       `Framework detected: Google App Engine Standard framework is detected.`.\
       **OR**\
       `Frameworks detected: Web, Google App Engine Standard frameworks are detected`.\
-      Click `Configure` and ensure that only the `Google App Engine Standard` framework is shown, then click `OK`.
-      If there are other frameworks shown, click `Cancel` and wait until indexing completes, then try again.
+      Click on `Configure` and ensure that only the `Google App Engine Standard` framework is shown, then click `OK`.
+      If there are other frameworks shown, click `Cancel` and wait until indexing is completed, then try again.
       > If you closed or missed the dialog box, go to `View → Tool Windows → Event Log`.
-        You should see the same message as the dialog box, click `Configure` and then `OK`.
+        You should see the same message as the message in the dialog box. Click `Configure` and then `OK`.
 
 1. Configure the following project-specific settings (all can be found in `IntelliJ IDEA → Preferences → ...`):
 
    * Indentation: 4 spaces are used in place of tabs for indentations. For JSON, HTML, and HTML-like documents, 2 spaces are used instead.
      Configure for all the languages used in TEAMMATES:
      1. Go to `Editor → Code Style`.
-     1. Select `Project` for `Scheme` if you do not wish to make the rules the default for your IDE.
+     1. Select `Project` for `Scheme` if you do not wish to make the settings the default for your IDE.
      1. For `Java`, `JavaScript`, `JSON`, `CSS`, `XML`, `HTML`, and `JSP`:
         * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `4`, `4`, and `8` respectively.
         * For `HTML`, `JSON`, and `JSP`, the numbers are `2`, `2`, and `4` instead.

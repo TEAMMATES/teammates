@@ -40,7 +40,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
                                     String profilePictureLink,
                                     boolean isGroupedByGiver, String participantIdentifier, String participantName) {
         this(questionTables, profilePictureLink, isGroupedByGiver,
-             participantIdentifier, participantName, null);
+                participantIdentifier, participantName, null);
     }
 
     /**
@@ -53,7 +53,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
                                     boolean isGroupedByGiver,
                                     InstructorFeedbackResultsModerationButton moderationButton) {
         this(questionTables, profilePictureLink, isGroupedByGiver, participantIdentifier,
-             participantName, moderationButton);
+                participantName, moderationButton);
     }
 
     public List<InstructorFeedbackResultsQuestionTable> getQuestionTables() {

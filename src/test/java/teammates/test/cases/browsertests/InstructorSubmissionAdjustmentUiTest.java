@@ -46,15 +46,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         loadEnrollmentPage();
 
         ______TS("typical case: enroll new student to existing course");
-        StudentAttributes newStudent = StudentAttributes
-                .builder("idOfTypicalCourse1", "someName", "random@g.tmt")
-                .withComments("comments")
-                .withTeam("Team 1.1</td></div>'\"")
-                .withSection("None")
-                .build();
 
-        String enrollString = "Section | Team | Name | Email | Comment" + System.lineSeparator()
-                            + newStudent.toEnrollmentString();
+        String enrollString = "Section 1\tsomeName\tTeam1.1\trandom@g.tmt\tcomments\t";
 
         enrollPage.enroll(enrollString);
 
@@ -75,8 +68,8 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         String newTeam = "Team 1.2";
         student.team = newTeam;
 
-        enrollString = "Section | Team | Name | Email | Comment" + System.lineSeparator()
-                     + student.toEnrollmentString();
+        enrollString = "None\t" + student.getTeam() + "\t"
+                + student.getName() + "\t" + student.getEmail() + "\t";
         enrollPage.enroll(enrollString);
 
         // It might take a while for the submission adjustment to persist (especially on the live server),

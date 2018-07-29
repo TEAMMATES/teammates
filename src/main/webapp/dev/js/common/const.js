@@ -31,9 +31,9 @@ const BootstrapContextualColors = {
     // Additional contextual colors that can be used in the components of modals
     PRIMARY: 'primary',
     isValidType(type) {
-        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO ||
-        type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING ||
-        type === BootstrapContextualColors.DANGER;
+        return type === BootstrapContextualColors.SUCCESS || type === BootstrapContextualColors.INFO
+                || type === BootstrapContextualColors.PRIMARY || type === BootstrapContextualColors.WARNING
+                || type === BootstrapContextualColors.DANGER;
     },
 };
 BootstrapContextualColors.DEFAULT = BootstrapContextualColors.INFO;
@@ -64,7 +64,9 @@ const ParamsNames = {
     FEEDBACK_QUESTION_TYPE: 'questiontype',
     FEEDBACK_QUESTION_NUMBEROFCHOICECREATED: 'noofchoicecreated',
     FEEDBACK_QUESTION_MCQCHOICE: 'mcqOption',
+    FEEDBACK_QUESTION_MCQ_WEIGHT: 'mcqWeight',
     FEEDBACK_QUESTION_MSQCHOICE: 'msqOption',
+    FEEDBACK_QUESTION_MSQ_WEIGHT: 'msqWeight',
     FEEDBACK_QUESTION_CONSTSUMOPTION: 'constSumOption',
     FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS: 'constSumToRecipients',
     FEEDBACK_QUESTION_CONSTSUMPOINTS: 'constSumPoints',
@@ -87,6 +89,8 @@ const ParamsNames = {
     FEEDBACK_QUESTION_NUMSCALE_STEP: 'numscalestep',
     FEEDBACK_QUESTION_RANKOPTION: 'rankOption',
     FEEDBACK_QUESTION_RANKTORECIPIENTS: 'rankToRecipients',
+    FEEDBACK_QUESTION_NUMBER: 'questionnum',
+    FEEDBACK_QUESTION_NUMBER_STATIC: 'questionnum-static',
     FEEDBACK_QUESTION_RANK_IS_MIN_OPTIONS_TO_BE_RANKED_ENABLED: 'minOptionsToBeRankedEnabled',
     FEEDBACK_QUESTION_RANK_IS_MAX_OPTIONS_TO_BE_RANKED_ENABLED: 'maxOptionsToBeRankedEnabled',
     FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED: 'minOptionsToBeRanked',
