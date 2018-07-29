@@ -113,8 +113,7 @@ function getAjaxStudentList(ajaxPreloadImage) {
  */
 function adjustStudentsPanelView($panelHeading, panelCollapse,
         displayStatus, toggleChevron) {
-    toggleStudentsPanel($panelHeading, panelCollapse,
-            displayStatus, toggleChevron);
+    toggleStudentsPanel(panelCollapse, displayStatus, toggleChevron);
     dataHandsontable.render(); // needed as the view is buggy after collapsing the panel
 }
 
@@ -167,7 +166,7 @@ function expandCollapseNewStudentsPanel() {
     const displayStatus = $panelHeading.children('.display-icon');
     const toggleChevron = $panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
 
-    if (toggleStudentsPanel($panelHeading, panelCollapse, displayStatus, toggleChevron)) { // if panel is expanded
+    if (toggleStudentsPanel(panelCollapse, displayStatus, toggleChevron)) { // if panel is shown
         $('.enroll-students-spreadsheet-buttons').show();
     } else {
         $('.enroll-students-spreadsheet-buttons').hide();

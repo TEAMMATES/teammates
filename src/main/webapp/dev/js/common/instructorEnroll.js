@@ -62,44 +62,18 @@ function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
 }
 
 /**
- * Toggle the chevron image depending on the user's action.
- */
-function toggleChevronImage(isExpanded, toggleChevron) {
-    if (isExpanded) { // panel is shown
-        $(toggleChevron).addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
-    } else {
-        $(toggleChevron).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
-    }
-}
-
-/**
- * Expands panel, showing the spreadsheet interface.
- */
-function expandStudentsPanel(panelCollapse) {
-    panelCollapse.collapse('show');
-}
-
-/**
- * Collapses panel, hiding the spreadsheet interface.
- */
-function collapseStudentsPanel(panelCollapse) {
-    panelCollapse.collapse('hide');
-}
-
-/**
  * Expands/Collapses the panel depending on the current state of the panel.
  */
-function toggleStudentsPanel($panelHeading, panelCollapse, displayIcon, toggleChevron) {
-    let isPanelExpanded = false;
-    displayIcon.html('');
+function toggleStudentsPanel(panelCollapse, displayIcon, toggleChevron) {
     if (panelCollapse.hasClass('in')) { // panel is shown
-        collapseStudentsPanel(panelCollapse);
+        panelCollapse.collapse('hide');
+        toggleChevron.addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+        return false;
     } else {
-        expandStudentsPanel(panelCollapse);
-        isPanelExpanded = true;
+        panelCollapse.collapse('show');
+        toggleChevron.addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
     }
-    toggleChevronImage(isPanelExpanded, toggleChevron);
-    return isPanelExpanded;
+    return true;
 }
 
 /**
