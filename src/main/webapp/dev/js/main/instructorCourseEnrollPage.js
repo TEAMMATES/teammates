@@ -71,6 +71,8 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
     ],
 });
 
+const enrollErrorMessagesMap = new Map();
+
 /**
  * Function to update the enrollHandsontable cell settings according to a custom renderer.
  */
@@ -188,6 +190,26 @@ function adjustStudentsPanelView(panelHeading, panelCollapse, handsontableInstan
     toggleStudentsPanel(panelHeading, panelCollapse);
     // needed as the view is buggy after collapsing the panel
     handsontableInstance.render();
+}
+
+/**
+ * Adds all error messages returned from the backend into a map.
+ */
+function addEnrollErrorMessages(enrollErrorLines) {
+    // Updates any error messages to process later
+    if (!jQuery.isEmptyObject(enrollErrorLines)) {
+        Object.keys(enrollErrorLines).forEach(key => (
+                enrollErrorMessagesMap.set(key, enrollErrorLines[key])
+        ));
+    }
+
+    enrollHandsontable.getData().forEach((row, index) => {
+        const currRowLine = row.join('|');
+        if (enrollErrorMessagesMap.has(currRowLine)) {
+            enrollErrorMessagesMap.set(index,
+                    enrollErrorMessagesMap.get(currRowLine));
+        }
+    });
 }
 
 /**
