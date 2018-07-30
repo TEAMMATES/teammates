@@ -1106,7 +1106,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
         feedbacksPage.verifyResponseValue("0 / 1", courseId, feedbackSessionName);
-        
         // Delete the question
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickDeleteQuestionLink(1);
