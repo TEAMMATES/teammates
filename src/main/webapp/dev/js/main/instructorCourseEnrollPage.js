@@ -325,7 +325,7 @@ $(document).ready(() => {
         enrollHandsontable.alter('insert_row', null, emptyRowsCount);
     });
 
-    $('#student-spreadsheet-form').click(() => {
+    $('#button_enroll').click(() => {
         enrollErrorMessagesMap.clear();
         updateDataDump();
         triggerAndProcessAjaxSaveAction();
