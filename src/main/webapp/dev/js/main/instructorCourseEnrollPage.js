@@ -108,8 +108,7 @@ function getAjaxStudentList(ajaxPreloadImage) {
             beforeSend() {
                 ajaxPreloadImage.show();
             },
-        })
-                .done(resolve)
+        }).done(resolve)
                 .fail(reject);
     });
 }
@@ -140,23 +139,23 @@ function existingStudentsPanelClickHandler(event) {
     if (getSpreadsheetLength(dataHandsontable.getData()) !== 0) {
         adjustStudentsPanelView(panelHeading, panelCollapse, true);
         return;
-    } else { // perform AJAX only if existing students' spreadsheet is empty
-        getAjaxStudentList(ajaxPreloadImage)
-                .then((data) => {
-                    ajaxPreloadImage.hide();
-                    if (data.students.length === 0) {
-                        ajaxStatusMessage.show();
-                        ajaxStatusMessage.text('No existing students in course.');
-                    } else {
-                        loadExistingStudentsData(data.students);
-                        adjustStudentsPanelView(panelHeading, panelCollapse, dataHandsontable);
-                    }
-                }).catch(() => {
-                    ajaxPreloadImage.hide();
-                    ajaxStatusMessage.show();
-                    ajaxStatusMessage.text('Failed to load. Click here to retry.');
-                });
     }
+    // perform AJAX only if existing students' spreadsheet is empty
+    getAjaxStudentList(ajaxPreloadImage)
+            .then((data) => {
+                ajaxPreloadImage.hide();
+                if (data.students.length === 0) {
+                    ajaxStatusMessage.show();
+                    ajaxStatusMessage.text('No existing students in course.');
+                } else {
+                    loadExistingStudentsData(data.students);
+                    adjustStudentsPanelView(panelHeading, panelCollapse, dataHandsontable);
+                }
+            }).catch(() => {
+                ajaxPreloadImage.hide();
+                ajaxStatusMessage.show();
+                ajaxStatusMessage.text('Failed to load. Click here to retry.');
+            });
 }
 
 $(document).ready(() => {
