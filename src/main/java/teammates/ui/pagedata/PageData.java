@@ -279,14 +279,6 @@ public class PageData {
         return link;
     }
 
-    public String getInstructorCourseEnrollSaveLink(String courseId) {
-        //TODO: instead of using this method, the form should include these data as hidden fields?
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-
     public String getInstructorCourseDetailsLink(String courseId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);

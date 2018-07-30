@@ -27,10 +27,6 @@ public class InstructorCourseEnrollPageData extends PageData {
         return enrollStudents;
     }
 
-    public String getInstructorCourseEnrollSaveLink() {
-        return getInstructorCourseEnrollSaveLink(courseId);
-    }
-
     public Map<String, String> getEnrollErrorLines() {
         return enrollErrorLines;
     }
