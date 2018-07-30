@@ -77,6 +77,7 @@ function toggleStudentsPanel(panelHeading, panelCollapse) {
     if (panelCollapse.hasClass('in')) { // panel is shown
         panelCollapse.collapse('hide');
         toggleChevron.addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+        return;
     }
     panelCollapse.collapse('show');
     toggleChevron.addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');

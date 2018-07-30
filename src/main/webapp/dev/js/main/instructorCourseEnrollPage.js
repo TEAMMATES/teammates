@@ -130,8 +130,8 @@ function adjustStudentsPanelView(panelHeading, panelCollapse, handsontableInstan
  * students' data into the spreadsheet interface (if spreadsheet is not empty).
  * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
  */
-function studentsPanelClickHandler(currentSpreadsheet) {
-    const panelHeading = $(currentSpreadsheet.currentTarget);
+function studentsPanelClickHandler(event) {
+    const panelHeading = $(event.currentTarget);
     const panelCollapse = panelHeading.parent().children('.panel-collapse');
     const isExistingStudentsPanel = panelCollapse.find('#existingDataSpreadsheet').length === 1;
 
@@ -168,10 +168,10 @@ function studentsPanelClickHandler(currentSpreadsheet) {
 
 $(document).ready(() => {
     prepareInstructorPages();
-    $('#enroll-spreadsheet').on('click', studentsPanelClickHandler.bind(this));
+    $('#enroll-spreadsheet').on('click', studentsPanelClickHandler);
     $('#enroll-spreadsheet').trigger('click');
 
-    $('#existing-data-spreadsheet').click(studentsPanelClickHandler.bind(this));
+    $('#existing-data-spreadsheet').click(studentsPanelClickHandler);
 
     if ($('#enrollstudents').val()) {
         const allData = $('#enrollstudents').val().split('\n'); // data in the table including column headers (string format)
