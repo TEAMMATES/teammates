@@ -18,7 +18,7 @@ import teammates.common.util.TimeHelper;
 /**
  * An association class that represents the association
  * Giver --> [comments about] --> FeedbackResponse.
- * Giver can be a student or an instructor
+ * Giver can be a student or an instructor or a team
  */
 @Entity
 @Index

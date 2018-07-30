@@ -84,7 +84,7 @@
           responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
           isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
     </ul>
-  </div>
+    </div>
   </c:if>
   <c:if test="${response.existingResponse}">
     <input type="hidden"

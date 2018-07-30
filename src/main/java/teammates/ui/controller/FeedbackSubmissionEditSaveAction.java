@@ -345,7 +345,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             try {
                 FeedbackResponseCommentAttributes updatedComment =
                         logic.updateFeedbackResponseComment(feedbackResponseComment);
-                // TODO: move putDocument to task queue
                 logic.putDocument(updatedComment);
                 statusToAdmin += this.getClass().getName() + ":<br>"
                         + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
@@ -460,6 +459,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         .withFeedbackQuestionId(questionAttributes.getFeedbackQuestionId())
                         .build();
 
+        // Question giver type can be self (i.e. creator of session) which is equivalent to
+        // instructor as comment giver type.
         if (questionAttributes.giverType == FeedbackParticipantType.SELF) {
             feedbackResponseComment.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
         } else {

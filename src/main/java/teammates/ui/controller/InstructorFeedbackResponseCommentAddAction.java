@@ -135,7 +135,6 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         data.question = logic.getFeedbackQuestion(feedbackQuestionId);
         data.commentGiverType = data.question.giverType;
         data.sessionTimeZone = session.getTimeZone();
-        data.isModeration = false;
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }

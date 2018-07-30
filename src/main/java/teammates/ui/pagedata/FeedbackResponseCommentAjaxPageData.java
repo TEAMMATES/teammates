@@ -28,8 +28,6 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
     public boolean isError;
     public FeedbackQuestionAttributes question;
     public FeedbackParticipantType commentGiverType;
-    public String moderatedPersonEmail;
-    public boolean isModeration;
     public ZoneId sessionTimeZone;
 
     public FeedbackResponseCommentAjaxPageData(AccountAttributes account, String sessionToken) {
@@ -79,11 +77,4 @@ public class FeedbackResponseCommentAjaxPageData extends PageData {
         return commentGiverType;
     }
 
-    public String getModeratedPersonEmail() {
-        return moderatedPersonEmail;
-    }
-
-    public boolean isModeration() {
-        return isModeration;
-    }
 }
