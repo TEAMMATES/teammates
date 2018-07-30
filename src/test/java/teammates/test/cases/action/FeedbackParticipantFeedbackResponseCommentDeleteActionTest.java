@@ -1,5 +1,7 @@
 package teammates.test.cases.action;
 
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -28,7 +30,11 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Override
     protected void prepareTestData() {
-        super.prepareTestData();
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    protected void refreshTestData() {
         dataBundle = loadDataBundle("/FeedbackParticipantFeedbackResponseCommentDeleteTest.json");
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -41,8 +47,8 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Test
     public void testFailureCases() {
-        prepareTestData();
-        FeedbackResponseCommentAttributes feedbackResponseComment = getCommentFromInstructor1();
+
+        FeedbackResponseCommentAttributes feedbackResponseComment = getCommentFromInstructor1AsFeedbackParticipant();
         assertNotNull("response comment not found", feedbackResponseComment);
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
@@ -50,15 +56,12 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
         ______TS("Unsuccessful case: not enough parameters");
 
-        verifyAssumptionFailure();
-
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
-                Const.ParamsNames.USER_ID, instructor.googleId
         };
 
+        verifyAssumptionFailure();
         verifyAssumptionFailure(submissionParams);
 
         ______TS("Non-existent feedback response comment: fails silently");
@@ -80,21 +83,18 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Test
     public void testDeleteActionForInstructorAsFeedbackParticipant() {
-        prepareTestData();
-        FeedbackResponseCommentAttributes feedbackResponseComment = getCommentFromInstructor1();
+
+        FeedbackResponseCommentAttributes feedbackResponseComment = getCommentFromInstructor1AsFeedbackParticipant();
         assertNotNull("response comment not found", feedbackResponseComment);
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor.googleId);
-
-        ______TS("Typical successful case when feedback participant is an instructor");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
         };
 
         FeedbackParticipantFeedbackResponseCommentDeleteAction action = getAction(submissionParams);
@@ -110,7 +110,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         assertEquals("", result.getStatusMessage());
     }
 
-    private FeedbackResponseCommentAttributes getCommentFromInstructor1() {
+    private FeedbackResponseCommentAttributes getCommentFromInstructor1AsFeedbackParticipant() {
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
@@ -135,9 +135,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Test
     protected void testDeleteActionForStudentAsFeedbackParticipant() {
-        prepareTestData();
-        ______TS("Typical successful case when feedback participant is a student");
-
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         int questionNumber = 3;
         FeedbackQuestionAttributes feedbackQuestion =
@@ -163,7 +160,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
         };
         AjaxResult result = getAjaxResult(getAction(submissionParams));
         FeedbackResponseCommentAjaxPageData data = (FeedbackResponseCommentAjaxPageData) result.data;
@@ -176,9 +172,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Test
     public void testDeleteActionForTeamAsFeedbackParticipant() {
-        prepareTestData();
-        ______TS("Typical successful case when feedback participant is a team");
-
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         int questionNumber = 4;
         FeedbackQuestionAttributes feedbackQuestion =
@@ -204,7 +197,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
         };
         AjaxResult result = getAjaxResult(getAction(submissionParams));
         FeedbackResponseCommentAjaxPageData data = (FeedbackResponseCommentAjaxPageData) result.data;
@@ -229,33 +221,15 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Test
     public void testAccessControlsForCommentByInstructor() {
-        prepareTestData();
-        ______TS("Instructor as feedback participant");
-        FeedbackResponseCommentAttributes comment = getCommentFromInstructor1();
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, comment.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, comment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId())
-        };
-
-        InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        verifyUnaccessibleWithoutLogin(submissionParams, instructor1InCourse1, student);
-
-        InstructorAttributes differentInstructorInSameCourse = dataBundle.instructors.get("instructor2InCourse1");
-        gaeSimulation.loginAsInstructor(differentInstructorInSameCourse.googleId);
-        verifyCannotAccess(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams, instructor1InCourse1);
+        FeedbackResponseCommentAttributes comment = getCommentFromInstructor1AsFeedbackParticipant();
 
         ______TS("Moderator can delete comment");
+
         InstructorAttributes moderator = dataBundle.instructors.get("instructor2InCourse1");
         String[] submissionParamsForModeration = new String[] {
                 Const.ParamsNames.COURSE_ID, comment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, comment.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email
@@ -266,12 +240,10 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Test
     public void testAccessControlsForCommentByStudent() {
-        prepareTestData();
+
         final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-
-        ______TS("Student as feedback participant");
 
         int questionNumber = 3;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
@@ -286,14 +258,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString()
         };
-
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        verifyUnaccessibleWithoutLogin(submissionParams, instructor, student1InCourse1);
 
         ______TS("Different student of same course cannot delete comment");
 
@@ -301,15 +268,12 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         gaeSimulation.loginAsStudent(differentStudentInSameCourse.googleId);
         verifyCannotAccess(submissionParams);
 
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams, student1InCourse1);
-
         ______TS("Moderator can delete comment");
 
         InstructorAttributes moderator = dataBundle.instructors.get("instructor1InCourse1");
         String[] submissionParamsForModeration = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email
@@ -320,12 +284,10 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
 
     @Test
     public void testAccessControlsForCommentByTeam() {
-        prepareTestData();
+
         final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-
-        ______TS("Team as feedback participant");
 
         int questionNumber = 4;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
@@ -340,14 +302,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString()
         };
-
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        verifyUnaccessibleWithoutLogin(submissionParams, instructor, student1InCourse1);
 
         ______TS("Different student of different team and same course cannot delete comment");
 
@@ -361,15 +318,12 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteActionTest extends 
         gaeSimulation.loginAsStudent(differentStudentInSameTeam.googleId);
         verifyCanAccess(submissionParams);
 
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams, student1InCourse1);
-
         ______TS("Moderator can delete comment");
 
         InstructorAttributes moderator = dataBundle.instructors.get("instructor1InCourse1");
         String[] submissionParamsForModeration = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderator.email
