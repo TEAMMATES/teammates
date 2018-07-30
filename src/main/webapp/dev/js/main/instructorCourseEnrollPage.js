@@ -127,6 +127,10 @@ function statusMessageRowsRenderer(instance, td, row) {
     });
 }
 
+enrollHandsontable.addHook('beforeColumnSort', () => {
+    updateEnrollHandsontableCellSettings(resetDefaultViewRenderer);
+});
+
 /**
  * Updates the student data from the spreadsheet when the user clicks "Enroll Students" button.
  * Pushes the output data into the textarea (used for form submission).
