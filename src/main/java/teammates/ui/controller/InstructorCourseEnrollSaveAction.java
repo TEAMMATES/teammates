@@ -1,8 +1,11 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.StudentUpdateStatus;
@@ -28,6 +31,7 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 public class InstructorCourseEnrollSaveAction extends Action {
 
     private static final Logger log = Logger.getLogger();
+    private static Map<String, String> enrollErrorLines;
 
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -44,11 +48,14 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
         /* Process enrollment list and setup data for page result */
         try {
+            enrollErrorLines = new HashMap<>();
             List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
             boolean hasSection = hasSections(students);
 
             InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account, sessionToken,
                                                                     courseId, students, hasSection, studentsInfo);
+
+            // TODO: Handle success status messages later
 
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
                             + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");
@@ -56,7 +63,31 @@ public class InstructorCourseEnrollSaveAction extends Action {
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
 
         } catch (EnrollException e) {
+            InstructorCourseEnrollPageData pageData =
+                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
 
+            List<String> exceptionMessages = new ArrayList<>(Arrays.asList(e.getMessage().split("<br>")));
+
+            for (String exceptionMessage : exceptionMessages) {
+                if (exceptionMessage.equals(Const.StatusMessages.ENROLL_LINE_EMPTY)) {
+                    statusToUser.add(new StatusMessage(Const.StatusMessages.ENROLL_LINE_EMPTY,
+                            StatusMessageColor.DANGER));
+                    break;
+                } else if (exceptionMessage.equals(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED)) {
+                    statusToUser.add(new StatusMessage(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED,
+                            StatusMessageColor.DANGER));
+                    break;
+                }
+
+                if (!"Please use the enroll page to edit multiple students".equals(exceptionMessage)) {
+                    enrollErrorLines.put(exceptionMessage.split("##")[0], exceptionMessage.split("##")[1]);
+                }
+            }
+            pageData.setEnrollErrorLines(enrollErrorLines);
+            pageData.setStatusMessagesToUser(statusToUser);
+            statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
+
+            return createAjaxResult(pageData);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
 
