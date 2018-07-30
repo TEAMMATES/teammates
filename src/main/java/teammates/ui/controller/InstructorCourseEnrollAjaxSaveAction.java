@@ -60,7 +60,7 @@ public class InstructorCourseEnrollAjaxSaveAction extends Action {
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
                             + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
+            return createAjaxResult(pageData);
 
         } catch (EnrollException e) {
             InstructorCourseEnrollPageData pageData =
@@ -96,7 +96,7 @@ public class InstructorCourseEnrollAjaxSaveAction extends Action {
             InstructorCourseEnrollPageData pageData =
                     new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
 
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
+            return createAjaxResult(pageData);
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e);
 
@@ -110,7 +110,7 @@ public class InstructorCourseEnrollAjaxSaveAction extends Action {
                     new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
 
             log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
+            return createAjaxResult(pageData);
         }
     }
 
