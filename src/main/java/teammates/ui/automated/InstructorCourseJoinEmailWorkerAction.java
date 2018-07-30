@@ -47,7 +47,7 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
         // saving the new instructor takes more time in GAE.
         // The instructor `id` can be constructed back using (instructorEmail%courseId)
         // because instructors' email cannot be changed before joining the course.
-        RetryManager rm = new RetryManager(5);
+        RetryManager rm = new RetryManager(4);
         InstructorAttributes instructor = null;
 
         try {

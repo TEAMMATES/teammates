@@ -39,7 +39,7 @@ public class StudentCourseJoinEmailWorkerAction extends AutomatedAction {
         CourseAttributes course = logic.getCourse(courseId);
         Assumption.assertNotNull(course);
 
-        RetryManager rm = new RetryManager(5);
+        RetryManager rm = new RetryManager(4);
         StudentAttributes student = null;
 
         try {
