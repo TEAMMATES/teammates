@@ -124,54 +124,54 @@ function adjustStudentsPanelView(panelHeading, panelCollapse, handsontableInstan
 }
 
 /**
- * Expands "Existing students"/"New students" panel. Spreadsheet interface would be shown after expansion.
- * If it is the "New students" panel, its affiliated buttons will also be shown.
- * If it is the "Existing students" panel, an AJAX request would be called to load existing
+ * Expands "Existing students" panel. Spreadsheet interface would be shown after expansion.
+ * An AJAX request would be called to load existing
  * students' data into the spreadsheet interface (if spreadsheet is not empty).
  * The panel will be collapsed otherwise if the spreadsheet interface is already shown.
  */
-function studentsPanelClickHandler(event) {
+function existingStudentsPanelClickHandler(event) {
     const panelHeading = $(event.currentTarget);
     const panelCollapse = panelHeading.parent().children('.panel-collapse');
-    const isExistingStudentsPanel = panelCollapse.find('#existingDataSpreadsheet').length === 1;
 
-    if (isExistingStudentsPanel) { // Existing students' panel
-        const ajaxPreloadImage = panelHeading.find('#ajax-preload-image');
-        const ajaxStatusMessage = panelHeading.find('.ajax-status-message');
-        ajaxStatusMessage.hide(); // hide any status message from the previous state
+    const ajaxPreloadImage = panelHeading.find('#ajax-preload-image');
+    const ajaxStatusMessage = panelHeading.find('.ajax-status-message');
+    ajaxStatusMessage.hide(); // hide any status message from the previous state
 
-        // perform AJAX only if existing students' spreadsheet is empty
-        if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
-            getAjaxStudentList(ajaxPreloadImage)
-                    .then((data) => {
-                        ajaxPreloadImage.hide();
-                        if (data.students.length === 0) {
-                            ajaxStatusMessage.show();
-                            ajaxStatusMessage.text('No existing students in course.');
-                        } else {
-                            loadExistingStudentsData(data.students);
-                            adjustStudentsPanelView(panelHeading, panelCollapse, dataHandsontable);
-                        }
-                    }).catch(() => {
-                        ajaxPreloadImage.hide();
+    if (getSpreadsheetLength(dataHandsontable.getData()) !== 0) {
+        adjustStudentsPanelView(panelHeading, panelCollapse, true);
+        return;
+    } else { // perform AJAX only if existing students' spreadsheet is empty
+        getAjaxStudentList(ajaxPreloadImage)
+                .then((data) => {
+                    ajaxPreloadImage.hide();
+                    if (data.students.length === 0) {
                         ajaxStatusMessage.show();
-                        ajaxStatusMessage.text('Failed to load. Click here to retry.');
-                    });
-        } else {
-            adjustStudentsPanelView(panelHeading, panelCollapse, true);
-        }
-    } else { // New students' panel
-        adjustStudentsPanelView(panelHeading, panelCollapse, enrollHandsontable);
-        $('.enroll-students-spreadsheet-buttons').toggle();
+                        ajaxStatusMessage.text('No existing students in course.');
+                    } else {
+                        loadExistingStudentsData(data.students);
+                        adjustStudentsPanelView(panelHeading, panelCollapse, dataHandsontable);
+                    }
+                }).catch(() => {
+                    ajaxPreloadImage.hide();
+                    ajaxStatusMessage.show();
+                    ajaxStatusMessage.text('Failed to load. Click here to retry.');
+                });
     }
 }
 
 $(document).ready(() => {
     prepareInstructorPages();
-    $('#enroll-spreadsheet').on('click', studentsPanelClickHandler);
+    $('#enroll-spreadsheet').on('click', (event) => {
+        const panelHeading = $(event.currentTarget);
+        const panelCollapse = panelHeading.parent().children('.panel-collapse');
+        adjustStudentsPanelView(panelHeading, panelCollapse, enrollHandsontable);
+        $('.enroll-students-spreadsheet-buttons').toggle();
+    });
     $('#enroll-spreadsheet').trigger('click');
 
-    $('#existing-data-spreadsheet').click(studentsPanelClickHandler);
+    $('#existing-data-spreadsheet').on('click', (event) => {
+        existingStudentsPanelClickHandler(event);
+    });
 
     if ($('#enrollstudents').val()) {
         const allData = $('#enrollstudents').val().split('\n'); // data in the table including column headers (string format)
