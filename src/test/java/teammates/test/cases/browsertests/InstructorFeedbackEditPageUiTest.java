@@ -81,6 +81,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testSanitization();
     }
 
+    @Test
+    public void testTemplateQuestionAdd() throws Exception {
+        testAddTemplateQuestionLink();
+
+        testAddTemplateQuestionAction();
+    }
+
     private void testGeneralQuestionOperations() throws Exception {
         testCancelAddingNewQuestion();
         testCancelEditQuestion();
@@ -111,9 +118,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditNonExistentQuestion();
 
         testResponseRate();
-
-        testAddTemplateQuestionLink();
-        testAddTemplateQuestionAction();
     }
 
     private void testContent() throws Exception {
@@ -332,7 +336,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddTemplateQuestionButton();
 
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-        assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 2));
+        assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 1));
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackTemplateQuestionAddSuccess.html");
 
@@ -347,7 +351,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(
                 Const.StatusMessages.FEEDBACK_QUESTION_ADDED_MULTIPLE);
-        assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 4));
+        assertNotNull(getFeedbackQuestionWithRetry(courseId, feedbackSessionName, 3));
     }
 
     private void testEditQuestionLink() {
