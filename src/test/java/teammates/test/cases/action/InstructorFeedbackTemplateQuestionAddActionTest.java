@@ -2,9 +2,11 @@ package teammates.test.cases.action;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.api.Logic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorFeedbackTemplateQuestionAddAction;
 import teammates.ui.controller.RedirectResult;
@@ -28,13 +30,10 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
     @Test
     public void testExecuteAndPostProcess() {
 
-        ______TS("Not enough parameters");
+        ______TS("Typical case for adding template question 1");
 
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
-        verifyAssumptionFailure();
-
-        ______TS("Typical case for question 1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[] {
@@ -69,10 +68,29 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
                                     + "/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
 
-        ______TS("Invalid questionNumber passed in");
+        Logic logic = new Logic();
+        FeedbackQuestionAttributes fqa = logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+        assertNotNull(fqa);
+    }
 
-        // use the same params initialized from the typical case
-        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "6");
+    @Test
+    public void testIncompleteParameters() {
+
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        verifyAssumptionFailure();
+    }
+
+    @Test
+    public void testInvalidQuestionNumber() {
+
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "6"
+        };
         verifyAssumptionFailure(params);
 
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "0");
@@ -80,22 +98,28 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
 
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "ABC");
         try {
-            action = getAction(params);
+            InstructorFeedbackTemplateQuestionAddAction action = getAction(params);
             action.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (NumberFormatException e) {
             ignoreExpectedException();
         }
+    }
 
-        ______TS("Error: No template question indicated");
+    @Test
+    public void testNoTemplateQuestionIndicated() {
 
-        params = new String[] {
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
-        action = getAction(params);
-        result = getRedirectResult(action);
+        InstructorFeedbackTemplateQuestionAddAction action = getAction(params);
+        RedirectResult result = getRedirectResult(action);
 
         assertEquals(
                 getPageResultDestination(
@@ -108,27 +132,31 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
 
         assertEquals("No template questions are indicated to be added", result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
-                            + "instructorFeedbackTemplateQuestionAdd|||true|||"
-                            + "Instructor|||Instructor 1 of Course 1|||"
-                            + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                            + "|||/page/instructorFeedbackTemplateQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
+                                    + "instructorFeedbackTemplateQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "|||/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, action.getLogMessage());
+    }
 
-        ______TS("Masquerade Mode (question 2)");
+    @Test
+    public void testMasqueradeMode() {
 
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        params = new String[] {
+        String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "2"
         };
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
 
-        action = getAction(params);
-        result = getRedirectResult(action);
+        InstructorFeedbackTemplateQuestionAddAction action = getAction(params);
+        RedirectResult result = getRedirectResult(action);
 
         assertEquals(
                 getPageResultDestination(
@@ -139,18 +167,17 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
                         false),
                 result.getDestinationWithParams());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
-                            + "instructorFeedbackTemplateQuestionAdd|||true|||"
-                            + "Instructor(M)|||Instructor 1 of Course 1|||"
-                            + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                            + "Added Feedback Template Question for Feedback Session:<span class=\"bold\">"
-                            + "(First feedback session)</span> for Course "
-                            + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
-                            + " created.<br><span class=\"bold\">Essay question:</span> "
-                            + "Comments about your contribution (shown to other teammates)|||"
-                            + "/page/instructorFeedbackTemplateQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackTemplateQuestionAdd|||"
+                                    + "instructorFeedbackTemplateQuestionAdd|||true|||"
+                                    + "Instructor(M)|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Added Feedback Template Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Essay question:</span> "
+                                    + "Comments about your contribution (shown to other teammates)|||"
+                                    + "/page/instructorFeedbackTemplateQuestionAdd";
         AssertHelper.assertLogMessageEqualsInMasqueradeMode(expectedLogMessage, action.getLogMessage(), adminUserId);
-
     }
 
     protected String getPageResultDestination(
