@@ -380,11 +380,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // mcq questions comments
         submitPage.deleteFeedbackResponseComment("-6-0");
-        submitPage.verifyRowDeletedSuccess("-6-0");
+        submitPage.verifyRowMissing("-6-0");
         submitPage.deleteFeedbackResponseComment("-6-1");
-        submitPage.verifyRowDeletedSuccess("-6-1");
+        submitPage.verifyRowMissing("-6-1");
         submitPage.deleteFeedbackResponseComment("-9-0");
-        submitPage.verifyRowDeletedSuccess("-9-0");
+        submitPage.verifyRowMissing("-9-0");
     }
 
     /**

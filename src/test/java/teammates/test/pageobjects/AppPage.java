@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -1664,6 +1665,16 @@ public abstract class AppPage {
             // See: https://developer.mozilla.org/en-US/docs/Web/Events/change
             executeScript("const event = new Event(arguments[1], {bubbles: true});"
                     + "arguments[0].dispatchEvent(event);", element, CHANGE_EVENT);
+        }
+    }
+
+    public void verifyRowMissing(String rowIdSuffix) {
+        try {
+            waitForAjaxLoaderGifToDisappear();
+            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
+            fail("Row expected to be missing found.");
+        } catch (NoSuchElementException expected) {
+            // row expected to be missing
         }
     }
 }

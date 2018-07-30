@@ -297,17 +297,6 @@ public class FeedbackSubmitPage extends AppPage {
         waitForConfirmationModalAndClickOk();
     }
 
-    public void verifyRowDeletedSuccess(String rowIdSuffix) {
-        try {
-            waitForAjaxLoaderGifToDisappear();
-            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
-            fail("Row expected to be missing found.");
-        } catch (NoSuchElementException expected) {
-            // row expected to be missing
-            return;
-        }
-    }
-
     private void closeMoreInfoAboutEqualShareModal() {
         WebElement closeButton = browser.driver
                 .findElement(By.xpath("//div[@id='more-info-equal-share-modal']//button[@class='close']"));
