@@ -165,7 +165,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE,
                         ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL,
                         ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
-                        ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE,

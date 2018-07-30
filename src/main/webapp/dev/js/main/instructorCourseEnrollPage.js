@@ -7,7 +7,7 @@ import {
 } from '../common/instructor';
 
 import {
-    BootstrapContextualColors
+    BootstrapContextualColors,
     ParamsNames,
     Const,
 } from '../common/const';
@@ -210,7 +210,7 @@ function addEnrollErrorMessages(enrollErrorLines) {
     // Updates any error messages to process later
     if (!jQuery.isEmptyObject(enrollErrorLines)) {
         Object.keys(enrollErrorLines).forEach(key => (
-                enrollErrorMessagesMap.set(key, enrollErrorLines[key])
+            enrollErrorMessagesMap.set(key, enrollErrorLines[key])
         ));
     }
 

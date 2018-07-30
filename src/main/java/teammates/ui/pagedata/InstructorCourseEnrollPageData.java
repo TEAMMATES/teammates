@@ -2,6 +2,7 @@ package teammates.ui.pagedata;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 
 /**

@@ -83,7 +83,7 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <button type="submit" title="Enroll" id="button_enroll" name="button_enroll"
+                <button title="Enroll" id="button_enroll" name="button_enroll"
                         class="btn btn-primary btn-md pull-right">
                   Enroll students
                 </button>
