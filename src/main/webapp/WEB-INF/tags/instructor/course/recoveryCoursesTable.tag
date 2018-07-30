@@ -25,17 +25,17 @@
   </thead>
   <c:forEach items="${recoveryCourses.rows}" var="recoveryCourse" varStatus="i">
     <tr>
-      <td id="recoverycourseid${i.index + fn:length(recoveryCourses.rows)}">${recoveryCourse.courseId}</td>
-      <td id="recoverycoursename${i.index + fn:length(recoveryCourses.rows)}">${recoveryCourse.courseName}</td>
+      <td id="recoverycourseid${i.index}">${recoveryCourse.courseId}</td>
+      <td id="recoverycoursename${i.index}">${recoveryCourse.courseName}</td>
       <td
-          id="recoverycoursecreateddate${i.index + fn:length(recoveryCourses.rows)}"
+          id="recoverycoursecreateddate${i.index}"
           data-date-stamp="${recoveryCourse.createdAtDateStamp}"
           data-toggle="tooltip"
           data-original-title="${recoveryCourse.createdAtFullDateTimeString}">
           ${recoveryCourse.createdAtDateString}
       </td>
       <td
-          id="recoverycoursedeleteddate${i.index + fn:length(recoveryCourses.rows)}"
+          id="recoverycoursedeleteddate${i.index}"
           data-date-stamp="${recoveryCourse.deletedAtDateStamp}"
           data-toggle="tooltip"
           data-original-title="${recoveryCourse.deletedAtFullDateTimeString}">
