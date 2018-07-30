@@ -387,6 +387,7 @@ public final class TimeHelper {
     /**
      * Formats a date stamp from an {@code instant} for the instructor's feedback sessions page.
      * Example: 5 May 2017
+     * TODO: rename formatDateForInstructorCoursesPage and remove this method to avoid duplicated code
      *
      * @param instant the instant to be formatted
      * @param zoneId  the time zone to calculate local date
