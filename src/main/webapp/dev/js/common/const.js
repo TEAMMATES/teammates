@@ -13,6 +13,9 @@ const Const = {
     },
     StatusMessages: {
         INSTRUCTOR_DETAILS_LENGTH_INVALID: 'Instructor Details must have 3 columns',
+        ENROLL_LINE_EMPTY: 'Please input at least one student detail.',
+        QUOTA_PER_ENROLLMENT_EXCEED: 'You are trying to enroll more than 100 students. '
+        + 'To avoid performance problems, please enroll no more than 100 students at a time.',
     },
 };
 
