@@ -137,7 +137,7 @@ function existingStudentsPanelClickHandler(event) {
     ajaxStatusMessage.hide(); // hide any status message from the previous state
 
     if (getSpreadsheetLength(dataHandsontable.getData()) !== 0) {
-        adjustStudentsPanelView(panelHeading, panelCollapse, true);
+        adjustStudentsPanelView(panelHeading, panelCollapse, dataHandsontable);
         return;
     }
     // perform AJAX only if existing students' spreadsheet is empty
