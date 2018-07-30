@@ -105,6 +105,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                     .withFeedbackQuestionFeedbackPath(recipientFeedbackPath)
                     .withFeedbackQuestionVisibilityOption(getDropdownMenuLabel(fqa))
                     .withFeedbackQuestionVisibilityHints(fqa.getVisibilityMessage())
+                    .withFeedbackQuestionAttributes(fqa)
                     .build());
         }
     }

@@ -3,8 +3,7 @@ package teammates.ui.template;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
 /**
  * This class uses the information from feedbackSessionTeamEvaluationTemplate.json
@@ -19,6 +18,7 @@ public class FeedbackTemplateQuestionInfo {
     private String qnFeedbackPath;
     private String qnVisibilityOption;
     private List<String> qnVisibilityHints;
+    private FeedbackQuestionAttributes feedbackQuestion;
 
     public FeedbackTemplateQuestionInfo() {
         // attributes to be built by Builder
@@ -80,6 +80,13 @@ public class FeedbackTemplateQuestionInfo {
             return this;
         }
 
+        public Builder withFeedbackQuestionAttributes(FeedbackQuestionAttributes fqa) {
+            if (fqa != null) {
+                feedbackTemplateQuestionInfo.feedbackQuestion = fqa;
+            }
+            return this;
+        }
+
         public FeedbackTemplateQuestionInfo build() {
             return feedbackTemplateQuestionInfo;
         }
@@ -128,14 +135,6 @@ public class FeedbackTemplateQuestionInfo {
     }
 
     public String getQuestionSpecificEditFormHtml() {
-
-        if (qnNumber == 1) {
-            // question 1 is Contribution type and the others are Essay type question
-            FeedbackContributionQuestionDetails fcqd = new FeedbackContributionQuestionDetails();
-            return fcqd.getQuestionSpecificEditFormHtml(qnNumber);
-        } else {
-            FeedbackTextQuestionDetails ftq = new FeedbackTextQuestionDetails();
-            return ftq.getQuestionSpecificEditFormHtml(qnNumber);
-        }
+        return feedbackQuestion.getQuestionDetails().getQuestionSpecificEditFormHtml(qnNumber);
     }
 }
