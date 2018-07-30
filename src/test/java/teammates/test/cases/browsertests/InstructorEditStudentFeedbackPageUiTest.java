@@ -1,7 +1,5 @@
 package teammates.test.cases.browsertests;
 
-import java.io.IOException;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -152,11 +150,10 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3.");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2, 3.");
-        submitPage.verifyRowMissing("-3-0");
+        submitPage.verifyCommentRowMissing("-3-0");
     }
 
     private void testAddCommentsToQuestionsWithResponses() {
-
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
@@ -172,7 +169,6 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private void testEditCommentsActionAfterAddingComments() {
-
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
@@ -186,13 +182,12 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private void testDeleteCommentsActionAfterEditingComments() {
-
         submitPage = loginToInstructorEditStudentFeedbackPage(
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
 
         submitPage.deleteFeedbackResponseComment("-3-0");
-        submitPage.verifyRowMissing("-0-3-0");
+        submitPage.verifyCommentRowMissing("-0-3-0");
     }
 
     private InstructorEditStudentFeedbackPage loginToInstructorEditStudentFeedbackPage(
@@ -205,4 +200,5 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         return loginAdminToPage(editUrl, InstructorEditStudentFeedbackPage.class);
     }
+
 }

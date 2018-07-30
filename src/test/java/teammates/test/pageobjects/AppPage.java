@@ -1668,7 +1668,7 @@ public abstract class AppPage {
         }
     }
 
-    public void verifyRowMissing(String rowIdSuffix) {
+    public void verifyCommentRowMissing(String rowIdSuffix) {
         try {
             waitForAjaxLoaderGifToDisappear();
             browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));

@@ -2,7 +2,6 @@ package teammates.test.pageobjects;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-import static org.testng.AssertJUnit.fail;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -305,4 +304,7 @@ public class FeedbackSubmitPage extends AppPage {
         waitForElementToDisappear(By.id("more-info-equal-share-modal"));
     }
 
+    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
+        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
+    }
 }

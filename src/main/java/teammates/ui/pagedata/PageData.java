@@ -907,15 +907,18 @@ public class PageData {
         }
     }
 
-    public FeedbackResponseCommentRow buildFeedbackParticipantResponseCommentRow(FeedbackQuestionAttributes questionAttributes,
-            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses, String responseId, ZoneId sessionTimeZone, boolean isEditDeleteEnabled) {
+    public FeedbackResponseCommentRow buildFeedbackParticipantResponseCommentRow(
+            FeedbackQuestionAttributes questionAttributes,
+            Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses, String responseId,
+            ZoneId sessionTimeZone, boolean isEditDeleteEnabled) {
         if (!commentsForResponses.containsKey(responseId)) {
             return null;
         }
         List<FeedbackResponseCommentAttributes> frcList = commentsForResponses.get(responseId);
         for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
             if (frcAttributes.isCommentFromFeedbackParticipant) {
-                return new FeedbackResponseCommentRow(frcAttributes, sessionTimeZone, questionAttributes, isEditDeleteEnabled);
+                return new FeedbackResponseCommentRow(frcAttributes, sessionTimeZone,
+                        questionAttributes, isEditDeleteEnabled);
             }
         }
         return null;

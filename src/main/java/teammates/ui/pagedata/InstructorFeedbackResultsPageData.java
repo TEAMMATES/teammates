@@ -1549,8 +1549,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private FeedbackResponseCommentRow buildInstructorComment(String giverName, String recipientName,
-                                                              FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
-                                                              FeedbackResponseCommentAttributes frcAttributes) {
+            FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
+            FeedbackResponseCommentAttributes frcAttributes) {
         boolean isInstructorGiver = instructor.email.equals(frcAttributes.commentGiver);
         boolean isInstructorWithPrivilegesToModify =
                 instructor.isAllowedForPrivilege(

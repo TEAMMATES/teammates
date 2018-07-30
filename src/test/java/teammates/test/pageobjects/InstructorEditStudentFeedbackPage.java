@@ -6,8 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 /**
  * InstructorEditStudentFeedbackPage is a page object to represent the page seen by a instructor
  * when moderating feedback.

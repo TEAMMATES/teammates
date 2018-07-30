@@ -599,9 +599,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         submitPage.deleteFeedbackResponseComment("-6-0");
-        submitPage.verifyRowMissing("-6-0");
+        submitPage.verifyCommentRowMissing("-6-0");
         submitPage.deleteFeedbackResponseComment("-7-1");
-        submitPage.verifyRowMissing("-7-1");
+        submitPage.verifyCommentRowMissing("-7-1");
     }
 
     private void testInputValidation() {

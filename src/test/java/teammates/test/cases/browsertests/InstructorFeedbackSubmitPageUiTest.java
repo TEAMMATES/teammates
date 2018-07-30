@@ -1,7 +1,6 @@
 package teammates.test.cases.browsertests;
 
-import java.io.IOException;
-
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -22,6 +21,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     @Override
     protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    protected void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
         removeAndRestoreDataBundle(testData);
     }
@@ -30,14 +34,18 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         testContent();
         testClosedSessionSubmitAction();
-        testAddCommentsToQuestionsWithoutResponses();
         testSubmitAction();
-        testAddCommentsToQuestionsWithResponses();
-        testEditCommentsActionAfterAddingComments();
-        testDeleteCommentsActionAfterEditingComments();
         testModifyData();
         // No links to test
         testQuestionTypesSubmitAction();
+    }
+
+    @Test
+    public void testAddingEditingAndDeletingFeedbackParticipantComments() {
+        testAddCommentsToQuestionsWithoutResponses();
+        testAddCommentsToQuestionsWithResponses();
+        testEditCommentsActionAfterAddingComments();
+        testDeleteCommentsActionAfterEditingComments();
     }
 
     private void testContent() throws Exception {
@@ -80,25 +88,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
 
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
-    }
-
-    private void testAddCommentsToQuestionsWithoutResponses() throws IOException {
-        ______TS("add comments on questions without responses: no effect");
-
-        logout();
-        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.waitForPageToLoad();
-
-        submitPage.addFeedbackResponseComment("-5-0", "Comment without response");
-
-        submitPage.submitWithoutConfirmationEmail();
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "
-                        + "11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
-
-        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
-        submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageNoComments.html");
     }
 
     private void testSubmitAction() throws Exception {
@@ -334,11 +323,33 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageFullyFilled.html");
     }
 
-    private void testAddCommentsToQuestionsWithResponses() throws IOException {
-        ______TS("add new comments on questions with responses and verify add comments without responses action");
+    private void testAddCommentsToQuestionsWithoutResponses() {
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.addFeedbackResponseComment("-5-0", "Comment without response");
+
+        submitPage.submitWithoutConfirmationEmail();
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "
+                        + "11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
+        submitPage.verifyCommentRowMissing("-5-0");
+    }
+
+    private void testAddCommentsToQuestionsWithResponses() {
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        submitPage.waitForPageToLoad();
+
+        submitPage.selectRecipient(6, 0, "Teammates Test2");
+        submitPage.chooseMcqOption(6, 0, "Algo");
+        submitPage.selectRecipient(6, 1, "Teammates Test3");
+        submitPage.chooseMcqOption(6, 1, "UI");
+        submitPage.selectRecipient(6, 2, "Teammates Test4");
+        submitPage.chooseMcqOption(6, 2, "UI");
+        submitPage.chooseMcqOption(9, 0, "Drop out (Team 2)");
 
         submitPage.addFeedbackResponseComment("-6-0", "New MCQ Comment 1");
         submitPage.addFeedbackResponseComment("-6-1", "New MCQ Comment 2");
@@ -346,14 +357,18 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS
+                        + "1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAddedCommentOnResponses.html");
+        submitPage.verifyCommentRowContent("-6-0", "New MCQ Comment 1");
+        submitPage.verifyCommentRowContent("-6-1", "New MCQ Comment 2");
+        submitPage.verifyCommentRowContent("-9-0", "New MCQ Comment 3");
+
     }
 
-    private void testEditCommentsActionAfterAddingComments() throws IOException {
+    private void testEditCommentsActionAfterAddingComments() {
         ______TS("edit comments on responses and verify added comments action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -365,14 +380,17 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 24.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS
+                        + "1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24.");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageEditedComments.html");
+        submitPage.verifyCommentRowContent("-6-0", "Edited MCQ Comment 1");
+        submitPage.verifyCommentRowContent("-6-1", "Edited MCQ Comment 2");
+        submitPage.verifyCommentRowContent("-9-0", "Edited MCQ Comment 3");
     }
 
-    private void testDeleteCommentsActionAfterEditingComments() throws IOException {
+    private void testDeleteCommentsActionAfterEditingComments() {
         ______TS("delete comments on responses and verify edited comments action");
 
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
@@ -380,11 +398,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         // mcq questions comments
         submitPage.deleteFeedbackResponseComment("-6-0");
-        submitPage.verifyRowMissing("-6-0");
+        submitPage.verifyCommentRowMissing("-6-0");
         submitPage.deleteFeedbackResponseComment("-6-1");
-        submitPage.verifyRowMissing("-6-1");
+        submitPage.verifyCommentRowMissing("-6-1");
         submitPage.deleteFeedbackResponseComment("-9-0");
-        submitPage.verifyRowMissing("-9-0");
+        submitPage.verifyCommentRowMissing("-9-0");
     }
 
     /**

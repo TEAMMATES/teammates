@@ -54,7 +54,8 @@ public class FeedbackResponseRow {
                             new FeedbackResponseCommentRow(frc, results.getTimeZone(), question, false);
                 } else {
                     String showCommentTo = StringHelper.removeEnclosingSquareBrackets(frc.showCommentTo.toString());
-                    String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
+                    String showGiverNameToString =
+                            StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
                     String recipientName = results.getNameForEmail(response.recipient);
                     String giverEmail = frc.commentGiver;
                     Map<String, String> commentGiverEmailToNameTable = results.commentGiverEmailToNameTable;
