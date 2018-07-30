@@ -76,11 +76,11 @@ function toggleStudentsPanel(panelHeading, panelCollapse) {
     const toggleChevron = panelHeading.parent().find('.glyphicon-chevron-down, .glyphicon-chevron-up');
     if (panelCollapse.hasClass('in')) { // panel is shown
         panelCollapse.collapse('hide');
-        toggleChevron.addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+        toggleChevron.addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
         return;
     }
     panelCollapse.collapse('show');
-    toggleChevron.addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+    toggleChevron.addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
 }
 
 /**
