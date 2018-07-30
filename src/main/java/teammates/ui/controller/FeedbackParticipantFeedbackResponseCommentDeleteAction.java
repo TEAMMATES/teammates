@@ -35,6 +35,15 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
             isModeration = true;
         }
 
+        FeedbackResponseCommentAjaxPageData data =
+                new FeedbackResponseCommentAjaxPageData(account, sessionToken);
+
+        if (!isModeration && !(session.isOpened() || session.isInGracePeriod())) {
+            data.isError = true;
+            data.errorMessage = "Session is not open for submission.";
+            return createAjaxResult(data);
+        }
+
         Long commentId = Long.parseLong(feedbackResponseCommentId);
 
         verifyDeletePermissionForUserToFeedbackResponseComment(session, response, commentId);
@@ -43,9 +52,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
         logic.deleteFeedbackResponseCommentById(commentId);
 
         appendStatusToAdmin(commentId);
-
-        FeedbackResponseCommentAjaxPageData data =
-                new FeedbackResponseCommentAjaxPageData(account, sessionToken);
 
         return createAjaxResult(data);
     }
@@ -64,6 +70,7 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
         if (frc == null) {
             return;
         }
+
         if (frc.isCommentFromFeedbackParticipant) {
             switch (frc.commentGiverType) {
             case INSTRUCTORS:
@@ -103,9 +110,6 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
     }
 
     private StudentAttributes getStudent() {
-        if (student == null) {
-            student = logic.getStudentForGoogleId(courseId, account.googleId);
-        }
-        return student;
+        return student = logic.getStudentForGoogleId(courseId, account.googleId);
     }
 }
