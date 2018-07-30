@@ -28,7 +28,7 @@ import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 /**
  * Action: saving the list of enrolled students for a course of an instructor.
  */
-public class InstructorCourseEnrollSaveAction extends Action {
+public class InstructorCourseEnrollAjaxSaveAction extends Action {
 
     private static final Logger log = Logger.getLogger();
     private static Map<String, String> enrollErrorLines;

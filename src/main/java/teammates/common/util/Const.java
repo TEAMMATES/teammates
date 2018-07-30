@@ -974,7 +974,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD = "/page/instructorCourseStudentListDownload";
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = "/page/instructorCourseEnrollPage";
         public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_PAGE = "/page/instructorCourseEnrollAjaxPage";
-        public static final String INSTRUCTOR_COURSE_ENROLL_SAVE = "/page/instructorCourseEnrollSave";
+        public static final String INSTRUCTOR_COURSE_ENROLL_AJAX_SAVE = "/page/instructorCourseEnrollAjaxSave";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_ADD = "/page/instructorCourseInstructorAdd";
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE = "/page/instructorCourseInstructorEditSave";
