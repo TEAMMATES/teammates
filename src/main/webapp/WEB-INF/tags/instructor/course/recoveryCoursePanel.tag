@@ -13,7 +13,7 @@
     <div class="pull-right margin-left-7px">
       <span class="glyphicon ajax_submit glyphicon-chevron-down"></span>
     </div>
-    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px course-delete-all-link color-negative"
+    <a class="btn btn-default btn-xs pull-right pull-down margin-left-7px course-delete-all-link color-negative<c:if test="${not data.instructorAllowedToModify}"> disabled</c:if>"
        id="btn-course-deleteall"
        href="${data.instructorCourseDeleteAllRecoveryCoursesLink}"
        title="<%= Const.Tooltips.COURSE_DELETE_ALL %>"
@@ -22,7 +22,7 @@
       <span class="glyphicon glyphicon-remove"></span>
       <strong>Delete All</strong>
     </a>
-    <a class="btn btn-default btn-xs pull-right pull-down"
+    <a class="btn btn-default btn-xs pull-right pull-down<c:if test="${not data.instructorAllowedToModify}"> disabled</c:if>"
        id="btn-course-restoreall"
        href="${data.instructorCourseRestoreAllRecoveryCoursesLink}"
        title="<%= Const.Tooltips.COURSE_RESTORE_ALL %>"
