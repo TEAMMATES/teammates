@@ -55,7 +55,9 @@ public class InstructorCourseEnrollSaveAction extends Action {
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
 
-        } catch (EnrollException | InvalidParametersException e) {
+        } catch (EnrollException e) {
+
+        } catch (InvalidParametersException e) {
             setStatusForException(e);
 
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
