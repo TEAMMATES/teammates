@@ -30,7 +30,7 @@
     <label>
       <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control"
           name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
-          style="${isNumResponsesMax ? 'display:none;max-width:125px' : 'width:275px;max-width:275px'}"
+          style="${isNumResponsesMax ? 'display:none;max-width:125px' : 'width:330px;max-width:330px'}"
           ${isSessionOpenForSubmission ? '' : 'disabled' }>
 
         <c:forEach items="${response.recipientOptionsForQuestion}" var="option">

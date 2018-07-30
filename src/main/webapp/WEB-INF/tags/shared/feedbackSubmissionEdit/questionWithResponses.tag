@@ -70,7 +70,7 @@
             </div>
             <c:if test="${not isNumResponsesMax}">
               <div class="padding-0 col-xs-9">
-                <label class="bold-label">
+                <label class="font-weight-normal">
                   <input type="checkbox" name="showSectionTeamFlag" id="showSectionTeamFlag-${questionWithResponses.question.qnIndx}"
                       onchange="toggleSectionTeamInfo(${questionWithResponses.question.qnIndx}, ${questionWithResponses.numOfResponseBoxes})">
                   Show section/team
