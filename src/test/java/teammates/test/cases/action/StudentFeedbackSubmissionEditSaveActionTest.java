@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -1343,6 +1344,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 result.getDestinationWithParams());
         List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentForGiver(fr.courseId, fr.giver);
         assertEquals(frcList.size(), 1);
+        FeedbackResponseCommentAttributes frc = frcList.get(0);
+        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
+        assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
+        assertTrue(frc.isCommentFromFeedbackParticipant);
 
         ______TS("Update response comment");
 
@@ -1373,6 +1379,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 result.getDestinationWithParams());
         frcList = frcDb.getFeedbackResponseCommentForGiver(fr.courseId, fr.giver);
         assertEquals(frcList.size(), 1);
-        assertEquals("Edited comment", frcList.get(0).commentText.getValue());
+        frc = frcList.get(0);
+        assertEquals("Edited comment", frc.commentText.getValue());
+        assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
+        assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
+        assertTrue(frc.isCommentFromFeedbackParticipant);
     }
 }
