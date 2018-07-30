@@ -148,17 +148,17 @@ function studentsPanelClickHandler(currentSpreadsheet) {
         if (getSpreadsheetLength(dataHandsontable.getData()) === 0) {
             getAjaxStudentList(ajaxPreloadImage)
                     .then((data) => {
-                        ajaxPreloadImage.toggle();
+                        ajaxPreloadImage.hide();
                         if (data.students.length === 0) {
-                            ajaxStatusMessage.toggle();
+                            ajaxStatusMessage.show();
                             ajaxStatusMessage.text('No existing students in course.');
                         } else {
                             loadExistingStudentsData(data.students);
                             adjustStudentsPanelView(panelHeading, panelCollapse, true);
                         }
                     }).catch(() => {
-                        ajaxPreloadImage.toggle();
-                        ajaxStatusMessage.toggle();
+                        ajaxPreloadImage.hide();
+                        ajaxStatusMessage.show();
                         ajaxStatusMessage.text('Failed to load. Click here to retry.');
                     });
         } else {
