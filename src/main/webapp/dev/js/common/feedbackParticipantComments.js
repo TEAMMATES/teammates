@@ -25,7 +25,7 @@ function showErrorMessage(deleteButton, errorMessage) {
 }
 
 function deleteCommentRowAndShowAddCommentButton(submitButton) {
-    const commentId = submitButton.attr('id').replace('commentdelete', '');
+    const commentId = `-${submitButton.data('qnindex')}-${submitButton.data('responseindex')}`;
     deleteCommentRow(submitButton);
     $(`#button_add_comment${commentId}`).closest('div').show();
 }
@@ -89,7 +89,6 @@ function showResponseCommentEditFormForFeedbackParticipant(qnIndex, responseInde
     $(`#plainCommentText${id}`).hide();
     $(`#responseCommentEditForm${id} > div > textarea`).val($(`#plainCommentText${id}`).text());
     $(`#responseCommentEditForm${id}`).show();
-    $(`#responseCommentEditForm${id} > div > textarea`).focus();
     if (typeof richTextEditorBuilder !== 'undefined') {
         if (tinymce.get(`responsecommenttext${id}`)) {
             return;
@@ -100,6 +99,7 @@ function showResponseCommentEditFormForFeedbackParticipant(qnIndex, responseInde
         });
         /* eslint-enable camelcase */
     }
+    $(`#responseCommentEditForm${id} > div > textarea`).focus();
 }
 
 function hideResponseCommentEditFormForFeedbackParticipant(qnIndex, responseIndex) {

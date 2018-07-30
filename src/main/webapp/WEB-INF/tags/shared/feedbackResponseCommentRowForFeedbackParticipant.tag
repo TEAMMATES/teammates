@@ -38,6 +38,8 @@
            <c:if test="${isPreview or (not submittable)}">disabled</c:if>"
            data-toggle="tooltip"
            data-placement="top"
+           data-responseindex="${responseIndex}"
+           data-qnindex="${qnIndex}"
            title="<%= Const.Tooltips.COMMENT_DELETE %>">
           <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
         </a>
