@@ -49,6 +49,7 @@ public class InstructorFeedbackTemplateQuestionAddAction extends Action {
                 Assumption.assertTrue("Invalid question number", questionNum >= 1 && questionNum <= 5);
 
                 FeedbackQuestionAttributes feedbackQuestion = templateQuestions.get(questionNum - 1);
+                // overwrite the question number to be -1 to add it to the last question
                 feedbackQuestion.questionNumber = -1;
                 logic.createFeedbackQuestion(feedbackQuestion);
 
