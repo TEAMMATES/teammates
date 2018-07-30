@@ -307,7 +307,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("add template question link");
 
-        feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.clickTemplateModalButton();
 
@@ -1107,6 +1106,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbacksPage.clickViewResponseLink(courseId, feedbackSessionName);
         feedbacksPage.verifyResponseValue("0 / 1", courseId, feedbackSessionName);
+
+        // restore feedbackeditpage
+        feedbackEditPage = getFeedbackEditPage();
     }
 
     private InstructorFeedbackSessionsPage navigateToInstructorFeedbackSessionsPage() {
