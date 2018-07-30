@@ -493,7 +493,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             List<FeedbackResponseCommentRow> instructorComments =
                     buildInstructorComments(giverName, recipientName, question, response);
             FeedbackResponseCommentRow feedbackParticipantComment =
-                    buildFeedbackParticipantCommentRow(question, response);
+                    buildFeedbackParticipantResponseCommentRow(question, bundle.responseComments,
+                            response.getId(), bundle.feedbackSession.getTimeZone(), false);
 
             boolean isAllowedToSubmitSessionsInBothSection =
                     instructor.isAllowedForPrivilege(response.giverSection,
@@ -528,19 +529,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         return responsePanels;
-    }
-
-    private FeedbackResponseCommentRow buildFeedbackParticipantCommentRow(FeedbackQuestionAttributes question,
-            FeedbackResponseAttributes response) {
-        List<FeedbackResponseCommentAttributes> frcAttributesList = bundle.responseComments.get(response.getId());
-        if (frcAttributesList != null) {
-            for (FeedbackResponseCommentAttributes frcAttributes : frcAttributesList) {
-                if (frcAttributes.isCommentFromFeedbackParticipant) {
-                    return buildResponseComment("", "", question, response, frcAttributes);
-                }
-            }
-        }
-        return null;
     }
 
     private InstructorFeedbackResultsGroupByQuestionPanel buildGroupByQuestionPanel(
@@ -996,9 +984,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(recipientElement);
         columnTags.add(responseElement);
 
-        ElementTag commentElement;
         if (isFeedbackParticipantCommentsOnResponseAllowed) {
-            commentElement = new ElementTag("Comments", "style", "width: 20%; min-width: 95px;");
+            ElementTag commentElement = new ElementTag("Comments", "style", "width: 20%; min-width: 95px;");
             responseElement.setAttribute("width", "25%");
             columnTags.add(commentElement);
             isSortable.put(commentElement.getContent(), false);
@@ -1540,7 +1527,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         if (frcAttributesList != null) {
             for (FeedbackResponseCommentAttributes frcAttributes : frcAttributesList) {
                 if (!frcAttributes.isCommentFromFeedbackParticipant) {
-                    instructorComments.add(buildResponseComment(giverName, recipientName, question,
+                    instructorComments.add(buildInstructorComment(giverName, recipientName, question,
                             response, frcAttributes));
                 }
             }
@@ -1561,9 +1548,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return "";
     }
 
-    private FeedbackResponseCommentRow buildResponseComment(String giverName, String recipientName,
-            FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
-            FeedbackResponseCommentAttributes frcAttributes) {
+    private FeedbackResponseCommentRow buildInstructorComment(String giverName, String recipientName,
+                                                              FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
+                                                              FeedbackResponseCommentAttributes frcAttributes) {
         boolean isInstructorGiver = instructor.email.equals(frcAttributes.commentGiver);
         boolean isInstructorWithPrivilegesToModify =
                 instructor.isAllowedForPrivilege(

@@ -59,7 +59,7 @@ public class FeedbackResponseCommentRow {
 
     // For feedback participant comment
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, ZoneId sessionTimeZone,
-            FeedbackQuestionAttributes question) {
+            FeedbackQuestionAttributes question, boolean isEditDeleteEnabled) {
         this.commentId = frc.getId();
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
@@ -70,7 +70,7 @@ public class FeedbackResponseCommentRow {
         this.courseId = frc.courseId;
         this.feedbackSessionName = frc.feedbackSessionName;
         this.feedbackResponseId = frc.feedbackResponseId;
-        this.isEditDeleteEnabled = true;
+        this.isEditDeleteEnabled = isEditDeleteEnabled;
     }
 
     public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, String giverDisplay,
@@ -274,14 +274,11 @@ public class FeedbackResponseCommentRow {
         if (Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(giverEmail)) {
             return Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
         }
-        if (commentGiverEmailToNameTable.get(giverEmail) == null) {
-            return giverEmail;
-        }
         return commentGiverEmailToNameTable.get(giverEmail);
     }
 
     private String getEditedAtText(String lastEditorEmail, Instant createdAt, Instant lastEditedAt) {
-        if (lastEditedAt == null || lastEditedAt.equals(createdAt) || isCommentFromFeedbackParticipant) {
+        if (lastEditedAt == null || lastEditedAt.equals(createdAt)) {
             return "";
         }
         boolean isGiverAnonymous = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT.equals(commentGiverName);

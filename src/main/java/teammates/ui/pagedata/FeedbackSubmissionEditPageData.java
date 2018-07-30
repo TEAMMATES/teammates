@@ -258,8 +258,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
                     true, recipientOptionsForQuestion, submissionFormHtml,
                     existingResponse.getId());
             if (questionAttributes.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+
                 FeedbackResponseCommentRow responseCommentRow =
-                        buildFeedbackParticipantResponseCommentRow(questionAttributes, existingResponse.getId());
+                        buildFeedbackParticipantResponseCommentRow(questionAttributes, bundle.commentsForResponses,
+                                existingResponse.getId(), bundle.feedbackSession.getTimeZone(), true);
 
                 FeedbackResponseCommentRow frcForAdding =
                         buildFeedbackResponseCommentFormForAdding(questionAttributes, existingResponse.getId(),
@@ -291,21 +293,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
         }
 
         return responses;
-    }
-
-    private FeedbackResponseCommentRow buildFeedbackParticipantResponseCommentRow(
-            FeedbackQuestionAttributes questionAttributes, String responseId) {
-        if (!bundle.commentsForResponses.containsKey(responseId)) {
-            return null;
-        }
-        ZoneId sessionTimeZone = bundle.feedbackSession.getTimeZone();
-        List<FeedbackResponseCommentAttributes> frcList = bundle.commentsForResponses.get(responseId);
-        for (FeedbackResponseCommentAttributes frcAttributes : frcList) {
-            if (frcAttributes.isCommentFromFeedbackParticipant) {
-                return new FeedbackResponseCommentRow(frcAttributes, sessionTimeZone, questionAttributes);
-            }
-        }
-        return null;
     }
 
     /**

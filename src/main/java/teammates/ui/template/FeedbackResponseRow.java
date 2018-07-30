@@ -20,7 +20,8 @@ public class FeedbackResponseRow {
     private String questionText;
     private String questionMoreInfo;
     private String responseText;
-    private List<FeedbackResponseCommentRow> responseComments;
+    private List<FeedbackResponseCommentRow> instructorComments;
+    private FeedbackResponseCommentRow feedbackParticipantComment;
 
     public FeedbackResponseRow(int fbIndex, int personIndex, String personType,
                                FeedbackResponseAttributes response, FeedbackSessionResultsBundle results) {
@@ -37,7 +38,7 @@ public class FeedbackResponseRow {
         } else if ("giver".equals(personType)) {
             this.responseText = results.getResponseAnswerHtml(response, question);
         }
-        this.responseComments = new ArrayList<>();
+        this.instructorComments = new ArrayList<>();
         List<FeedbackResponseCommentAttributes> frcs = results.responseComments.get(response.getId());
 
         Map<FeedbackParticipantType, Boolean> responseVisibilities = new HashMap<>();
@@ -48,19 +49,21 @@ public class FeedbackResponseRow {
         String giverName = results.getNameForEmail(response.giver);
         if (frcs != null) {
             for (FeedbackResponseCommentAttributes frc : frcs) {
-                String showCommentTo = StringHelper.removeEnclosingSquareBrackets(frc.showCommentTo.toString());
-                String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
-                String recipientName = results.getNameForEmail(response.recipient);
-                String giverEmail = frc.commentGiver;
-                Map<String, String> commentGiverEmailToNameTable = results.commentGiverEmailToNameTable;
-                FeedbackResponseCommentRow responseCommentRow = new FeedbackResponseCommentRow(frc,
-                        giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
-                        commentGiverEmailToNameTable, results.getTimeZone(), question);
-                // Instructor cannot edit/delete feedback participant's comments from results page
-                if (!frc.isCommentFromFeedbackParticipant) {
+                if (frc.isCommentFromFeedbackParticipant) {
+                    feedbackParticipantComment =
+                            new FeedbackResponseCommentRow(frc, results.getTimeZone(), question, false);
+                } else {
+                    String showCommentTo = StringHelper.removeEnclosingSquareBrackets(frc.showCommentTo.toString());
+                    String showGiverNameToString = StringHelper.removeEnclosingSquareBrackets(frc.showGiverNameTo.toString());
+                    String recipientName = results.getNameForEmail(response.recipient);
+                    String giverEmail = frc.commentGiver;
+                    Map<String, String> commentGiverEmailToNameTable = results.commentGiverEmailToNameTable;
+                    FeedbackResponseCommentRow responseCommentRow = new FeedbackResponseCommentRow(frc,
+                            giverEmail, giverName, recipientName, showCommentTo, showGiverNameToString, responseVisibilities,
+                            commentGiverEmailToNameTable, results.getTimeZone(), question);
                     responseCommentRow.enableEditDelete();
+                    this.instructorComments.add(responseCommentRow);
                 }
-                this.responseComments.add(responseCommentRow);
             }
         }
     }
@@ -81,8 +84,11 @@ public class FeedbackResponseRow {
         return responseText;
     }
 
-    public List<FeedbackResponseCommentRow> getResponseComments() {
-        return responseComments;
+    public List<FeedbackResponseCommentRow> getInstructorComments() {
+        return instructorComments;
     }
 
+    public FeedbackResponseCommentRow getFeedbackParticipantComment() {
+        return feedbackParticipantComment;
+    }
 }
