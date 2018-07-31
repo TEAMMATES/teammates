@@ -27,7 +27,6 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.RedirectResult;
@@ -1300,7 +1299,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     public void testSaveAndUpdateFeedbackParticipantCommentsOnResponse() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(dataBundle);
@@ -1342,9 +1340,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         "FSQTT.idOfTypicalCourse1",
                         "MCQ+Session"),
                 result.getDestinationWithParams());
-        List<FeedbackResponseCommentAttributes> frcList = frcDb.getFeedbackResponseCommentForGiver(fr.courseId, fr.giver);
-        assertEquals(frcList.size(), 1);
-        FeedbackResponseCommentAttributes frc = frcList.get(0);
+
+        FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
         assertEquals("New comment", frc.commentText.getValue());
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
@@ -1362,7 +1359,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect",
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + "-1-0", "Edited comment",
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID + "-1-0", frcList.get(0).getId().toString()
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID + "-1-0", frc.getId().toString()
         };
 
         result = getRedirectResult(getAction(submissionParams));
@@ -1377,9 +1374,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         "FSQTT.idOfTypicalCourse1",
                         "MCQ+Session"),
                 result.getDestinationWithParams());
-        frcList = frcDb.getFeedbackResponseCommentForGiver(fr.courseId, fr.giver);
-        assertEquals(frcList.size(), 1);
-        frc = frcList.get(0);
+        frc = getFeedbackParticipantComment(fr.getId());
         assertEquals("Edited comment", frc.commentText.getValue());
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
