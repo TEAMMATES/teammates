@@ -368,6 +368,12 @@ input.inline {
     padding-top: 0;
 }
 
+.form-group.student-info-row {
+    margin-left: 0;
+    margin-right: 0;
+    border-bottom: 1px solid #CCC;
+}
+
 .text-large {
     font-size: 18px;
 }

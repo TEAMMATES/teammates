@@ -1,0 +1,306 @@
+<div class="container" id="mainContent">
+  <div id="topOfPage">
+  </div>
+  <h1>
+    Add New Course
+  </h1>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-body fill-plain">
+      <form action="/page/instructorCourseAdd" class="form form-horizontal" method="get" name="form_addcourse">
+        <input id="instructorid" name="instructorid" type="hidden" value="CCAddUiTest.instructor">
+        <input name="token" type="hidden" value="${sessionToken}">
+        <input name="user" type="hidden" value="CCAddUiTest.instructor">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">
+            Course ID:
+          </label>
+          <div class="col-sm-3">
+            <input class="form-control" data-original-title="Enter the identifier of the course, e.g.CS3215-2013Semester1." data-placement="top" data-toggle="tooltip" id="courseid" maxlength="40" name="courseid" placeholder="e.g. CS3215-2013Semester1" tabindex="1" title="" type="text" value="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">
+            Course Name:
+          </label>
+          <div class="col-sm-9">
+            <input class="form-control" data-original-title="Enter the name of the course, e.g. Software Engineering." data-placement="top" data-toggle="tooltip" id="coursename" maxlength="64" name="coursename" placeholder="e.g. Software Engineering" tabindex="2" title="" type="text" value="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">
+            Time Zone:
+          </label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <select class="form-control" data-original-title="The time zone for the course. You should not need to change this as it is auto-detected based on your
+                  device settings.<br><br> TEAMMATES automatically adjusts to match the current time offset in your area,
+                  including clock changes due to daylight saving time." data-placement="top" data-toggle="tooltip" id="coursetimezone" name="coursetimezone" title="">
+              </select>
+              <span class="input-group-btn">
+                <input class="btn btn-primary" id="auto-detect-time-zone" type="button" value="Auto-Detect">
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-9">
+            <input class="btn btn-primary" id="btnAddCourse" tabindex="3" type="submit" value="Add Course">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <form action="/page/instructorCoursesPage" class="ajaxForCoursesForm" id="ajaxForCourses" style="display:none;">
+    <input name="user" type="hidden" value="CCAddUiTest.instructor">
+    <input name="isusingAjax" type="hidden" value="on">
+  </form>
+  <br>
+  <div id="statusMessagesToUser">
+    <div class="overflow-auto alert alert-success icon-success statusMessage">
+      All courses have been restored.
+    </div>
+  </div>
+  <script defer="" src="/js/statusMessage.js" type="text/javascript">
+  </script>
+  <br>
+  <div class="courses-tables" id="coursesList">
+    <h2>
+      Active courses
+    </h2>
+    <table class="table table-bordered table-striped" id="tableActiveCourses">
+      <thead class="fill-primary">
+        <tr>
+          <th class="button-sort-none toggle-sort button-sort-ascending" id="button_sortcourseid">
+            Course ID
+            <span class="icon-sort sorted-ascending">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" id="button_sortcoursename">
+            Course Name
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th class="button-sort-none toggle-sort" data-toggle-sort-comparator="sortDate" data-toggle-sort-extractor="dateStampExtractor" id="button_sortcoursecreateddate">
+            Creation Date
+            <span class="icon-sort unsorted">
+            </span>
+          </th>
+          <th>
+            Sections
+          </th>
+          <th>
+            Teams
+          </th>
+          <th>
+            Total Students
+          </th>
+          <th>
+            Total Unregistered
+          </th>
+          <th class="align-center no-print">
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="courseid3">
+            CCAddUiTest.course1
+          </td>
+          <td id="coursename3">
+            Software Engineering $^&*()
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate3">
+            ${datetime.now.courses}
+          </td>
+          <td id="course-stats-sectionNum-3">
+            <a class="course-stats-link-3" href="/page/courseStatsPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-teamNum-3">
+            <a class="course-stats-link-3" href="/page/courseStatsPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-totalStudentNum-3">
+            <a class="course-stats-link-3" href="/page/courseStatsPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-unregisteredStudentNum-3">
+            <a class="course-stats-link-3" href="/page/courseStatsPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td class="align-center no-print">
+            <a class="btn btn-default btn-xs t_course_enroll3" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" title="">
+              Enroll
+            </a>
+            <a class="btn btn-default btn-xs t_course_view3" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" title="">
+              View
+            </a>
+            <a class="btn btn-default btn-xs t_course_edit3" data-original-title="Edit Course information and instructor list" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.course1&user=CCAddUiTest.instructor" title="">
+              Edit
+            </a>
+            <a class="btn btn-default btn-xs t_course_archive3" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.course1&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Archive
+            </a>
+            <a class="btn btn-default btn-xs t_course_delete3" data-course-id="CCAddUiTest.course1" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.course1&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Delete
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td id="courseid0">
+            CCAddUiTest.CS1101
+          </td>
+          <td id="coursename0">
+            Programming Methodology
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate0">
+            ${datetime.now.courses}
+          </td>
+          <td id="course-stats-sectionNum-0">
+            <a class="course-stats-link-0" href="/page/courseStatsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-teamNum-0">
+            <a class="course-stats-link-0" href="/page/courseStatsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-totalStudentNum-0">
+            <a class="course-stats-link-0" href="/page/courseStatsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-unregisteredStudentNum-0">
+            <a class="course-stats-link-0" href="/page/courseStatsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td class="align-center no-print">
+            <a class="btn btn-default btn-xs t_course_enroll0" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" title="">
+              Enroll
+            </a>
+            <a class="btn btn-default btn-xs t_course_view0" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" title="">
+              View
+            </a>
+            <a class="btn btn-default btn-xs t_course_edit0" data-original-title="Edit Course information and instructor list" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS1101&user=CCAddUiTest.instructor" title="">
+              Edit
+            </a>
+            <a class="btn btn-default btn-xs t_course_archive0" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS1101&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Archive
+            </a>
+            <a class="btn btn-default btn-xs t_course_delete0" data-course-id="CCAddUiTest.CS1101" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" disabled="" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS1101&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Delete
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td id="courseid1">
+            CCAddUiTest.CS2104
+          </td>
+          <td id="coursename1">
+            Programming Language Concept
+          </td>
+          <td data-date-stamp="${datetime.now.iso8601utc}" data-original-title="${datetime.now}" data-toggle="tooltip" id="coursecreateddate1">
+            ${datetime.now.courses}
+          </td>
+          <td id="course-stats-sectionNum-1">
+            <a class="course-stats-link-1" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-teamNum-1">
+            <a class="course-stats-link-1" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-totalStudentNum-1">
+            <a class="course-stats-link-1" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-unregisteredStudentNum-1">
+            <a class="course-stats-link-1" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td class="align-center no-print">
+            <a class="btn btn-default btn-xs t_course_enroll1" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" title="">
+              Enroll
+            </a>
+            <a class="btn btn-default btn-xs t_course_view1" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" title="">
+              View
+            </a>
+            <a class="btn btn-default btn-xs t_course_edit1" data-original-title="Edit Course information and instructor list" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS2104&user=CCAddUiTest.instructor" title="">
+              Edit
+            </a>
+            <a class="btn btn-default btn-xs t_course_archive1" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2104&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Archive
+            </a>
+            <a class="btn btn-default btn-xs t_course_delete1" data-course-id="CCAddUiTest.CS2104" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2104&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Delete
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td id="courseid2">
+            CCAddUiTest.CS2105
+          </td>
+          <td id="coursename2">
+            Computer Networks
+          </td>
+          <td data-date-stamp="2012-04-02T23:58:00Z" data-original-title="Mon, 02 Apr 2012, 11:58 PM" data-toggle="tooltip" id="coursecreateddate2">
+            2 Apr 2012
+          </td>
+          <td id="course-stats-sectionNum-2">
+            <a class="course-stats-link-2" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2105&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-teamNum-2">
+            <a class="course-stats-link-2" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2105&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-totalStudentNum-2">
+            <a class="course-stats-link-2" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2105&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td id="course-stats-unregisteredStudentNum-2">
+            <a class="course-stats-link-2" href="/page/courseStatsPage?courseid=CCAddUiTest.CS2105&user=CCAddUiTest.instructor" oncontextmenu="return false;">
+              Show
+            </a>
+          </td>
+          <td class="align-center no-print">
+            <a class="btn btn-default btn-xs t_course_enroll2" data-original-title="Enroll student into the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEnrollPage?courseid=CCAddUiTest.CS2105&user=CCAddUiTest.instructor" title="">
+              Enroll
+            </a>
+            <a class="btn btn-default btn-xs t_course_view2" data-original-title="View, edit and send invitation emails to the students in the course" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDetailsPage?courseid=CCAddUiTest.CS2105&user=CCAddUiTest.instructor" title="">
+              View
+            </a>
+            <a class="btn btn-default btn-xs t_course_edit2" data-original-title="Edit Course information and instructor list" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseEditPage?courseid=CCAddUiTest.CS2105&user=CCAddUiTest.instructor" title="">
+              Edit
+            </a>
+            <a class="btn btn-default btn-xs t_course_archive2" data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseArchive?courseid=CCAddUiTest.CS2105&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Archive
+            </a>
+            <a class="btn btn-default btn-xs t_course_delete2" data-course-id="CCAddUiTest.CS2105" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=CCAddUiTest.CS2105&next=%2Fpage%2FinstructorCoursesPage&user=CCAddUiTest.instructor&token=${sessionToken}" title="">
+              Delete
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>

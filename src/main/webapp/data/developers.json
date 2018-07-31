@@ -64,9 +64,6 @@
       "username": "AdrianSiwiec"
     },
     {
-      "username": "ah91086"
-    },
-    {
       "name": "Ahsan Bagwan",
       "username": "ahsanbagwan"
     },
@@ -317,6 +314,7 @@
       "username": "clmcdonald"
     },
     {
+      "multiple": true,
       "username": "cybersol795"
     },
     {
@@ -482,6 +480,11 @@
     {
       "name": "Harshvardhan Singh",
       "username": "Harshvardhan58"
+    },
+    {
+      "multiple": true,
+      "name": "Hector Aguilar",
+      "username": "ah91086"
     },
     {
       "major": true,
@@ -1210,6 +1213,10 @@
     {
       "name": "Shubham Jain",
       "username": "shubhampkj"
+    },
+    {
+      "name": "Shubham Kadlag",
+      "username": "shubhamkadlag"
     },
     {
       "name": "Shubham Nishad",

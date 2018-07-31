@@ -25,6 +25,8 @@ public class Course extends BaseEntity {
     // TODO: change to `java.time.Instant` once we have upgraded to Objectify 6
     private Date createdAt;
 
+    private Date deletedAt;
+
     private String timeZone;
 
     @SuppressWarnings("unused")
@@ -32,7 +34,7 @@ public class Course extends BaseEntity {
         // required by Objectify
     }
 
-    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt) {
+    public Course(String courseId, String courseName, String courseTimeZone, Instant createdAt, Instant deletedAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
@@ -45,6 +47,7 @@ public class Course extends BaseEntity {
         } else {
             this.setCreatedAt(createdAt);
         }
+        this.setDeletedAt(deletedAt);
     }
 
     public String getUniqueId() {
@@ -64,11 +67,19 @@ public class Course extends BaseEntity {
     }
 
     public Instant getCreatedAt() {
-        return TimeHelper.convertDateToInstant(this.createdAt);
+        return TimeHelper.convertDateToInstant(createdAt);
     }
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = TimeHelper.convertInstantToDate(createdAt);
+    }
+
+    public Instant getDeletedAt() {
+        return TimeHelper.convertDateToInstant(deletedAt);
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = TimeHelper.convertInstantToDate(deletedAt);
     }
 
     public String getTimeZone() {
