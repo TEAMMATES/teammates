@@ -7,8 +7,8 @@ import java.util.List;
 import com.googlecode.objectify.Key;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -104,7 +104,7 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
 
             attr.setQuestionDetails(fqd);
             return attr.toEntity();
-        } catch(ReflectiveOperationException e) {
+        } catch (ReflectiveOperationException e) {
             System.out.println(e.getMessage());
             return question;
         }
