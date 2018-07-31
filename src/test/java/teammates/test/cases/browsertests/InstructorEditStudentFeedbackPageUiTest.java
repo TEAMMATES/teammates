@@ -144,7 +144,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
 
-        submitPage.addFeedbackResponseComment("-3-0", "Comment without response");
+        submitPage.addFeedbackParticipantComment("-3-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3.");
@@ -159,7 +159,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.waitForPageToLoad();
 
         submitPage.chooseMcqOption(3, 0, "It's good");
-        submitPage.addFeedbackResponseComment("-3-0", "New MCQ Comment 1");
+        submitPage.addFeedbackParticipantComment("-3-0", "New MCQ Comment 1");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
@@ -173,7 +173,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
 
-        submitPage.editFeedbackResponseComment("-3-0", "Edited MCQ Comment 1");
+        submitPage.editFeedbackParticipantComment("-3-0", "Edited MCQ Comment 1");
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,

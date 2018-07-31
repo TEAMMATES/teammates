@@ -554,7 +554,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
-        submitPage.addFeedbackResponseComment("-6-0", "Comment without response");
+        submitPage.addFeedbackParticipantComment("-6-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal(
@@ -571,8 +571,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.chooseMcqOption(6, 0, "UI");
         submitPage.chooseMcqOption(7, 1, "UI");
-        submitPage.addFeedbackResponseComment("-6-0", "New MCQ Comment 1");
-        submitPage.addFeedbackResponseComment("-7-1", "New MCQ team Comment 2");
+        submitPage.addFeedbackParticipantComment("-6-0", "New MCQ Comment 1");
+        submitPage.addFeedbackParticipantComment("-7-1", "New MCQ team Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3, 4, 5, 8, 9, "
@@ -588,8 +588,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.waitForPageToLoad();
 
-        submitPage.editFeedbackResponseComment("-6-0", "Edited MCQ Comment 1");
-        submitPage.editFeedbackResponseComment("-7-0", "Edited MCQ team Comment 2");
+        submitPage.editFeedbackParticipantComment("-6-0", "Edited MCQ Comment 1");
+        submitPage.editFeedbackParticipantComment("-7-0", "Edited MCQ team Comment 2");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3, 4, 5, 8, 9, "

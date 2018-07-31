@@ -327,7 +327,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
 
-        submitPage.addFeedbackResponseComment("-5-0", "Comment without response");
+        submitPage.addFeedbackParticipantComment("-5-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -351,9 +351,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(6, 2, "UI");
         submitPage.chooseMcqOption(9, 0, "Drop out (Team 2)");
 
-        submitPage.addFeedbackResponseComment("-6-0", "New MCQ Comment 1");
-        submitPage.addFeedbackResponseComment("-6-1", "New MCQ Comment 2");
-        submitPage.addFeedbackResponseComment("-9-0", "New MCQ Comment 3");
+        submitPage.addFeedbackParticipantComment("-6-0", "New MCQ Comment 1");
+        submitPage.addFeedbackParticipantComment("-6-1", "New MCQ Comment 2");
+        submitPage.addFeedbackParticipantComment("-9-0", "New MCQ Comment 3");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -374,9 +374,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.waitForPageToLoad();
 
-        submitPage.editFeedbackResponseComment("-6-0", "Edited MCQ Comment 1");
-        submitPage.editFeedbackResponseComment("-6-1", "Edited MCQ Comment 2");
-        submitPage.editFeedbackResponseComment("-9-0", "Edited MCQ Comment 3");
+        submitPage.editFeedbackParticipantComment("-6-0", "Edited MCQ Comment 1");
+        submitPage.editFeedbackParticipantComment("-6-1", "Edited MCQ Comment 2");
+        submitPage.editFeedbackParticipantComment("-9-0", "Edited MCQ Comment 3");
 
         submitPage.submitWithoutConfirmationEmail();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,

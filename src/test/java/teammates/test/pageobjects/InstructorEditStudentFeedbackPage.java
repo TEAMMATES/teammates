@@ -43,8 +43,4 @@ public class InstructorEditStudentFeedbackPage extends FeedbackSubmitPage {
         return moderationHintButton.getText();
     }
 
-    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
-        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
-    }
-
 }

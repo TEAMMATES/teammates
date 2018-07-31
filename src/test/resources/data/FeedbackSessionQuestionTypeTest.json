@@ -1088,6 +1088,17 @@
         "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
       }
     },
+    "response3ForQ1S1C1": {
+      "feedbackSessionName": "MCQ Session",
+      "courseId": "FSQTT.idOfTypicalCourse1",
+      "feedbackQuestionId": "1",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student3InCourse1@gmail.tmt",
+      "recipient": "student3InCourse1@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's perfect\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      }
+    },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "FSQTT.idOfTypicalCourse1",
@@ -1712,14 +1723,14 @@
     }
   },
   "feedbackResponseComments": {
-    "comment1OnR1Q1S1C2": {
+    "comment1OnR3Q1S1C2": {
       "courseId": "FSQTT.idOfTypicalCourse1",
       "feedbackSessionName": "MCQ Session",
       "feedbackQuestionId": "1",
       "commentGiver": "student1InCourse1@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "feedbackResponseId": "1%student3InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "STUDENTS",
@@ -1727,7 +1738,7 @@
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2016-01-01T23:59:00Z",
       "commentText": {
-        "value": "Student 1 comment"
+        "value": "Student 3 comment"
       }
     },
     "comment1OnR2Q1S1C2": {
