@@ -49,7 +49,16 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
         try {
             Field hasAssignedWeights = fqd.getClass().getDeclaredField("hasAssignedWeights");
             hasAssignedWeights.setAccessible(true);
-            return hasAssignedWeights.getBoolean(fqd);
+            if (!hasAssignedWeights.getBoolean(fqd)) {
+                return false;
+            }
+
+            Field rubricWeightsForEachCell = fqd.getClass().getDeclaredField("rubricWeightsForEachCell");
+            rubricWeightsForEachCell.setAccessible(true);
+            List<List<Double>> newWeights = (List<List<Double>>) rubricWeightsForEachCell.get(fqd);
+
+            // Question contains legacy data if rubricWeightsForEachCell list is empty.
+            return newWeights.isEmpty();
         } catch (ReflectiveOperationException e) {
             System.out.println(e.getMessage());
             return true;
@@ -69,7 +78,11 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
      */
     @Override
     protected void migrate(Key<FeedbackQuestion> questionKey) {
-        // nothing to do.
+        ofy().transact(() -> {
+            FeedbackQuestion question = ofy().load().key(questionKey).now();
+            question = updateWeights(question);
+            ofy().save().entity(question).now();
+        });
     }
 
     /**
@@ -78,5 +91,22 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
     @Override
     protected void postAction() {
         // nothing to do
+    }
+
+    protected FeedbackQuestion updateWeights(FeedbackQuestion question) {
+        FeedbackQuestionAttributes attr = FeedbackQuestionAttributes.valueOf(question);
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) attr.getQuestionDetails();
+        List<List<Double>> weightsForEachCell = fqd.getRubricWeights();
+        try {
+            Field rubricWeightsForEachCell = fqd.getClass().getDeclaredField("rubricWeightsForEachCell");
+            rubricWeightsForEachCell.setAccessible(true);
+            rubricWeightsForEachCell.set(fqd, weightsForEachCell);
+
+            attr.setQuestionDetails(fqd);
+            return attr.toEntity();
+        } catch(ReflectiveOperationException e) {
+            System.out.println(e.getMessage());
+            return question;
+        }
     }
 }
