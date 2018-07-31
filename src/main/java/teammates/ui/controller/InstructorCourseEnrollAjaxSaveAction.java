@@ -23,7 +23,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StatusMessage;
 import teammates.common.util.StatusMessageColor;
 import teammates.ui.pagedata.InstructorCourseEnrollPageData;
-import teammates.ui.pagedata.InstructorCourseEnrollResultPageData;
 
 /**
  * Action: saving the list of enrolled students for a course of an instructor.
@@ -50,12 +49,12 @@ public class InstructorCourseEnrollAjaxSaveAction extends Action {
         try {
             enrollErrorLines = new HashMap<>();
             List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
-            boolean hasSection = hasSections(students);
 
-            InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account, sessionToken,
-                                                                    courseId, students, hasSection, studentsInfo);
+            InstructorCourseEnrollPageData pageData =
+                    new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
+            pageData.updateEnrollSuccessLines(students);
 
-            // TODO: Handle success status messages later
+            statusToUser.add(new StatusMessage("Enroll success.", StatusMessageColor.SUCCESS));
 
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">["
                             + courseId + "]:</span><br>" + sanitizedStudentsInfo.replace("\n", "<br>");
@@ -112,17 +111,6 @@ public class InstructorCourseEnrollAjaxSaveAction extends Action {
             log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
             return createAjaxResult(pageData);
         }
-    }
-
-    private boolean hasSections(List<StudentAttributes>[] students) {
-        for (List<StudentAttributes> studentList : students) {
-            for (StudentAttributes student : studentList) {
-                if (!student.section.equals(Const.DEFAULT_SECTION)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
