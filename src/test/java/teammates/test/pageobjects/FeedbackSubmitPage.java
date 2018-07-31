@@ -271,7 +271,13 @@ public class FeedbackSubmitPage extends AppPage {
         clickDismissModalButtonAndWaitForModalHidden(closeButton);
     }
 
-    public void addFeedbackResponseComment(String addResponseCommentId, String commentText) {
+    /**
+     * Adds feedback participant comment.
+     *
+     * @param addResponseCommentId suffix id of comment add form
+     * @param commentText comment text
+     */
+    public void addFeedbackParticipantComment(String addResponseCommentId, String commentText) {
         WebElement showResponseCommentAddFormButton =
                 browser.driver.findElement(By.id("button_add_comment" + addResponseCommentId));
         click(showResponseCommentAddFormButton);
@@ -282,12 +288,23 @@ public class FeedbackSubmitPage extends AppPage {
         fillRichTextEditor(editorElement.getAttribute("id"), commentText);
     }
 
-    public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
+    /**
+     * Edits feedback participant comment.
+     *
+     * @param commentIdSuffix suffix id of comment edit form
+     * @param newCommentText new comment text
+     */
+    public void editFeedbackParticipantComment(String commentIdSuffix, String newCommentText) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         click(commentRow.findElements(By.tagName("a")).get(1));
         fillRichTextEditor("responsecommenttext" + commentIdSuffix, newCommentText);
     }
 
+    /**
+     * Deletes feedback participant comment.
+     *
+     * @param commentIdSuffix suffix id of comment delete button
+     */
     public void deleteFeedbackResponseComment(String commentIdSuffix) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         final WebElement deleteCommentButton =
@@ -304,7 +321,4 @@ public class FeedbackSubmitPage extends AppPage {
         waitForElementToDisappear(By.id("more-info-equal-share-modal"));
     }
 
-    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
-        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
-    }
 }

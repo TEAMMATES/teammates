@@ -1668,6 +1668,11 @@ public abstract class AppPage {
         }
     }
 
+    /**
+     * Verifies that comment row doesn't exist for given rowIdSuffix.
+     *
+     * @param rowIdSuffix suffix id of comment row
+     */
     public void verifyCommentRowMissing(String rowIdSuffix) {
         try {
             waitForAjaxLoaderGifToDisappear();
@@ -1676,5 +1681,15 @@ public abstract class AppPage {
         } catch (NoSuchElementException expected) {
             // row expected to be missing
         }
+    }
+
+    /**
+     * Verifies the comment text.
+     *
+     * @param commentRowIdSuffix suffix id of comment delete button
+     * @param commentText comment text to be verified
+     */
+    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
+        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
     }
 }
