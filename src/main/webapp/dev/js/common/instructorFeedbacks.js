@@ -153,10 +153,11 @@ function setupResponsesVisibilityInfoModal() {
     </p>
     `;
 
-    const onSessionVisibilityOption = `
+    const onResponseSubmissionOption = `
     <p>
-        <label>Immediately:</label> Select this option to have the feedback responses be immediately visible
-        when the session becomes visible to users.
+        <label>Immediately:</label> Select this option to have the feedback
+        responses be immediately visible to others as soon as they are submitted. Note that who can
+        see the responses depends on the feedback path of the question.
     </p>
     `;
 
@@ -173,7 +174,7 @@ function setupResponsesVisibilityInfoModal() {
     <div>
         <ul>
             <li>${atOption}</li>
-            <li>${onSessionVisibilityOption}</li>
+            <li>${onResponseSubmissionOption}</li>
             <li>${publishManualOption}</li>
         </ul>
     </div>
