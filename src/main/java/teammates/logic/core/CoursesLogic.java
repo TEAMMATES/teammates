@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -559,7 +560,7 @@ public final class CoursesLogic {
 
         CourseAttributes recoveryCourse = coursesDb.getCourse(instructor.courseId);
 
-        if (recoveryCourse.isCourseDeleted()) {
+        if (!recoveryCourse.isCourseDeleted()) {
             return null;
         }
         return recoveryCourse;
@@ -684,11 +685,13 @@ public final class CoursesLogic {
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
      */
-    public void moveCourseToRecovery(String courseId)
+    public Instant moveCourseToRecovery(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes course = coursesDb.getCourse(courseId);
         course.setDeletedAt();
         coursesDb.updateCourse(course);
+
+        return course.deletedAt;
     }
 
     /**

@@ -16,7 +16,7 @@
         <div class="row">
           <div class="col-sm-6">
             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
-                value="true" checked disabled> Edit/Delete Course
+                value="true" checked disabled> Edit/Delete/Restore Course
           </div>
 
           <div class="col-sm-6">
