@@ -314,9 +314,11 @@ function bindDeleteButtons() {
         const okCallback = function () {
             window.location = $button.attr('href');
         };
+        const okButtonText = 'Yes';
+        const cancelButtonText = 'No, cancel the operation';
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.DANGER);
+                okButtonText, cancelButtonText, BootstrapContextualColors.DANGER);
     });
 }
 
