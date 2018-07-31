@@ -380,9 +380,11 @@ function bindSessionDeleteLinks() {
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
+        const okButtonText = 'Yes';
+        const cancelButtonText = 'No, cancel the operation';
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                null, null, BootstrapContextualColors.DANGER);
+                okButtonText, cancelButtonText, BootstrapContextualColors.DANGER);
     });
 }
 
