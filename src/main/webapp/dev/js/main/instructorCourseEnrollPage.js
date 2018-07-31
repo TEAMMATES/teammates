@@ -79,6 +79,9 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
 });
 
 const enrollErrorMessagesMap = new Map();
+const enrollNewStudentsMap = new Map();
+const enrollModifiedStudentsMap = new Map();
+const enrollUnmodifiedStudentsMap = new Map();
 
 /**
  * Function to update the enrollHandsontable cell settings according to a custom renderer.
@@ -113,6 +116,15 @@ function statusMessageRowsRenderer(instance, td, row) {
     if (enrollErrorMessagesMap.has(row)) {
         td.style.background = '#ff6666';
         text = enrollErrorMessagesMap.get(row);
+    } else if (enrollNewStudentsMap.has(row)) {
+        td.style.background = '#7CFC00';
+        text = enrollNewStudentsMap.get(row);
+    } else if (enrollModifiedStudentsMap.has(row)) {
+        td.style.background = '#ffc20e';
+        text = enrollModifiedStudentsMap.get(row);
+    } else if (enrollUnmodifiedStudentsMap.get(row)) {
+        td.style.background = '#ADD8E6';
+        text = enrollUnmodifiedStudentsMap.get(row);
     } else {
         td.style.background = '#FFFFFF';
         return;
@@ -224,19 +236,56 @@ function addEnrollErrorMessages(enrollErrorLines) {
 }
 
 /**
+ * Initializes the different types of success messages to process later.
+ */
+function initializeEnrollSuccessMap(enrollStudentsLines, enrollSuccessMap) {
+    if (!jQuery.isEmptyObject(enrollStudentsLines)) {
+        Object.keys(enrollStudentsLines).forEach(key => (
+            enrollSuccessMap.set(key, enrollStudentsLines[key])
+        ));
+    }
+}
+
+/**
+ * Adds all successful messages returned from the backend into the respective maps.
+ */
+function addEnrollSuccessMessages(enrollNewStudentsLines, enrollModifiedStudentsLines,
+                                  enrollUnmodifiedStudentsLines) {
+    initializeEnrollSuccessMap(enrollNewStudentsLines, enrollNewStudentsMap);
+    initializeEnrollSuccessMap(enrollModifiedStudentsLines, enrollModifiedStudentsMap);
+    initializeEnrollSuccessMap(enrollUnmodifiedStudentsLines, enrollUnmodifiedStudentsMap);
+
+    const emailColumnIndex = 3;
+    enrollHandsontable.getData().forEach((row, index) => {
+        const currRowEmail = row[emailColumnIndex];
+        if (enrollNewStudentsMap.has(currRowEmail)) {
+            enrollNewStudentsMap.set(index,
+                    enrollNewStudentsMap.get(currRowEmail));
+        } else if (enrollModifiedStudentsMap.has(currRowEmail)) {
+            enrollModifiedStudentsMap.set(index,
+                    enrollModifiedStudentsMap.get(currRowEmail));
+        } else if (enrollUnmodifiedStudentsMap.has(currRowEmail)) {
+            enrollUnmodifiedStudentsMap.set(index,
+                    enrollUnmodifiedStudentsMap.get(currRowEmail));
+        }
+    });
+}
+
+/**
  * Triggers an AJAX request to retrieve the enroll status.
  * Does the necessary post processing after the state of the AJAX request is returned.
  */
 function triggerAndProcessAjaxSaveAction() {
     getAjaxEnrollStatus()
             .then((data) => {
+                clearStatusMessages();
+                updateEnrollHandsontableCellSettings(resetDefaultViewRenderer);
                 if (data.statusMessagesToUser.length === 1
                     && data.statusMessagesToUser[0].color === 'SUCCESS') {
-                    // TODO: Handle success case
+                    addEnrollSuccessMessages(data.enrollNewStudentsLines,
+                            data.enrollModifiedStudentsLines, data.enrollUnmodifiedStudentsLines);
+                    updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
                 } else {
-                    clearStatusMessages();
-                    updateEnrollHandsontableCellSettings(resetDefaultViewRenderer);
-
                     if (data.statusMessagesToUser.length === 1
                             && data.statusMessagesToUser[0].text === Const.StatusMessages.ENROLL_LINE_EMPTY) {
                         appendNewStatusMessage(Const.StatusMessages.ENROLL_LINE_EMPTY,
@@ -327,6 +376,9 @@ $(document).ready(() => {
 
     $('#button_enroll').click(() => {
         enrollErrorMessagesMap.clear();
+        enrollNewStudentsMap.clear();
+        enrollModifiedStudentsMap.clear();
+        enrollUnmodifiedStudentsMap.clear();
         updateDataDump();
         triggerAndProcessAjaxSaveAction();
     });
