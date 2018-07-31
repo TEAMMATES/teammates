@@ -101,14 +101,13 @@ function formatResponsesVisibilityGroup() {
 function setupSessionVisibilityInfoModal() {
     const generalInfo = `
     <p>
-        This option allows you to select when you want the questions
-        for the feedback session to be visible to users who need to participate.<br><br>
-        <label>Note:</label> Users cannot submit their responses until the submission
-        opening time.
+        This option allows you to select when you want the questions for the feedback
+        session to be visible to users who need to participate. Users cannot submit their
+        responses until the submission opening time.
     </p>
     `;
 
-    const atOptionInfo = `
+    const atOption = `
     <p>
         <label>At:</label> Select this option to enter in a specific date and time when
         the feedback session will become visible. Note that you can make a session visible
@@ -116,7 +115,7 @@ function setupSessionVisibilityInfoModal() {
     </p>
     `;
 
-    const openTimeOptionInfo = `
+    const openTimeOption = `
     <p>
         <label>Submission opening time:</label> Select this option to have the feedback
         session become visible when it is open for submissions.
@@ -128,13 +127,59 @@ function setupSessionVisibilityInfoModal() {
     <label>Options:</label><br>
     <div>
         <ul>
-            <li>${atOptionInfo}</li>
-            <li>${openTimeOptionInfo}</li>
+            <li>${atOption}</li>
+            <li>${openTimeOption}</li>
         </ul>
     </div>
     `;
     $('#sessionVisibleCustomInfo').on('click', () => {
         showModalAlert('Session Visibility Options', modalText);
+    });
+}
+
+function setupResponsesVisibilityInfoModal() {
+    const generalInfo = `
+    <p>
+        Please select when the responses for the feedback session will be visible to the
+        designated recipients. You can select the response visibility for each type of 
+        user and question later.
+    </p>
+    `;
+
+    const atOption = `
+    <p>
+        <label>At:</label> Select this option to use a self defined time for when the responses
+        of the feedback session will be visible to the designated recipients.
+    </p>
+    `;
+
+    const onSessionVisibilityOption = `
+    <p>
+        <label>Immediately:</label> Select this option to have the feedback responses be immediately visible
+        when the session becomes visible to users.
+    </p>
+    `;
+
+    const publishManualOption = `
+    <p>
+        <label>Not now:</label> Select this option if you intend to manually publish the
+        responses for this session later on.
+    </p>
+    `;
+
+    const modalText = `
+    ${generalInfo}<br>
+    <label>Options:</label><br>
+    <div>
+        <ul>
+            <li>${atOption}</li>
+            <li>${onSessionVisibilityOption}</li>
+            <li>${publishManualOption}</li>
+        </ul>
+    </div>
+    `;
+    $('#responsesVisibleCustomInfo').on('click', () => {
+        showModalAlert('Responses Visibility Options', modalText);
     });
 }
 
@@ -162,6 +207,7 @@ export {
     bindUncommonSettingsEvents,
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
+    setupResponsesVisibilityInfoModal,
     setupSessionVisibilityInfoModal,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
