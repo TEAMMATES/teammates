@@ -1041,57 +1041,26 @@ function bindCopyEvents() {
     });
 }
 
-function bindAddTemplateQnButton() {
-    $('#button_add_template_submit').click((e) => {
-        e.preventDefault();
-
-        let hasPanelSelected = false;
-
-        $('[id^="addTemplateQuestion-"] > .panel-heading').each(function () {
-            const $this = $(this);
-            const questionNumInput = $this.children('input:first');
-            if ($this.hasClass('panel-selected')) {
-                $(questionNumInput).attr('name', 'templatequestionnum');
-                hasPanelSelected = true;
-            }
-        });
-
-        if (hasPanelSelected) {
-            $('#addTemplateQuestionModalForm').submit();
-        } else {
-            setStatusMessage('No questions are selected to be added', BootstrapContextualColors.DANGER);
-            $('#addTemplateQuestionModal').modal('hide');
-        }
-
-        return false;
-    });
-}
-
 function bindAddTemplateQnEvents() {
-    let numPanelsSelected = 0;
-
-    $('[id^="addTemplateQuestion-"]').click(function (e) {
-        const $heading = $(this).children('.panel-heading');
-        const $bodyCollapse = $(this).children('.panel-collapse');
-
-        const checkbox = $heading.children().children('label:first');
-        if ($(e.target).is('input') && $heading.hasClass('panel-selected')) {
-            $(checkbox).html('<input type="checkbox">');
-            $heading.removeClass('panel-selected');
-            numPanelsSelected -= 1;
-        } else if ($(e.target).is('input')) {
-            $(checkbox).html('<input type="checkbox" checked>');
-            $heading.addClass('panel-selected');
-            numPanelsSelected += 1;
-        } else if ($(e.target).is('.panel-heading') || $(e.target).is('.panel-title')) {
-            $bodyCollapse.collapse('toggle');
+    $('.panel-title').click(function (e) {
+        if (!$(e.target).is('input')) {
+            $(this).closest('.panel').find('.panel-collapse').collapse('toggle');
         }
+    });
 
+    $('[id^="addTemplateQuestion-"]').click(() => {
+        const numCheckboxChecked = $('input[name="templatequestionnum"]:checked').length;
         const $button = $('#button_add_template_submit');
 
-        $button.prop('disabled', numPanelsSelected <= 0);
-
-        return false;
+        $button.prop('disabled', numCheckboxChecked <= 0);
+        $button.click(() => {
+            if (numCheckboxChecked > 0) {
+                $('#addTemplateQuestionModalForm').submit();
+            } else {
+                setStatusMessage('No questions are selected to be added', BootstrapContextualColors.DANGER);
+                $('#addTemplateQuestionModal').modal('hide');
+            }
+        });
     });
 }
 
@@ -1256,7 +1225,6 @@ function readyFeedbackEditPage() {
     bindCopyEvents();
     setupQuestionCopyModal();
 
-    bindAddTemplateQnButton();
     bindAddTemplateQnEvents();
     // Additional formatting & bindings.
     if ($('#form_feedbacksession').data(`${ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT}`) === true) {

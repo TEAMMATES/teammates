@@ -20,10 +20,9 @@
           <c:forEach items="${data.templateQuestions}" var="templateQn">
             <div class="panel panel-default" id="addTemplateQuestion-${templateQn.qnNumber}">
               <div class="panel-heading cursor-pointer">
-                <input type="hidden" value="${templateQn.qnNumber}">
                 <div class="panel-title">
                   <label>
-                    <input type="checkbox">
+                    <input type="checkbox" name="templatequestionnum" value="${templateQn.qnNumber}">
                   </label> ${templateQn.qnDescription}
                 </div>
               </div>
