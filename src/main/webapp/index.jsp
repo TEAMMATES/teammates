@@ -109,7 +109,6 @@
       </p>
     </div>
   </div>
-
   <div class="row">
     <div class="col-xs-12 col-sm-3">
       <img class="center-block img-responsive" alt="TEAMMATES - Well received by Academic community" src="images/overview_conference.png">
@@ -122,6 +121,17 @@
         the <a href="http://www.cdtl.nus.edu.sg/Tlhe/tlhe2011/default.htm" target="_blank" rel="noopener noreferrer">International Conference on Teaching and Learning in Higher Education (TLHE)</a>,
         the <a href="https://iated.org/edulearn13/" target="_blank" rel="noopener noreferrer">EDULEARN13 Conference (Spain)</a>,
         and the <a href="http://cdtl.nus.edu.sg/tel2013/" target="_blank" rel="noopener noreferrer">Tel2013 Symposium (Singapore)</a>.
+      </p>
+    </div>
+  </div>
+   <div class="row">
+   <div class="col-xs-12 col-sm-3">
+      <img class="center-block img-responsive" alt="TEAMMATES - Well received by Academic community" src="images/smile_face.jpg">
+    </div>
+    <div class="col-xs-12 col-sm-8">
+      <h2 class="media-heading">UNDER DEVELOPMENT FOR COSC2299</h2>
+      <p>
+        Here is just a simple modification! :)
       </p>
     </div>
   </div>
