@@ -68,7 +68,7 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
      * {@inheritDoc}
      */
     @Override
-    protected void migrate(Key<FeedbackQuestion> sessionKey) {
+    protected void migrate(Key<FeedbackQuestion> questionKey) {
         // nothing to do.
     }
 
@@ -79,5 +79,4 @@ public class DataMigrationForRubricQuestionsWithWeightsAttached extends DataMigr
     protected void postAction() {
         // nothing to do
     }
-
 }
