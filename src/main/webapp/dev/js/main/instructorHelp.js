@@ -196,6 +196,20 @@ function renderPage(page) {
 }
 
 /**
+ * Resets the page to default version and clears the search box.
+ */
+function resetSearch() {
+    $('#searchQuery').val('');
+    $('#searchMetaData').text('');
+    $('#searchResults').empty().hide();
+    $('#pagingControls').empty();
+    $('#pagingControls').removeClass('padding-15px margin-bottom-35px');
+    $('#pagingDivider').hide();
+    $('#allQuestions').show();
+    $('#topics').show();
+}
+
+/**
  * Searches for the query specified in the search box
  */
 function searchQuestions() {
@@ -205,9 +219,7 @@ function searchQuestions() {
     $('#pagingControls').empty();
     $('#pagingControls').removeClass('padding-15px margin-bottom-35px');
     if (query === '') {
-        $('#allQuestions').show();
-        $('#pagingDivider').hide();
-        $('#searchMetaData').text('');
+        resetSearch();
         return;
     }
     // different fields are given a boost value to specify their relative importance
@@ -310,8 +322,10 @@ function searchQuestions() {
     // render first page by default
     renderPage(1);
     $('#pagingDivider').show();
+    $('#searchResults').show();
     $('#searchMetaData').text(`${results.length} results found for '${query}'`);
     $('#allQuestions').hide();
+    $('#topics').hide();
 }
 
 /**
@@ -323,19 +337,6 @@ function bindEnterKeyForSearchBox() {
             $('#search').click();
         }
     });
-}
-
-/**
- * Resets the page to default version and clears the search box.
- */
-function resetSearch() {
-    $('#searchQuery').val('');
-    $('#searchMetaData').text('');
-    $('#searchResults').empty();
-    $('#pagingControls').empty();
-    $('#pagingControls').removeClass('padding-15px margin-bottom-35px');
-    $('#pagingDivider').hide();
-    $('#allQuestions').show();
 }
 
 $(document).ready(() => {

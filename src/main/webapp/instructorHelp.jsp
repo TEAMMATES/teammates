@@ -14,24 +14,26 @@
       If you are new to TEAMMATES, our <a href="/gettingStarted.jsp">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.<br>
       If you have any remaining questions, don't hesitate to <a href="mailto:teammates@comp.nus.edu.sg">email us</a>. We respond within 24 hours.
     </p>
-    <p>
-      Browse questions by topic:
-    </p>
-    <ul id="topics">
-      <li>
-        <a href="#students">Students</a>
-      </li>
-      <li>
-        <a href="#courses">Courses</a>
-      </li>
-      <li>
-        <a href="#sessions">Sessions</a>
-      </li>
-      <li>
-        <a href="#questions">Questions</a>
-      </li>
-    </ul>
-    <div class="row">
+    <div id="topics" style="display: block;">
+      <p>
+        Browse questions by topic:
+      </p>
+      <ul>
+        <li>
+          <a href="#students">Students</a>
+        </li>
+        <li>
+          <a href="#courses">Courses</a>
+        </li>
+        <li>
+          <a href="#sessions">Sessions</a>
+        </li>
+        <li>
+          <a href="#questions">Questions</a>
+        </li>
+      </ul>
+    </div>
+    <div class="row padding-top-55px">
       <div class="col-sm-6 col-sm-offset-3">
         <div class="input-group input-group-lg">
             <input type="text" class="form-control" placeholder="How can we help?" id="searchQuery" autocomplete="off">
