@@ -70,7 +70,7 @@ public class InstructorCourseStudentDetailsEditPageActionTest extends BaseAction
         assertEquals(student1InCourse1.section, pageData.getStudentInfoTable().getSection());
         assertEquals(student1InCourse1.team, pageData.getStudentInfoTable().getTeam());
         assertEquals(student1InCourse1.comments, pageData.getStudentInfoTable().getComments());
-        assertEquals(student1InCourse1.course, pageData.getStudentInfoTable().getCourse());
+        assertEquals(student1InCourse1.course, pageData.getStudentInfoTable().getCourseId());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEdit|||instructorCourseStudentDetailsEdit"
                                   + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"

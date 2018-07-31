@@ -443,14 +443,10 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(courseNameTextBox, value);
     }
 
-    public InstructorCoursesPage clickDeleteCourseLinkAndConfirm() {
-        clickAndConfirm(deleteCourseLink);
+    public InstructorCoursesPage clickDeleteCourseLink() {
+        click(deleteCourseLink);
         waitForPageToLoad();
         return changePageType(InstructorCoursesPage.class);
-    }
-
-    public void clickDeleteCourseLinkAndCancel() {
-        clickAndCancel(deleteCourseLink);
     }
 
     /**

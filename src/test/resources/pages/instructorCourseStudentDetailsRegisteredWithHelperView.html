@@ -2,7 +2,7 @@
   <div id="topOfPage">
   </div>
   <h1>
-    Student Details
+    José Gómez
   </h1>
   <br>
   <div id="statusMessagesToUser" style="display: none;">
@@ -18,7 +18,12 @@
             <thead>
               <tr>
                 <th colspan="2">
-                  Profile
+                  <h4>
+                    <span class="text-bold">
+                      Profile Details
+                    </span>
+                    (submitted by student)
+                  </h4>
                 </th>
               </tr>
             </thead>
@@ -67,46 +72,65 @@
       </div>
     </div>
   </div>
-  <div class="well well-plain">
-    <div class="form form-horizontal" id="studentInfomationTable">
-      <div class="form-group">
-        <label class="col-sm-1 control-label">
-          Student Name:
-        </label>
-        <div class="col-sm-11" id="studentname">
-          <p class="form-control-static">
-            José Gómez
-          </p>
+  <div class="panel panel-primary">
+    <div class="panel-body fill-plain">
+      <div class="form form-horizontal" id="studentInfomationTable">
+        <div class="form-group">
+          <div class="col-sm-12">
+            <h4 class="text-bold">
+              Enrollment Details
+            </h4>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-1 control-label">
-          Team Name:
-        </label>
-        <div class="col-sm-11" id="teamname">
-          <p class="form-control-static">
-            Team 1
-          </p>
+        <div class="form-group student-info-row">
+          <div class="col-xs-4 text-right">
+            <label>
+              Course
+            </label>
+          </div>
+          <div class="col-xs-8" id="courseid">
+            <a href="/page/instructorCourseDetailsPage?courseid=CCSDetailsUiT.CS2104&user=CCSDetailsUiT.Helper">
+              <span>
+                CCSDetailsUiT.CS2104
+              </span>
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-1 control-label">
-          Official Email Address:
-        </label>
-        <div class="col-sm-11" id="studentemail">
-          <p class="form-control-static">
-            CCSDetailsUiT.jose.tmms@gmail.tmt
-          </p>
+        <div class="form-group student-info-row">
+          <div class="col-xs-4 text-right">
+            <label>
+              Team Name
+            </label>
+          </div>
+          <div class="col-xs-8" id="teamname">
+            <span>
+              Team 1
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-1 control-label">
-          Comments:
-        </label>
-        <div class="col-sm-11" id="comments">
-          <p class="form-control-static">
-            This student's name is José Gómez
-          </p>
+        <div class="form-group student-info-row">
+          <div class="col-xs-4 text-right">
+            <label>
+              Official Email
+            </label>
+          </div>
+          <div class="col-xs-8" id="studentemail">
+            <span>
+              CCSDetailsUiT.jose.tmms@gmail.tmt
+            </span>
+          </div>
+        </div>
+        <div class="form-group student-info-row">
+          <div class="col-xs-4 text-right">
+            <label>
+              Comments
+            </label>
+          </div>
+          <div class="col-xs-8" id="comments">
+            <span>
+              This student's name is José Gómez
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -142,11 +166,9 @@
         <div class="panel-body">
           <span class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer" data-target="#studentProfileMoreInfo" data-toggle="modal">
           </span>
-          <h5>
-            <strong>
-              More Info:
-            </strong>
-          </h5>
+          <h4 class="text-bold">
+            More Info:
+          </h4>
           <p class="text-preserve-space height-fixed-md">
             This is a lot of info...
           </p>

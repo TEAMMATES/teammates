@@ -322,12 +322,28 @@ function bindDeleteButtons() {
     });
 }
 
+function bindCourseMoveToRecoveryLinks() {
+    $('body').on('click', '.course-move-to-recovery-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
+                + 'This action can be reverted by going to the "courses" tab and restoring the desired course(s).';
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm moving course to recovery', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.WARNING);
+    });
+}
+
 function bindCourseDeleteLinks() {
     $('body').on('click', '.course-delete-link', (event) => {
         event.preventDefault();
 
         const $clickedLink = $(event.currentTarget);
-        const messageText = `Are you sure you want to delete the course: ${$clickedLink.data('courseId')}? `
+        const messageText = `Are you sure you want to permanently delete the course: ${$clickedLink.data('courseId')}? `
                           + 'This operation will delete all students and sessions in this course. '
                           + 'All instructors of this course will not be able to access it hereafter as well.';
         const okCallback = function () {
@@ -335,6 +351,23 @@ function bindCourseDeleteLinks() {
         };
 
         showModalConfirmation('Confirm deleting course', messageText, okCallback, null,
+                null, null, BootstrapContextualColors.DANGER);
+    });
+}
+
+function bindCourseDeleteAllLinks() {
+    $('body').on('click', '.course-delete-all-link', (event) => {
+        event.preventDefault();
+
+        const $clickedLink = $(event.currentTarget);
+        const messageText = 'Are you sure you want to permanently delete all the courses? '
+                + 'This operation will delete all students and sessions in these courses. '
+                + 'All instructors of these courses will not be able to access them hereafter as well.';
+        const okCallback = function () {
+            window.location = $clickedLink.attr('href');
+        };
+
+        showModalConfirmation('Confirm deleting all courses', messageText, okCallback, null,
                 null, null, BootstrapContextualColors.DANGER);
     });
 }
@@ -550,7 +583,9 @@ function prepareInstructorPages() {
     bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 
     // bind the event handler to show confirmation modal
+    bindCourseMoveToRecoveryLinks();
     bindCourseDeleteLinks();
+    bindCourseDeleteAllLinks();
     bindSessionDeleteLinks();
 }
 
