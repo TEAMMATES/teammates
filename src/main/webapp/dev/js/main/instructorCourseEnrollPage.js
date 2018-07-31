@@ -168,9 +168,7 @@ $(document).ready(() => {
     });
     $('#enroll-spreadsheet').trigger('click');
 
-    $('#existing-data-spreadsheet').on('click', (event) => {
-        existingStudentsPanelClickHandler(event);
-    });
+    $('#existing-data-spreadsheet').on('click', existingStudentsPanelClickHandler);
 
     if ($('#enrollstudents').val()) {
         const allData = $('#enrollstudents').val().split('\n'); // data in the table including column headers (string format)
