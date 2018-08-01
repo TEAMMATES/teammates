@@ -1293,7 +1293,6 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
 
 function toggleSectionTeamInfo(qnNum, numResponses) {
     const isShowSectionTeamChecked = $(`#showSectionTeamFlag-${qnNum}`).prop('checked');
-    const nameIndx = 2;
 
     function nameComparator(e1, e2) {
         const e1Name = e1.text;
@@ -1315,27 +1314,24 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
         if (e2.text === '') {
             return 1;
         }
-        const e1Attributes = e1.text.split(':');
-        const e2Attributes = e2.text.split(':');
+        const e1Section = $(e1).attr('section');
+        const e2Section = $(e2).attr('section');
 
-        const e1SectionVal = e1Attributes[0];
-        const e2SectionVal = e2Attributes[0];
+        const e1Team = $(e1).attr('team');
+        const e2Team = $(e2).attr('team');
 
-        const e1TeamVal = e1Attributes[1];
-        const e2TeamVal = e2Attributes[1];
-
-        const e1Name = e1Attributes[nameIndx];
-        const e2Name = e2Attributes[nameIndx];
+        const e1Name = $(e1).attr('name');
+        const e2Name = $(e2).attr('name');
 
         // sort based on lexicographical ordering of section followed by team and name
         let result = 0;
-        if (e1SectionVal > e2SectionVal) {
+        if (e1Section > e2Section) {
             result = 1;
-        } else if (e1SectionVal < e2SectionVal) {
+        } else if (e1Section < e2Section) {
             result = -1;
-        } else if (e1TeamVal > e2TeamVal) {
+        } else if (e1Team > e2Team) {
             result = 1;
-        } else if (e1TeamVal < e2TeamVal) {
+        } else if (e1Team < e2Team) {
             result = -1;
         } else if (e1Name > e2Name) {
             result = 1;
@@ -1350,19 +1346,22 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
         const selectedOption = $(`select[name='responserecipient-${qnNum}-${i}']`).val();
         if (isShowSectionTeamChecked) {
             $(evaluees).each(function () {
+                const evalueeSection = $(this).attr('section');
+                const evalueeTeam = $(this).attr('team');
                 const evalueeName = $(this).text();
                 if (evalueeName === '') {
                     return;
                 }
-                $(this).text($(this).attr('section-team-info') + evalueeName);
+                $(this).html(`${evalueeSection} | ${evalueeTeam} | ${evalueeName}`);
             });
             evaluees.sort(sectionTeamComparator);
         } else {
             $(evaluees).each(function () {
-                let evalueeName = $(this).text().split(':')[nameIndx];
-                if (evalueeName !== undefined) {
-                    evalueeName = evalueeName.trim();
+                // leave empty option as it is
+                if ($(this).text() === '') {
+                    return;
                 }
+                const evalueeName = $(this).attr('name');
                 $(this).text(evalueeName);
             });
             evaluees.sort(nameComparator);

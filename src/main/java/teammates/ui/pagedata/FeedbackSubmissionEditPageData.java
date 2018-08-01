@@ -202,14 +202,16 @@ public class FeedbackSubmissionEditPageData extends PageData {
             if (!isNumResponsesMax && studentCourseDetails.containsKey(email)) {
                 StudentAttributes student = studentCourseDetails.get(email);
                 if (student.section != null) {
-                    section = student.section + ": ";
+                    section = student.section;
                 }
                 if (student.team != null) {
-                    team = student.team + ": ";
+                    team = student.team;
                 }
             }
             result.add("<option value=\"" + sanitizeForHtml(email) + "\"" + (isSelected ? " selected" : "")
-                       + " section-team-info=\"" + sanitizeForHtml(section) + sanitizeForHtml(team) + "\"" + ">"
+                       + " section=\"" + sanitizeForHtml(section) + "\""
+                       + " team=\"" + sanitizeForHtml(team) + "\""
+                       + " name=\"" + sanitizeForHtml(name) + "\"" + ">"
                        + sanitizeForHtml(name) + "</option>"
             );
         });
