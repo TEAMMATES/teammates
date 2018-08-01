@@ -20,6 +20,8 @@ import {
     getSpreadsheetLength,
     toggleStudentsPanel,
     showPasteModalBox,
+    showEnrollSuccessModalBox,
+    showEnrollFailureModalBox,
 } from '../common/instructorEnroll';
 
 import {
@@ -290,6 +292,7 @@ function triggerAndProcessAjaxSaveAction(event) {
                     addEnrollSuccessMessages(data.enrollNewStudentsLines,
                             data.enrollModifiedStudentsLines, data.enrollUnmodifiedStudentsLines);
                     updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
+                    showEnrollSuccessModalBox();
                 } else {
                     if (data.statusMessagesToUser.length === 1
                             && data.statusMessagesToUser[0].text === Const.StatusMessages.ENROLL_LINE_EMPTY) {
@@ -302,6 +305,7 @@ function triggerAndProcessAjaxSaveAction(event) {
                     } else {
                         addEnrollErrorMessages(data.enrollErrorLines);
                         updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
+                        showEnrollFailureModalBox();
                     }
                 }
             }).catch(() => {

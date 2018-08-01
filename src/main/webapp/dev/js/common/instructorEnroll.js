@@ -105,6 +105,30 @@ function showPasteModalBox() {
             okCallback, null, null, null, BootstrapContextualColors.WARNING);
 }
 
+/**
+ * Shows modal box after a success enroll case.
+ */
+function showEnrollSuccessModalBox() {
+    const messageText = 'Hover over the student rows in the spreadsheet interface titled \"New Students\"' +
+            'to identify their respective status (new/modified/unmodified student).';
+
+    const okCallback = () => {};
+    showModalConfirmation('Successful enrollment of student(s)', messageText,
+            okCallback, null, null, null, BootstrapContextualColors.SUCCESS);
+}
+
+/**
+ * Shows modal box after a failed enroll case.
+ */
+function showEnrollFailureModalBox() {
+    const messageText = 'Hover over the student rows in the spreadsheet interface titled \"New Students\"' +
+            'to identify the error faced during enrollment.';
+
+    const okCallback = () => {};
+    showModalConfirmation('Failed enrollment of student(s)', messageText,
+            okCallback, null, null, null, BootstrapContextualColors.DANGER);
+}
+
 export {
     getUpdatedHeaderString,
     getUserDataRows,
@@ -113,4 +137,6 @@ export {
     getSpreadsheetLength,
     toggleStudentsPanel,
     showPasteModalBox,
+    showEnrollSuccessModalBox,
+    showEnrollFailureModalBox,
 };
