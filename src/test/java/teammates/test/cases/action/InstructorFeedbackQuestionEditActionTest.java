@@ -1816,32 +1816,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testGetRubricWeights_rubricWeightsForEachCellEmpty_legacyDataWillBeConvertedToNewFormat() {
-        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        removeAndRestoreDataBundle(dataBundle);
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-
-        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("rubricSession");
-        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
-                                            .inst()
-                                            .getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 2);
-        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) fq.getQuestionDetails();
-        // The rubricWeights in this question are: [1.25, 1.0],
-        // After converting it to new format, the list should be,
-        // rubricWeightsForEachCell: [[1.25, 1.0], [1.25, 1.0]]
-        List<List<Double>> weightsForEachCell = fqd.getRubricWeights();
-        assertEquals(2, weightsForEachCell.size());
-        assertEquals(2, weightsForEachCell.get(0).size());
-        assertEquals(2, weightsForEachCell.get(1).size());
-        // Check for individual values.
-        assertEquals(1.25, weightsForEachCell.get(0).get(0));
-        assertEquals(1.0, weightsForEachCell.get(0).get(1));
-        assertEquals(1.25, weightsForEachCell.get(1).get(0));
-        assertEquals(1.0, weightsForEachCell.get(1).get(1));
-    }
-
-    @Test
     public void testExecuteAndPostProcessResponseRate() throws Exception {
 
         removeAndRestoreTypicalDataBundle();
