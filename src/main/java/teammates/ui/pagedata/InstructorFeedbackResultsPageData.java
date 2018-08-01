@@ -494,7 +494,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     buildInstructorComments(giverName, recipientName, question, response);
             FeedbackResponseCommentRow feedbackParticipantComment =
                     buildFeedbackParticipantResponseCommentRow(question, bundle.responseComments,
-                            response.getId(), bundle.feedbackSession.getTimeZone(), false);
+                            response.getId(), false);
 
             boolean isAllowedToSubmitSessionsInBothSection =
                     instructor.isAllowedForPrivilege(response.giverSection,

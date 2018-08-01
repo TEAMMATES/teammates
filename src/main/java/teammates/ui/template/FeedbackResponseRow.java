@@ -51,7 +51,7 @@ public class FeedbackResponseRow {
             for (FeedbackResponseCommentAttributes frc : frcs) {
                 if (frc.isCommentFromFeedbackParticipant) {
                     feedbackParticipantComment =
-                            new FeedbackResponseCommentRow(frc, results.getTimeZone(), question, false);
+                            new FeedbackResponseCommentRow(frc, question, false);
                 } else {
                     String showCommentTo = StringHelper.removeEnclosingSquareBrackets(frc.showCommentTo.toString());
                     String showGiverNameToString =

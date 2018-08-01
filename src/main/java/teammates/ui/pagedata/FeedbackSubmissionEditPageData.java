@@ -260,7 +260,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
                 FeedbackResponseCommentRow responseCommentRow =
                         buildFeedbackParticipantResponseCommentRow(questionAttributes, bundle.commentsForResponses,
-                                existingResponse.getId(), bundle.feedbackSession.getTimeZone(), true);
+                                existingResponse.getId(), true);
 
                 FeedbackResponseCommentRow frcForAdding =
                         buildFeedbackResponseCommentFormForAdding(questionAttributes, existingResponse.getId(),

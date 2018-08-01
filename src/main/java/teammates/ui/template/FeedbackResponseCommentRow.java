@@ -25,7 +25,6 @@ public class FeedbackResponseCommentRow {
     private String responseGiverName;
     private String responseRecipientName;
     private String commentGiverName;
-    private FeedbackParticipantType commentGiverType;
     private boolean isCommentFromFeedbackParticipant;
 
     private String showCommentToString;
@@ -48,7 +47,6 @@ public class FeedbackResponseCommentRow {
         this.sessionTimeZone = sessionTimeZone;
         this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
-        this.commentGiverType = frc.commentGiverType;
         this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
         this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
 
@@ -58,13 +56,10 @@ public class FeedbackResponseCommentRow {
     }
 
     // For feedback participant comment
-    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, ZoneId sessionTimeZone,
-            FeedbackQuestionAttributes question, boolean isEditDeleteEnabled) {
+    public FeedbackResponseCommentRow(FeedbackResponseCommentAttributes frc, FeedbackQuestionAttributes question,
+            boolean isEditDeleteEnabled) {
         this.commentId = frc.getId();
-        this.sessionTimeZone = sessionTimeZone;
-        this.createdAt = TimeHelper.formatDateTimeForDisplay(frc.createdAt, this.sessionTimeZone);
         this.commentText = frc.commentText.getValue();
-        this.commentGiverType = frc.commentGiverType;
         this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
         this.visibilityIconString = getTypeOfPeopleCanViewComment(frc, question);
         this.courseId = frc.courseId;
@@ -90,7 +85,6 @@ public class FeedbackResponseCommentRow {
                 showCommentToString, showGiverNameToString, responseVisibilities);
         this.questionId = frc.feedbackQuestionId;
         this.sessionTimeZone = sessionTimeZone;
-        this.commentGiverType = frc.commentGiverType;
         this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
     }
 
@@ -164,10 +158,6 @@ public class FeedbackResponseCommentRow {
 
     public String getShowGiverNameToString() {
         return showGiverNameToString;
-    }
-
-    public String getCommentGiverType() {
-        return commentGiverType.toSingularFormString();
     }
 
     public String getVisibilityIconString() {
