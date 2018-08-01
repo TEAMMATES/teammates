@@ -35,6 +35,7 @@ import {
     formatResponsesVisibilityGroup,
     formatSessionVisibilityGroup,
     setupResponsesVisibilityInfoModal,
+    setupSendingEmailsInfoModal,
     setupSessionVisibilityInfoModal,
     showUncommonPanelsIfNotInDefaultValues,
     updateUncommonSettingsInfo,
@@ -1216,6 +1217,7 @@ function readyFeedbackEditPage() {
     setupFsCopyModal();
 
     setupResponsesVisibilityInfoModal();
+    setupSendingEmailsInfoModal();
     setupSessionVisibilityInfoModal();
 
     bindAssignWeightsCheckboxes();

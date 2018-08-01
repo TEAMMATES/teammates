@@ -14,15 +14,15 @@
           <div class="col-xs-5">
             <label class="label-control">Make session visible </label>
             <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary"
-                  id="sessionVisibleCustomInfo">
+                  id="sessionVisibleCustomInfo"
+                  title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBILITY_INFO %>"
+                  data-toggle="tooltip"
+                  data-placement="top">
             </span>
           </div>
         </div>
         <div class="row radio">
-          <h5 class="col-xs-2"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_VISIBLEDATE %>"
-              data-toggle="tooltip"
-              data-placement="top">
+          <h5 class="col-xs-2">
             <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_custom">
               At
             </label>
@@ -53,10 +53,7 @@
           </div>
         </div>
         <div class="row radio">
-          <div class="col-xs-12"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_SESSIONVISIBLEATOPEN %>"
-              data-toggle="tooltip"
-              data-placement="top">
+          <div class="col-xs-12">
             <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_atopen">
               Submission opening time
             </label>
@@ -74,15 +71,15 @@
           <div class="col-xs-5">
             <label class="label-control">Make responses visible</label>
             <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary"
-                  id="responsesVisibleCustomInfo">
+                  id="responsesVisibleCustomInfo"
+                  title="<%= Const.Tooltips.FEEDBACK_SESSION_RESPONSEVISIBILITY_INFO %>"
+                  data-toggle="tooltip"
+                  data-placement="top">
             </span>
           </div>
         </div>
         <div class="row radio">
-          <h5 class="col-xs-2"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLECUSTOM %>"
-              data-toggle="tooltip"
-              data-placement="top">
+          <h5 class="col-xs-2">
             <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_custom">
               At
             </label>
@@ -118,10 +115,7 @@
           </div>
         </div>
         <div class="row radio">
-          <div class="col-xs-12"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE %>"
-              data-toggle="tooltip"
-              data-placement="top">
+          <div class="col-xs-12">
             <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_atvisible">
               Immediately
             </label>
@@ -133,10 +127,7 @@
           </div>
         </div>
         <div class="row radio">
-          <div class="col-xs-12"
-              title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLELATER %>"
-              data-toggle="tooltip"
-              data-placement="top">
+          <div class="col-xs-12">
             <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later">
               Not now (publish manually)
             </label>
@@ -155,13 +146,16 @@
     <div class="row">
       <div class="col-md-12">
         <label class="control-label">Send emails for</label>
+        <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary"
+              id="sendEmailRemindersInfo"
+              title="<%= Const.Tooltips.FEEDBACK_SESSION_EMAILREMINDERS_INFO %>"
+              data-toggle="tooltip"
+              data-placement="top">
+        </span>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3"
-          title="<%= Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL %>"
-          data-toggle="tooltip"
-          data-placement="top">
+      <div class="col-md-3">
         <div class="checkbox">
           <label>Session opening reminder</label>
           <input type="checkbox"
@@ -171,10 +165,7 @@
               value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled>
         </div>
       </div>
-      <div class="col-md-3"
-          title="<%= Const.Tooltips.FEEDBACK_SESSION_SENDCLOSINGEMAIL %>"
-          data-toggle="tooltip"
-          data-placement="top">
+      <div class="col-md-3">
         <div class="checkbox">
           <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing">
             Session closing reminder
@@ -186,10 +177,7 @@
               value="<%= EmailType.FEEDBACK_CLOSING.toString() %>">
         </div>
       </div>
-      <div class="col-md-4"
-          title="<%= Const.Tooltips.FEEDBACK_SESSION_SENDPUBLISHEDEMAIL %>"
-          data-toggle="tooltip"
-          data-placement="top">
+      <div class="col-md-4">
         <div class="checkbox">
           <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published">
             Results published announcement

@@ -299,41 +299,17 @@ public final class Const {
         public static final String FEEDBACK_SESSION_ENDDATE =
                 "Please select the date and time after which the feedback session "
                 + "will no longer accept submissions from users.";
+        public static final String FEEDBACK_SESSION_SESSIONVISIBILITY_INFO =
+                "Click this icon to see more info on session visibility";
+        public static final String FEEDBACK_SESSION_RESPONSEVISIBILITY_INFO =
+                "Click this icon to see more info on responses visibility";
+        public static final String FEEDBACK_SESSION_EMAILREMINDERS_INFO =
+                "Click this icon to see more info on sending email reminders";
         public static final String FEEDBACK_SESSION_VISIBLEDATE =
-                "Select this option to enter in a custom date and time for which "
-                + "the feedback session will become visible.<br>"
-                + "Note that you can make a session visible before it is open for submissions "
-                + "so that users can preview the questions.";
+                "Specify your own date and time when the session will be visible";
         public static final String FEEDBACK_SESSION_PUBLISHDATE =
                 "Select this option to enter in a custom date and time for which</br>"
                 + "the responses for this feedback session will become visible.";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBLELABEL =
-                "Please select when you want the questions for the feedback session to be visible to "
-                + "users who need to participate. "
-                + "Note that users cannot submit their responses until the submissions opening time set below.";
-        public static final String FEEDBACK_SESSION_SESSIONVISIBLEATOPEN =
-                "Select this option to have the feedback session become visible "
-                + "when it is open for submissions (as selected above).";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLELABEL =
-                "Please select when the responses for the feedback session will be visible to the designated recipients."
-                + "<br>You can select the response visibility for each type of user and question later.";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLECUSTOM =
-                "Select this option to use a custom time for when the responses of the feedback session<br>"
-                + "will be visible to the designated recipients.";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE =
-                "Select this option to have the feedback responses be immediately visible<br>"
-                + "when the session becomes visible to users.";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER =
-                "Select this option if you intend to manually publish the responses for this session later on.";
-        public static final String FEEDBACK_SESSION_SENDOPENEMAIL =
-                "Select this option to automatically send an email to students to notify them "
-                + "when the session is open for submission.";
-        public static final String FEEDBACK_SESSION_SENDCLOSINGEMAIL =
-                "Select this option to automatically send an email to students to remind them to submit "
-                + "24 hours before the end of the session.";
-        public static final String FEEDBACK_SESSION_SENDPUBLISHEDEMAIL =
-                "Select this option to automatically send an email to students to notify them "
-                + "when the session results is published.";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS =
                 "Enter instructions for this feedback session. e.g. Avoid comments which are too critical.<br> "
                 + "It will be displayed at the top of the page when users respond to the session.";
