@@ -383,14 +383,16 @@
             <div class="row">
               <div class="col-xs-12 col-md-6">
                 <div class="row">
-                  <div class="col-xs-12" data-original-title="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below." data-placement="top" data-toggle="tooltip" title="">
+                  <div class="col-xs-5">
                     <label class="label-control">
                       Make session visible
                     </label>
+                    <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on session visibility" data-placement="top" data-toggle="tooltip" id="sessionVisibleCustomInfo" title="">
+                    </span>
                   </div>
                 </div>
                 <div class="row radio">
-                  <h5 class="col-xs-2" data-original-title="Select this option to enter in a custom date and time for which the feedback session will become visible.<br>Note that you can make a session visible before it is open for submissions so that users can preview the questions." data-placement="top" data-toggle="tooltip" title="">
+                  <h5 class="col-xs-2">
                     <label for="sessionVisibleFromButton_custom">
                       At
                     </label>
@@ -477,7 +479,7 @@
                   </div>
                 </div>
                 <div class="row radio">
-                  <div class="col-xs-12" data-original-title="Select this option to have the feedback session become visible when it is open for submissions (as selected above)." data-placement="top" data-toggle="tooltip" title="">
+                  <div class="col-xs-12">
                     <label for="sessionVisibleFromButton_atopen">
                       Submission opening time
                     </label>
@@ -487,14 +489,16 @@
               </div>
               <div class="col-xs-12 col-md-6 border-left-gray" id="responsesVisibleFromColumn">
                 <div class="row">
-                  <div class="col-xs-12" data-original-title="Please select when the responses for the feedback session will be visible to the designated recipients.<br>You can select the response visibility for each type of user and question later." data-placement="top" data-toggle="tooltip" title="">
+                  <div class="col-xs-5">
                     <label class="label-control">
                       Make responses visible
                     </label>
+                    <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on responses visibility" data-placement="top" data-toggle="tooltip" id="responsesVisibleCustomInfo" title="">
+                    </span>
                   </div>
                 </div>
                 <div class="row radio">
-                  <h5 class="col-xs-2" data-original-title="Select this option to use a custom time for when the responses of the feedback session<br>will be visible to the designated recipients." data-placement="top" data-toggle="tooltip" title="">
+                  <h5 class="col-xs-2">
                     <label for="resultsVisibleFromButton_custom">
                       At
                     </label>
@@ -581,7 +585,7 @@
                   </div>
                 </div>
                 <div class="row radio">
-                  <div class="col-xs-12" data-original-title="Select this option to have the feedback responses be immediately visible<br>when the session becomes visible to users." data-placement="top" data-toggle="tooltip" title="">
+                  <div class="col-xs-12">
                     <label for="resultsVisibleFromButton_atvisible">
                       Immediately
                     </label>
@@ -589,7 +593,7 @@
                   </div>
                 </div>
                 <div class="row radio">
-                  <div class="col-xs-12" data-original-title="Select this option if you intend to manually publish the responses for this session later on." data-placement="top" data-toggle="tooltip" title="">
+                  <div class="col-xs-12">
                     <label for="resultsVisibleFromButton_later">
                       Not now (publish manually)
                     </label>
@@ -607,10 +611,12 @@
                 <label class="control-label">
                   Send emails for
                 </label>
+                <span class="glyphicon glyphicon-info-sign cursor-pointer padding-left-7px text-color-primary" data-original-title="Click this icon to see more info on sending email reminders" data-placement="top" data-toggle="tooltip" id="sendEmailRemindersInfo" title="">
+                </span>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." data-placement="top" data-toggle="tooltip" title="">
+              <div class="col-md-3">
                 <div class="checkbox">
                   <label>
                     Session opening reminder
@@ -618,7 +624,7 @@
                   <input checked="" disabled="" id="sendreminderemail_open" name="sendreminderemail" type="checkbox" value="FEEDBACK_OPENING">
                 </div>
               </div>
-              <div class="col-md-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." data-placement="top" data-toggle="tooltip" title="">
+              <div class="col-md-3">
                 <div class="checkbox">
                   <label for="sendreminderemail_closing">
                     Session closing reminder
@@ -626,7 +632,7 @@
                   <input checked="" id="sendreminderemail_closing" name="sendreminderemail" type="checkbox" value="FEEDBACK_CLOSING">
                 </div>
               </div>
-              <div class="col-md-4" data-original-title="Select this option to automatically send an email to students to notify them when the session results is published." data-placement="top" data-toggle="tooltip" title="">
+              <div class="col-md-4">
                 <div class="checkbox">
                   <label for="sendreminderemail_published">
                     Results published announcement
