@@ -314,11 +314,9 @@ function bindDeleteButtons() {
         const okCallback = function () {
             window.location = $button.attr('href');
         };
-        const okButtonText = 'Yes';
-        const cancelButtonText = 'No, cancel the operation';
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                okButtonText, cancelButtonText, BootstrapContextualColors.DANGER);
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.DANGER);
     });
 }
 
@@ -382,11 +380,9 @@ function bindSessionDeleteLinks() {
         const okCallback = function () {
             window.location = $clickedLink.attr('href');
         };
-        const okButtonText = 'Yes';
-        const cancelButtonText = 'No, cancel the operation';
 
         showModalConfirmation('Confirm deleting feedback session', messageText, okCallback, null,
-                okButtonText, cancelButtonText, BootstrapContextualColors.DANGER);
+                'Yes', 'No, cancel the operation', BootstrapContextualColors.DANGER);
     });
 }
 
