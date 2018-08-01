@@ -94,6 +94,17 @@ function getSpreadsheetLength(dataHandsontable) {
 }
 
 /**
+ * Initializes the different types of enroll success/failure messages to process later.
+ */
+function initializeEnrollMessagesMap(enrollStudentsLines, enrollMessagesMap) {
+    if (!jQuery.isEmptyObject(enrollStudentsLines)) {
+        Object.keys(enrollStudentsLines).forEach(key => (
+            enrollMessagesMap.set(key, enrollStudentsLines[key])
+        ));
+    }
+}
+
+/**
  * Shows modal box when user clicks on the 'paste' option in the Handsontable context menu.
  */
 function showPasteModalBox() {
@@ -109,8 +120,8 @@ function showPasteModalBox() {
  * Shows modal box after a success enroll case.
  */
 function showEnrollSuccessModalBox() {
-    const messageText = 'Hover over the student rows in the spreadsheet interface titled \"New Students\"' +
-            'to identify their respective status (new/modified/unmodified student).';
+    const messageText = 'Hover over the highlighted student rows in the spreadsheet interface '
+            + 'titled "New Students" to identify their respective status (new/modified/unmodified).';
 
     const okCallback = () => {};
     showModalConfirmation('Successful enrollment of student(s)', messageText,
@@ -121,8 +132,8 @@ function showEnrollSuccessModalBox() {
  * Shows modal box after a failed enroll case.
  */
 function showEnrollFailureModalBox() {
-    const messageText = 'Hover over the student rows in the spreadsheet interface titled \"New Students\"' +
-            'to identify the error faced during enrollment.';
+    const messageText = 'Hover over the highlighted student rows in the spreadsheet interface titled "New Students"'
+            + 'to identify the error(s) faced during enrollment.';
 
     const okCallback = () => {};
     showModalConfirmation('Failed enrollment of student(s)', messageText,
@@ -136,6 +147,7 @@ export {
     ajaxDataToHandsontableData,
     getSpreadsheetLength,
     toggleStudentsPanel,
+    initializeEnrollMessagesMap,
     showPasteModalBox,
     showEnrollSuccessModalBox,
     showEnrollFailureModalBox,

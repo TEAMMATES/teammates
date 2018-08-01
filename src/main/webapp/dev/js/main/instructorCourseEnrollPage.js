@@ -22,6 +22,7 @@ import {
     showPasteModalBox,
     showEnrollSuccessModalBox,
     showEnrollFailureModalBox,
+    initializeEnrollMessagesMap,
 } from '../common/instructorEnroll';
 
 import {
@@ -206,8 +207,7 @@ function getAjaxEnrollStatus(ajaxLoaderImage, enrollStudentsButton) {
                 ajaxLoaderImage.show();
                 enrollStudentsButton.hide();
             },
-        })
-                .done(resolve)
+        }).done(resolve)
                 .fail(reject);
     });
 }
@@ -226,7 +226,7 @@ function adjustStudentsPanelView(panelHeading, panelCollapse, handsontableInstan
  */
 function addEnrollErrorMessages(enrollErrorLines) {
     // Updates any error messages to process later
-    initializeEnrollMessagesMap(enrollErrorLines,enrollErrorMessagesMap);
+    initializeEnrollMessagesMap(enrollErrorLines, enrollErrorMessagesMap);
 
     enrollHandsontable.getData().forEach((row, index) => {
         const currRowLine = row.join('|');
@@ -238,21 +238,10 @@ function addEnrollErrorMessages(enrollErrorLines) {
 }
 
 /**
- * Initializes the different types of success messages to process later.
- */
-function initializeEnrollMessagesMap(enrollStudentsLines, enrollMessagesMap) {
-    if (!jQuery.isEmptyObject(enrollStudentsLines)) {
-        Object.keys(enrollStudentsLines).forEach(key => (
-            enrollMessagesMap.set(key, enrollStudentsLines[key])
-        ));
-    }
-}
-
-/**
  * Adds all successful messages returned from the backend into the respective maps.
  */
 function addEnrollSuccessMessages(enrollNewStudentsLines, enrollModifiedStudentsLines,
-                                  enrollUnmodifiedStudentsLines) {
+        enrollUnmodifiedStudentsLines) {
     initializeEnrollMessagesMap(enrollNewStudentsLines, enrollNewStudentsMap);
     initializeEnrollMessagesMap(enrollModifiedStudentsLines, enrollModifiedStudentsMap);
     initializeEnrollMessagesMap(enrollUnmodifiedStudentsLines, enrollUnmodifiedStudentsMap);
@@ -274,6 +263,31 @@ function addEnrollSuccessMessages(enrollNewStudentsLines, enrollModifiedStudents
 }
 
 /**
+ * Handles the main logic for success/failed enroll case
+ */
+function processAjaxSaveAction(data) {
+    if (data.statusMessagesToUser.length === 1
+            && data.statusMessagesToUser[0].color === 'SUCCESS') {
+        addEnrollSuccessMessages(data.enrollNewStudentsLines,
+                data.enrollModifiedStudentsLines, data.enrollUnmodifiedStudentsLines);
+        updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
+        showEnrollSuccessModalBox();
+    } else if (data.statusMessagesToUser.length === 1
+            && data.statusMessagesToUser[0].text === Const.StatusMessages.ENROLL_LINE_EMPTY) {
+        appendNewStatusMessage(Const.StatusMessages.ENROLL_LINE_EMPTY,
+                BootstrapContextualColors[data.statusMessagesToUser[0].color]);
+    } else if (data.statusMessagesToUser.length === 1
+            && data.statusMessagesToUser[0].text === Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED) {
+        appendNewStatusMessage(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED,
+                BootstrapContextualColors[data.statusMessagesToUser[0].color]);
+    } else {
+        addEnrollErrorMessages(data.enrollErrorLines);
+        updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
+        showEnrollFailureModalBox();
+    }
+}
+
+/**
  * Triggers an AJAX request to retrieve the enroll status.
  * Does the necessary post processing after the state of the AJAX request is returned.
  */
@@ -287,27 +301,7 @@ function triggerAndProcessAjaxSaveAction(event) {
                 enrollStudentsButton.show();
                 clearStatusMessages();
                 updateEnrollHandsontableCellSettings(resetDefaultViewRenderer);
-                if (data.statusMessagesToUser.length === 1
-                    && data.statusMessagesToUser[0].color === 'SUCCESS') {
-                    addEnrollSuccessMessages(data.enrollNewStudentsLines,
-                            data.enrollModifiedStudentsLines, data.enrollUnmodifiedStudentsLines);
-                    updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
-                    showEnrollSuccessModalBox();
-                } else {
-                    if (data.statusMessagesToUser.length === 1
-                            && data.statusMessagesToUser[0].text === Const.StatusMessages.ENROLL_LINE_EMPTY) {
-                        appendNewStatusMessage(Const.StatusMessages.ENROLL_LINE_EMPTY,
-                                BootstrapContextualColors[data.statusMessagesToUser[0].color]);
-                    } else if (data.statusMessagesToUser.length === 1
-                            && data.statusMessagesToUser[0].text === Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED) {
-                        appendNewStatusMessage(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED,
-                                BootstrapContextualColors[data.statusMessagesToUser[0].color]);
-                    } else {
-                        addEnrollErrorMessages(data.enrollErrorLines);
-                        updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
-                        showEnrollFailureModalBox();
-                    }
-                }
+                processAjaxSaveAction(data);
             }).catch(() => {
                 ajaxLoaderImage.hide();
                 enrollStudentsButton.show();

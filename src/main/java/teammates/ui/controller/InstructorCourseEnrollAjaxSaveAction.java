@@ -85,13 +85,15 @@ public class InstructorCourseEnrollAjaxSaveAction extends Action {
             pageData.setEnrollErrorLines(enrollErrorLines);
             pageData.setStatusMessagesToUser(statusToUser);
 
-            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : "
+                    + e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
             return createAjaxResult(pageData);
         } catch (InvalidParametersException e) {
             statusToUser.add(new StatusMessage(e.getMessage(), StatusMessageColor.DANGER));
-            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : "
+                    + e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
 
             InstructorCourseEnrollPageData pageData =
@@ -105,7 +107,8 @@ public class InstructorCourseEnrollAjaxSaveAction extends Action {
                                       + "servers. Please try again after about 10 minutes. If the problem persists, "
                                       + "please contact TEAMMATES support", StatusMessageColor.DANGER));
 
-            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : "
+                    + e.getMessage().replace(System.lineSeparator(), Const.HTML_BR_TAG);
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + sanitizedStudentsInfo.replace("\n", "<br>");
             InstructorCourseEnrollPageData pageData =
                     new InstructorCourseEnrollPageData(account, sessionToken, courseId, studentsInfo);
