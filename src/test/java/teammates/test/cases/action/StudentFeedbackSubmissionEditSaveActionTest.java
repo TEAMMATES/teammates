@@ -1346,6 +1346,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
 
         ______TS("Update response comment");
 
@@ -1379,5 +1380,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
         assertEquals("student1InCourse1@gmail.tmt", frc.commentGiver);
         assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
     }
 }

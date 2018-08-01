@@ -116,7 +116,7 @@ public abstract class FeedbackQuestionDetails {
                     fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
             detailedResponseRow.append(',').append(feedbackParticipantComment);
         }
-        // Appends instructor comments if comments exists on response
+        // Appends instructor comments if allowed
         if (isInstructorCommentsOnResponsesAllowed()) {
             String instructorComments =
                     fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);

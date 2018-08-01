@@ -47,6 +47,10 @@ public final class FeedbackResponseCommentsLogic {
         return instance;
     }
 
+    /*
+     *  If the comment is given by feedback participant, ownership of the corresponding response
+     *  of the comment is not checked.
+     */
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(frComment.courseId);

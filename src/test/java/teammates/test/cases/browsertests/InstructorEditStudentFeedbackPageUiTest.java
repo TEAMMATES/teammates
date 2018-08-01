@@ -29,7 +29,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     @Test
-    public void testAll() throws Exception {
+    public void testAddingEditingAndDeletingResponse() throws Exception {
         testModerationHint();
         testEditResponse();
         testAddResponse();

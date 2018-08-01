@@ -970,8 +970,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                         fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
                 detailedResponsesRow.append(',').append(feedbackParticipantComment);
             }
+            // To show instructor comment only once for each response.
             if (i == 0) {
-                // To show instructor comment only once for each response.
                 detailedResponsesRow.append(instructorComment);
             }
             detailedResponsesRow.append(System.lineSeparator());

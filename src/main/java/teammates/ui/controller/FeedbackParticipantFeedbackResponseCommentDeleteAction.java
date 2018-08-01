@@ -110,6 +110,9 @@ public class FeedbackParticipantFeedbackResponseCommentDeleteAction extends Acti
     }
 
     private StudentAttributes getStudent() {
-        return logic.getStudentForGoogleId(courseId, account.googleId);
+        if (student == null) {
+            return logic.getStudentForGoogleId(courseId, account.googleId);
+        }
+        return student;
     }
 }
