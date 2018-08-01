@@ -220,11 +220,7 @@ function adjustStudentsPanelView(panelHeading, panelCollapse, handsontableInstan
  */
 function addEnrollErrorMessages(enrollErrorLines) {
     // Updates any error messages to process later
-    if (!jQuery.isEmptyObject(enrollErrorLines)) {
-        Object.keys(enrollErrorLines).forEach(key => (
-            enrollErrorMessagesMap.set(key, enrollErrorLines[key])
-        ));
-    }
+    initializeEnrollMessagesMap(enrollErrorLines,enrollErrorMessagesMap);
 
     enrollHandsontable.getData().forEach((row, index) => {
         const currRowLine = row.join('|');
@@ -238,10 +234,10 @@ function addEnrollErrorMessages(enrollErrorLines) {
 /**
  * Initializes the different types of success messages to process later.
  */
-function initializeEnrollSuccessMap(enrollStudentsLines, enrollSuccessMap) {
+function initializeEnrollMessagesMap(enrollStudentsLines, enrollMessagesMap) {
     if (!jQuery.isEmptyObject(enrollStudentsLines)) {
         Object.keys(enrollStudentsLines).forEach(key => (
-            enrollSuccessMap.set(key, enrollStudentsLines[key])
+            enrollMessagesMap.set(key, enrollStudentsLines[key])
         ));
     }
 }
@@ -251,9 +247,9 @@ function initializeEnrollSuccessMap(enrollStudentsLines, enrollSuccessMap) {
  */
 function addEnrollSuccessMessages(enrollNewStudentsLines, enrollModifiedStudentsLines,
                                   enrollUnmodifiedStudentsLines) {
-    initializeEnrollSuccessMap(enrollNewStudentsLines, enrollNewStudentsMap);
-    initializeEnrollSuccessMap(enrollModifiedStudentsLines, enrollModifiedStudentsMap);
-    initializeEnrollSuccessMap(enrollUnmodifiedStudentsLines, enrollUnmodifiedStudentsMap);
+    initializeEnrollMessagesMap(enrollNewStudentsLines, enrollNewStudentsMap);
+    initializeEnrollMessagesMap(enrollModifiedStudentsLines, enrollModifiedStudentsMap);
+    initializeEnrollMessagesMap(enrollUnmodifiedStudentsLines, enrollUnmodifiedStudentsMap);
 
     const emailColumnIndex = 3;
     enrollHandsontable.getData().forEach((row, index) => {
