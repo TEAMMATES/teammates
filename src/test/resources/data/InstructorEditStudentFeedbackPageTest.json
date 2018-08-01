@@ -535,6 +535,19 @@
       "giverSection": "Section 1",
       "recipientSection": "Section 1"
     },
+    "response1ForQ6": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "IESFPTCourse",
+      "feedbackQuestionId": "6",
+      "feedbackQuestionType": "MCQ",
+      "giver": "student1InIESFPTCourse@gmail.tmt",
+      "recipient": "student1InIESFPTCourse@gmail.tmt",
+      "responseMetaData": {
+        "value": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      },
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1"
+    },
     "response1ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IESFPTCourse",
