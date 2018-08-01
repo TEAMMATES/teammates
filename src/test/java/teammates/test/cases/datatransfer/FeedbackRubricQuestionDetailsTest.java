@@ -33,7 +33,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         HashMap<String, String[]> requestParams = new HashMap<>();
 
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "RUBRIC" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "1" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
@@ -68,7 +68,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         HashMap<String, String[]> requestParams = new HashMap<>();
 
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "RUBRIC" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
@@ -92,7 +92,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     public void testGetQuestionAdditionalInfo_additionalInfoPresent_htmlTagsPresent() {
         HashMap<String, String[]> requestParams = new HashMap<>();
 
-        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", new String[] { "RUBRIC" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "RUBRIC" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "rubricQuestion" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, new String[] { "2" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, new String[] { "2" });
