@@ -94,17 +94,6 @@ function getSpreadsheetLength(dataHandsontable) {
 }
 
 /**
- * Initializes the different types of enroll success/failure messages to process later.
- */
-function initializeEnrollMessagesMap(enrollStudentsLines, enrollMessagesMap) {
-    if (!jQuery.isEmptyObject(enrollStudentsLines)) {
-        Object.keys(enrollStudentsLines).forEach(key => (
-            enrollMessagesMap.set(key, enrollStudentsLines[key])
-        ));
-    }
-}
-
-/**
  * Shows modal box when user clicks on the 'paste' option in the Handsontable context menu.
  */
 function showPasteModalBox() {
@@ -147,7 +136,6 @@ export {
     ajaxDataToHandsontableData,
     getSpreadsheetLength,
     toggleStudentsPanel,
-    initializeEnrollMessagesMap,
     showPasteModalBox,
     showEnrollSuccessModalBox,
     showEnrollFailureModalBox,

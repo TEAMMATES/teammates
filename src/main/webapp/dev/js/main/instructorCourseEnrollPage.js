@@ -22,7 +22,6 @@ import {
     showPasteModalBox,
     showEnrollSuccessModalBox,
     showEnrollFailureModalBox,
-    initializeEnrollMessagesMap,
 } from '../common/instructorEnroll';
 
 import {
@@ -82,9 +81,9 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
 });
 
 const enrollErrorMessagesMap = new Map();
-const enrollNewStudentsMap = new Map();
-const enrollModifiedStudentsMap = new Map();
-const enrollUnmodifiedStudentsMap = new Map();
+const enrollNewStudentsMessagesMap = new Map();
+const enrollModifiedStudentsMessagesMap = new Map();
+const enrollUnmodifiedStudentsMessagesMap = new Map();
 
 /**
  * Function to update the enrollHandsontable cell settings according to a custom renderer.
@@ -119,15 +118,15 @@ function statusMessageRowsRenderer(instance, td, row) {
     if (enrollErrorMessagesMap.has(row)) {
         td.style.background = '#ff6666';
         text = enrollErrorMessagesMap.get(row);
-    } else if (enrollNewStudentsMap.has(row)) {
+    } else if (enrollNewStudentsMessagesMap.has(row)) {
         td.style.background = '#7CFC00';
-        text = enrollNewStudentsMap.get(row);
-    } else if (enrollModifiedStudentsMap.has(row)) {
+        text = enrollNewStudentsMessagesMap.get(row);
+    } else if (enrollModifiedStudentsMessagesMap.has(row)) {
         td.style.background = '#ffc20e';
-        text = enrollModifiedStudentsMap.get(row);
-    } else if (enrollUnmodifiedStudentsMap.get(row)) {
+        text = enrollModifiedStudentsMessagesMap.get(row);
+    } else if (enrollUnmodifiedStudentsMessagesMap.get(row)) {
         td.style.background = '#ADD8E6';
-        text = enrollUnmodifiedStudentsMap.get(row);
+        text = enrollUnmodifiedStudentsMessagesMap.get(row);
     } else {
         td.style.background = '#FFFFFF';
         return;
@@ -224,15 +223,12 @@ function adjustStudentsPanelView(panelHeading, panelCollapse, handsontableInstan
 /**
  * Adds all error messages returned from the backend into a map.
  */
-function addEnrollErrorMessages(enrollErrorLines) {
-    // Updates any error messages to process later
-    initializeEnrollMessagesMap(enrollErrorLines, enrollErrorMessagesMap);
-
+function addEnrollErrorMessages(dataEnrollErrorMap) {
     enrollHandsontable.getData().forEach((row, index) => {
         const currRowLine = row.join('|');
-        if (enrollErrorMessagesMap.has(currRowLine)) {
+        if (dataEnrollErrorMap.has(currRowLine)) {
             enrollErrorMessagesMap.set(index,
-                    enrollErrorMessagesMap.get(currRowLine));
+                    dataEnrollErrorMap.get(currRowLine));
         }
     });
 }
@@ -240,24 +236,20 @@ function addEnrollErrorMessages(enrollErrorLines) {
 /**
  * Adds all successful messages returned from the backend into the respective maps.
  */
-function addEnrollSuccessMessages(enrollNewStudentsLines, enrollModifiedStudentsLines,
-        enrollUnmodifiedStudentsLines) {
-    initializeEnrollMessagesMap(enrollNewStudentsLines, enrollNewStudentsMap);
-    initializeEnrollMessagesMap(enrollModifiedStudentsLines, enrollModifiedStudentsMap);
-    initializeEnrollMessagesMap(enrollUnmodifiedStudentsLines, enrollUnmodifiedStudentsMap);
-
+function addEnrollSuccessMessages(dataEnrollNewStudentsMap, dataEnrollModifiedStudentsMap,
+        dataEnrollUnmodifiedStudentsMap) {
     const emailColumnIndex = 3;
     enrollHandsontable.getData().forEach((row, index) => {
         const currRowEmail = row[emailColumnIndex];
-        if (enrollNewStudentsMap.has(currRowEmail)) {
-            enrollNewStudentsMap.set(index,
-                    enrollNewStudentsMap.get(currRowEmail));
-        } else if (enrollModifiedStudentsMap.has(currRowEmail)) {
-            enrollModifiedStudentsMap.set(index,
-                    enrollModifiedStudentsMap.get(currRowEmail));
-        } else if (enrollUnmodifiedStudentsMap.has(currRowEmail)) {
-            enrollUnmodifiedStudentsMap.set(index,
-                    enrollUnmodifiedStudentsMap.get(currRowEmail));
+        if (dataEnrollNewStudentsMap.has(currRowEmail)) {
+            enrollNewStudentsMessagesMap.set(index,
+                    dataEnrollNewStudentsMap.get(currRowEmail));
+        } else if (dataEnrollModifiedStudentsMap.has(currRowEmail)) {
+            enrollModifiedStudentsMessagesMap.set(index,
+                    dataEnrollModifiedStudentsMap.get(currRowEmail));
+        } else if (dataEnrollUnmodifiedStudentsMap.has(currRowEmail)) {
+            enrollUnmodifiedStudentsMessagesMap.set(index,
+                    dataEnrollUnmodifiedStudentsMap.get(currRowEmail));
         }
     });
 }
@@ -268,8 +260,9 @@ function addEnrollSuccessMessages(enrollNewStudentsLines, enrollModifiedStudents
 function processAjaxSaveAction(data) {
     if (data.statusMessagesToUser.length === 1
             && data.statusMessagesToUser[0].color === 'SUCCESS') {
-        addEnrollSuccessMessages(data.enrollNewStudentsLines,
-                data.enrollModifiedStudentsLines, data.enrollUnmodifiedStudentsLines);
+        addEnrollSuccessMessages(new Map(Object.entries(data.enrollNewStudentsLines)),
+                new Map(Object.entries(data.enrollModifiedStudentsLines)),
+                new Map(Object.entries(data.enrollUnmodifiedStudentsLines)));
         updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
         showEnrollSuccessModalBox();
     } else if (data.statusMessagesToUser.length === 1
@@ -281,7 +274,7 @@ function processAjaxSaveAction(data) {
         appendNewStatusMessage(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED,
                 BootstrapContextualColors[data.statusMessagesToUser[0].color]);
     } else {
-        addEnrollErrorMessages(data.enrollErrorLines);
+        addEnrollErrorMessages(new Map(Object.entries(data.enrollErrorLines)));
         updateEnrollHandsontableCellSettings(statusMessageRowsRenderer);
         showEnrollFailureModalBox();
     }
@@ -381,9 +374,9 @@ $(document).ready(() => {
 
     $('#button_enroll').on('click', (event) => {
         enrollErrorMessagesMap.clear();
-        enrollNewStudentsMap.clear();
-        enrollModifiedStudentsMap.clear();
-        enrollUnmodifiedStudentsMap.clear();
+        enrollNewStudentsMessagesMap.clear();
+        enrollModifiedStudentsMessagesMap.clear();
+        enrollUnmodifiedStudentsMessagesMap.clear();
         updateDataDump();
         triggerAndProcessAjaxSaveAction(event);
     });
