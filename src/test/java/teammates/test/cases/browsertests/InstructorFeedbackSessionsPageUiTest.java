@@ -586,12 +586,11 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         String sessionName = "Long Instruction Test ##";
 
         // refresh page
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        feedbackPage.clickAndCancel(feedbackPage.getDeleteLink(courseId, sessionName));
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions).deleteSession(courseId, sessionName);
+        assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
+                .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
         assertNotNull("session should not have been deleted",
                       BackDoor.getFeedbackSession(courseId, sessionName));
-
-        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, sessionName));
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackDeleteSuccessful.html");
 
     }

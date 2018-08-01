@@ -45,10 +45,10 @@ public class InstructorCourseRestoreAllRecoveryCoursesActionTest extends BaseAct
         List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructor1Id);
         assertEquals(2, courseList.size());
         assertEquals(instructor1OfCourse3.courseId, courseList.get(1).getId());
-        String expectedLogMessage = "TEAMMATESLOG|||instructorRecoveryRestoreAllCourses|||"
-                + "instructorRecoveryRestoreAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseRestoreAllCourses|||"
+                + "instructorCourseRestoreAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
                 + "idOfInstructor1OfCourse3|||instr1@course3.tmt|||All courses restored|||"
-                + "/page/instructorRecoveryRestoreAllCourses";
+                + "/page/instructorCourseRestoreAllCourses";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, restoreAllAction.getLogMessage());
 
         ______TS("Typical case, restore all courses from Recycle Bin, without privilege");

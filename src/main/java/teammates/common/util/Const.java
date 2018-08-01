@@ -192,6 +192,10 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE_ALL,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE,
+                        ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE_ALL,
                         ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_EDIT_SAVE,
@@ -372,7 +376,11 @@ public final class Const {
         public static final String FEEDBACK_SESSION_COPY = "Copy feedback session details";
         public static final String FEEDBACK_SESSION_REMIND =
                 "Send e-mails to remind students and instructors who have not submitted their feedbacks to do so";
-        public static final String FEEDBACK_SESSION_DELETE = "Delete the feedback session";
+        public static final String FEEDBACK_SESSION_MOVE_TO_RECOVERY = "Delete the feedback session";
+        public static final String FEEDBACK_SESSION_DELETE = "Permanently delete the feedback session";
+        public static final String FEEDBACK_SESSION_DELETE_ALL = "Permanently delete all feedback sessions";
+        public static final String FEEDBACK_SESSION_RESTORE = "Restore the feedback session";
+        public static final String FEEDBACK_SESSION_RESTORE_ALL = "Restore all feedback sessions";
         public static final String FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";
         public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
         public static final String FEEDBACK_SESSION_UNPUBLISH = "Make responses no longer visible";
@@ -962,12 +970,12 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
         public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
         public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
-        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE = "/page/instructorRecoveryRestoreCourse";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE = "/page/instructorCourseRestoreCourse";
         public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL =
-                "/page/instructorRecoveryRestoreAllCourses";
-        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE = "/page/instructorRecoveryDeleteCourse";
+                "/page/instructorCourseRestoreAllCourses";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE = "/page/instructorCourseDeleteCourse";
         public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL =
-                "/page/instructorRecoveryDeleteAllCourses";
+                "/page/instructorCourseDeleteAllCourses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
         public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
@@ -1020,6 +1028,12 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
+        public static final String INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE = "/page/instructorFeedbackRestoreSession";
+        public static final String INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE_ALL =
+                "/page/instructorFeedbackRestoreAllSessions";
+        public static final String INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE = "/page/instructorFeedbackDeleteSession";
+        public static final String INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE_ALL =
+                "/page/instructorFeedbackDeleteAllSessions";
 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE = "/page/instructorFeedbackQuestionCopyPage";
@@ -1419,9 +1433,16 @@ public final class Const {
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME =
                 "The end time for this feedback session cannot be earlier than the start time.";
-        public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
+        public static final String FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE =
+                "The feedback session has been deleted. You can restore it from the 'Sessions' tab.";
+        public static final String FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN =
+                "The feedback session has been deleted. You can restore it from the deleted sessions table below.";
+        public static final String FEEDBACK_SESSION_RESTORED = "The feedback session has been restored.";
+        public static final String FEEDBACK_SESSION_ALL_RESTORED = "All sessions have been restored.";
+        public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been permanently deleted.";
+        public static final String FEEDBACK_SESSION_ALL_DELETED = "All sessions have been permanently deleted.";
         public static final String FEEDBACK_SESSION_DELETED_NO_ACCESS =
-                "The feedback session has been deleted and is no longer accessible.";
+                "The feedback session has been permanently deleted and is no longer accessible.";
         public static final String FEEDBACK_SESSION_DOWNLOAD_FILE_SIZE_EXCEEDED = "This session has more responses than "
                 + "that can be downloaded in one go. Please download responses for one question at a time instead. "
                 + "To download responses for a specific question, click on the corresponding question number.";
