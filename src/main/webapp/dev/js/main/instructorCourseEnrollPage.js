@@ -189,7 +189,7 @@ function getAjaxStudentList(ajaxPreloadImage) {
  * Gets enroll status through an AJAX request.
  * @returns {Promise} the state of the result from the AJAX request
  */
-function getAjaxEnrollStatus() {
+function getAjaxEnrollStatus(ajaxLoaderImage, enrollStudentsButton) {
     return new Promise((resolve, reject) => {
         const $spreadsheetForm = $('#student-spreadsheet-form');
         $.ajax({
@@ -199,6 +199,10 @@ function getAjaxEnrollStatus() {
             data: {
                 courseid: $spreadsheetForm.children(`input[name='${ParamsNames.COURSE_ID}']`).val(),
                 enrollstudents: $spreadsheetForm.find('#enrollstudents').val(),
+            },
+            beforeSend() {
+                ajaxLoaderImage.show();
+                enrollStudentsButton.hide();
             },
         })
                 .done(resolve)
@@ -271,9 +275,14 @@ function addEnrollSuccessMessages(enrollNewStudentsLines, enrollModifiedStudents
  * Triggers an AJAX request to retrieve the enroll status.
  * Does the necessary post processing after the state of the AJAX request is returned.
  */
-function triggerAndProcessAjaxSaveAction() {
-    getAjaxEnrollStatus()
+function triggerAndProcessAjaxSaveAction(event) {
+    const enrollStudentsButton = $(event.currentTarget);
+    const ajaxLoaderImage = enrollStudentsButton.parent().children('.ajax-loader-image');
+
+    getAjaxEnrollStatus(ajaxLoaderImage, enrollStudentsButton)
             .then((data) => {
+                ajaxLoaderImage.hide();
+                enrollStudentsButton.show();
                 clearStatusMessages();
                 updateEnrollHandsontableCellSettings(resetDefaultViewRenderer);
                 if (data.statusMessagesToUser.length === 1
@@ -296,6 +305,8 @@ function triggerAndProcessAjaxSaveAction() {
                     }
                 }
             }).catch(() => {
+                ajaxLoaderImage.hide();
+                enrollStudentsButton.show();
                 clearStatusMessages();
                 appendNewStatusMessage('Failed to enroll students. Check your internet connectivity.',
                         BootstrapContextualColors.DANGER);
@@ -370,12 +381,12 @@ $(document).ready(() => {
         enrollHandsontable.alter('insert_row', null, emptyRowsCount);
     });
 
-    $('#button_enroll').click(() => {
+    $('#button_enroll').on('click', (event) => {
         enrollErrorMessagesMap.clear();
         enrollNewStudentsMap.clear();
         enrollModifiedStudentsMap.clear();
         enrollUnmodifiedStudentsMap.clear();
         updateDataDump();
-        triggerAndProcessAjaxSaveAction();
+        triggerAndProcessAjaxSaveAction(event);
     });
 });

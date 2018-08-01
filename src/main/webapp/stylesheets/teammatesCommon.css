@@ -912,6 +912,10 @@ Prevents content overflow in navbar. */
     display: none;
 }
 
+.ajax-loader-image {
+    display: none;
+}
+
 .ajax-status-message {
     display: none;
     font-weight: bold;

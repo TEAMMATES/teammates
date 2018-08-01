@@ -87,6 +87,7 @@
                         class="btn btn-primary btn-md pull-right">
                   Enroll students
                 </button>
+                <img class="ajax-loader-image pull-right" height="25" width="25" src="/images/ajax-loader.gif">
               </div>
             </div>
 
