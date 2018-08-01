@@ -61,7 +61,7 @@ public class InstructorCourseEnrollPageData extends PageData {
                 break;
             case UNMODIFIED:
                 for (StudentAttributes unmodifiedStudent : students[i]) {
-                    enrollUnmodifiedStudentsLines.put(unmodifiedStudent.email, "Existing student has been unmodified.");
+                    enrollUnmodifiedStudentsLines.put(unmodifiedStudent.email, "Existing student is unmodified.");
                 }
                 break;
             default:
