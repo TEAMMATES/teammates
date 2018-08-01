@@ -434,7 +434,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         String commentText;
         // comment id is null when adding new comments
         if (commentId == null) {
-            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_FORM + "-"
+            commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-"
                                                        + questionIndex + "-" + responseIndex);
 
         } else {

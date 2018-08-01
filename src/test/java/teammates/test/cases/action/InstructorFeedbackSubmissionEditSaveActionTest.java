@@ -843,7 +843,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect",
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_FORM + "-1-0", "New comment"
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-1-0", "New comment"
         };
 
         RedirectResult result = getRedirectResult(getAction(submissionParams));

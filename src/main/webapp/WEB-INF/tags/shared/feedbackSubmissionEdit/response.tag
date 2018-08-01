@@ -72,18 +72,18 @@
     </div>
     <div class="col-sm-12" <c:if test="${not hasFeedbackParticipantCommentOnResponse}">style="display: none"</c:if>>
     <br>
-    <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}">
-      <c:if test="${hasFeedbackParticipantCommentOnResponse}">
-        <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
-            responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
-            moderatedPersonEmail="${moderatedPersonEmail}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
-            isPreview="${data.preview}" submittable="${data.submittable}" isModeration="${data.moderation}"/>
-      </c:if>
+      <ul class="list-group" id="responseCommentTable-${questionIndex}-${responseIndex}">
+        <c:if test="${hasFeedbackParticipantCommentOnResponse}">
+          <shared:feedbackResponseCommentRowForFeedbackParticipant frc="${response.feedbackParticipantCommentOnResponse}"
+              responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
+              moderatedPersonEmail="${moderatedPersonEmail}" isSessionOpenForSubmission="${isSessionOpenForSubmission}"
+              isPreview="${data.preview}" submittable="${data.submittable}" isModeration="${data.moderation}"/>
+        </c:if>
 
-      <shared:feedbackResponseCommentAddFormForFeedbackParticipant frc="${response.feedbackResponseCommentAdd}"
-          responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
-          isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
-    </ul>
+        <shared:feedbackResponseCommentAddFormForFeedbackParticipant frc="${response.feedbackResponseCommentAdd}"
+            responseIndex="${response.responseIndx}" qnIndex="${questionWithResponses.question.qnIndx}"
+            isModeration="${data.moderation}" moderatedPersonEmail="${moderatedPersonEmail}"/>
+      </ul>
     </div>
   </c:if>
   <c:if test="${response.existingResponse}">

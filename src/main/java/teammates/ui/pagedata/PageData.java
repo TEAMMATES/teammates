@@ -907,6 +907,15 @@ public class PageData {
         }
     }
 
+    /**
+     * Builds comment row for feedback participant comment.
+     *
+     * @param questionAttributes question associated with comment
+     * @param commentsForResponses map where key is response id and value is list of comments on that response
+     * @param responseId response id of response associated with comment
+     * @param isEditDeleteEnabled true if comment can be edited or deleted
+     * @return
+     */
     public FeedbackResponseCommentRow buildFeedbackParticipantResponseCommentRow(
             FeedbackQuestionAttributes questionAttributes,
             Map<String, List<FeedbackResponseCommentAttributes>> commentsForResponses, String responseId,
