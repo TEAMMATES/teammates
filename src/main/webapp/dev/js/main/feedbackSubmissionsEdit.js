@@ -1291,6 +1291,12 @@ function updateTextQuestionWordsCount(textAreaId, wordsCountId, recommendedLengt
     }
 }
 
+/**
+ * Adds or removes section and team information from evaluee/recipient
+ * dropdown list based on 'Show section/team' checkbox value
+ * @param qnNum question number
+ * @param numResponses no. of responses to be filled
+ */
 function toggleSectionTeamInfo(qnNum, numResponses) {
     const isShowSectionTeamChecked = $(`#showSectionTeamFlag-${qnNum}`).prop('checked');
 
@@ -1308,6 +1314,7 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
     }
 
     function sectionTeamComparator(e1, e2) {
+        // empty dropdowns should always appear at the top
         if (e1.text === '') {
             return -1;
         }
@@ -1341,14 +1348,17 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
         return result;
     }
 
+    // iterate through each dropdown list and add/remove section and team fields
     for (let i = 0; i < numResponses; i += 1) {
         const evaluees = $(`select[name='responserecipient-${qnNum}-${i}'] option`);
         const selectedOption = $(`select[name='responserecipient-${qnNum}-${i}']`).val();
         if (isShowSectionTeamChecked) {
+            // iterate through each option value in dropdown and augment it with section and team
             $(evaluees).each(function () {
                 const evalueeSection = $(this).attr('section');
                 const evalueeTeam = $(this).attr('team');
                 const evalueeName = $(this).text();
+                // leave empty option as it is
                 if (evalueeName === '') {
                     return;
                 }
@@ -1356,6 +1366,7 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
             });
             evaluees.sort(sectionTeamComparator);
         } else {
+            // set each option value as evaluee's name
             $(evaluees).each(function () {
                 // leave empty option as it is
                 if ($(this).text() === '') {
@@ -1366,8 +1377,9 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
             });
             evaluees.sort(nameComparator);
         }
-
+        // refresh dropdown list
         $(`select[name='responserecipient-${qnNum}-${i}']`).empty().append(evaluees);
+        // retain selected option
         $(`select[name='responserecipient-${qnNum}-${i}']`).val(selectedOption);
     }
 }
