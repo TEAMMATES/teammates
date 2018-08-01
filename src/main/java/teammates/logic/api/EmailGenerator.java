@@ -128,7 +128,8 @@ public class EmailGenerator {
         String joinFragmentValue = isYetToJoinCourse(student)
                                    ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
                                            "${joinUrl}", joinUrl,
-                                           "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()))
+                                           "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                                           "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()))
                                    : "";
 
         for (FeedbackSessionAttributes fsa : sessions) {

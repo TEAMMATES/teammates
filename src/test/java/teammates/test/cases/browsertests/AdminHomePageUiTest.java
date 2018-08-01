@@ -265,7 +265,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase {
 
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
         assertTrue(instructorHomePage.getTextsForAllStatusMessagesToUser()
-                .contains("The course " + demoCourseId + " has been deleted."));
+                .contains("The course " + demoCourseId + " has been deleted. You can restore it from the 'Courses' tab."));
 
         instructorHomePage.logout();
 

@@ -17,7 +17,7 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th colspan="2">Profile</th>
+              <th colspan="2"><h4><span class="text-bold">Profile Details </span>(submitted by student)</h4></th>
             </tr>
           </thead>
           <tbody>

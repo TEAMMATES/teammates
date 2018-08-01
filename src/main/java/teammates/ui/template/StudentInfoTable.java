@@ -8,16 +8,18 @@ public class StudentInfoTable {
     private String section;
     private String team;
     private String comments;
-    private String course;
+    private String courseId;
+    private String courseDetailsLink;
     private boolean hasSection;
 
-    public StudentInfoTable(StudentAttributes student, boolean hasSection) {
+    public StudentInfoTable(StudentAttributes student, String courseDetailsLink, boolean hasSection) {
         this.name = student.name;
         this.email = student.email;
         this.section = student.section;
         this.team = student.team;
         this.comments = student.comments;
-        this.course = student.course;
+        this.courseId = student.course;
+        this.courseDetailsLink = courseDetailsLink;
         this.hasSection = hasSection;
     }
 
@@ -41,8 +43,12 @@ public class StudentInfoTable {
         return comments;
     }
 
-    public String getCourse() {
-        return course;
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getCourseDetailsLink() {
+        return courseDetailsLink;
     }
 
     public boolean getHasSection() {

@@ -76,7 +76,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
     /**
      * Updates the course.<br>
-     * Updates only name and course archive status.<br>
+     * Updates only name, deletion date and course archive status.<br>
      * Preconditions: <br>
      * * {@code courseToUpdate} is non-null.<br>
      */
@@ -97,13 +97,16 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         }
 
         courseEntityToUpdate.setName(courseToUpdate.getName());
+        courseEntityToUpdate.setDeletedAt(courseToUpdate.deletedAt);
         courseEntityToUpdate.setTimeZone(courseToUpdate.getTimeZone().getId());
 
         saveEntity(courseEntityToUpdate, courseToUpdate);
     }
 
     /**
-     * Note: This is a non-cascade delete.<br>
+     * Permanently deletes the course from the Datastore.
+     *
+     * <p>Note: This is a non-cascade delete.<br>
      *   <br> Fails silently if there is no such object.
      * <br> Preconditions:
      * <br> * {@code courseId} is not null.
@@ -159,6 +162,8 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
             courseTimeZone = Const.DEFAULT_TIME_ZONE;
         }
         return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), courseTimeZone)
-                .withCreatedAt(entity.getCreatedAt()).build();
+                .withCreatedAt(entity.getCreatedAt())
+                .withDeletedAt(entity.getDeletedAt())
+                .build();
     }
 }

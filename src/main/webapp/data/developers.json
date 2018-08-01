@@ -59,6 +59,7 @@
       "username": "95adityajain"
     },
     {
+      "multiple": true,
       "name": "Adrian Siwiec",
       "username": "AdrianSiwiec"
     },
@@ -313,6 +314,10 @@
       "username": "clmcdonald"
     },
     {
+      "multiple": true,
+      "username": "cybersol795"
+    },
+    {
       "name": "Daniel Esponda",
       "username": "desponda"
     },
@@ -475,6 +480,11 @@
     {
       "name": "Harshvardhan Singh",
       "username": "Harshvardhan58"
+    },
+    {
+      "multiple": true,
+      "name": "Hector Aguilar",
+      "username": "ah91086"
     },
     {
       "major": true,
@@ -849,6 +859,7 @@
       "name": "Mohit Singh Kanwal"
     },
     {
+      "multiple": true,
       "name": "Mudit Gupta",
       "username": "mg14777"
     },
@@ -1204,6 +1215,10 @@
       "username": "shubhampkj"
     },
     {
+      "name": "Shubham Kadlag",
+      "username": "shubhamkadlag"
+    },
+    {
       "name": "Shubham Nishad",
       "username": "shubhamnishad97"
     },
@@ -1426,6 +1441,7 @@
       "username": "ihsavru"
     },
     {
+      "multiple": true,
       "name": "Vaggelis Malandrakis",
       "username": "Vaggelis-Malandrakis"
     },

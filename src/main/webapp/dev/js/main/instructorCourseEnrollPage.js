@@ -29,6 +29,7 @@ import {
     toggleStudentsPanel,
     getUpdatedStudentRows,
     getNewEmailList,
+    showPasteModalBox,
 } from '../common/instructorEnroll';
 
 import {
@@ -85,6 +86,11 @@ const enrollHandsontable = new Handsontable(enrollContainer, {
         'remove_row',
         'undo',
         'redo',
+        {
+            key: 'paste',
+            name: 'Paste',
+            callback: showPasteModalBox,
+        },
         'make_read_only',
         'alignment',
     ],
