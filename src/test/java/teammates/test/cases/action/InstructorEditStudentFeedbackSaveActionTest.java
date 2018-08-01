@@ -688,7 +688,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     }
 
     @Test
-    public void testSaveAndUpdateFeedbackParticipantCommentsOnResponse() {
+    public void testSaveAndUpdateFeedbackParticipantCommentsOnResponseInOpenSession() {
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
@@ -769,6 +769,97 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                         "IESFPTCourseinstr",
                         "IESFPTCourse",
                         "First+feedback+session"),
+                result.getDestinationWithParams());
+        frc = getFeedbackParticipantComment(fr.getId());
+        assertEquals("Edited comment", frc.commentText.getValue());
+        assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
+        assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
+        assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+    }
+
+    @Test
+    public void testSaveAndUpdateFeedbackParticipantCommentsOnResponseInClosedSession() {
+        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("Closed feedback session", "IESFPTCourse", 2);
+        assertNotNull("Feedback question not found in database", fq);
+
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ2InClosedSession");
+        // necessary to get the correct responseId
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giver, fr.recipient);
+        assertNotNull("Feedback response not found in database", fr);
+
+        InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+
+        String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
+
+        ______TS("Save new comment on response");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ADD_TEXT + "-1-0", "New comment",
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
+        };
+
+        RedirectResult result = getRedirectResult(getAction(submissionParams));
+
+        assertFalse(result.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, result.getStatusMessage());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr",
+                        "IESFPTCourse",
+                        "Closed+feedback+session"),
+                result.getDestinationWithParams());
+
+        FeedbackResponseCommentAttributes frc = getFeedbackParticipantComment(fr.getId());
+        assertEquals("New comment", frc.commentText.getValue());
+        assertEquals(FeedbackParticipantType.STUDENTS, frc.commentGiverType);
+        assertEquals("student1InIESFPTCourse@gmail.tmt", frc.commentGiver);
+        assertTrue(frc.isCommentFromFeedbackParticipant);
+        assertTrue(frc.isVisibilityFollowingFeedbackQuestion);
+
+        ______TS("Update response comment");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipient,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "It's perfect",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT + "-1-0", "Edited comment",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID + "-1-0", frc.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail
+        };
+
+        result = getRedirectResult(getAction(submissionParams));
+
+        assertFalse(result.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, result.getStatusMessage());
+        assertEquals(
+                getPageResultDestination(
+                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE,
+                        false,
+                        "student1InIESFPTCourse%40gmail.tmt",
+                        "IESFPTCourseinstr",
+                        "IESFPTCourse",
+                        "Closed+feedback+session"),
                 result.getDestinationWithParams());
         frc = getFeedbackParticipantComment(fr.getId());
         assertEquals("Edited comment", frc.commentText.getValue());
