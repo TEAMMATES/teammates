@@ -22,7 +22,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL;
+        return Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE_ALL;
     }
 
     @Override

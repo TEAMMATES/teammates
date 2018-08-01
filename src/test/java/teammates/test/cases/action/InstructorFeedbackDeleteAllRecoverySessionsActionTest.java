@@ -22,7 +22,7 @@ public class InstructorFeedbackDeleteAllRecoverySessionsActionTest extends BaseA
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE_ALL;
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE_ALL;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class InstructorFeedbackDeleteRecoverySessionActionTest extends BaseActio
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE;
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE;
     }
 
     @Override

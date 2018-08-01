@@ -21,7 +21,7 @@ public class InstructorCourseDeleteRecoveryCourseActionTest extends BaseActionTe
 
     @Override
     protected String getActionUri() {
-        return Const.ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE;
+        return Const.ActionURIs.INSTRUCTOR_COURSE_SOFT_DELETED_COURSE_DELETE;
     }
 
     @Override

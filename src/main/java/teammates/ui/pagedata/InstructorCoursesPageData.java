@@ -108,7 +108,7 @@ public class InstructorCoursesPageData extends PageData {
                                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs",
                                                    "t_course_delete" + idx, deleteLink,
-                                                   Const.Tooltips.COURSE_MOVE_TO_RECOVERY, !hasDeletePermission);
+                                                   Const.Tooltips.COURSE_MOVE_TO_RECYCLE_BIN, !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", course.getId());
 
             actionsParam.add(unarchivedButton);
@@ -160,7 +160,7 @@ public class InstructorCoursesPageData extends PageData {
                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
             ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs "
                                                    + "t_course_delete" + idx, "", deleteLink,
-                                                   Const.Tooltips.COURSE_MOVE_TO_RECOVERY, !hasDeletePermission);
+                                                   Const.Tooltips.COURSE_MOVE_TO_RECYCLE_BIN, !hasDeletePermission);
             deleteButton.setAttribute("data-course-id", course.getId());
 
             actionsParam.add(enrollButton);
