@@ -393,9 +393,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         }
         // Check if options augmented with section and team info are sorted
         List<String> expectedAugmentedRecipients = Arrays.asList("",
-                "None: Team 1</td></div>'\": Alice Betsy</option></td></div>'\"",
-                "None: Team 1</td></div>'\": Benny Charles", "Section 1: New Team: Extra guy",
-                "Section 1: Team 2: Charlie Davis", "Section 1: Team 2: Danny Engrid", "Section 2: Team 3: Emily");
+                "None | Team 1</td></div>'\" | Alice Betsy</option></td></div>'\"",
+                "None | Team 1</td></div>'\" | Benny Charles", "Section 1 | New Team | Extra guy",
+                "Section 1 | Team 2 | Charlie Davis", "Section 1 | Team 2 | Danny Engrid", "Section 2 | Team 3 | Emily");
         List<String> actualAugmentedRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
         assertTrue(expectedAugmentedRecipients.equals(actualAugmentedRecipients));
 
@@ -406,11 +406,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(qnNumber, 2, "Benny Charles");
 
         submitPage.clickShowSectionTeamCheckBox(qnNumber);
-        assertEquals("Section 1: Team 2: Danny Engrid",
+        assertEquals("Section 1 | Team 2 | Danny Engrid",
                      submitPage.getSelectedRecipientTextDropdown(qnNumber, 0));
-        assertEquals("Section 1: Team 2: Charlie Davis",
+        assertEquals("Section 1 | Team 2 | Charlie Davis",
                      submitPage.getSelectedRecipientTextDropdown(qnNumber, 1));
-        assertEquals("None: Team 1</td></div>'\": Benny Charles",
+        assertEquals("None | Team 1</td></div>'\" | Benny Charles",
                      submitPage.getSelectedRecipientTextDropdown(qnNumber, 2));
 
         // Section and Team removed when checkbox unticked
@@ -465,11 +465,11 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(qnNumber, 2, "Teammates Test3");
 
         submitPage.clickShowSectionTeamCheckBox(qnNumber);
-        assertEquals("Teammates Test4",
+        assertEquals(" |  | Teammates Test4",
                 submitPage.getSelectedRecipientTextDropdown(qnNumber, 0));
-        assertEquals("Teammates Test2",
+        assertEquals(" |  | Teammates Test2",
                 submitPage.getSelectedRecipientTextDropdown(qnNumber, 1));
-        assertEquals("Teammates Test3",
+        assertEquals(" |  | Teammates Test3",
                 submitPage.getSelectedRecipientTextDropdown(qnNumber, 2));
     }
 
@@ -879,10 +879,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         String displayedTeam = "";
 
         if (section != null) {
-            displayedSection = section + ": ";
+            displayedSection = section + " | ";
         }
         if (team != null) {
-            displayedTeam = team + ": ";
+            displayedTeam = team + " | ";
         }
         return (displayedSection + displayedTeam + name).equals(augmentedRecipient);
     }

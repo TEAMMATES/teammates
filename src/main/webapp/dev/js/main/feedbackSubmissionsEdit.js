@@ -1352,7 +1352,7 @@ function toggleSectionTeamInfo(qnNum, numResponses) {
                 if (evalueeName === '') {
                     return;
                 }
-                $(this).html(`${evalueeSection} | ${evalueeTeam} | ${evalueeName}`);
+                $(this).text(`${evalueeSection} | ${evalueeTeam} | ${evalueeName}`);
             });
             evaluees.sort(sectionTeamComparator);
         } else {
