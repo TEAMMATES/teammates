@@ -101,10 +101,10 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         assertEquals("All courses have been permanently deleted.", redirectResult.getStatusMessage());
         assertFalse(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
         assertFalse(CoursesLogic.inst().isCoursePresent("icdat.owncourse"));
-        String expectedLogMessage = "TEAMMATESLOG|||instructorRecoveryDeleteAllCourses|||"
-                + "instructorRecoveryDeleteAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDeleteAllCourses|||"
+                + "instructorCourseDeleteAllCourses|||true|||Instructor|||Instructor 1 of Course 3|||"
                 + "idOfInstructor1OfCourse3|||instr1@course3.tmt|||All courses deleted|||"
-                + "/page/instructorRecoveryDeleteAllCourses";
+                + "/page/instructorCourseDeleteAllCourses";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAllAction.getLogMessage());
 
     }

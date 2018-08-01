@@ -50,8 +50,9 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> recoveryFsList = new ArrayList<>();
 
-        data.initWithoutDefaultFormValues(courses, null, fsList, courseInstructorMap, null);
+        data.initWithoutDefaultFormValues(courses, null, fsList, recoveryFsList, courseInstructorMap, null);
 
         ______TS("typical success case: test new fs form");
         // Test new fs form model
@@ -130,7 +131,7 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> archivedCourses = getCoursesForInstructor(instructorsForArchivedCourse);
         List<FeedbackSessionAttributes> archivedFsList = getFeedbackSessionsListForInstructor(instructorsForArchivedCourse);
         instructorArchivedCourseData.initWithoutDefaultFormValues(archivedCourses, null, archivedFsList,
-                                                                  archivedCourseInstructorMap, null);
+                                                                  recoveryFsList, archivedCourseInstructorMap, null);
 
         ______TS("case with instructor with only archived course: test new fs form");
         // Test new fs form model
@@ -160,7 +161,8 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
 
-        helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, helperCourseInstructorMap, null);
+        helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, recoveryFsList,
+                                                helperCourseInstructorMap, null);
 
         ______TS("case with instructor with restricted permissions: test new fs form");
         // Test new fs form model
@@ -203,8 +205,8 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
 
         fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
 
-        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap,
-                                          "First feedback session");
+        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, recoveryFsList,
+                                          courseInstructorMap, "First feedback session");
 
         List<FeedbackSessionsTableRow> sessionRows = data.getFsList().getExistingFeedbackSessions();
         boolean isFirstFeedbackSessionHighlighted = false;
@@ -244,10 +246,11 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> recoveryFsList = new ArrayList<>();
 
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        data.init(courses, null, fsList, courseInstructorMap, fsa, null, null);
+        data.init(courses, null, fsList, recoveryFsList, courseInstructorMap, fsa, null, null);
 
         ______TS("typical success case with existing fs passed in: test new fs form");
         // Test new fs form model
@@ -332,10 +335,12 @@ public class InstructorFeedbackSessionsPageDataTest extends BaseTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
 
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> recoveryFsList = new ArrayList<>();
 
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, fsa, "STANDARD");
+        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, recoveryFsList, courseInstructorMap,
+                                       fsa, "STANDARD");
 
         FeedbackSessionsForm formModel = data.getNewFsForm();
 

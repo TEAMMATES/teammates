@@ -668,7 +668,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @return Courses the given instructors is in except for courses in recycle bin.
+     * @return Courses the given instructors is in except for courses in Recycle Bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
@@ -1266,6 +1266,24 @@ public class Logic {
     }
 
     /**
+     * Returns a {@code List} of all feedback sessions in Recycle Bin WITHOUT their response
+     * statistics for a instructor.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructor(InstructorAttributes instructor) {
+        Assumption.assertNotNull(instructor);
+        return feedbackSessionsLogic.getRecoveryFeedbackSessionsListForInstructor(instructor);
+    }
+
+    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructors(
+            List<InstructorAttributes> instructorList) {
+        Assumption.assertNotNull(instructorList);
+        return feedbackSessionsLogic.getRecoveryFeedbackSessionsListForInstructors(instructorList);
+    }
+
+    /**
      * Gets {@code FeedbackQuestions} and previously filled
      * {@code FeedbackResponses} that an instructor can view/submit as a
      * {@link FeedbackSessionQuestionsBundle}.
@@ -1497,7 +1515,7 @@ public class Logic {
     }
 
     /**
-     * Deletes the feedback session but not the questions and
+     * Permanently deletes the feedback session in Recycle Bin, but not the questions and
      * responses associated to it.
      * Fails silently if no such feedback session. <br>
      * Preconditions: <br>
@@ -1509,6 +1527,55 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Permanently deletes feedback sessions in Recycle Bin, but not the questions and
+     * responses associated to them.
+     * Fails silently if no such feedback session. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public void deleteAllFeedbackSessions(List<InstructorAttributes> instructorList) {
+
+        Assumption.assertNotNull(instructorList);
+
+        feedbackSessionsLogic.deleteAllFeedbackSessionsCascade(instructorList);
+    }
+
+    /**
+     * Soft-deletes a specific session to Recycle Bin.
+     */
+    public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        feedbackSessionsLogic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Restores a specific session from Recycle Bin to feedback sessions table.
+     */
+    public void restoreFeedbackSessionFromRecovery(String feedbackSessionName, String courseId)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+
+        feedbackSessionsLogic.restoreFeedbackSessionFromRecovery(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Restores all sessions from Recycle Bin to feedback sessions table.
+     */
+    public void restoreAllFeedbackSessionsFromRecovery(List<InstructorAttributes> instructorList)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(instructorList);
+
+        feedbackSessionsLogic.restoreAllFeedbackSessionsFromRecovery(instructorList);
     }
 
     /**

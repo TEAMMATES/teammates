@@ -410,7 +410,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public WebElement getDeleteLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return getLinkAtTableRow("session-delete-for-test", sessionRowId);
+        return getLinkAtTableRow("session-delete", sessionRowId);
     }
 
     public WebElement getSubmitLink(String courseId, String sessionName) {
@@ -561,6 +561,12 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         click(fsCopyButton);
+    }
+
+    public InstructorFeedbackSessionsPage deleteSession(String courseId, String sessionName) {
+        click(getDeleteLink(courseId, sessionName));
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackSessionsPage.class);
     }
 
     public void changeUserIdInAjaxForSessionsForm(String newUserId) {
