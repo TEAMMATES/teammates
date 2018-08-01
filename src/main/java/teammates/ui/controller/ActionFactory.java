@@ -95,6 +95,10 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_RESEND_PUBLISHED_EMAIL,
                 InstructorFeedbackResendPublishedEmailAction.class);
         map(INSTRUCTOR_FEEDBACK_UNPUBLISH, InstructorFeedbackUnpublishAction.class);
+        map(INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE, InstructorFeedbackRestoreRecoverySessionAction.class);
+        map(INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_RESTORE_ALL, InstructorFeedbackRestoreAllRecoverySessionsAction.class);
+        map(INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE, InstructorFeedbackDeleteRecoverySessionAction.class);
+        map(INSTRUCTOR_FEEDBACK_RECOVERY_SESSION_DELETE_ALL, InstructorFeedbackDeleteAllRecoverySessionsAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY_PAGE, InstructorFeedbackQuestionCopyPageAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY, InstructorFeedbackQuestionCopyAction.class);

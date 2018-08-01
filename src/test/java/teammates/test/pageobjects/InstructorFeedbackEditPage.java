@@ -86,7 +86,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "fsSaveLink")
     private WebElement fsSaveLink;
 
-    @FindBy(id = "fsDeleteLink")
+    @FindBy(id = "button_fsdelete")
     private WebElement fsDeleteLink;
 
     @FindBy(id = "button_openframe")
@@ -1304,7 +1304,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public InstructorFeedbackSessionsPage deleteSession() {
-        clickAndConfirm(getDeleteSessionLink());
+        click(getDeleteSessionLink());
         waitForPageToLoad();
         return changePageType(InstructorFeedbackSessionsPage.class);
     }

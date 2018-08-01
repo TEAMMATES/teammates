@@ -77,10 +77,10 @@ public class InstructorCourseDeleteRecoveryCourseActionTest extends BaseActionTe
         assertFalse(redirectResult.isError);
         assertEquals("The course idOfTypicalCourse3 has been permanently deleted.", redirectResult.getStatusMessage());
         assertFalse(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
-        String expectedLogMessage = "TEAMMATESLOG|||instructorRecoveryDeleteCourse|||instructorRecoveryDeleteCourse|||"
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDeleteCourse|||instructorCourseDeleteCourse|||"
                 + "true|||Instructor|||Instructor 1 of Course 3|||idOfInstructor1OfCourse3|||"
                 + "instr1@course3.tmt|||Course deleted: idOfTypicalCourse3|||"
-                + "/page/instructorRecoveryDeleteCourse";
+                + "/page/instructorCourseDeleteCourse";
         AssertHelper.assertLogMessageEquals(expectedLogMessage, deleteAction.getLogMessage());
 
     }
