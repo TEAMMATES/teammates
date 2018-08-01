@@ -120,7 +120,7 @@ public class AccountsLogicTest extends BaseLogicTest {
             ______TS(aa.toString());
         }
 
-        assertEquals(12, accountsLogic.getInstructorAccounts().size());
+        assertEquals(14, accountsLogic.getInstructorAccounts().size());
 
         ______TS("test updateAccount");
 

@@ -17,7 +17,7 @@
           </span>
           Edit
         </a>
-        <a class="btn btn-primary btn-xs course-delete-link" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT____.instr1_.gma-demo&next=%2Fpage%2FinstructorCoursesPage&user=${test.instructor}&token=${sessionToken}" id="courseDeleteLink" title="" type="button">
+        <a class="btn btn-primary btn-xs" data-course-id="AHPUiT____.instr1_.gma-demo" data-original-title="Delete the course and its corresponding students and sessions" data-placement="top" data-toggle="tooltip" href="/page/instructorCourseDelete?courseid=AHPUiT____.instr1_.gma-demo&next=%2Fpage%2FinstructorCoursesPage&user=${test.instructor}&token=${sessionToken}" id="courseDeleteLink" title="" type="button">
           <span class="glyphicon glyphicon-trash">
           </span>
           Delete
@@ -248,7 +248,7 @@
                 </a>
                 <br>
                 <input id="instructorroleforinstructor2" name="instructorrole" type="radio" value="Manager">
-                 Manager: Can do everything except for deleting the course
+                 Manager: Can do everything except for deleting/restoring the course
                 <a class="view-role-details" data-role="Manager" href="javascript:;">
                   View Details
                 </a>
@@ -281,7 +281,7 @@
                     <div class="panel-body">
                       <div class="col-sm-3">
                         <input name="canmodifycourse" type="checkbox" value="true">
-                        Edit/Delete Course
+                        Edit/Delete/Restore Course
                       </div>
                       <div class="col-sm-3">
                         <input name="canmodifyinstructor" type="checkbox" value="true">
@@ -617,7 +617,7 @@
           <div class="row">
             <div class="col-sm-6">
               <input checked="" disabled="" name="canmodifycourse" type="checkbox" value="true">
-              Edit/Delete Course
+              Edit/Delete/Restore Course
             </div>
             <div class="col-sm-6">
               <input checked="" disabled="" name="canmodifyinstructor" type="checkbox" value="true">

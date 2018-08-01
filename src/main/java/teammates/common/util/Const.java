@@ -30,6 +30,7 @@ public final class Const {
     public static final String JOIN_LINK = "[Join Link]";
 
     public static final String NONE_OF_THE_ABOVE = "None of the above";
+    public static final String DELETION_DATE_NOT_APPLICABLE = "Not Applicable";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
@@ -159,6 +160,10 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_ADD,
                         ActionURIs.INSTRUCTOR_COURSE_ARCHIVE,
                         ActionURIs.INSTRUCTOR_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE,
+                        ActionURIs.INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL,
                         ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE,
                         ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD,
@@ -224,7 +229,16 @@ public final class Const {
         public static final String COURSE_ENROLL = "Enroll student into the course";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
-        public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
+        public static final String COURSE_MOVE_TO_RECOVERY =
+                "Delete the course and its corresponding students and sessions";
+        public static final String COURSE_DELETE =
+                "Permanently delete the course and its corresponding students and sessions";
+        public static final String COURSE_DELETE_ALL =
+                "Permanently delete all courses and their corresponding students and sessions";
+        public static final String COURSE_RESTORE =
+                "Restore the deleted course and its corresponding students and sessions";
+        public static final String COURSE_RESTORE_ALL =
+                "Restore all deleted courses and their corresponding students and sessions";
         public static final String COURSE_ARCHIVE =
                 "Archive the course so that it will not be shown in the home page any more "
                 + "(you can still access it from the 'Courses' tab)";
@@ -942,6 +956,12 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_ADD = "/page/instructorCourseAdd";
         public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
         public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE = "/page/instructorRecoveryRestoreCourse";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_RESTORE_ALL =
+                "/page/instructorRecoveryRestoreAllCourses";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE = "/page/instructorRecoveryDeleteCourse";
+        public static final String INSTRUCTOR_COURSE_RECOVERY_COURSE_DELETE_ALL =
+                "/page/instructorRecoveryDeleteAllCourses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
         public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
@@ -1289,7 +1309,15 @@ public final class Const {
                 COURSE_ARCHIVED + " You can access archived courses from the 'Courses' tab.<br>"
                 + "Go there to undo the archiving and bring the course back to the home page.";
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
-        public static final String COURSE_DELETED = "The course %s has been deleted.";
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE =
+                "The course %s has been deleted. You can restore it from the 'Courses' tab.";
+        public static final String COURSE_MOVED_TO_RECYCLE_BIN =
+                "The course %s has been deleted. You can restore it from the deleted courses table below.";
+        public static final String COURSE_RESTORED = "The course %s has been restored.";
+        public static final String COURSE_ALL_RESTORED = "All courses have been restored.";
+        public static final String COURSE_DELETED =
+                "The course %s has been permanently deleted.";
+        public static final String COURSE_ALL_DELETED = "All courses have been permanently deleted.";
         public static final String COURSE_EMPTY =
                 "You do not seem to have any courses. Use the form above to create a course.";
         public static final String COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS =
