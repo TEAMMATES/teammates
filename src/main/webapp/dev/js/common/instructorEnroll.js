@@ -56,9 +56,14 @@ function unCapitalizeFirstLetter(string) {
  * @returns {Array} student data
  */
 function ajaxDataToHandsontableData(studentsData, handsontableColHeader) {
+    console.log(handsontableColHeader);
     const headers = handsontableColHeader.map(unCapitalizeFirstLetter);
-    return studentsData.map(student => (headers.map(
-            header => student[header])));
+    console.log(headers);
+    return studentsData.map(student => {
+        const studentRow = headers.map(header => student[header]);
+        studentRow.push('');
+        return studentRow;
+    });
 }
 
 /**
