@@ -12,13 +12,13 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.ui.controller.InstructorFeedbackRestoreAllRecoverySessionsAction;
+import teammates.ui.controller.InstructorFeedbackRestoreAllSoftDeletedSessionsAction;
 import teammates.ui.controller.RedirectResult;
 
 /**
- * SUT: {@link InstructorFeedbackRestoreAllRecoverySessionsAction}.
+ * SUT: {@link InstructorFeedbackRestoreAllSoftDeletedSessionsAction}.
  */
-public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends BaseActionTest {
+public class InstructorFeedbackRestoreAllSoftDeletedSessionsActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
@@ -38,11 +38,11 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
         List<FeedbackSessionAttributes> existingFsList = fsDb
                 .getFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         assertEquals(1, existingFsList.size());
-        List<FeedbackSessionAttributes> recoveryFsList = fsDb
+        List<FeedbackSessionAttributes> softDeletedFsList = fsDb
                 .getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
-        assertEquals(1, recoveryFsList.size());
+        assertEquals(1, softDeletedFsList.size());
 
-        InstructorFeedbackRestoreAllRecoverySessionsAction restoreAllAction = getAction();
+        InstructorFeedbackRestoreAllSoftDeletedSessionsAction restoreAllAction = getAction();
         try {
             getRedirectResult(restoreAllAction);
         } catch (UnauthorizedAccessException e) {
@@ -52,17 +52,17 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
 
         existingFsList = fsDb.getFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         assertEquals(1, existingFsList.size());
-        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
-        assertEquals(1, recoveryFsList.size());
+        softDeletedFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+        assertEquals(1, softDeletedFsList.size());
 
         ______TS("Typical case, restore all sessions from Recycle Bin, with privilege for only some sessions");
 
         InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
         FeedbackSessionAttributes session1InCourse4 = typicalBundle.feedbackSessions.get("session1InCourse4");
         gaeSimulation.loginAsInstructor(instructor1OfCourse3.googleId);
-        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
-        recoveryFsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
-        assertEquals(2, recoveryFsList.size());
+        softDeletedFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+        softDeletedFsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
+        assertEquals(2, softDeletedFsList.size());
 
         try {
             restoreAllAction = getAction();
@@ -72,9 +72,9 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
                     + "[instructor1@course3.tmt] for privilege [canmodifysession]", e.getMessage());
         }
 
-        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
-        recoveryFsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
-        assertEquals(2, recoveryFsList.size());
+        softDeletedFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+        softDeletedFsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
+        assertEquals(2, softDeletedFsList.size());
 
         ______TS("Typical case, restore all sessions from Recycle Bin, with privilege");
 
@@ -101,14 +101,14 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
         existingFsList = fsDb.getFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         existingFsList.addAll(fsDb.getFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
         assertEquals(3, existingFsList.size());
-        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+        softDeletedFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         existingFsList.addAll(fsDb.getFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
-        assertEquals(0, recoveryFsList.size());
+        assertEquals(0, softDeletedFsList.size());
     }
 
     @Override
-    protected InstructorFeedbackRestoreAllRecoverySessionsAction getAction(String... params) {
-        return (InstructorFeedbackRestoreAllRecoverySessionsAction) gaeSimulation.getActionObject(getActionUri(), params);
+    protected InstructorFeedbackRestoreAllSoftDeletedSessionsAction getAction(String... params) {
+        return (InstructorFeedbackRestoreAllSoftDeletedSessionsAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override

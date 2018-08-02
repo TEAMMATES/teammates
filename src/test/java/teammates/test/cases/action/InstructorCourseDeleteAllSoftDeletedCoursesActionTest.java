@@ -12,13 +12,13 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorCourseDeleteAllRecoveryCoursesAction;
+import teammates.ui.controller.InstructorCourseDeleteAllSoftDeletedCoursesAction;
 import teammates.ui.controller.RedirectResult;
 
 /**
- * SUT: {@link InstructorCourseDeleteAllRecoveryCoursesAction}.
+ * SUT: {@link InstructorCourseDeleteAllSoftDeletedCoursesAction}.
  */
-public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActionTest {
+public class InstructorCourseDeleteAllSoftDeletedCoursesActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
@@ -35,7 +35,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         String instructor2Id = instructor2OfCourse3.googleId;
         gaeSimulation.loginAsInstructor(instructor2Id);
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
-        InstructorCourseDeleteAllRecoveryCoursesAction deleteAllAction;
+        InstructorCourseDeleteAllSoftDeletedCoursesAction deleteAllAction;
 
         try {
             deleteAllAction = getAction();
@@ -110,8 +110,8 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
     }
 
     @Override
-    protected InstructorCourseDeleteAllRecoveryCoursesAction getAction(String... params) {
-        return (InstructorCourseDeleteAllRecoveryCoursesAction) gaeSimulation.getActionObject(getActionUri(), params);
+    protected InstructorCourseDeleteAllSoftDeletedCoursesAction getAction(String... params) {
+        return (InstructorCourseDeleteAllSoftDeletedCoursesAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override

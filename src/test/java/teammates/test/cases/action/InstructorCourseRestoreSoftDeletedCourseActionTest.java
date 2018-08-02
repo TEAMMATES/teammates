@@ -10,13 +10,13 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.controller.InstructorCourseRestoreRecoveryCourseAction;
+import teammates.ui.controller.InstructorCourseRestoreSoftDeletedCourseAction;
 import teammates.ui.controller.RedirectResult;
 
 /**
- * SUT: {@link InstructorCourseRestoreRecoveryCourseAction}.
+ * SUT: {@link InstructorCourseRestoreSoftDeletedCourseAction}.
  */
-public class InstructorCourseRestoreRecoveryCourseActionTest extends BaseActionTest {
+public class InstructorCourseRestoreSoftDeletedCourseActionTest extends BaseActionTest {
 
     @Override
     protected String getActionUri() {
@@ -41,7 +41,7 @@ public class InstructorCourseRestoreRecoveryCourseActionTest extends BaseActionT
         };
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
 
-        InstructorCourseRestoreRecoveryCourseAction restoreAction = getAction(submissionParams);
+        InstructorCourseRestoreSoftDeletedCourseAction restoreAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(restoreAction);
 
         assertEquals(
@@ -84,8 +84,8 @@ public class InstructorCourseRestoreRecoveryCourseActionTest extends BaseActionT
     }
 
     @Override
-    protected InstructorCourseRestoreRecoveryCourseAction getAction(String... params) {
-        return (InstructorCourseRestoreRecoveryCourseAction) gaeSimulation.getActionObject(getActionUri(), params);
+    protected InstructorCourseRestoreSoftDeletedCourseAction getAction(String... params) {
+        return (InstructorCourseRestoreSoftDeletedCourseAction) gaeSimulation.getActionObject(getActionUri(), params);
     }
 
     @Override

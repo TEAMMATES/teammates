@@ -12,7 +12,7 @@ import teammates.ui.pagedata.InstructorCoursesPageData;
 /**
  * Action: Restore all courses from Recycle Bin for an instructor.
  */
-public class InstructorCourseRestoreAllRecoveryCoursesAction extends Action {
+public class InstructorCourseRestoreAllSoftDeletedCoursesAction extends Action {
 
     @Override
     public ActionResult execute() {

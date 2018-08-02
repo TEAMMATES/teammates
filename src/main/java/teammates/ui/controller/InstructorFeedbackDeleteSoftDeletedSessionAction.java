@@ -8,7 +8,7 @@ import teammates.common.util.StatusMessageColor;
 /**
  * Action: Permanently delete a specific session from Recycle Bin for an instructor.
  */
-public class InstructorFeedbackDeleteRecoverySessionAction extends Action {
+public class InstructorFeedbackDeleteSoftDeletedSessionAction extends Action {
 
     @Override
     public ActionResult execute() {

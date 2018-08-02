@@ -12,7 +12,7 @@ import teammates.ui.pagedata.InstructorCoursesPageData;
 /**
  * Action: Permanently delete all courses from Recycle Bin for an instructor.
  */
-public class InstructorCourseDeleteAllRecoveryCoursesAction extends Action {
+public class InstructorCourseDeleteAllSoftDeletedCoursesAction extends Action {
 
     @Override
     public ActionResult execute() {
