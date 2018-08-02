@@ -81,8 +81,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.clickSubmitButton();
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2, 3.");
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("2, 3.");
+                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "2.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("2.");
 
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
 
@@ -98,8 +98,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         submitPage.fillResponseTextBox(2, 0, "4");
         submitPage.clickSubmitButton();
-        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "3.");
+        submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 2);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
@@ -110,7 +109,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
         // Full HTML verification already done in InstructorFeedbackSubmitPageUiTest
         submitPage.verifyHtmlMainContent("/instructorEditStudentFeedbackPageModified.html");
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("3.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("");
     }
 
     private void testDeleteResponse() {
@@ -122,8 +121,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();
 
         submitPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
-                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2, 3.");
-        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2, 3.");
+                Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "1, 2.");
+        submitPage.verifyAndCloseSuccessfulSubmissionModal("1, 2.");
 
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
@@ -144,6 +143,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                 "IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.waitForPageToLoad();
 
+        // Unselect the mcq choice to remove response
+        submitPage.chooseMcqOption(3, 0, "It's good");
         submitPage.addFeedbackParticipantComment("-3-0", "Comment without response");
 
         submitPage.submitWithoutConfirmationEmail();
