@@ -22,7 +22,7 @@ public class InstructorCourseRestoreRecoveryCourseAction extends Action {
 
         try {
             /* Restore the deleted course and setup status to be shown to user and admin */
-            logic.restoreCourseFromRecovery(idOfCourseToRestore);
+            logic.restoreCourseFromRecycleBin(idOfCourseToRestore);
             String statusMessage = String.format(Const.StatusMessages.COURSE_RESTORED, idOfCourseToRestore);
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             statusToAdmin = "Course restored: " + idOfCourseToRestore;

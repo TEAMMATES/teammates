@@ -22,7 +22,7 @@ public class InstructorFeedbackDeleteAllRecoverySessionsAction extends Action {
 
         for (InstructorAttributes instructor : instructorList) {
             List<FeedbackSessionAttributes> feedbackSessionList =
-                    logic.getRecoveryFeedbackSessionsListForInstructor(instructor);
+                    logic.getSoftDeletedFeedbackSessionsListForInstructor(instructor);
             for (FeedbackSessionAttributes feedbackSession : feedbackSessionList) {
                 gateKeeper.verifyAccessible(instructor,
                         feedbackSession,

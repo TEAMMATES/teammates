@@ -39,7 +39,7 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
                 .getFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         assertEquals(1, existingFsList.size());
         List<FeedbackSessionAttributes> recoveryFsList = fsDb
-                .getRecoveryFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+                .getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         assertEquals(1, recoveryFsList.size());
 
         InstructorFeedbackRestoreAllRecoverySessionsAction restoreAllAction = getAction();
@@ -52,7 +52,7 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
 
         existingFsList = fsDb.getFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         assertEquals(1, existingFsList.size());
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         assertEquals(1, recoveryFsList.size());
 
         ______TS("Typical case, restore all sessions from Recycle Bin, with privilege for only some sessions");
@@ -60,8 +60,8 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
         InstructorAttributes instructor1OfCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
         FeedbackSessionAttributes session1InCourse4 = typicalBundle.feedbackSessions.get("session1InCourse4");
         gaeSimulation.loginAsInstructor(instructor1OfCourse3.googleId);
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(session2InCourse3.getCourseId());
-        recoveryFsList.addAll(fsDb.getRecoveryFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
+        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+        recoveryFsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
         assertEquals(2, recoveryFsList.size());
 
         try {
@@ -72,15 +72,15 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
                     + "[instructor1@course3.tmt] for privilege [canmodifysession]", e.getMessage());
         }
 
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(session2InCourse3.getCourseId());
-        recoveryFsList.addAll(fsDb.getRecoveryFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
+        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+        recoveryFsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
         assertEquals(2, recoveryFsList.size());
 
         ______TS("Typical case, restore all sessions from Recycle Bin, with privilege");
 
         gaeSimulation.loginAsInstructor(instructor1OfCourse3.googleId);
         CourseAttributes typicalCourse3 = typicalBundle.courses.get("typicalCourse3");
-        CoursesLogic.inst().restoreCourseFromRecovery(typicalCourse3.getId());
+        CoursesLogic.inst().restoreCourseFromRecycleBin(typicalCourse3.getId());
         InstructorAttributes instructor1OfCourse4 = typicalBundle.instructors.get("instructor1OfCourse4");
         instructor1OfCourse4.privileges.updatePrivilege("canmodifysession", true);
         InstructorsLogic.inst().updateInstructorByGoogleId(instructor1OfCourse4.googleId, instructor1OfCourse4);
@@ -101,7 +101,7 @@ public class InstructorFeedbackRestoreAllRecoverySessionsActionTest extends Base
         existingFsList = fsDb.getFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         existingFsList.addAll(fsDb.getFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
         assertEquals(3, existingFsList.size());
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(session2InCourse3.getCourseId());
+        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(session2InCourse3.getCourseId());
         existingFsList.addAll(fsDb.getFeedbackSessionsForCourse(session1InCourse4.getCourseId()));
         assertEquals(0, recoveryFsList.size());
     }

@@ -38,7 +38,7 @@ public class InstructorFeedbackRestoreRecoverySessionActionTest extends BaseActi
         gaeSimulation.loginAsInstructor(instructor2OfCourse3.googleId);
         List<FeedbackSessionAttributes> existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, existingFsList.size());
-        List<FeedbackSessionAttributes> recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
+        List<FeedbackSessionAttributes> recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, recoveryFsList.size());
 
         InstructorFeedbackRestoreRecoverySessionAction restoreAction = getAction(submissionParams);
@@ -51,7 +51,7 @@ public class InstructorFeedbackRestoreRecoverySessionActionTest extends BaseActi
 
         existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, existingFsList.size());
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
+        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, recoveryFsList.size());
 
         ______TS("Typical case, restore 1 session from Recycle Bin, with privilege");
@@ -60,7 +60,7 @@ public class InstructorFeedbackRestoreRecoverySessionActionTest extends BaseActi
         gaeSimulation.loginAsInstructor(instructor1OfCourse3.googleId);
         existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, existingFsList.size());
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
+        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(1, recoveryFsList.size());
 
         restoreAction = getAction(submissionParams);
@@ -77,7 +77,7 @@ public class InstructorFeedbackRestoreRecoverySessionActionTest extends BaseActi
         assertFalse(r.isError);
         existingFsList = fsDb.getFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(2, existingFsList.size());
-        recoveryFsList = fsDb.getRecoveryFeedbackSessionsForCourse(fs.getCourseId());
+        recoveryFsList = fsDb.getSoftDeletedFeedbackSessionsForCourse(fs.getCourseId());
         assertEquals(0, recoveryFsList.size());
     }
 

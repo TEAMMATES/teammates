@@ -21,7 +21,7 @@ public class InstructorCourseRestoreAllRecoveryCoursesAction extends Action {
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
 
         for (InstructorAttributes instructor : instructorList) {
-            CourseAttributes course = logic.getRecoveryCourseForInstructor(instructor);
+            CourseAttributes course = logic.getSoftDeletedCourseForInstructor(instructor);
             if (course != null) {
                 gateKeeper.verifyAccessible(instructor,
                         course,
@@ -31,7 +31,7 @@ public class InstructorCourseRestoreAllRecoveryCoursesAction extends Action {
 
         try {
             /* Restore all courses and setup status to be shown to user and admin */
-            logic.restoreAllCoursesFromRecovery(instructorList);
+            logic.restoreAllCoursesFromRecycleBin(instructorList);
             String statusMessage = Const.StatusMessages.COURSE_ALL_RESTORED;
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             statusToAdmin = "All courses restored";

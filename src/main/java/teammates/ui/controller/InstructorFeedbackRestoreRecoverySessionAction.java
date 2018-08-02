@@ -26,7 +26,7 @@ public class InstructorFeedbackRestoreRecoverySessionAction extends Action {
 
         try {
             /* Restore the specified session and setup status to be shown to user and admin */
-            logic.restoreFeedbackSessionFromRecovery(nameOfSessionToRestore, idOfCourseToRestore);
+            logic.restoreFeedbackSessionFromRecycleBin(nameOfSessionToRestore, idOfCourseToRestore);
             statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESTORED, StatusMessageColor.SUCCESS));
             statusToAdmin = "Feedback Session <span class=\"bold\">[" + nameOfSessionToRestore + "]</span> "
                     + "from Course: <span class=\"bold\">[" + idOfCourseToRestore + " restored.";

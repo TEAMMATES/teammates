@@ -22,7 +22,7 @@ public class InstructorFeedbackRestoreAllRecoverySessionsAction extends Action {
 
         for (InstructorAttributes instructor : instructorList) {
             List<FeedbackSessionAttributes> feedbackSessionList =
-                    logic.getRecoveryFeedbackSessionsListForInstructor(instructor);
+                    logic.getSoftDeletedFeedbackSessionsListForInstructor(instructor);
             for (FeedbackSessionAttributes feedbackSession : feedbackSessionList) {
                 gateKeeper.verifyAccessible(instructor,
                         feedbackSession,
@@ -33,7 +33,7 @@ public class InstructorFeedbackRestoreAllRecoverySessionsAction extends Action {
 
         try {
             /* Restore all sessions and setup status to be shown to user and admin */
-            logic.restoreAllFeedbackSessionsFromRecovery(instructorList);
+            logic.restoreAllFeedbackSessionsFromRecycleBin(instructorList);
             String statusMessage = Const.StatusMessages.FEEDBACK_SESSION_ALL_RESTORED;
             statusToUser.add(new StatusMessage(statusMessage, StatusMessageColor.SUCCESS));
             statusToAdmin = "All sessions in Recycle Bin restored";

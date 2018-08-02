@@ -50,7 +50,7 @@ public class InstructorCoursesPageAction extends Action {
 
             // Get corresponding courses of the instructors.
             allCourses = logic.getCoursesForInstructor(instructorList);
-            recoveryCourses = logic.getRecoveryCoursesForInstructors(instructorList);
+            recoveryCourses = logic.getSoftDeletedCoursesForInstructors(instructorList);
 
             List<String> archivedCourseIds = logic.getArchivedCourseIds(allCourses, instructorsForCourses);
             for (CourseAttributes course : allCourses) {

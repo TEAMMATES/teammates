@@ -44,8 +44,8 @@ public class CoursesLogicTest extends BaseLogicTest {
     public void testAll() throws Exception {
         testGetCourse();
         testGetCoursesForInstructor();
-        testGetRecoveryCoursesForInstructors();
-        testGetRecoveryCourseForInstructor();
+        testGetSoftDeletedCoursesForInstructors();
+        testGetSoftDeletedCourseForInstructor();
         testIsSampleCourse();
         testIsCoursePresent();
         testVerifyCourseIsPresent();
@@ -61,9 +61,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         testHasIndicatedSections();
         testCreateCourse();
         testCreateCourseAndInstructor();
-        testMoveCourseToRecovery();
-        testRestoreCourseFromRecovery();
-        testRestoreAllCoursesFromRecovery();
+        testMoveCourseToRecycleBin();
+        testRestoreCourseFromRecycleBin();
+        testRestoreAllCoursesFromRecycleBin();
         testDeleteCourse();
         testDeleteAllCourses();
         testUpdateCourse();
@@ -138,7 +138,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         }
     }
 
-    private void testGetRecoveryCoursesForInstructors() {
+    private void testGetSoftDeletedCoursesForInstructors() {
 
         ______TS("success: instructors with deleted courses");
 
@@ -147,7 +147,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         List<InstructorAttributes> instructors = new ArrayList<>();
         instructors.add(instructor);
 
-        List<CourseAttributes> courses = coursesLogic.getRecoveryCoursesForInstructors(instructors);
+        List<CourseAttributes> courses = coursesLogic.getSoftDeletedCoursesForInstructors(instructors);
 
         assertEquals(1, courses.size());
 
@@ -157,27 +157,27 @@ public class CoursesLogicTest extends BaseLogicTest {
         instructor = dataBundle.instructors.get("instructor5");
         instructors.add(instructor);
 
-        courses = coursesLogic.getRecoveryCoursesForInstructors(instructors);
+        courses = coursesLogic.getSoftDeletedCoursesForInstructors(instructors);
 
         assertEquals(0, courses.size());
 
         ______TS("Null parameter");
 
         try {
-            coursesLogic.getRecoveryCoursesForInstructors(null);
+            coursesLogic.getSoftDeletedCoursesForInstructors(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
-    private void testGetRecoveryCourseForInstructor() {
+    private void testGetSoftDeletedCourseForInstructor() {
 
         ______TS("success: instructor with deleted course");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
 
-        CourseAttributes course = coursesLogic.getRecoveryCourseForInstructor(instructor);
+        CourseAttributes course = coursesLogic.getSoftDeletedCourseForInstructor(instructor);
 
         assertNotNull(course);
 
@@ -185,14 +185,14 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         instructor = dataBundle.instructors.get("instructor5");
 
-        course = coursesLogic.getRecoveryCourseForInstructor(instructor);
+        course = coursesLogic.getSoftDeletedCourseForInstructor(instructor);
 
         assertNull(course);
 
         ______TS("Null parameter");
 
         try {
-            coursesLogic.getRecoveryCourseForInstructor(null);
+            coursesLogic.getSoftDeletedCourseForInstructor(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
@@ -1011,7 +1011,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         }
     }
 
-    private void testMoveCourseToRecovery() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testMoveCourseToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
 
         ______TS("typical case");
 
@@ -1027,7 +1027,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         // Ensure the course is not in Recycle Bin
         assertFalse(course1OfInstructor.isCourseDeleted());
 
-        Instant deletedAt = coursesLogic.moveCourseToRecovery(course1OfInstructor.getId());
+        Instant deletedAt = coursesLogic.moveCourseToRecycleBin(course1OfInstructor.getId());
         course1OfInstructor.setDeletedAt(deletedAt);
 
         // Ensure the course and related entities still exist in datastore
@@ -1043,14 +1043,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("null parameter");
 
         try {
-            coursesLogic.moveCourseToRecovery(null);
+            coursesLogic.moveCourseToRecycleBin(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
-    private void testRestoreCourseFromRecovery() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testRestoreCourseFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
 
         ______TS("typical case");
 
@@ -1064,7 +1064,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         // Ensure the course is currently in Recycle Bin
         assertTrue(course3OfInstructor.isCourseDeleted());
 
-        coursesLogic.restoreCourseFromRecovery(course3OfInstructor.getId());
+        coursesLogic.restoreCourseFromRecycleBin(course3OfInstructor.getId());
         course3OfInstructor.resetDeletedAt();
 
         // Ensure the course and related entities still exist in datastore
@@ -1076,24 +1076,24 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertFalse(course3OfInstructor.isCourseDeleted());
 
         // Move the course back to Recycle Bin for further testing
-        coursesLogic.moveCourseToRecovery(course3OfInstructor.getId());
+        coursesLogic.moveCourseToRecycleBin(course3OfInstructor.getId());
 
         ______TS("null parameter");
 
         try {
-            coursesLogic.restoreCourseFromRecovery(null);
+            coursesLogic.restoreCourseFromRecycleBin(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
     }
 
-    private void testRestoreAllCoursesFromRecovery() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testRestoreAllCoursesFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
 
         ______TS("typical case");
 
         InstructorAttributes instructor1OfCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
-        CourseAttributes course3OfInstructor = coursesLogic.getRecoveryCourseForInstructor(instructor1OfCourse3);
+        CourseAttributes course3OfInstructor = coursesLogic.getSoftDeletedCourseForInstructor(instructor1OfCourse3);
 
         List<InstructorAttributes> instructors = new ArrayList<>();
         instructors.add(instructor1OfCourse3);
@@ -1107,7 +1107,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         // Ensure the course is currently in Recycle Bin
         assertTrue(course3OfInstructor.isCourseDeleted());
 
-        coursesLogic.restoreAllCoursesFromRecovery(instructors);
+        coursesLogic.restoreAllCoursesFromRecycleBin(instructors);
         course3OfInstructor.resetDeletedAt();
 
         // Ensure the course and related entities still exist in datastore
@@ -1120,12 +1120,12 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertFalse(course3OfInstructor.isCourseDeleted());
 
         // Move the course back to Recycle Bin for further testing
-        coursesLogic.moveCourseToRecovery(course3OfInstructor.getId());
+        coursesLogic.moveCourseToRecycleBin(course3OfInstructor.getId());
 
         ______TS("null parameter");
 
         try {
-            coursesLogic.restoreAllCoursesFromRecovery(null);
+            coursesLogic.restoreAllCoursesFromRecycleBin(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());

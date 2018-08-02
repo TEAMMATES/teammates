@@ -47,7 +47,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
 
         List<InstructorAttributes> instructorList = new ArrayList<>();
         instructorList.add(instructor2OfCourse3);
-        List<CourseAttributes> courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        List<CourseAttributes> courseList = CoursesLogic.inst().getSoftDeletedCoursesForInstructors(instructorList);
         assertEquals(1, courseList.size());
         assertEquals(instructor2OfCourse3.courseId, courseList.get(0).getId());
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));
@@ -65,8 +65,8 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
         instructorList.add(newInstructor);
         courseList = CoursesLogic.inst().getCoursesForInstructor(instructorList);
         assertEquals(1, courseList.size());
-        CoursesLogic.inst().moveCourseToRecovery("icdat.owncourse");
-        courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        CoursesLogic.inst().moveCourseToRecycleBin("icdat.owncourse");
+        courseList = CoursesLogic.inst().getSoftDeletedCoursesForInstructors(instructorList);
         assertEquals(2, courseList.size());
         newInstructor.privileges.updatePrivilege("canmodifycourse", false);
         InstructorsLogic.inst().updateInstructorByGoogleId(instructor1OfCourse3.getGoogleId(), newInstructor);
@@ -79,7 +79,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesActionTest extends BaseActi
                     + "for privilege [canmodifycourse]", e.getMessage());
         }
 
-        courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        courseList = CoursesLogic.inst().getSoftDeletedCoursesForInstructors(instructorList);
         assertEquals(2, courseList.size());
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor1OfCourse3.courseId));
         assertTrue(CoursesLogic.inst().isCoursePresent(newInstructor.courseId));

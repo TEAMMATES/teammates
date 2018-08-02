@@ -28,7 +28,7 @@ public class InstructorFeedbackDeleteAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         try {
-            logic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
+            logic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
 
             if (nextUrl.equals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE)) {
                 statusToUser.add(new StatusMessage(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN,

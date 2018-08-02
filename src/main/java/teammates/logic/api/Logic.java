@@ -682,16 +682,16 @@ public class Logic {
      *
      * @return Courses in Recycle Bin that the given instructors is in.
      */
-    public List<CourseAttributes> getRecoveryCoursesForInstructors(List<InstructorAttributes> instructorList) {
+    public List<CourseAttributes> getSoftDeletedCoursesForInstructors(List<InstructorAttributes> instructorList) {
 
         Assumption.assertNotNull(instructorList);
-        return coursesLogic.getRecoveryCoursesForInstructors(instructorList);
+        return coursesLogic.getSoftDeletedCoursesForInstructors(instructorList);
     }
 
-    public CourseAttributes getRecoveryCourseForInstructor(InstructorAttributes instructor) {
+    public CourseAttributes getSoftDeletedCourseForInstructor(InstructorAttributes instructor) {
 
         Assumption.assertNotNull(instructor);
-        return coursesLogic.getRecoveryCourseForInstructor(instructor);
+        return coursesLogic.getSoftDeletedCourseForInstructor(instructor);
     }
 
     /**
@@ -750,28 +750,28 @@ public class Logic {
      * Moves a course to Recycle Bin by its given corresponding ID.
      * All data related will not be deleted.
      */
-    public void moveCourseToRecovery(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+    public void moveCourseToRecycleBin(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
-        coursesLogic.moveCourseToRecovery(courseId);
+        coursesLogic.moveCourseToRecycleBin(courseId);
     }
 
     /**
      * Restores a course and all data related to the course from Recycle Bin by
      * its given corresponding ID.
      */
-    public void restoreCourseFromRecovery(String courseId)
+    public void restoreCourseFromRecycleBin(String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
-        coursesLogic.restoreCourseFromRecovery(courseId);
+        coursesLogic.restoreCourseFromRecycleBin(courseId);
     }
 
     /**
      * Restores all courses and all data related to these courses from Recycle Bin.
      */
-    public void restoreAllCoursesFromRecovery(List<InstructorAttributes> instructorList)
+    public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(instructorList);
-        coursesLogic.restoreAllCoursesFromRecovery(instructorList);
+        coursesLogic.restoreAllCoursesFromRecycleBin(instructorList);
     }
 
     /**
@@ -1272,15 +1272,15 @@ public class Logic {
      * <p>Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructor(InstructorAttributes instructor) {
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructor(InstructorAttributes instructor) {
         Assumption.assertNotNull(instructor);
-        return feedbackSessionsLogic.getRecoveryFeedbackSessionsListForInstructor(instructor);
+        return feedbackSessionsLogic.getSoftDeletedFeedbackSessionsListForInstructor(instructor);
     }
 
-    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsListForInstructors(
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructors(
             List<InstructorAttributes> instructorList) {
         Assumption.assertNotNull(instructorList);
-        return feedbackSessionsLogic.getRecoveryFeedbackSessionsListForInstructors(instructorList);
+        return feedbackSessionsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
     }
 
     /**
@@ -1558,36 +1558,36 @@ public class Logic {
     /**
      * Soft-deletes a specific session to Recycle Bin.
      */
-    public void moveFeedbackSessionToRecovery(String feedbackSessionName, String courseId)
+    public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
-        feedbackSessionsLogic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
+        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
      * Restores a specific session from Recycle Bin to feedback sessions table.
      */
-    public void restoreFeedbackSessionFromRecovery(String feedbackSessionName, String courseId)
+    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
-        feedbackSessionsLogic.restoreFeedbackSessionFromRecovery(feedbackSessionName, courseId);
+        feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
      * Restores all sessions from Recycle Bin to feedback sessions table.
      */
-    public void restoreAllFeedbackSessionsFromRecovery(List<InstructorAttributes> instructorList)
+    public void restoreAllFeedbackSessionsFromRecycleBin(List<InstructorAttributes> instructorList)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         Assumption.assertNotNull(instructorList);
 
-        feedbackSessionsLogic.restoreAllFeedbackSessionsFromRecovery(instructorList);
+        feedbackSessionsLogic.restoreAllFeedbackSessionsFromRecycleBin(instructorList);
     }
 
     /**

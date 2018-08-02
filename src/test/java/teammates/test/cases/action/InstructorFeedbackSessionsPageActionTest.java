@@ -64,7 +64,7 @@ public class InstructorFeedbackSessionsPageActionTest extends BaseActionTest {
         ______TS("Typical case, 1 course with 1 existing session & 1 deleted session");
         String instructorIdWithDeletedSession = typicalBundle.instructors.get("instructor1OfCourse3").googleId;
         CourseAttributes typicalCourse3 = typicalBundle.courses.get("typicalCourse3");
-        CoursesLogic.inst().restoreCourseFromRecovery(typicalCourse3.getId());
+        CoursesLogic.inst().restoreCourseFromRecycleBin(typicalCourse3.getId());
 
         gaeSimulation.loginAsInstructor(instructorIdWithDeletedSession);
         a = getAction(submissionParams);

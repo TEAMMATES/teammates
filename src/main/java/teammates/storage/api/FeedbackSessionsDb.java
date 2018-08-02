@@ -108,7 +108,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * * All parameters are non-null.
      * @return a list of sessions for the given course in the Recycle Bin. Otherwise returns an empty list.
      */
-    public List<FeedbackSessionAttributes> getRecoveryFeedbackSessionsForCourse(String courseId) {
+    public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()

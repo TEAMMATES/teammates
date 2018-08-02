@@ -1022,7 +1022,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
-        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE = "/page/instructorFeedbackRestoreSession";
+        public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE =
+                "/page/instructorFeedbackRestoreSession";
         public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_RESTORE_ALL =
                 "/page/instructorFeedbackRestoreAllSessions";
         public static final String INSTRUCTOR_FEEDBACK_SOFT_DELETED_SESSION_DELETE = "/page/instructorFeedbackDeleteSession";

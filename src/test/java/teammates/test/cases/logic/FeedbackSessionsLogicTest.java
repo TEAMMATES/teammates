@@ -59,8 +59,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         testGetFeedbackSessionsForCourse();
         testGetFeedbackSessionsListForInstructor();
-        testGetRecoveryFeedbackSessionsListForInstructor();
-        testGetRecoveryFeedbackSessionsListForInstructors();
+        testGetSoftDeletedFeedbackSessionsListForInstructor();
+        testGetSoftDeletedFeedbackSessionsListForInstructors();
         testGetFeedbackSessionsClosingWithinTimeLimit();
         testGetFeedbackSessionsWhichNeedOpenMailsToBeSent();
         testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent();
@@ -82,9 +82,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testIsFeedbackSessionCompletedByInstructor();
         testIsFeedbackSessionFullyCompletedByStudent();
 
-        testMoveFeedbackSessionToRecovery();
-        testRestoreFeedbackSessionFromRecovery();
-        testRestoreAllFeedbackSessionsFromRecovery();
+        testMoveFeedbackSessionToRecycleBin();
+        testRestoreFeedbackSessionFromRecycleBin();
+        testRestoreAllFeedbackSessionsFromRecycleBin();
         testDeleteFeedbackSessionsForCourse();
         testDeleteAllFeedbackSessions();
     }
@@ -106,8 +106,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testGetRecoveryFeedbackSessionsListForInstructor() {
-        List<FeedbackSessionAttributes> recoveryFsa = new ArrayList<>();
+    private void testGetSoftDeletedFeedbackSessionsListForInstructor() {
+        List<FeedbackSessionAttributes> softDeletedFsa = new ArrayList<>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
 
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
@@ -115,16 +115,16 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         for (FeedbackSessionAttributes fsa : allFsa) {
             if (fsa.getCourseId().equals(courseId) && fsa.isSessionDeleted()) {
-                recoveryFsa.add(fsa);
+                softDeletedFsa.add(fsa);
             }
         }
         AssertHelper.assertSameContentIgnoreOrder(
-                recoveryFsa, fsLogic.getRecoveryFeedbackSessionsListForInstructor(instructor));
+                softDeletedFsa, fsLogic.getSoftDeletedFeedbackSessionsListForInstructor(instructor));
 
     }
 
-    private void testGetRecoveryFeedbackSessionsListForInstructors() {
-        List<FeedbackSessionAttributes> recoveryFsa = new ArrayList<>();
+    private void testGetSoftDeletedFeedbackSessionsListForInstructors() {
+        List<FeedbackSessionAttributes> softDeletedFsa = new ArrayList<>();
         Collection<FeedbackSessionAttributes> allFsa = dataBundle.feedbackSessions.values();
 
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
@@ -135,11 +135,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         for (FeedbackSessionAttributes fsa : allFsa) {
             if (fsa.getCourseId().equals(courseId) && fsa.isSessionDeleted()) {
-                recoveryFsa.add(fsa);
+                softDeletedFsa.add(fsa);
             }
         }
         AssertHelper.assertSameContentIgnoreOrder(
-                recoveryFsa, fsLogic.getRecoveryFeedbackSessionsListForInstructors(instructors));
+                softDeletedFsa, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors));
 
     }
 
@@ -2010,48 +2010,48 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         return tableString;
     }
 
-    private void testMoveFeedbackSessionToRecovery() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testMoveFeedbackSessionToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
         String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
 
         assertFalse(feedbackSession.isSessionDeleted());
 
-        Instant deletedTime = fsLogic.moveFeedbackSessionToRecovery(feedbackSessionName, courseId);
+        Instant deletedTime = fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
         feedbackSession.setDeletedTime(deletedTime);
 
         verifyPresentInDatastore(feedbackSession);
         assertTrue(feedbackSession.isSessionDeleted());
     }
 
-    private void testRestoreFeedbackSessionFromRecovery() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testRestoreFeedbackSessionFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
         String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
 
         assertTrue(feedbackSession.isSessionDeleted());
 
-        fsLogic.restoreFeedbackSessionFromRecovery(feedbackSessionName, courseId);
+        fsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
         feedbackSession.resetDeletedTime();
 
         verifyPresentInDatastore(feedbackSession);
         assertFalse(feedbackSession.isSessionDeleted());
     }
 
-    private void testRestoreAllFeedbackSessionsFromRecovery()
+    private void testRestoreAllFeedbackSessionsFromRecycleBin()
             throws InvalidParametersException, EntityDoesNotExistException {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse3");
         List<InstructorAttributes> instructors = new ArrayList<>();
         instructors.add(instructor);
 
-        List<FeedbackSessionAttributes> recoveryFsa = fsLogic.getRecoveryFeedbackSessionsListForInstructor(instructor);
-        for (FeedbackSessionAttributes fsa : recoveryFsa) {
+        List<FeedbackSessionAttributes> softDeletedFsa = fsLogic.getSoftDeletedFeedbackSessionsListForInstructor(instructor);
+        for (FeedbackSessionAttributes fsa : softDeletedFsa) {
             assertTrue(fsa.isSessionDeleted());
         }
 
-        fsLogic.restoreAllFeedbackSessionsFromRecovery(instructors);
+        fsLogic.restoreAllFeedbackSessionsFromRecycleBin(instructors);
 
-        for (FeedbackSessionAttributes fsa : recoveryFsa) {
+        for (FeedbackSessionAttributes fsa : softDeletedFsa) {
             fsa.resetDeletedTime();
 
             verifyPresentInDatastore(fsa);
@@ -2074,10 +2074,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         String feedbackSessionName1 = dataBundle.feedbackSessions.get("session1InCourse3").getFeedbackSessionName();
         String feedbackSessionName2 = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
-        fsLogic.moveFeedbackSessionToRecovery(feedbackSessionName1, courseId);
-        fsLogic.moveFeedbackSessionToRecovery(feedbackSessionName2, courseId);
+        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName1, courseId);
+        fsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName2, courseId);
 
-        assertEquals(2, fsLogic.getRecoveryFeedbackSessionsListForInstructors(instructors).size());
+        assertEquals(2, fsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructors).size());
         fsLogic.deleteAllFeedbackSessionsCascade(instructors);
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }

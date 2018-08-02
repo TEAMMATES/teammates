@@ -53,7 +53,7 @@ public class InstructorCourseDeleteRecoveryCourseActionTest extends BaseActionTe
 
         List<InstructorAttributes> instructorList = new ArrayList<>();
         instructorList.add(instructor2OfCourse3);
-        List<CourseAttributes> courseList = CoursesLogic.inst().getRecoveryCoursesForInstructors(instructorList);
+        List<CourseAttributes> courseList = CoursesLogic.inst().getSoftDeletedCoursesForInstructors(instructorList);
         assertEquals(1, courseList.size());
         assertEquals(instructor2OfCourse3.courseId, courseList.get(0).getId());
         assertTrue(CoursesLogic.inst().isCoursePresent(instructor2OfCourse3.courseId));

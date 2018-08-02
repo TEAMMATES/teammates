@@ -21,7 +21,7 @@ public class InstructorCourseDeleteAllRecoveryCoursesAction extends Action {
         List<InstructorAttributes> instructorList = logic.getInstructorsForGoogleId(data.account.googleId);
 
         for (InstructorAttributes instructor : instructorList) {
-            CourseAttributes course = logic.getRecoveryCourseForInstructor(instructor);
+            CourseAttributes course = logic.getSoftDeletedCourseForInstructor(instructor);
             if (course != null) {
                 gateKeeper.verifyAccessible(instructor,
                         course,
