@@ -45,8 +45,8 @@
         <br>
       </c:if>
 
-      <c:if test="${not empty data.recoveryCourses.rows}">
-        <course:recoveryCoursePanel />
+      <c:if test="${not empty data.softDeletedCourses.rows}">
+        <course:softDeletedCoursesPanel />
         <br>
         <br>
         <br>

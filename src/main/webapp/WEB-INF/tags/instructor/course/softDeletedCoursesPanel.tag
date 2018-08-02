@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorCourses - Recovery courses table panel" pageEncoding="UTF-8" %>
+<%@ tag description="instructorCourse - Soft-deleted courses table panel" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
@@ -37,7 +37,7 @@
   </div>
   <div class="panel-collapse collapse">
     <div class="panel-body padding-0">
-      <course:recoveryCoursesTable recoveryCourses="${data.softDeletedCourses}"/>
+      <course:softDeletedCoursesTable softDeletedCourses="${data.softDeletedCourses}"/>
     </div>
   </div>
 </div>

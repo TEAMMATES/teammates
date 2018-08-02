@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ tag description="instructorFeedback - Recovery feedback sessions table panel" pageEncoding="UTF-8" %>
+<%@ tag description="instructorFeedbacks - Soft-deleted feedback sessions table panel" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
@@ -9,7 +9,7 @@
   <span class="glyphicon glyphicon-trash"></span> Deleted feedback sessions
 </h2>
 <div class="panel">
-  <div id="recoverySessionsHeading" class="panel-heading ajax_submit fill-default" data-target="#recoverySessionsBodyCollapse">
+  <div id="softDeletedSessionsHeading" class="panel-heading ajax_submit fill-default" data-target="#softDeletedSessionsBodyCollapse">
     <div class="pull-right margin-left-7px">
       <span class="glyphicon ajax_submit glyphicon-chevron-down"></span>
     </div>
@@ -35,9 +35,9 @@
       Recycle Bin
     </strong>
   </div>
-  <div id="recoverySessionsBodyCollapse" class="panel-collapse collapse">
+  <div id="softDeletedSessionsBodyCollapse" class="panel-collapse collapse">
     <div class="panel-body padding-0">
-      <feedbacks:recoveryFeedbackSessionsTable recoveryFsList="${data.softDeletedFsList}"/>
+      <feedbacks:softDeletedFeedbackSessionsTable softDeletedFsList="${data.softDeletedFsList}"/>
     </div>
   </div>
 </div>
