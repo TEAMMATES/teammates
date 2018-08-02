@@ -453,11 +453,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Toggle show section/team checkbox
         submitPage.clickShowSectionTeamCheckBox(qnNumber);
 
-        // Check if options remain unchanged since instructors don't have section/team attribute
-        responseNumber = 0;
-        actualAugmentedRecipients = submitPage.getRecipientsTextDropdown(qnNumber, responseNumber);
-        actualAugmentedRecipients.equals(instructorNames);
-
         // Check selected choices persist on toggling checkbox
         submitPage.clickShowSectionTeamCheckBox(qnNumber);
         submitPage.selectRecipient(qnNumber, 0, "Teammates Test4");
