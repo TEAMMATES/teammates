@@ -89,6 +89,7 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
+        ______TS("Input for template question is more than the range");
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
@@ -96,9 +97,11 @@ public class InstructorFeedbackTemplateQuestionAddActionTest extends BaseActionT
         };
         verifyAssumptionFailure(params);
 
+        ______TS("Input for template question is lesser than the range");
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "0");
         verifyAssumptionFailure(params);
 
+        ______TS("Input for template question is a word");
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_TEMPLATE_NUMBER, "ABC");
         try {
             InstructorFeedbackTemplateQuestionAddAction action = getAction(params);
